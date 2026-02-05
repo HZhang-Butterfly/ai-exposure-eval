@@ -1,0 +1,59 @@
+You are an expert in instructional design and AI evaluation.
+
+# Job Information
+- Title: {job_title}
+- O*NET-SOC Code: {onet_code}
+
+# Input: O*NET Task Statements
+Below are the official O*NET task statements for "{job_title}":
+
+{tasks_list}
+
+# Your Task
+Create a complete configuration for testing AI models on **{job_title}** tasks.
+
+This configuration will be used to:
+1. Generate {num_eval_tasks} realistic work tasks
+2. Evaluate AI model performance
+
+# Required Output (JSON only, no markdown)
+
+{
+  "job_id": "short_lowercase_id (e.g., 'sde', 'data_sci', 'bi_analyst')",
+  "job_title": "{job_title}",
+  "onet_code": "{onet_code}",
+  "role_description": "A professional role description for the AI teacher/evaluator (e.g., 'Senior Software Architect and Technical Interviewer')",
+  "task_types": "5-7 realistic task categories for this job, separated by ' / ' (e.g., 'Debugging / System Design / Testing / Code Review / API Design')",
+  "onet_tasks": {onet_tasks_json},
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Add 2-3 more job-specific requirements"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "The specific O*NET sentence selected",
+    "task_type": "One of the task_types listed above",
+    "user_prompt": "Detailed instruction for the AI to solve. Be specific and realistic.",
+    "reference_context": "Code snippet, data sample, log file, or documentation the AI needs to complete the task",
+    "evaluation_criteria": [
+      "Criterion 1: Correctness (Does it work?)",
+      "Criterion 2: Completeness (Did it handle all requirements?)",
+      "Criterion 3: Best practices (Is it production-ready?)"
+    ]
+  },
+  "grading_notes": "Additional instructions for the grading model (e.g., 'Check for SQL injection vulnerabilities', 'Verify statistical significance')"
+}
+
+# Critical Instructions
+
+1. **task_types** must reflect REAL work activities for {job_title}, not generic categories
+2. **specific_requirement** should include domain-specific constraints
+3. **output_structure** is a template - show what ONE task object looks like
+4. **grading_notes** should highlight common pitfalls in this profession
+5. **DO NOT** include markdown code fences in your output
+6. **DO NOT** add explanatory text before or after the JSON
+
+Return ONLY the JSON object, nothing else.

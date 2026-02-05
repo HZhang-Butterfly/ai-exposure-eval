@@ -1,0 +1,35 @@
+{
+  "server": {
+    "ip": "172.27.146.129",
+    "teacher_port": 8500,
+    "student_port": 8600
+  },
+  "models": {
+    "teacher": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+    "student": "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8"
+  },
+  "task": {
+    "num_tasks": 5
+  },
+  "max_tokens": {
+    "step1_generate": 2500,
+    "step2_student": 1400,
+    "step3_grading": 1600
+  },
+  "temperature": {
+    "step2_student": 0.2,
+    "step3_grading": 0.1
+  },
+  "timeouts": {
+    "api_request_seconds": 120,
+    "connection_check_seconds": 5
+  },
+  "delays": {
+    "between_tasks_seconds": 1,
+    "between_jobs_seconds": 5
+  },
+  "output": {
+    "file_suffix": "_results_1.json",
+    "file_suffix_auto": "_results_auto.json"
+  }
+}
