@@ -1,35 +1,41 @@
 {
   "server": {
     "ip": "172.27.146.129",
-    "teacher_port": 8500,
+    "teacher_port": 8600,
     "student_port": 8600
   },
   "models": {
-    "teacher": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
-    "student": "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8"
+    "teacher": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student": "Qwen/Qwen3.5-35B-A3B-FP8"
   },
   "task": {
-    "num_tasks": 5
+    "batch_size": 5,
+    "_note": "batch_size: tasks processed per LLM round-trip in the batched pipeline"
   },
   "max_tokens": {
-    "step1_generate": 2500,
-    "step2_student": 1400,
-    "step3_grading": 1600
+    "step1_generate": 10000,
+    "step2_student": 4000,
+    "step3_grading": 12000
   },
   "temperature": {
     "step2_student": 0.2,
     "step3_grading": 0.1
   },
   "timeouts": {
-    "api_request_seconds": 120,
+    "api_request_seconds": 300,
     "connection_check_seconds": 5
   },
   "delays": {
-    "between_tasks_seconds": 1,
+    "between_tasks_seconds": 3,
     "between_jobs_seconds": 5
   },
   "output": {
+    "results_dir": "results",
     "file_suffix": "_results_1.json",
     "file_suffix_auto": "_results_auto.json"
+  },
+  "grading": {
+    "scale_max": 5,
+    "_note": "1-5 scale: 5=excellent, 1=wrong/off-topic. Override per-job via grading_scale_max in job config."
   }
 }

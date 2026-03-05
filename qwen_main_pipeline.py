@@ -1,465 +1,864 @@
 #!/usr/bin/env python3
 """
-Interactive Job Selector and Evaluation Pipeline (main entry).
-Usage: python qwen_main_pipeline.py
+Job Evaluation Pipeline — main entry point.
+
+Flow (per job):
+  1. Load ALL O*NET tasks for the job from Task Statements.xlsx
+  2. Generate (or load cached) job config via LLM  →  configs/<onet_slug>_config.json
+  3. Override rubric with the fixed 5 evaluation dimensions
+  4. Process all tasks in batches of 5:
+       Step 1 (Teacher)  → generate evaluation task objects from each batch
+       Step 2 (Student)  → student model answers each task
+       Step 3 (Judge)    → grade each answer on 5 dimensions (1–5)
+  5. Compute per-dimension averages and overall exposure score
+  6. Save to results/{job_id}_results_auto.json
+
+Usage:
+  python qwen_main_pipeline.py --batch-all              # run all 114 jobs
+  python qwen_main_pipeline.py --batch-all --resume     # skip already-completed jobs
+  python qwen_main_pipeline.py --job "Software Dev"     # run a single job by title fragment
+  python qwen_main_pipeline.py                          # interactive job picker
+  python qwen_main_pipeline.py --config saved.json      # use saved config, skip config LLM call
+  python qwen_main_pipeline.py --skip-eval --job "X"   # generate config only, no evaluation
 """
 
 import json
+import os
+import re
 import time
-import requests
 import argparse
+import requests
 import pandas as pd
 from typing import List, Dict, Tuple
 import sys
+
 import utils
 from utils import (
-    call_llm, extract_json, load_onet_excel,
+    call_llm, extract_json, strip_thinking, load_onet_excel,
     load_prompt_template, render_prompt_template,
-    META_PROMPT_API_URL, META_PROMPT_MODEL,
 )
 
-# ================= EVALUATION PIPELINE=================
 
-def generate_teacher_prompt(job_config, num_tasks):
-    """Build the Step 1 prompt for the teacher model: job role, O*NET tasks, requirements, and desired output structure."""
-    title = job_config['job_title']
-    role = job_config['role_description']
-    onet_list = "\n".join([f"{i+1}. {t}" for i, t in enumerate(job_config['onet_tasks'])])
-    reqs_raw = job_config['specific_requirement']
+# ─────────────────────────────────────────────
+# FIXED RUBRIC — 5 dimensions applied to all jobs
+# ─────────────────────────────────────────────
+
+FIXED_RUBRIC = [
+    "1. Correctness: Does the solution correctly address all task requirements?",
+    "2. Completeness: Are all parts of the task fully addressed with sufficient detail?",
+    "3. Best Practices: Does the solution follow professional and industry standards?",
+    "4. Domain Accuracy: Are domain-specific concepts, facts, calculations, and terminology used correctly?",
+    "5. Clarity: Is the output well-structured, clear, and easy to understand?",
+]
+FIXED_DIMENSION_LABELS = ["Correctness", "Completeness", "Best Practices", "Domain Accuracy", "Clarity"]
+
+CONFIGS_DIR = "configs"
+
+
+# ─────────────────────────────────────────────
+# SECTION 1: EVALUATION PIPELINE  (Steps 1–3)
+# ─────────────────────────────────────────────
+
+def _normalize_job_config(job_config):  # -> Dict
+    """Accept a single config dict or a list of one dict (e.g. from saved JSON)."""
+    if isinstance(job_config, list) and len(job_config) == 1:
+        return job_config[0]
+    if isinstance(job_config, dict):
+        return job_config
+    raise TypeError("job_config must be a dict or a list of one dict, got " + type(job_config).__name__)
+
+
+def generate_teacher_prompt(job_config: Dict, num_tasks: int) -> str:
+    """
+    Build the Step 1 prompt for the teacher model.
+    Fills the step1_teacher_tasks.txt template with:
+      - role, title, num_tasks, onet_list, requirements, output_structure
+    """
+    job_config = _normalize_job_config(job_config)
+    title = job_config["job_title"]
+    role = job_config["role_description"]
+    onet_list = "\n".join(f"{i+1}. {t}" for i, t in enumerate(job_config["onet_tasks"]))
+    reqs_raw = job_config["specific_requirement"]
     requirements = "\n".join(reqs_raw) if isinstance(reqs_raw, list) else reqs_raw
-    output_structure = json.dumps(job_config['output_structure'], indent=2)
+    output_structure = json.dumps(job_config["output_structure"], indent=2)
+
     template = load_prompt_template("step1_teacher_tasks", job_config.get("job_id"))
     if not template:
-        raise FileNotFoundError(
-            "prompt_templates/step1_teacher_tasks.txt not found. Add the template file or create step1_teacher_tasks_{job_id}.txt."
-        )
+        raise FileNotFoundError("prompt_templates/step1_teacher_tasks.txt not found.")
+
     return render_prompt_template(
         template,
-        role=role,
-        title=title,
-        num_tasks=num_tasks,
-        onet_list=onet_list,
-        requirements=requirements,
+        role=role, title=title, num_tasks=num_tasks,
+        onet_list=onet_list, requirements=requirements,
         output_structure=output_structure,
     )
 
 
-def step_1_generate_tasks(job_config, num_tasks=None):
-    """Step 1: Call teacher model to generate N evaluation tasks (with task_id, user_prompt, criteria, etc.). Returns list of task dicts or [] on failure."""
-    num_tasks = num_tasks if num_tasks is not None else utils.CONFIG.get("task", {}).get("num_tasks", 5)
-    max_tok = utils.CONFIG.get("max_tokens", {}).get("step1_generate", 2500)
-    print(f"\n--- STEP 1: Generating Tasks for {job_config['job_title']} ---")
-    prompt = generate_teacher_prompt(job_config, num_tasks)
-    messages = [{"role": "user", "content": prompt}]
-    api_timeout = utils.CONFIG.get("timeouts", {}).get("api_request_seconds", 120)
-    response = call_llm(utils.TEACHER_API_URL, utils.TEACHER_MODEL_NAME, messages, max_tokens=max_tok, timeout=api_timeout)
+def step_1_generate_tasks(job_config: Dict, num_tasks: int = None) -> List[Dict]:
+    """
+    Step 1: Teacher model generates N evaluation task objects.
+    Each task contains: task_id, task_type, onet_source,
+    user_prompt, reference_context, evaluation_criteria.
+
+    Returns a list of task dicts, or [] on failure.
+    """
+    num_tasks = num_tasks if num_tasks is not None else utils.CONFIG.get("task", {}).get("batch_size", 5)
+    max_tok   = utils.CONFIG.get("max_tokens", {}).get("step1_generate", 2500)
+    timeout   = utils.CONFIG.get("timeouts", {}).get("api_request_seconds", 120)
+
+    print(f"\n--- STEP 1: Teacher generates {num_tasks} tasks for [{job_config['job_title']}] ---")
+    prompt   = generate_teacher_prompt(job_config, num_tasks)
+    response = call_llm(
+        utils.TEACHER_API_URL, utils.TEACHER_MODEL_NAME,
+        [
+            {"role": "system", "content": "Output ONLY a valid JSON array. No explanation, no markdown."},
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=max_tok, timeout=timeout, enable_thinking=False,
+    )
     if not response:
-        raise Exception(
-            "Failed to generate tasks (teacher API returned no content). "
-            "Check the error above: connection, timeout, or max_tokens vs model context limit."
-        )
+        print("  Step 1: no response from teacher API — skipping this batch.")
+        return []
     try:
-        tasks = extract_json(response)
-        print(f"Successfully generated {len(tasks)} tasks.")
-        print("\n--- Task Details ---")
-        for i, task in enumerate(tasks, 1):
-            print(f"\n[Task {i}]")
-            print(f"  Task ID: {task.get('task_id', 'N/A')}")
-            print(f"  Type: {task.get('task_type', 'N/A')}")
-            print(f"  O*NET Source: {task.get('onet_source', 'N/A')[:80]}...")
-            print(f"  User Prompt: {task.get('user_prompt', 'N/A')[:100]}...")
-            print(f"  Evaluation Criteria: {len(task.get('evaluation_criteria', []))} criteria")
+        # Strip any thinking prefix before JSON parsing
+        cleaned = strip_thinking(response)
+        tasks = extract_json(cleaned)
+        if isinstance(tasks, dict):
+            tasks = [tasks]
+        print(f"  Generated {len(tasks)} tasks:")
+        for i, t in enumerate(tasks, 1):
+            print(f"    [{i}] {t.get('task_id','?')} | {t.get('task_type','?')}")
         return tasks
-    except json.JSONDecodeError:
-        print("JSON Parsing failed. Raw output:")
-        print(response)
+    except Exception:
+        print("  JSON parse failed. Raw output (first 500 chars):")
+        print(response[:500])
         return []
 
 
-def step_2_student_inference(tasks, job_config=None):
-    """Step 2: Run student model on each task; append student_answer to each task. Returns list of task dicts with student_answer (or [] if connection fails)."""
-    print(f"\n--- STEP 2: Student Model ({utils.STUDENT_MODEL_NAME}) Answering Tasks ---")
+def step_2_student_inference(tasks: List[Dict], job_config: Dict = None) -> List[Dict]:
+    """
+    Step 2: Student model answers each task.
+    Builds a system prompt from step2_student_system.txt and sends
+    (user_prompt + reference_context) as the user message.
+
+    Returns task list with 'student_answer' appended to each item.
+    Returns [] if the student API is unreachable.
+    """
+    print(f"\n--- STEP 2: Student [{utils.STUDENT_MODEL_NAME}] answers tasks ---")
+
     conn_timeout = utils.CONFIG.get("timeouts", {}).get("connection_check_seconds", 5)
-    print(f"Checking connection to {utils.STUDENT_API_URL}...")
+    base_url     = utils.STUDENT_API_URL.replace("/v1/chat/completions", "")
+    print(f"  Checking connection to {utils.STUDENT_API_URL}...")
     try:
-        test_response = requests.get(utils.STUDENT_API_URL.replace('/v1/chat/completions', ''), timeout=conn_timeout)
-        print("Connection successful")
-    except requests.exceptions.ConnectionError:
-        print(f"Connection failed: Cannot connect to {utils.STUDENT_API_URL}")
-        return []
+        requests.get(base_url, timeout=conn_timeout)
     except Exception as e:
-        print(f"Connection check warning: {e}")
-    results = []
-    job_title = job_config.get('job_title', 'professional') if job_config else 'professional'
-    template = load_prompt_template("step2_student_system", job_config.get("job_id") if job_config else None)
-    if not template:
-        raise FileNotFoundError(
-            "prompt_templates/step2_student_system.txt not found. Add the template file or create step2_student_system_{job_id}.txt."
-        )
-    system_content = render_prompt_template(template, job_title=job_title)
-    for i, task in enumerate(tasks):
-        print(f"Processing Task {i+1}/{len(tasks)}: {task.get('task_type', 'Unknown Type')}...")
-        student_prompt = f"""
-{task.get('user_prompt', '')}
+        print(f"  Student API unreachable: {e}")
+        return []
 
-Context/Code:
-{task.get('reference_context', '')}
-        """
-        messages = [
-            {"role": "system", "content": system_content},
-            {"role": "user", "content": student_prompt}
-        ]
-        max_tok = utils.CONFIG.get("max_tokens", {}).get("step2_student", 1400)
-        temp = utils.CONFIG.get("temperature", {}).get("step2_student", 0.2)
-        api_timeout = utils.CONFIG.get("timeouts", {}).get("api_request_seconds", 120)
-        answer = call_llm(utils.STUDENT_API_URL, utils.STUDENT_MODEL_NAME, messages, max_tokens=max_tok, temperature=temp, timeout=api_timeout)
-        task_result = task.copy()
-        task_result['student_answer'] = answer if answer else "ERROR_GENERATING_ANSWER"
-        results.append(task_result)
-        delay = utils.CONFIG.get("delays", {}).get("between_tasks_seconds", 1)
-        time.sleep(delay)
+    jc        = job_config or {}
+    template  = load_prompt_template("step2_student_system", jc.get("job_id"))
+    raw_sys   = render_prompt_template(template or "", job_title=jc.get("job_title", "")) if template else f"/no_think\nYou are a {jc.get('job_title', 'professional')}. Complete the task directly and professionally. Provide only the final work product."
+    # Ensure /no_think is always present to suppress thinking mode
+    if "/no_think" not in raw_sys:
+        raw_sys = "/no_think\n" + raw_sys
+    max_tok   = utils.CONFIG.get("max_tokens", {}).get("step2_student", 4000)
+    temp      = utils.CONFIG.get("temperature", {}).get("step2_student", 0.2)
+    timeout   = utils.CONFIG.get("timeouts", {}).get("api_request_seconds", 300)
+    delay     = utils.CONFIG.get("delays", {}).get("between_tasks_seconds", 3)
+    results   = []
+
+    for i, item in enumerate(tasks):
+        ref_ctx = item.get("reference_context") or ""
+        if not isinstance(ref_ctx, str):
+            ref_ctx = json.dumps(ref_ctx, indent=2, ensure_ascii=False)
+        user_content = str(item.get("user_prompt") or "") + "\n\n--- Context ---\n" + ref_ctx
+        print(f"  Task {i+1}/{len(tasks)}: {item.get('task_id', '?')}...")
+        resp = call_llm(
+            utils.STUDENT_API_URL, utils.STUDENT_MODEL_NAME,
+            [{"role": "system", "content": raw_sys}, {"role": "user", "content": user_content}],
+            max_tokens=max_tok, temperature=temp, timeout=timeout, enable_thinking=False,
+        )
+        item["student_answer"] = resp.strip() if resp else "(no response)"
+        results.append(item)
+        if delay and i < len(tasks) - 1:
+            time.sleep(delay)
+
     return results
 
 
-def step_3_grading(results, job_config=None):
-    """Step 3: Use teacher model as judge to grade each student answer; expect JSON with score and reason. Returns (graded_results, average_score)."""
-    print(f"\n--- STEP 3: Judge Model ({utils.TEACHER_MODEL_NAME}) Grading Answers ---")
+def _get_rubric(item: Dict, job_config: Dict) -> Tuple[List[str], str]:
+    """
+    Get rubric for grading this task. Prefer:
+      1. job_config["grading_rubric_template"]  — shared rubric for all tasks in this job
+      2. item["evaluation_criteria"]            — per-task criteria
+    Returns (list of criterion strings, joined text for prompt).
+    """
+    jc = job_config or {}
+    r  = jc.get("grading_rubric_template")
+    if r is not None:
+        rubric_list = r if isinstance(r, list) else [r]
+        return rubric_list, "\n".join(rubric_list)
+    criteria = item.get("evaluation_criteria") or []
+    rubric_list = criteria if isinstance(criteria, list) else [criteria]
+    return rubric_list, json.dumps(rubric_list, indent=2)
+
+
+def _extract_dimension_labels(rubric_list: List[str]) -> List[str]:
+    """
+    Extract short dimension names from rubric strings.
+    e.g. "1. Correctness: Does the solution..." → "Correctness"
+         "Criterion 1: Security — ..."          → "Security"
+    Falls back to "Dim N" if no clear label is found.
+    """
+    labels = []
+    for i, line in enumerate(rubric_list):
+        # Match patterns like "1. Correctness:", "Criterion 1: Security", "Correctness:"
+        m = re.search(r'(?:\d+\.\s*)?([A-Za-z][A-Za-z /]+?)(?:\s*[:\-—])', line)
+        labels.append(m.group(1).strip() if m else f"Dim {i+1}")
+    return labels
+
+
+def step_3_grading(results: List[Dict], job_config: Dict = None) -> Tuple[List[Dict], float, int]:
+    """
+    Step 3: Teacher (Judge) grades each student answer.
+    Uses job_config grading_rubric_template or per-task evaluation_criteria.
+    Scale from job_config grading_scale_max or pipeline_config grading.scale_max (default 5).
+    Returns (graded_results, average_score, scale_max).
+    """
+    if not utils.CONFIG:
+        utils.load_config()
+
+    jc       = job_config or {}
+    scale_max = 5
+    if jc.get("grading_scale_max") is not None:
+        scale_max = int(jc["grading_scale_max"])
+    elif utils.CONFIG:
+        scale_max = int(utils.CONFIG.get("grading", {}).get("scale_max", 5))
+
+    judge_role = jc.get("role_description") or "Expert grader"
+    additional_checks = jc.get("grading_notes") or "Score fairly and consistently."
+    template = load_prompt_template("step3_grading", jc.get("job_id"))
+    if not template:
+        raise FileNotFoundError("prompt_templates/step3_grading.txt not found.")
+
+    max_tok  = utils.CONFIG.get("max_tokens", {}).get("step3_grading", 1600)
+    temp     = utils.CONFIG.get("temperature", {}).get("step3_grading", 0.1)
+    timeout  = utils.CONFIG.get("timeouts", {}).get("api_request_seconds", 120)
     graded_results = []
-    total_score = 0
+    total_score = 0.0
     valid_grades = 0
-    if job_config:
-        judge_role = f"strict {job_config.get('job_title', 'Code')} Reviewer"
-        additional_checks = job_config.get('grading_notes', '')
-    else:
-        judge_role = "strict Code Reviewer"
-        additional_checks = ""
+
+    print(f"\n--- STEP 3: Judge [{utils.TEACHER_MODEL_NAME}] grades {len(results)} tasks ---")
+
     for i, item in enumerate(results):
-        print(f"Grading Task {i+1}/{len(results)}")
-        task_text = item.get('user_prompt', '')
-        context_text = item.get('reference_context', '')
-        criteria_text = json.dumps(item.get('evaluation_criteria', []))
-        student_answer_text = item.get('student_answer', '')
-        template = load_prompt_template("step3_grading", job_config.get("job_id") if job_config else None)
-        if not template:
-            raise FileNotFoundError(
-                "prompt_templates/step3_grading.txt not found. Add the template file or create step3_grading_{job_id}.txt."
-            )
+        task_text    = item.get("user_prompt") or ""
+        context_text = item.get("reference_context") or ""
+        rubric_list, rubric_text = _get_rubric(item, job_config)
+        num_dimensions   = max(1, len(rubric_list))
+        dimension_labels = _extract_dimension_labels(rubric_list)
+        student_answer_text = item.get("student_answer") or ""
+
+        print(f"\n  Task {i+1}/{len(results)}: {item.get('task_id', '?')} | {item.get('task_type', '?')}")
+
         grading_prompt = render_prompt_template(
             template,
             judge_role=judge_role,
             task=task_text,
             context=context_text,
-            criteria=criteria_text,
+            rubric=rubric_text,
             student_answer=student_answer_text,
             additional_checks=additional_checks,
+            score_min=1,
+            score_max=scale_max,
+            num_dimensions=num_dimensions,
         )
-        messages = [{"role": "user", "content": grading_prompt}]
-        max_tok = utils.CONFIG.get("max_tokens", {}).get("step3_grading", 1600)
-        temp = utils.CONFIG.get("temperature", {}).get("step3_grading", 0.1)
-        api_timeout = utils.CONFIG.get("timeouts", {}).get("api_request_seconds", 120)
-        judge_response = call_llm(utils.TEACHER_API_URL, utils.TEACHER_MODEL_NAME, messages, max_tokens=max_tok, temperature=temp, timeout=api_timeout)
+        response = call_llm(
+            utils.TEACHER_API_URL, utils.TEACHER_MODEL_NAME,
+            [
+                {"role": "system", "content": "Output a valid JSON object with dimension scores. No markdown, no code fences."},
+                {"role": "user", "content": grading_prompt},
+            ],
+            max_tokens=max_tok, temperature=temp, timeout=timeout,
+        )
+        if not response:
+            item["score"] = 0
+            item["dimension_scores"] = []
+            item["dimension_labels"] = dimension_labels
+            item["grade_reason"] = "No response from judge."
+            graded_results.append(item)
+            continue
+
         try:
-            grade_data = extract_json(judge_response)
-            item['score'] = grade_data['score']
-            item['grade_reason'] = grade_data['reason']
-            total_score += grade_data['score']
+            grade_data = extract_json(strip_thinking(response))
+            dim_scores = grade_data.get("dimension_scores")
+            if isinstance(dim_scores, list) and len(dim_scores) > 0:
+                clamped = [max(1, min(scale_max, int(s))) for s in dim_scores if isinstance(s, (int, float))]
+                if clamped:
+                    dimension_scores = clamped[:num_dimensions]
+                    score = round(sum(dimension_scores) / len(dimension_scores), 1)
+                else:
+                    dimension_scores = []
+                    score = 0
+            else:
+                raw_score = grade_data.get("score")
+                if raw_score is not None and isinstance(raw_score, (int, float)):
+                    score = max(1, min(scale_max, int(round(float(raw_score)))))
+                    dimension_scores = [score]
+                else:
+                    score = 0
+                    dimension_scores = []
+
+            item["dimension_labels"] = dimension_labels
+            item["dimension_scores"] = dimension_scores
+            item["score"] = score
+            item["grade_reason"] = grade_data.get("reason", "") or "No reason given."
+            total_score += score
             valid_grades += 1
-            print(f" -> Score: {grade_data['score']} | Reason: {grade_data['reason'][:50]}...")
-        except (json.JSONDecodeError, KeyError, TypeError):
-            print(" -> Grading format error. Assigning 0.")
-            item['score'] = 0
-            item['grade_reason'] = "Parsing Error"
+
+            for label, s in zip(dimension_labels, dimension_scores):
+                print(f"    {label:<20} {s}/{scale_max}")
+            print(f"    {'Average':<20} {score}/{scale_max}")
+            print(f"    Reason: {item['grade_reason'][:80]}...")
+
+        except (json.JSONDecodeError, KeyError, TypeError) as e:
+            item["score"] = 0
+            item["dimension_scores"] = []
+            item["dimension_labels"] = dimension_labels
+            item["grade_reason"] = f"Parse error: {e}"
+            graded_results.append(item)
+            continue
         graded_results.append(item)
+
     average_score = total_score / valid_grades if valid_grades > 0 else 0
-    return graded_results, average_score
+    return graded_results, average_score, scale_max
 
 
-def run_pipeline_for_job(job_config, num_tasks=None):
-    """Run the full 3-step evaluation pipeline for one job: generate tasks → student inference → grading. Loads config from utils if needed; writes results to {job_id}_results_auto.json."""
-    if not utils.CONFIG:
-        utils.load_config()
-    num_tasks = num_tasks if num_tasks is not None else utils.CONFIG.get("task", {}).get("num_tasks", 5)
-    start_time = time.time()
-    suffix = utils.CONFIG.get("output", {}).get("file_suffix_auto", "_results.json")
-    output_file = f"{job_config['job_id']}{suffix}"
-    print(f"\n{'='*70}")
-    print(f"Starting Pipeline for: {job_config['job_title']}")
-    print(f"{'='*70}")
-    tasks = step_1_generate_tasks(job_config, num_tasks=num_tasks)
-    if tasks:
-        answered_tasks = step_2_student_inference(tasks, job_config=job_config)
-        final_data, avg_score = step_3_grading(answered_tasks, job_config=job_config)
-        output = {
-            "meta": {
-                "job_title": job_config['job_title'],
-                "job_id": job_config['job_id'],
-                "teacher_model": utils.TEACHER_MODEL_NAME,
-                "student_model": utils.STUDENT_MODEL_NAME,
-                "average_score": avg_score,
-                "total_time_seconds": round(time.time() - start_time, 2)
-            },
-            "tasks": final_data
-        }
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(output, f, indent=2, ensure_ascii=False)
-        print(f"Finished {job_config['job_title']}. Saved to {output_file}")
-        print(f"Average Score: {avg_score:.1f}/100")
-    else:
-        print(f"Failed to generate tasks for {job_config['job_title']}")
+def compute_exposure_summary(
+    graded_tasks: List[Dict],
+    dimension_labels: List[str] = None,
+    scale_max: int = 5,
+) -> Dict:
+    """
+    Compute per-dimension average scores and an overall exposure score for a job.
+
+    exposure_score.overall = mean of all per-dimension averages
+                           = mean over every (task × dimension) score pair.
+    """
+    if dimension_labels is None:
+        dimension_labels = FIXED_DIMENSION_LABELS
+
+    dim_scores: Dict[str, List[float]] = {d: [] for d in dimension_labels}
+
+    for task in graded_tasks:
+        scores = task.get("dimension_scores", [])
+        labels = task.get("dimension_labels", dimension_labels)
+        for i, score in enumerate(scores):
+            if i < len(labels):
+                lbl = labels[i]
+                if lbl in dim_scores and isinstance(score, (int, float)):
+                    dim_scores[lbl].append(float(score))
+
+    dim_avgs = {
+        d: round(sum(v) / len(v), 2) if v else 0.0
+        for d, v in dim_scores.items()
+    }
+    valid_avgs = [v for v in dim_avgs.values() if v > 0]
+    overall = round(sum(valid_avgs) / len(valid_avgs), 2) if valid_avgs else 0.0
+
+    return {
+        "overall": overall,
+        "dimensions": dim_avgs,
+        "evaluated_tasks": len(graded_tasks),
+        "scale_max": scale_max,
+    }
 
 
-# ================= JOB SELECTION (O*NET + interactive + LLM) =================
+def run_batched_pipeline_for_job(
+    job_config: Dict,
+    all_onet_tasks: List[str],
+    batch_size: int = 5,
+) -> List[Dict]:
+    """
+    Process ALL O*NET tasks for a job in batches of batch_size.
 
-def get_it_jobs(df: pd.DataFrame) -> List[Tuple[str, str, int]]:
-    """Filter O*NET DataFrame to IT-related job titles (keywords include software, developer, data, etc.; excludes many non-IT roles). Returns list of (job_title, onet_code, task_count)."""
-    it_keywords = [
-        r'\bsoftware\b', r'\bdeveloper\b', r'\bprogrammer\b',
-        r'\bcomputer\b', r'information technology', r'\bit\b',
-        r'\bdatabase\b', r'\bweb\b', r'\bnetwork\b', r'systems analyst',
-        r'\bdevops\b', r'\bcybersecurity\b', r'information security',
-        r'\bcloud\b', r'\bai\b', r'artificial intelligence',
-        r'data scientist', r'data engineer', r'data analyst',
-        r'computer science', r'computer systems', r'computer network',
-        r'software quality', r'qa engineer', r'test engineer',
-        r'\bblockchain\b', r'machine learning engineer',
-        r'computer programmer', r'computer hardware', r'computer user',
-        r'computer and information', r'computer network',
-        r'web developer', r'web administrator', r'web designer',
-        r'database administrator', r'database architect',
-        r'network administrator', r'network architect',
-        r'information security', r'security analyst',
-        r'business intelligence', r'data warehousing'
+    For each batch:
+      - Step 1: Teacher generates batch_size evaluation tasks
+      - Step 2: Student answers each task
+      - Step 3: Judge grades each answer on the 5 fixed dimensions
+
+    Returns a flat list of all graded task dicts.
+    """
+    batches = [
+        all_onet_tasks[i : i + batch_size]
+        for i in range(0, len(all_onet_tasks), batch_size)
     ]
-    exclude_keywords = [
-        r'aerospace', r'chemical', r'civil engineer', r'mechanical engineer',
-        r'electrical engineer', r'automotive engineer', r'biomedical engineer',
-        r'environmental engineer', r'petroleum engineer', r'industrial engineer',
-        r'manufacturing engineer', r'nuclear engineer', r'marine engineer',
-        r'agricultural engineer', r'mining engineer', r'materials engineer',
-        r'aircraft', r'automotive', r'railroad', r'rail\b', r'truck',
-        r'repairer', r'mechanic', r'installer', r'operator',
-        r'pilot', r'driver', r'trainer', r'teacher', r'instructor',
-        r'air traffic', r'airline', r'airfield', r'aircraft',
-        r'automotive body', r'automotive glass',
-        r'electric motor', r'power tool',
-        r'heating.*air conditioning', r'refrigeration',
-        r'telecommunications equipment installer', r'telecommunications line installer',
-        r'telecommunications engineering specialist'
-    ]
-    title_col = 'Title'
-    title_lower = df[title_col].str.lower()
-    it_pattern = '|'.join(it_keywords)
-    it_mask = title_lower.str.contains(it_pattern, na=False, regex=True)
-    exclude_pattern = '|'.join(exclude_keywords)
-    exclude_mask = ~title_lower.str.contains(exclude_pattern, na=False, regex=True)
-    df_filtered = df[it_mask & exclude_mask]
-    job_groups = df_filtered.groupby(title_col).agg({
-        'O*NET-SOC Code': 'first',
-        'Task': 'count'
-    }).reset_index()
-    job_groups.columns = ['Title', 'Code', 'TaskCount']
-    job_groups = job_groups.sort_values('Title', ascending=True)
-    return [(row['Title'], row['Code'], row['TaskCount']) for _, row in job_groups.iterrows()]
+    all_graded: List[Dict] = []
+    delay = utils.CONFIG.get("delays", {}).get("between_tasks_seconds", 1)
 
+    for b_idx, batch_onet in enumerate(batches):
+        n = len(batch_onet)
+        print(f"\n  ── Batch {b_idx + 1}/{len(batches)}  ({n} tasks) ──")
 
-def display_job_menu(jobs: List[Tuple[str, str, int]]):
-    """Print a numbered menu of (job_title, onet_code, task_count) for interactive selection."""
-    print("\nAvailable IT Jobs from O*NET:\n")
-    for idx, (title, code, count) in enumerate(jobs, 1):
-        print(f"{idx:2d}. {title:50s} ({count} tasks")
-
-
-def select_job_interactive(jobs: List[Tuple[str, str, int]]) -> Tuple[str, str]:
-    """Prompt user to enter a job number (or 'q' to quit). Returns (job_title, onet_code) for the chosen job."""
-    while True:
         try:
-            choice = input("\n Enter job number (or 'q' to quit): ").strip()
-            if choice.lower() == 'q':
-                print("Goodbye!")
-                sys.exit(0)
-            idx = int(choice) - 1
-            if 0 <= idx < len(jobs):
-                job_title, onet_code, task_count = jobs[idx]
-                print(f"\n Selected: {job_title}")
-                print(f"  O*NET Code: {onet_code}")
-                print(f"  Available Tasks: {task_count}")
-                return job_title, onet_code
-            else:
-                print(f"Invalid choice. Please enter 1-{len(jobs)}")
-        except ValueError:
-            print("Please enter a number")
-        except KeyboardInterrupt:
-            print("\nGoodbye")
-            sys.exit(0)
+            batch_cfg = dict(job_config)
+            batch_cfg["onet_tasks"] = batch_onet
+
+            eval_tasks = step_1_generate_tasks(batch_cfg, num_tasks=n)
+            if not eval_tasks:
+                print(f"  Batch {b_idx + 1}: Step 1 produced no tasks — skipping.")
+                continue
+
+            answered = step_2_student_inference(eval_tasks, job_config=batch_cfg)
+            if not answered:
+                print(f"  Batch {b_idx + 1}: Step 2 returned no answers — skipping.")
+                continue
+
+            graded, _, _ = step_3_grading(answered, job_config=batch_cfg)
+            all_graded.extend(graded)
+
+        except Exception as e:
+            print(f"  Batch {b_idx + 1}: unexpected error — {e}  (skipping)")
+
+        if delay and b_idx < len(batches) - 1:
+            time.sleep(delay)
+
+    return all_graded
 
 
-def select_num_tasks() -> int:
-    """Prompt user for number of tasks to generate (1–20). Default 5 if empty; repeats until valid input."""
-    while True:
-        try:
-            num = input("\n How many tasks to generate? (default: 5): ").strip()
-            if num == "":
-                return 5
-            num = int(num)
-            if 1 <= num <= 20:
-                return num
-            else:
-                print("Please enter a number between 1-20")
-        except ValueError:
-            print("Please enter a valid number")
-        except KeyboardInterrupt:
-            print("\nGoodbye")
-            sys.exit(0)
+# ─────────────────────────────────────────────
+# SECTION 2: JOB CONFIG & JOB SELECTION
+# ─────────────────────────────────────────────
 
-
-def llm_select_tasks(job_title: str, all_tasks: List[str], num_tasks: int) -> List[str]:
-    """Use meta-prompt LLM to choose N most representative tasks from all_tasks for the given job_title. Uses task_selector template; falls back to first N on parse/API failure."""
-    print(f"\nUsing LLM to select {num_tasks} most representative tasks.")
-    tasks_list = "\n".join([f"{i+1}. {task}" for i, task in enumerate(all_tasks)])
-    total_count = len(all_tasks)
-    template = load_prompt_template("task_selector")
+def generate_job_config(job_title: str, onet_code: str,
+                        selected_tasks: List[str], num_eval_tasks: int) -> Dict:
+    """
+    Call the meta-prompt LLM with the generate_configuration template to produce
+    a full job config dict.
+    """
+    print(f"\n  Generating job config for [{job_title}]...")
+    template = load_prompt_template("generate_configuration")
     if not template:
-        raise FileNotFoundError(
-            "prompt_templates/task_selector.txt not found. Add the template to customize task selection."
-        )
+        raise FileNotFoundError("prompt_templates/generate_configuration.txt not found.")
+
     prompt = render_prompt_template(
         template,
         job_title=job_title,
-        tasks_list=tasks_list,
-        num_tasks=num_tasks,
-        total_count=total_count,
-    )
-    messages = [{"role": "user", "content": prompt}]
-    response = call_llm(META_PROMPT_API_URL, META_PROMPT_MODEL, messages, max_tokens=500, temperature=0.3)
-    if not response:
-        print("LLM selection failed, using first N tasks as fallback")
-        return all_tasks[:num_tasks]
-    try:
-        selected_indices = extract_json(response)
-        selected_tasks = [all_tasks[i-1] for i in selected_indices if 1 <= i <= len(all_tasks)]
-        print(f"LLM selected {len(selected_tasks)} tasks:")
-        for i, task in enumerate(selected_tasks, 1):
-            print(f"  {i}. {task[:70]}...")
-        return selected_tasks
-    except Exception as e:
-        print(f"Error parsing LLM response: {e}")
-        print(f"   Using first {num_tasks} tasks as fallback")
-        return all_tasks[:num_tasks]
-
-
-def generate_job_config(
-    job_title: str,
-    onet_code: str,
-    selected_tasks: List[str],
-    num_eval_tasks: int
-) -> Dict:
-    """Call meta-prompt LLM with generate_configuration template to produce job config dict (job_id, role_description, onet_tasks, output_structure, etc.) for the evaluation pipeline."""
-    print(f"\nGenerating configuration for {job_title}:")
-    tasks_list = "\n".join([f"{i+1}. {task}" for i, task in enumerate(selected_tasks)])
-    onet_tasks_json = json.dumps(selected_tasks)
-    template = load_prompt_template("generate_configuration")
-    if not template:
-        raise FileNotFoundError(
-            "prompt_templates/generate_configuration.txt not found.")
-    meta_prompt = render_prompt_template(
-        template,
-        job_title=job_title,
         onet_code=onet_code,
-        tasks_list=tasks_list,
+        tasks_list="\n".join(f"{i+1}. {t}" for i, t in enumerate(selected_tasks)),
         num_eval_tasks=num_eval_tasks,
-        onet_tasks_json=onet_tasks_json,
+        onet_tasks_json=json.dumps(selected_tasks),
     )
-    messages = [{"role": "user", "content": meta_prompt}]
-    response = call_llm(META_PROMPT_API_URL, META_PROMPT_MODEL, messages, max_tokens=2000, temperature=0.3)
+    response = call_llm(
+        utils.META_PROMPT_API_URL, utils.META_PROMPT_MODEL,
+        [
+            {
+                "role": "system",
+                "content": (
+                    "You are a JSON-only API. Output ONLY a valid JSON object — "
+                    "no explanation, no markdown, no code fences."
+                ),
+            },
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=8000, temperature=0.3, enable_thinking=False,
+    )
+    response = (response or "").strip()
     if not response:
-        raise Exception("Failed to generate job config")
+        raise Exception(
+            "Failed to generate job config — LLM API returned nothing (connection refused or error). "
+            "Check that the server is running at the URL in pipeline_config.json. "
+            "To run without the server, use a saved config: python qwen_main_pipeline.py --config job_config_interactive.json"
+        )
+
     config = extract_json(response)
-    print(f"Configuration generated:")
-    print(f"Job ID: {config.get('job_id')}")
-    print(f"Task Types: {config.get('task_types')}")
+    if isinstance(config, list) and len(config) > 0:
+        config = config[0]
+    if not isinstance(config, dict):
+        raise ValueError("Generated job config is not a JSON object. Got: " + type(config).__name__)
+    print(f"  Config generated: job_id={config.get('job_id')} | task_types={config.get('task_types')}")
     return config
 
 
-# ================= MAIN WORKFLOW =================
+def _onet_slug(onet_code: str) -> str:
+    """e.g. '13-2011.00' → '13_2011_00'  (used as cache-file key)"""
+    return re.sub(r"[^a-z0-9]+", "_", onet_code.lower()).strip("_")
+
+
+def generate_or_load_config(job_title: str, onet_code: str, all_tasks: List[str]) -> Dict:
+    """
+    Load a cached job config from configs/<onet_slug>_config.json, or generate one
+    via LLM and cache it for future runs.
+    Always overrides grading_rubric_template with FIXED_RUBRIC before returning.
+    """
+    os.makedirs(CONFIGS_DIR, exist_ok=True)
+    config_path = os.path.join(CONFIGS_DIR, f"{_onet_slug(onet_code)}_config.json")
+
+    if os.path.isfile(config_path):
+        with open(config_path, "r", encoding="utf-8") as f:
+            config = json.load(f)
+        if isinstance(config, list):
+            config = config[0]
+        print(f"  Loaded cached config: {config_path}")
+    else:
+        # Use up to 10 O*NET tasks as a representative sample for config generation
+        sample = all_tasks[: min(10, len(all_tasks))]
+        config = generate_job_config(job_title, onet_code, sample, num_eval_tasks=len(all_tasks))
+        with open(config_path, "w", encoding="utf-8") as f:
+            json.dump(config, f, indent=2, ensure_ascii=False)
+        print(f"  Config cached → {config_path}")
+
+    # Always enforce the fixed rubric and scale
+    config["grading_rubric_template"] = FIXED_RUBRIC
+    config["grading_scale_max"] = 5
+    return config
+
+
+def load_digital_jobs(digital_jobs_csv: str) -> List[Tuple[str, str]]:
+    """Load the pre-filtered 114 digital jobs from digital_jobs.csv."""
+    if not os.path.isfile(digital_jobs_csv):
+        print(f"Error: '{digital_jobs_csv}' not found. Run filter_digital_jobs.py first.")
+        sys.exit(1)
+    ddf = pd.read_csv(digital_jobs_csv)
+    return [(str(r["Title"]), str(r["O*NET-SOC Code"])) for _, r in ddf.iterrows()]
+
+
+def display_job_menu(it_jobs: List[Tuple[str, str]]):
+    print("\n  Digital / knowledge-worker jobs (AI-evaluable):")
+    for i, (title, code) in enumerate(it_jobs, 1):
+        print(f"    {i}. {title}  ({code})")
+    print("    q. Quit")
+
+
+def select_job_interactive(it_jobs: List[Tuple[str, str]]) -> Tuple[str, str]:
+    """Let user pick a job by number, or 'q' to quit."""
+    while True:
+        choice = input("\n  Enter job number (or q to quit): ").strip().lower()
+        if choice == "q":
+            print("\n  Exiting. Goodbye.")
+            sys.exit(0)
+        try:
+            idx = int(choice)
+            if 1 <= idx <= len(it_jobs):
+                return it_jobs[idx - 1][0], it_jobs[idx - 1][1]
+        except ValueError:
+            pass
+        print(f"  Invalid input. Enter a number between 1 and {len(it_jobs)}, or q to quit.")
+
+
+# ── Commented out: interactive task-count selection (now always uses all tasks) ──
+# def select_num_tasks() -> int:
+#     """Prompt for number of tasks (1–20); return int."""
+#     while True:
+#         try:
+#             n = input("\n  Number of tasks (1–20) [default 5]: ").strip() or "5"
+#             n = int(n)
+#             if 1 <= n <= 20:
+#                 return n
+#         except ValueError:
+#             pass
+#         print("  Enter a number between 1 and 20.")
+
+
+# ── Commented out: LLM-based task subset selection (now always uses all tasks) ──
+# def llm_select_tasks(job_title: str, all_tasks: List[str], num_tasks: int) -> List[str]:
+#     """Ask LLM to select num_tasks representative tasks from all_tasks."""
+#     template = load_prompt_template("task_selector")
+#     if not template:
+#         return all_tasks[:num_tasks]
+#     tasks_list = "\n".join(f"{i}. {t}" for i, t in enumerate(all_tasks, 1))
+#     prompt = render_prompt_template(
+#         template,
+#         job_title=job_title,
+#         total_count=len(all_tasks),
+#         tasks_list=tasks_list,
+#         num_tasks=num_tasks,
+#     )
+#     print(f"  Asking LLM to select {num_tasks} representative tasks from {len(all_tasks)} O*NET tasks...")
+#     timeout = utils.CONFIG.get("timeouts", {}).get("api_request_seconds", 120)
+#     response = call_llm(
+#         utils.META_PROMPT_API_URL, utils.META_PROMPT_MODEL,
+#         [{"role": "user", "content": prompt}],
+#         max_tokens=500, temperature=0.2, timeout=timeout,
+#     )
+#     if not response:
+#         print("  ⚠ LLM selection failed — using first N tasks as fallback")
+#         return all_tasks[:num_tasks]
+#     try:
+#         indices = extract_json(response)
+#         if isinstance(indices, list):
+#             selected = [all_tasks[int(i) - 1] for i in indices
+#                         if isinstance(i, (int, float)) and 1 <= int(i) <= len(all_tasks)]
+#             if selected:
+#                 return selected
+#     except Exception as e:
+#         print(f"  ⚠ Parse error ({e}) — using first N tasks as fallback")
+#     return all_tasks[:num_tasks]
+
+
+# ─────────────────────────────────────────────
+# SECTION 3: PER-JOB RUNNER
+# ─────────────────────────────────────────────
+
+def run_job(
+    job_title: str,
+    onet_code: str,
+    df: pd.DataFrame,
+    batch_size: int,
+    results_dir: str,
+    suffix: str,
+    resume: bool,
+    skip_eval: bool = False,
+    output_config: str = "job_config_interactive.json",
+) -> bool:
+    """
+    Full pipeline for one job: config → batched eval → save results.
+    Returns True on success, False on skip or failure.
+    """
+    # Get ALL O*NET tasks for this job from the Excel data
+    all_tasks = df[df["O*NET-SOC Code"].astype(str) == onet_code]["Task"].dropna().tolist()
+    if not all_tasks:
+        all_tasks = df[df["Title"] == job_title]["Task"].dropna().tolist()
+    if not all_tasks:
+        print(f"  No O*NET tasks found for [{job_title}] — skipping.")
+        return False
+
+    print(f"\n  O*NET tasks for this job: {len(all_tasks)}")
+
+    # Generate or load cached job config
+    try:
+        job_config = generate_or_load_config(job_title, onet_code, all_tasks)
+    except Exception as e:
+        print(f"  Config generation failed: {e}")
+        return False
+
+    # Optionally save the config for inspection
+    with open(output_config, "w", encoding="utf-8") as f:
+        json.dump(job_config, f, indent=2, ensure_ascii=False)
+
+    if skip_eval:
+        print(f"  (--skip-eval: config saved to {output_config}, evaluation skipped)")
+        return True
+
+    job_id   = job_config.get("job_id") or re.sub(r"[^a-z0-9]+", "_", job_title.lower()).strip("_")[:50]
+    out_path = os.path.join(results_dir, f"{job_id}{suffix}")
+
+    if resume and os.path.isfile(out_path):
+        print(f"  Already completed ({out_path}) — skipping.")
+        return True
+
+    num_batches = (len(all_tasks) + batch_size - 1) // batch_size
+    start = time.time()
+
+    print(f"\n{'='*70}")
+    print(f"  Job    : {job_title}")
+    print(f"  SOC    : {onet_code}")
+    print(f"  Tasks  : {len(all_tasks)}  |  Batch size: {batch_size}  |  Batches: {num_batches}")
+    print(f"  Rubric : {FIXED_DIMENSION_LABELS}")
+    print(f"{'='*70}")
+
+    graded = run_batched_pipeline_for_job(job_config, all_tasks, batch_size=batch_size)
+    if not graded:
+        print(f"  No tasks were graded for [{job_title}].")
+        return False
+
+    exposure = compute_exposure_summary(graded, FIXED_DIMENSION_LABELS)
+
+    os.makedirs(results_dir, exist_ok=True)
+    output = {
+        "meta": {
+            "job_title":          job_title,
+            "job_id":             job_id,
+            "onet_code":          onet_code,
+            "teacher_model":      utils.TEACHER_MODEL_NAME,
+            "student_model":      utils.STUDENT_MODEL_NAME,
+            "total_onet_tasks":   len(all_tasks),
+            "evaluated_tasks":    len(graded),
+            "batches":            num_batches,
+            "batch_size":         batch_size,
+            "grading_scale_max":  5,
+            "grading_dimensions": FIXED_DIMENSION_LABELS,
+            "exposure_score":     exposure,
+            "total_time_seconds": round(time.time() - start, 2),
+        },
+        "tasks": graded,
+    }
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(output, f, indent=2, ensure_ascii=False)
+
+    print(f"\n{'='*70}")
+    print(f"  Exposure score (overall): {exposure['overall']:.2f} / 5")
+    print(f"  Per-dimension averages:")
+    for dim, avg in exposure["dimensions"].items():
+        print(f"    {dim:<25} {avg:.2f}")
+    print(f"  Results saved → {out_path}")
+    print(f"{'='*70}")
+    return True
+
+
+# ─────────────────────────────────────────────
+# MAIN
+# ─────────────────────────────────────────────
 
 def main():
-    """Entry point: load O*NET data, (optionally) interactively select job and task count, use LLM to select tasks and generate job config, then optionally run the 3-step evaluation pipeline and save results."""
     parser = argparse.ArgumentParser(
-        description='Interactive AI Model Evaluation Pipeline (main entry)',
+        description="Job Evaluation Pipeline — batch or single-job mode",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python qwen_main_pipeline.py
-  python qwen_main_pipeline.py --job "Software Developers" --tasks 10
-  python qwen_main_pipeline.py --excel data.xlsx --skip-eval
-        """
+  python qwen_main_pipeline.py --batch-all                   # run all 114 jobs
+  python qwen_main_pipeline.py --batch-all --resume          # skip already-done jobs
+  python qwen_main_pipeline.py --job "Software Developers"   # single job
+  python qwen_main_pipeline.py                               # interactive picker
+  python qwen_main_pipeline.py --config saved.json           # use saved config
+  python qwen_main_pipeline.py --skip-eval --job "X"         # config only, no eval
+        """,
     )
-    parser.add_argument('--excel', type=str, default='Task Statements.xlsx',
-                        help='Path to O*NET Excel file')
-    parser.add_argument('--job', type=str, help='Job title (skips interactive selection)')
-    parser.add_argument('--tasks', type=int, default=None,
-                        help='Number of tasks to select and generate (1-20). If omitted, you will be prompted.')
-    parser.add_argument('--skip-eval', action='store_true',
-                        help='Only generate config, skip evaluation pipeline')
-    parser.add_argument('--output', type=str, default='job_config_interactive.json',
-                        help='Output config file path')
+    parser.add_argument("--excel",        default="Task Statements.xlsx",
+                        help="O*NET Task Statements Excel file")
+    parser.add_argument("--digital-jobs", default="digital_jobs.csv",
+                        help="Pre-filtered digital jobs CSV (114 jobs)")
+    parser.add_argument("--job",          default=None,
+                        help="Run a single job whose title contains this string")
+    parser.add_argument("--batch-all",    action="store_true",
+                        help="Run all jobs from digital_jobs.csv")
+    parser.add_argument("--resume",       action="store_true",
+                        help="Skip jobs that already have a results file (--batch-all)")
+    parser.add_argument("--batch-size",   type=int, default=None,
+                        help="Tasks per batch (default: pipeline_config batch_size = 5)")
+    parser.add_argument("--skip-eval",    action="store_true",
+                        help="Generate config only, skip evaluation steps")
+    parser.add_argument("--output",       default="job_config_interactive.json",
+                        help="Path to write the last job config JSON")
+    parser.add_argument("--config",       default=None,
+                        help="Use an existing job config JSON (skips config LLM call)")
+    # ── Commented out: --tasks is no longer used; all O*NET tasks are evaluated ──
+    # parser.add_argument("--tasks", type=int, default=None,
+    #                     help="Number of tasks (1–20); now replaced by running all tasks")
     args = parser.parse_args()
 
-    print("\nAI Model Evaluation Pipeline")
-    print("="*70)
+    utils.load_config()
+    batch_size  = args.batch_size or utils.CONFIG.get("task", {}).get("batch_size", 5)
+    results_dir = utils.CONFIG.get("output", {}).get("results_dir", "results")
+    suffix      = utils.CONFIG.get("output", {}).get("file_suffix_auto", "_results_auto.json")
 
-    df = load_onet_excel(args.excel)
-    it_jobs = get_it_jobs(df)
-    if len(it_jobs) == 0:
-        print("No IT jobs found in the Excel file")
-        sys.exit(1)
-    print(f"\nFound {len(it_jobs)} IT-related jobs")
+    print("\nJob Evaluation Pipeline\n")
 
+    # ── Mode A: use a saved config (skip config LLM call) ───────────────────
+    if args.config:
+        with open(args.config, "r", encoding="utf-8") as f:
+            job_config = _normalize_job_config(json.load(f))
+        job_config["grading_rubric_template"] = FIXED_RUBRIC
+        job_config["grading_scale_max"] = 5
+
+        job_title = job_config.get("job_title", "Unknown")
+        onet_code = job_config.get("onet_code", "")
+        print(f"  Loaded config: {job_title}  (job_id={job_config.get('job_id')})")
+
+        # Load all O*NET tasks from Excel (fall back to onet_tasks in config)
+        df = load_onet_excel(args.excel)
+        all_tasks = df[df["O*NET-SOC Code"].astype(str) == onet_code]["Task"].dropna().tolist()
+        if not all_tasks:
+            all_tasks = df[df["Title"] == job_title]["Task"].dropna().tolist()
+        if not all_tasks:
+            all_tasks = job_config.get("onet_tasks", [])
+        print(f"  O*NET tasks: {len(all_tasks)}")
+
+        if args.skip_eval:
+            print("  (--skip-eval: no evaluation run)")
+            return
+
+        graded = run_batched_pipeline_for_job(job_config, all_tasks, batch_size=batch_size)
+        exposure = compute_exposure_summary(graded, FIXED_DIMENSION_LABELS)
+        job_id   = job_config.get("job_id") or "unknown"
+        out_path = os.path.join(results_dir, f"{job_id}{suffix}")
+        os.makedirs(results_dir, exist_ok=True)
+        output = {
+            "meta": {
+                "job_title":          job_title,
+                "job_id":             job_id,
+                "onet_code":          onet_code,
+                "teacher_model":      utils.TEACHER_MODEL_NAME,
+                "student_model":      utils.STUDENT_MODEL_NAME,
+                "total_onet_tasks":   len(all_tasks),
+                "evaluated_tasks":    len(graded),
+                "batches":            (len(all_tasks) + batch_size - 1) // batch_size,
+                "batch_size":         batch_size,
+                "grading_scale_max":  5,
+                "grading_dimensions": FIXED_DIMENSION_LABELS,
+                "exposure_score":     exposure,
+                "total_time_seconds": 0,
+            },
+            "tasks": graded,
+        }
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(output, f, indent=2, ensure_ascii=False)
+        print(f"\n  Exposure score: {exposure['overall']:.2f}/5  →  {out_path}")
+        print("\nPipeline complete.")
+        return
+
+    # ── Load O*NET data and the 114 digital jobs ─────────────────────────────
+    df       = load_onet_excel(args.excel)
+    all_jobs = load_digital_jobs(args.digital_jobs)
+    print(f"\n  Loaded {len(all_jobs)} digital jobs from '{args.digital_jobs}'")
+
+    # ── Mode B: --batch-all  (run every job) ─────────────────────────────────
+    if args.batch_all:
+        total     = len(all_jobs)
+        succeeded = 0
+        failed: List[str] = []
+        between_jobs = utils.CONFIG.get("delays", {}).get("between_jobs_seconds", 5)
+
+        for idx, (job_title, onet_code) in enumerate(all_jobs, 1):
+            print(f"\n[{idx}/{total}] {job_title}  ({onet_code})")
+            ok = run_job(
+                job_title, onet_code, df,
+                batch_size, results_dir, suffix,
+                resume=args.resume,
+                skip_eval=args.skip_eval,
+                output_config=args.output,
+            )
+            if ok:
+                succeeded += 1
+            else:
+                failed.append(job_title)
+            if between_jobs and idx < total:
+                time.sleep(between_jobs)
+
+        print(f"\n{'='*70}")
+        print(f"  Batch complete: {succeeded}/{total} jobs succeeded.")
+        if failed:
+            print(f"  Failed / skipped ({len(failed)}):")
+            for j in failed:
+                print(f"    - {j}")
+        print(f"{'='*70}")
+        return
+
+    # ── Mode C: single job  (--job flag or interactive picker) ───────────────
     if args.job:
-        matching_jobs = [j for j in it_jobs if args.job.lower() in j[0].lower()]
-        if not matching_jobs:
-            print(f"Job '{args.job}' not found")
-            display_job_menu(it_jobs)
+        matches = [j for j in all_jobs if args.job.lower() in j[0].lower()]
+        if not matches:
+            print(f"  Job '{args.job}' not found in {args.digital_jobs}.")
+            display_job_menu(all_jobs)
             sys.exit(1)
-        job_title, onet_code = matching_jobs[0][0], matching_jobs[0][1]
-        print(f"\n Selected: {job_title}")
+        job_title, onet_code = matches[0]
+        print(f"\n  Selected: {job_title}  ({onet_code})")
     else:
-        display_job_menu(it_jobs)
-        job_title, onet_code = select_job_interactive(it_jobs)
+        display_job_menu(all_jobs)
+        job_title, onet_code = select_job_interactive(all_jobs)
 
-    num_tasks = args.tasks if args.tasks is not None else select_num_tasks()
-
-    title_col = 'Title'
-    task_col = 'Task'
-    job_df = df[df[title_col] == job_title]
-    all_tasks = job_df[task_col].dropna().tolist()
-    print(f"\n Found {len(all_tasks)} tasks in O*NET for this job")
-
-    selected_tasks = llm_select_tasks(job_title, all_tasks, num_tasks)
-    job_config = generate_job_config(job_title, onet_code, selected_tasks, num_tasks)
-
-    config_data = [job_config]
-    with open(args.output, 'w', encoding='utf-8') as f:
-        json.dump(config_data, f, indent=2, ensure_ascii=False)
-    print(f"\nConfiguration saved to: {args.output}")
-
-    if not args.skip_eval:
-        print("\nStarting Evaluation Pipeline\n")
-        confirm = input("\nContinue with evaluation? (y/n): ").strip().lower()
-        if confirm == 'y':
-            run_pipeline_for_job(job_config, num_tasks=num_tasks)
-            print("Pipeline Complete!")
-        else:
-            print("\nConfig saved. Run evaluation later with:")
-            print(f"   python qwen_main_pipeline.py --job \"...\" --tasks N  (and load {args.output})")
-    else:
-        print("\nConfig generation complete (evaluation skipped)")
-        print("  Run evaluation by re-running and choosing y, or load the config elsewhere.")
+    run_job(
+        job_title, onet_code, df,
+        batch_size, results_dir, suffix,
+        resume=False,
+        skip_eval=args.skip_eval,
+        output_config=args.output,
+    )
+    print("\nPipeline complete.")
 
 
 if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\n\nInterrupted by user. Goodbye")
+        print("\n\nInterrupted. Goodbye.")
         sys.exit(0)
