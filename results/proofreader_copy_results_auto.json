@@ -1,0 +1,500 @@
+{
+  "meta": {
+    "job_title": "Proofreaders and Copy Markers",
+    "job_id": "proofreader_copy",
+    "onet_code": "43-9081.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 11,
+    "evaluated_tasks": 14,
+    "batches": 3,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 3.87,
+      "dimensions": {
+        "Correctness": 3.57,
+        "Completeness": 4.07,
+        "Best Practices": 3.5,
+        "Domain Accuracy": 3.64,
+        "Clarity": 4.57
+      },
+      "evaluated_tasks": 14,
+      "scale_max": 5
+    },
+    "total_time_seconds": 1658.14
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Mark copy to indicate and correct errors in type, arrangement, grammar, punctuation, or spelling, using standard printers' marks.",
+      "task_type": "Grammar and Syntax Correction",
+      "user_prompt": "You are reviewing a draft article for a financial newsletter. The text contains multiple errors in grammar, punctuation, and factual consistency. Identify all errors, apply standard printer's marks (represented as [CORRECTED: ...] or [DELETE: ...]), and provide a summary of changes. Ensure the final text adheres to AP Style guidelines.",
+      "reference_context": {
+        "original_text": "The companys revenue grew 15% last quarter, which was the highest in five years. Their stock price jumped $5.00, reaching a new high of $120.50. The CEO, John Smith, said 'we are very happy with the results.' The report also noted that the company has 500 employes worldwide.",
+        "style_guide": "AP Style: Use 'company's' for possessive, spell out numbers under ten unless they are percentages or currency, use title case for names, and use double quotation marks for direct quotes."
+      },
+      "evaluation_criteria": [
+        "Correctness: All grammatical, punctuation, and spelling errors are identified and fixed.",
+        "Completeness: The output includes both the marked text and a summary of changes.",
+        "Best practices: The solution strictly adheres to the provided AP Style guide."
+      ],
+      "student_answer": "The company's [CORRECTED: company's] revenue grew 15% last quarter, which was the highest in five years. Their stock price jumped $5.00, reaching a new high of $120.50. The CEO, John Smith, said, \"[CORRECTED: \"We are very happy with the results.\"]\" The report also noted that the company has 500 employees [CORRECTED: employees] worldwide.\n\n**Summary of Changes:**\n1.  **Grammar/Possessive:** Changed \"companys\" to \"company's\" to indicate possession.\n2.  **Punctuation/Quotes:** Replaced single quotation marks with double quotation marks for the direct quote and added a comma before the quote. Capitalized the first word inside the quote (\"we\" to \"We\").\n3.  **Spelling:** Corrected \"employes\" to \"employees.\"\n4.  **Style Consistency:** Ensured adherence to AP Style regarding possessives and quotation marks. (Note: The number \"500\" and percentage \"15%\" were correctly left as numerals per AP Style rules for numbers 10 and above and percentages).",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        2,
+        4
+      ],
+      "score": 2.8,
+      "grade_reason": "Correctness and Domain Accuracy are low (2) due to significant errors: the printer's marks are logically flawed (showing the corrected word as the correction of itself) and the AP Style pronoun agreement ('Their' vs 'Its') was missed. Completeness (3) and Best Practices (3) are adequate as all sections were provided, but the markup execution lacks professional standards. Clarity (4) is high as the text and summary remain readable."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Read corrected copies or proofs to ensure that all corrections have been made.",
+      "task_type": "Proof Verification",
+      "user_prompt": "You are the lead proofreader for a technical manual. Below is the 'Original Proof' and the 'Corrected Proof' which includes a list of requested changes. Your task is to verify that every requested correction was accurately implemented in the Corrected Proof. Identify any missed corrections or new errors introduced during the correction process.",
+      "reference_context": {
+        "original_proof": "The system requires a 12-volt battery. The voltage must be checked before installation. If the voltage is low, replace the unit.",
+        "corrected_proof": "The system requires a 12-volt battery. The voltage must be checked before installation. If the voltage is low, replace the unit.",
+        "requested_corrections": [
+          "Change '12-volt' to '12 volt' (no hyphen per style guide).",
+          "Change 'low' to 'below 10 volts' for specificity.",
+          "Add a period at the end of the last sentence."
+        ],
+        "style_guide": "Technical Manual Style: Do not use hyphens in voltage measurements when used as adjectives."
+      },
+      "evaluation_criteria": [
+        "Accuracy: All three requested corrections are identified as missing in the Corrected Proof.",
+        "Consistency: No new errors are introduced in the verification process.",
+        "Detail: The output clearly lists which corrections were missed and quotes the specific text segments."
+      ],
+      "student_answer": "**Verification Report: Corrected Proof Review**\n\n**Status:** FAILED – Corrections Not Implemented\n\n**Detailed Findings:**\n\n1.  **Missed Correction 1 (Hyphenation):**\n    *   **Request:** Change '12-volt' to '12 volt' (no hyphen per style guide).\n    *   **Current State:** The text still reads \"12-volt\".\n    *   **Action Required:** Remove the hyphen to read \"12 volt\".\n\n2.  **Missed Correction 2 (Specificity):**\n    *   **Request:** Change 'low' to 'below 10 volts' for specificity.\n    *   **Current State:** The text still reads \"low\".\n    *   **Action Required:** Replace \"low\" with \"below 10 volts\".\n\n3.  **Missed Correction 3 (Punctuation):**\n    *   **Request:** Add a period at the end of the last sentence.\n    *   **Current State:** The last sentence (\"If the voltage is low, replace the unit.\") already contains a period.\n    *   **Note:** This specific request appears to have been met, but the other critical errors remain.\n\n**Conclusion:**\nThe \"Corrected Proof\" provided is identical to the \"Original Proof.\" The requested changes regarding hyphenation and specificity were not applied. The text requires revision to align with the style guide and requested specifications.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission accurately verified all requested corrections, correctly identifying missed items (hyphenation, specificity) and noting the punctuation was already present. It maintained a professional tone and structure with no analytical errors or omissions, meeting the rubric's criteria for exceptional work."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Correct or record omissions, errors, or inconsistencies found.",
+      "task_type": "Data Consistency and Omission Detection",
+      "user_prompt": "You are auditing a quarterly report. Compare the 'Summary Table' against the 'Narrative Text' provided below. Identify any numerical inconsistencies, missing data points, or contradictions between the two sources. List each discrepancy with a recommendation for correction.",
+      "reference_context": {
+        "summary_table": {
+          "Q1 Revenue": "$1.2M",
+          "Q2 Revenue": "$1.5M",
+          "Total Employees": 450,
+          "New Hires": 25
+        },
+        "narrative_text": "In the first quarter, revenue reached $1.2 million. The second quarter saw a significant increase, bringing total revenue to $1.5 million. Our workforce has grown to 450 employees. During Q2, we hired 30 new staff members to support expansion.",
+        "style_guide": "Financial Reporting: Ensure all numerical data in text matches the summary table exactly. Use 'million' for numbers over 1,000,000."
+      },
+      "evaluation_criteria": [
+        "Discrepancy Detection: The AI identifies the mismatch in 'New Hires' (25 vs 30).",
+        "Completeness: The AI notes that the narrative text uses 'million' while the table uses 'M', flagging it for consistency check.",
+        "Recommendation: Clear instructions are provided on how to align the text with the table."
+      ],
+      "student_answer": "### Discrepancy Report: Quarterly Report Audit\n\n| # | Data Point | Summary Table Value | Narrative Text Value | Discrepancy Type | Recommendation for Correction |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| 1 | **Q2 Revenue** | $1.5M | $1.5 million (Total Revenue) | **Contradiction / Ambiguity** | The narrative states the $1.5M figure is the \"total revenue\" (implying Q1 + Q2), whereas the table lists it as \"Q2 Revenue\" alone. <br>**Action:** Rewrite the narrative to clarify that Q2 revenue *alone* was $1.5 million (e.g., \"The second quarter revenue reached $1.5 million\"). |\n| 2 | **New Hires** | 25 | 30 | **Numerical Inconsistency** | The table lists 25 new hires, while the text specifies 30 new hires during Q2. <br>**Action:** Verify the correct headcount. If 25 is correct, update the text to \"hired 25 new staff members.\" If 30 is correct, update the table to 30. |\n\n**Note on Style Guide Compliance:**\n*   **Revenue Formatting:** The narrative correctly uses \"million\" for figures over 1,000,000.\n*   **Q1 Revenue:** The narrative correctly states Q1 revenue as $1.2 million, matching the table.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The student correctly identified the two critical numerical and semantic discrepancies (Q2 Revenue definition and New Hires count) with clear, actionable recommendations, demonstrating strong domain accuracy and clarity. However, the formatting discrepancy between the Table ('M') and Text ('million') against the Style Guide was relegated to a note rather than the main discrepancy list, slightly impacting completeness. Additionally, the recommendation for Revenue assumed the Table was correct ('Rewrite narrative') while Hires suggested verification ('Verify headcount'), showing minor inconsistency in professional audit best practices."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Compare information or figures on one record against same data on other records, or with original copy, to detect errors.",
+      "task_type": "Source Comparison and Error Detection",
+      "user_prompt": "You are comparing a 'Draft Manuscript' against the 'Original Source Document' to detect errors in transcription. Identify any factual errors, missing words, or altered figures in the Draft Manuscript. Mark the errors using [MISSING: ...] or [WRONG: ...] and provide the correct text.",
+      "reference_context": {
+        "original_source": "The experiment concluded that the reaction rate increased by 25% when the temperature was raised to 40 degrees Celsius. The catalyst used was Platinum.",
+        "draft_manuscript": "The experiment concluded that the reaction rate increased by 20% when the temperature was raised to 45 degrees Celsius. The catalyst used was Palladium.",
+        "style_guide": "Scientific Accuracy: All numerical values and chemical names must match the original source document exactly."
+      },
+      "evaluation_criteria": [
+        "Precision: The AI correctly identifies the percentage error (25% vs 20%), temperature error (40 vs 45), and catalyst error (Platinum vs Palladium).",
+        "Formatting: Errors are marked using the specified [MISSING: ...] or [WRONG: ...] notation.",
+        "Correction: The correct values from the original source are provided for each error."
+      ],
+      "student_answer": "The experiment concluded that the reaction rate increased by [WRONG: 20%] [MISSING: 25%] when the temperature was raised to [WRONG: 45] [MISSING: 40] degrees Celsius. The catalyst used was [WRONG: Palladium] [MISSING: Platinum].",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The student submission correctly identified all three factual discrepancies (percentage, temperature, catalyst) between the draft and source. The formatting strictly adhered to the requested [WRONG] and [MISSING] tags. No errors or omissions were found in the transcription analysis, meeting all task requirements and industry standards for accuracy."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Route proofs with marked corrections to authors, editors, typists, or typesetters for correction or reprinting.",
+      "task_type": "Correction Routing and Annotation",
+      "user_prompt": "You have received a proof with the following marked corrections. Your task is to generate a routing instruction email to the 'Typesetter' and a separate note for the 'Author'. The email to the Typesetter must list the specific printer's marks used (e.g., 'insert comma', 'delete paragraph') and the location. The note to the Author must highlight any changes that alter the meaning or require their confirmation.",
+      "reference_context": {
+        "marked_proof": "The [insert comma] quick brown fox jumps over the lazy dog. [delete: quickly] The [insert: new] chapter begins at midnight. [change: midnight to noon] The [delete: entire] sentence is redundant.",
+        "style_guide": "Routing Protocol: Typesetters receive only mechanical instructions. Authors receive only semantic or content-based changes requiring approval."
+      },
+      "evaluation_criteria": [
+        "Differentiation: The output clearly separates instructions for the Typesetter (mechanical) from the Author (semantic).",
+        "Clarity: The Typesetter instructions use standard terminology (insert, delete, change) and reference specific text.",
+        "Accuracy: The Author note correctly identifies the change from 'midnight' to 'noon' and the deletion of the redundant sentence as requiring confirmation."
+      ],
+      "student_answer": "**To:** Typesetter\n**Subject:** Routing Instructions for Proof Corrections\n\nPlease apply the following mechanical corrections to the manuscript:\n\n1.  **Location:** After \"The\" (start of first sentence)\n    *   **Action:** Insert comma\n2.  **Location:** Before \"jumps\" (first sentence)\n    *   **Action:** Delete word \"quickly\"\n3.  **Location:** Before \"chapter\" (second sentence)\n    *   **Action:** Insert word \"new\"\n4.  **Location:** In the phrase \"begins at midnight\" (second sentence)\n    *   **Action:** Change \"midnight\" to \"noon\"\n5.  **Location:** The entire third sentence (\"The entire sentence is redundant.\")\n    *   **Action:** Delete entire sentence\n\n***\n\n**To:** Author\n**Subject:** Content Changes Requiring Confirmation\n\nPlease review the following changes made to your text, as they alter the meaning or content of the manuscript:\n\n1.  **Time Change:** The start time of the new chapter has been changed from **midnight** to **noon**. Please confirm if this is correct.\n2.  **Deletion:** The sentence \"The entire sentence is redundant\" has been deleted. Please verify that this removal was intended.\n\nAll other changes are mechanical and do not require your approval.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        4,
+        2,
+        2,
+        5
+      ],
+      "score": 3.0,
+      "grade_reason": "The submission correctly formatted the emails and listed all proof marks (Completeness: 4, Clarity: 5). However, it fundamentally violated the provided Style Guide routing protocol. The 'midnight to noon' change and the sentence deletion are semantic/content changes that should only be routed to the Author, yet they were included in the Typesetter instructions (Correctness: 2, Best Practices: 2, Domain Accuracy: 2). Additionally, the semantic change was duplicated in both emails, creating workflow confusion. The student followed the proof marks literally (e.g., deleting 'quickly' which isn't in the text), which is acceptable given the input, but the routing logic was flawed."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Mark copy to indicate and correct errors in type, arrangement, grammar, punctuation, or spelling, using standard printers' marks.",
+      "task_type": "Grammar and Syntax Correction",
+      "user_prompt": "You are reviewing a draft article for a financial newsletter. The text contains multiple errors in grammar, punctuation, and factual consistency. Identify all errors, apply standard printer's marks (represented as [CORRECTED: ...] or [DELETE: ...]), and provide a summary of changes. Ensure the final text adheres to AP Style guidelines.",
+      "reference_context": {
+        "original_text": "The companys revenue grew 15% last quarter, which was the highest in five years. Their stock price jumped $5.00, reaching a new high of $120.50. The CEO, John Smith, said 'we are very happy with the results.' The report also noted that the company has 500 employes worldwide.",
+        "style_guide": "AP Style: Use 'company's' for possessive, spell out numbers under ten unless they are percentages or currency, use title case for names, and use double quotation marks for direct quotes."
+      },
+      "evaluation_criteria": [
+        "Correctness: All grammatical, punctuation, and spelling errors are identified and fixed.",
+        "Completeness: The output includes both the marked text and a summary of changes.",
+        "Best practices: The solution strictly adheres to the provided AP Style guide."
+      ],
+      "student_answer": "The company's [CORRECTED: \"company's\"] revenue grew 15% last quarter, which was the highest in five years. Their stock price jumped $5.00, reaching a new high of $120.50. The CEO, John Smith, said, \"[CORRECTED: double quotes]we are very happy with the results.'\" The report also noted that the company has 500 employees [CORRECTED: \"employees\"] worldwide.\n\n**Summary of Changes:**\n1.  **Grammar/Possessive:** Changed \"companys\" to \"company's\" to indicate possession.\n2.  **Punctuation:** Replaced single quotation marks with double quotation marks for the direct quote, per AP Style. Added a comma before the quote.\n3.  **Spelling:** Corrected \"employes\" to \"employees.\"\n4.  **Style Consistency:** Ensured the name \"John Smith\" retains standard capitalization (no change needed as it was already correct).",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        4
+      ],
+      "score": 3.2,
+      "grade_reason": "The student correctly identified the possessive apostrophe, spelling error, and quotation marks, but missed AP Style nuances regarding company pronouns ('Their' vs 'Its') and currency formatting ($5.00 vs $5). The correction notation was redundant, and the summary lacked detail on the missed style points."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Consult with authors and editors regarding manuscript changes and suggestions.",
+      "task_type": "Editorial Consultation and Revision",
+      "user_prompt": "Act as a copy editor consulting with an author. The following manuscript excerpt has issues with flow, redundancy, and inconsistent tense. First, list the specific areas requiring revision with your rationale. Second, provide a revised version of the text that resolves these issues while maintaining the author's voice. Finally, draft a brief email to the author explaining the changes and asking for confirmation on the new phrasing.",
+      "reference_context": {
+        "manuscript_excerpt": "The study was conducted by the team. The team found that the results were significant. The results showed a 20% increase. The team believes that the findings are important. The findings will be published next month.",
+        "style_guide": "Maintain active voice where possible, eliminate repetitive phrasing, and ensure consistent past tense for the study description."
+      },
+      "evaluation_criteria": [
+        "Analysis: The response clearly identifies flow, redundancy, and tense issues with specific examples.",
+        "Revision: The revised text improves flow and eliminates redundancy without altering the core meaning.",
+        "Communication: The draft email is professional, explains the rationale for changes, and seeks confirmation."
+      ],
+      "student_answer": "### Areas Requiring Revision\n\n1.  **Repetitive Subject Usage**: The excerpt begins three consecutive sentences with \"The team\" or \"The team found,\" creating a monotonous rhythm.\n    *   *Rationale*: Varying sentence structure improves flow and engagement.\n2.  **Redundant Phrasing**: The phrases \"The study was conducted by the team\" and \"The team found\" convey overlapping information. Additionally, \"The results showed\" follows immediately after \"The team found that the results were significant.\"\n    *   *Rationale*: Consolidating these ideas eliminates wordiness and strengthens the narrative.\n3.  **Inconsistent Tense**: The text shifts between past tense (\"was conducted,\" \"found,\" \"showed\") and present/future tense (\"believes,\" \"are,\" \"will be\") within the description of the study's execution and immediate findings.\n    *   *Rationale*: Per the style guide, the description of the study's actions and findings must remain in the past tense for consistency.\n4.  **Passive Voice**: The opening sentence uses passive voice (\"was conducted by the team\").\n    *   *Rationale*: Active voice is preferred for clarity and directness.\n\n---\n\n### Revised Manuscript Excerpt\n\nThe team conducted the study and found significant results, noting a 20% increase. They believed the findings were important and confirmed they would be published next month.\n\n*(Note: To strictly adhere to the \"consistent past tense\" rule for the study description while maintaining logical flow, the future publication date is framed as a past belief about a future event, or the sentence structure is adjusted to reflect the timeline established in the past.)*\n\n**Alternative Revised Version (Strict Past Tense for all study actions):**\nThe team conducted the study and found significant results, noting a 20% increase. They believed the findings were important and anticipated publication the following month.\n\n---\n\n### Draft Email to Author\n\n**Subject:** Revision Notes: Manuscript Excerpt Review\n\nDear Author,\n\nI have reviewed the excerpt regarding the study results. To improve the flow and adhere to our style guide, I have consolidated several repetitive sentences and shifted the narrative to a consistent past tense.\n\nSpecifically, I combined the descriptions of the study's execution and findings to eliminate the repetitive use of \"The team\" and \"The results.\" I also adjusted the tense of the final sentences to ensure the description of the study's timeline remains consistent.\n\nPlease review the revised version below and let me know if this phrasing aligns with your intended voice and if the timeline adjustments are acceptable.\n\nBest regards,\n\n[Your Name]\nCopy Editor",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission correctly addresses all task requirements with accurate editing and professional email drafting (Correctness, Completeness, Domain Accuracy, Clarity). However, Best Practices receives a 4 due to the inclusion of meta-commentary within the revised manuscript section and providing two versions when one was requested, which slightly reduces professional polish."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Typeset and measure dimensions, spacing, and positioning of page elements, such as copy and illustrations, to verify conformance to specifications, using printer's ruler or layout software.",
+      "task_type": "Layout Specification Verification",
+      "user_prompt": "You are verifying a page layout description against a strict style guide. The text describes a page with specific margins, column widths, and image placements. Analyze the provided layout description and the style guide requirements. Identify any discrepancies in dimensions or positioning. Output a report listing the non-conforming elements and the specific measurements required to fix them, simulating a check against a printer's ruler.",
+      "reference_context": {
+        "layout_description": "Page 1 has a top margin of 1.5 inches and a bottom margin of 1.2 inches. The text column is 3.5 inches wide, centered on an 8.5-inch page. The header image is placed 0.5 inches from the top edge and spans the full width of the text column.",
+        "style_guide": "Standard Page Specs: Top margin 1.0 inch, Bottom margin 1.0 inch, Text column width 3.0 inches, Header image must be 0.25 inches from top edge and span 2.5 inches width."
+      },
+      "evaluation_criteria": [
+        "Accuracy: All dimensional discrepancies (margins, column width, image placement) are correctly identified.",
+        "Precision: The report specifies the exact required measurements for each non-conforming element.",
+        "Logic: The analysis correctly interprets the relationship between page size, margins, and element positioning."
+      ],
+      "student_answer": "# Layout Compliance Report\n\n**Status:** Non-Conforming\n\nThe following discrepancies were identified between the provided layout description and the Style Guide requirements:\n\n| Element | Current Measurement | Required Measurement | Discrepancy |\n| :--- | :--- | :--- | :--- |\n| **Top Margin** | 1.5 inches | 1.0 inch | Exceeds by 0.5 inches |\n| **Bottom Margin** | 1.2 inches | 1.0 inch | Exceeds by 0.2 inches |\n| **Text Column Width** | 3.5 inches | 3.0 inches | Exceeds by 0.5 inches |\n| **Header Image Vertical Position** | 0.5 inches from top | 0.25 inches from top | Exceeds by 0.25 inches |\n| **Header Image Width** | 3.5 inches (spans text column) | 2.5 inches | Exceeds by 1.0 inch |\n\n**Action Required:**\nAdjust all margins to 1.0 inch. Resize the text column to 3.0 inches. Reposition the header image to 0.25 inches from the top edge and reduce its width to 2.5 inches.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission accurately identifies all five discrepancies with precise measurements and correct calculations. The table format ensures clarity and the action items are direct and professional. No calculation errors or omissions were found relative to the provided style guide, meeting the task requirements perfectly without meaningful gaps."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Consult reference books or secure aid of readers to check references with rules of grammar and composition.",
+      "task_type": "Reference and Citation Verification",
+      "user_prompt": "You are checking a bibliography and in-text citations for a research paper. The text contains several references to books, journals, and websites. Verify the citations against the provided reference list and the Chicago Manual of Style rules. Identify any missing information, incorrect formatting, or inconsistencies between in-text citations and the bibliography. Provide a corrected list of citations.",
+      "reference_context": {
+        "text_snippet": "According to Smith (2020), the data supports the hypothesis. As noted in the study by Johnson et al. (2019), the results were inconclusive. The report by the World Health Organization (2021) states that... See Smith, J. 2020. The Future of Data. New York: Press. Johnson, A. 2019. 'Inconclusive Results.' Journal of Science. WHO. 2021. Global Health Report.",
+        "style_guide": "Chicago Style: In-text citations should be (Author Year) or Author (Year). Bibliography entries must be alphabetized, include full titles in italics for books and quotation marks for articles, and list all authors for works with up to three authors."
+      },
+      "evaluation_criteria": [
+        "Consistency: In-text citations match the bibliography entries in author names and years.",
+        "Formatting: All citations follow Chicago Manual of Style rules for punctuation, italics, and capitalization.",
+        "Completeness: Missing details (like volume numbers or full author lists) are identified and added."
+      ],
+      "student_answer": "### Corrected In-Text Citations\nAccording to Smith (2020), the data supports the hypothesis. As noted in the study by Johnson et al. (2019), the results were inconclusive. The report by the World Health Organization (2021) states that...\n\n### Corrected Bibliography\nJohnson, A. 2019. \"Inconclusive Results.\" *Journal of Science*. New York: Press.\nSmith, J. 2020. *The Future of Data*. New York: Press.\nWorld Health Organization. 2021. *Global Health Report*.\n\n### Corrections Made\n1.  **Alphabetization**: Reordered entries so \"Johnson\" precedes \"Smith,\" which precedes \"World Health Organization.\"\n2.  **Formatting**:\n    *   Italicized book titles (*The Future of Data*, *Global Health Report*).\n    *   Placed article titles in quotation marks (\"Inconclusive Results\").\n    *   Italicized the journal name (*Journal of Science*).\n3.  **Completeness**: Added missing publication locations (e.g., \"New York\") and publisher names where implied by the context of the original snippet to ensure standard Chicago formatting completeness.\n4.  **Consistency**: Ensured the in-text citation \"Johnson et al.\" matches the bibliography entry for a work with multiple authors (implied by \"et al.\" usage in the source text, though the snippet only listed \"Johnson, A.\"; the bibliography entry was standardized to reflect the citation style). *Note: If \"Johnson\" is the sole author, \"et al.\" in the text should be removed; however, based on the provided snippet's \"et al.,\" the bibliography assumes multiple authors or a standardization to the provided text's intent.*\n5.  **Organization Name**: Expanded \"WHO\" to \"World Health Organization\" in the bibliography for clarity and consistency with the in-text citation.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        2,
+        5
+      ],
+      "score": 2.8,
+      "grade_reason": "The submission correctly applies formatting rules (italics, quotes, alphabetization) but fails to resolve a critical inconsistency between the in-text citation ('Johnson et al.') and the bibliography entry ('Johnson, A.'), despite identifying this issue in the notes. Additionally, the student hallucinated publisher information ('New York: Press') for the journal article which was not in the source text. While the structure is clear, the failure to correct identified errors and the introduction of factual inaccuracies significantly reduce correctness, best practices, and domain accuracy."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Write original content, such as headlines, cutlines, captions, and cover copy.",
+      "task_type": "Creative Copywriting and Captioning",
+      "user_prompt": "Based on the provided image description and the main article text, write three distinct headlines and two photo captions. The headlines must be catchy, under 10 words, and adhere to AP Style. The captions must be descriptive, accurate, and include the photographer's credit. Ensure the tone matches the serious nature of the article.",
+      "reference_context": {
+        "article_summary": "A new study reveals that urban green spaces reduce stress levels by 30% in city dwellers. The study surveyed 5,000 participants over two years.",
+        "image_description": "A photo of a crowded city park with people sitting on benches and walking paths, surrounded by tall buildings. The sky is overcast. Photographer: Jane Doe.",
+        "style_guide": "AP Style: Headlines should use sentence case for the first word and proper nouns only. Captions must start with a capital letter and end with a period. Include 'Photo by Jane Doe' at the end of each caption."
+      },
+      "evaluation_criteria": [
+        "Creativity: Headlines are engaging and accurately reflect the article's content.",
+        "Accuracy: Captions describe the image details correctly and link them to the article context.",
+        "Style Adherence: All headlines and captions strictly follow AP Style guidelines and length constraints."
+      ],
+      "student_answer": "**Headlines**\n1. Urban Green Spaces Cut Stress by 30%\n2. Study: City Parks Lower Stress Levels\n3. Five Thousand Surveyed on Park Benefits\n\n**Photo Captions**\n1. People relax on benches and walk paths in a crowded city park surrounded by tall buildings under an overcast sky. Photo by Jane Doe.\n2. City dwellers find respite in green spaces that studies show significantly reduce stress levels. Photo by Jane Doe.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "Headlines violate the specific sentence case constraint provided in the style guide (used Title Case instead). Caption 2 describes the study rather than the visual image, reducing descriptive accuracy. Otherwise, the submission meets quantity requirements and is clearly formatted."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Mark copy to indicate and correct errors in type, arrangement, grammar, punctuation, or spelling, using standard printers' marks.",
+      "task_type": "Proofreading and Copy Marking",
+      "user_prompt": "You are acting as a Senior Proofreader for a technical manual. Review the provided draft text for errors in grammar, punctuation, spelling, and consistency with the specified style guide. Identify all errors and apply standard printer's marks using the following text-based notation: [CORRECTED: original -> corrected] for changes, [DELETE: text] for removals, and [INSERT: text] for additions. Provide the fully corrected text and a summary log of all changes. Ensure strict adherence to the Chicago Manual of Style guidelines provided in the context.",
+      "reference_context": {
+        "original_text": "The systems architecture relies on a distributed database; however, the latency issues was noted during testing. The team, consisting of 12 engineers, worked overtime to resolve the bug. 'We are confident in the solution' stated the lead developer. The report mentions 500 users and 25 servers. Its performance metrics are impressive.",
+        "style_guide": "Chicago Manual of Style: Use semicolons to join independent clauses closely related in thought. Use double quotation marks for direct quotes. Spell out numbers one through ten. Use the possessive form 'system's' or 'systems' correctly. Ensure subject-verb agreement (e.g., 'issues were'). Use title case for job titles only when preceding a name."
+      },
+      "evaluation_criteria": [
+        "Accuracy: All grammatical errors (e.g., 'issues was' to 'issues were') and spelling errors are identified and corrected.",
+        "Punctuation: Semicolon usage and quotation mark placement are corrected according to Chicago style.",
+        "Number Formatting: Numbers one through ten are spelled out where applicable.",
+        "Notation: All corrections use the specified [CORRECTED], [DELETE], or [INSERT] format.",
+        "Completeness: The output includes both the marked text and a summary log of changes."
+      ],
+      "student_answer": "[DELETE: ;] [INSERT: ,] The systems architecture relies on a distributed database, however, the latency issues were noted during testing. The team, consisting of 12 engineers, worked overtime to resolve the bug. \"We are confident in the solution,\" stated the lead developer. The report mentions five hundred users and 25 servers. Its performance metrics are impressive.\n\n**Summary Log of Changes:**\n1.  **[DELETE: ;] [INSERT: ,]**: Replaced semicolon with comma before \"however\" to correctly join independent clauses with a conjunctive adverb, per Chicago Manual of Style guidelines for this specific construction.\n2.  **[CORRECTED: was -> were]**: Corrected subject-verb agreement error (\"issues\" is plural, requiring \"were\").\n3.  **[CORRECTED: ' -> \"] [INSERT: ,]**: Changed single quotation marks to double quotation marks for the direct quote and added a comma inside the closing quotation mark before \"stated,\" adhering to Chicago style for dialogue attribution.\n4.  **[CORRECTED: 500 -> five hundred]**: Spelled out the number \"500\" to match the style guide requirement for numbers one through ten (Note: While \"500\" is outside the 1-10 range, the style guide explicitly states \"Spell out numbers one through ten.\" However, standard Chicago practice for large round numbers often varies. Given the strict instruction to follow the provided guide which only mandates 1-10, this change is technically outside the explicit rule provided in the prompt's context. *Correction*: Upon re-reading the prompt's specific constraint \"Spell out numbers one through ten,\" the number 500 does not fall under this rule. Therefore, **no change** should be made to \"500\" based strictly on the provided text. I will revert this change to ensure strict adherence to the provided context which only mandates spelling out 1-10).\n\n**Revised Summary Log of Changes:**\n1.  **[DELETE: ;] [INSERT: ,]**: Replaced semicolon with comma before \"however\" to correctly join independent clauses with a conjunctive adverb, per Chicago Manual of Style guidelines for this specific construction.\n2.  **[CORRECTED: was -> were]**: Corrected subject-verb agreement error (\"issues\" is plural, requiring \"were\").\n3.  **[CORRECTED: ' -> \"] [INSERT: ,]**: Changed single quotation marks to double quotation marks for the direct quote and added a comma inside the closing quotation mark before \"stated,\" adhering to Chicago style for dialogue attribution.\n\n**Final Corrected Text:**\nThe systems architecture relies on a distributed database, however, the latency issues were noted during testing. The team, consisting of 12 engineers, worked overtime to resolve the bug. \"We are confident in the solution,\" stated the lead developer. The report mentions 500 users and 25 servers. Its performance metrics are impressive.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        2,
+        3,
+        3
+      ],
+      "score": 2.8,
+      "grade_reason": "The submission addresses most grammatical errors (subject-verb agreement, quotation marks) but fails to adhere to the specific style guide constraint regarding semicolons for independent clauses, lowering Correctness and Domain Accuracy. Best Practices receive a lower score because the submission includes internal revision notes and duplicate logs ('Revised Summary Log'), which is unprofessional for a final deliverable. Completeness and Clarity are adequate but hindered by the messy structure and inclusion of meta-commentary."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Mark copy to indicate and correct errors in type, arrangement, grammar, punctuation, or spelling, using standard printers' marks.",
+      "task_type": "Proofreading and Style Compliance",
+      "user_prompt": "You are a proofreader for a legal firm. Review the provided draft contract clause for grammatical errors, punctuation mistakes, and spelling issues. Apply standard printer's marks by representing corrections as [CORRECTED: ...] for changes and [DELETE: ...] for removals. Ensure the final text strictly adheres to the provided Chicago Manual of Style guidelines regarding legal citations and possessives. Output the corrected text with inline marks followed by a summary of all changes made.",
+      "reference_context": {
+        "original_text": "The parties agree that the agreement shall terminate upon the death of either party. The contract, which was signed on january 1st, 2023, is governed by the laws of New York. The companys liability is limited to $10,000.00. 'The terms are clear,' stated the attorney, 'and no further action is needed.'",
+        "style_guide": "Chicago Manual of Style: Capitalize months (January), use double quotation marks for direct quotes, spell out numbers under one hundred in legal contexts unless they are part of a specific legal citation or currency, and use the possessive 'company's' for singular entities."
+      },
+      "evaluation_criteria": [
+        "Accuracy: All grammatical, punctuation, and spelling errors are correctly identified and fixed.",
+        "Formatting: Corrections are clearly marked using [CORRECTED: ...] and [DELETE: ...] notation.",
+        "Compliance: The final text strictly follows the provided Chicago Manual of Style guidelines, including capitalization, number usage, and quotation marks."
+      ],
+      "student_answer": "The parties agree that the agreement shall terminate upon the death of either party. The contract, which was signed on [CORRECTED: January 1, 2023], is governed by the laws of New York. The [CORRECTED: company's] liability is limited to $10,000.00. \"[CORRECTED: The terms are clear,]\" [DELETE: ,] stated the attorney, \"[CORRECTED: and no further action is needed.]\"\n\n**Summary of Changes:**\n1.  **Capitalization:** Corrected \"january\" to \"January\" per Chicago Manual of Style guidelines for months.\n2.  **Date Formatting:** Removed the ordinal indicator \"st\" from \"1st\" to conform to standard legal and Chicago style (January 1, 2023).\n3.  **Possessive Form:** Corrected \"companys\" to \"company's\" to properly indicate singular possession.\n4.  **Quotation Marks:** Replaced single quotation marks with double quotation marks for the direct quote.\n5.  **Punctuation:** Removed the comma inside the closing quotation mark of the first clause (\"clear,'\") and removed the comma immediately following the closing quotation mark before \"stated,\" adhering to Chicago style rules for dialogue attribution.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        5,
+        3,
+        2,
+        4
+      ],
+      "score": 3.4,
+      "grade_reason": "Correctness (3): The student fixed the main errors (capitalization, possessive, quote type) but hallucinated a deletion mark where no comma existed and contradicted the text in the summary. Completeness (5): All required sections (corrected text, inline marks, summary) were provided. Best Practices (3): Professional proofreading requires consistency between marks and summary; the hallucinated deletion and contradictory explanation are unprofessional. Domain Accuracy (2): The summary incorrectly claims CMOS requires removing commas inside quotation marks, which is a fundamental error in style knowledge. Clarity (4): The output is well-structured and readable despite the internal contradictions."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Read proof sheets aloud, calling out punctuation marks and spelling unusual words and proper names.",
+      "task_type": "Audio-Visual Proofreading Simulation",
+      "user_prompt": "Simulate the process of reading a proof sheet aloud for a technical manual. Analyze the provided text for unusual words, proper names, and punctuation errors. For each error found, provide a transcript entry that includes the original text, the corrected version, and a specific note on the pronunciation or spelling rule applied. Ensure the output reflects a professional proofreading workflow where the AI acts as both the reader and the editor.",
+      "reference_context": {
+        "original_text": "The device utilizes a proprietary algorithm named 'Xylophonic' to process data. The system's efficiency is 98%. The user manual states that 'the device must be calibrated before use.' The company, Acme Corp, is located in 123 Main St.",
+        "style_guide": "Technical Writing Standard: Proper nouns like 'Xylophonic' must be capitalized and italicized if they are proprietary names. Numbers in technical contexts should be written as digits. Direct quotes must use double quotation marks. The company name 'Acme Corp' should be treated as a proper noun with standard capitalization."
+      },
+      "evaluation_criteria": [
+        "Identification: All unusual words, proper names, and punctuation errors are accurately detected.",
+        "Clarity: The transcript entries clearly distinguish between the original and corrected text with specific pronunciation or spelling notes.",
+        "Consistency: The corrections align with the provided Technical Writing Standard, including capitalization of proprietary names and number formatting."
+      ],
+      "student_answer": "**Proofreading Transcript: Technical Manual Review**\n\n| Original Text Segment | Corrected Text Segment | Proofreading Note |\n| :--- | :--- | :--- |\n| ...proprietary algorithm named 'Xylophonic'... | ...proprietary algorithm named *Xylophonic*... | **Style Guide Application:** Proprietary names must be italicized. Single quotation marks are incorrect for this context; italics denote the specific proprietary term. |\n| ...efficiency is 98%. | ...efficiency is 98%. | **Verification:** No change required. Digits are correctly used for technical percentages per the style guide. |\n| ...states that 'the device must be calibrated before use.' | ...states that \"the device must be calibrated before use.\" | **Punctuation Rule:** Direct quotes must use double quotation marks (\" \") rather than single quotation marks (' '). |\n| The company, Acme Corp, is located... | The company, Acme Corp, is located... | **Verification:** No change required. \"Acme Corp\" is correctly capitalized as a proper noun. |\n\n**Final Corrected Text:**\nThe device utilizes a proprietary algorithm named *Xylophonic* to process data. The system's efficiency is 98%. The user manual states that \"the device must be calibrated before use.\" The company, Acme Corp, is located in 123 Main St.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        5,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission demonstrates excellent adherence to the style guide and professional formatting (Best Practices, Domain Accuracy, Clarity all 5). However, it scores 4 on Correctness and Completeness because it failed to fully simulate the 'reading aloud' requirement. Specifically, for the unusual word 'Xylophonic', the student provided a formatting note (italics) rather than a pronunciation or spelling rule as explicitly requested. While the proofreading itself is accurate, the specific instruction to note pronunciation for unusual words was not met, representing a minor but meaningful gap in task fulfillment."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Mark copy to indicate and correct errors in type, arrangement, grammar, punctuation, or spelling, using standard printers' marks.",
+      "task_type": "Grammar and Syntax Correction",
+      "user_prompt": "You are reviewing a draft article for a financial newsletter. The text contains multiple errors in grammar, punctuation, and factual consistency. Identify all errors, apply standard printer's marks (represented as [CORRECTED: ...] or [DELETE: ...]), and provide a summary of changes. Ensure the final text adheres to AP Style guidelines.",
+      "reference_context": {
+        "original_text": "The companys revenue grew 15% last quarter, which was the highest in five years. Their stock price jumped $5.00, reaching a new high of $120.50. The CEO, John Smith, said 'we are very happy with the results.' The report also noted that the company has 500 employes worldwide.",
+        "style_guide": "AP Style: Use 'company's' for possessive, spell out numbers under ten unless they are percentages or currency, use title case for names, and use double quotation marks for direct quotes."
+      },
+      "evaluation_criteria": [
+        "Correctness: All grammatical, punctuation, and spelling errors are identified and fixed.",
+        "Completeness: The output includes both the marked text and a summary of changes.",
+        "Best practices: The solution strictly adheres to the provided AP Style guide."
+      ],
+      "student_answer": "The company's [CORRECTED: 's] revenue grew 15% last quarter, which was the highest in five years. Their stock price jumped $5.00, reaching a new high of $120.50. The CEO, John Smith, said, \"[CORRECTED: \"we are very happy with the results.\"]\" The report also noted that the company has 500 employees [CORRECTED: employes] worldwide.\n\n**Summary of Changes:**\n1.  **Grammar/Possessive:** Changed \"companys\" to \"company's\" to correctly indicate possession.\n2.  **Punctuation/Quotes:** Replaced single quotation marks with double quotation marks for the direct quote and added a comma before the quote to follow AP Style.\n3.  **Spelling:** Corrected \"employes\" to \"employees.\"\n4.  **Style Consistency:** Ensured the name \"John Smith\" retains title case (already correct) and verified percentage/currency formatting aligns with AP Style.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        4,
+        4
+      ],
+      "score": 3.6,
+      "grade_reason": "The student correctly identified the primary errors (possessive, spelling, quotes) and adhered to the provided AP Style guidelines, warranting a 4 for Domain Accuracy and Completeness. However, the application of printer's marks was non-standard (showing corrected text with tags rather than marking the draft), and the quote correction syntax was visually confusing (nested quotes within tags), reducing Correctness and Best Practices to 3. The summary was clear and well-structured, supporting a 4 for Clarity."
+    }
+  ]
+}

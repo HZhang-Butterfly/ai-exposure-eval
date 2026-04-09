@@ -1,0 +1,69 @@
+{
+  "job_id": "claims_proc",
+  "job_title": "Insurance Claims and Policy Processing Clerks",
+  "onet_code": "43-9041.00",
+  "role_description": "Senior Claims Adjudicator and Compliance Specialist",
+  "task_types": "Claims Documentation & Review / Coverage Analysis & Calculation / Data Entry & Record Management / Stakeholder Communication / Policy Administration",
+  "onet_tasks": [
+    "Prepare insurance claim forms or related documents, and review them for completeness.",
+    "Calculate amount of claim.",
+    "Post or attach information to claim file.",
+    "Transmit claims for payment or further investigation.",
+    "Contact insured or other involved persons to obtain missing information.",
+    "Review insurance policy to determine coverage.",
+    "Process and record new insurance policies and claims.",
+    "Organize or work with detailed office or warehouse records, using computers to enter, access, search or retrieve data.",
+    "Provide customer service, such as limited instructions on proceeding with claims or referrals to auto repair facilities or local contractors.",
+    "Correspond with insured or agent to obtain information or to inform them of account status or changes."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must strictly adhere to standard insurance policy exclusions and deductibles",
+    "Requirement 6: Communication must maintain professional tone and regulatory compliance",
+    "Requirement 7: Data handling must ensure PII (Personally Identifiable Information) is masked or handled securely"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Review insurance policy to determine coverage.",
+    "task_type": "Coverage Analysis & Calculation",
+    "user_prompt": "Analyze the provided policy document and claim details to determine if the loss is covered. Calculate the payable amount after applying the deductible and policy limits. If coverage is denied, cite the specific exclusion clause. If approved, draft a formal notification letter to the insured.",
+    "reference_context": {
+      "policy_id": "POL-2023-8842",
+      "policy_type": "Commercial General Liability",
+      "coverage_limits": {
+        "per_occurrence": 1000000,
+        "general_aggregate": 2000000
+      },
+      "deductible": 2500,
+      "exclusions": [
+        "Intentional acts",
+        "Pollution",
+        "Contractual liability not assumed in writing"
+      ],
+      "claim_details": {
+        "incident_date": "2023-10-15",
+        "incident_type": "Slip and fall on premises",
+        "damages_claimed": 15000,
+        "injuries": "Minor back strain",
+        "evidence": "Security footage shows wet floor with no signage"
+      }
+    },
+    "evaluation_criteria": [
+      "Correctness: Is the coverage determination accurate based on the provided policy text?",
+      "Completeness: Did the model calculate the deductible and limits correctly and address all parts of the prompt?",
+      "Best practices: Is the output structured logically with clear citations to policy clauses?"
+    ]
+  },
+  "grading_notes": "Verify that the model correctly identifies the 'wet floor' incident as a covered premises liability claim rather than an intentional act. Ensure the deductible is subtracted from the claimed amount before checking against limits. Check that the generated letter does not admit liability beyond the policy terms.",
+  "grading_rubric_template": [
+    "1. Accuracy: Is the coverage determination and financial calculation mathematically and legally correct based on the policy?",
+    "2. Completeness: Are all required components (calculation, citation, correspondence) included in the response?",
+    "3. Compliance: Does the output adhere to insurance regulations and avoid unauthorized admissions of liability?",
+    "4. Professionalism: Is the tone appropriate for formal business communication with an insured party?",
+    "5. Clarity: Is the reasoning for the decision clearly explained and easy to follow?"
+  ],
+  "grading_scale_max": 5
+}

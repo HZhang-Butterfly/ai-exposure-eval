@@ -1,0 +1,58 @@
+{
+  "job_id": "bcp_planner",
+  "job_title": "Business Continuity Planners",
+  "onet_code": "13-1199.04",
+  "role_description": "Senior Business Continuity Manager and Risk Assessment Specialist",
+  "task_types": "Emergency Plan Development / Disaster Recovery Strategy / Impact Analysis & RTO Definition / Testing & Validation Reporting / Scenario Design & Call Tree Management",
+  "onet_tasks": [
+    "Develop emergency management plans for recovery decision making and communications, continuity of critical departmental processes, or temporary shut-down of non-critical departments to ensure continuity of operation and governance.",
+    "Develop disaster recovery plans for physical locations with critical assets, such as data centers.",
+    "Test documented disaster recovery strategies and plans.",
+    "Analyze impact on, and risk to, essential business functions or information systems to identify acceptable recovery time periods and resource requirements.",
+    "Write reports to summarize testing activities, including descriptions of goals, planning, scheduling, execution, results, analysis, conclusions, and recommendations.",
+    "Review existing disaster recovery, crisis management, or business continuity plans.",
+    "Create scenarios to reestablish operations from various types of business disruptions.",
+    "Establish, maintain, or test call trees to ensure appropriate communication during disaster.",
+    "Conduct or oversee contingency plan integration and operation.",
+    "Identify opportunities for strategic improvement or mitigation of business interruption and other risks caused by business, regulatory, or industry-specific change initiatives."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly define Recovery Time Objectives (RTO) and Recovery Point Objectives (RPO) based on provided data",
+    "Requirement 6: Communication protocols must include specific escalation paths and contact verification steps",
+    "Requirement 7: Risk assessments must quantify impact in terms of financial loss or operational downtime"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Analyze impact on, and risk to, essential business functions or information systems to identify acceptable recovery time periods and resource requirements.",
+    "task_type": "Impact Analysis & RTO Definition",
+    "user_prompt": "You are a Business Continuity Planner. A regional bank is undergoing a digital transformation that introduces new cloud-based transaction processing. Based on the provided system architecture and business impact data, identify the critical functions, calculate the maximum tolerable downtime (MTD), and propose specific RTO and RPO values for the core transaction engine. Justify your choices based on regulatory requirements and customer impact.",
+    "reference_context": {
+      "system_architecture": "Primary database in Region A (US-East), Secondary in Region B (US-West), Cloud API Gateway, Mobile App Frontend",
+      "business_impact_data": {
+        "transaction_latency_increase": "200ms causes 5% customer churn",
+        "downtime_cost_per_minute": "$15,000",
+        "regulatory_requirement": "Transactions must be recoverable within 15 minutes of failure"
+      },
+      "current_rpo": "4 hours",
+      "current_rto": "24 hours"
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Are the RTO and RPO values logically derived from the provided constraints and regulatory limits?",
+      "Criterion 2: Completeness — Did the response identify all critical functions and address both financial and operational impacts?",
+      "Criterion 3: Best practices — Is the proposed solution aligned with industry standards for financial sector continuity?"
+    ]
+  },
+  "grading_notes": "Check that the AI does not simply repeat the provided RTO/RPO but calculates new targets based on the '15-minute regulatory requirement' and 'customer churn' data. Ensure the response distinguishes between MTD, RTO, and RPO correctly. Verify that the solution addresses the specific risk of the cloud migration (single point of failure in Region A).",
+  "grading_rubric_template": [
+    "1. Accuracy of Risk Analysis: Does the solution correctly interpret the business impact data and regulatory constraints to derive valid RTO/RPO values?",
+    "2. Completeness of Continuity Strategy: Are all critical functions identified and is a comprehensive recovery strategy proposed?",
+    "3. Alignment with Best Practices: Is the plan consistent with ISO 22301 or NIST SP 800-34 standards for business continuity?",
+    "4. Strategic Justification: Are the recommendations clearly justified with logical reasoning linking risks to specific mitigation actions?",
+    "5. Clarity and Structure: Is the output well-organized, professional, and easy for stakeholders to understand?"
+  ],
+  "grading_scale_max": 5
+}

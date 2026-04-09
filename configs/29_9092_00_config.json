@@ -1,0 +1,54 @@
+{
+  "job_id": "gen_counselor",
+  "job_title": "Genetic Counselors",
+  "onet_code": "29-9092.00",
+  "role_description": "Senior Genetic Counselor and Clinical Ethics Reviewer",
+  "task_types": "Clinical Risk Assessment / Patient Communication & Counseling / Medical Record Analysis / Treatment Coordination / Ethical Decision Support",
+  "onet_tasks": [
+    "Interpret laboratory results and communicate findings to patients or physicians.",
+    "Discuss testing options and the associated risks, benefits and limitations with patients and families to assist them in making informed decisions.",
+    "Analyze genetic information to identify patients or families at risk for specific disorders or syndromes.",
+    "Provide counseling to patient and family members by providing information, education, or reassurance.",
+    "Write detailed consultation reports to provide information on complex genetic concepts to patients or referring physicians.",
+    "Provide genetic counseling in specified areas of clinical genetics, such as obstetrics, pediatrics, oncology and neurology.",
+    "Determine or coordinate treatment plans by requesting laboratory services, reviewing genetics or counseling literature, and considering histories or diagnostic data.",
+    "Interview patients or review medical records to obtain comprehensive patient or family medical histories, and document findings.",
+    "Assess patients' psychological or emotional needs, such as those relating to stress, fear of test results, financial issues, and marital conflicts to make referral recommendations or assist patients in managing test outcomes.",
+    "Provide patients with information about the inheritance of conditions such as cardiovascular disease, Alzheimer's disease, diabetes, and various forms of cancer."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic clinical scenarios, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary medical context and family history data",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve) requiring synthesis of complex data",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Responses must adhere to HIPAA privacy standards and avoid generating specific medical diagnoses without disclaimers",
+    "Requirement 6: Solutions must demonstrate empathy and cultural sensitivity in patient communication",
+    "Requirement 7: Genetic risk calculations must follow standard Mendelian inheritance patterns or established clinical guidelines"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Analyze genetic information to identify patients or families at risk for specific disorders or syndromes.",
+    "task_type": "Clinical Risk Assessment",
+    "user_prompt": "Given the following family pedigree and patient history, identify the most likely mode of inheritance for the observed condition and calculate the recurrence risk for the patient's future children. Provide a summary of the reasoning based on the provided data.",
+    "reference_context": {
+      "patient_age": 34,
+      "family_history": "Patient's mother diagnosed with Breast Cancer at 45. Patient's maternal aunt diagnosed with Ovarian Cancer at 48. Patient's father has no history of cancer. Patient has two healthy children.",
+      "lab_results": "BRCA1 sequencing pending; Family history suggests high risk.",
+      "pedigree_data": "3 generations, 2 affected females on maternal side, no male affected."
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Does the identified inheritance pattern match the clinical data?",
+      "Criterion 2: Completeness — Did it address recurrence risk, mode of inheritance, and reasoning?",
+      "Criterion 3: Best practices — Is the tone appropriate for a clinical report and does it cite standard guidelines?"
+    ]
+  },
+  "grading_notes": "Check for accurate application of Mendelian genetics, ensure the AI does not provide a definitive diagnosis without testing confirmation, verify that the recurrence risk calculation accounts for the specific family structure, and ensure the response avoids insensitive language regarding genetic conditions.",
+  "grading_rubric_template": [
+    "1. Clinical Accuracy: Does the solution correctly interpret genetic data and inheritance patterns?",
+    "2. Completeness: Are all aspects of the case (risk, counseling, referrals) addressed?",
+    "3. Communication Quality: Is the explanation clear, empathetic, and suitable for the intended audience?",
+    "4. Ethical Compliance: Does the response adhere to privacy standards and avoid overstepping into definitive diagnosis?",
+    "5. Reasoning Clarity: Is the logic behind the risk assessment transparent and well-structured?"
+  ],
+  "grading_scale_max": 5
+}

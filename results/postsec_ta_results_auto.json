@@ -1,0 +1,701 @@
+{
+  "meta": {
+    "job_title": "Teaching Assistants, Postsecondary",
+    "job_id": "postsec_ta",
+    "onet_code": "25-9044.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 20,
+    "evaluated_tasks": 20,
+    "batches": 4,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 4.74,
+      "dimensions": {
+        "Correctness": 4.61,
+        "Completeness": 4.78,
+        "Best Practices": 4.78,
+        "Domain Accuracy": 4.61,
+        "Clarity": 4.94
+      },
+      "evaluated_tasks": 20,
+      "scale_max": 5
+    },
+    "total_time_seconds": 1771.45
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Evaluate and grade examinations, assignments, or papers, and record grades.",
+      "task_type": "Grading and Assessment",
+      "user_prompt": "You are a Teaching Assistant for an introductory Computer Science course. A student submitted a final project on 'Data Structures' that contains a critical logic error in their sorting algorithm, but their documentation is excellent. Draft a comprehensive feedback email to the student that: 1) Acknowledges their strong documentation, 2) Clearly explains the logic error using specific code references, 3) Provides a hint on how to fix it without giving the solution, and 4) Assigns a provisional grade of 72/100 with a breakdown of points lost. Ensure the tone is supportive yet firm on academic standards.",
+      "reference_context": {
+        "student_submission_summary": "Code implements Bubble Sort instead of Merge Sort; Documentation covers time complexity analysis and usage instructions perfectly.",
+        "course_grading_scale": "A: 90-100, B: 80-89, C: 70-79, D: 60-69, F: <60",
+        "rubric_weights": {
+          "Code Functionality": 50,
+          "Documentation": 30,
+          "Code Style": 20
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the feedback accurately identify the algorithmic error?",
+        "Criterion 2: Completeness — Are all four requirements of the prompt (acknowledgment, explanation, hint, grade) met?",
+        "Criterion 3: Best practices — Is the tone pedagogical, constructive, and aligned with university grading policies?"
+      ],
+      "student_answer": "Subject: Feedback on Final Project: Data Structures Implementation\n\nDear [Student Name],\n\nThank you for submitting your final project on Data Structures. I have completed my review of your work, and I am writing to provide you with detailed feedback and your provisional grade.\n\n**Strengths: Documentation**\nFirst, I want to commend the exceptional quality of your documentation. Your analysis of time complexity is thorough, precise, and demonstrates a deep understanding of the theoretical underpinnings of sorting algorithms. Furthermore, your usage instructions are clear, well-structured, and easy to follow. This section of your project is outstanding and reflects significant effort.\n\n**Critical Issue: Code Functionality**\nWhile the documentation is excellent, there is a critical logic error in the implementation that affects the core functionality of the assignment. The project requirements explicitly asked for a **Merge Sort** implementation; however, the code in `sort_algorithm.py` (specifically lines 12–45) implements a **Bubble Sort** algorithm.\n\nThe logic error is evident in the nested loop structure where elements are compared and swapped based on adjacent indices, rather than the divide-and-conquer recursive approach required for Merge Sort. Consequently, the algorithm fails to meet the functional requirements of the assignment, resulting in a significant deduction in the \"Code Functionality\" category.\n\n**Guidance for Revision**\nTo address this, I encourage you to revisit the divide-and-conquer paradigm. Instead of iterating through the array to swap adjacent elements, consider how you can split the input array into two halves, recursively sort those halves, and then merge the results. Focus on implementing the `merge` function correctly, as this is the core mechanism that distinguishes Merge Sort from Bubble Sort.\n\n**Provisional Grade Breakdown**\nBased on the current submission, your provisional grade is **72/100 (C)**. Here is the breakdown:\n\n*   **Code Functionality (50 points):** 15/50\n    *   *Deduction:* The algorithm implemented does not match the required specification (Bubble Sort vs. Merge Sort).\n*   **Documentation (30 points):** 30/30\n    *   *Full credit awarded for excellent analysis and clarity.*\n*   **Code Style (20 points):** 20/20\n    *   *Full credit awarded for clean, readable, and well-formatted code.*\n\n**Next Steps**\nWhile the documentation and style are exemplary, academic standards require that the code must function according to the specific algorithmic constraints of the assignment. If you are able to correct the logic error and re-implement the Merge Sort algorithm, please submit the revised version by [Date] for a grade reassessment.\n\nI appreciate your hard work on this project and your strong grasp of the theoretical concepts. I look forward to seeing your corrected implementation.\n\nBest regards,\n\n[Your Name]\nTeaching Assistant\nIntroductory Computer Science Course",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        5,
+        5,
+        3,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission meets all structural and tonal requirements (Completeness, Best Practices, Clarity). However, there is a critical calculation error in the grade breakdown (15+30+20=65, not 72), which undermines the correctness of the grading logic and domain accuracy regarding academic standards."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Lead discussion sections, tutorials, or laboratory sections.",
+      "task_type": "Instructional Facilitation",
+      "user_prompt": "You are leading a laboratory section for 'Organic Chemistry I' where students are struggling to visualize stereochemistry in chiral molecules. The lab manual instructions are too abstract. Design a 45-minute interactive lab activity plan that includes: 1) A specific hands-on demonstration using molecular modeling kits to distinguish enantiomers, 2) Three guided inquiry questions to prompt critical thinking about spatial arrangement, and 3) A safety briefing specific to handling the chemical reagents used in the subsequent experiment. Ensure the activity accommodates students with visual impairments by describing tactile modeling techniques.",
+      "reference_context": {
+        "lab_topic": "Stereochemistry and Chirality",
+        "available_materials": "Molecular modeling kits, whiteboard, safety goggles, gloves, ethanol samples",
+        "safety_protocols": "Standard PPE required; ethanol is flammable; no ingestion or direct skin contact without gloves."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Pedagogical Effectiveness — Does the activity directly address the specific learning difficulty (visualizing stereochemistry)?",
+        "Criterion 2: Inclusivity — Are accommodations for visual impairments clearly described and practical?",
+        "Criterion 3: Safety Compliance — Is the safety briefing accurate and specific to the materials listed?"
+      ],
+      "student_answer": "# Lab Activity Plan: Visualizing Chirality and Enantiomers\n**Course:** Organic Chemistry I  \n**Duration:** 45 Minutes  \n**Instructor:** Teaching Assistant  \n\n---\n\n### 1. Hands-On Demonstration: The \"Handshake\" Challenge (20 Minutes)\n**Objective:** Physically construct and distinguish non-superimposable mirror images using molecular modeling kits.\n\n**Procedure:**\n1.  **Construction:** Students will build two distinct models of 2-chlorobutane using the provided kits.\n    *   **Model A:** Construct the (R)-enantiomer.\n    *   **Model B:** Construct the (S)-enantiomer.\n    *   *Note:* Use distinct colors for Carbon (black), Hydrogen (white), Chlorine (green), and Methyl groups (red).\n2.  **The Mirror Test:** Place a small mirror vertically between the two models. Students must observe that the reflection of Model A perfectly matches Model B, confirming they are mirror images.\n3.  **The Superimposition Test:** Students attempt to stack Model A directly on top of Model B. They must rotate the models in 3D space to see that the atoms (specifically the Chlorine and Hydrogen on the chiral center) cannot align simultaneously.\n4.  **Tactile Adaptation (Visual Impairment Accommodation):**\n    *   **Texture Coding:** Assign specific tactile markers to atoms. For example, smooth spheres for Carbon, rough-textured spheres for Chlorine, and small rubber bands wrapped around Hydrogen atoms.\n    *   **Spatial Mapping:** Instructors will guide students to hold the chiral center in the palm of their hand. Students will feel the \"handedness\" by tracing the path from the highest priority group (Chlorine) to the second (Methyl) to the third (Ethyl).\n    *   **Verbal-Physical Cue:** The instructor will describe the spatial arrangement (\"Chlorine is pointing up, Methyl is to your left\") while the student rotates the model to match the verbal description, reinforcing the 3D structure through kinesthetic feedback.\n\n### 2. Guided Inquiry Questions (10 Minutes)\n*Students will discuss these questions in pairs after the demonstration.*\n\n1.  **Spatial Arrangement:** \"If you swap any two groups attached to the chiral center in your (R)-model, what happens to the relationship between your original model and the new one? Does it remain a mirror image, or does it become identical to the original?\"\n2.  **Symmetry Analysis:** \"Examine the plane of symmetry in your models. Can you identify a plane that divides the molecule into two identical halves? How does the presence or absence of this plane determine whether the molecule is chiral or achiral?\"\n3.  **Real-World Application:** \"Consider the ethanol sample used in the next experiment. While ethanol is achiral, many pharmaceutical drugs are chiral. Based on your modeling experience, why might a biological system (like an enzyme) distinguish between two enantiomers of a drug even if they have the same chemical formula?\"\n\n### 3. Safety Briefing: Ethanol Handling (15 Minutes)\n*Conducted immediately prior to the subsequent experiment involving ethanol samples.*\n\n**Reagent:** Ethanol (C₂H₅OH)  \n**Hazards:** Flammable liquid, harmful if swallowed, causes serious eye irritation, skin absorption possible.\n\n**Mandatory Safety Protocols:**\n*   **Personal Protective Equipment (PPE):** Safety goggles must be worn at all times. Nitrile gloves are required when handling ethanol; do not touch your face or eyes while wearing gloves.\n*   **Flammability:** Ethanol is highly flammable. Keep all open flames, Bunsen burners, and hot plates at least 3 meters away from the work area. No ignition sources are permitted in the lab during this session.\n*   **Handling:** Pour ethanol slowly in the fume hood or designated well-ventilated area to minimize vapor inhalation. Do not ingest. If skin contact occurs, wash immediately with soap and water for 15 minutes.\n*   **Disposal:** All ethanol waste must be disposed of in the designated \"Organic Solvent\" waste container, never down the sink.\n*   **Emergency:** In case of a spill, alert the instructor immediately. Do not attempt to clean large spills without proper training; use the spill kit only for minor incidents under supervision.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission addresses all task requirements with high clarity and accurate domain chemistry. However, the 15-minute safety briefing is inefficient for a 45-minute session (industry standard is typically 5-10 mins), and the tactile adaptation (rubber bands on small H atoms) is impractical for standard kits. Additionally, requiring students to construct specific (R)/(S) enantiomers assumes prior CIP knowledge that may not exist for students struggling with visualization, slightly impacting pedagogical correctness."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Develop teaching materials, such as syllabi, visual aids, answer keys, supplementary notes, or course Web sites.",
+      "task_type": "Curriculum Development",
+      "user_prompt": "You are developing supplementary notes for a 'Macroeconomics' course to explain the concept of 'Inflation' to students who missed the lecture. Create a structured study guide that includes: 1) A simplified definition of inflation using a real-world analogy, 2) A step-by-step calculation example of the Consumer Price Index (CPI) with a provided dataset, 3) A visual description of a supply and demand graph showing the impact of inflation, and 4) A list of three common misconceptions students have about inflation and how to correct them. Ensure the language is accessible to non-native English speakers.",
+      "reference_context": {
+        "target_audience": "Undergraduate students with diverse linguistic backgrounds",
+        "dataset_for_cpi": "Year 1: Basket Cost $100; Year 2: Basket Cost $105",
+        "key_concepts": "Purchasing power, CPI formula, demand-pull vs cost-push inflation"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Clarity — Is the analogy effective and the language accessible?",
+        "Criterion 2: Accuracy — Are the CPI calculations and economic concepts factually correct?",
+        "Criterion 3: Completeness — Does the guide cover all four required components (definition, calculation, visual, misconceptions)?"
+      ],
+      "student_answer": "# Macroeconomics Study Guide: Understanding Inflation\n\n**Course:** Macroeconomics  \n**Topic:** Inflation and the Consumer Price Index (CPI)  \n**Target Audience:** Undergraduate Students (Non-Native English Speakers)\n\n---\n\n### 1. What is Inflation? (Simplified Definition & Analogy)\n\n**Definition:**  \nInflation is the rate at which the general level of prices for goods and services rises. When inflation occurs, each unit of currency buys fewer goods and services. This means your **purchasing power** decreases over time.\n\n**Real-World Analogy: The \"Pizza Slice\" Scenario**  \nImagine you have a fixed amount of money to buy pizza.\n*   **Last Year:** With $10, you could buy **2 large slices** of pizza.\n*   **This Year:** Because of inflation, the price of pizza went up. Now, with the same $10, you can only buy **1 large slice**.\n\nThe money in your pocket is the same, but the pizza is more expensive. You can buy less with the same amount of money. This loss of buying ability is inflation.\n\n---\n\n### 2. How to Calculate the Consumer Price Index (CPI)\n\nThe CPI measures the average change in prices over time for a fixed \"basket\" of goods (e.g., food, rent, fuel).\n\n**The Formula:**\n$$ \\text{CPI} = \\left( \\frac{\\text{Cost of Basket in Current Year}}{\\text{Cost of Basket in Base Year}} \\right) \\times 100 $$\n\n**Step-by-Step Calculation Example:**\n*Dataset Provided:*\n*   **Year 1 (Base Year):** Cost of Basket = $100\n*   **Year 2 (Current Year):** Cost of Basket = $105\n\n**Step 1:** Identify the cost of the basket for the current year ($105) and the base year ($100).\n**Step 2:** Divide the current year cost by the base year cost:\n$$ 105 \\div 100 = 1.05 $$\n**Step 3:** Multiply the result by 100 to get the CPI:\n$$ 1.05 \\times 100 = 105 $$\n\n**Result:** The CPI for Year 2 is **105**.\n**Inflation Rate Calculation:**\nTo find the inflation rate between Year 1 and Year 2:\n$$ \\text{Inflation Rate} = \\frac{105 - 100}{100} \\times 100 = 5\\% $$\n*Conclusion:* Prices increased by 5% from Year 1 to Year 2.\n\n---\n\n### 3. Visualizing Inflation: Supply and Demand Graph\n\nSince we cannot draw a picture here, imagine a standard economic graph with the following features:\n\n*   **Axes:**\n    *   The **Vertical Axis (Y-axis)** represents the **Price Level (P)**.\n    *   The **Horizontal Axis (X-axis)** represents the **Quantity of Goods (Q)**.\n*   **Curves:**\n    *   **Demand Curve (D):** A line sloping **downward** from left to right.\n    *   **Supply Curve (S):** A line sloping **upward** from left to right.\n    *   **Equilibrium Point (E):** Where the two lines cross. This shows the original price ($P_1$) and quantity ($Q_1$).\n\n**Scenario: Demand-Pull Inflation**\n1.  Imagine the **Demand Curve shifts to the right** (from $D_1$ to $D_2$). This means people want to buy more goods at every price.\n2.  The new intersection point with the Supply Curve is higher up.\n3.  **Visual Result:** The new equilibrium price ($P_2$) is **higher** than the original price ($P_1$).\n4.  **Meaning:** When demand increases faster than supply, prices rise. This is called **Demand-Pull Inflation**.\n\n*(Note: If the Supply Curve shifted to the left instead, it would represent Cost-Push Inflation, where production costs rise, forcing prices up.)*\n\n---\n\n### 4. Common Misconceptions About Inflation\n\nHere are three common mistakes students make, along with the correct understanding:\n\n| Misconception | Correction |\n| :--- | :--- |\n| **1. \"Inflation means the price of *everything* goes up by the same amount.\"** | **Correction:** Inflation is an **average** increase in prices. Some prices may rise quickly (e.g., gas), while others stay the same or even fall (e.g., electronics). The CPI measures the average change, not a uniform change for every item. |\n| **2. \"If my salary increases, I am not affected by inflation.\"** | **Correction:** You are only safe if your salary increases **more** than the inflation rate. If inflation is 5% and your salary only rises by 3%, your **purchasing power** has actually decreased because your money buys less than before. |\n| **3. \"Inflation is always bad for the economy.\"** | **Correction:** A small, stable amount of inflation (usually around 2%) is often considered healthy. It encourages people to spend and invest rather than hoarding cash, which can help the economy grow. However, very high or very low inflation can be harmful. |",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        5,
+        4,
+        4
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is well-structured and meets all content requirements (definition, calculation, graph, misconceptions). Language is accessible for non-native speakers. However, the mathematical formulas in Section 2 contain syntax errors: the CPI formula lacks a variable name, and the Inflation Rate formula omits the denominator. These technical inaccuracies prevent a perfect score on Correctness and Domain Accuracy, though the textual explanations remain clear."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Inform students of the procedures for completing and submitting class work, such as lab reports.",
+      "task_type": "Administrative Communication",
+      "user_prompt": "You are the Teaching Assistant for 'Environmental Science'. The department has updated its academic integrity policy regarding AI usage in lab reports. Draft a formal announcement email to the class that: 1) Clearly states the new policy prohibiting the use of AI to generate data analysis or conclusions, 2) Explains the specific consequences of violation (e.g., zero on assignment, referral to academic board), 3) Provides a step-by-step checklist for proper citation of AI tools if used for brainstorming only, and 4) Includes a link to the university's writing center for support. The tone must be firm but supportive of student success.",
+      "reference_context": {
+        "policy_update_date": "October 15, 2023",
+        "consequence_details": "First offense: 0 on assignment; Second offense: Academic Integrity Board referral",
+        "allowed_ai_use": "Brainstorming and grammar checking only; must be cited in a 'Tools Used' section"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Policy Adherence — Does the email accurately reflect the specific constraints and consequences of the new policy?",
+        "Criterion 2: Actionability — Is the checklist for proper citation clear and easy to follow?",
+        "Criterion 3: Tone — Is the message firm regarding integrity while remaining supportive of learning?"
+      ],
+      "student_answer": "Subject: URGENT: Updated Academic Integrity Policy Regarding AI Usage in Lab Reports\n\nDear Students,\n\nAs of October 15, 2023, the Environmental Science department has implemented a revised academic integrity policy concerning the use of Artificial Intelligence (AI) in coursework. This update is designed to ensure the authenticity of your scientific inquiry while supporting your learning journey.\n\n**1. Prohibited Use of AI**\nEffective immediately, the generation of **data analysis** and **scientific conclusions** using AI tools is strictly prohibited in all lab reports. Your analysis and conclusions must reflect your own critical thinking and interpretation of experimental results.\n\n**2. Consequences of Violation**\nAdherence to this policy is mandatory. Violations will be addressed as follows:\n*   **First Offense:** A grade of zero (0) on the specific assignment.\n*   **Second Offense:** A formal referral to the University Academic Integrity Board, which may result in further disciplinary action.\n\n**3. Permitted Use and Citation Requirements**\nAI tools may be used *only* for brainstorming research ideas or checking grammar and syntax. If you utilize AI for these permitted purposes, you must follow this checklist to ensure proper transparency:\n*   [ ] **Limit Scope:** Ensure the AI was used solely for brainstorming or grammar checks, not for generating data or conclusions.\n*   [ ] **Document Usage:** Create a dedicated section at the end of your report titled **\"Tools Used.\"**\n*   [ ] **Cite Specifically:** List the AI tool used, the date of access, and the specific prompts entered.\n*   [ ] **Verify Output:** Review all AI-generated suggestions for accuracy before inclusion in your final draft.\n\n**4. Support Resources**\nWe are committed to your success and want to ensure you feel confident in your writing. For guidance on ethical AI use, proper citation, and general writing support, please visit the University Writing Center:\n[Insert Link to University Writing Center Here]\n\nPlease review the full policy document attached to this email. If you have any questions regarding these updates, do not hesitate to reach out during office hours.\n\nSincerely,\n\n[Your Name]\nTeaching Assistant, Environmental Science\n[University Name]",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional. It addresses all four task requirements precisely, including the specific policy date, consequences, checklist format, and support resource. The tone is appropriately firm yet supportive. The use of a placeholder for the writing center link is contextually appropriate given no URL was provided in the prompt, avoiding hallucination. Formatting is professional and clear, meeting industry standards for academic communication."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Teach undergraduate-level courses.",
+      "task_type": "Direct Instruction",
+      "user_prompt": "You are teaching a lecture segment on 'Cellular Respiration' for an introductory Biology course. Prepare a 20-minute lesson outline that: 1) Introduces the three main stages (Glycolysis, Krebs Cycle, Electron Transport Chain), 2) Uses a 'factory assembly line' analogy to explain the flow of energy and matter, 3) Includes two formative assessment questions to check understanding mid-lecture, and 4) Connects the topic to a real-world health issue (e.g., mitochondrial diseases). Ensure the explanation avoids jargon where possible and defines necessary terms.",
+      "reference_context": {
+        "lecture_duration": "20 minutes",
+        "student_prerequisites": "Basic knowledge of atoms and molecules",
+        "learning_objectives": "Understand the inputs/outputs of each stage and the role of ATP"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Conceptual Accuracy — Are the biological processes described correctly?",
+        "Criterion 2: Engagement — Is the analogy appropriate and does it effectively simplify complex concepts?",
+        "Criterion 3: Assessment — Are the formative questions relevant and capable of measuring the stated learning objectives?"
+      ],
+      "student_answer": "# Lecture Segment: Cellular Respiration – The Cell's Power Plant\n**Duration:** 20 Minutes\n**Target Audience:** Introductory Biology Students\n\n---\n\n### I. Introduction & The Big Picture (0:00 – 3:00)\n*   **Hook:** Imagine a car engine. It takes in fuel (gasoline) and oxygen to produce motion and exhaust. Cells do the exact same thing, but on a microscopic scale.\n*   **Definition:** **Cellular Respiration** is the process cells use to break down food molecules (glucose) to release energy stored in chemical bonds.\n*   **The Goal:** To convert glucose into **ATP** (Adenosine Triphosphate), the cell's universal energy currency.\n*   **The Analogy:** We will view this process as a **Factory Assembly Line**.\n    *   **Raw Materials:** Glucose and Oxygen.\n    *   **The Factory:** The Cell (specifically the mitochondria).\n    *   **The Product:** ATP (Energy).\n    *   **The Waste:** Carbon Dioxide and Water.\n\n---\n\n### II. Stage 1: Glycolysis – The Intake Dock (3:00 – 7:00)\n*   **Location:** Cytoplasm (the factory floor, outside the main processing room).\n*   **The Process:**\n    *   One large molecule of **Glucose** (6 carbons) enters the line.\n    *   The cell invests a small amount of energy to split this molecule into two smaller molecules called **Pyruvate** (3 carbons each).\n*   **The Output:**\n    *   **2 ATP** (Net gain: a small profit).\n    *   **2 NADH** (Energy carrier molecules, like \"charged batteries\" waiting to be used later).\n*   **Key Concept:** This stage does *not* require oxygen. It is the first step in every cell, whether it has oxygen or not.\n\n> **Formative Assessment Question 1 (Think-Pair-Share):**\n> \"If the factory receives a shipment of 10 Glucose molecules, how many Pyruvate molecules will be produced at the end of the Glycolysis stage? How many net ATP molecules are generated?\"\n> *   *Expected Answer:* 20 Pyruvate molecules and 20 Net ATP molecules.\n\n---\n\n### III. Stage 2: The Krebs Cycle – The Refining Station (7:00 – 12:00)\n*   **Location:** Mitochondrial Matrix (the main processing room).\n*   **Prerequisite:** Oxygen must be present for this stage to proceed.\n*   **The Process:**\n    *   The Pyruvate molecules from Glycolysis are transported into the mitochondria.\n    *   They are broken down completely. Think of this as disassembling the Pyruvate parts to extract every last bit of energy.\n    *   **Carbon Dioxide (CO₂)** is released as waste gas (this is what we exhale).\n*   **The Output:**\n    *   **2 ATP** (Small energy yield).\n    *   **More NADH and FADH₂** (More charged batteries).\n    *   **CO₂** (Waste).\n*   **Analogy Connection:** The assembly line is now stripping the raw materials down to their atomic components to prepare the energy carriers for the final power generation.\n\n> **Formative Assessment Question 2 (Show of Hands):**\n> \"Which of the following is a direct waste product released during the Krebs Cycle that we breathe out?\"\n> A) Oxygen\n> B) Water\n> C) Carbon Dioxide\n> D) Glucose\n> *   *Expected Answer:* C) Carbon Dioxide.\n\n---\n\n### IV. Stage 3: Electron Transport Chain (ETC) – The Power Generator (12:00 – 17:00)\n*   **Location:** Inner Mitochondrial Membrane (the wall of the processing room).\n*   **The Process:**\n    *   The \"charged batteries\" (NADH and FADH₂) from the previous stages drop off their electrons here.\n    *   These electrons move through a series of proteins (the assembly line conveyor belt).\n    *   As electrons move, they pump protons to create a gradient (like water building up behind a dam).\n    *   **Oxygen** acts as the final \"trash collector,\" accepting the used electrons and combining with protons to form **Water (H₂O)**.\n*   **The Output:**\n    *   **~32-34 ATP** (The massive energy payoff).\n    *   **Water** (Harmless waste).\n*   **Analogy Connection:** This is the turbine room. The flow of electrons spins the turbines, generating the vast majority of the electricity (ATP) needed to run the factory. Without oxygen, the line stops here.\n\n---\n\n### V. Real-World Connection: Mitochondrial Diseases (17:00 – 19:00)\n*   **The Problem:** What happens if the \"Power Generator\" (ETC) or the \"Refining Station\" (Krebs Cycle) malfunctions?\n*   **Mitochondrial Diseases:** Genetic disorders where the mitochondria cannot produce enough ATP.\n*   **Impact:**\n    *   Cells with high energy needs (muscles, brain, heart) are hit hardest.\n    *   Symptoms can include muscle weakness, fatigue, developmental delays, and heart failure.\n*   **Why it matters:** Understanding cellular respiration helps scientists develop treatments to bypass broken steps or boost energy production in these patients. It highlights that our health depends on these microscopic chemical reactions working perfectly.\n\n---\n\n### VI. Conclusion & Summary (19:00 – 20:00)\n*   **Recap the Flow:**\n    1.  **Glycolysis:** Splits Glucose (Cytoplasm) → Small ATP + Pyruvate.\n    2.  **Krebs Cycle:** Breaks down Pyruvate (Mitochondria) → CO₂ + More carriers.\n    3.  **ETC:** Uses carriers + Oxygen (Membrane) → Massive ATP + Water.\n*   **Final Thought:** Cellular respiration is the bridge between the food we eat and the movement we make.\n*   **Next Steps:** In the next lecture, we will explore what happens when oxygen is *not* available (Fermentation).",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        4,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission fully addresses all task constraints with excellent structure and readability (Correctness, Completeness, Clarity = 5). Domain Accuracy is 4 due to the omission of the Pyruvate Oxidation step (Link Reaction) between Glycolysis and Krebs, and the use of slightly outdated ATP yield estimates for the ETC. Best Practices is 4 as it lacks specific differentiation strategies or modern tech integration, though formative assessments are well-aligned."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Order or obtain materials needed for classes.",
+      "task_type": "Resource Procurement and Logistics",
+      "user_prompt": "You are a Teaching Assistant for a 'Biology 101' lab course. The instructor has requested a new set of microscopes and specific chemical reagents for the upcoming semester's 'Cell Division' module. The current inventory is insufficient. Draft a formal procurement request email to the department head. The email must: 1) List the specific items needed with estimated quantities based on a class size of 40 students, 2) Justify the request by citing the specific lab manual requirements, 3) Provide a budget estimate including a 10% contingency for shipping, and 4) Propose a timeline for delivery to ensure readiness before the first lab session. Ensure the tone is professional and persuasive.",
+      "reference_context": {
+        "lab_manual_requirements": "Each student requires 1 microscope and 1 set of reagents (Methylene Blue, Acetic Acid, Iodine).",
+        "class_size": 40,
+        "unit_costs": {
+          "Microscope": 150.0,
+          "Reagent_Set": 25.0
+        },
+        "deadline": "2 weeks from today"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Accuracy — Are the quantities calculated correctly based on the class size and manual requirements?",
+        "Criterion 2: Completeness — Does the email include all four required components (list, justification, budget, timeline)?",
+        "Criterion 3: Professionalism — Is the tone appropriate for a formal request to a department head?"
+      ],
+      "student_answer": "Subject: Urgent Procurement Request: Cell Division Module Equipment and Reagents\n\nDear Dr. [Department Head's Last Name],\n\nI am writing to formally request the procurement of essential laboratory equipment and chemical reagents for the upcoming \"Cell Division\" module in Biology 101. Our current inventory is insufficient to support the required hands-on activities for the upcoming semester, and immediate action is necessary to ensure the module's success.\n\n**Justification and Requirements**\nAccording to the official *Biology 101 Lab Manual*, the Cell Division module mandates that every student must have independent access to a microscope and a complete set of chemical reagents to observe mitotic stages effectively. To accommodate our class size of 40 students, we require the following items:\n\n*   **Digital Light Microscopes:** 40 units (1 per student)\n*   **Chemical Reagent Sets:** 40 units (1 per student), containing Methylene Blue, Acetic Acid, and Iodine.\n\n**Budget Estimate**\nBased on current vendor pricing, the estimated costs are as follows:\n\n*   **Microscopes:** 40 units × $150.00 = $6,000.00\n*   **Reagent Sets:** 40 units × $25.00 = $1,000.00\n*   **Subtotal:** $7,000.00\n*   **Contingency (10% for shipping and handling):** $700.00\n*   **Total Estimated Budget:** **$7,700.00**\n\n**Proposed Timeline**\nTo ensure all materials are calibrated, safety-checked, and ready for student use, I propose the following delivery schedule:\n\n*   **Order Placement:** Immediate (within 3 business days of approval).\n*   **Required Delivery Date:** 2 weeks from today.\n*   **Pre-Lab Setup:** 3 days prior to the first lab session for inventory verification and safety training.\n\nMeeting this two-week deadline is critical to avoid disrupting the semester schedule. I have attached a preliminary vendor quote for your review. Thank you for your prompt attention to this matter and for supporting the quality of our laboratory instruction.\n\nSincerely,\n\n[Your Name]\nTeaching Assistant, Biology 101\n[Your Contact Information]",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional and meets all task requirements without meaningful gaps. Correctness is perfect with accurate calculations matching the provided context (40 units, specific costs, 10% contingency). Completeness is thorough, covering justification, budget, and timeline with specific details. Best Practices are evident in the professional email structure, persuasive tone, and inclusion of a contingency fund. Domain Accuracy is high, using correct biological terminology (mitotic stages, specific reagents) and procurement language. Clarity is excellent, utilizing bolding and bullet points for readability. No improvements were necessary to meet the industry-standard criteria."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Copy and distribute classroom materials.",
+      "task_type": "Material Preparation and Distribution",
+      "user_prompt": "You are a Teaching Assistant for a 'History of Art' seminar. You need to prepare and distribute a packet of 15 primary source images and a 2-page reading summary for the next class. However, you discover that 3 of the images are copyrighted and cannot be distributed without permission. Draft a plan of action that: 1) Identifies the 3 problematic images and suggests legal alternatives (e.g., Creative Commons or library reserves), 2) Outlines the steps to prepare the remaining 12 images and the summary for distribution, 3) Proposes a method to notify students of the change in materials if the class starts in 1 hour, and 4) Ensures the final packet is organized chronologically as per the syllabus. The output should be a step-by-step execution plan.",
+      "reference_context": {
+        "syllabus_order": "Chronological (Renaissance to Modern)",
+        "copyright_policy": "Strict adherence to fair use; no unauthorized distribution of copyrighted images.",
+        "available_alternatives": [
+          "Library Reserve Digital Collection",
+          "Public Domain Archive"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Compliance — Does the plan address the copyright issue with valid legal alternatives?",
+        "Criterion 2: Organization — Is the distribution plan logical and maintains the chronological order?",
+        "Criterion 3: Communication — Is the notification strategy for students clear and timely?"
+      ],
+      "student_answer": "### Execution Plan: History of Art Seminar Packet Distribution\n\n**1. Identification of Problematic Images & Legal Alternatives**\n*   **Image 3 (Renaissance):** *The School of Athens* by Raphael (High Resolution).\n    *   *Action:* Replace with the high-resolution public domain version available via the **Public Domain Archive** (Metropolitan Museum of Art collection).\n*   **Image 8 (Baroque):** *The Night Watch* by Rembrandt.\n    *   *Action:* Replace with the authorized low-resolution version hosted on the **Library Reserve Digital Collection**, which is cleared for course-specific fair use.\n*   **Image 12 (Modern):** *Guernica* by Pablo Picasso.\n    *   *Action:* Replace with a Creative Commons Attribution-ShareAlike (CC BY-SA) educational analysis image from the **Public Domain Archive** that clearly depicts the composition without infringing on the specific high-res scan rights held by the Museo Reina Sofía.\n\n**2. Preparation of Remaining Materials**\n*   **Image Processing:**\n    *   Download the 12 approved images (9 original + 3 replacements).\n    *   Standardize all image dimensions to 800x600 pixels for consistent PDF formatting.\n    *   Embed captions directly into the image files including: Artist, Title, Date, Medium, and Source/Copyright Status.\n*   **Reading Summary Compilation:**\n    *   Finalize the 2-page summary, ensuring it explicitly references the 3 replaced images with footnotes explaining the source substitution.\n    *   Format the document to match the course's standard template (12pt Times New Roman, 1.5 spacing).\n*   **Assembly:**\n    *   Merge the 12 images and the 2-page summary into a single PDF.\n    *   Verify the file size is under 10MB for easy email/learning management system (LMS) transmission.\n\n**3. Student Notification Protocol (1-Hour Window)**\n*   **Channel:** Immediate announcement via the course LMS (e.g., Canvas/Blackboard) and the class email distribution list.\n*   **Message Content:**\n    *   **Subject Line:** URGENT: Updated Primary Source Packet for [Class Name] – [Date]\n    *   **Body:** \"Due to strict copyright compliance requirements, three images in the original packet have been replaced with legally cleared alternatives from the Library Reserve and Public Domain Archive. The updated packet is attached. Please download the new version immediately; the original file is invalid for this session.\"\n    *   **Attachment:** The newly compiled PDF.\n*   **In-Class Verification:** Display the updated packet on the main screen at the start of the seminar to confirm all students have the correct version.\n\n**4. Chronological Organization & Final Review**\n*   **Sequencing:**\n    *   Arrange the 12 images strictly according to the syllabus timeline:\n        1.  Renaissance (Images 1–4)\n        2.  Baroque (Images 5–8, including the replacement)\n        3.  Neoclassicism/Realism (Images 9–10)\n        4.  Modern (Images 11–12, including the replacement)\n*   **Final Check:**\n    *   Scan the PDF to ensure no page breaks separate an image from its caption.\n    *   Confirm the Reading Summary is placed at the very end of the document.\n    *   Save the final file as `HistoryOfArt_Packet_[Date]_Updated.pdf` and upload to the LMS.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        5,
+        3,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is well-structured and addresses all task requirements with professional best practices and clarity. However, it conflates 'Public Domain' with 'Creative Commons' in the Guernica section, which is a conceptual error regarding copyright licensing, lowering the domain accuracy score."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Notify instructors of errors or problems with assignments.",
+      "task_type": "Error Reporting and Communication",
+      "user_prompt": "You are a Teaching Assistant for a 'Calculus II' course. While grading a midterm, you notice that Question 4 contains a typo in the problem statement that makes the intended solution impossible to derive as written, leading to confusion for 15 students. Draft a concise, professional notification email to the course instructor. The email must: 1) Clearly describe the error in Question 4, 2) Explain the impact on the 15 affected students, 3) Propose a specific correction to the problem statement or a grading adjustment policy (e.g., waiving the question), and 4) Suggest a timeline for communicating this to the class. Ensure the tone is respectful and solution-oriented.",
+      "reference_context": {
+        "affected_students": 15,
+        "total_class_size": 120,
+        "grading_deadline": "48 hours",
+        "instructor_preference": "Prefers minimal changes to the exam but values accuracy."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Clarity — Is the error described precisely and unambiguously?",
+        "Criterion 2: Impact Analysis — Does the email quantify the impact on the student body?",
+        "Criterion 3: Solution Quality — Are the proposed solutions practical and aligned with the instructor's preferences?"
+      ],
+      "student_answer": "Subject: Urgent: Typo in Question 4 (Midterm) – Grading Adjustment Proposal\n\nDear Professor [Instructor's Last Name],\n\nWhile grading the recent Calculus II midterm, I identified a typographical error in Question 4 that renders the problem unsolvable as written. Specifically, the sign in the integrand appears to be incorrect, preventing students from deriving the intended solution using standard techniques.\n\nThis error has directly impacted 15 students (12.5% of the class), who are currently unable to complete the question correctly. Given your preference for maintaining the exam's integrity while ensuring accuracy, I propose the following solution:\n\n**Proposal:** We waive Question 4 entirely for all students. This approach avoids the need to re-grade the question with a corrected statement, which would be time-consuming and inconsistent with the \"minimal changes\" preference, while ensuring no student is penalized for a clerical error.\n\n**Timeline:** To meet the 48-hour grading deadline, I recommend we finalize this adjustment immediately. I can then communicate the grade adjustment to the class by [Insert Date/Time, e.g., tomorrow at 5:00 PM], ensuring all grades are posted before the deadline.\n\nPlease let me know if you approve this waiver or if you would prefer to discuss an alternative approach.\n\nBest regards,\n\n[Your Name]\nTeaching Assistant, Calculus II",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        5,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission is professional and addresses the core task requirements effectively. Correctness and Completeness receive a 4 because the error description is slightly vague ('sign in the integrand') and the timeline uses a placeholder rather than a concrete suggestion, which are minor gaps for a final submission. Best Practices, Domain Accuracy, and Clarity receive 5s due to the strong alignment with instructor preferences, accurate mathematical terminology and calculations, and excellent formatting that enhances readability."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Complete laboratory projects prior to assigning them to students so that any needed modifications can be made.",
+      "task_type": "Lab Protocol Verification",
+      "user_prompt": "You are a Teaching Assistant for a 'Chemistry 202' lab. You are tasked with running a pre-lab test for a new experiment on 'Titration of Weak Acids' before assigning it to students. The protocol involves using a specific pH meter and a 0.1M HCl solution. Your test run shows inconsistent pH readings (fluctuating by +/- 0.5 units) despite the solution being stable. Draft a troubleshooting report that: 1) Lists three potential causes for the inconsistency (e.g., calibration, electrode age, temperature), 2) Describes the specific steps you took to isolate the variable, 3) Recommends a modification to the protocol or equipment setup to ensure accuracy, and 4) Confirms whether the lab is ready to proceed or requires further action. The report must be written for the lead professor.",
+      "reference_context": {
+        "equipment_status": "pH meter last calibrated 3 months ago; Electrode is 2 years old.",
+        "solution_stability": "Confirmed stable via secondary method.",
+        "acceptable_variance": "+/- 0.1 pH units"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Diagnostic Accuracy — Are the potential causes scientifically plausible?",
+        "Criterion 2: Methodology — Does the report describe a logical isolation process?",
+        "Criterion 3: Actionability — Is the recommendation clear and sufficient to resolve the issue?"
+      ],
+      "student_answer": "**To:** Lead Professor, Chemistry 202\n**From:** Teaching Assistant, Chemistry 202 Lab\n**Date:** October 26, 2023\n**Subject:** Pre-Lab Troubleshooting Report: Titration of Weak Acids (pH Meter Inconsistency)\n\n**1. Potential Causes for Inconsistency**\nBased on the observed fluctuation of +/- 0.5 pH units against a stable 0.1M HCl solution, the following three factors are identified as primary suspects:\n*   **Electrode Age and Degradation:** The current glass electrode is two years old. At this age, the glass membrane may have developed micro-cracks or the reference junction may be clogged, leading to unstable potential readings and slow response times.\n*   **Outdated Calibration:** The pH meter was last calibrated three months ago. Standard practice requires calibration prior to each use or at least weekly; drift in the internal electronics or buffer degradation likely occurred over this period.\n*   **Temperature Compensation Error:** The meter's automatic temperature compensation (ATC) probe may be malfunctioning or disconnected. Since pH is temperature-dependent, a failure to account for ambient temperature shifts can cause significant reading variance, even in a chemically stable solution.\n\n**2. Isolation Steps Taken**\nTo isolate the variable responsible for the variance, the following diagnostic procedure was executed:\n*   **Buffer Verification:** The meter was tested against fresh, certified pH 4.01 and 7.00 buffer solutions. The meter failed to stabilize within the acceptable +/- 0.1 range, confirming the issue lies with the measurement system rather than the test solution.\n*   **Electrode Inspection:** The electrode was rinsed with deionized water and soaked in storage solution for 30 minutes. Upon re-testing, the fluctuation persisted, indicating the issue is not merely surface contamination but likely internal electrode degradation or junction blockage.\n*   **Temperature Check:** The ATC probe was disconnected and reconnected; the reading remained unstable, ruling out a simple connection error, though the probe's accuracy remains suspect.\n\n**3. Recommended Protocol Modification**\nTo ensure data accuracy for the upcoming lab session, the following modifications are required immediately:\n*   **Equipment Replacement:** The 2-year-old electrode must be replaced with a new, calibrated unit.\n*   **Calibration Protocol Update:** The lab manual must be updated to mandate a two-point calibration (pH 4.01 and 7.00) immediately prior to every student session, rather than relying on a single pre-lab check.\n*   **Stabilization Time:** The protocol should explicitly require a 60-second stabilization period for the reading to settle before recording data, rather than recording the first stable-looking value.\n\n**4. Lab Readiness Status**\n**Status: NOT READY TO PROCEED.**\n\nThe current equipment setup does not meet the acceptable variance of +/- 0.1 pH units. Proceeding with the current electrode and calibration status will result in invalid student data. The lab session must be postponed until the electrode is replaced and the meter is successfully calibrated against fresh buffers. I will coordinate with the lab manager to procure a replacement electrode and will re-run the pre-lab verification once the equipment is swapped.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional. It addresses all four task requirements with high precision. Domain terminology (ATC, reference junction) is accurate. Professional memo format is used. Troubleshooting logic is sound (isolation of variables). No meaningful gaps found relative to the constraints."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Provide assistance to faculty members or staff with laboratory or field research.",
+      "task_type": "Research Data Management",
+      "user_prompt": "You are assisting a faculty member with a 'Marine Biology' field research project. You have collected 500 data points from a recent field trip, but the data is currently in a disorganized spreadsheet with missing entries and inconsistent date formats. Your task is to clean and organize this dataset for the faculty member's analysis. Draft a summary of your data cleaning process that: 1) Identifies the specific inconsistencies found (e.g., date formats, missing values), 2) Describes the steps taken to standardize the data (e.g., imputation methods, format conversion), 3) Highlights any data points that were excluded and the reason why, and 4) Provides a final count of valid records ready for analysis. Ensure the process adheres to academic integrity standards regarding data manipulation.",
+      "reference_context": {
+        "total_records": 500,
+        "inconsistencies": "Dates in MM/DD/YYYY and DD-MM-YYYY; 15% missing salinity readings.",
+        "imputation_policy": "Do not impute salinity; mark as 'N/A' if missing.",
+        "exclusion_criteria": "Records with missing species ID."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Data Integrity — Does the process adhere to the specified imputation and exclusion policies?",
+        "Criterion 2: Documentation — Is the cleaning process clearly documented and reproducible?",
+        "Criterion 3: Accuracy — Are the final counts of valid records correct based on the exclusion criteria?"
+      ],
+      "student_answer": "**Data Cleaning Summary: Marine Biology Field Research Project**\n\n**1. Identified Inconsistencies**\nAnalysis of the initial 500 records revealed two primary data quality issues:\n*   **Date Format Inconsistency:** The dataset contained mixed date formats, specifically a combination of \"MM/DD/YYYY\" and \"DD-MM-YYYY,\" preventing chronological sorting and time-series analysis.\n*   **Missing Values:** Approximately 15% of the records (75 entries) contained missing values for the \"Salinity\" variable.\n\n**2. Standardization Steps**\nTo ensure data integrity and analytical readiness, the following procedures were executed:\n*   **Date Standardization:** All date entries were converted to a uniform ISO 8601 format (YYYY-MM-DD) to facilitate accurate temporal analysis.\n*   **Handling Missing Salinity:** Per the established imputation policy, no statistical imputation was performed for missing salinity readings. Instead, these specific cells were explicitly marked as \"N/A\" to preserve the distinction between measured zero values and unrecorded data.\n*   **Data Validation:** All remaining fields were checked for logical consistency (e.g., ensuring species IDs matched the taxonomic database).\n\n**3. Excluded Records**\nA total of **42 records** were excluded from the final dataset.\n*   **Reason for Exclusion:** These records lacked a valid \"Species ID.\" As species identification is a fundamental variable for ecological analysis, records with missing or null species identifiers were deemed incomplete and were removed to prevent analytical bias.\n\n**4. Final Dataset Status**\n*   **Initial Records:** 500\n*   **Excluded Records:** 42\n*   **Valid Records for Analysis:** **458**\n\nThe final dataset adheres to academic integrity standards by maintaining a transparent audit trail of all modifications, ensuring that no data was artificially generated or altered to fit a hypothesis. The dataset is now ready for faculty review and statistical analysis.",
+      "score": 5.0,
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is exemplary and meets all rubric criteria for a score of 5. It accurately reflects the provided context (500 records, 15% salinity, exclusion criteria) without calculation errors. All four required sections (Inconsistencies, Standardization, Exclusions, Final Count) are addressed with professional terminology (ISO 8601, N/A, audit trail). There are no meaningful gaps, vague sections, or errors in judgment; the document adheres strictly to academic integrity and industry data cleaning standards."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Return assignments to students in accordance with established deadlines.",
+      "task_type": "Assignment Management and Feedback",
+      "user_prompt": "You are a Teaching Assistant for a Sociology 101 course. A student submitted a 10-page research paper 2 days past the deadline without prior notification. The paper is well-researched but lacks a proper citation for one key source, raising minor academic integrity concerns. Draft a response email that: 1) Acknowledges receipt of the late submission, 2) Applies the course policy of a 10% penalty for late work, 3) Addresses the citation issue by explaining the specific consequence of missing citations, and 4) Sets a clear deadline for the student to submit a revised version if they wish to appeal the citation penalty. Maintain a professional, non-punitive tone that upholds academic standards.",
+      "reference_context": {
+        "student_submission_summary": "10-page paper on urbanization; missing citation for 'Smith et al. (2020)' in the bibliography; otherwise high quality.",
+        "course_grading_scale": "A: 90-100, B: 80-89, C: 70-79, D: 60-69, F: <60",
+        "late_policy": "10% deduction per day late, up to 3 days; after 3 days, grade is zero.",
+        "citation_policy": "Missing citations result in a 5-point deduction per instance; repeated offenses trigger academic integrity review."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Policy Adherence — Does the email correctly apply the 10% late penalty and citation deduction rules?",
+        "Criterion 2: Clarity — Is the consequence of the missing citation and the appeal process clearly defined?",
+        "Criterion 3: Tone — Is the communication professional, supportive, yet firm on academic integrity standards?"
+      ],
+      "student_answer": "Subject: Feedback on Your Sociology 101 Research Paper Submission\n\nDear Student,\n\nI am writing to confirm receipt of your 10-page research paper on urbanization. I have reviewed your submission and noted that it is well-researched and demonstrates a strong grasp of the course material.\n\nRegarding the submission timeline, as the paper was received two days past the deadline without prior notification, I must apply the course late policy. This results in a 10% deduction per day late, totaling a 20% reduction from your final grade for this assignment.\n\nAdditionally, during my review, I identified a missing citation for the source \"Smith et al. (2020)\" in your bibliography. Per the course citation policy, the omission of a required citation for a key source results in a 5-point deduction. It is important to understand that proper citation is essential for academic integrity; failing to credit sources, even unintentionally, undermines the credibility of your work and can lead to more severe academic integrity reviews if repeated.\n\nIf you wish to appeal the citation penalty, you may submit a revised version of your paper that includes the correct citation for \"Smith et al. (2020).\" Please note that this revision must be submitted by [Insert Date, e.g., Friday, October 27th at 11:59 PM]. If the revised version is not received by this deadline, the original grade, including the late and citation penalties, will stand.\n\nI encourage you to review the course syllabus regarding citation standards to ensure full compliance in future assignments. Please let me know if you have any questions.\n\nBest regards,\n\n[Your Name]\nTeaching Assistant, Sociology 101",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        5,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "Correctness, Domain Accuracy, and Clarity are exceptional as policies are applied accurately and the structure is clear. Completeness receives a 4 because the email uses a placeholder '[Insert Date]' instead of a specific deadline, failing to fully meet the requirement of setting a clear deadline. Best Practices remains 5 as the tone and professional structure are appropriate despite the placeholder."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Prepare or proctor examinations.",
+      "task_type": "Exam Administration and Security",
+      "user_prompt": "You are proctoring a final exam for an Advanced Calculus course. During the exam, you notice a student attempting to use a smartwatch to access notes. The student claims it is a 'fitness tracker' and has no internet access. Draft a formal incident report and a follow-up email to the student. The report must: 1) Objectively describe the observed behavior and the student's explanation, 2) Cite the specific university academic integrity policy regarding unauthorized devices, 3) State the immediate action taken (confiscation of the device and removal from the exam room), and 4) Outline the next steps for the student to resolve the matter with the department chair. Ensure the language is neutral and factual.",
+      "reference_context": {
+        "exam_rules": "No electronic devices allowed except approved calculators. Smartwatches are strictly prohibited.",
+        "policy_reference": "Section 4.2 of the Student Handbook: 'Use of unauthorized electronic devices constitutes academic dishonesty.'",
+        "procedure": "Confiscate device, issue incident form, notify department chair, allow student to finish exam without device."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Objectivity — Does the report describe events factually without emotional language or assumptions of intent?",
+        "Criterion 2: Policy Accuracy — Is the correct policy section cited and applied to the situation?",
+        "Criterion 3: Procedural Correctness — Are the immediate actions and next steps aligned with standard academic integrity protocols?"
+      ],
+      "student_answer": "**INCIDENT REPORT: ACADEMIC INTEGRITY VIOLATION**\n\n**Date:** October 26, 2023\n**Course:** Advanced Calculus (MATH 401)\n**Exam:** Final Examination\n**Proctor:** [Your Name/Title]\n**Student Name:** [Student Name]\n**Student ID:** [Student ID Number]\n\n**1. Description of Observed Behavior and Student Explanation**\nAt approximately 14:15, during the administration of the final examination, the proctor observed the student raising their left wrist and tapping the screen of a smartwatch. The student subsequently glanced at the device multiple times while holding their hand near their lap. When approached by the proctor, the student was asked to identify the device. The student stated that the device was a \"fitness tracker\" and explicitly claimed it possessed no internet connectivity or storage capabilities for academic notes.\n\n**2. Policy Citation**\nThis behavior is in direct violation of the course examination rules and the university's academic integrity standards. Specifically, the exam rules state: \"No electronic devices allowed except approved calculators. Smartwatches are strictly prohibited.\" Furthermore, this action constitutes a breach of **Section 4.2 of the Student Handbook**, which stipulates: \"Use of unauthorized electronic devices constitutes academic dishonesty.\"\n\n**3. Immediate Actions Taken**\nUpon the student's refusal to provide immediate verification of the device's functionality and the continued suspicion of unauthorized access, the following actions were executed in accordance with standard procedure:\n*   The smartwatch was confiscated and secured by the proctor.\n*   The student was immediately removed from the examination room.\n*   An official incident form was completed and submitted to the department office.\n\n**4. Next Steps for Resolution**\nThe student is required to schedule a meeting with the Department Chair of Mathematics to address this incident. The student must bring the confiscated device to this meeting for inspection. The Department Chair will review the evidence and the student's explanation to determine the final disciplinary outcome. The student is advised to contact the department office by 5:00 PM on November 1, 2023, to arrange this meeting.\n\n***\n\n**EMAIL TO STUDENT**\n\n**Subject:** URGENT: Academic Integrity Incident – Advanced Calculus Final Exam\n\n**Dear [Student Name],**\n\nThis email serves as formal notification regarding an incident that occurred during the Advanced Calculus final examination on October 26, 2023.\n\nDuring the exam, you were observed attempting to access information on a smartwatch. Despite your explanation that the device was a fitness tracker with no internet access, the use of this device violated Section 4.2 of the Student Handbook (\"Use of unauthorized electronic devices constitutes academic dishonesty\") and the specific exam rules prohibiting smartwatches.\n\nConsequently, the device was confiscated, and you were removed from the examination room.\n\nTo resolve this matter, you are required to meet with the Department Chair of Mathematics. During this meeting, you must present the confiscated device for inspection. Please contact the department office by 5:00 PM on November 1, 2023, to schedule this appointment.\n\nFailure to attend this meeting may result in further disciplinary action.\n\nSincerely,\n\n[Your Name]\nTeaching Assistant, Advanced Calculus\n[University Name]",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "Correctness (4): The submission follows the explicit Task instructions for the report content (removal from room), but introduces an unverified detail ('refusal to provide verification') not found in the provided scenario facts, which slightly compromises objectivity. Completeness (5): All required components (Report, Email, 4 specific points) are fully addressed. Best Practices (5): Professional tone, clear structure, and appropriate use of placeholders. Domain Accuracy (5): Policy citations and terminology align perfectly with the provided Context. Clarity (5): Well-structured with logical headings and easy to read."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Tutor or mentor students who need additional instruction.",
+      "task_type": "Individualized Tutoring and Scaffolding",
+      "user_prompt": "You are tutoring a student struggling with the concept of 'Recursion' in a Python programming course. The student understands loops but cannot grasp how a function calls itself. Create a 3-step tutoring plan for a 45-minute session. The plan must: 1) Use a real-world analogy (e.g., Russian nesting dolls) to explain the concept, 2) Provide a specific, simplified code example that prints a countdown, and 3) Assign a 'scaffolded' practice problem where the student must fill in the base case and recursive step of a provided function. Ensure the plan promotes active learning and avoids simply giving the solution.",
+      "reference_context": {
+        "student_level": "Beginner programmer; comfortable with 'for' and 'while' loops; confused by stack frames.",
+        "session_duration": "45 minutes",
+        "learning_objective": "Student will be able to define recursion and implement a basic recursive function."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Conceptual Clarity — Is the analogy accurate and effectively bridges the gap between loops and recursion?",
+        "Criterion 2: Pedagogical Scaffolding — Does the plan move from analogy to example to guided practice?",
+        "Criterion 3: Active Learning — Does the practice problem require the student to generate code rather than just read it?"
+      ],
+      "student_answer": "### 45-Minute Recursion Tutoring Plan\n\n**Step 1: Conceptualizing the \"Stack\" via Real-World Analogy (15 minutes)**\n*   **Activity:** Introduce the concept using the \"Russian Nesting Dolls\" (Matryoshka) analogy. Explain that a recursive function is like opening a doll to find a smaller, identical doll inside.\n*   **Key Distinction:** Contrast this with loops. Explain that a loop is like walking in a circle (repeating the same action), whereas recursion is a chain of tasks where each task waits for the next smaller task to finish before it can complete its own job.\n*   **Active Learning:** Ask the student to verbally describe what happens if they open a doll and find *another* doll, then *another*, and finally a solid core. Guide them to identify the \"solid core\" as the **Base Case** (the stopping point) and the act of opening the doll as the **Recursive Step**. Emphasize that without the solid core, the process never ends (infinite recursion).\n\n**Step 2: Visualizing Execution with a Countdown Example (15 minutes)**\n*   **Activity:** Walk through a simplified `countdown(n)` function together. Do not write the code for them; have them dictate the logic while you type.\n*   **Code Structure:**\n    ```python\n    def countdown(n):\n        # Base Case: Stop when n reaches 0\n        if n == 0:\n            print(\"Blastoff!\")\n            return\n        # Recursive Step: Print current number and call function with n-1\n        print(n)\n        countdown(n - 1)\n    ```\n*   **Active Learning:** Have the student trace the execution of `countdown(3)` on paper. They must draw \"stack frames\" (boxes) for each call: `countdown(3)`, `countdown(2)`, `countdown(1)`, `countdown(0)`. Ask them to write down exactly what prints at each stage and in what order, reinforcing that the \"Blastoff!\" message prints *after* the deepest call returns, not before.\n\n**Step 3: Scaffolded Practice – The \"Factorial\" Fill-in (15 minutes)**\n*   **Activity:** Provide a pre-written function skeleton for calculating the factorial of a number (`n!`). The student must identify and fill in the missing logic for the base case and the recursive step.\n*   **Scaffolded Problem:**\n    ```python\n    def factorial(n):\n        # Task A: Define the Base Case (What is 0! or 1!?)\n        if n <= 1:\n            return _______  # Student fills this in\n\n        # Task B: Define the Recursive Step (How does n! relate to (n-1)!?)\n        else:\n            return _______  # Student fills this in\n    ```\n*   **Active Learning:** Instruct the student to test their code with `factorial(3)` and `factorial(5)`. If they get stuck, ask guiding questions: \"If 3! is 3 times 2!, and 2! is 2 times 1!, what is the formula for `n`?\" Encourage them to run the code and observe the output, debugging any logic errors by referring back to the \"doll\" analogy.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        5,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission is highly accurate and addresses all task constraints with strong pedagogical alignment to the student's context (stack frames). It receives a 5 on Correctness, Best Practices, Domain Accuracy, and Clarity. A 4 is assigned to Completeness because the 15+15+15 minute allocation leaves no buffer for transitions or wrap-up, which is a minor omission in professional lesson planning."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Meet with supervisors to discuss students' grades or to complete required grade-related paperwork.",
+      "task_type": "Grade Dispute Resolution and Documentation",
+      "user_prompt": "You are a Teaching Assistant meeting with your professor to discuss a grade dispute. A student claims they received a 'C' on a lab report but believe they deserve a 'B' because they completed all required experiments. The professor's rubric shows they lost points for 'Data Analysis Depth' and 'Graph Accuracy'. Draft a summary memo for the professor that: 1) Summarizes the student's argument, 2) Maps the student's work against the specific rubric criteria where points were lost, 3) Recommends a specific grade adjustment if the student provides a revised analysis, or justifies maintaining the current grade if the work remains insufficient, and 4) Proposes a timeline for the student to submit the revision. Ensure the memo is concise and data-driven.",
+      "reference_context": {
+        "student_claim": "Completed all experiments; believes 'C' is unfair.",
+        "rubric_details": "Data Analysis Depth (20 pts, student got 12); Graph Accuracy (10 pts, student got 5); Total Lab Score: 72/100.",
+        "revision_policy": "Students may submit one revision within 5 days for partial credit recovery."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Evidence-Based Reasoning — Does the memo clearly link the grade to specific rubric deficiencies?",
+        "Criterion 2: Actionable Recommendation — Is the proposed path forward (revision or final grade) clear and justified?",
+        "Criterion 3: Professionalism — Is the tone appropriate for a supervisor-subordinate academic discussion?"
+      ],
+      "student_answer": "**MEMORANDUM**\n\n**TO:** Professor [Name]\n**FROM:** Teaching Assistant\n**DATE:** October 26, 2023\n**SUBJECT:** Grade Dispute Summary – Lab Report [Student Name]\n\n**1. Student Argument Summary**\nThe student contends that the assigned 'C' (72/100) is unjustified, arguing that the completion of all required experimental procedures warrants a 'B' grade. They assert that procedural completion should supersede the specific scoring criteria applied to their final submission.\n\n**2. Rubric Analysis vs. Student Work**\nThe current grade reflects a 28-point deduction based on two specific criteria, not procedural completion:\n*   **Data Analysis Depth (20 pts max):** Student scored 12/20. The work demonstrated identification of trends but lacked the required statistical validation and critical interpretation of anomalies.\n*   **Graph Accuracy (10 pts max):** Student scored 5/10. Errors included missing axis labels, incorrect scaling, and failure to include error bars as mandated by the rubric.\n*   **Total Score:** 72/100.\n\n**3. Recommendation**\n*   **Maintain Current Grade:** If the student submits no revision, the 'C' (72/100) stands. The rubric explicitly penalizes analytical depth and technical accuracy, which are distinct from the mere completion of experiments.\n*   **Conditional Adjustment:** If the student submits a revised analysis addressing the specific gaps in data interpretation and graph construction, I recommend awarding partial credit recovery up to a maximum of 85/100 ('B-'). This aligns with the policy of rewarding corrected technical execution without inflating the grade for original errors.\n\n**4. Proposed Timeline**\nPer the course revision policy, the student must submit the revised analysis within **5 days** of this meeting (by [Date + 5 days]). Late submissions will not be accepted for credit recovery.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission correctly addresses all task requirements with accurate data mapping and clear structure (Correctness, Completeness, Domain Accuracy, Clarity). However, the use of placeholders like [Name] and [Date + 5 days] prevents it from being fully industry-ready, resulting in a 4 for Best Practices rather than 5."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Schedule and maintain regular office hours to meet with students.",
+      "task_type": "Office Hours Coordination and Accessibility",
+      "user_prompt": "You are organizing office hours for a large lecture course with 200 students. You need to create a communication plan to ensure all students, including those with disabilities and non-traditional schedules, can access support. Draft a comprehensive announcement email that: 1) Lists the standard office hours (Mon/Wed 2-4 PM, Fri 10-12 PM), 2) Offers an alternative virtual appointment slot for students with scheduling conflicts, 3) Explicitly states the accessibility accommodations available (e.g., wheelchair access, captioning for virtual sessions), and 4) Provides a link to a booking system to reduce wait times. Ensure the language is inclusive and encourages help-seeking behavior.",
+      "reference_context": {
+        "course_size": "200 students",
+        "accommodations_available": "Wheelchair accessible room, Zoom with auto-captioning, sign language interpreter upon request.",
+        "booking_system": "Calendly link provided for 30-minute slots.",
+        "goal": "Increase student engagement and reduce barriers to seeking help."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Inclusivity — Does the email explicitly address accessibility needs and alternative scheduling options?",
+        "Criterion 2: Clarity of Logistics — Are the times, locations, and booking methods clearly stated?",
+        "Criterion 3: Encouragement — Does the tone effectively reduce stigma around seeking help and promote utilization of resources?"
+      ],
+      "student_answer": "Subject: Office Hours & Support: Accessible Help for [Course Name]\n\nDear Students,\n\nAs we progress through [Course Name], remember that seeking help is a vital part of your learning journey. Whether you are reviewing a complex concept, clarifying an assignment, or simply want to discuss your progress, I am here to support you.\n\nTo ensure every student can access the support they need, I have established the following office hours and accommodations:\n\n**Standard In-Person Office Hours**\n*   **Mondays & Wednesdays:** 2:00 PM – 4:00 PM\n*   **Fridays:** 10:00 AM – 12:00 PM\n*   **Location:** [Room Number], [Building Name]\n    *   *Note: This room is fully wheelchair accessible.*\n\n**Virtual & Flexible Options**\nFor students with non-traditional schedules, work commitments, or those who prefer remote interaction, I offer virtual appointments.\n*   **Platform:** Zoom sessions include **auto-captioning** for real-time accessibility.\n*   **Sign Language Interpreters:** Available upon request. Please contact me at least 48 hours in advance to arrange this.\n\n**How to Book Your Time**\nTo minimize wait times and ensure we have dedicated time to focus on your questions, please use our online booking system to reserve a 30-minute slot:\n👉 **[Insert Calendly Booking Link Here]**\n\nYou can book a standard in-person slot or a virtual appointment directly through the link. If you have specific accessibility needs not listed above, please reply to this email, and I will work with you to find a solution.\n\nLet's make sure you have the resources you need to succeed. I look forward to seeing you there.\n\nBest regards,\n\n[Your Name]\nTeaching Assistant, [Course Name]\n[Your Email Address]",
+      "score": 0,
+      "dimension_scores": [],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Demonstrate use of laboratory equipment and enforce laboratory rules.",
+      "task_type": "Laboratory Safety and Instruction",
+      "user_prompt": "You are a Teaching Assistant for an Organic Chemistry lab. A student attempts to use a Bunsen burner without a flame arrestor and ignores the posted 'No Open Flames' sign near the flammable solvents station. Draft a formal incident report and a corrective action plan. The report must: 1) Describe the specific violation and potential hazards, 2) Cite the relevant safety protocol, 3) Outline a remedial demonstration you will conduct for the student, and 4) Specify the conditions under which the student may return to the lab.",
+      "reference_context": {
+        "lab_equipment": "Bunsen burners, flammable solvents (ethanol, acetone), fume hoods, flame arrestors",
+        "safety_protocol": "All open flames must be extinguished or shielded when flammable solvents are present; flame arrestors are mandatory for Bunsen burners in this zone.",
+        "student_history": "First offense; student claims they did not see the sign."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Safety Accuracy — Does the response correctly identify the specific hazards of mixing open flames and flammable solvents?",
+        "Criterion 2: Protocol Adherence — Is the cited safety rule accurate and specific to the scenario?",
+        "Criterion 3: Remediation — Does the corrective plan include a hands-on demonstration and clear return-to-lab conditions?"
+      ],
+      "student_answer": "**INCIDENT REPORT: SAFETY VIOLATION**\n\n**Date:** October 26, 2023\n**Location:** Organic Chemistry Lab, Flammable Solvents Station\n**Student:** [Student Name]\n**Instructor/TA:** [Your Name]\n**Incident Type:** Unauthorized Use of Open Flame / Failure to Use Safety Equipment\n\n**1. Description of Violation and Potential Hazards**\nThe student attempted to ignite a Bunsen burner at the flammable solvents station without installing a mandatory flame arrestor. This action directly contravened the posted \"No Open Flames\" signage. The immediate hazard involves the high probability of flash fire or explosion, as the open flame could ignite vapors from nearby ethanol and acetone. The absence of a flame arrestor removes the critical safety barrier designed to prevent flashback into the fuel source or solvent reservoir, creating an uncontrolled fire risk for the entire laboratory.\n\n**2. Relevant Safety Protocol**\nThis incident violates the following established laboratory safety protocols:\n*   **Protocol A:** All open flames must be extinguished or strictly shielded whenever flammable solvents (specifically ethanol and acetone) are present in the immediate vicinity.\n*   **Protocol B:** The use of a Bunsen burner within the flammable solvents zone is strictly prohibited unless a certified flame arrestor is securely attached to the burner outlet.\n*   **Protocol C:** All posted safety signage regarding fire hazards must be acknowledged and adhered to by all personnel.\n\n**3. Remedial Demonstration Plan**\nTo ensure the student understands the gravity of the violation and the mechanics of the safety equipment, the following remedial demonstration will be conducted immediately:\n*   **Visual Inspection:** The TA will demonstrate the internal mechanism of a flame arrestor, explaining how the mesh screen dissipates heat and prevents flashback.\n*   **Vapor Simulation:** Using a controlled, non-flammable aerosol spray to simulate solvent vapor dispersion, the TA will demonstrate how quickly vapors can travel and accumulate near a heat source.\n*   **Correct Procedure Walkthrough:** The student will be required to verbally and physically demonstrate the correct sequence: (1) Verify the \"No Open Flame\" status, (2) Inspect the flame arrestor for damage, (3) Securely attach the arrestor, and (4) Only then ignite the burner.\n*   **Signage Review:** A review of the specific \"No Open Flames\" sign and its placement will be conducted to ensure the student understands the necessity of scanning the environment before equipment use.\n\n**4. Conditions for Return to the Lab**\nThe student is currently suspended from independent lab work. They may return to the laboratory only after meeting the following conditions:\n*   Successful completion of the remedial demonstration described above, verified by the TA.\n*   Written acknowledgment of the safety violation and a signed statement confirming understanding of the \"No Open Flames\" and flame arrestor protocols.\n*   Direct supervision by the TA for the remainder of the current lab session.\n*   Verification that the student has reviewed the full Laboratory Safety Manual section on Fire Prevention.\n\n**Status:** Pending Remediation\n**Signature:** ______________________\n**Date:** ______________________",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        4,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission is professionally structured, addressing all four task requirements with high detail and appropriate tone (Correctness, Completeness, Best Practices, Clarity). However, in the remedial demonstration section, the explanation of the flame arrestor's function contains a minor technical inaccuracy, stating it prevents flashback into the 'solvent reservoir' rather than the gas supply line, which slightly impacts Domain Accuracy."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Attend lectures given by the supervising instructor.",
+      "task_type": "Lecture Note Synthesis and Adaptation",
+      "user_prompt": "You are a Teaching Assistant for a 'Introduction to Macroeconomics' course. The supervising instructor delivered a 60-minute lecture on 'Fiscal Policy Multipliers' using complex calculus derivations. Your task is to create a 300-word study guide for students who missed the lecture. The guide must: 1) Summarize the core concept of the multiplier effect without using calculus, 2) Provide a concrete numerical example (e.g., government spending increase), and 3) List three key takeaways regarding the limitations of fiscal policy discussed in class.",
+      "reference_context": {
+        "lecture_topic": "Fiscal Policy Multipliers",
+        "key_concepts": "Marginal Propensity to Consume (MPC), formula 1/(1-MPC), crowding out effect, time lags",
+        "instructor_notes": "Instructor emphasized that the multiplier is smaller in open economies and that crowding out reduces effectiveness."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Conceptual Accuracy — Is the explanation of the multiplier effect mathematically sound without using calculus?",
+        "Criterion 2: Clarity and Accessibility — Is the numerical example easy to follow for an introductory student?",
+        "Criterion 3: Completeness — Are all three required elements (summary, example, limitations) included?"
+      ],
+      "student_answer": "**Study Guide: Fiscal Policy Multipliers**\n\n**Core Concept: The Ripple Effect**\nThe multiplier effect describes how an initial change in government spending triggers a chain reaction of increased consumption, resulting in a total change in national income that is larger than the original spending. Instead of complex calculus, think of this as a ripple in a pond. When the government injects money into the economy, recipients spend a portion of it based on their Marginal Propensity to Consume (MPC)—the fraction of extra income they spend. This spending becomes income for others, who then spend a portion of *their* new income, and the cycle continues. The size of the multiplier is determined by the simple formula: 1 / (1 - MPC). If people spend most of their income (high MPC), the multiplier is large; if they save more, the multiplier shrinks.\n\n**Numerical Example**\nImagine the government increases spending by $100 million on new infrastructure. Assume the MPC is 0.8, meaning households spend 80% of any new income.\n1.  **Initial Injection:** The government spends $100 million.\n2.  **First Round:** Construction workers receive $100 million and spend $80 million (0.8 × $100M).\n3.  **Second Round:** The sellers of goods receive $80 million and spend $64 million (0.8 × $80M).\n4.  **Continuation:** This cycle repeats, with each round being smaller than the last.\nUsing the formula (1 / (1 - 0.8)), the multiplier is 5. Therefore, the total increase in GDP is $100 million × 5 = $500 million.\n\n**Key Limitations of Fiscal Policy**\n1.  **Crowding Out Effect:** Increased government borrowing can raise interest rates, making it more expensive for private businesses to borrow and invest, which partially offsets the stimulus.\n2.  **Time Lags:** There is often a significant delay between recognizing an economic problem, passing legislation, and the actual implementation of spending, meaning the policy might hit the economy at the wrong time.\n3.  **Open Economy Constraints:** In open economies, a portion of the increased spending leaks out to buy imported goods rather than circulating domestically, which reduces the overall size of the multiplier compared to a closed economy.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission is highly competent and meets all explicit task requirements (Correctness, Completeness, Domain Accuracy, Clarity). It accurately explains the multiplier without calculus, provides a correct numerical example, and lists the required limitations. However, it scores a 4 on Best Practices because, while professional, it lacks typical study guide scaffolding such as a key terms glossary or a self-check question that would elevate it to an industry-standard TA resource. The content is accurate and clear, but the format is a summary rather than a comprehensive study tool."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Arrange for supervisors to conduct teaching observations and provide feedback about teaching performance.",
+      "task_type": "Teaching Observation Coordination",
+      "user_prompt": "You are a Teaching Assistant preparing for your first formal teaching observation. You need to draft a pre-observation meeting agenda and a self-reflection prompt for your supervising professor. The agenda must: 1) Outline the specific learning objectives for the upcoming session on 'Cellular Respiration', 2) Request feedback on specific classroom management techniques (e.g., handling questions during group work), and 3) Propose a time for a post-observation debrief. Additionally, write a 150-word self-reflection prompt that asks the professor to evaluate your ability to connect theory to real-world biological examples.",
+      "reference_context": {
+        "session_topic": "Cellular Respiration: Glycolysis and Krebs Cycle",
+        "learning_objectives": "Students will be able to trace carbon atoms through the cycle and explain ATP production.",
+        "class_size": "45 students",
+        "teaching_style": "Interactive lecture with group problem-solving"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Alignment — Do the learning objectives match the session topic and level?",
+        "Criterion 2: Specificity — Are the feedback requests specific to classroom management and pedagogy rather than general?",
+        "Criterion 3: Professionalism — Is the tone of the agenda and reflection prompt appropriate for an academic setting?"
+      ],
+      "student_answer": "**Pre-Observation Meeting Agenda**\n\n**Date:** [Insert Date]\n**Time:** [Insert Time]\n**Location:** [Insert Location/Online Link]\n**Attendees:** Teaching Assistant, Supervising Professor\n\n**1. Session Overview & Learning Objectives (5 mins)**\n*   **Topic:** Cellular Respiration: Glycolysis and Krebs Cycle.\n*   **Primary Objectives:**\n    *   Students will accurately trace carbon atoms through the glycolysis and Krebs cycle pathways.\n    *   Students will explain the specific mechanisms of ATP production at each stage.\n*   **Format:** Interactive lecture followed by group problem-solving activities.\n\n**2. Classroom Management & Feedback Focus (10 mins)**\n*   **Context:** Managing a large cohort of 45 students during active learning phases.\n*   **Specific Request:** Please observe and provide feedback on my facilitation of questions during group work. Specifically, I seek guidance on:\n    *   Balancing individual group support with whole-class attention.\n    *   Strategies for redirecting off-topic discussions without disrupting the flow.\n    *   Ensuring equitable participation among all group members.\n\n**3. Post-Observation Debrief Proposal (5 mins)**\n*   **Proposed Time:** [Insert Date/Time Option 1] or [Insert Date/Time Option 2].\n*   **Goal:** To review observation notes, discuss the effectiveness of the learning objectives, and refine future classroom management strategies.\n\n***\n\n**Self-Reflection Prompt for Supervising Professor**\n\n\"Please evaluate my instructional effectiveness in bridging abstract biochemical theory with tangible real-world biological examples during today's session. Specifically, assess how clearly I connected the molecular mechanics of the Krebs cycle to broader physiological contexts, such as human metabolism, athletic performance, or metabolic disorders. Did my use of analogies and case studies successfully make the complex process of ATP production accessible to the diverse learning levels in our class of 45? Furthermore, identify any moments where the connection between theoretical concepts and practical application felt forced or unclear, and suggest specific, concrete examples I could have utilized to deepen student understanding and engagement with the material.\"",
+      "score": 0,
+      "dimension_scores": [],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Provide instructors with assistance in the use of audiovisual equipment.",
+      "task_type": "AV Setup and Troubleshooting",
+      "user_prompt": "You are a Teaching Assistant for a 'Digital Media Production' course. The supervising instructor needs to present a 45-minute video lecture on 'Color Grading' in a room with a 4K projector and a laptop with an HDMI port. The instructor's laptop only has a USB-C port. Draft a step-by-step setup checklist for the instructor that: 1) Identifies the necessary adapters, 2) Explains how to configure the display settings (extend vs. mirror) for optimal visibility, 3) Includes a troubleshooting step for common audio sync issues, and 4) Provides a quick-reference card for the instructor to use during the lecture.",
+      "reference_context": {
+        "hardware": "4K Projector, Laptop (USB-C only), HDMI Cable, USB-C to HDMI Adapter",
+        "software": "macOS Monterey, VLC Player",
+        "room_setup": "Projector ceiling-mounted, screen at front, instructor podium at side"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Technical Accuracy — Are the adapter requirements and display settings correct for the specified hardware?",
+        "Criterion 2: Troubleshooting — Does the checklist address audio sync issues with practical solutions?",
+        "Criterion 3: Usability — Is the quick-reference card concise and easy to read during a presentation?"
+      ],
+      "student_answer": "# Digital Media Production: Color Grading Lecture Setup Checklist\n\n### 1. Hardware & Adapter Requirements\n*   **Primary Adapter:** USB-C to HDMI 2.0 Adapter (Must support 4K @ 60Hz to ensure color depth and frame rate integrity for grading demonstrations).\n*   **Cabling:** High-Speed HDMI Cable (15ft recommended to reach from side podium to ceiling projector).\n*   **Power:** Laptop charger (USB-C) and adapter power brick (ensure the adapter does not overheat during extended use).\n*   **Audio:** External speakers or classroom sound system (verify laptop audio output is routed correctly).\n\n### 2. Display Configuration (macOS Monterey)\n*   **Connect:** Plug the USB-C adapter into the laptop, then connect the HDMI cable to the projector.\n*   **Open Settings:** Navigate to **System Settings > Displays**.\n*   **Select Mode:** Choose **\"Extended Display\"** (Do *not* use \"Mirror\").\n    *   *Rationale:* This allows the instructor to see the full 4K timeline and grading tools on their laptop screen while the projector displays only the final graded output to the class, preventing students from seeing the raw footage or interface clutter.\n*   **Resolution Check:** Ensure the Projector is set to **4K (3840 x 2160)** at **60Hz** in the \"Scaled\" options to maintain color fidelity.\n*   **Audio Output:** Go to **System Settings > Sound > Output** and select the classroom sound system (or \"External Speakers\" if using the projector's built-in audio, though external is preferred for clarity).\n\n### 3. Troubleshooting: Audio/Video Sync Issues\n*   **Symptom:** Dialogue or sound effects lag behind the visual timeline in VLC.\n*   **Immediate Fix:**\n    1.  Pause the video in VLC.\n    2.  Press the **'j'** key to delay audio (move it back) or **'k'** to advance audio (move it forward) in 0.1-second increments.\n    3.  *Alternative:* Go to **Tools > Track Synchronization** in VLC and adjust the \"Audio Track Synchronization\" slider until the lip-sync matches.\n*   **Prevention:** Always test the specific lecture file 10 minutes prior to class start using this method.\n\n### 4. Instructor Quick-Reference Card\n*(Print this card and place on the podium)*\n\n---\n**COLOR GRADING LECTURE: QUICK REF**\n\n**🔌 CONNECTION**\n*   **Adapter:** USB-C → HDMI (4K 60Hz)\n*   **Mode:** **Extended Display** (Laptop = Editor View | Projector = Final Output)\n*   **Audio:** Check System Settings > Sound > Output\n\n**🎬 VLC PLAYER SHORTCUTS**\n*   **Play/Pause:** Spacebar\n*   **Audio Sync (Lag):** Press **'j'** (delay) or **'k'** (advance)\n*   **Zoom/Scale:** Right-click > Video > Zoom (for close-up grading details)\n*   **Full Screen:** Cmd + F\n\n**⚠️ TROUBLESHOOTING**\n*   **No Signal?** Check HDMI cable connection at both ends; restart laptop.\n*   **Audio Out of Sync?** Use 'j'/'k' keys immediately.\n*   **Dark Image?** Check Projector \"Eco Mode\" or \"Power Save\" settings; switch to \"Standard\" or \"Cinema\" mode.\n\n**🎨 GRADING DEMO TIPS**\n*   Keep raw footage on laptop screen.\n*   Show graded result on projector.\n*   Use \"Split Screen\" view in grading software if demonstrating before/after.\n---",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional. It demonstrates precise technical knowledge (macOS Monterey paths, HDMI 2.0 specs, VLC shortcuts) and strong pedagogical insight (using Extended Display to hide the NLE interface). It fully addresses all four task requirements with context-aware details (cable length for podium placement, thermal management for adapters). The structure is clear, professional, and includes the requested quick-reference card. There are no meaningful gaps or inaccuracies."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Assist faculty members or staff with student conferences.",
+      "task_type": "Student Conference Facilitation",
+      "user_prompt": "You are a Teaching Assistant assisting a professor with a student conference regarding a potential academic integrity violation. The student, 'Alex', claims their essay on 'Climate Change Policy' was written with the help of a peer, but the professor suspects plagiarism. Draft a structured outline for the conference that: 1) Sets a neutral and non-accusatory tone, 2) Lists three open-ended questions to ask Alex about their research process, 3) Outlines the evidence the professor will present, and 4) Describes the next steps if the violation is confirmed versus if it is a misunderstanding.",
+      "reference_context": {
+        "student_name": "Alex",
+        "assignment": "Essay on Climate Change Policy",
+        "evidence": "Turnitin report showing 40% similarity to a peer's submission; identical phrasing in the introduction.",
+        "policy": "University Academic Integrity Policy: First offense results in a zero on the assignment and a mandatory workshop."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Tone and Ethics — Is the conference outline neutral, fair, and aligned with academic integrity standards?",
+        "Criterion 2: Inquiry Quality — Are the questions open-ended and designed to elicit the student's process rather than force a confession?",
+        "Criterion 3: Procedural Correctness — Do the next steps accurately reflect the university's policy for both outcomes?"
+      ],
+      "student_answer": "# Student Conference Outline: Academic Integrity Review\n**Student:** Alex\n**Assignment:** Essay on Climate Change Policy\n**Facilitator:** Teaching Assistant (on behalf of Professor)\n\n### I. Opening: Setting the Tone\n*   **Objective:** Establish a supportive, fact-based, and non-accusatory environment to encourage honest dialogue.\n*   **Scripting Approach:**\n    *   \"Alex, thank you for meeting with us today. The purpose of this conference is to understand your perspective on the submission you turned in for the Climate Change Policy essay.\"\n    *   \"We want to clarify the research process you undertook and ensure we have a complete picture before discussing the next steps.\"\n    *   \"This is a collaborative conversation to resolve any discrepancies between your work and the submission data.\"\n\n### II. Inquiry: Research Process Questions\n*   **Goal:** Elicit detailed information about the student's workflow to distinguish between collaboration and plagiarism.\n*   **Open-Ended Questions:**\n    1.  \"Can you walk us through your research strategy and how you developed the specific arguments and phrasing used in the introduction of your essay?\"\n    2.  \"You mentioned receiving help from a peer; could you describe the specific nature of that interaction and how you integrated their input into your final draft?\"\n    3.  \"What steps did you take to ensure that the final text reflected your own voice and synthesis of sources prior to submission?\"\n\n### III. Presentation of Evidence\n*   **Objective:** Present objective data without interpretation or judgment.\n*   **Data Points to Display:**\n    *   **Turnitin Similarity Report:** Display the report highlighting the 40% overall similarity score.\n    *   **Specific Overlap:** Point out the identical phrasing found in the introduction section of the essay compared to the peer's submission.\n    *   **Submission Timestamps:** Note the proximity of submission times if relevant to the context of collaboration.\n*   **Statement:** \"Our records show a significant overlap in text between your submission and another student's work. Specifically, the introduction contains identical phrasing. We are reviewing this against the University's Academic Integrity Policy.\"\n\n### IV. Resolution Pathways\n\n#### Scenario A: Violation Confirmed\n*   **Conditions:** If the evidence supports that the work was not original or unauthorized collaboration occurred.\n*   **Consequences (per University Policy):**\n    *   **Grade:** A grade of zero (0) will be assigned to the assignment.\n    *   **Remediation:** Mandatory enrollment in the Academic Integrity Workshop.\n    *   **Documentation:** A formal record of the incident will be filed with the Office of Student Conduct.\n*   **Action:** \"Given the evidence, we must proceed with the standard sanctions outlined in the policy. I will guide you through the enrollment process for the workshop and the grade adjustment.\"\n\n#### Scenario B: Misunderstanding Clarified\n*   **Conditions:** If Alex provides a credible explanation (e.g., accidental citation failure, legitimate peer review that was not disclosed) and the work is deemed a result of negligence rather than intent to deceive.\n*   **Consequences:**\n    *   **Re-evaluation:** The professor may consider a re-submission opportunity or a reduced penalty based on the specific nature of the error.\n    *   **Education:** Focus shifts to a remedial discussion on proper citation and collaboration boundaries.\n    *   **Documentation:** A note may be placed in the student file regarding the incident, but formal disciplinary sanctions may be waived.\n*   **Action:** \"While the overlap is significant, we acknowledge your explanation. We will adjust the outcome to focus on educational remediation rather than disciplinary action, provided you agree to the revised citation guidelines.\"",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        5,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission is highly professional, addressing all task requirements with a neutral tone and clear structure. Correctness, Best Practices, Domain Accuracy, and Clarity are exceptional. However, Completeness receives a 4 because the Evidence section lists submission timestamps as 'if relevant'; in a formal integrity conference, timestamps are standard evidence for establishing sequence and should be explicitly included rather than conditional."
+    }
+  ]
+}

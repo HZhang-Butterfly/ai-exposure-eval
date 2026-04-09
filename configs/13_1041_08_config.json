@@ -1,0 +1,62 @@
+{
+  "job_id": "customs_broker",
+  "job_title": "Customs Brokers",
+  "onet_code": "13-1041.08",
+  "role_description": "Senior Customs Compliance Officer and Regulatory Analyst",
+  "task_types": "Regulatory Compliance & Documentation / Tariff Classification & Duty Calculation / Client Advisory & Risk Management / Financial Settlement & Bonding / Regulatory Intelligence & Training",
+  "onet_tasks": [
+    "Prepare and process import and export documentation according to customs regulations, laws, or procedures.",
+    "Clear goods through customs and to their destinations for clients.",
+    "Pay, or arrange for payment of, taxes and duties on shipments.",
+    "Calculate duty and tariff payments owed on shipments.",
+    "Request or compile necessary import documentation, such as customs invoices, certificates of origin, and cargo-control documents.",
+    "Classify goods according to tariff coding system.",
+    "Stay abreast of changes in import or export laws or regulations by reading current literature, attending meetings or conferences, or conferring with colleagues.",
+    "Sign documents on behalf of clients, using powers of attorney.",
+    "Advise customers on import and export restrictions, tariff systems, insurance requirements, quotas, or other customs-related matters.",
+    "Post bonds for the products being imported or assist clients in obtaining bonds."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly cite relevant HTSUS (Harmonized Tariff Schedule of the United States) chapters or specific regulatory codes where applicable",
+    "Requirement 6: Scenarios must include conflicting constraints (e.g., cost vs. speed vs. compliance) requiring professional judgment"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Classify goods according to tariff coding system.",
+    "task_type": "Tariff Classification & Duty Calculation",
+    "user_prompt": "A client is importing 500 units of 'smart thermostats with integrated humidity sensors' from Germany. The goods are made of plastic and contain a lithium-ion battery. The client wants to minimize duty costs but ensure full compliance. Analyze the provided product specifications and determine the most appropriate 10-digit HTSUS classification code. Justify your choice by explaining the 'essential character' of the goods and identifying any potential exclusions or notes that might affect the classification. Calculate the estimated duty rate based on the current General Rate of Duty.",
+    "reference_context": {
+      "product_specs": {
+        "name": "Smart Thermostat Pro",
+        "material": "ABS Plastic casing, Copper wiring, Lithium-ion battery (3.7V, 2000mAh)",
+        "function": "Automatically adjusts temperature based on humidity and time of day; connects to Wi-Fi",
+        "origin": "Germany",
+        "quantity": 500,
+        "unit_value_usd": 120.0
+      },
+      "regulatory_notes": [
+        "Note 1 to Chapter 85: Electrical machinery and equipment.",
+        "Note 2 to Chapter 85: Goods put up in sets for retail sale.",
+        "Exclusion: Batteries classified separately under Chapter 85 if not integral."
+      ]
+    },
+    "evaluation_criteria": [
+      "Correctness: Is the HTSUS code logically derived and accurate based on the provided specs?",
+      "Completeness: Did the response address the 'essential character' argument and duty calculation?",
+      "Best practices: Is the reasoning structured professionally and suitable for a customs audit?"
+    ]
+  },
+  "grading_notes": "Verify that the AI does not simply guess a code but applies the General Rules of Interpretation (GRI). Watch for failure to distinguish between the thermostat and the battery if they are considered separate components. Ensure the duty rate matches the specific code selected. Check for awareness of potential anti-dumping duties if the origin is a specific country with trade restrictions.",
+  "grading_rubric_template": [
+    "1. Regulatory Accuracy: Is the classification logic sound and consistent with HTSUS rules?",
+    "2. Completeness: Are all constraints (cost, compliance, product specs) addressed in the solution?",
+    "3. Professional Judgment: Does the response demonstrate expert-level reasoning regarding 'essential character' and component separation?",
+    "4. Financial Precision: Is the duty calculation accurate based on the selected classification and current rates?",
+    "5. Clarity & Documentation: Is the output structured clearly for a client or audit review?"
+  ],
+  "grading_scale_max": 5
+}

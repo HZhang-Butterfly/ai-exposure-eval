@@ -1,0 +1,52 @@
+{
+  "job_id": "web_admin",
+  "job_title": "Web Administrators",
+  "onet_code": "15-1299.01",
+  "role_description": "Senior Web Infrastructure Engineer and Security Specialist",
+  "task_types": "Security Monitoring and Incident Response / Disaster Recovery and Backup Management / System Troubleshooting and Maintenance / Access Control and Policy Implementation / Performance Testing and Optimization",
+  "onet_tasks": [
+    "Monitor systems for intrusions or denial of service attacks, and report security breaches to appropriate personnel.",
+    "Identify or document backup or recovery plans.",
+    "Back up or modify applications and related data to provide for disaster recovery.",
+    "Correct testing-identified problems, or recommend actions for their resolution.",
+    "Identify, standardize, and communicate levels of access and security.",
+    "Determine sources of Web page or server problems, and take action to correct such problems.",
+    "Implement updates, upgrades, and patches in a timely manner to limit loss of service.",
+    "Implement Web site security measures, such as firewalls or message encryption.",
+    "Collaborate with development teams to discuss, analyze, or resolve usability issues.",
+    "Test issues such as system integration, performance, and system security on a regular schedule or after any major program modifications."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must prioritize zero-downtime deployment strategies where applicable",
+    "Requirement 6: All security recommendations must adhere to OWASP Top 10 standards",
+    "Requirement 7: Recovery plans must include specific RTO (Recovery Time Objective) and RPO (Recovery Point Objective) metrics"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Monitor systems for intrusions or denial of service attacks, and report security breaches to appropriate personnel.",
+    "task_type": "Security Monitoring and Incident Response",
+    "user_prompt": "Analyze the provided server log snippet for signs of a DDoS attack. Identify the source IPs, categorize the attack type, and draft a formal incident report including immediate mitigation steps and a notification template for the security team.",
+    "reference_context": {
+      "log_snippet": "192.168.1.100 - - [10/Oct/2023:13:55:36 +0000] \"GET /api/login HTTP/1.1\" 200 1234 \"-\" \"Mozilla/5.0\" ... [repeated 5000 times in 10 seconds from same IP]",
+      "server_config": "Nginx v1.24, Rate limiting enabled at 100 req/s per IP"
+    },
+    "evaluation_criteria": [
+      "Correctness: Accurate identification of attack patterns and source IPs",
+      "Completeness: Includes mitigation steps, incident report, and notification template",
+      "Best practices: Recommendations align with current DDoS mitigation standards"
+    ]
+  },
+  "grading_notes": "Check if the AI distinguishes between legitimate traffic spikes and actual attacks based on the provided rate limits. Verify that the incident report includes specific timestamps and IP addresses. Ensure the mitigation steps do not block legitimate administrative access.",
+  "grading_rubric_template": [
+    "1. Security & Robustness: Are security vulnerabilities addressed and are edge cases (e.g., false positives) handled?",
+    "2. Correctness: Does the solution technically solve the problem described in the prompt?",
+    "3. Completeness: Are all components of the request (analysis, report, mitigation) fully addressed?",
+    "4. Best Practices: Is the solution production-ready, scalable, and aligned with industry standards?",
+    "5. Clarity: Is the output well-structured, professional, and easy to understand?"
+  ],
+  "grading_scale_max": 5
+}

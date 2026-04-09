@@ -1,0 +1,961 @@
+{
+  "meta": {
+    "job_title": "Bioinformatics Technicians",
+    "job_id": "bio_tech_eval",
+    "onet_code": "15-2099.01",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 19,
+    "evaluated_tasks": 19,
+    "batches": 4,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 2.96,
+      "dimensions": {
+        "Correctness": 2.39,
+        "Completeness": 2.94,
+        "Best Practices": 2.61,
+        "Domain Accuracy": 3.28,
+        "Clarity": 3.56
+      },
+      "evaluated_tasks": 19,
+      "scale_max": 5
+    },
+    "total_time_seconds": 7630.87
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Analyze or manipulate bioinformatics data using software packages, statistical applications, or data mining techniques.",
+      "task_type": "Data Analysis & Scripting",
+      "user_prompt": "Given a CSV file containing RNA-seq count data with potential missing values and inconsistent gene IDs, write a Python script using Pandas and SciPy to normalize the data, impute missing values using the median of the column, and perform a basic differential expression analysis between two conditions. Output the top 10 differentially expressed genes with their log2 fold change and p-values.",
+      "reference_context": {
+        "file_name": "rna_seq_counts.csv",
+        "columns": [
+          "Gene_ID",
+          "Condition_A_Count",
+          "Condition_B_Count",
+          "Sample_ID"
+        ],
+        "sample_data": [
+          {
+            "Gene_ID": "ENSG000001",
+            "Condition_A_Count": 150,
+            "Condition_B_Count": 200,
+            "Sample_ID": "S1"
+          },
+          {
+            "Gene_ID": "ENSG000002",
+            "Condition_A_Count": null,
+            "Condition_B_Count": 180,
+            "Sample_ID": "S1"
+          },
+          {
+            "Gene_ID": "ENSG000003",
+            "Condition_A_Count": 300,
+            "Condition_B_Count": null,
+            "Sample_ID": "S1"
+          }
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the script run without errors and produce the correct statistical output?",
+        "Criterion 2: Completeness — Did it handle missing values, normalization, and ranking as specified?",
+        "Criterion 3: Best practices — Is the code modular, commented, and using appropriate libraries?"
+      ],
+      "student_answer": "```python\nimport pandas as pd\nimport numpy as np\nfrom scipy import stats\n\ndef analyze_rna_seq(file_path):\n    # Load data\n    df = pd.read_csv(file_path)\n    \n    # Ensure numeric types and handle missing values\n    numeric_cols = ['Condition_A_Count', 'Condition_B_Count']\n    for col in numeric_cols:\n        df[col] = pd.to_numeric(df[col], errors='coerce')\n    \n    # Impute missing values with column median\n    for col in numeric_cols:\n        median_val = df[col].median()\n        df[col] = df[col].fillna(median_val)\n    \n    # Reshape data to wide format (one row per gene, columns for conditions)\n    # Assuming the input has multiple rows per gene if multiple samples exist, \n    # but based on the schema provided, we aggregate by Gene_ID first if needed.\n    # For this specific schema where each row seems to be a sample-gene pair, \n    # we need to pivot to get mean counts per condition per gene.\n    \n    # Pivot to get mean counts per gene per condition\n    pivot_df = df.pivot_table(\n        index='Gene_ID', \n        columns='Sample_ID', \n        values=['Condition_A_Count', 'Condition_B_Count'], \n        aggfunc='mean'\n    )\n    \n    # Flatten column names if necessary, but here we assume we just need the mean of the condition columns\n    # Actually, the input schema implies 'Condition_A_Count' and 'Condition_B_Count' are the values \n    # for specific samples. Let's restructure based on the assumption that we have replicates.\n    # If the data is already aggregated per gene per condition in the rows (unlikely given Sample_ID),\n    # we treat it as: Group by Gene_ID, then calculate mean for Condition A and Condition B across samples.\n    \n    # Correct approach for the provided schema:\n    # The schema shows 'Sample_ID' as a column, implying multiple rows per gene if there are replicates.\n    # We need to aggregate counts per gene per condition.\n    \n    # Create a summary dataframe with mean counts per gene per condition\n    summary_df = df.groupby('Gene_ID')[['Condition_A_Count', 'Condition_B_Count']].mean().reset_index()\n    \n    # Add pseudocount to avoid log(0)\n    pseudocount = 1\n    summary_df['Condition_A_Count'] += pseudocount\n    summary_df['Condition_B_Count'] += pseudocount\n    \n    # Calculate Log2 Fold Change\n    summary_df['log2FC'] = np.log2(summary_df['Condition_B_Count'] / summary_df['Condition_A_Count'])\n    \n    # Perform t-test for differential expression\n    # We need the raw data per sample to perform a proper t-test, not just the means.\n    # Re-organize data for t-test:\n    # Group by Gene_ID, then extract lists of counts for A and B\n    \n    results = []\n    for gene in summary_df['Gene_ID']:\n        gene_data = df[df['Gene_ID'] == gene]\n        counts_A = gene_data['Condition_A_Count'].dropna().values\n        counts_B = gene_data['Condition_B_Count'].dropna().values\n        \n        if len(counts_A) > 1 and len(counts_B) > 1:\n            t_stat, p_val = stats.ttest_ind(counts_A, counts_B)\n        else:\n            # If insufficient replicates, assign NaN or a default p-value\n            t_stat, p_val = np.nan, np.nan\n            \n        results.append({\n            'Gene_ID': gene,\n            'log2FC': summary_df[summary_df['Gene_ID'] == gene]['log2FC'].values[0],\n            'p_value': p_val\n        })\n    \n    results_df = pd.DataFrame(results)\n    \n    # Filter out genes with NaN p-values if any\n    results_df = results_df.dropna(subset=['p_value'])\n    \n    # Sort by p-value and get top 10\n    top_10 = results_df.sort_values(by='p_value').head(10)\n    \n    return top_10\n\n# Execution\nif __name__ == \"__main__\":\n    try:\n        output = analyze_rna_seq('rna_seq_counts.csv')\n        print(output.to_string(index=False))\n    except FileNotFoundError:\n        print(\"Error: rna_seq_counts.csv not found.\")\n    except Exception as e:\n        print(f\"An error occurred: {e}\")\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        2,
+        2,
+        4
+      ],
+      "score": 3.0,
+      "grade_reason": "The script executes the requested workflow (load, impute, test, output) with clear code (Completeness: 4, Clarity: 4). However, it misinterprets normalization (pseudocount is not normalization) and uses a t-test on raw counts which is statistically invalid for RNA-seq data (Correctness: 3, Domain Accuracy: 2, Best Practices: 2). FDR correction is also omitted."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Extend existing software programs, web-based interactive tools, or database queries as sequence management and analysis needs evolve.",
+      "task_type": "Database Query & Script Extension",
+      "user_prompt": "Write a Python script that connects to a local SQLite database containing protein sequences. The script must extend a basic query function to filter for sequences containing a specific motif (e.g., 'P[ST]-x-[LIVMF]') while handling cases where the database connection fails or the input motif regex is malformed. The script should output the matching sequence IDs and their lengths to a JSON file.",
+      "reference_context": {
+        "database_schema": {
+          "table": "proteins",
+          "columns": [
+            "seq_id",
+            "sequence",
+            "organism"
+          ]
+        },
+        "motif_pattern": "P[ST]-x-[LIVMF]",
+        "error_handling_requirements": [
+          "Catch database connection errors",
+          "Validate regex syntax before execution"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Robustness — Does the script handle connection failures gracefully with appropriate error messages?",
+        "Criterion 2: Accuracy — Are the motif matches biologically correct based on the provided regex?",
+        "Criterion 3: Output Format — Is the result correctly formatted as valid JSON with required fields?"
+      ],
+      "student_answer": "```python\nimport sqlite3\nimport json\nimport re\nimport sys\nfrom pathlib import Path\n\nDB_PATH = \"proteins.db\"\nOUTPUT_FILE = \"motif_matches.json\"\nDEFAULT_MOTIF = \"P[ST]-x-[LIVMF]\"\n\ndef convert_motif_to_regex(motif: str) -> str:\n    \"\"\"\n    Converts a simplified motif string (e.g., 'P[ST]-x-[LIVMF]') \n    to a valid Python regex pattern.\n    - 'x' becomes '.'\n    - '-' is removed\n    - Standard regex characters are preserved\n    \"\"\"\n    if not motif:\n        return \"\"\n    # Replace 'x' with '.' and remove '-'\n    regex_pattern = motif.replace('x', '.').replace('-', '')\n    return regex_pattern\n\ndef validate_regex(pattern: str) -> bool:\n    \"\"\"Validates if the provided pattern is a valid regex.\"\"\"\n    try:\n        re.compile(pattern)\n        return True\n    except re.error:\n        return False\n\ndef query_motif_sequences(db_path: str, motif: str) -> list:\n    \"\"\"\n    Connects to the SQLite database, validates the motif, \n    and retrieves sequences matching the pattern.\n    \"\"\"\n    # Convert motif to regex\n    regex_pattern = convert_motif_to_regex(motif)\n    \n    # Validate regex\n    if not validate_regex(regex_pattern):\n        raise ValueError(f\"Malformed regex pattern: {motif}\")\n\n    if not regex_pattern:\n        raise ValueError(\"Converted regex pattern is empty.\")\n\n    conn = None\n    try:\n        conn = sqlite3.connect(db_path)\n        cursor = conn.cursor()\n        \n        # Query for sequences matching the pattern\n        query = \"\"\"\n            SELECT seq_id, sequence, LENGTH(sequence) as length\n            FROM proteins\n            WHERE sequence REGEXP ?\n        \"\"\"\n        \n        # Note: SQLite does not support REGEXP by default. \n        # For this script to work in a standard environment, we assume \n        # a custom REGEXP function is registered or we use a workaround.\n        # Here we implement a simple workaround for standard SQLite:\n        # We will fetch all and filter in Python if REGEXP is missing, \n        # OR we define the function. To ensure robustness without external deps,\n        # we will fetch all and filter in memory for the 'REGEXP' simulation \n        # or assume the user has registered it. \n        # However, to strictly follow the prompt's \"connect and query\" logic \n        # without assuming external extensions, we will use Python's re \n        # on the fetched data if the DB doesn't support REGEXP natively.\n        # \n        # BETTER APPROACH FOR PORTABILITY: Fetch all, filter in Python.\n        # This avoids dependency on sqlite3 extensions.\n        \n        cursor.execute(\"SELECT seq_id, sequence FROM proteins\")\n        rows = cursor.fetchall()\n        \n        results = []\n        compiled_pattern = re.compile(regex_pattern)\n        \n        for seq_id, sequence in rows:\n            if compiled_pattern.search(sequence):\n                results.append({\n                    \"seq_id\": seq_id,\n                    \"length\": len(sequence)\n                })\n        \n        return results\n\n    except sqlite3.Error as e:\n        raise ConnectionError(f\"Database connection failed: {e}\")\n    finally:\n        if conn:\n            conn.close()\n\ndef main():\n    motif_input = DEFAULT_MOTIF\n    \n    # Allow command line override for motif\n    if len(sys.argv) > 1:\n        motif_input = sys.argv[1]\n\n    try:\n        matches = query_motif_sequences(DB_PATH, motif_input)\n        \n        output_data = {\n            \"motif_used\": motif_input,\n            \"match_count\": len(matches),\n            \"sequences\": matches\n        }\n\n        with open(OUTPUT_FILE, 'w') as f:\n            json.dump(output_data, f, indent=2)\n        \n        print(f\"Successfully wrote {len(matches)} matches to {OUTPUT_FILE}\")\n\n    except ValueError as ve:\n        print(f\"Validation Error: {ve}\", file=sys.stderr)\n        sys.exit(1)\n    except ConnectionError as ce:\n        print(f\"Database Error: {ce}\", file=sys.stderr)\n        sys.exit(1)\n    except FileNotFoundError:\n        print(f\"Error: Database file '{DB_PATH}' not found.\", file=sys.stderr)\n        sys.exit(1)\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "score": 3.0,
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        4,
+        4
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Correctness (2): Code contains broken error messages (missing variables in f-strings) and flawed database logic (sqlite3.connect creates DB if missing, potentially hiding missing table errors). Completeness (3): Core requirements met (filter, JSON, error handling) but lacks table existence validation. Best Practices (2): Fetching all sequences into memory (fetchall) is a critical performance anti-pattern for bioinformatics datasets. Domain Accuracy (4): Motif regex conversion logic is appropriate for the context. Clarity (4): Code structure is readable and well-commented. Note: 'Additional Checks' regarding Pandas/DESeq2 were disregarded as they contradict the SQLite Task requirements."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Maintain awareness of new and emerging computational methods and technologies.",
+      "task_type": "Method Implementation & Comparison",
+      "user_prompt": "Develop a Python script that compares two different imputation strategies (mean vs. k-nearest neighbors) for a provided genomic dataset with missing values. The script must load the data, apply both methods, calculate the reconstruction error for a subset of known values, and generate a summary report comparing the performance. Include error handling for missing input files and non-numeric data types.",
+      "reference_context": {
+        "dataset_description": "A CSV file with 1000 rows and 50 columns representing gene expression levels, with 15% missing values randomly distributed.",
+        "imputation_methods": [
+          "mean",
+          "knn"
+        ],
+        "validation_metric": "Mean Squared Error (MSE)"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Methodology — Are both imputation methods implemented correctly using standard libraries?",
+        "Criterion 2: Error Handling — Does the script handle file not found errors and invalid data types?",
+        "Criterion 3: Reporting — Is the comparison report clear, reproducible, and includes the calculated MSE values?"
+      ],
+      "student_answer": "```python\nimport pandas as pd\nimport numpy as np\nfrom sklearn.impute import SimpleImputer, KNNImputer\nfrom sklearn.metrics import mean_squared_error\nimport sys\nimport os\n\ndef load_and_validate_data(filepath):\n    \"\"\"Loads CSV data and validates for non-numeric content.\"\"\"\n    if not os.path.exists(filepath):\n        raise FileNotFoundError(f\"Input file '{filepath}' not found.\")\n    \n    try:\n        df = pd.read_csv(filepath)\n    except pd.errors.EmptyDataError:\n        raise ValueError(\"The provided CSV file is empty.\")\n    except pd.errors.ParserError:\n        raise ValueError(\"The provided CSV file is not a valid CSV format.\")\n\n    # Ensure all columns are numeric; convert if possible, else raise error\n    numeric_df = df.copy()\n    for col in numeric_df.columns:\n        if not pd.api.types.is_numeric_dtype(numeric_df[col]):\n            try:\n                numeric_df[col] = pd.to_numeric(numeric_df[col], errors='raise')\n            except ValueError:\n                raise ValueError(f\"Column '{col}' contains non-numeric data that cannot be converted.\")\n    \n    return numeric_df\n\ndef calculate_reconstruction_error(original_df, imputed_df, mask):\n    \"\"\"\n    Calculates MSE on a subset of known values (where mask is True).\n    mask: Boolean DataFrame where True indicates the value was originally present.\n    \"\"\"\n    # Align indices and columns\n    if not original_df.equals(imputed_df):\n        # Ensure shapes match\n        if original_df.shape != imputed_df.shape:\n            raise ValueError(\"Imputed dataframe shape does not match original.\")\n    \n    # Extract known values from original and corresponding imputed values\n    known_original = original_df[mask]\n    known_imputed = imputed_df[mask]\n    \n    if known_original.empty:\n        return 0.0\n\n    # Flatten for MSE calculation\n    mse = mean_squared_error(known_original.values.flatten(), known_imputed.values.flatten())\n    return mse\n\ndef main():\n    input_file = \"gene_expression_data.csv\"\n    \n    try:\n        # 1. Load Data\n        print(f\"Loading data from {input_file}...\")\n        df = load_and_validate_data(input_file)\n        print(f\"Data loaded successfully: {df.shape[0]} rows, {df.shape[1]} columns.\")\n\n        # 2. Create a mask for known values (True if not NaN)\n        known_mask = ~df.isna()\n\n        # 3. Apply Mean Imputation\n        print(\"Applying Mean Imputation...\")\n        mean_imputer = SimpleImputer(strategy='mean')\n        df_mean_imputed = pd.DataFrame(\n            mean_imputer.fit_transform(df),\n            columns=df.columns,\n            index=df.index\n        )\n\n        # 4. Apply KNN Imputation (k=5 default)\n        print(\"Applying KNN Imputation (k=5)...\")\n        knn_imputer = KNNImputer(n_neighbors=5)\n        df_knn_imputed = pd.DataFrame(\n            knn_imputer.fit_transform(df),\n            columns=df.columns,\n            index=df.index\n        )\n\n        # 5. Calculate Reconstruction Error (MSE) on known values\n        # We compare the imputed values against the original known values\n        mse_mean = calculate_reconstruction_error(df, df_mean_imputed, known_mask)\n        mse_knn = calculate_reconstruction_error(df, df_knn_imputed, known_mask)\n\n        # 6. Generate Summary Report\n        print(\"\\n\" + \"=\"*50)\n        print(\"IMPUTATION STRATEGY COMPARISON REPORT\")\n        print(\"=\"*50)\n        print(f\"Dataset Shape: {df.shape}\")\n        print(f\"Missing Values Ratio: {df.isna().sum().sum() / (df.shape[0] * df.shape[1]):.2%}\")\n        print(\"-\" * 50)\n        print(f\"{'Strategy':<20} | {'Mean Squared Error (MSE)':<25}\")\n        print(\"-\" * 50)\n        print(f\"{'Mean Imputation':<20} | {mse_mean:.6f}\")\n        print(f\"{'KNN Imputation':<20} | {mse_knn:.6f}\")\n        print(\"-\" * 50)\n        \n        if mse_knn < mse_mean:\n            print(f\"Winner: KNN Imputation (Lower MSE by {mse_mean - mse_knn:.6f})\")\n        elif mse_mean < mse_knn:\n            print(f\"Winner: Mean Imputation (Lower MSE by {mse_knn - mse_mean:.6f})\")\n        else:\n            print(\"Result: Both strategies performed equally.\")\n        print(\"=\"*50)\n\n    except FileNotFoundError as e:\n        print(f\"Error: {e}\", file=sys.stderr)\n        sys.exit(1)\n    except ValueError as e:\n        print(f\"Validation Error: {e}\", file=sys.stderr)\n        sys.exit(1)\n    except Exception as e:\n        print(f\"Unexpected Error: {e}\", file=sys.stderr)\n        sys.exit(1)\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        2,
+        4
+      ],
+      "score": 2.8,
+      "grade_reason": "Correctness (2): Core logic for MSE calculation is flawed; `df[mask]` with a 2D boolean DataFrame does not perform element-wise selection as intended, likely causing runtime errors or incorrect data extraction. Completeness (3): Main task requirements are met, but specific domain constraints in 'Additional Checks' (count data statistics, gene ID consistency) are ignored. Best Practices (3): Script structure is clean, but hardcoding the input filename and lack of argparse reduce reusability. Domain Accuracy (2): Genomic data often requires normalization (e.g., VST, TPM) before imputation/comparison; using raw MSE on potential count data without addressing distribution properties is statistically unsound. Clarity (4): Code is well-commented, structured, and the report output is readable."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Conduct quality analyses of data inputs and resulting analyses or predictions.",
+      "task_type": "Data Quality Audit",
+      "user_prompt": "Create a script to audit a batch of FASTA files for quality control. The script must check for: 1) Non-standard nucleotide characters, 2) Sequence lengths outside the expected range (e.g., < 50 or > 10000 bp), and 3) Duplicate headers. The script should output a detailed report listing the specific errors found in each file and a summary of the total quality score. Include error handling for unreadable files.",
+      "reference_context": {
+        "input_directory": "./fasta_batch/",
+        "expected_length_range": [
+          50,
+          10000
+        ],
+        "standard_nucleotides": [
+          "A",
+          "T",
+          "C",
+          "G",
+          "N"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Detection — Does the script correctly identify all specified quality issues?",
+        "Criterion 2: Error Handling — Does the script continue processing other files if one is unreadable?",
+        "Criterion 3: Reporting — Is the output report structured and easy to interpret for a bioinformatician?"
+      ],
+      "student_answer": "```python\n#!/usr/bin/env python3\n\"\"\"\nFASTA Batch Quality Control Audit Script\nAuthor: Bioinformatics Technician\nDescription: Audits FASTA files for non-standard nucleotides, length anomalies, and duplicate headers.\n\"\"\"\n\nimport os\nimport sys\nimport argparse\nfrom collections import defaultdict\nfrom typing import List, Dict, Tuple, Set\n\n# Configuration from Context\nINPUT_DIRECTORY = \"./fasta_batch/\"\nEXPECTED_LENGTH_RANGE = [50, 10000]\nSTANDARD_NUCLEOTIDES = {\"A\", \"T\", \"C\", \"G\", \"N\"}\n\ndef parse_fasta(file_path: str) -> List[Tuple[str, str]]:\n    \"\"\"\n    Parses a FASTA file and returns a list of (header, sequence) tuples.\n    Handles multi-line sequences.\n    \"\"\"\n    records = []\n    current_header = None\n    current_seq_parts = []\n\n    try:\n        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:\n            for line in f:\n                line = line.strip()\n                if not line:\n                    continue\n                \n                if line.startswith('>'):\n                    if current_header is not None:\n                        records.append((current_header, ''.join(current_seq_parts)))\n                    \n                    # Extract header (remove '>' and take first word or full line)\n                    current_header = line[1:].split()[0] \n                    current_seq_parts = []\n                else:\n                    current_seq_parts.append(line)\n            \n            # Append the last record\n            if current_header is not None:\n                records.append((current_header, ''.join(current_seq_parts)))\n                \n    except Exception as e:\n        raise IOError(f\"Error reading file {file_path}: {str(e)}\")\n\n    return records\n\ndef check_nucleotides(sequence: str) -> List[str]:\n    \"\"\"\n    Checks for non-standard nucleotide characters.\n    Returns a list of found invalid characters.\n    \"\"\"\n    invalid_chars = set()\n    for char in sequence.upper():\n        if char not in STANDARD_NUCLEOTIDES:\n            invalid_chars.add(char)\n    return sorted(list(invalid_chars))\n\ndef check_length(sequence: str, min_len: int, max_len: int) -> bool:\n    \"\"\"\n    Checks if sequence length is within expected range.\n    Returns True if valid, False if invalid.\n    \"\"\"\n    return min_len <= len(sequence) <= max_len\n\ndef audit_fasta_file(file_path: str, min_len: int, max_len: int) -> Dict:\n    \"\"\"\n    Performs the full audit on a single FASTA file.\n    Returns a dictionary containing errors and statistics.\n    \"\"\"\n    result = {\n        \"file\": file_path,\n        \"total_records\": 0,\n        \"valid_records\": 0,\n        \"invalid_records\": 0,\n        \"errors\": [],\n        \"quality_score\": 0.0\n    }\n\n    try:\n        records = parse_fasta(file_path)\n    except IOError as e:\n        result[\"errors\"].append(f\"CRITICAL: {str(e)}\")\n        result[\"invalid_records\"] = 1\n        return result\n\n    result[\"total_records\"] = len(records)\n    if result[\"total_records\"] == 0:\n        result[\"errors\"].append(\"WARNING: No records found in file.\")\n        return result\n\n    headers_seen: Set[str] = set()\n    file_errors: List[str] = []\n    valid_count = 0\n\n    for header, sequence in records:\n        record_issues = []\n        \n        # 1. Check Duplicate Headers\n        if header in headers_seen:\n            record_issues.append(f\"Duplicate header: {header}\")\n        else:\n            headers_seen.add(header)\n\n        # 2. Check Sequence Length\n        if not check_length(sequence, min_len, max_len):\n            record_issues.append(f\"Length {len(sequence)} out of range [{min_len}-{max_len}]\")\n\n        # 3. Check Non-standard Nucleotides\n        invalid_nucs = check_nucleotides(sequence)\n        if invalid_nucs:\n            record_issues.append(f\"Non-standard nucleotides found: {', '.join(invalid_nucs)}\")\n\n        if record_issues:\n            result[\"invalid_records\"] += 1\n            file_errors.append(f\"Record '{header}': {'; '.join(record_issues)}\")\n        else:\n            valid_count += 1\n\n    result[\"valid_records\"] = valid_count\n    result[\"errors\"] = file_errors\n    \n    # Calculate Quality Score (Percentage of valid records)\n    if result[\"total_records\"] > 0:\n        result[\"quality_score\"] = round((valid_count / result[\"total_records\"]) * 100, 2)\n    else:\n        result[\"quality_score\"] = 0.0\n\n    return result\n\ndef generate_report(results: List[Dict], output_file: str = None):\n    \"\"\"\n    Generates a detailed text report from audit results.\n    \"\"\"\n    lines = []\n    lines.append(\"=\" * 80)\n    lines.append(\"FASTA BATCH QUALITY CONTROL AUDIT REPORT\")\n    lines.append(\"=\" * 80)\n    lines.append(\"\")\n\n    total_files = len(results)\n    total_records = sum(r[\"total_records\"] for r in results)\n    total_valid = sum(r[\"valid_records\"] for r in results)\n    total_invalid = sum(r[\"invalid_records\"] for r in results)\n    \n    # Calculate overall quality score\n    overall_score = (total_valid / total_records * 100) if total_records > 0 else 0.0\n\n    lines.append(f\"Input Directory: {INPUT_DIRECTORY}\")\n    lines.append(f\"Expected Length Range: {EXPECTED_LENGTH_RANGE[0]} - {EXPECTED_LENGTH_RANGE[1]} bp\")\n    lines.append(f\"Standard Nucleotides: {', '.join(STANDARD_NUCLEOTIDES)}\")\n    lines.append(\"\")\n    lines.append(\"-\" * 80)\n    lines.append(\"SUMMARY STATISTICS\")\n    lines.append(\"-\" * 80)\n    lines.append(f\"Total Files Processed: {total_files}\")\n    lines.append(f\"Total Sequences: {total_records}\")\n    lines.append(f\"Valid Sequences: {total_valid}\")\n    lines.append(f\"Invalid Sequences: {total_invalid}\")\n    lines.append(f\"Overall Quality Score: {overall_score:.2f}%\")\n    lines.append(\"\")\n    lines.append(\"-\" * 80)\n    lines.append(\"DETAILED FILE REPORTS\")\n    lines.append(\"-\" * 80)\n\n    for res in results:\n        lines.append(f\"\\nFile: {res['file']}\")\n        lines.append(f\"  Total Records: {res['total_records']}\")\n        lines.append(f\"  Valid Records: {res['valid_records']}\")\n        lines.append(f\"  Invalid Records: {res['invalid_records']}\")\n        lines.append(f\"  File Quality Score: {res['quality_score']}%\")\n        \n        if res[\"errors\"]:\n            lines.append(\"  ERRORS FOUND:\")\n            for err in res[\"errors\"]:\n                lines.append(f\"    - {err}\")\n        else:\n            lines.append(\"  ERRORS FOUND: None\")\n\n    lines.append(\"\")\n    lines.append(\"=\" * 80)\n    lines.append(\"END OF REPORT\")\n    lines.append(\"=\" * 80)\n\n    report_text = \"\\n\".join(lines)\n    \n    if output_file:\n        with open(output_file, 'w', encoding='utf-8') as f:\n            f.write(report_text)\n        print(f\"Report saved to: {output_file}\")\n    else:\n        print(report_text)\n\n    return report_text\n\ndef main():\n    parser = argparse.ArgumentParser(description=\"Audit FASTA files for QC.\")\n    parser.add_argument(\"--input\", default=INPUT_DIRECTORY, help=\"Input directory containing FASTA files.\")\n    parser.add_argument(\"--min-len\", type=int, default=EXPECTED_LENGTH_RANGE[0], help=\"Minimum expected sequence length.\")\n    parser.add_argument(\"--max-len\", type=int, default=EXPECTED_LENGTH_RANGE[1], help=\"Maximum expected sequence length.\")\n    parser.add_argument(\"--output\", type=str, help=\"Output file for the report (optional).\")\n    \n    args = parser.parse_args()\n\n    input_dir = args.input\n    min_len = args.min_len\n    max_len = args.max_len\n\n    if not os.path.isdir(input_dir):\n        print(f\"Error: Input directory '{input_dir}' does not exist.\")\n        sys.exit(1)\n\n    # Find all FASTA files\n    fasta_files = [\n        os.path.join(input_dir, f) \n        for f in os.listdir(input_dir) \n        if f.endswith(('.fasta', '.fa', '.fna'))\n    ]\n\n    if not fasta_files:\n        print(f\"No FASTA files found in '{input_dir}'.\")\n        sys.exit(0)\n\n    print(f\"Auditing {len(fasta_files)} files in '{input_dir}'...\")\n\n    results = []\n    for file_path in fasta_files:\n        try:\n            res = audit_fasta_file(file_path, min_len, max_len)\n            results.append(res)\n        except Exception as e:\n            # Handle unexpected errors gracefully\n            results.append({\n                \"file\": file_path,\n                \"total_records\": 0,\n                \"valid_records\": 0,\n                \"invalid_records\": 1,\n                \"errors\": [f\"UNEXPECTED ERROR: {str(e)}\"],\n                \"quality_score\": 0.0\n            })\n\n    generate_report(results, args.output)\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        5,
+        3
+      ],
+      "score": 3.0,
+      "grade_reason": "Correctness (2): The bioinformatics logic for parsing FASTA, checking nucleotides, lengths, and duplicates is sound, but the report generation contains critical f-string errors (missing variables) that result in empty output data, failing the core requirement to list specific errors. Completeness (3): All functional checks are implemented, but the reporting mechanism is incomplete due to the bugs. Best Practices (2): While the script uses argparse and type hints, the sloppy f-string implementation in the report function is unprofessional. Domain Accuracy (5): Bioinformatics concepts (FASTA format, nucleotide validation, header parsing) are applied correctly. Clarity (3): The code is readable, but the resulting report is confusing due to missing data. Note: 'ADDITIONAL CHECKS' regarding Pandas/DESeq2 are irrelevant to a FASTA QC task and were not penalized."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Enter or retrieve information from structural databases, protein sequence motif databases, mutation databases, genomic databases or gene expression databases.",
+      "task_type": "Data Retrieval & Integration",
+      "user_prompt": "Write a script that retrieves mutation data for a list of gene symbols from a simulated local database (CSV). The script must handle cases where gene symbols are not found, map them to their corresponding Ensembl IDs if available in a secondary mapping file, and output a merged dataset. The script must include error handling for malformed CSV rows and missing mapping files.",
+      "reference_context": {
+        "mutation_db": {
+          "file": "mutations.csv",
+          "columns": [
+            "gene_symbol",
+            "mutation_type",
+            "position"
+          ]
+        },
+        "mapping_file": {
+          "file": "gene_mapping.csv",
+          "columns": [
+            "gene_symbol",
+            "ensembl_id"
+          ]
+        },
+        "input_gene_list": [
+          "TP53",
+          "BRCA1",
+          "UNKNOWN_GENE"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Data Integrity — Are missing mappings handled correctly without crashing the script?",
+        "Criterion 2: Accuracy — Is the final merged dataset correctly joined based on gene symbols?",
+        "Criterion 3: Robustness — Does the script handle malformed rows in the input CSV files gracefully?"
+      ],
+      "student_answer": "```python\nimport csv\nimport os\nimport sys\n\ndef load_mapping_file(mapping_path):\n    \"\"\"Load gene symbol to Ensembl ID mapping into a dictionary.\"\"\"\n    if not os.path.exists(mapping_path):\n        raise FileNotFoundError(f\"Mapping file not found: {mapping_path}\")\n    \n    mapping = {}\n    try:\n        with open(mapping_path, mode='r', newline='', encoding='utf-8') as f:\n            reader = csv.DictReader(f)\n            # Validate required columns\n            if reader.fieldnames is None or 'gene_symbol' not in reader.fieldnames or 'ensembl_id' not in reader.fieldnames:\n                raise ValueError(\"Mapping file must contain 'gene_symbol' and 'ensembl_id' columns.\")\n            \n            for row_num, row in enumerate(reader, start=2):\n                symbol = row.get('gene_symbol', '').strip().upper()\n                ensembl = row.get('ensembl_id', '').strip()\n                if symbol and ensembl:\n                    mapping[symbol] = ensembl\n                elif symbol:\n                    # Log warning for missing Ensembl ID but keep symbol for lookup\n                    pass\n    except csv.Error as e:\n        raise ValueError(f\"Malformed CSV in mapping file: {e}\")\n    \n    return mapping\n\ndef load_mutation_data(db_path):\n    \"\"\"Load mutation data from CSV, handling malformed rows.\"\"\"\n    if not os.path.exists(db_path):\n        raise FileNotFoundError(f\"Mutation database not found: {db_path}\")\n    \n    mutations = []\n    try:\n        with open(db_path, mode='r', newline='', encoding='utf-8') as f:\n            reader = csv.DictReader(f)\n            # Validate required columns\n            required_cols = {'gene_symbol', 'mutation_type', 'position'}\n            if reader.fieldnames is None or not required_cols.issubset(set(reader.fieldnames)):\n                raise ValueError(f\"Mutation file must contain columns: {required_cols}\")\n            \n            for row_num, row in enumerate(reader, start=2):\n                try:\n                    # Normalize gene symbol for consistency\n                    symbol = row.get('gene_symbol', '').strip().upper()\n                    if not symbol:\n                        continue # Skip rows with missing gene symbol\n                    \n                    mutation_entry = {\n                        'gene_symbol': symbol,\n                        'mutation_type': row.get('mutation_type', '').strip(),\n                        'position': row.get('position', '').strip()\n                    }\n                    mutations.append(mutation_entry)\n                except Exception as e:\n                    # Handle specific malformed row issues\n                    print(f\"Warning: Skipping malformed row {row_num} in {db_path}: {e}\", file=sys.stderr)\n                    continue\n    except csv.Error as e:\n        raise ValueError(f\"Malformed CSV in mutation database: {e}\")\n    \n    return mutations\n\ndef process_genes(gene_list, mutation_data, gene_mapping):\n    \"\"\"Merge gene list with mutation data and mapping.\"\"\"\n    results = []\n    missing_genes = []\n    \n    # Create a lookup set for existing genes in mutation DB\n    existing_genes = {m['gene_symbol'] for m in mutation_data}\n    \n    for gene in gene_list:\n        gene_upper = gene.strip().upper()\n        ensembl_id = gene_mapping.get(gene_upper)\n        \n        # Filter mutations for this gene\n        gene_mutations = [m for m in mutation_data if m['gene_symbol'] == gene_upper]\n        \n        if not gene_mutations:\n            if gene_upper in existing_genes:\n                # Gene exists in DB but has no mutations (or data missing)\n                results.append({\n                    'gene_symbol': gene_upper,\n                    'ensembl_id': ensembl_id,\n                    'mutations': [],\n                    'status': 'No mutations found'\n                })\n            else:\n                # Gene not found in DB\n                missing_genes.append(gene_upper)\n                results.append({\n                    'gene_symbol': gene_upper,\n                    'ensembl_id': ensembl_id,\n                    'mutations': [],\n                    'status': 'Gene not found in database'\n                })\n        else:\n            results.append({\n                'gene_symbol': gene_upper,\n                'ensembl_id': ensembl_id,\n                'mutations': gene_mutations,\n                'status': 'Success'\n            })\n    \n    return results, missing_genes\n\ndef main():\n    # Configuration\n    mutation_db_path = \"mutations.csv\"\n    mapping_file_path = \"gene_mapping.csv\"\n    input_genes = [\"TP53\", \"BRCA1\", \"UNKNOWN_GENE\"]\n    \n    try:\n        # 1. Load Mapping\n        print(\"Loading gene mapping...\")\n        gene_mapping = load_mapping_file(mapping_file_path)\n        \n        # 2. Load Mutation Data\n        print(\"Loading mutation database...\")\n        mutation_data = load_mutation_data(mutation_db_path)\n        \n        # 3. Process and Merge\n        print(\"Processing gene list...\")\n        merged_results, missing_genes = process_genes(input_genes, mutation_data, gene_mapping)\n        \n        # 4. Output Results\n        print(\"\\n--- Merged Dataset Output ---\")\n        for item in merged_results:\n            print(f\"Gene: {item['gene_symbol']} | Ensembl ID: {item['ensembl_id'] or 'N/A'} | Status: {item['status']}\")\n            if item['mutations']:\n                for mut in item['mutations']:\n                    print(f\"  - {mut['mutation_type']} at {mut['position']}\")\n            else:\n                print(\"  - No mutations recorded\")\n        \n        if missing_genes:\n            print(f\"\\nWarning: The following genes were not found in the mutation database: {missing_genes}\")\n            \n    except FileNotFoundError as e:\n        print(f\"Error: {e}\", file=sys.stderr)\n        sys.exit(1)\n    except ValueError as e:\n        print(f\"Data Error: {e}\", file=sys.stderr)\n        sys.exit(1)\n    except Exception as e:\n        print(f\"Unexpected Error: {e}\", file=sys.stderr)\n        sys.exit(1)\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        4
+      ],
+      "score": 3.4,
+      "grade_reason": "The script addresses the core task of data retrieval and mapping but contains functional bugs in error message formatting (missing variables) and fails to output the list of missing genes. Best practices are moderate due to hardcoded paths, lack of logging module, and not using Pandas which is industry standard for bioinformatics data manipulation. Domain accuracy is high as gene symbol normalization and mapping logic are sound. Clarity is good with well-structured code. Note: Statistical checks in additional criteria were not applicable to this data retrieval task."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Perform routine system administrative functions, such as troubleshooting, back-ups, or upgrades.",
+      "task_type": "System Administration & Scripting",
+      "user_prompt": "Write a Python script to automate the backup of a local SQLite database containing genomic variant data. The script must connect to the database, create a timestamped compressed backup file in a designated directory, and verify the integrity of the backup by checking the file size and checksum. Include error handling for database connection failures, disk space issues, and malformed database schemas. The script should log all actions and errors to a separate log file.",
+      "reference_context": {
+        "database_path": "/data/genomic_variants.db",
+        "backup_directory": "/backups/genomic_variants",
+        "log_file": "/logs/backup_log.txt",
+        "expected_schema": {
+          "table": "variants",
+          "columns": [
+            "variant_id",
+            "chromosome",
+            "position",
+            "reference_allele",
+            "alternate_allele",
+            "quality_score"
+          ]
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Robustness — Does the script handle connection failures and disk space errors gracefully without crashing?",
+        "Criterion 2: Integrity — Is the backup file created, compressed, and verified with a checksum?",
+        "Criterion 3: Logging — Are all operations and errors properly recorded in the log file?"
+      ],
+      "student_answer": "```python\nimport sqlite3\nimport os\nimport gzip\nimport hashlib\nimport shutil\nimport logging\nfrom datetime import datetime\nfrom pathlib import Path\n\n# Configuration\nCONFIG = {\n    \"database_path\": \"/data/genomic_variants.db\",\n    \"backup_directory\": \"/backups/genomic_variants\",\n    \"log_file\": \"/logs/backup_log.txt\",\n    \"expected_schema\": {\n        \"table\": \"variants\",\n        \"columns\": [\n            \"variant_id\",\n            \"chromosome\",\n            \"position\",\n            \"reference_allele\",\n            \"alternate_allele\",\n            \"quality_score\"\n        ]\n    }\n}\n\ndef setup_logging(log_path):\n    \"\"\"Configure logging to file and console.\"\"\"\n    log_dir = os.path.dirname(log_path)\n    if log_dir and not os.path.exists(log_dir):\n        os.makedirs(log_dir)\n    \n    logging.basicConfig(\n        level=logging.INFO,\n        format='%(asctime)s - %(levelname)s - %(message)s',\n        handlers=[\n            logging.FileHandler(log_path),\n            logging.StreamHandler()\n        ]\n    )\n    return logging.getLogger(__name__)\n\ndef verify_schema(conn, expected_schema):\n    \"\"\"Verify the database schema matches expectations.\"\"\"\n    cursor = conn.cursor()\n    try:\n        cursor.execute(f\"PRAGMA table_info({expected_schema['table']})\")\n        columns = [row[1] for row in cursor.fetchall()]\n        \n        if set(columns) != set(expected_schema['columns']):\n            raise ValueError(f\"Schema mismatch. Expected: {expected_schema['columns']}, Got: {columns}\")\n        return True\n    except sqlite3.OperationalError as e:\n        raise ValueError(f\"Database schema error: {e}\")\n\ndef calculate_checksum(file_path):\n    \"\"\"Calculate SHA256 checksum of a file.\"\"\"\n    sha256_hash = hashlib.sha256()\n    with open(file_path, \"rb\") as f:\n        for byte_block in iter(lambda: f.read(4096), b\"\"):\n            sha256_hash.update(byte_block)\n    return sha256_hash.hexdigest()\n\ndef check_disk_space(path, required_size_mb=10):\n    \"\"\"Check if sufficient disk space is available.\"\"\"\n    try:\n        stat = os.statvfs(path)\n        free_space_bytes = stat.f_bavail * stat.f_frsize\n        required_bytes = required_size_mb * 1024 * 1024\n        if free_space_bytes < required_bytes:\n            raise IOError(f\"Insufficient disk space. Required: {required_size_mb}MB, Available: {free_space_bytes / (1024*1024):.2f}MB\")\n        return True\n    except OSError as e:\n        raise IOError(f\"Failed to check disk space: {e}\")\n\ndef backup_database():\n    logger = logging.getLogger(__name__)\n    db_path = CONFIG[\"database_path\"]\n    backup_dir = CONFIG[\"backup_directory\"]\n    log_file = CONFIG[\"log_file\"]\n    \n    logger.info(\"Starting backup process...\")\n    \n    # Setup logging\n    setup_logging(log_file)\n    \n    # Ensure backup directory exists\n    try:\n        os.makedirs(backup_dir, exist_ok=True)\n    except OSError as e:\n        logger.error(f\"Failed to create backup directory: {e}\")\n        return False\n\n    # Check disk space\n    try:\n        check_disk_space(backup_dir)\n    except IOError as e:\n        logger.error(str(e))\n        return False\n\n    timestamp = datetime.now().strftime(\"%Y%m%d_%H%M%S\")\n    backup_filename = f\"genomic_variants_backup_{timestamp}.db.gz\"\n    backup_path = os.path.join(backup_dir, backup_filename)\n    \n    conn = None\n    try:\n        # Connect to database\n        logger.info(f\"Connecting to database: {db_path}\")\n        conn = sqlite3.connect(db_path)\n        conn.row_factory = sqlite3.Row\n        \n        # Verify schema\n        logger.info(\"Verifying database schema...\")\n        verify_schema(conn, CONFIG[\"expected_schema\"])\n        logger.info(\"Schema verification passed.\")\n        \n        # Create backup\n        logger.info(f\"Creating compressed backup: {backup_path}\")\n        \n        # Read database content\n        with open(db_path, 'rb') as f_in:\n            db_content = f_in.read()\n        \n        # Compress and write\n        with gzip.open(backup_path, 'wb') as f_out:\n            f_out.write(db_content)\n        \n        # Verify file size\n        backup_size = os.path.getsize(backup_path)\n        logger.info(f\"Backup file created. Size: {backup_size} bytes\")\n        \n        # Verify integrity via checksum\n        checksum = calculate_checksum(backup_path)\n        logger.info(f\"Backup checksum (SHA256): {checksum}\")\n        \n        # Optional: Store checksum in a sidecar file for future verification\n        checksum_file = backup_path + \".sha256\"\n        with open(checksum_file, 'w') as f:\n            f.write(f\"{checksum}  {backup_filename}\\n\")\n        \n        logger.info(\"Backup completed successfully.\")\n        return True\n        \n    except sqlite3.OperationalError as e:\n        logger.error(f\"Database connection or operation failed: {e}\")\n        return False\n    except sqlite3.DatabaseError as e:\n        logger.error(f\"Database corruption detected: {e}\")\n        return False\n    except IOError as e:\n        logger.error(f\"Disk I/O error during backup: {e}\")\n        return False\n    except ValueError as e:\n        logger.error(f\"Validation error: {e}\")\n        return False\n    except Exception as e:\n        logger.error(f\"Unexpected error occurred: {e}\")\n        return False\n    finally:\n        if conn:\n            conn.close()\n\nif __name__ == \"__main__\":\n    success = backup_database()\n    exit(0 if success else 1)\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        4,
+        4
+      ],
+      "score": 3.0,
+      "grade_reason": "Correctness (2): Critical logic errors exist; the timestamp variable is defined but not used in the filename, and the checksum file writes empty content. Completeness (3): All functional areas are attempted (logging, schema, compression), but error messages are truncated and key data is missing. Best Practices (2): Loading the entire database into memory is unsafe for large genomic datasets; logging configuration is fragile; unused imports clutter the code. Domain Accuracy (4): SQLite backup and schema verification concepts are applied correctly, though the 'Additional Checks' regarding Pandas/DESeq2 are irrelevant to this backup task. Clarity (4): Code structure is logical and readable despite the implementation bugs."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Package bioinformatics data for submission to public repositories.",
+      "task_type": "Data Curation & Formatting",
+      "user_prompt": "Develop a Python script to validate and reformat a set of FASTQ files for submission to the NCBI SRA repository. The script must check for valid FASTQ headers, ensure sequence lengths match quality scores, and handle non-standard characters in sequences. It should generate a manifest file in the required SRA format, including metadata fields like sample name, library layout, and read type. Include error handling for corrupted files and missing metadata, and output a detailed report of any issues found.",
+      "reference_context": {
+        "input_directory": "/data/fastq_input",
+        "output_manifest": "/data/sra_manifest.tsv",
+        "sample_metadata": {
+          "sample_name": "Sample_001",
+          "library_layout": "PAIRED",
+          "read_type": "Illumina"
+        },
+        "validation_rules": {
+          "max_sequence_length": 300,
+          "allowed_chars": "ACGTNacgtn"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Validation — Does the script correctly identify and report malformed FASTQ entries?",
+        "Criterion 2: Compliance — Is the generated manifest file strictly compliant with SRA submission standards?",
+        "Criterion 3: Error Handling — Does the script skip corrupted files and continue processing others without stopping?"
+      ],
+      "student_answer": "(no response)",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "score": 1.0,
+      "grade_reason": "The student submission is empty ('(no response)'). No Python script, validation logic, manifest generation, or error handling was provided. The task requirements were completely ignored, resulting in a failure across all evaluation dimensions."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Train bioinformatics staff or researchers in the use of databases.",
+      "task_type": "Educational Material Generation",
+      "user_prompt": "Create a comprehensive training guide and a set of interactive SQL queries for a new bioinformatics database containing protein structure data. The guide must explain how to query for proteins with specific structural motifs, handle missing structural data, and join tables to retrieve associated functional annotations. Include a section on troubleshooting common query errors and optimizing performance for large datasets. The guide should be written for an audience with basic SQL knowledge but no prior experience with this specific database schema.",
+      "reference_context": {
+        "database_schema": {
+          "tables": [
+            "proteins",
+            "structures",
+            "annotations",
+            "motifs"
+          ],
+          "key_relationships": [
+            "proteins.protein_id = structures.protein_id",
+            "proteins.protein_id = annotations.protein_id"
+          ]
+        },
+        "example_query": "SELECT p.name, s.motif FROM proteins p JOIN structures s ON p.protein_id = s.protein_id WHERE s.motif IS NOT NULL;",
+        "common_errors": [
+          "NULL values in structural data",
+          "Ambiguous join conditions",
+          "Performance bottlenecks in large joins"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Clarity — Is the training guide easy to understand for the target audience?",
+        "Criterion 2: Accuracy — Are the SQL queries correct and do they handle edge cases like missing data?",
+        "Criterion 3: Completeness — Does the guide cover troubleshooting, optimization, and all required query types?"
+      ],
+      "student_answer": "# Bioinformatics Database Training Guide: Protein Structure & Function\n\n## 1. Introduction\nThis guide provides a comprehensive overview of querying the Protein Structure Database. It is designed for users with basic SQL knowledge who are new to this specific schema. The database integrates protein sequences, 3D structural data, functional annotations, and specific structural motifs.\n\n## 2. Database Schema Overview\nThe database consists of four primary tables linked by `protein_id`.\n\n| Table | Primary Key | Key Columns | Description |\n| :--- | :--- | :--- | :--- |\n| **proteins** | `protein_id` | `name`, `sequence`, `organism` | Master list of protein entries. |\n| **structures** | `structure_id` | `protein_id`, `motif`, `resolution`, `pdb_code` | 3D structural data and specific motifs. |\n| **annotations** | `annotation_id` | `protein_id`, `function`, `pathway`, `go_term` | Functional descriptions and pathway associations. |\n| **motifs** | `motif_id` | `protein_id`, `motif_name`, `start_pos`, `end_pos` | Detailed motif definitions (optional deep-dive table). |\n\n**Key Relationships:**\n*   `proteins.protein_id` = `structures.protein_id`\n*   `proteins.protein_id` = `annotations.protein_id`\n\n---\n\n## 3. Interactive SQL Query Library\n\n### 3.1 Querying Proteins with Specific Structural Motifs\nTo retrieve proteins containing a specific motif (e.g., \"Zinc Finger\") while ensuring structural data exists:\n\n```sql\nSELECT \n    p.name AS protein_name,\n    p.organism,\n    s.motif,\n    s.resolution\nFROM proteins p\nINNER JOIN structures s ON p.protein_id = s.protein_id\nWHERE s.motif = 'Zinc Finger'\n  AND s.resolution IS NOT NULL;\n```\n\n### 3.2 Handling Missing Structural Data\nTo identify proteins that have sequence data but lack 3D structural information (common in bioinformatics):\n\n```sql\nSELECT \n    p.name,\n    p.sequence_length\nFROM proteins p\nLEFT JOIN structures s ON p.protein_id = s.protein_id\nWHERE s.protein_id IS NULL;\n```\n*Note: `LEFT JOIN` ensures all proteins are listed, and the `WHERE` clause filters for those where the structure table returned no match (NULL).*\n\n### 3.3 Joining Tables for Functional Annotations\nTo retrieve a protein's name, its structural motif, and its associated biological pathway:\n\n```sql\nSELECT \n    p.name,\n    s.motif,\n    a.function,\n    a.pathway\nFROM proteins p\nINNER JOIN structures s ON p.protein_id = s.protein_id\nINNER JOIN annotations a ON p.protein_id = a.protein_id\nWHERE s.motif IS NOT NULL\n  AND a.pathway IS NOT NULL;\n```\n\n### 3.4 Advanced: Filtering by Multiple Motifs and High Resolution\n```sql\nSELECT \n    p.name,\n    s.motif,\n    s.resolution\nFROM proteins p\nJOIN structures s ON p.protein_id = s.protein_id\nWHERE s.motif IN ('Helix-Turn-Helix', 'Beta-Barrel')\n  AND s.resolution < 2.5\nORDER BY s.resolution ASC;\n```\n\n---\n\n## 4. Troubleshooting Common Query Errors\n\n### Error 1: Unexpected NULL Values in Structural Data\n**Symptom:** Queries return fewer rows than expected, or `NULL` appears in the `motif` column.\n**Cause:** Structural data is incomplete for certain proteins.\n**Solution:** Use `IS NOT NULL` filters explicitly or switch to `LEFT JOIN` if you need to see proteins regardless of structural completeness.\n```sql\n-- Incorrect: May exclude valid proteins if motif is NULL\nSELECT * FROM structures WHERE motif = 'Alpha';\n\n-- Correct: Explicitly handles NULLs\nSELECT * FROM structures WHERE motif = 'Alpha' OR motif IS NULL;\n```\n\n### Error 2: Ambiguous Join Conditions\n**Symptom:** Error message: `Column 'protein_id' is ambiguous`.\n**Cause:** Multiple tables contain the same column name, and the table alias is missing.\n**Solution:** Always prefix columns with table aliases (e.g., `p.protein_id`, `s.protein_id`).\n```sql\n-- Correct\nSELECT p.name, s.motif \nFROM proteins p \nJOIN structures s ON p.protein_id = s.protein_id;\n```\n\n### Error 3: Cartesian Products\n**Symptom:** Query returns a massive number of rows (e.g., 100,000+) unexpectedly.\n**Cause:** Missing `ON` clause in a `JOIN` or joining on non-unique keys.\n**Solution:** Verify the `ON` clause matches the primary/foreign key relationship exactly.\n```sql\n-- Incorrect (Cartesian Product)\nSELECT * FROM proteins, structures;\n\n-- Correct\nSELECT * FROM proteins p JOIN structures s ON p.protein_id = s.protein_id;\n```\n\n---\n\n## 5. Performance Optimization for Large Datasets\n\n### 5.1 Indexing Strategy\nEnsure the following columns are indexed to speed up joins and filters:\n*   `proteins.protein_id` (Primary Key)\n*   `structures.protein_id` (Foreign Key)\n*   `annotations.protein_id` (Foreign Key)\n*   `structures.motif` (If frequently filtered)\n\n### 5.2 Query Optimization Techniques\n1.  **Select Only Needed Columns:** Avoid `SELECT *`. Explicitly list columns to reduce I/O.\n    ```sql\n    -- Optimized\n    SELECT p.name, s.motif FROM proteins p JOIN structures s ...\n    ```\n2.  **Filter Early:** Apply `WHERE` clauses before joining if possible, or ensure the database optimizer can push filters down.\n3.  **Avoid Functions on Indexed Columns:** Do not wrap indexed columns in functions in the `WHERE` clause (e.g., `WHERE UPPER(motif) = '...'` prevents index usage).\n4.  **Use EXPLAIN:** Run `EXPLAIN` before your query to check the execution plan. Look for \"Seq Scan\" on large tables; if found, verify indexes exist.\n\n### 5.3 Handling Large Joins\nIf joining `proteins`, `structures`, and `annotations` results in timeouts:\n*   **Limit Results:** Add `LIMIT 1000` during development.\n*   **Subqueries:** Break complex queries into temporary tables or CTEs (Common Table Expressions) to process data in stages.\n    ```sql\n    WITH struct_data AS (\n        SELECT protein_id, motif FROM structures WHERE motif IS NOT NULL\n    )\n    SELECT p.name, sd.motif\n    FROM proteins p\n    JOIN struct_data sd ON p.protein_id = sd.protein_id;\n    ```\n\n---\n\n## 6. Quick Reference Checklist\n- [ ] Did I use table aliases (`p`, `s`, `a`) for all columns?\n- [ ] Did I handle `NULL` values explicitly in `WHERE` clauses?\n- [ ] Am I selecting only the columns I need?\n- [ ] Is the `JOIN` condition using the correct `protein_id`?\n- [ ] Have I checked the execution plan (`EXPLAIN`) for slow queries?",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        4
+      ],
+      "score": 3.4,
+      "grade_reason": "The SQL content is syntactically correct and addresses the core task requirements (motifs, missing data, joins, troubleshooting, optimization) with good structure and clarity (Completeness: 4, Clarity: 4). However, the submission includes an 'Additional Checks' section at the end that references Pandas, DESeq2, and gene IDs, which are irrelevant to a SQL training guide for protein structures. This indicates a significant lapse in professional judgment and domain accuracy (Domain Accuracy: 3, Best Practices: 3). While the SQL logic is sound, the inclusion of unrelated statistical analysis instructions undermines the correctness and professionalism of the document as a whole (Correctness: 3)."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Test new or updated software or tools and provide feedback to developers.",
+      "task_type": "Software Testing & Validation",
+      "user_prompt": "Design a test suite for a new bioinformatics tool that performs variant calling from NGS data. The suite must include test cases for standard inputs, edge cases (e.g., low coverage, high error rates), and malformed input files. The tests should verify the tool's output against a known gold standard dataset, checking for accuracy in variant detection and proper handling of ambiguous bases. Include a script to automate the execution of these tests and generate a report highlighting any discrepancies or failures.",
+      "reference_context": {
+        "gold_standard_dataset": "/data/gold_standard_variants.vcf",
+        "test_input_files": [
+          "/data/test_inputs/standard.bam",
+          "/data/test_inputs/low_coverage.bam",
+          "/data/test_inputs/malformed.bam"
+        ],
+        "expected_output_metrics": {
+          "precision": 0.95,
+          "recall": 0.9,
+          "f1_score": 0.92
+        },
+        "tool_command": "variant_caller --input <input_file> --output <output_file>"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Coverage — Does the test suite cover all specified input scenarios and edge cases?",
+        "Criterion 2: Accuracy — Are the test results compared against the gold standard with appropriate metrics?",
+        "Criterion 3: Automation — Is the test suite fully automated and does it generate a clear, actionable report?"
+      ],
+      "student_answer": "```python\n#!/usr/bin/env python3\n\"\"\"\nBioinformatics Test Suite: Variant Caller Validation\nAuthor: Bioinformatics Technician\nPurpose: Automate testing of variant calling tool against gold standard, \n         handling standard, edge, and malformed inputs.\n\"\"\"\n\nimport os\nimport sys\nimport subprocess\nimport json\nimport argparse\nfrom datetime import datetime\nfrom collections import defaultdict\n\n# Configuration\nCONFIG = {\n    \"gold_standard\": \"/data/gold_standard_variants.vcf\",\n    \"test_inputs\": [\n        \"/data/test_inputs/standard.bam\",\n        \"/data/test_inputs/low_coverage.bam\",\n        \"/data/test_inputs/malformed.bam\"\n    ],\n    \"expected_metrics\": {\n        \"precision\": 0.95,\n        \"recall\": 0.90,\n        \"f1_score\": 0.92\n    },\n    \"tool_command\": \"variant_caller --input {input} --output {output}\",\n    \"output_dir\": \"/data/test_results\"\n}\n\ndef ensure_output_dir():\n    os.makedirs(CONFIG[\"output_dir\"], exist_ok=True)\n\ndef run_variant_caller(input_file, output_file):\n    \"\"\"Executes the variant caller tool.\"\"\"\n    cmd = CONFIG[\"tool_command\"].format(input=input_file, output=output_file)\n    try:\n        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=300)\n        if result.returncode != 0:\n            return False, result.stderr\n        return True, result.stdout\n    except subprocess.TimeoutExpired:\n        return False, \"Timeout: Tool execution exceeded 300s\"\n    except Exception as e:\n        return False, str(e)\n\ndef calculate_metrics(gold_file, test_file):\n    \"\"\"\n    Simulates metric calculation by comparing VCF files.\n    In a real environment, this would use tools like RTG Tools or HaplotypeCaller's truth set comparison.\n    Here, we simulate the logic for the test suite structure.\n    \"\"\"\n    # Placeholder for actual VCF comparison logic (e.g., using bcftools isec or RTG)\n    # Returns simulated metrics based on input type for demonstration\n    if \"malformed\" in test_file:\n        return {\"precision\": 0.0, \"recall\": 0.0, \"f1_score\": 0.0, \"status\": \"FAIL\", \"reason\": \"Malformed input handling\"}\n    \n    # Simulate slight variations for edge cases\n    if \"low_coverage\" in test_file:\n        return {\"precision\": 0.92, \"recall\": 0.85, \"f1_score\": 0.88, \"status\": \"PASS\", \"reason\": \"Within tolerance\"}\n    \n    # Standard case\n    return {\"precision\": 0.96, \"recall\": 0.91, \"f1_score\": 0.93, \"status\": \"PASS\", \"reason\": \"Meets all criteria\"}\n\ndef generate_report(results):\n    \"\"\"Generates a summary report of the test suite.\"\"\"\n    report = {\n        \"timestamp\": datetime.now().isoformat(),\n        \"total_tests\": len(results),\n        \"passed\": 0,\n        \"failed\": 0,\n        \"details\": results\n    }\n    \n    for res in results:\n        if res.get(\"status\") == \"PASS\":\n            report[\"passed\"] += 1\n        else:\n            report[\"failed\"] += 1\n            \n    report_path = os.path.join(CONFIG[\"output_dir\"], \"test_report.json\")\n    with open(report_path, 'w') as f:\n        json.dump(report, f, indent=2)\n        \n    # Console Output\n    print(f\"\\n{'='*60}\")\n    print(\"TEST SUITE EXECUTION REPORT\")\n    print(f\"{'='*60}\")\n    print(f\"Total Tests: {report['total_tests']}\")\n    print(f\"Passed: {report['passed']}\")\n    print(f\"Failed: {report['failed']}\")\n    print(f\"Report saved to: {report_path}\")\n    print(f\"{'='*60}\\n\")\n    \n    for res in results:\n        status_icon = \"✓\" if res[\"status\"] == \"PASS\" else \"✗\"\n        print(f\"{status_icon} {res['test_name']}: {res['status']}\")\n        if res[\"status\"] == \"FAIL\":\n            print(f\"   Reason: {res.get('reason', 'Unknown error')}\")\n            print(f\"   Metrics: P={res['metrics']['precision']:.2f}, R={res['metrics']['recall']:.2f}, F1={res['metrics']['f1_score']:.2f}\")\n        else:\n            print(f\"   Metrics: P={res['metrics']['precision']:.2f}, R={res['metrics']['recall']:.2f}, F1={res['metrics']['f1_score']:.2f}\")\n\ndef main():\n    ensure_output_dir()\n    results = []\n    \n    for input_file in CONFIG[\"test_inputs\"]:\n        test_name = os.path.basename(input_file)\n        output_file = os.path.join(CONFIG[\"output_dir\"], f\"{test_name}.vcf\")\n        \n        print(f\"Running test: {test_name}...\")\n        \n        # Step 1: Run Tool\n        success, error_msg = run_variant_caller(input_file, output_file)\n        \n        if not success:\n            results.append({\n                \"test_name\": test_name,\n                \"status\": \"FAIL\",\n                \"reason\": f\"Tool execution failed: {error_msg}\",\n                \"metrics\": {\"precision\": 0, \"recall\": 0, \"f1_score\": 0}\n            })\n            continue\n            \n        # Step 2: Compare against Gold Standard\n        metrics = calculate_metrics(CONFIG[\"gold_standard\"], output_file)\n        \n        # Step 3: Validate against Expected Thresholds\n        expected = CONFIG[\"expected_metrics\"]\n        is_pass = True\n        reason = \"Meets all criteria\"\n        \n        if metrics[\"precision\"] < expected[\"precision\"]:\n            is_pass = False\n            reason = f\"Precision {metrics['precision']:.2f} < {expected['precision']:.2f}\"\n        elif metrics[\"recall\"] < expected[\"recall\"]:\n            is_pass = False\n            reason = f\"Recall {metrics['recall']:.2f} < {expected['recall']:.2f}\"\n        elif metrics[\"f1_score\"] < expected[\"f1_score\"]:\n            is_pass = False\n            reason = f\"F1 Score {metrics['f1_score']:.2f} < {expected['f1_score']:.2f}\"\n            \n        # For malformed input, we expect failure in execution or specific handling, \n        # but if the tool runs, we check if it handled ambiguity correctly.\n        # Here we assume the calculate_metrics function handles the logic for malformed files.\n        \n        results.append({\n            \"test_name\": test_name,\n            \"status\": \"PASS\" if is_pass else \"FAIL\",\n            \"reason\": reason,\n            \"metrics\": metrics\n        })\n        \n    generate_report(results)\n    \n    # Exit with error code if any test failed\n    sys.exit(0 if all(r[\"status\"] == \"PASS\" for r in results) else 1)\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        3,
+        4
+      ],
+      "score": 3.0,
+      "grade_reason": "Critical syntax error in .format() prevents script execution due to missing placeholders. Core bioinformatics logic (VCF comparison) is mocked rather than implemented with industry tools (e.g., hap.py, bcftools). 'Additional Checks' regarding Pandas/DESeq2 are domain-inappropriate for Variant Calling. Code structure is clear but functionality is compromised."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Develop or maintain applications that process biologically based data into searchable databases for purposes of analysis, calculation, or presentation.",
+      "task_type": "Database Application Development",
+      "user_prompt": "Develop a Python script that reads a raw FASTA file containing genomic sequences with potential formatting errors (e.g., missing headers, non-standard characters). The script must validate the sequences, convert them to a standardized format, and insert them into a SQLite database. Include error handling for database connection failures and malformed input files. The script should output a log file documenting all database changes and problems encountered.",
+      "reference_context": {
+        "file_name": "raw_sequences.fasta",
+        "input_format": "FASTA",
+        "database_schema": {
+          "table_name": "genomic_sequences",
+          "columns": [
+            "id",
+            "sequence_header",
+            "sequence_data",
+            "validation_status"
+          ]
+        },
+        "sample_data": [
+          ">seq_001\nATCGATCG",
+          ">seq_002\nATCGXYZ",
+          "ATCGATCG"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the script successfully parse valid sequences and reject invalid ones without crashing?",
+        "Criterion 2: Robustness — Are database connection failures and malformed input files handled gracefully with appropriate error messages?",
+        "Criterion 3: Documentation — Does the script generate a log file detailing all changes, modifications, and problems as per scientific reproducibility guidelines?"
+      ],
+      "student_answer": "```python\nimport sqlite3\nimport re\nimport logging\nimport os\nfrom datetime import datetime\nfrom typing import Optional, List, Tuple\n\n# Configuration\nINPUT_FILE = \"raw_sequences.fasta\"\nDB_FILE = \"genomic_sequences.db\"\nLOG_FILE = \"bioinformatics_processing.log\"\nVALID_BASES_PATTERN = re.compile(r'^[ACGTNacgtn]*$')\n\n# Setup Logging\ndef setup_logging(log_file: str) -> logging.Logger:\n    logger = logging.getLogger(\"BioinformaticsProcessor\")\n    logger.setLevel(logging.DEBUG)\n    \n    # File Handler\n    fh = logging.FileHandler(log_file, mode='w')\n    fh.setLevel(logging.DEBUG)\n    \n    # Console Handler\n    ch = logging.StreamHandler()\n    ch.setLevel(logging.INFO)\n    \n    # Formatter\n    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')\n    fh.setFormatter(formatter)\n    ch.setFormatter(formatter)\n    \n    logger.addHandler(fh)\n    logger.addHandler(ch)\n    \n    return logger\n\ndef validate_sequence(seq: str) -> Tuple[bool, str]:\n    \"\"\"\n    Validates a sequence string.\n    Returns (is_valid, cleaned_sequence).\n    \"\"\"\n    if not seq:\n        return False, \"\"\n    \n    # Normalize to uppercase and remove whitespace\n    cleaned = seq.strip().upper().replace(\" \", \"\").replace(\"\\n\", \"\")\n    \n    if not cleaned:\n        return False, \"\"\n    \n    # Check for non-standard characters (allowing N for unknown bases)\n    if VALID_BASES_PATTERN.match(cleaned):\n        return True, cleaned\n    else:\n        return False, cleaned\n\ndef parse_fasta(file_path: str, logger: logging.Logger) -> List[Tuple[str, str, bool]]:\n    \"\"\"\n    Parses a FASTA file, handling missing headers and formatting errors.\n    Returns a list of tuples: (header, sequence, is_valid).\n    \"\"\"\n    records = []\n    current_header = None\n    current_seq_lines = []\n    \n    try:\n        with open(file_path, 'r') as f:\n            lines = f.readlines()\n    except FileNotFoundError:\n        logger.error(f\"Input file not found: {file_path}\")\n        return []\n    except IOError as e:\n        logger.error(f\"Error reading input file: {e}\")\n        return []\n\n    for line_num, line in enumerate(lines, 1):\n        line = line.strip()\n        if not line:\n            continue\n            \n        if line.startswith('>'):\n            # Save previous record if exists\n            if current_header is not None:\n                seq_str = \"\".join(current_seq_lines)\n                is_valid, cleaned_seq = validate_sequence(seq_str)\n                records.append((current_header, cleaned_seq, is_valid))\n                if not is_valid:\n                    logger.warning(f\"Line {line_num}: Sequence for '{current_header}' contains invalid characters.\")\n            \n            # Start new record\n            # Handle missing header by generating a placeholder\n            if len(line) == 1: # Just '>'\n                current_header = f\"UNKNOWN_HEADER_{len(records) + 1}\"\n                logger.warning(f\"Line {line_num}: Missing header description, using placeholder.\")\n            else:\n                current_header = line[1:].strip()\n            \n            current_seq_lines = []\n        else:\n            if current_header is None:\n                # Sequence data before any header\n                current_header = f\"UNKNOWN_HEADER_{len(records) + 1}\"\n                logger.warning(f\"Line {line_num}: Sequence found before header, assigned placeholder.\")\n            current_seq_lines.append(line)\n\n    # Handle the last record\n    if current_header is not None:\n        seq_str = \"\".join(current_seq_lines)\n        is_valid, cleaned_seq = validate_sequence(seq_str)\n        records.append((current_header, cleaned_seq, is_valid))\n        if not is_valid:\n            logger.warning(f\"End of file: Sequence for '{current_header}' contains invalid characters.\")\n\n    return records\n\ndef init_database(db_path: str, logger: logging.Logger) -> sqlite3.Connection:\n    \"\"\"\n    Initializes the SQLite database and creates the table if it doesn't exist.\n    \"\"\"\n    try:\n        conn = sqlite3.connect(db_path)\n        cursor = conn.cursor()\n        \n        cursor.execute('''\n            CREATE TABLE IF NOT EXISTS genomic_sequences (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                sequence_header TEXT NOT NULL,\n                sequence_data TEXT,\n                validation_status TEXT NOT NULL\n            )\n        ''')\n        conn.commit()\n        logger.info(\"Database initialized successfully.\")\n        return conn\n    except sqlite3.Error as e:\n        logger.error(f\"Database initialization failed: {e}\")\n        raise\n\ndef insert_records(conn: sqlite3.Connection, records: List[Tuple[str, str, bool]], logger: logging.Logger) -> int:\n    \"\"\"\n    Inserts validated records into the database.\n    Returns the number of successfully inserted records.\n    \"\"\"\n    cursor = conn.cursor()\n    inserted_count = 0\n    \n    for header, seq, is_valid in records:\n        status = \"VALID\" if is_valid else \"INVALID\"\n        try:\n            cursor.execute(\n                \"INSERT INTO genomic_sequences (sequence_header, sequence_data, validation_status) VALUES (?, ?, ?)\",\n                (header, seq, status)\n            )\n            inserted_count += 1\n            if not is_valid:\n                logger.info(f\"Inserted record with ID {cursor.lastrowid}: Header '{header}' marked as INVALID.\")\n            else:\n                logger.info(f\"Inserted record with ID {cursor.lastrowid}: Header '{header}' marked as VALID.\")\n        except sqlite3.Error as e:\n            logger.error(f\"Failed to insert record '{header}': {e}\")\n            \n    conn.commit()\n    return inserted_count\n\ndef main():\n    logger = setup_logging(LOG_FILE)\n    logger.info(f\"Starting Bioinformatics Processing for {INPUT_FILE}\")\n    \n    try:\n        # 1. Parse Input\n        records = parse_fasta(INPUT_FILE, logger)\n        if not records:\n            logger.warning(\"No records found to process.\")\n            return\n\n        # 2. Initialize Database\n        conn = init_database(DB_FILE, logger)\n        \n        # 3. Insert Records\n        count = insert_records(conn, records, logger)\n        logger.info(f\"Processing complete. {count} records inserted.\")\n        \n    except Exception as e:\n        logger.critical(f\"Critical failure during execution: {e}\")\n    finally:\n        if 'conn' in locals():\n            conn.close()\n            logger.info(\"Database connection closed.\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "score": 3.4,
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        4
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The script correctly implements FASTA parsing, sequence validation (ACGTN), and SQLite insertion with error handling. However, significant f-string interpolation errors in the logging module (e.g., f'Line : Sequence for '' contains invalid characters.') prevent the log file from documenting specific problems as required, reducing Correctness, Completeness, and Best Practices to 3. Domain Accuracy is 4 as IUPAC ambiguity codes are not supported, though ACGTN is standard. Clarity is 4 due to good code structure. The 'Additional Checks' regarding Pandas/DESeq2 are irrelevant to the FASTA task and correctly ignored."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Write computer programs or scripts to be used in querying databases.",
+      "task_type": "Data Querying & Scripting",
+      "user_prompt": "Write a Python script to query a SQLite database containing protein structure data. The script must retrieve all proteins with a resolution better than 2.0 Angstroms and a PDB ID starting with '1A'. The script must handle cases where the database is empty or the connection fails. Output the results to a JSON file, ensuring that any missing values in the database are represented as null in the JSON output.",
+      "reference_context": {
+        "file_name": "protein_structures.db",
+        "database_schema": {
+          "table_name": "proteins",
+          "columns": [
+            "pdb_id",
+            "resolution",
+            "protein_name",
+            "structure_data"
+          ]
+        },
+        "sample_data": [
+          {
+            "pdb_id": "1ABC",
+            "resolution": 1.5,
+            "protein_name": "Hemoglobin",
+            "structure_data": null
+          },
+          {
+            "pdb_id": "2XYZ",
+            "resolution": 2.5,
+            "protein_name": "Insulin",
+            "structure_data": "..."
+          }
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the script return only the correct subset of proteins based on the specified criteria?",
+        "Criterion 2: Completeness — Are missing values in the database correctly represented as null in the JSON output?",
+        "Criterion 3: Best practices — Is the code modular, commented, and does it include error handling for database connection failures?"
+      ],
+      "student_answer": "```python\nimport sqlite3\nimport json\nimport os\n\ndef query_protein_structures(db_path, output_path):\n    results = []\n    \n    try:\n        if not os.path.exists(db_path):\n            raise FileNotFoundError(f\"Database file '{db_path}' not found.\")\n            \n        conn = sqlite3.connect(db_path)\n        cursor = conn.cursor()\n        \n        query = \"\"\"\n            SELECT pdb_id, resolution, protein_name, structure_data\n            FROM proteins\n            WHERE resolution < 2.0 AND pdb_id LIKE '1A%'\n        \"\"\"\n        \n        cursor.execute(query)\n        rows = cursor.fetchall()\n        \n        for row in rows:\n            pdb_id, resolution, protein_name, structure_data = row\n            results.append({\n                \"pdb_id\": pdb_id,\n                \"resolution\": resolution,\n                \"protein_name\": protein_name,\n                \"structure_data\": structure_data\n            })\n            \n        conn.close()\n        \n    except sqlite3.Error as e:\n        print(f\"Database connection or query error: {e}\")\n        results = []\n    except Exception as e:\n        print(f\"Unexpected error: {e}\")\n        results = []\n\n    with open(output_path, 'w') as f:\n        json.dump(results, f, indent=4)\n        \n    print(f\"Results written to {output_path}\")\n\nif __name__ == \"__main__\":\n    db_file = \"protein_structures.db\"\n    output_file = \"filtered_proteins.json\"\n    query_protein_structures(db_file, output_file)\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        5,
+        4
+      ],
+      "score": 3.8,
+      "grade_reason": "The script correctly implements the SQL query logic and JSON output, handling nulls appropriately. However, it lacks Pythonic best practices such as using context managers for database connections, which risks resource leaks. Error handling prints incomplete messages without the exception object, and the connection close is not guaranteed on all error paths. All functional requirements are met, though the Additional Checks regarding Pandas/DESeq2 were disregarded as they contradict the SQLite task. Code is readable and logical."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Confer with researchers, clinicians, or information technology staff to determine data needs and programming requirements and to provide assistance with database-related research activities.",
+      "task_type": "Data Analysis & Reporting",
+      "user_prompt": "Analyze a provided CSV file containing clinical trial data with missing values and inconsistent date formats. Write a Python script to clean the data, impute missing values using the median of the column, and generate a summary report. The report must include the number of missing values per column, the imputation method used, and a list of any records that were excluded due to critical data errors. The script must handle database connection failures if it attempts to log the report to a database.",
+      "reference_context": {
+        "file_name": "clinical_trial_data.csv",
+        "columns": [
+          "Patient_ID",
+          "Age",
+          "Treatment_Group",
+          "Outcome",
+          "Date_of_Entry"
+        ],
+        "sample_data": [
+          {
+            "Patient_ID": "P001",
+            "Age": 45,
+            "Treatment_Group": "A",
+            "Outcome": "Positive",
+            "Date_of_Entry": "2023-01-15"
+          },
+          {
+            "Patient_ID": "P002",
+            "Age": null,
+            "Treatment_Group": "B",
+            "Outcome": "Negative",
+            "Date_of_Entry": "2023/02/20"
+          }
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the script correctly identify and handle missing values and inconsistent date formats?",
+        "Criterion 2: Completeness — Does the generated report include all required sections (missing values, imputation method, excluded records)?",
+        "Criterion 3: Best practices — Is the code modular, commented, and does it include error handling for database connection failures?"
+      ],
+      "student_answer": "```python\nimport pandas as pd\nimport numpy as np\nfrom datetime import datetime\nimport logging\nimport sys\n\n# Configure logging\nlogging.basicConfig(\n    filename='data_cleaning_log.txt',\n    level=logging.INFO,\n    format='%(asctime)s - %(levelname)s - %(message)s'\n)\n\ndef clean_clinical_data(file_path):\n    # Load data\n    try:\n        df = pd.read_csv(file_path)\n    except FileNotFoundError:\n        logging.error(f\"File not found: {file_path}\")\n        raise\n    except Exception as e:\n        logging.error(f\"Error reading CSV: {e}\")\n        raise\n\n    excluded_records = []\n    critical_errors = []\n\n    # 1. Standardize Date Formats\n    date_columns = ['Date_of_Entry']\n    for col in date_columns:\n        if col in df.columns:\n            def parse_date(val):\n                if pd.isna(val):\n                    return None\n                formats = ['%Y-%m-%d', '%Y/%m/%d', '%d-%m-%Y', '%d/%m/%Y']\n                for fmt in formats:\n                    try:\n                        return datetime.strptime(str(val), fmt)\n                    except ValueError:\n                        continue\n                return None\n            \n            df[col] = df[col].apply(parse_date)\n            # Check for records that failed to parse dates (Critical Error)\n            invalid_dates = df[df[col].isna() & df[col].astype(str).str.strip() != '']\n            if not invalid_dates.empty:\n                critical_errors.extend(invalid_dates['Patient_ID'].tolist())\n                excluded_records.extend(invalid_dates.to_dict('records'))\n\n    # 2. Handle Missing Values (Imputation)\n    missing_counts = df.isna().sum()\n    imputation_log = []\n\n    # Identify numeric columns for median imputation\n    numeric_cols = df.select_dtypes(include=[np.number]).columns\n    for col in numeric_cols:\n        if df[col].isna().any():\n            median_val = df[col].median()\n            df[col].fillna(median_val, inplace=True)\n            imputation_log.append(f\"Column '{col}': Imputed {df[col].isna().sum()} values (originally {missing_counts[col]}) with median ({median_val})\")\n\n    # Handle non-numeric missing values if necessary (e.g., Treatment_Group)\n    # Assuming Treatment_Group missing values are imputed with mode or excluded if critical\n    # For this task, we focus on numeric median as requested, but we log non-numeric missing counts\n    non_numeric_cols = df.select_dtypes(exclude=[np.number]).columns\n    for col in non_numeric_cols:\n        if df[col].isna().any():\n            imputation_log.append(f\"Column '{col}': Missing values ({missing_counts[col]}) found. No numeric median imputation applied.\")\n\n    # 3. Generate Summary Report\n    report_lines = [\n        \"=\" * 50,\n        \"CLINICAL TRIAL DATA CLEANING REPORT\",\n        \"=\" * 50,\n        f\"Source File: {file_path}\",\n        f\"Total Records Processed: {len(df)}\",\n        \"\",\n        \"1. Missing Values per Column (Before Imputation):\",\n        \"-\" * 30\n    ]\n    \n    for col, count in missing_counts.items():\n        report_lines.append(f\"   {col}: {count}\")\n\n    report_lines.extend([\n        \"\",\n        \"2. Imputation Method Used:\",\n        \"-\" * 30\n    ])\n    report_lines.extend(imputation_log)\n\n    report_lines.extend([\n        \"\",\n        \"3. Excluded Records (Critical Data Errors):\",\n        \"-\" * 30\n    ])\n    \n    if excluded_records:\n        report_lines.append(f\"   Count: {len(excluded_records)}\")\n        report_lines.append(\"   Patient IDs: \" + \", \".join(critical_errors))\n        report_lines.append(\"   Details:\")\n        for record in excluded_records:\n            report_lines.append(f\"     - {record}\")\n    else:\n        report_lines.append(\"   None\")\n\n    report_lines.append(\"=\" * 50)\n    report_text = \"\\n\".join(report_lines)\n\n    # 4. Log Report to Database (with failure handling)\n    try:\n        # Placeholder for database connection logic\n        # import sqlite3\n        # conn = sqlite3.connect('trial_reports.db')\n        # cursor = conn.cursor()\n        # cursor.execute(\"INSERT INTO reports (content) VALUES (?)\", (report_text,))\n        # conn.commit()\n        # conn.close()\n        print(\"Database logging attempted (simulated).\")\n    except Exception as db_error:\n        logging.error(f\"Database connection failed: {db_error}\")\n        print(f\"Warning: Failed to log report to database. Error: {db_error}\")\n\n    # Save cleaned data\n    output_file = 'cleaned_clinical_trial_data.csv'\n    df.to_csv(output_file, index=False)\n    \n    # Print report to console\n    print(report_text)\n    print(f\"\\nCleaned data saved to: {output_file}\")\n\nif __name__ == \"__main__\":\n    clean_clinical_data('clinical_trial_data.csv')\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        2,
+        3,
+        4,
+        3
+      ],
+      "score": 2.8,
+      "grade_reason": "Correctness and Completeness are low (2) because the report generation logic contains critical syntax errors (empty f-strings) that result in missing data in the final output, failing the core requirement to report missing values and excluded records. Best Practices (3) are adequate with proper logging and error handling, though string formatting is sloppy. Domain Accuracy (4) is strong as the code correctly applies clinical trial standards (median for numeric, date parsing) and appropriately ignores irrelevant genomic checks (DESeq2/Gene IDs) from the prompt's additional instructions. Clarity (3) is moderate; the code structure is readable, but the broken output reduces usability."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Document all database changes, modifications, or problems.",
+      "task_type": "Documentation & Data Integrity",
+      "user_prompt": "Create a Python script that monitors a PostgreSQL database for changes to a specific table containing gene expression data. The script must log all insert, update, and delete operations to a separate audit table. The script must handle cases where the database connection fails or the input data is malformed. The audit log must follow standard scientific reproducibility guidelines, including timestamps, user IDs, and the specific data changes.",
+      "reference_context": {
+        "file_name": "gene_expression_data.db",
+        "database_schema": {
+          "table_name": "gene_expression",
+          "columns": [
+            "gene_id",
+            "expression_level",
+            "tissue_type",
+            "timestamp"
+          ]
+        },
+        "audit_table_schema": {
+          "table_name": "audit_log",
+          "columns": [
+            "operation_id",
+            "operation_type",
+            "timestamp",
+            "user_id",
+            "data_changes"
+          ]
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the script accurately log all insert, update, and delete operations?",
+        "Criterion 2: Robustness — Are database connection failures and malformed input files handled gracefully with appropriate error messages?",
+        "Criterion 3: Documentation — Does the audit log follow standard scientific reproducibility guidelines, including timestamps, user IDs, and specific data changes?"
+      ],
+      "student_answer": "```python\nimport psycopg2\nfrom psycopg2 import sql, extras\nfrom psycopg2.extras import RealDictCursor\nimport json\nimport logging\nfrom datetime import datetime\nimport uuid\nimport sys\n\n# Configure logging\nlogging.basicConfig(\n    level=logging.INFO,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler(\"monitoring.log\"),\n        logging.StreamHandler(sys.stdout)\n    ]\n)\nlogger = logging.getLogger(__name__)\n\n# Configuration\nDB_CONFIG = {\n    \"host\": \"localhost\",\n    \"database\": \"gene_expression_data\",\n    \"user\": \"bio_user\",\n    \"password\": \"secure_password\",\n    \"port\": 5432\n}\n\nTARGET_TABLE = \"gene_expression\"\nAUDIT_TABLE = \"audit_log\"\n\ndef get_db_connection():\n    \"\"\"Establishes a connection to the PostgreSQL database.\"\"\"\n    try:\n        conn = psycopg2.connect(**DB_CONFIG)\n        logger.info(\"Database connection established successfully.\")\n        return conn\n    except psycopg2.Error as e:\n        logger.error(f\"Database connection failed: {e}\")\n        raise\n\ndef log_operation(conn, operation_type, user_id, old_data, new_data):\n    \"\"\"Logs the operation to the audit table.\"\"\"\n    try:\n        with conn.cursor() as cur:\n            # Construct JSON data for the audit log\n            changes = {\n                \"operation_type\": operation_type,\n                \"old_data\": old_data,\n                \"new_data\": new_data,\n                \"timestamp\": datetime.utcnow().isoformat()\n            }\n            \n            # Validate JSON serializability\n            try:\n                json.dumps(changes)\n            except TypeError as e:\n                logger.error(f\"Malformed data detected during serialization: {e}\")\n                raise ValueError(\"Data contains non-serializable objects.\")\n\n            query = sql.SQL(\"\"\"\n                INSERT INTO {audit_table} (operation_id, operation_type, timestamp, user_id, data_changes)\n                VALUES (%s, %s, %s, %s, %s)\n            \"\"\").format(audit_table=sql.Identifier(AUDIT_TABLE))\n            \n            cur.execute(query, (\n                str(uuid.uuid4()),\n                operation_type,\n                datetime.utcnow(),\n                user_id,\n                json.dumps(changes)\n            ))\n            conn.commit()\n            logger.info(f\"Operation {operation_type} logged successfully for user {user_id}.\")\n            \n    except psycopg2.Error as e:\n        logger.error(f\"Failed to log operation to audit table: {e}\")\n        conn.rollback()\n        raise\n    except ValueError as e:\n        logger.error(f\"Data validation error: {e}\")\n        conn.rollback()\n        raise\n\ndef monitor_table_changes(conn):\n    \"\"\"\n    Monitors the target table for changes.\n    In a production environment, this would typically use logical replication slots\n    or listen/notify mechanisms. For this script, we simulate a polling mechanism\n    to demonstrate the logic flow and error handling.\n    \"\"\"\n    try:\n        # In a real scenario, you would use a replication slot or a trigger-based approach.\n        # Here we assume a periodic check or a trigger function is invoked externally.\n        # This function represents the handler logic that would be called upon change detection.\n        pass \n    except Exception as e:\n        logger.error(f\"Error during monitoring process: {e}\")\n        raise\n\ndef main():\n    \"\"\"Main entry point for the monitoring script.\"\"\"\n    conn = None\n    try:\n        conn = get_db_connection()\n        \n        # Verify audit table exists (simplified check)\n        with conn.cursor() as cur:\n            cur.execute(f\"SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = '{AUDIT_TABLE}');\")\n            if not cur.fetchone()[0]:\n                logger.error(f\"Audit table '{AUDIT_TABLE}' does not exist. Please create it first.\")\n                sys.exit(1)\n\n        # Example usage: Simulating a change event for demonstration\n        # In production, this logic is triggered by database triggers or replication events.\n        # Simulating an INSERT\n        user_id = \"bio_user_001\"\n        new_record = {\n            \"gene_id\": \"GENE_123\",\n            \"expression_level\": 5.4,\n            \"tissue_type\": \"liver\",\n            \"timestamp\": datetime.utcnow().isoformat()\n        }\n        \n        # Simulate logging an insert\n        log_operation(conn, \"INSERT\", user_id, None, new_record)\n        \n        # Simulate logging an update\n        old_record = {\"gene_id\": \"GENE_123\", \"expression_level\": 4.2, \"tissue_type\": \"liver\", \"timestamp\": \"2023-01-01\"}\n        new_record_updated = {\"gene_id\": \"GENE_123\", \"expression_level\": 5.4, \"tissue_type\": \"liver\", \"timestamp\": \"2023-01-02\"}\n        log_operation(conn, \"UPDATE\", user_id, old_record, new_record_updated)\n        \n        # Simulate logging a delete\n        old_record_deleted = {\"gene_id\": \"GENE_123\", \"expression_level\": 5.4, \"tissue_type\": \"liver\", \"timestamp\": \"2023-01-02\"}\n        log_operation(conn, \"DELETE\", user_id, old_record_deleted, None)\n\n        logger.info(\"Monitoring script completed successfully.\")\n\n    except psycopg2.Error as e:\n        logger.critical(f\"Critical database error: {e}\")\n        sys.exit(1)\n    except Exception as e:\n        logger.critical(f\"Unexpected error: {e}\")\n        sys.exit(1)\n    finally:\n        if conn:\n            conn.close()\n            logger.info(\"Database connection closed.\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        2,
+        2,
+        3,
+        3
+      ],
+      "score": 2.4,
+      "grade_reason": "Correctness (2): Critical syntax errors prevent execution (SQL query missing table identifier placeholder, empty string in table existence check, empty monitoring function). Completeness (2): Core requirement to monitor changes is unimplemented (uses 'pass', relies on manual simulation). Best Practices (2): Hardcoded credentials pose security risks, deprecated datetime methods used, incomplete log messages. Domain Accuracy (3): Schema usage is correct, but lacks bio-specific validation (e.g., gene ID formats) despite context hints. Clarity (3): Code structure is readable, but broken logic and empty functions obscure functionality."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Participate in the preparation of reports or scientific publications.",
+      "task_type": "Data Analysis & Reporting",
+      "user_prompt": "Write a Python script to process a large dataset of genomic variants from a VCF file. The script must filter variants based on quality scores, handle missing values, and generate a summary report. The report must include the total number of variants, the number of variants passing the quality filter, and a list of the top 10 most significant variants. The script must handle cases where the VCF file is malformed or the database connection fails if it attempts to log the report to a database.",
+      "reference_context": {
+        "file_name": "genomic_variants.vcf",
+        "columns": [
+          "CHROM",
+          "POS",
+          "ID",
+          "REF",
+          "ALT",
+          "QUAL",
+          "FILTER",
+          "INFO"
+        ],
+        "sample_data": [
+          {
+            "CHROM": "1",
+            "POS": 100,
+            "ID": "rs123",
+            "REF": "A",
+            "ALT": "T",
+            "QUAL": 30,
+            "FILTER": "PASS",
+            "INFO": "DP=10"
+          },
+          {
+            "CHROM": "1",
+            "POS": 200,
+            "ID": "rs456",
+            "REF": "C",
+            "ALT": "G",
+            "QUAL": null,
+            "FILTER": "LowQual",
+            "INFO": "DP=5"
+          }
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the script correctly filter variants based on quality scores and handle missing values?",
+        "Criterion 2: Completeness — Does the generated report include all required sections (total variants, passing variants, top 10 significant variants)?",
+        "Criterion 3: Best practices — Is the code modular, commented, and does it include error handling for database connection failures and malformed input files?"
+      ],
+      "student_answer": "```python\nimport csv\nimport sys\nimport logging\nfrom datetime import datetime\nfrom typing import List, Dict, Optional, Any\n\n# Configure logging\nlogging.basicConfig(\n    level=logging.INFO,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler(\"variant_processing.log\"),\n        logging.StreamHandler(sys.stdout)\n    ]\n)\nlogger = logging.getLogger(__name__)\n\nclass VariantProcessor:\n    def __init__(self, input_file: str, quality_threshold: float = 30.0):\n        self.input_file = input_file\n        self.quality_threshold = quality_threshold\n        self.total_variants = 0\n        self.passing_variants = 0\n        self.passing_records: List[Dict[str, Any]] = []\n        self.errors: List[str] = []\n\n    def parse_vcf(self) -> bool:\n        \"\"\"Parse the VCF file and handle malformed data.\"\"\"\n        try:\n            with open(self.input_file, 'r', newline='') as f:\n                reader = csv.DictReader(f)\n                \n                # Validate header\n                expected_cols = [\"CHROM\", \"POS\", \"ID\", \"REF\", \"ALT\", \"QUAL\", \"FILTER\", \"INFO\"]\n                if not all(col in reader.fieldnames for col in expected_cols):\n                    raise ValueError(f\"Missing required columns. Expected: {expected_cols}\")\n\n                for row_num, row in enumerate(reader, start=2):\n                    self.total_variants += 1\n                    try:\n                        # Handle missing values and type conversion\n                        qual_str = row.get('QUAL', '')\n                        if not qual_str or qual_str == '.':\n                            qual = None\n                        else:\n                            qual = float(qual_str)\n\n                        # Filter logic\n                        is_pass = (row.get('FILTER') == 'PASS')\n                        passes_quality = (qual is not None and qual >= self.quality_threshold)\n\n                        if is_pass and passes_quality:\n                            self.passing_variants += 1\n                            self.passing_records.append({\n                                \"CHROM\": row['CHROM'],\n                                \"POS\": row['POS'],\n                                \"ID\": row['ID'],\n                                \"REF\": row['REF'],\n                                \"ALT\": row['ALT'],\n                                \"QUAL\": qual,\n                                \"FILTER\": row['FILTER'],\n                                \"INFO\": row['INFO']\n                            })\n                        elif not is_pass or not passes_quality:\n                            # Log specific filtering reasons if needed, but continue processing\n                            pass\n\n                    except (ValueError, KeyError) as e:\n                        self.errors.append(f\"Row {row_num}: {str(e)}\")\n                        logger.warning(f\"Skipping malformed row {row_num}: {e}\")\n                        continue\n\n            return True\n\n        except FileNotFoundError:\n            logger.error(f\"File not found: {self.input_file}\")\n            return False\n        except Exception as e:\n            logger.error(f\"Error parsing VCF file: {e}\")\n            return False\n\n    def get_top_significant_variants(self, limit: int = 10) -> List[Dict[str, Any]]:\n        \"\"\"Sort by quality score descending and return top N.\"\"\"\n        if not self.passing_records:\n            return []\n        \n        # Sort by QUAL descending, then by POS ascending for stability\n        sorted_variants = sorted(\n            self.passing_records, \n            key=lambda x: (x['QUAL'] if x['QUAL'] is not None else -1, x['POS']), \n            reverse=True\n        )\n        return sorted_variants[:limit]\n\n    def generate_report(self, db_connection: Optional[Any] = None) -> str:\n        \"\"\"Generate a summary report and attempt to log to database if provided.\"\"\"\n        top_variants = self.get_top_significant_variants(10)\n        \n        report_lines = [\n            \"=\" * 50,\n            \"GENOMIC VARIANT PROCESSING REPORT\",\n            f\"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\",\n            \"=\" * 50,\n            f\"Input File: {self.input_file}\",\n            f\"Quality Threshold: {self.quality_threshold}\",\n            \"-\" * 50,\n            f\"Total Variants Processed: {self.total_variants}\",\n            f\"Variants Passing Filter: {self.passing_variants}\",\n            \"-\" * 50,\n            \"Top 10 Most Significant Variants:\",\n            \"-\" * 50\n        ]\n\n        if not top_variants:\n            report_lines.append(\"No variants passed the quality filter.\")\n        else:\n            for i, var in enumerate(top_variants, 1):\n                report_lines.append(\n                    f\"{i}. {var['ID']} | {var['CHROM']}:{var['POS']} | \"\n                    f\"{var['REF']}>{var['ALT']} | QUAL: {var['QUAL']} | {var['INFO']}\"\n                )\n\n        if self.errors:\n            report_lines.append(\"-\" * 50)\n            report_lines.append(\"Processing Warnings/Errors:\")\n            for err in self.errors[:10]:\n                report_lines.append(f\"  - {err}\")\n            if len(self.errors) > 10:\n                report_lines.append(f\"  ... and {len(self.errors) - 10} more errors.\")\n\n        report_lines.append(\"=\" * 50)\n        report_text = \"\\n\".join(report_lines)\n\n        # Attempt database logging\n        if db_connection:\n            try:\n                # Mocking a database insert operation\n                cursor = db_connection.cursor()\n                cursor.execute(\n                    \"INSERT INTO variant_reports (timestamp, total, passing, report_data) VALUES (?, ?, ?, ?)\",\n                    (datetime.now(), self.total_variants, self.passing_variants, report_text)\n                )\n                db_connection.commit()\n                logger.info(\"Report successfully logged to database.\")\n            except Exception as e:\n                logger.error(f\"Database connection failed or error occurred during logging: {e}\")\n                # Continue to return report even if DB fails\n        else:\n            logger.info(\"No database connection provided; skipping DB logging.\")\n\n        return report_text\n\ndef main():\n    input_file = \"genomic_variants.vcf\"\n    quality_threshold = 30.0\n    \n    # Mock database connection for demonstration (replace with real logic if needed)\n    # In a real scenario, this would be a real DB connection object\n    mock_db = None \n    \n    processor = VariantProcessor(input_file, quality_threshold)\n    \n    if processor.parse_vcf():\n        report = processor.generate_report(mock_db)\n        print(report)\n        \n        # Save report to file\n        with open(\"variant_report.txt\", \"w\") as f:\n            f.write(report)\n        print(\"\\nReport saved to variant_report.txt\")\n    else:\n        logger.critical(\"Processing failed. No report generated.\")\n        sys.exit(1)\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        2,
+        4
+      ],
+      "score": 3.0,
+      "grade_reason": "Correctness (3): Logic for filtering and reporting is sound, but VCF parsing fails on standard metadata lines (##) and contains string formatting bugs (empty log messages). Completeness (3): Functional requirements met, but VCF format specifics omitted. Best Practices (3): Uses csv instead of pysam for large genomic data; memory usage for top 10 could be optimized. Domain Accuracy (2): Fails to skip VCF comment lines, a fundamental requirement for VCF parsing. Clarity (4): Code is well-structured and readable despite implementation bugs."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Develop or apply data mining and machine learning algorithms.",
+      "task_type": "Algorithm Development & Application",
+      "user_prompt": "Develop a Python script using Scikit-learn to cluster a provided CSV file of gene expression profiles. The data contains missing values and non-standard gene identifiers. The script must impute missing values using K-Nearest Neighbors (KNN), normalize the data using Z-score, and perform K-Means clustering with k=3. Output the cluster assignments for each gene and the cluster centroids. Include error handling for file read failures and malformed numeric entries.",
+      "reference_context": {
+        "file_name": "gene_expression_matrix.csv",
+        "columns": [
+          "Gene_ID",
+          "Sample_1",
+          "Sample_2",
+          "Sample_3",
+          "Sample_4",
+          "Sample_5"
+        ],
+        "sample_data": [
+          {
+            "Gene_ID": "GENE_A",
+            "Sample_1": 10.5,
+            "Sample_2": null,
+            "Sample_3": 12.0,
+            "Sample_4": 11.2,
+            "Sample_5": 10.8
+          },
+          {
+            "Gene_ID": "GENE_B",
+            "Sample_1": 5.0,
+            "Sample_2": 5.5,
+            "Sample_3": 5.2,
+            "Sample_4": null,
+            "Sample_5": 5.1
+          },
+          {
+            "Gene_ID": "INVALID_ID",
+            "Sample_1": "error",
+            "Sample_2": 6.0,
+            "Sample_3": 6.1,
+            "Sample_4": 6.2,
+            "Sample_5": 6.3
+          }
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Robustness — Does the script handle missing values and non-numeric input errors gracefully without crashing?",
+        "Criterion 2: Accuracy — Are the KNN imputation and Z-score normalization applied correctly before clustering?",
+        "Criterion 3: Reproducibility — Is the random state fixed for K-Means to ensure reproducible results?"
+      ],
+      "student_answer": "```python\nimport pandas as pd\nimport numpy as np\nfrom sklearn.impute import KNNImputer\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.cluster import KMeans\nimport sys\n\ndef process_gene_expression(file_path):\n    try:\n        # Attempt to read the CSV file\n        df = pd.read_csv(file_path)\n        \n        # Validate required columns exist\n        required_cols = [\"Gene_ID\", \"Sample_1\", \"Sample_2\", \"Sample_3\", \"Sample_4\", \"Sample_5\"]\n        if not all(col in df.columns for col in required_cols):\n            raise ValueError(f\"Missing required columns. Expected: {required_cols}\")\n\n        # Separate Gene IDs from expression data\n        gene_ids = df[\"Gene_ID\"].astype(str).tolist()\n        expression_data = df.drop(columns=[\"Gene_ID\"])\n\n        # Convert expression data to numeric, coercing errors to NaN\n        for col in expression_data.columns:\n            expression_data[col] = pd.to_numeric(expression_data[col], errors='coerce')\n\n        # Check if all expression values are NaN after conversion (malformed data check)\n        if expression_data.isna().all().all():\n            raise ValueError(\"No valid numeric data found in expression columns.\")\n\n        # Impute missing values using KNN (k=5 default, can be adjusted)\n        imputer = KNNImputer(n_neighbors=5)\n        imputed_data = imputer.fit_transform(expression_data)\n\n        # Normalize data using Z-score (StandardScaler)\n        scaler = StandardScaler()\n        normalized_data = scaler.fit_transform(imputed_data)\n\n        # Perform K-Means clustering with k=3\n        kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)\n        cluster_labels = kmeans.fit_predict(normalized_data)\n        centroids = kmeans.cluster_centers_\n\n        # Create output DataFrame\n        results_df = pd.DataFrame({\n            \"Gene_ID\": gene_ids,\n            \"Cluster_Assignment\": cluster_labels\n        })\n\n        # Convert centroids to a list of dictionaries for readability\n        centroids_list = [\n            {f\"Sample_{i+1}\": float(val) for i, val in enumerate(centroid)}\n            for centroid in centroids\n        ]\n\n        return results_df, centroids_list\n\n    except FileNotFoundError:\n        print(f\"Error: The file '{file_path}' was not found.\")\n        sys.exit(1)\n    except pd.errors.EmptyDataError:\n        print(\"Error: The file is empty.\")\n        sys.exit(1)\n    except Exception as e:\n        print(f\"An unexpected error occurred: {str(e)}\")\n        sys.exit(1)\n\nif __name__ == \"__main__\":\n    file_name = \"gene_expression_matrix.csv\"\n    try:\n        assignments, centroids = process_gene_expression(file_name)\n        \n        print(\"Cluster Assignments:\")\n        print(assignments.to_string(index=False))\n        \n        print(\"\\nCluster Centroids:\")\n        for i, centroid in enumerate(centroids):\n            print(f\"Cluster {i}: {centroid}\")\n            \n    except SystemExit:\n        pass\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        3
+      ],
+      "score": 3.2,
+      "grade_reason": "The script implements the core ML pipeline (KNN imputation, Z-score normalization, K-Means) correctly and handles file errors logically. However, the output generation contains critical bugs: the FileNotFoundError message uses a literal empty string instead of the variable, and the centroid printing loop is incomplete (prints 'Cluster : ' without values or indices). This reduces Correctness and Completeness. Domain methods are appropriate for the provided decimal data (Z-score is valid for non-count data). Code structure is readable but lacks docstrings, type hints, and logging, affecting Best Practices and Clarity."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Design or implement web-based tools for querying large-scale biological databases.",
+      "task_type": "Tool Design & Implementation",
+      "user_prompt": "Create a Python function that queries a mock biological database (simulated via a local JSON file) to retrieve protein sequences based on a list of UniProt IDs. The function must handle cases where IDs are missing from the database or the input file is malformed. It should return a FASTA-formatted string. Include error handling for simulated database connection timeouts and validate that the returned sequences contain only valid amino acid characters.",
+      "reference_context": {
+        "file_name": "mock_protein_db.json",
+        "structure": {
+          "db_entries": [
+            {
+              "uniprot_id": "P12345",
+              "sequence": "MKTAYIAKQRQISFVKSS"
+            },
+            {
+              "uniprot_id": "P67890",
+              "sequence": "MTEITAAMKQ"
+            }
+          ]
+        },
+        "input_ids": [
+          "P12345",
+          "P99999",
+          "P67890"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Validation — Does the script correctly filter out invalid IDs and report them in a log?",
+        "Criterion 2: Output Format — Is the output strictly valid FASTA format with correct headers?",
+        "Criterion 3: Error Handling — Does the script catch and handle missing entries and connection simulation errors?"
+      ],
+      "student_answer": "```python\nimport json\nimport os\nimport time\nimport random\nfrom typing import List, Optional\n\n# Constants\nMOCK_DB_FILE = \"mock_protein_db.json\"\nVALID_AMINO_ACIDS = set(\"ACDEFGHIKLMNPQRSTVWY\")\n\ndef query_protein_sequences(uniprot_ids: List[str], db_file: str = MOCK_DB_FILE) -> str:\n    \"\"\"\n    Queries a mock biological database to retrieve protein sequences \n    for a list of UniProt IDs and returns them in FASTA format.\n    \n    Args:\n        uniprot_ids: List of UniProt IDs to query.\n        db_file: Path to the JSON database file.\n        \n    Returns:\n        A string containing the sequences in FASTA format.\n        \n    Raises:\n        FileNotFoundError: If the database file does not exist.\n        ValueError: If the database file is malformed or contains invalid sequences.\n        TimeoutError: Simulated database connection timeout.\n    \"\"\"\n    \n    # Simulate connection timeout (10% chance)\n    if random.random() < 0.1:\n        raise TimeoutError(\"Simulated database connection timeout.\")\n\n    if not os.path.exists(db_file):\n        raise FileNotFoundError(f\"Database file '{db_file}' not found.\")\n\n    try:\n        with open(db_file, 'r') as f:\n            data = json.load(f)\n    except json.JSONDecodeError as e:\n        raise ValueError(f\"Malformed database file: {e}\")\n\n    if \"db_entries\" not in data or not isinstance(data[\"db_entries\"], list):\n        raise ValueError(\"Database structure invalid: missing 'db_entries' list.\")\n\n    # Create lookup dictionary\n    db_lookup = {entry[\"uniprot_id\"]: entry[\"sequence\"] for entry in data[\"db_entries\"]}\n\n    # Validate input IDs are strings\n    if not all(isinstance(uid, str) for uid in uniprot_ids):\n        raise ValueError(\"All input IDs must be strings.\")\n\n    fasta_output = []\n    missing_ids = []\n\n    for uid in uniprot_ids:\n        if uid not in db_lookup:\n            missing_ids.append(uid)\n            continue\n        \n        sequence = db_lookup[uid]\n        \n        # Validate amino acid characters\n        if not sequence:\n            raise ValueError(f\"Empty sequence found for ID: {uid}\")\n        \n        invalid_chars = set(sequence.upper()) - VALID_AMINO_ACIDS\n        if invalid_chars:\n            raise ValueError(f\"Invalid amino acid characters found in sequence for ID {uid}: {invalid_chars}\")\n\n        fasta_output.append(f\">{uid}\\n{sequence}\")\n\n    if missing_ids:\n        # Log missing IDs to stderr (standard practice) or include in output if required.\n        # Here we proceed with available sequences but note the missing ones in a comment block.\n        pass \n\n    return \"\\n\".join(fasta_output)\n\n# Example usage simulation (for context only, not part of the function definition)\nif __name__ == \"__main__\":\n    # Ensure mock file exists for testing\n    mock_data = {\n        \"db_entries\": [\n            {\"uniprot_id\": \"P12345\", \"sequence\": \"MKTAYIAKQRQISFVKSS\"},\n            {\"uniprot_id\": \"P67890\", \"sequence\": \"MTEITAAMKQ\"}\n        ]\n    }\n    with open(MOCK_DB_FILE, 'w') as f:\n        json.dump(mock_data, f)\n\n    try:\n        ids = [\"P12345\", \"P99999\", \"P67890\"]\n        result = query_protein_sequences(ids)\n        print(result)\n    except Exception as e:\n        print(f\"Error: {e}\")\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        2,
+        4,
+        2,
+        4
+      ],
+      "score": 2.8,
+      "grade_reason": "The submission demonstrates strong code structure, type hinting, and error handling (Best Practices, Clarity). However, it fundamentally fails to generate valid FASTA output; the sequence and UniProt ID are not appended to the output string, resulting in invalid format (Correctness, Domain Accuracy, Completeness). The 'Additional Checks' regarding Pandas/DESeq2 were disregarded as they are irrelevant to the specific task requirements. Minor issues include empty error messages in raise statements."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Create data management or error-checking procedures and user manuals.",
+      "task_type": "Data Management & Documentation",
+      "user_prompt": "Analyze a provided directory of VCF files containing variant calls. Write a Python script to aggregate the data, checking for non-standard chromosome naming conventions (e.g., 'chr1' vs '1') and missing genotype calls. Generate a summary report in Markdown that documents the data quality issues found, the steps taken to standardize the data, and a user guide on how to interpret the summary. The script must handle file I/O errors and log all warnings.",
+      "reference_context": {
+        "directory": "vcf_data/",
+        "files": [
+          "sample_01.vcf",
+          "sample_02.vcf"
+        ],
+        "known_issues": [
+          "Inconsistent chromosome prefixes",
+          "Missing genotype fields (./.)",
+          "Malformed header lines"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Data Integrity — Does the script correctly identify and standardize chromosome naming conventions?",
+        "Criterion 2: Documentation Quality — Is the generated Markdown report clear, reproducible, and follows scientific guidelines?",
+        "Criterion 3: Error Logging — Are all file I/O errors and data anomalies logged with sufficient detail for debugging?"
+      ],
+      "student_answer": "```python\n#!/usr/bin/env python3\n\"\"\"\nVCF Data Aggregation and Quality Control Script\nAuthor: Bioinformatics Technician\nDescription: Aggregates VCF files, standardizes chromosome naming, detects missing genotypes,\n             and generates a Markdown quality report.\n\"\"\"\n\nimport os\nimport sys\nimport logging\nimport argparse\nimport re\nfrom collections import defaultdict\nfrom datetime import datetime\n\n# Configure logging\nlogging.basicConfig(\n    level=logging.INFO,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler(\"vcf_qc.log\"),\n        logging.StreamHandler(sys.stdout)\n    ]\n)\nlogger = logging.getLogger(__name__)\n\n# Constants\nCHROM_PREFIX_PATTERN = re.compile(r'^chr')\nMISSING_GENOTYPE_PATTERN = re.compile(r'\\./\\.')\n\ndef standardize_chromosome(chrom_name):\n    \"\"\"\n    Standardizes chromosome names by removing 'chr' prefix if present.\n    Returns the standardized name and a boolean indicating if a change occurred.\n    \"\"\"\n    if CHROM_PREFIX_PATTERN.match(chrom_name):\n        return chrom_name[3:], True\n    return chrom_name, False\n\ndef parse_vcf_header(file_path):\n    \"\"\"\n    Parses the header of a VCF file to extract metadata and check for malformed lines.\n    \"\"\"\n    header_info = {\n        \"file\": file_path,\n        \"chromosomes\": set(),\n        \"has_genotype\": False,\n        \"missing_genotypes\": 0,\n        \"total_variants\": 0,\n        \"header_issues\": [],\n        \"standardized_chromosomes\": set(),\n        \"original_chromosomes\": set()\n    }\n    \n    try:\n        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:\n            for line_num, line in enumerate(f, 1):\n                line = line.strip()\n                \n                # Skip empty lines\n                if not line:\n                    continue\n                \n                # Header lines start with ##\n                if line.startswith('##'):\n                    # Basic check for malformed header (e.g., missing key=value or unexpected format)\n                    # This is a simplified check; real-world parsing might use a library like cyvcf2\n                    if not re.match(r'^##[a-zA-Z]+=', line):\n                        header_info[\"header_issues\"].append(f\"Line {line_num}: Potentially malformed header: {line[:50]}...\")\n                    continue\n                \n                # Format line starts with #CHROM\n                if line.startswith('#CHROM'):\n                    header_info[\"has_genotype\"] = True\n                    # Check if FORMAT column exists (usually 9th column)\n                    cols = line.split('\\t')\n                    if len(cols) < 9:\n                        header_info[\"header_issues\"].append(f\"Line {line_num}: Missing FORMAT column in header.\")\n                    continue\n                \n                # Data lines\n                if line.startswith('#'):\n                    continue\n                \n                header_info[\"total_variants\"] += 1\n                cols = line.split('\\t')\n                \n                if len(cols) < 9:\n                    header_info[\"header_issues\"].append(f\"Line {line_num}: Malformed data line (too few columns).\")\n                    continue\n                \n                chrom = cols[0]\n                header_info[\"original_chromosomes\"].add(chrom)\n                \n                # Check for missing genotypes in the sample columns (starting from index 9)\n                # Assuming standard VCF structure where GT is the first sub-field\n                sample_cols = cols[9:]\n                for sample in sample_cols:\n                    if not sample or sample == '.':\n                        header_info[\"missing_genotypes\"] += 1\n                    elif MISSING_GENOTYPE_PATTERN.search(sample):\n                        header_info[\"missing_genotypes\"] += 1\n                \n                # Standardize chromosome\n                std_chrom, changed = standardize_chromosome(chrom)\n                header_info[\"chromosomes\"].add(std_chrom)\n                header_info[\"standardized_chromosomes\"].add(std_chrom)\n                if changed:\n                    header_info[\"original_chromosomes\"].add(chrom)\n\n    except FileNotFoundError:\n        logger.error(f\"File not found: {file_path}\")\n        header_info[\"header_issues\"].append(\"File not found.\")\n    except PermissionError:\n        logger.error(f\"Permission denied: {file_path}\")\n        header_info[\"header_issues\"].append(\"Permission denied.\")\n    except Exception as e:\n        logger.error(f\"Unexpected error reading {file_path}: {str(e)}\")\n        header_info[\"header_issues\"].append(f\"System error: {str(e)}\")\n\n    return header_info\n\ndef aggregate_vcf_data(directory, files):\n    \"\"\"\n    Aggregates data from a list of VCF files.\n    \"\"\"\n    results = {\n        \"files_processed\": [],\n        \"total_files\": len(files),\n        \"total_variants\": 0,\n        \"total_missing_genotypes\": 0,\n        \"chromosome_issues\": defaultdict(int),\n        \"header_issues\": [],\n        \"standardization_log\": []\n    }\n\n    for filename in files:\n        file_path = os.path.join(directory, filename)\n        if not os.path.exists(file_path):\n            logger.warning(f\"File not found in directory: {file_path}\")\n            results[\"header_issues\"].append(f\"{filename}: File not found.\")\n            continue\n\n        logger.info(f\"Processing: {filename}\")\n        file_data = parse_vcf_header(file_path)\n        results[\"files_processed\"].append(filename)\n        results[\"total_variants\"] += file_data[\"total_variants\"]\n        results[\"total_missing_genotypes\"] += file_data[\"missing_genotypes\"]\n        \n        # Log chromosome standardization\n        if file_data[\"original_chromosomes\"] != file_data[\"standardized_chromosomes\"]:\n            diff = file_data[\"original_chromosomes\"] - file_data[\"standardized_chromosomes\"]\n            if diff:\n                results[\"standardization_log\"].append(f\"{filename}: Standardized {len(diff)} chromosomes (removed 'chr' prefix).\")\n                for chrom in diff:\n                    results[\"chromosome_issues\"][chrom] += 1\n        \n        # Collect header issues\n        for issue in file_data[\"header_issues\"]:\n            results[\"header_issues\"].append(f\"{filename}: {issue}\")\n\n    return results\n\ndef generate_markdown_report(results, output_path=\"vcf_quality_report.md\"):\n    \"\"\"\n    Generates a Markdown summary report.\n    \"\"\"\n    timestamp = datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")\n    \n    report = f\"\"\"# VCF Data Quality Summary Report\n\n**Generated:** {timestamp}  \n**Directory Analyzed:** vcf_data/  \n**Files Processed:** {results['total_files']}  \n**Total Variants Scanned:** {results['total_variants']}  \n**Total Missing Genotypes:** {results['total_missing_genotypes']}\n\n---\n\n## 1. Data Quality Issues Found\n\n### 1.1 Inconsistent Chromosome Naming\nThe following chromosomes required standardization (removal of 'chr' prefix):\n| Original Name | Occurrences |\n|---------------|-------------|\n\"\"\"\n    for chrom, count in results[\"chromosome_issues\"].items():\n        report += f\"| {chrom} | {count} |\\n\"\n    \n    if not results[\"chromosome_issues\"]:\n        report += \"| None detected | 0 |\\n\"\n\n    report += \"\"\"\n### 1.2 Missing Genotype Calls\n- **Total Missing Calls:** `results['total_missing_genotypes']`\n- **Impact:** Variants with `./.` or `.` in genotype fields may affect downstream association studies.\n\n### 1.3 Header Anomalies\n\"\"\"\n    if results[\"header_issues\"]:\n        report += \"The following header issues were detected:\\n\\n\"\n        for issue in results[\"header_issues\"]:\n            report += f\"- {issue}\\n\"\n    else:\n        report += \"No significant header anomalies detected.\\n\"\n\n    report += \"\"\"\n---\n\n## 2. Steps Taken to Standardize Data\n\n1. **Chromosome Naming:** All chromosome identifiers were scanned. If a name started with 'chr' (e.g., 'chr1'), the prefix was removed to match the standard '1' format.\n2. **Genotype Validation:** Each sample column was checked for missing values (`./.` or `.`).\n3. **Error Handling:** File I/O errors (missing files, permission issues) were logged to `vcf_qc.log` and reported in the summary.\n4. **Logging:** All warnings and errors were written to `vcf_qc.log` for traceability.\n\n---\n\n## 3. User Guide: Interpreting the Summary\n\n### How to use this report\n- **Chromosome Naming:** If you see entries in the \"Inconsistent Chromosome Naming\" table, ensure your downstream tools (e.g., PLINK, GATK) are configured to accept the standardized naming convention (e.g., '1' instead of 'chr1').\n- **Missing Genotypes:** A high count of missing genotypes may indicate low sequencing depth or poor variant calling quality in specific samples. Consider filtering these samples or variants before analysis.\n- **Header Anomalies:** Review the \"Header Anomalies\" section. If specific lines are flagged, inspect the raw VCF files to ensure the `##` metadata lines are correctly formatted.\n\n### Next Steps\n1. Review `vcf_qc.log` for detailed technical errors.\n2. If standardization is required for downstream tools, apply the `chr` prefix removal logic to the VCF files using `bcftools annotate` or a custom script.\n3. Re-run variant calling or filtering steps after addressing identified quality issues.\n\n---\n*Report generated by Bioinformatics VCF QC Script.*\n\"\"\"\n    \n    # Fix the f-string variable reference for the total missing genotypes\n    report = report.replace(\"results['total_missing_genotypes']\", str(results['total_missing_genotypes']))\n\n    try:\n        with open(output_path, 'w', encoding='utf-8') as f:\n            f.write(report)\n        logger.info(f\"Report generated successfully: {output_path}\")\n    except IOError as e:\n        logger.error(f\"Failed to write report: {e}\")\n\ndef main():\n    # Default context values\n    directory = \"vcf_data/\"\n    files = [\"sample_01.vcf\", \"sample_02.vcf\"]\n\n    # Allow command line override\n    parser = argparse.ArgumentParser(description=\"VCF Data Quality Aggregation\")\n    parser.add_argument(\"--dir\", default=directory, help=\"Directory containing VCF files\")\n    parser.add_argument(\"--files\", nargs='+', default=files, help=\"List of VCF files to process\")\n    args = parser.parse_args()\n\n    logger.info(f\"Starting analysis on directory: {args.dir}\")\n    \n    results = aggregate_vcf_data(args.dir, args.files)\n    generate_markdown_report(results)\n\n    logger.info(\"Analysis complete.\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        2,
+        4,
+        3
+      ],
+      "score": 3.2,
+      "grade_reason": "Correctness (3): Script functions but has significant bugs (empty log messages, empty report table cells, hacky string replacement). Completeness (4): All required sections (report, logging, VCF parsing) are present. Best Practices (2): Logging is poorly implemented (variables missing in f-strings), string formatting is unprofessional. Domain Accuracy (4): VCF concepts (CHROM, GT, header) are used correctly; note 'ADDITIONAL CHECKS' regarding Pandas/DESeq2 are irrelevant to the VCF task. Clarity (3): Code is readable, but report output is often empty or malformed."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Monitor database performance and perform any necessary maintenance, upgrades, or repairs.",
+      "task_type": "Database Maintenance & Optimization",
+      "user_prompt": "Simulate a scenario where a SQLite database storing genomic annotations is experiencing slow query performance due to missing indexes. Write a Python script using the sqlite3 library to analyze the current schema, identify tables with large row counts (>1000) that lack indexes on frequently queried columns (e.g., 'gene_id', 'chromosome'), and create the necessary indexes. The script must include a rollback mechanism in case of constraint violations and handle database locking issues.",
+      "reference_context": {
+        "database_file": "genomic_annotations.db",
+        "schema_snapshot": {
+          "table": "annotations",
+          "columns": [
+            "id",
+            "gene_id",
+            "chromosome",
+            "start_pos",
+            "end_pos",
+            "annotation_text"
+          ],
+          "row_count": 50000
+        },
+        "query_pattern": "SELECT * FROM annotations WHERE gene_id = ? AND chromosome = ?"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Performance Optimization — Does the script correctly identify tables needing indexes based on the query pattern?",
+        "Criterion 2: Safety — Does the script implement a transaction rollback if an index creation fails?",
+        "Criterion 3: Robustness — Does the script handle database locking or connection timeout errors gracefully?"
+      ],
+      "student_answer": "```python\nimport sqlite3\nimport os\nimport sys\n\nDB_FILE = \"genomic_annotations.db\"\nMIN_ROW_COUNT = 1000\nTARGET_COLUMNS = ['gene_id', 'chromosome']\n\ndef get_table_stats(conn):\n    \"\"\"Retrieve table names and row counts.\"\"\"\n    cursor = conn.cursor()\n    cursor.execute(\"SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';\")\n    tables = [row[0] for row in cursor.fetchall()]\n    \n    stats = {}\n    for table in tables:\n        try:\n            cursor.execute(f\"SELECT COUNT(*) FROM {table}\")\n            count = cursor.fetchone()[0]\n            stats[table] = count\n        except sqlite3.Error:\n            stats[table] = 0\n    return stats\n\ndef get_indexes(conn, table_name):\n    \"\"\"Retrieve existing indexes for a specific table.\"\"\"\n    cursor = conn.cursor()\n    cursor.execute(f\"PRAGMA index_list({table_name});\")\n    indexes = [row[1] for row in cursor.fetchall()]\n    return indexes\n\ndef get_index_columns(conn, table_name, index_name):\n    \"\"\"Retrieve columns covered by a specific index.\"\"\"\n    cursor = conn.cursor()\n    cursor.execute(f\"PRAGMA index_info({index_name});\")\n    return [row[2] for row in cursor.fetchall()]\n\ndef check_query_pattern_coverage(conn, table_name, columns):\n    \"\"\"Check if an index exists covering the specified columns.\"\"\"\n    existing_indexes = get_indexes(conn, table_name)\n    \n    for idx_name in existing_indexes:\n        idx_cols = get_index_columns(conn, table_name, idx_name)\n        # Check if all target columns are present in the index\n        if all(col in idx_cols for col in columns):\n            return True\n    return False\n\ndef create_indexes(conn, table_name, columns):\n    \"\"\"Create composite index if not exists.\"\"\"\n    cursor = conn.cursor()\n    idx_name = f\"idx_{table_name}_{'_'.join(columns)}\"\n    \n    # Check if index already exists to avoid constraint violation\n    existing_indexes = get_indexes(conn, table_name)\n    if idx_name in existing_indexes:\n        print(f\"Index {idx_name} already exists on {table_name}. Skipping.\")\n        return True\n\n    columns_str = \", \".join(columns)\n    create_sql = f\"CREATE INDEX {idx_name} ON {table_name} ({columns_str});\"\n    \n    try:\n        cursor.execute(create_sql)\n        conn.commit()\n        print(f\"Created index {idx_name} on {table_name} ({columns_str}).\")\n        return True\n    except sqlite3.IntegrityError as e:\n        print(f\"Constraint violation while creating index on {table_name}: {e}\")\n        conn.rollback()\n        return False\n    except sqlite3.OperationalError as e:\n        print(f\"Operational error while creating index on {table_name}: {e}\")\n        conn.rollback()\n        return False\n\ndef main():\n    if not os.path.exists(DB_FILE):\n        print(f\"Error: Database file '{DB_FILE}' not found.\")\n        sys.exit(1)\n\n    conn = None\n    try:\n        # Connect with timeout to handle locking\n        conn = sqlite3.connect(DB_FILE, timeout=30.0)\n        conn.execute(\"PRAGMA busy_timeout = 30000;\")\n        \n        print(f\"Analyzing database: {DB_FILE}\")\n        stats = get_table_stats(conn)\n        \n        optimized_count = 0\n        \n        for table, count in stats.items():\n            if count > MIN_ROW_COUNT:\n                print(f\"Checking table '{table}' ({count} rows)...\")\n                \n                # Check if columns exist in the table\n                cursor = conn.cursor()\n                cursor.execute(f\"PRAGMA table_info({table});\")\n                table_columns = [row[1] for row in cursor.fetchall()]\n                \n                target_cols_present = [col for col in TARGET_COLUMNS if col in table_columns]\n                \n                if not target_cols_present:\n                    print(f\"  Skipping: Required columns not found in {table}.\")\n                    continue\n\n                if not check_query_pattern_coverage(conn, table, target_cols_present):\n                    if create_indexes(conn, table, target_cols_present):\n                        optimized_count += 1\n                else:\n                    print(f\"  Skipping: Suitable index already exists on {table}.\")\n        \n        print(f\"\\nOptimization complete. {optimized_count} tables updated with new indexes.\")\n\n    except sqlite3.OperationalError as e:\n        if conn:\n            conn.rollback()\n        print(f\"Database locking or operational error occurred: {e}\")\n        sys.exit(1)\n    except Exception as e:\n        if conn:\n            conn.rollback()\n        print(f\"Unexpected error: {e}\")\n        sys.exit(1)\n    finally:\n        if conn:\n            conn.close()\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "score": 0,
+      "dimension_scores": [],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Confer with database users about project timelines and changes.",
+      "task_type": "Project Coordination & Data Migration",
+      "user_prompt": "A project requires migrating data from an old legacy CSV format to a new standardized JSON schema. The legacy format has inconsistent date formats (MM/DD/YYYY vs YYYY-MM-DD) and mixed case gene symbols. Write a Python script to parse the legacy CSV, normalize the dates and gene symbols to uppercase, validate the data against the new schema, and output the migrated JSON. Include a detailed error log of records that failed validation due to unresolvable data issues, suitable for review by project stakeholders.",
+      "reference_context": {
+        "legacy_file": "legacy_data.csv",
+        "legacy_columns": [
+          "Date",
+          "Gene_Symbol",
+          "Expression_Level"
+        ],
+        "legacy_sample": [
+          {
+            "Date": "01/15/2023",
+            "Gene_Symbol": "tp53",
+            "Expression_Level": 10.5
+          },
+          {
+            "Date": "2023-02-20",
+            "Gene_Symbol": "BRCA1",
+            "Expression_Level": "invalid"
+          }
+        ],
+        "target_schema": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "format": "date"
+            },
+            "gene_symbol": {
+              "type": "string",
+              "pattern": "^[A-Z0-9]+$"
+            },
+            "expression_level": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Data Normalization — Are dates correctly parsed and gene symbols standardized to uppercase?",
+        "Criterion 2: Validation — Does the script strictly enforce the target JSON schema and reject invalid records?",
+        "Criterion 3: Stakeholder Communication — Is the error log detailed enough for users to understand and resolve data issues?"
+      ],
+      "student_answer": "```python\nimport csv\nimport json\nimport re\nfrom datetime import datetime\nfrom typing import List, Dict, Any, Tuple\n\n# Configuration\nLEGACY_FILE = \"legacy_data.csv\"\nOUTPUT_JSON = \"migrated_data.json\"\nERROR_LOG_FILE = \"migration_errors.log\"\n\n# Target Schema Constraints\nDATE_PATTERN = r\"^\\d{4}-\\d{2}-\\d{2}$\"\nGENE_PATTERN = r\"^[A-Z0-9]+$\"\n\ndef parse_date(date_str: str) -> str:\n    \"\"\"\n    Normalizes date strings to YYYY-MM-DD format.\n    Accepts MM/DD/YYYY or YYYY-MM-DD.\n    \"\"\"\n    if not date_str or not isinstance(date_str, str):\n        raise ValueError(\"Empty or non-string date value\")\n    \n    date_str = date_str.strip()\n    \n    # Try YYYY-MM-DD first\n    if re.match(DATE_PATTERN, date_str):\n        try:\n            datetime.strptime(date_str, \"%Y-%m-%d\")\n            return date_str\n        except ValueError:\n            raise ValueError(f\"Invalid date format: {date_str}\")\n    \n    # Try MM/DD/YYYY\n    if re.match(r\"^\\d{1,2}/\\d{1,2}/\\d{4}$\", date_str):\n        try:\n            dt = datetime.strptime(date_str, \"%m/%d/%Y\")\n            return dt.strftime(\"%Y-%m-%d\")\n        except ValueError:\n            raise ValueError(f\"Invalid date format: {date_str}\")\n    \n    raise ValueError(f\"Unresolvable date format: {date_str}\")\n\ndef normalize_gene_symbol(gene: str) -> str:\n    \"\"\"\n    Normalizes gene symbols to uppercase.\n    \"\"\"\n    if not gene or not isinstance(gene, str):\n        raise ValueError(\"Empty or non-string gene symbol\")\n    \n    normalized = gene.strip().upper()\n    \n    if not re.match(GENE_PATTERN, normalized):\n        raise ValueError(f\"Invalid gene symbol format: {gene} (normalized: {normalized})\")\n    \n    return normalized\n\ndef validate_expression_level(expr: Any) -> float:\n    \"\"\"\n    Validates and converts expression level to a number.\n    \"\"\"\n    if expr is None:\n        raise ValueError(\"Missing expression level\")\n    \n    try:\n        return float(expr)\n    except (ValueError, TypeError):\n        raise ValueError(f\"Invalid expression level: {expr}\")\n\ndef migrate_data():\n    records = []\n    errors = []\n    \n    try:\n        with open(LEGACY_FILE, mode='r', encoding='utf-8') as csvfile:\n            reader = csv.DictReader(csvfile)\n            \n            for row_num, row in enumerate(reader, start=2): # Start at 2 to account for header\n                record_id = row_num\n                record_errors = []\n                normalized_record = {}\n                \n                try:\n                    # Parse and Normalize Date\n                    normalized_record['date'] = parse_date(row.get('Date', ''))\n                    \n                    # Parse and Normalize Gene Symbol\n                    normalized_record['gene_symbol'] = normalize_gene_symbol(row.get('Gene_Symbol', ''))\n                    \n                    # Validate Expression Level\n                    normalized_record['expression_level'] = validate_expression_level(row.get('Expression_Level'))\n                    \n                    records.append(normalized_record)\n                    \n                except ValueError as e:\n                    record_errors.append(str(e))\n                \n                if record_errors:\n                    error_entry = {\n                        \"row_number\": record_id,\n                        \"original_data\": row,\n                        \"errors\": record_errors\n                    }\n                    errors.append(error_entry)\n    \n    except FileNotFoundError:\n        print(f\"Error: The file {LEGACY_FILE} was not found.\")\n        return\n    except Exception as e:\n        print(f\"Unexpected error during file reading: {e}\")\n        return\n\n    # Write Migrated JSON\n    with open(OUTPUT_JSON, 'w', encoding='utf-8') as jsonfile:\n        json.dump(records, jsonfile, indent=2)\n    \n    # Write Error Log\n    with open(ERROR_LOG_FILE, 'w', encoding='utf-8') as logfile:\n        logfile.write(f\"Migration Error Log\\n\")\n        logfile.write(f\"===================\\n\")\n        logfile.write(f\"Total Records Processed: {len(records) + len(errors)}\\n\")\n        logfile.write(f\"Successful Records: {len(records)}\\n\")\n        logfile.write(f\"Failed Records: {len(errors)}\\n\")\n        logfile.write(f\"--------------------------------------------------\\n\")\n        \n        if errors:\n            for err in errors:\n                logfile.write(f\"Row {err['row_number']}:\\n\")\n                logfile.write(f\"  Original Data: {err['original_data']}\\n\")\n                logfile.write(f\"  Errors:\\n\")\n                for err_msg in err['errors']:\n                    logfile.write(f\"    - {err_msg}\\n\")\n                logfile.write(\"\\n\")\n        else:\n            logfile.write(\"No errors encountered.\\n\")\n\n    print(f\"Migration complete.\")\n    print(f\"Successfully migrated {len(records)} records to {OUTPUT_JSON}.\")\n    print(f\"Failed records logged to {ERROR_LOG_FILE}.\")\n\nif __name__ == \"__main__\":\n    migrate_data()\n```",
+      "score": 3.0,
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        3,
+        4
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Correctness (2): Critical regex errors in date parsing (expects 1-digit years) cause valid sample data to fail. Completeness (3): All steps attempted but error logging is broken (empty messages). Best Practices (3): Empty error strings and lack of logging module reduce professionalism. Domain Accuracy (3): Gene normalization correct, but date validation logic violates ISO standards. Clarity (4): Code structure is readable."
+    }
+  ]
+}

@@ -1,0 +1,901 @@
+{
+  "meta": {
+    "job_title": "Operations Research Analysts",
+    "job_id": "or_analyst",
+    "onet_code": "15-2031.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 16,
+    "evaluated_tasks": 16,
+    "batches": 4,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 3.64,
+      "dimensions": {
+        "Correctness": 3.31,
+        "Completeness": 4.0,
+        "Best Practices": 3.19,
+        "Domain Accuracy": 3.31,
+        "Clarity": 4.38
+      },
+      "evaluated_tasks": 16,
+      "scale_max": 5
+    },
+    "total_time_seconds": 3386.57
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Formulate mathematical or simulation models of problems, relating constants and variables, restrictions, alternatives, conflicting objectives, and their numerical parameters.",
+      "task_type": "Mathematical Modeling",
+      "user_prompt": "You are an Operations Research Analyst for a manufacturing plant. The plant must schedule production for three products (A, B, C) over a 5-day horizon to maximize profit while adhering to machine capacity and labor constraints. Product A yields $50/unit, B yields $70/unit, and C yields $40/unit. Machine 1 can process 100 units of A, 80 of B, or 120 of C per day. Machine 2 can process 150 of A, 100 of B, or 90 of C per day. Labor is limited to 400 hours/day. Product A requires 2 hours, B requires 3 hours, and C requires 1.5 hours of labor per unit. Formulate a linear programming model to maximize total profit. Define decision variables, the objective function, and all constraints. Output the formulation clearly.",
+      "reference_context": {
+        "products": [
+          "A",
+          "B",
+          "C"
+        ],
+        "profit_per_unit": {
+          "A": 50,
+          "B": 70,
+          "C": 40
+        },
+        "machine_capacity_per_day": {
+          "Machine 1": {
+            "A": 100,
+            "B": 80,
+            "C": 120
+          },
+          "Machine 2": {
+            "A": 150,
+            "B": 100,
+            "C": 90
+          }
+        },
+        "labor_limit_hours": 400,
+        "labor_hours_per_unit": {
+          "A": 2,
+          "B": 3,
+          "C": 1.5
+        },
+        "horizon_days": 5
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the decision variables, objective function, and constraints mathematically formulated without logical errors?",
+        "Completeness: Does the model include constraints for both machines, labor limits, and non-negativity?",
+        "Clarity: Is the notation consistent and clearly defined for a solver?"
+      ],
+      "student_answer": "### Linear Programming Model Formulation\n\n**1. Decision Variables**\nLet $x_{i,d}$ represent the number of units of product $i$ produced on day $d$, where:\n*   $i \\in \\{A, B, C\\}$\n*   $d \\in \\{1, 2, 3, 4, 5\\}$\n\n**2. Objective Function**\nMaximize total profit over the 5-day horizon:\n$$ \\text{Maximize } Z = \\sum_{d=1}^{5} \\left( 50x_{A,d} + 70x_{B,d} + 40x_{C,d} \\right) $$\n\n**3. Constraints**\n\n**A. Machine Capacity Constraints**\n*Note: Machine capacity is given as maximum units per day. The constraint is formulated as $\\frac{x_{A,d}}{100} + \\frac{x_{B,d}}{80} + \\frac{x_{C,d}}{120} \\leq 1$ for Machine 1, and similarly for Machine 2.*\n\n**Machine 1 (Daily):**\n$$ \\frac{x_{A,d}}{100} + \\frac{x_{B,d}}{80} + \\frac{x_{C,d}}{120} \\leq 1 \\quad \\forall d \\in \\{1, \\dots, 5\\} $$\n\n**Machine 2 (Daily):**\n$$ \\frac{x_{A,d}}{150} + \\frac{x_{B,d}}{100} + \\frac{x_{C,d}}{90} \\leq 1 \\quad \\forall d \\in \\{1, \\dots, 5\\} $$\n\n**B. Labor Constraints**\n*Note: Labor limit is 400 hours per day.*\n\n**Labor (Daily):**\n$$ 2x_{A,d} + 3x_{B,d} + 1.5x_{C,d} \\leq 400 \\quad \\forall d \\in \\{1, \\dots, 5\\} $$\n\n**C. Non-Negativity Constraints**\n$$ x_{i,d} \\geq 0 \\quad \\forall i \\in \\{A, B, C\\}, \\forall d \\in \\{1, \\dots, 5\\} $$",
+      "score": 2.8,
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        2,
+        4
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission follows a professional structure (Variables, Objective, Constraints) and correctly formulates the labor constraint and non-negativity conditions. However, it contains critical mathematical errors: the objective function summation limit is incomplete, and the machine capacity constraints have missing denominators, rendering the model unsolvable. The failure to integrate the specific numerical parameters provided in the prompt (e.g., 100, 80, 120) constitutes a significant domain accuracy and correctness failure, preventing the model from being functional despite the clear presentation."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Perform validation and testing of models to ensure adequacy, and reformulate models, as necessary.",
+      "task_type": "Model Validation and Reformulation",
+      "user_prompt": "You are an Operations Research Analyst evaluating a proposed inventory model for a retail chain. The current model assumes constant demand and ignores lead time variability, resulting in frequent stockouts. You are provided with historical demand data showing a mean of 100 units/day and a standard deviation of 20 units/day. Lead time is normally distributed with a mean of 5 days and a standard deviation of 1 day. The holding cost is $2/unit/day, and the stockout cost is $10/unit. The current model uses a fixed reorder point of 500 units. Validate this model by calculating the expected stockout probability and total expected cost. Then, reformulate the model to determine the optimal reorder point that minimizes total expected cost while maintaining a service level of at least 95%. Provide the revised parameters and the new expected cost.",
+      "reference_context": {
+        "demand_mean": 100,
+        "demand_std": 20,
+        "lead_time_mean": 5,
+        "lead_time_std": 1,
+        "holding_cost": 2,
+        "stockout_cost": 10,
+        "current_reorder_point": 500,
+        "target_service_level": 0.95
+      },
+      "evaluation_criteria": [
+        "Validation Accuracy: Is the calculation of stockout probability and cost for the current model correct?",
+        "Reformulation Logic: Does the new model correctly incorporate demand and lead time variability?",
+        "Optimization: Is the new reorder point calculated to meet the 95% service level and minimize cost?"
+      ],
+      "student_answer": "### 1. Validation of Current Model\n\n**Parameters:**\n*   Mean Daily Demand ($\\mu_d$): 100 units\n*   Std Dev Daily Demand ($\\sigma_d$): 20 units\n*   Mean Lead Time ($\\mu_L$): 5 days\n*   Std Dev Lead Time ($\\sigma_L$): 1 day\n*   Current Reorder Point ($R_{current}$): 500 units\n\n**Step 1: Calculate Demand During Lead Time (DDLT) Statistics**\nAssuming demand and lead time are independent:\n*   Mean DDLT ($\\mu_{DDLT}$) = $\\mu_d \\times \\mu_L = 100 \\times 5 = 500$ units\n*   Variance of DDLT ($\\sigma^2_{DDLT}$) = $\\mu_L(\\sigma_d^2) + \\mu_d^2(\\sigma_L^2)$\n    *   $\\sigma^2_{DDLT} = 5(20^2) + 100^2(1^2) = 5(400) + 10,000 = 2,000 + 10,000 = 12,000$\n*   Std Dev DDLT ($\\sigma_{DDLT}$) = $\\sqrt{12,000} \\approx 109.54$ units\n\n**Step 2: Calculate Expected Stockout Probability**\n*   $Z_{current} = \\frac{R_{current} - \\mu_{DDLT}}{\\sigma_{DDLT}} = \\frac{500 - 500}{109.54} = 0$\n*   Stockout Probability ($P_{stockout}$) = $P(Z > 0) = 0.50$ (50%)\n\n**Step 3: Calculate Expected Stockouts per Cycle**\nUsing the Standard Normal Loss Function $L(Z)$ where $Z=0$, $L(0) \\approx 0.3989$.\n*   Expected Stockouts ($E[S]$) = $\\sigma_{DDLT} \\times L(0) = 109.54 \\times 0.3989 \\approx 43.70$ units/cycle\n\n**Step 4: Calculate Total Expected Cost (Annualized)**\n*Note: Annual cost calculation assumes 365 days. Cycle length is not explicitly defined, but cost per unit of stockout is given. We calculate the cost per cycle and scale to annual demand for a comparable metric, or simply state the cost per cycle.*\n*   Annual Demand ($D$) = $100 \\times 365 = 36,500$ units.\n*   Number of Cycles ($N$) = $D / Q$. Since $Q$ (Order Quantity) is not provided, we calculate the **Cost per Unit of Demand** or assume a standard EOQ context. However, the prompt asks for \"Total Expected Cost\" based on the provided parameters. Without $Q$, we calculate the **Expected Stockout Cost per Cycle** and **Holding Cost for Safety Stock**.\n    *   *Safety Stock (SS)* = $R - \\mu_{DDLT} = 0$.\n    *   *Holding Cost (Safety Stock)* = $SS \\times H = 0 \\times 2 = \\$0$.\n    *   *Stockout Cost (per cycle)* = $E[S] \\times \\text{Stockout Cost} = 43.70 \\times 10 = \\$437.00$.\n    *   *Annual Stockout Cost* = $(437.00 \\times 36,500) / Q$.\n    *   *Alternative Interpretation:* If the question implies cost per unit of time without $Q$, we report the **Expected Stockout Cost per Cycle** and the **Safety Stock Holding Cost**.\n\n**Current Model Results:**\n*   **Stockout Probability:** 50.0%\n*   **Safety Stock:** 0 units\n*   **Holding Cost (Safety Stock):** $0.00\n*   **Expected Stockouts per Cycle:** 43.70 units\n*   **Expected Stockout Cost per Cycle:** $437.00\n*   **Total Expected Cost (Cycle Basis):** $437.00 (excluding variable ordering costs due to missing Q).\n\n---\n\n### 2. Reformulated Model (Optimization)\n\n**Objective:** Minimize Total Expected Cost while maintaining Service Level $\\ge 95\\%$.\n\n**Step 1: Determine Optimal Reorder Point ($R^*$) for 95% Service Level**\n*   Target Service Level ($SL$) = 0.95\n*   Corresponding Z-score ($Z_{0.95}$) $\\approx 1.645$\n*   $R^* = \\mu_{DDLT} + (Z_{0.95} \\times \\sigma_{DDLT})$\n*   $R^* = 500 + (1.645 \\times 109.54)$\n*   $R^* = 500 + 180.19 \\approx 680.19$\n*   **Optimal Reorder Point ($R^*$):** **681 units** (rounded up to nearest integer).\n\n**Step 2: Calculate New Safety Stock**\n*   $SS^* = R^* - \\mu_{DDLT} = 681 - 500 = 181$ units.\n\n**Step 3: Calculate New Expected Stockouts**\n*   $Z = 1.645$\n*   Standard Normal Loss Function $L(1.645) \\approx 0.020$ (approximate value from standard tables).\n*   $E[S^*] = \\sigma_{DDLT} \\times L(1.645) = 109.54 \\times 0.020 \\approx 2.19$ units/cycle.\n\n**Step 4: Calculate New Total Expected Cost (Cycle Basis)**\n*   **Holding Cost (Safety Stock):** $SS^* \\times H = 181 \\times 2 = \\$362.00$\n*   **Stockout Cost:** $E[S^*] \\times \\text{Stockout Cost} = 2.19 \\times 10 = \\$21.90$\n*   **Total Expected Cost (Cycle Basis):** $\\$362.00 + \\$21.90 = \\$383.90$\n\n*(Note: If annualized, multiply by number of cycles $N = 36,500/Q$. The cost reduction is driven by the shift from high stockout risk to high holding cost, but the 95% constraint forces the specific point calculated.)*\n\n---\n\n### Final Work Product Summary\n\n#### 1. Current Model Validation\n*   **Expected Stockout Probability:** 50.0%\n*   **Safety Stock:** 0 units\n*   **Expected Stockout Cost per Cycle:** $437.00\n*   **Holding Cost for Safety Stock per Cycle:** $0.00\n*   **Total Expected Cost per Cycle:** $437.00\n*   **Assessment:** The model is critically flawed, offering only a 50% service level with zero safety stock, leading to frequent stockouts.\n\n#### 2. Optimized Model Parameters\nTo achieve a service level of at least 95%:\n*   **Optimal Reorder Point ($R^*$):** 681 units\n*   **Safety Stock:** 181 units\n*   **Expected Stockout Probability:** 5.0%\n*   **Expected Stockouts per Cycle:** 2.19 units\n\n#### 3. Revised Cost Analysis\n*   **Holding Cost (Safety Stock) per Cycle:** $362.00\n*   **Expected Stockout Cost per Cycle:** $21.90\n*   **Total Expected Cost per Cycle:** **$383.90**\n\n**Conclusion:** By increasing the reorder point from 500 to 681 units, the stockout probability drops from 50% to 5%. While holding costs increase significantly, the total expected cost per cycle decreases from $437.00 to $383.90, primarily due to the drastic reduction in stockout penalties, satisfying the 95% service level constraint.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The student correctly calculated Demand During Lead Time (DDLT) statistics and the optimal reorder point (R*) based on the 95% service level constraint, demonstrating strong domain knowledge in inventory variance formulas. However, the cost calculation contains a significant dimensional error: holding cost ($/unit/day) was multiplied by safety stock without scaling by cycle duration or annualizing, while stockout cost was calculated per cycle. This inconsistency leads to an incorrect conclusion that total cost decreases (it likely increases significantly). The submission is well-structured and professionally acknowledges the missing Order Quantity (Q), but the cost metric flaw reduces correctness and domain accuracy. Completeness is high as all sections were addressed."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Collaborate with senior managers and decision makers to identify and solve a variety of problems and to clarify management objectives.",
+      "task_type": "Strategic Problem Solving",
+      "user_prompt": "You are an Operations Research Analyst consulting with senior management of a hospital. The hospital faces conflicting objectives: minimizing patient wait times and maximizing staff utilization. Current data shows an average wait time of 45 minutes and staff utilization at 85%. Management wants to reduce wait times to 20 minutes without increasing staff costs. You must analyze the trade-offs and propose a solution. Formulate a simulation model or queuing theory approach to estimate the required staff levels and shift patterns to achieve the target wait time. Present your findings, including the projected staff utilization and any potential risks (e.g., overtime costs).",
+      "reference_context": {
+        "current_wait_time_min": 45,
+        "target_wait_time_min": 20,
+        "current_staff_utilization": 0.85,
+        "staff_cost_per_hour": 30,
+        "patient_arrival_rate_per_hour": 12,
+        "service_time_mean_min": 15,
+        "service_time_std_min": 5
+      },
+      "evaluation_criteria": [
+        "Problem Identification: Does the response clearly identify the conflicting objectives and constraints?",
+        "Methodology: Is the proposed simulation or queuing model appropriate for the context?",
+        "Recommendation Quality: Are the recommendations backed by quantitative estimates of wait times and utilization?"
+      ],
+      "student_answer": "# Operations Research Analysis: Emergency Department Staffing Optimization\n\n## 1. Executive Summary\nTo reduce the average patient wait time from 45 minutes to 20 minutes without increasing total staff costs, the hospital must transition from a static staffing model to a dynamic, demand-responsive scheduling strategy. Current analysis indicates that achieving the target wait time requires increasing the effective service capacity by approximately 40%. Since total headcount cannot increase, this necessitates a shift from a uniform 85% utilization baseline to a higher peak utilization (approx. 92-94%) during high-volume hours, supported by a reduction in idle time during low-volume periods.\n\n## 2. Mathematical Model Formulation\n\n### 2.1 Queuing Theory Approach (M/G/c Model)\nWe utilize the M/G/c queuing model (Poisson arrivals, General service time distribution, $c$ servers) to estimate the required number of staff ($c$).\n\n**Parameters:**\n*   Arrival Rate ($\\lambda$): 12 patients/hour\n*   Mean Service Time ($\\mu^{-1}$): 15 minutes (0.25 hours)\n*   Service Rate ($\\mu$): 4 patients/hour/staff\n*   Coefficient of Variation ($C_s$): $5/15 = 0.333$\n*   Target Wait Time ($W_q$): $\\le 20$ minutes (0.333 hours)\n\n**Current State Analysis:**\n*   Current Staff ($c_{current}$): $\\lambda / (\\mu \\times \\text{Utilization}) = 12 / (4 \\times 0.85) \\approx 3.53 \\rightarrow 4$ staff.\n*   Current Utilization ($\\rho$): $12 / (4 \\times 4) = 0.75$.\n    *   *Note: The provided 85% utilization implies either higher arrival rates during peak hours or a different service time distribution than the mean suggests. We will model based on the target wait time constraint.*\n\n**Target State Calculation:**\nTo achieve $W_q \\le 0.333$ hours with $\\lambda = 12$ and $\\mu = 4$:\nUsing the Erlang-C approximation for M/G/c:\n$$W_q \\approx \\frac{C_s^2 + 1}{2} \\times \\frac{P(\\text{wait})}{c\\mu - \\lambda}$$\n\nSolving for $c$ such that $W_q \\le 0.333$:\n*   If $c = 4$: $\\rho = 0.75$. $W_q$ is currently ~45 mins (consistent with data).\n*   If $c = 5$: $\\rho = 0.60$. $W_q$ drops significantly, but utilization drops to 60% (violates cost constraint).\n*   **Critical Insight:** To maintain cost (fixed $c$) while reducing wait time, we must address the **peak load**, not the average load. The current 45-minute wait suggests the system is overloaded during peak hours (e.g., 18-20 arrivals/hr) while the average is 12.\n\n**Revised Strategy:**\nWe must treat the \"12 patients/hour\" as an average and model the peak hour. To hit 20 minutes wait, the system must handle the peak arrival rate ($\\lambda_{peak}$) with sufficient slack.\nAssuming a peak-to-average ratio of 1.5 (common in healthcare): $\\lambda_{peak} = 18$.\n*   Required Capacity for 20 min wait at $\\lambda=18$:\n    *   Target $\\rho \\approx 0.85$ (to minimize wait without adding staff).\n    *   $c = 18 / (4 \\times 0.85) \\approx 5.29 \\rightarrow 6$ staff.\n*   **Constraint Conflict:** We cannot add 2 staff.\n*   **Solution:** We must reduce the *effective* service time or increase the *effective* arrival smoothing.\n\n**Simulation-Based Recommendation:**\nSince adding staff is prohibited, the only viable path is **Process Re-engineering** to reduce service time variance and **Dynamic Shift Staggering**.\n\n## 3. Proposed Solution: Dynamic Shift Staggering & Process Optimization\n\n### 3.1 Staffing Configuration\n*   **Total Staff:** Maintain current headcount (4 FTEs).\n*   **Shift Pattern:** Implement a \"Split-Shift\" or \"Overlapping Shift\" model to cover peak hours (e.g., 10:00–14:00 and 16:00–20:00) with 5 staff members effectively on the floor, while reducing coverage during lulls (e.g., 02:00–06:00) to 2 staff.\n    *   *Mechanism:* Use existing staff for 10-hour shifts with a 2-hour overlap, or utilize part-time staff (if \"cost\" allows variable hours but fixed budget) to cover peaks.\n    *   *Alternative:* If headcount is strictly fixed at 4, we must reduce the **Mean Service Time** from 15 to 11.25 minutes (25% efficiency gain) to achieve the target wait time with the same staff.\n\n### 3.2 Projected Metrics (Target Scenario)\n*   **Target Wait Time:** 20 minutes.\n*   **Required Staff Utilization:** 92% (during peak hours).\n*   **Average Staff Utilization:** 88% (weighted average).\n*   **Staff Cost:** Unchanged (Fixed Headcount).\n\n### 3.3 Implementation Plan\n1.  **Triage Optimization:** Implement a \"Fast Track\" for low-acuity patients to reduce the mean service time for 40% of the queue.\n2.  **Shift Realignment:** Shift 2 staff members to cover the 11:00–15:00 peak window exclusively, ensuring 5 \"effective\" service points during the busiest hour, while reducing to 2 staff during the 03:00–07:00 lull.\n3.  **Cross-Training:** Train nurses to perform triage and basic diagnostics to reduce the 15-minute service bottleneck.\n\n## 4. Risk Assessment\n\n| Risk Category | Description | Probability | Impact | Mitigation Strategy |\n| :--- | :--- | :--- | :--- | :--- |\n| **Overtime Costs** | To cover peak hours with fixed staff, overtime may be required if shift overlaps exceed standard hours. | High | Medium | Implement strict shift caps; use \"on-call\" pool instead of fixed overtime. |\n| **Staff Burnout** | Increasing utilization from 85% to 92% during peaks increases stress and error rates. | High | High | Enforce mandatory breaks; rotate high-intensity shifts; monitor fatigue. |\n| **Service Quality** | Higher utilization may lead to rushed care and medical errors. | Medium | High | Implement \"Fast Track\" for simple cases to protect complex case quality. |\n| **Demand Volatility** | If patient arrivals spike above the modeled peak (e.g., flu season), wait times will exceed 20 mins. | Medium | High | Establish a \"Surge Protocol\" to temporarily suspend non-urgent admissions. |\n\n## 5. Conclusion\nAchieving a 20-minute wait time without increasing headcount is mathematically impossible under current service times (15 mins) and average arrival rates (12/hr) using a static 4-staff model. The solution requires a **dynamic operational shift**:\n1.  **Reduce Mean Service Time** to ~11.25 minutes via process improvement.\n2.  **Increase Peak Utilization** to 92% by staggering shifts to ensure 5 effective service points during peak hours.\n3.  **Accept Higher Risk** of staff fatigue, mitigated by strict break enforcement and fast-track protocols.\n\n**Recommendation:** Proceed with a 4-week pilot of the \"Split-Shift\" model combined with a \"Fast Track\" process to reduce service time variance. Monitor wait times and staff burnout indicators weekly.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        5,
+        4,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "Correctness (4): The solution correctly identifies the core trade-off and proposes a viable strategy (process improvement + shift staggering). However, the claim of '5 effective service points' with '4 FTEs' implies overtime or part-time staff, which risks violating the 'no cost increase' constraint, though this is flagged as a risk. Completeness (5): All task requirements are met, including model formulation, staff estimation, shift patterns, utilization projections, and risk assessment. Best Practices (5): Professional structure, clear executive summary, and appropriate use of risk matrices align with industry standards. Domain Accuracy (4): Queuing theory concepts (M/G/c, rho, Cs) are applied correctly. The initial discrepancy between calculated and given utilization is acknowledged, but the final staffing logic regarding concurrent staff vs FTEs is slightly ambiguous. Clarity (5): The report is well-structured, easy to follow, and uses professional terminology effectively."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Present the results of mathematical modeling and data analysis to management or other end users.",
+      "task_type": "Data Analysis and Presentation",
+      "user_prompt": "You are an Operations Research Analyst preparing a report for the CEO of a telecommunications company. The company is considering expanding its network to three new regions (North, South, East). You have analyzed the data and found that the North region has a high demand but low infrastructure, the South region has moderate demand and existing infrastructure, and the East region has low demand but high competition. Your model suggests that investing in North yields a 15% ROI over 5 years, South yields 10%, and East yields 5%. However, the North project requires a $5M upfront investment, South $2M, and East $1M. The total budget is $6M. Present a recommendation on which regions to invest in to maximize total ROI, including a sensitivity analysis on the ROI estimates. Format the output as a structured executive summary.",
+      "reference_context": {
+        "regions": [
+          "North",
+          "South",
+          "East"
+        ],
+        "roi_percent": {
+          "North": 15,
+          "South": 10,
+          "East": 5
+        },
+        "investment_cost_m": {
+          "North": 5,
+          "South": 2,
+          "East": 1
+        },
+        "total_budget_m": 6
+      },
+      "evaluation_criteria": [
+        "Optimization: Is the selection of regions mathematically optimal given the budget constraint?",
+        "Clarity: Is the executive summary clear, concise, and suitable for a non-technical audience?",
+        "Sensitivity: Does the analysis address how changes in ROI estimates affect the recommendation?"
+      ],
+      "student_answer": "# Executive Summary: Strategic Network Expansion Recommendation\n\n**To:** Chief Executive Officer\n**From:** Operations Research Analyst\n**Date:** October 26, 2023\n**Subject:** Optimal Capital Allocation for North, South, and East Region Expansion\n\n## 1. Strategic Recommendation\nBased on the optimization model utilizing a $6M total budget, the recommended investment strategy is to **prioritize the North region exclusively**.\n\n*   **Selected Region:** North\n*   **Investment Required:** $5.0M\n*   **Projected ROI:** 15%\n*   **Total Capital Utilized:** $5.0M (83.3% of budget)\n*   **Remaining Budget:** $1.0M (Insufficient for South or East projects)\n\n**Rationale:**\nWhile the South ($2M) and East ($1M) regions offer lower individual returns (10% and 5% respectively), the North region's 15% ROI represents the highest marginal return on capital. The optimization constraint ($6M) prevents a combination of projects that would exceed the ROI of the North project alone.\n*   *Alternative Combination (South + East):* Cost $3M, Weighted ROI 8.33%.\n*   *Optimal Combination (North):* Cost $5M, ROI 15%.\n\nThe North project delivers a significantly higher return per dollar invested compared to any feasible combination of the other regions.\n\n## 2. Sensitivity Analysis\nThe following analysis evaluates the robustness of the recommendation against fluctuations in ROI estimates. The \"North-Only\" strategy remains optimal under the following conditions:\n\n| Scenario | Condition | Impact on Recommendation |\n| :--- | :--- | :--- |\n| **Base Case** | North ROI = 15%, South = 10%, East = 5% | **Maintain:** Invest in North ($5M). |\n| **North Decline** | North ROI drops to < 13.3% | **Switch:** If North ROI falls below 13.3%, the combined ROI of South + East (8.33%) becomes less attractive, but North remains superior until its ROI drops below the weighted average of the next best feasible portfolio. *Correction:* The break-even point for North vs. South+East is actually when North ROI < 8.33%. However, since North costs $5M and South+East cost $3M, we must compare absolute returns. <br>• North Return: $5M × 15% = $0.75M profit.<br>• South+East Return: ($2M × 10%) + ($1M × 5%) = $0.25M profit.<br>North is dominant until its ROI drops below **5%** (where it equals East's rate but costs more). |\n| **South/East Surge** | South ROI > 25% OR East ROI > 50% | **Switch:** Only if South ROI exceeds 25% (yielding >$0.5M on $2M) combined with East, or if East ROI exceeds 50%, would the South+East combination potentially challenge North. |\n| **Budget Increase** | Budget increases to $8M | **Expand:** Invest in North ($5M) + South ($2M) + East ($1M). Total ROI would be a weighted average of all three. |\n\n**Key Insight:** The recommendation is highly robust. The North region's ROI would need to drop below 5% (matching the East region's low return) for the strategy to shift, which contradicts the current market analysis of \"high demand.\"\n\n## 3. Risk Considerations\n*   **Capital Efficiency:** The $1M remaining budget is unutilized. If the North project can be scaled or if a smaller, lower-cost pilot in the East region is viable, this capital could be deployed.\n*   **Market Volatility:** The 15% ROI for the North region assumes stable demand growth. A 10% drop in projected demand could reduce the ROI to 13.5%, still maintaining the recommendation.\n*   **Liquidity:** The $5M upfront requirement for North represents a significant portion of the available liquidity. Ensure cash flow projections support this concentration of capital.\n\n## 4. Conclusion\nThe Operations Research model unequivocally supports a **North-only investment strategy**. This approach maximizes total absolute profit ($750,000) and return on investment (15%) within the $6M constraint. Proceed with the $5M allocation to the North region immediately.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        2,
+        5
+      ],
+      "score": 2.8,
+      "grade_reason": "Correctness (2): The submission contains a critical factual error stating the remaining $1M budget is insufficient for the East project ($1M cost), leading to a suboptimal recommendation (North only vs. North+East). Completeness (3): All required sections are present, but the optimization analysis is incomplete due to the missed feasible combination. Best Practices (2): Leaving $1M idle without justification violates capital budgeting standards, and the constraint check failure indicates poor operational judgment. Domain Accuracy (2): Basic feasibility constraints were miscalculated, and sensitivity analysis relies on an incorrect baseline. Clarity (5): The document is professionally formatted, well-structured, and easy to read."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Collaborate with others in the organization to ensure successful implementation of chosen problem solutions.",
+      "task_type": "Implementation Planning",
+      "user_prompt": "You are an Operations Research Analyst working with the IT and Operations teams to implement a new route optimization system for a delivery fleet. The system uses a genetic algorithm to solve the Vehicle Routing Problem (VRP). The initial test run shows a 10% improvement in route efficiency but fails to account for real-time traffic updates. You must collaborate with the IT team to integrate a real-time traffic API and with Operations to adjust driver schedules. Define the implementation plan, including the necessary data inputs, the modified algorithm constraints, and a phased rollout strategy. Specify the key performance indicators (KPIs) to monitor during the rollout.",
+      "reference_context": {
+        "current_efficiency_gain": 0.1,
+        "algorithm_type": "Genetic Algorithm",
+        "missing_feature": "Real-time traffic updates",
+        "kpi_targets": {
+          "delivery_time_reduction": 0.15,
+          "fuel_cost_reduction": 0.12,
+          "customer_satisfaction_score": 4.5
+        }
+      },
+      "evaluation_criteria": [
+        "Feasibility: Is the implementation plan realistic and technically sound?",
+        "Collaboration: Does the plan address the roles of IT and Operations teams?",
+        "Monitoring: Are the KPIs relevant and measurable for tracking success?"
+      ],
+      "student_answer": "# Implementation Plan: Real-Time Traffic Integration for VRP Optimization\n\n## 1. Data Inputs & Integration Requirements\nTo enable real-time responsiveness, the following data streams must be integrated into the Genetic Algorithm (GA) pipeline:\n*   **Live Traffic Feed:** Latency < 60 seconds from the selected API provider (e.g., Google Maps, TomTom, or HERE).\n*   **Historical Traffic Patterns:** 12-month rolling average by time-of-day and day-of-week to calibrate baseline travel times.\n*   **Dynamic Event Data:** Construction zones, accidents, and road closures flagged with severity levels.\n*   **Fleet Telemetry:** Real-time vehicle GPS coordinates, speed, and fuel consumption rates.\n*   **Customer Time Windows:** Updated delivery slots reflecting driver availability and customer preferences.\n\n## 2. Modified Algorithm Constraints\nThe existing Genetic Algorithm will be reconfigured to incorporate dynamic constraints:\n*   **Time-Dependent Edge Weights:** Replace static distance matrices with dynamic travel time matrices updated every 15 minutes.\n*   **Penalty Function Adjustment:** Increase the fitness penalty for routes exceeding dynamic time windows caused by traffic congestion.\n*   **Re-optimization Trigger:** Implement a \"breakpoint\" logic where the GA re-runs a local search if:\n    *   Traffic delay exceeds 15 minutes on any active route segment.\n    *   A vehicle deviates from the predicted path by > 5 minutes.\n*   **Computational Budget:** Limit re-optimization cycles to 30 seconds to ensure decision latency remains under 2 minutes.\n\n## 3. Phased Rollout Strategy\n\n### Phase 1: Parallel Run & Validation (Weeks 1–2)\n*   **Action:** Run the new traffic-integrated GA alongside the legacy system in \"shadow mode.\"\n*   **Objective:** Validate API data accuracy and compare proposed routes against historical performance without affecting live operations.\n*   **Stakeholder:** IT Team (API integration), Operations (Route validation).\n\n### Phase 2: Pilot Fleet Deployment (Weeks 3–6)\n*   **Action:** Deploy the system to 15% of the fleet (10% of vehicles) in high-traffic urban zones.\n*   **Adjustment:** Operations team adjusts driver schedules to accommodate dynamic re-routing instructions.\n*   **Objective:** Test driver adherence to new instructions and measure real-world efficiency gains.\n\n### Phase 3: Regional Expansion (Weeks 7–10)\n*   **Action:** Expand to 50% of the fleet across all major metropolitan areas.\n*   **Adjustment:** Refine GA parameters based on pilot feedback; automate schedule adjustments for mid-day shifts.\n*   **Objective:** Validate scalability and system stability under peak load.\n\n### Phase 4: Full Fleet Deployment (Week 11+)\n*   **Action:** 100% fleet integration with automated re-optimization enabled 24/7.\n*   **Objective:** Achieve target KPIs and decommission legacy static routing logic.\n\n## 4. Key Performance Indicators (KPIs)\nMonitor the following metrics daily during the rollout to ensure alignment with targets:\n\n| KPI Category | Metric | Target | Measurement Frequency |\n| :--- | :--- | :--- | :--- |\n| **Efficiency** | Average Delivery Time Reduction | **15%** vs. Baseline | Daily |\n| **Cost** | Fuel Cost Reduction | **12%** vs. Baseline | Weekly |\n| **Service** | On-Time Delivery Rate | **98%** | Daily |\n| **Satisfaction** | Customer Satisfaction Score (CSAT) | **4.5/5.0** | Weekly |\n| **System** | Algorithm Re-optimization Latency | **< 2 minutes** | Real-time |\n| **Adoption** | Driver Adherence to New Routes | **> 90%** | Weekly |\n\n**Success Criteria:** Rollout is considered successful if the 15% delivery time reduction and 12% fuel cost reduction targets are met for three consecutive weeks post-full deployment.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "Correctness (5): The submission accurately addresses all task requirements (data inputs, algorithm constraints, rollout, KPIs) without factual errors. Completeness (4): While the core sections are present, the plan lacks critical operational details such as API failure fallback mechanisms, data security/compliance (GDPR/CCPA), and specific GA chromosome encoding strategies for time windows. Best Practices (4): The phased rollout and shadow mode are industry-standard, but the omission of security protocols and risk mitigation strategies prevents a top score. Domain Accuracy (4): Terminology (TDVRP, GA, KPIs) is used correctly, but the algorithmic approach (15-minute matrix refresh) is a simplified approximation of true time-dependent VRP which a senior expert might model more rigorously. Clarity (5): The document is exceptionally well-structured with clear headings, bullet points, and a professional KPI table."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Analyze information obtained from management to conceptualize and define operational problems.",
+      "task_type": "Problem Definition & Modeling",
+      "user_prompt": "You are an Operations Research Analyst for a manufacturing plant. Management has reported a 15% increase in production delays and wants to understand the root cause. You are provided with a dataset of daily production volumes, machine downtime logs, and shift schedules for the last quarter. Your task is to conceptualize the operational problem, identify the key variables affecting delays, and formulate a hypothesis-driven simulation model structure. Define the decision variables, the objective function (minimizing total delay cost), and the constraints (machine availability, labor hours). Output the mathematical formulation.",
+      "reference_context": {
+        "machines": [
+          "M1",
+          "M2",
+          "M3"
+        ],
+        "shifts": [
+          "Morning",
+          "Afternoon",
+          "Night"
+        ],
+        "max_labor_hours_per_shift": 8,
+        "downtime_log": {
+          "M1": 120,
+          "M2": 45,
+          "M3": 200
+        },
+        "production_volume_target": 5000,
+        "delay_cost_per_hour": 150,
+        "historical_data_points": 90
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the decision variables and constraints logically derived from the provided downtime and shift data?",
+        "Completeness: Does the model explicitly link machine downtime to the objective function of minimizing delay costs?",
+        "Best Practices: Is the problem definition clear enough to be translated into a discrete-event simulation or optimization solver?"
+      ],
+      "student_answer": "### Operational Problem Formulation\n\n**1. Problem Conceptualization**\nThe core operational problem is a **Stochastic Production Scheduling and Resource Allocation** issue. The 15% increase in delays is driven by a misalignment between machine availability (specifically high downtime on M3) and labor shift capacity. The objective is to determine the optimal assignment of labor hours to machines across shifts to minimize the total cost of production delays while respecting physical and labor constraints.\n\n**2. Key Variables Affecting Delays**\n*   **Machine Downtime ($D_i$):** Unplanned stoppages, particularly critical for M3 (200 hours).\n*   **Labor Availability ($H_{s}$):** Fixed 8 hours per shift.\n*   **Production Volume Target ($V_{target}$):** 5,000 units.\n*   **Delay Cost ($C_{delay}$):** $150/hour.\n*   **Shift Allocation ($x_{i,s}$):** Decision on how many hours Machine $i$ operates during Shift $s$.\n\n**3. Hypothesis-Driven Simulation Model Structure**\n*   **Input Layer:** Historical downtime distributions, shift schedules, and labor constraints.\n*   **Process Layer:** Discrete-event simulation of production flow where machine $i$ processes units at rate $R_i$ only when active ($x_{i,s} > 0$) and not in downtime.\n*   **Output Layer:** Total Delay Time ($T_{delay}$) and Total Delay Cost ($Z$).\n*   **Hypothesis:** The primary driver of the 15% delay increase is the under-allocation of labor to Machine M3 during the Morning and Afternoon shifts, failing to compensate for its high historical downtime (200 hours).\n\n---\n\n### Mathematical Formulation\n\n**Sets:**\n*   $I = \\{1, 2, 3\\}$: Set of machines ($M1, M2, M3$).\n*   $S = \\{1, 2, 3\\}$: Set of shifts (Morning, Afternoon, Night).\n\n**Parameters:**\n*   $D_i$: Historical downtime hours for machine $i$ (e.g., $D_3 = 200$).\n*   $H_{max}$: Maximum labor hours per shift ($8$).\n*   $V_{target}$: Production volume target ($5000$).\n*   $C_{delay}$: Delay cost per hour ($150$).\n*   $R_i$: Production rate of machine $i$ (units/hour). *Assumed constant for formulation.*\n*   $T_{total}$: Total available time in the quarter (hours).\n\n**Decision Variables:**\n*   $x_{i,s} \\ge 0$: Number of hours Machine $i$ is scheduled to operate during Shift $s$.\n*   $y_i \\ge 0$: Total production delay hours attributed to Machine $i$.\n*   $z \\ge 0$: Total delay cost.\n\n**Objective Function:**\nMinimize total delay cost:\n$$ \\text{Minimize } Z = C_{delay} \\times \\sum_{i \\in I} y_i $$\n\n**Constraints:**\n\n1.  **Labor Availability Constraint:**\n    Total labor hours assigned to all machines in a specific shift cannot exceed the shift limit.\n    $$ \\sum_{i \\in I} x_{i,s} \\le H_{max} \\quad \\forall s \\in S $$\n\n2.  **Machine Availability Constraint:**\n    Scheduled operating time for a machine cannot exceed the total available time minus its historical downtime.\n    $$ \\sum_{s \\in S} x_{i,s} \\le T_{total} - D_i \\quad \\forall i \\in I $$\n\n3.  **Production Volume Constraint:**\n    Total production must meet the target. If production falls short, the deficit is converted to delay hours ($y_i$).\n    $$ \\sum_{i \\in I} \\sum_{s \\in S} (R_i \\cdot x_{i,s}) + \\text{Buffer} \\ge V_{target} $$\n    *Note: In a strict linear formulation, $y_i$ represents the shortfall converted to time:*\n    $$ y_i = \\max\\left(0, \\frac{V_{target} - \\sum_{s \\in S} (R_i \\cdot x_{i,s})}{R_i}\\right) $$\n    *(In a linear programming solver, this is typically linearized using slack variables or big-M constraints).*\n\n4.  **Non-negativity Constraints:**\n    $$ x_{i,s} \\ge 0, \\quad y_i \\ge 0 \\quad \\forall i \\in I, s \\in S $$\n\n**Final Optimization Model:**\n\n$$\n\\begin{aligned}\n\\text{Minimize } \\quad & Z = 150 \\sum_{i=1}^{3} y_i \\\\\n\\text{Subject to:} \\quad & \\sum_{i=1}^{3} x_{i,s} \\le 8, \\quad \\forall s \\in \\{1, 2, 3\\} \\\\\n& \\sum_{s=1}^{3} x_{i,s} \\le T_{total} - D_i, \\quad \\forall i \\in \\{1, 2, 3\\} \\\\\n& \\sum_{i=1}^{3} \\sum_{s=1}^{3} (R_i \\cdot x_{i,s}) \\ge 5000 - \\sum_{i=1}^{3} (R_i \\cdot y_i) \\\\\n& x_{i,s} \\ge 0, \\quad y_i \\ge 0\n\\end{aligned}\n$$",
+      "score": 3.0,
+      "dimension_scores": [
+        3,
+        4,
+        2,
+        3,
+        3
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission addresses all task components (conceptualization, variables, simulation, formulation), warranting a 4 for Completeness. However, the mathematical formulation contains significant syntax errors (broken LaTeX, undefined indices like H_, V_) and inconsistent notation, which undermines Correctness (3) and Best Practices (2). While OR concepts are applied correctly (Domain Accuracy 3), the presentation errors reduce Clarity (3) and professional utility."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Study and analyze information about alternative courses of action to determine which plan will offer the best outcomes.",
+      "task_type": "Comparative Analysis & Optimization",
+      "user_prompt": "You are an Operations Research Analyst for a retail chain. The company is considering two inventory replenishment strategies: 'Just-in-Time' (JIT) and 'Safety Stock' (SS). You are provided with historical demand data, holding costs, and stockout penalty costs for three product categories. Analyze the alternatives to determine which plan offers the best outcome for the upcoming quarter. Formulate a cost-minimization model for both strategies, define the objective function, and calculate the expected total cost for each. Recommend the superior strategy based on your quantitative analysis.",
+      "reference_context": {
+        "products": [
+          "A",
+          "B",
+          "C"
+        ],
+        "holding_cost_per_unit": 5,
+        "stockout_penalty_per_unit": 25,
+        "demand_forecast": {
+          "A": {
+            "mean": 1000,
+            "std": 150
+          },
+          "B": {
+            "mean": 500,
+            "std": 50
+          },
+          "C": {
+            "mean": 2000,
+            "std": 300
+          }
+        },
+        "jit_order_cost": 100,
+        "ss_order_cost": 150,
+        "lead_time_days": 5
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the cost calculations for holding and stockouts mathematically accurate based on the provided distributions?",
+        "Completeness: Does the analysis cover all three product categories and both strategies?",
+        "Best Practices: Is the recommendation explicitly backed by the calculated total costs for each scenario?"
+      ],
+      "student_answer": "# Inventory Replenishment Strategy Analysis\n\n## 1. Model Formulation\n\n### Parameters\n*   **Holding Cost ($h$):** $5.00 per unit\n*   **Stockout Penalty ($p$):** $25.00 per unit\n*   **Lead Time ($L$):** 5 days\n*   **Order Cost ($K$):**\n    *   JIT: $100\n    *   SS: $150\n*   **Demand Distribution:** Normal ($D \\sim N(\\mu, \\sigma)$)\n\n### Strategy Definitions\n*   **Just-in-Time (JIT):** Replenishment is triggered exactly when demand occurs or at the moment of stockout risk. In this simplified model, JIT assumes an order quantity equal to the mean demand ($Q = \\mu$) with zero safety stock ($SS = 0$). The primary cost driver is the lower fixed order cost but higher risk of stockouts.\n*   **Safety Stock (SS):** Replenishment includes a buffer stock to cover demand variability during lead time. The order quantity is $Q = \\mu + SS$. The primary cost driver is the higher fixed order cost and holding cost for the buffer, offset by reduced stockout penalties.\n\n### Objective Function\nMinimize Total Expected Cost ($TC$):\n$$TC = \\text{Ordering Cost} + \\text{Holding Cost} + \\text{Stockout Cost}$$\n\n$$TC = \\left( \\frac{D}{Q} \\times K \\right) + (h \\times SS) + (p \\times E[Shortage])$$\n\n*Note: For this quarterly analysis, we treat the \"Ordering Cost\" as the fixed cost per replenishment cycle. Since the problem does not specify the number of cycles, we assume a single replenishment cycle per product for the quarter to isolate the strategy difference, or normalize the order cost to the specific strategy's fixed cost per order.*\n\n**Simplified Quarterly Cost Model (Single Cycle Assumption):**\n$$TC = K + (h \\times SS) + (p \\times \\sigma_L \\times L(z))$$\nWhere:\n*   $K$ = Fixed order cost for the strategy.\n*   $SS = z \\times \\sigma_L$ (Safety Stock).\n*   $\\sigma_L = \\sigma \\times \\sqrt{L}$ (Standard deviation of demand during lead time).\n*   $L(z)$ = Standard Normal Loss Function.\n\n---\n\n## 2. Calculations\n\n### Step 2.1: Calculate Lead Time Demand Variability ($\\sigma_L$)\n$$\\sigma_L = \\sigma \\times \\sqrt{5} \\approx \\sigma \\times 2.236$$\n\n| Product | $\\mu$ | $\\sigma$ | $\\sigma_L$ (Lead Time Std Dev) |\n| :--- | :--- | :--- | :--- |\n| **A** | 1,000 | 150 | $150 \\times 2.236 = 335.4$ |\n| **B** | 500 | 50 | $50 \\times 2.236 = 111.8$ |\n| **C** | 2,000 | 300 | $300 \\times 2.236 = 670.8$ |\n| **Total** | **3,500** | | **1,118.0** |\n\n### Step 2.2: Strategy A - Just-in-Time (JIT)\n*   **Safety Stock ($SS$):** 0\n*   **Order Cost ($K$):** $100\n*   **Stockout Cost:** Calculated using the standard normal loss function $L(z)$ where $z=0$ (since $SS=0$).\n    *   $L(0) = \\frac{1}{\\sqrt{2\\pi}} \\approx 0.3989$\n    *   Expected Shortage per product = $\\sigma_L \\times 0.3989$\n\n**JIT Cost Calculation:**\n1.  **Ordering Cost:** $100 \\times 3 \\text{ products} = \\$300$\n2.  **Holding Cost:** $0$\n3.  **Stockout Cost:**\n    *   Product A: $25 \\times (335.4 \\times 0.3989) = \\$3,345.5$\n    *   Product B: $25 \\times (111.8 \\times 0.3989) = \\$1,114.5$\n    *   Product C: $25 \\times (670.8 \\times 0.3989) = \\$6,691.0$\n    *   Total Stockout Cost: $\\$11,151.0$\n\n**Total JIT Cost:** $\\$300 + \\$0 + \\$11,151.0 = \\mathbf{\\$11,451.00}$\n\n### Step 2.3: Strategy B - Safety Stock (SS)\n*   **Optimization Logic:** To minimize total cost, we find the optimal service level ($z$) where the marginal cost of holding safety stock equals the marginal benefit of reduced stockouts.\n    *   Optimal $z$ occurs where $P(D > \\mu + z\\sigma_L) = \\frac{h}{h+p}$ (Newsvendor critical ratio logic applied to safety stock).\n    *   Critical Ratio = $\\frac{5}{5+25} = \\frac{5}{30} = 0.1667$.\n    *   This implies a very low service level (approx 16.7%), which is counter-intuitive for retail. However, in a continuous review system minimizing *total* cost with fixed order costs, the optimal $z$ is often derived differently.\n    *   *Alternative Standard Approach:* In many inventory models, if the goal is simply to compare \"No Safety Stock\" vs \"Optimal Safety Stock,\" we calculate the $z$ that minimizes $h \\cdot SS + p \\cdot \\text{Shortage}$.\n    *   Let's assume a standard service level target often used in retail (e.g., 95%) or calculate the theoretical minimum.\n    *   **Theoretical Minimum Calculation:**\n        *   Minimize $f(z) = h \\cdot z \\cdot \\sigma_L + p \\cdot \\sigma_L \\cdot L(z)$.\n        *   Derivative set to 0: $h + p \\cdot L'(z) = 0 \\Rightarrow h - p \\cdot \\phi(z) = 0$ (where $\\phi$ is PDF).\n        *   $\\phi(z) = h/p = 5/25 = 0.2$.\n        *   Looking up standard normal table for $\\phi(z) = 0.2$: $z \\approx 0.84$.\n        *   Let's use **$z = 0.84$** as the optimal safety factor.\n\n*   **Safety Stock ($SS$):** $0.84 \\times \\sigma_L$\n*   **Order Cost ($K$):** $150$\n*   **Stockout Cost:** Calculated using $L(0.84) \\approx 0.115$ (Standard Normal Loss Function value).\n\n**SS Cost Calculation:**\n1.  **Ordering Cost:** $150 \\times 3 \\text{ products} = \\$450$\n2.  **Holding Cost:**\n    *   Product A: $5 \\times (0.84 \\times 335.4) = \\$1,408.7$\n    *   Product B: $5 \\times (0.84 \\times 111.8) = \\$469.6$\n    *   Product C: $5 \\times (0.84 \\times 670.8) = \\$2,817.4$\n    *   Total Holding Cost: $\\$4,695.7$\n3.  **Stockout Cost:**\n    *   Product A: $25 \\times (335.4 \\times 0.115) = \\$963.6$\n    *   Product B: $25 \\times (111.8 \\times 0.115) = \\$321.4$\n    *   Product C: $25 \\times (670.8 \\times 0.115) = \\$1,928.7$\n    *   Total Stockout Cost: $\\$3,213.7$\n\n**Total SS Cost:** $\\$450 + \\$4,695.7 + \\$3,213.7 = \\mathbf{\\$8,359.40}$\n\n*(Note: Even if a higher service level like 95% ($z=1.65$) were used, the holding cost would increase, but the stockout cost would drop significantly. Let's quickly verify if $z=1.65$ is better than $z=0.84$.)*\n*   *Check $z=1.65$:*\n    *   Holding: $5 \\times 1.65 \\times 1118 = \\$9,223.5$\n    *   Stockout ($L(1.65) \\approx 0.02$): $25 \\times 1118 \\times 0.02 = \\$559$\n    *   Order: $450$\n    *   Total: $\\approx \\$10,232$.\n    *   *Conclusion:* The theoretical minimum at $z=0.84$ yields the lowest cost. Even with a more conservative $z=1.65$, the SS strategy ($\\$10,232$) is still cheaper than JIT ($\\$11,451$).\n\n---\n\n## 3. Summary of Results\n\n| Cost Component | Just-in-Time (JIT) | Safety Stock (SS) | Difference |\n| :--- | :--- | :--- | :--- |\n| **Ordering Cost** | $300.00 | $450.00 | +$150.00 |\n| **Holding Cost** | $0.00 | $4,695.70 | +$4,695.70 |\n| **Stockout Penalty** | $11,151.00 | $3,213.70 | -$7,937.30 |\n| **Total Expected Cost** | **$11,451.00** | **$8,359.40** | **-$3,091.60** |\n\n## 4. Recommendation\n\n**Recommended Strategy: Safety Stock (SS)**\n\n**Quantitative Justification:**\nThe Safety Stock strategy results in a total expected cost of **$8,359.40**, which is **$3,091.60 lower** than the Just-in-Time strategy ($11,451.00).\n\nWhile the Safety Stock strategy incurs higher fixed ordering costs ($150 vs $100) and significant holding costs for the buffer inventory, these are vastly outweighed by the reduction in stockout penalties. The JIT strategy's lack of buffer inventory exposes the company to high penalty costs ($11,151) due to demand variability during the 5-day lead time.\n\n**Action Plan:**\n1.  Adopt the **Safety Stock** replenishment policy for Products A, B, and C.\n2.  Implement a safety stock level corresponding to a $z$-score of approximately **0.84** (covering roughly 80% of lead time demand variability) to minimize total costs.\n3.  Monitor actual stockout rates; if customer service levels are deemed too low by management, increase the $z$-score to 1.65 (95% service level), which still yields a cost ($10,232) lower than the JIT baseline.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "The submission is well-structured and clear (Clarity 5), addressing all task sections. However, it contains significant technical gaps. Correctness (3) and Completeness (3) are impacted by the omission of cycle stock holding costs (Q/2), which is standard in inventory models. Domain Accuracy (3) is affected by a mathematically incorrect derivation of the optimal z-score (confusing PDF with CDF derivative) and a risky assumption regarding time units for variance scaling (treating quarterly demand std dev as daily without explicit justification). Best Practices (3) are moderate due to the non-standard definition of JIT (Q=Mean vs frequent small orders) and lack of explicit assumption clarification. The recommendation is logically consistent with the provided calculations, though the underlying cost figures may be inaccurate due to the modeling simplifications."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Prepare management reports defining and evaluating problems and recommending solutions.",
+      "task_type": "Strategic Recommendation & Reporting",
+      "user_prompt": "You are an Operations Research Analyst for a healthcare network. The network needs to optimize patient flow to reduce average wait times in the Emergency Department (ED). You are provided with arrival rates, service times, and current staffing levels. Define the operational problem, evaluate the current system's performance, and recommend a solution involving staff reallocation. Formulate a queuing model to estimate the impact of your recommendation. Define the objective function (minimize wait time) and constraints (budget, minimum staff requirements). Output the report structure including the model formulation and the specific recommendation.",
+      "reference_context": {
+        "arrival_rate_patients_per_hour": 12,
+        "current_staff": 4,
+        "service_time_avg_minutes": 20,
+        "budget_increase_max": 5000,
+        "staff_cost_per_hour": 40,
+        "wait_time_target_minutes": 30,
+        "current_avg_wait_minutes": 45
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the queuing model (e.g., M/M/c) applied correctly to the provided arrival and service rates?",
+        "Completeness: Does the solution address the budget constraint and the target wait time?",
+        "Best Practices: Is the recommendation clear, actionable, and supported by the quantitative results of the model?"
+      ],
+      "student_answer": "# Emergency Department Patient Flow Optimization Report\n\n## 1. Operational Problem Definition\nThe healthcare network faces a critical bottleneck in the Emergency Department (ED) characterized by excessive patient wait times. Despite a steady arrival rate of 12 patients per hour, the current staffing level of 4 providers results in an average wait time of 45 minutes, exceeding the target threshold of 30 minutes. The operational objective is to reallocate resources to reduce the average wait time to the target level without exceeding the maximum allowable budget increase of $5,000.\n\n## 2. Current System Performance Evaluation\nUsing the provided parameters, the current system performance is analyzed as follows:\n*   **Arrival Rate ($\\lambda$):** 12 patients/hour.\n*   **Service Rate per Server ($\\mu$):** $60 \\text{ minutes} / 20 \\text{ minutes} = 3$ patients/hour.\n*   **Number of Servers ($c$):** 4.\n*   **System Utilization ($\\rho$):** $\\lambda / (c \\times \\mu) = 12 / (4 \\times 3) = 1.0$ (100%).\n*   **Current Performance:** The system is operating at full capacity ($\\rho = 1.0$). In a standard queuing model (M/M/c), this results in an unstable system where the queue length grows infinitely over time. The reported average wait of 45 minutes reflects a system on the verge of collapse or operating under non-steady-state conditions where demand slightly exceeds or perfectly matches capacity, leading to significant delays.\n\n## 3. Queuing Model Formulation\nTo estimate the impact of the recommendation, we utilize an **M/M/c Queuing Model** (Poisson arrivals, Exponential service times, $c$ servers).\n\n### Parameters\n*   $\\lambda = 12$ patients/hour\n*   $\\mu = 3$ patients/hour\n*   $c = \\text{Variable (Current: 4, Proposed: 5)}$\n*   $W_q = \\text{Average time a patient waits in the queue}$\n\n### Objective Function\nMinimize the average wait time in the queue ($W_q$):\n$$ \\text{Minimize } W_q(c) $$\n\n### Constraints\n1.  **Budget Constraint:** The cost of additional staff must not exceed the budget increase.\n    $$ (c_{new} - c_{current}) \\times \\text{Cost}_{hour} \\times \\text{Hours}_{shift} \\leq \\text{Budget}_{max} $$\n    *Assumption:* Evaluating based on a standard 12-hour shift for immediate impact analysis.\n    $$ (c_{new} - 4) \\times 40 \\times 12 \\leq 5000 $$\n    $$ (c_{new} - 4) \\times 480 \\leq 5000 $$\n    $$ c_{new} - 4 \\leq 10.41 \\implies c_{new} \\leq 14 $$\n    *Note:* Even a single additional server is well within budget.\n\n2.  **Minimum Staff Requirement:**\n    $$ c_{new} \\geq 4 $$\n\n3.  **Stability Constraint:**\n    $$ \\lambda < c_{new} \\times \\mu \\implies 12 < c_{new} \\times 3 \\implies c_{new} > 4 $$\n\n## 4. Recommendation: Staff Reallocation\n\n### Proposed Solution\n**Increase ED staffing from 4 to 5 providers.**\n\n### Justification\n*   **Stability:** Increasing staff to 5 changes the service capacity to $5 \\times 3 = 15$ patients/hour. This creates a utilization rate of $\\rho = 12/15 = 0.80$ (80%), ensuring system stability.\n*   **Wait Time Reduction:**\n    *   **Current (4 staff):** $\\rho = 1.0$ (Unstable/High Wait).\n    *   **Proposed (5 staff):** Using M/M/c formulas for $\\lambda=12, \\mu=3, c=5$:\n        *   Probability of zero patients in system ($P_0$) $\\approx 0.045$.\n        *   Average number of patients in queue ($L_q$) $\\approx 0.85$.\n        *   Average wait time ($W_q = L_q / \\lambda$) $\\approx 0.85 / 12 \\text{ hours} \\approx 0.071 \\text{ hours} \\approx \\mathbf{4.26 \\text{ minutes}}$.\n    *   **Result:** The wait time drops from 45 minutes to approximately **4.3 minutes**, significantly beating the 30-minute target.\n\n### Cost Analysis\n*   **Additional Staff Cost:** 1 additional provider.\n*   **Hourly Cost:** $40.\n*   **Daily Cost (12-hour shift):** $480.\n*   **Monthly Cost (30 days):** $14,400.\n*   **Budget Check:** The prompt specifies a \"budget increase max\" of $5,000.\n    *   *Interpretation A (One-time implementation cost):* If the $5,000 is a one-time cap for hiring/training, 1 staff member is affordable.\n    *   *Interpretation B (Recurring operational budget):* If the $5,000 is a monthly cap, 1 staff member ($14,400) exceeds the limit.\n    *   *Strategic Adjustment:* If the $5,000 is a strict **monthly** operational cap, we cannot afford a full-time equivalent (FTE) increase. However, the problem asks for a solution involving reallocation.\n    *   *Revised Recommendation for Strict Monthly Cap:* The network must utilize **overtime** or **part-time** staff to cover peak hours.\n        *   Max monthly spend: $5,000.\n        *   Max hours purchasable: $5,000 / $40 = 125 hours/month.\n        *   This covers ~31 hours/week (approx. 4 hours/day).\n        *   **Action:** Implement a **4-hour daily \"Surge Shift\"** during peak arrival windows (e.g., 2 PM – 6 PM) to effectively increase capacity during high-load periods without adding a full-time FTE. This reduces the effective average wait time during peak hours to meet the target.\n\n**Final Decision:**\nGiven the ambiguity of the budget timeframe, the most robust recommendation is to **add 1 full-time provider** if the $5,000 represents a hiring/training budget. If the $5,000 is a monthly operational limit, the recommendation is to **implement a targeted 4-hour daily surge shift** (125 hours/month) to cover peak demand, which mathematically reduces the average wait time during peak periods to under 30 minutes.\n\n**Primary Recommendation (Assuming $5k is a one-time or flexible cap):**\n**Add 1 Full-Time Provider.**\n*   **New Staff Count:** 5\n*   **Estimated New Wait Time:** ~4.3 minutes.\n*   **Budget Impact:** $480/day (well within $5,000 one-time limit; requires budget adjustment if monthly).\n\n**Secondary Recommendation (If $5k is strict monthly cap):**\n**Implement 4-hour Daily Surge Shift.**\n*   **Strategy:** Deploy 1 additional provider for 4 hours daily during peak hours.\n*   **Estimated Impact:** Reduces peak wait times to <30 minutes.\n*   **Cost:** $5,000/month exactly.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "Correctness: 4 - Addresses all requirements but contains arithmetic errors in the M/M/c wait time calculation (estimated 4.3 mins vs actual ~11 mins). Completeness: 5 - Fully addresses all task components, including handling budget ambiguity. Best Practices: 4 - Professional report structure and logical flow, though calculation precision is lacking. Domain Accuracy: 4 - Correctly identifies M/M/c model and stability constraints, but numerical application of Erlang-C is inaccurate. Clarity: 5 - Excellent structure, clear headings, and easy to follow logic."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Define data requirements, and gather and validate information, applying judgment and statistical tests.",
+      "task_type": "Data Validation & Model Calibration",
+      "user_prompt": "You are an Operations Research Analyst for a telecommunications company. You are tasked with validating a new network traffic prediction model. You are provided with a dataset of historical traffic volumes and a set of predicted values. Perform a statistical validation to determine if the model's predictions are unbiased and accurate. Define the error metrics (MSE, MAE), formulate the validation criteria, and adjust the model parameters if necessary to meet a 95% confidence interval. Output the validation results and the adjusted model parameters.",
+      "reference_context": {
+        "historical_traffic_gb": [
+          100,
+          105,
+          110,
+          108,
+          115,
+          120,
+          118,
+          125,
+          130,
+          128
+        ],
+        "predicted_traffic_gb": [
+          102,
+          104,
+          112,
+          105,
+          118,
+          122,
+          115,
+          128,
+          132,
+          125
+        ],
+        "confidence_level": 0.95,
+        "max_acceptable_mae": 5,
+        "max_acceptable_mse": 30
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the statistical calculations (MSE, MAE) performed accurately on the provided data?",
+        "Completeness: Does the response include a clear pass/fail determination against the acceptance criteria?",
+        "Best Practices: Are the adjusted parameters logically derived from the error analysis?"
+      ],
+      "student_answer": "### Statistical Validation Report: Network Traffic Prediction Model\n\n#### 1. Error Metrics Calculation\nBased on the provided historical and predicted traffic data ($N=10$):\n\n| Metric | Formula | Calculation Steps | Result |\n| :--- | :--- | :--- | :--- |\n| **Mean Absolute Error (MAE)** | $\\frac{1}{N}\\sum |y_i - \\hat{y}_i|$ | $\\frac{|100-102| + |105-104| + \\dots + |128-125|}{10} = \\frac{19}{10}$ | **1.9 GB** |\n| **Mean Squared Error (MSE)** | $\\frac{1}{N}\\sum (y_i - \\hat{y}_i)^2$ | $\\frac{(-2)^2 + (1)^2 + \\dots + (3)^2}{10} = \\frac{39}{10}$ | **3.9 GB²** |\n| **Bias (Mean Error)** | $\\frac{1}{N}\\sum (y_i - \\hat{y}_i)$ | $\\frac{-2 + 1 - 2 + 3 - 3 - 2 + 3 - 3 - 2 + 3}{10} = \\frac{-2}{10}$ | **-0.2 GB** |\n\n#### 2. Validation Criteria Assessment\n*   **MAE Criterion**: Calculated (1.9) $\\le$ Max Acceptable (5.0) $\\rightarrow$ **PASS**\n*   **MSE Criterion**: Calculated (3.9) $\\le$ Max Acceptable (30.0) $\\rightarrow$ **PASS**\n*   **Bias Check**: Mean Error (-0.2) is negligible, indicating the model is effectively **unbiased**.\n*   **Confidence Interval Analysis**:\n    *   Standard Deviation of Errors ($\\sigma_e$): $\\approx 1.97$\n    *   Standard Error of the Mean ($SE$): $\\sigma_e / \\sqrt{10} \\approx 0.62$\n    *   95% Confidence Interval for Mean Error: $-0.2 \\pm (1.96 \\times 0.62) \\rightarrow [-1.42, 1.02]$\n    *   Since the interval includes 0, the predictions are statistically unbiased at the 95% confidence level.\n\n#### 3. Model Adjustment\n*   **Status**: The current model parameters meet all defined accuracy and bias criteria.\n*   **Action**: No parameter adjustment is required. The model is ready for deployment.\n\n#### 4. Final Output\n\n**Validation Results:**\n*   **MAE**: 1.9 GB (Pass)\n*   **MSE**: 3.9 GB² (Pass)\n*   **Bias**: -0.2 GB (Unbiased)\n*   **95% CI Status**: Passed (Interval [-1.42, 1.02] contains 0)\n\n**Adjusted Model Parameters:**\n*   **Status**: No changes applied.\n*   **Current Parameters**: Retained as optimal.\n*   **Recommendation**: Deploy current model configuration.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "The submission is well-structured and addresses all required sections (metrics, criteria, adjustment), earning high marks for Completeness and Clarity. However, the core calculations for MAE (actual 2.4 vs reported 1.9), MSE (actual 6.2 vs reported 3.9), and Bias (actual -0.4 vs reported -0.2) are mathematically incorrect. These significant errors undermine the Correctness and Domain Accuracy dimensions. While the professional formatting suggests Best Practices, the lack of calculation verification is a notable gap for an Operations Research context."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Observe the current system in operation, and gather and analyze information about each of the component problems, using a variety of sources.",
+      "task_type": "System Analysis & Constraint Identification",
+      "user_prompt": "You are an Operations Research Analyst for a supply chain firm. You need to analyze the current distribution network to identify bottlenecks. You are provided with data on warehouse capacities, transportation costs, and customer demand locations. Identify the component problems (e.g., capacity constraints, high transport costs) and formulate a transportation problem model. Define the decision variables, objective function (minimize total distribution cost), and constraints (supply limits, demand satisfaction). Output the mathematical formulation and a list of identified bottlenecks.",
+      "reference_context": {
+        "warehouses": [
+          "WH1",
+          "WH2"
+        ],
+        "customers": [
+          "C1",
+          "C2",
+          "C3"
+        ],
+        "warehouse_capacity": {
+          "WH1": 500,
+          "WH2": 400
+        },
+        "customer_demand": {
+          "C1": 200,
+          "C2": 300,
+          "C3": 250
+        },
+        "transport_costs": {
+          "WH1_to_C1": 10,
+          "WH1_to_C2": 15,
+          "WH1_to_C3": 20,
+          "WH2_to_C1": 12,
+          "WH2_to_C2": 18,
+          "WH2_to_C3": 14
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the transportation model formulation (variables, objective, constraints) mathematically sound?",
+        "Completeness: Does the model ensure all demand is met without exceeding warehouse capacities?",
+        "Best Practices: Are the identified bottlenecks directly supported by the constraints and cost structure in the model?"
+      ],
+      "student_answer": "### Identified Bottlenecks\n1.  **Total Capacity Deficit**: The total warehouse capacity (900 units) is insufficient to meet total customer demand (750 units). *Correction*: Total Capacity (500 + 400 = 900) > Total Demand (200 + 300 + 250 = 750). There is no capacity deficit.\n2.  **High Cost Routes**: The route from WH1 to C3 (Cost: 20) and WH2 to C2 (Cost: 18) represent the highest unit transportation costs, potentially driving up the total distribution cost if forced by capacity constraints.\n3.  **Imbalance in Supply/Demand Ratios**: WH1 has a surplus capacity (500) relative to its potential optimal allocation, while WH2 (400) must be utilized efficiently to minimize the high cost of serving C2 and C3.\n\n*Note: Upon re-evaluation, the system is feasible (Supply 900 > Demand 750). The primary \"bottleneck\" is not a hard constraint failure but the optimization challenge of allocating the surplus 150 units to minimize the specific high-cost routes.*\n\n### Transportation Problem Model Formulation\n\n**Sets:**\n*   $I = \\{1, 2\\}$: Set of warehouses (WH1, WH2).\n*   $J = \\{1, 2, 3\\}$: Set of customers (C1, C2, C3).\n\n**Parameters:**\n*   $S_i$: Supply capacity of warehouse $i$.\n    *   $S_1 = 500$\n    *   $S_2 = 400$\n*   $D_j$: Demand of customer $j$.\n    *   $D_1 = 200$\n    *   $D_2 = 300$\n    *   $D_3 = 250$\n*   $C_{ij}$: Unit transportation cost from warehouse $i$ to customer $j$.\n    *   $C_{11}=10, C_{12}=15, C_{13}=20$\n    *   $C_{21}=12, C_{22}=18, C_{23}=14$\n\n**Decision Variables:**\n*   $x_{ij}$: Quantity of goods shipped from warehouse $i$ to customer $j$ (where $i \\in I, j \\in J$).\n\n**Objective Function:**\nMinimize total distribution cost ($Z$):\n$$ \\text{Minimize } Z = \\sum_{i \\in I} \\sum_{j \\in J} C_{ij} x_{ij} $$\n$$ \\text{Minimize } Z = 10x_{11} + 15x_{12} + 20x_{13} + 12x_{21} + 18x_{22} + 14x_{23} $$\n\n**Constraints:**\n\n1.  **Supply Constraints (Warehouse Capacities):**\n    $$ \\sum_{j \\in J} x_{ij} \\leq S_i \\quad \\forall i \\in I $$\n    $$ x_{11} + x_{12} + x_{13} \\leq 500 $$\n    $$ x_{21} + x_{22} + x_{23} \\leq 400 $$\n\n2.  **Demand Constraints (Customer Requirements):**\n    $$ \\sum_{i \\in I} x_{ij} = D_j \\quad \\forall j \\in J $$\n    $$ x_{11} + x_{21} = 200 $$\n    $$ x_{12} + x_{22} = 300 $$\n    $$ x_{13} + x_{23} = 250 $$\n\n3.  **Non-negativity Constraints:**\n    $$ x_{ij} \\geq 0 \\quad \\forall i \\in I, j \\in J $$",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        3
+      ],
+      "score": 3.2,
+      "grade_reason": "The submission correctly identifies the problem structure and feasibility (Supply > Demand), and includes all required sections (Sets, Parameters, Variables, Objective, Constraints). However, the mathematical notation is critically flawed with missing indices (e.g., $x_$ instead of $x_{ij}$), rendering the equations syntactically invalid for implementation. The bottleneck analysis initially claims a capacity deficit before correcting itself, which is unprofessional and reduces clarity. While the core logic is sound (Completeness 4), the execution lacks the precision expected in industry-standard OR work (Correctness, Best Practices, Domain Accuracy, Clarity all 3)."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Break systems into their components, assign numerical values to each component, and examine the mathematical relationships between them.",
+      "task_type": "Mathematical Modeling",
+      "user_prompt": "You are an Operations Research Analyst for a manufacturing plant. The plant produces three products (A, B, C) using two resources (Labor, Machine Hours). You must formulate a linear programming model to maximize profit. The system components are the products, resources, and their interrelationships. Define the decision variables, objective function, and constraints based on the provided resource limits and product data. Output the mathematical formulation.",
+      "reference_context": {
+        "products": [
+          "A",
+          "B",
+          "C"
+        ],
+        "resources": [
+          "Labor",
+          "Machine_Hours"
+        ],
+        "profit_per_unit": {
+          "A": 50,
+          "B": 40,
+          "C": 60
+        },
+        "resource_usage_per_unit": {
+          "A": {
+            "Labor": 2,
+            "Machine_Hours": 1
+          },
+          "B": {
+            "Labor": 1,
+            "Machine_Hours": 3
+          },
+          "C": {
+            "Labor": 3,
+            "Machine_Hours": 2
+          }
+        },
+        "total_available_resources": {
+          "Labor": 100,
+          "Machine_Hours": 120
+        },
+        "minimum_production_requirement": {
+          "A": 10,
+          "B": 0,
+          "C": 5
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the decision variables, objective function, and constraints mathematically valid and correctly derived from the context?",
+        "Completeness: Does the model include all resource constraints and minimum production requirements?",
+        "Clarity: Is the notation clear, standardized, and suitable for implementation in optimization software?"
+      ],
+      "student_answer": "**Decision Variables**\nLet $x_A$, $x_B$, and $x_C$ represent the number of units produced for Product A, Product B, and Product C, respectively.\n\n**Objective Function**\nMaximize total profit $Z$:\n$$ \\text{Maximize } Z = 50x_A + 40x_B + 60x_C $$\n\n**Constraints**\n\n1.  **Labor Availability:**\n    $$ 2x_A + 1x_B + 3x_C \\leq 100 $$\n\n2.  **Machine Hours Availability:**\n    $$ 1x_A + 3x_B + 2x_C \\leq 120 $$\n\n3.  **Minimum Production Requirements:**\n    $$ x_A \\geq 10 $$\n    $$ x_B \\geq 0 $$\n    $$ x_C \\geq 5 $$\n\n4.  **Non-negativity:**\n    $$ x_A, x_B, x_C \\geq 0 $$",
+      "score": 4.8,
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is mathematically precise and correctly formulates the LP model based on the provided data, earning full marks for Correctness, Completeness, Domain Accuracy, and Clarity. However, Best Practices receives a 4 because, while the LP formulation is technically correct per the prompt, a truly exceptional industry-standard submission in a manufacturing context would explicitly address the discrete nature of production units (suggesting Integer Programming) or state the assumption of continuous variables, as standard LP allows fractional units which may be practically infeasible."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Design, conduct, and evaluate experimental operational models in cases where models cannot be developed from existing data.",
+      "task_type": "Simulation Model Design",
+      "user_prompt": "You are an Operations Research Analyst for a hospital emergency department. There is no historical data on patient flow for a new triage protocol. Design a discrete-event simulation model to evaluate the impact of the new protocol on patient wait times. Define the simulation components, logic flow, and key performance indicators (KPIs). Specify the experimental design to test the model under different arrival rates.",
+      "reference_context": {
+        "patient_types": [
+          "Critical",
+          "Urgent",
+          "Non-Urgent"
+        ],
+        "arrival_rates_per_hour": {
+          "Critical": 2,
+          "Urgent": 5,
+          "Non-Urgent": 10
+        },
+        "service_times_minutes": {
+          "Critical": {
+            "mean": 15,
+            "std_dev": 5
+          },
+          "Urgent": {
+            "mean": 30,
+            "std_dev": 10
+          },
+          "Non-Urgent": {
+            "mean": 45,
+            "std_dev": 15
+          }
+        },
+        "staff_available": {
+          "doctors": 3,
+          "nurses": 5
+        },
+        "new_protocol_rules": {
+          "critical_priority": "Immediate",
+          "urgent_queue": "First-Come-First-Served",
+          "non_urgent_queue": "Delayed until Urgent cleared"
+        }
+      },
+      "evaluation_criteria": [
+        "Design Validity: Does the simulation model logically represent the hospital workflow and new protocol?",
+        "Completeness: Are all patient types, service times, and staffing constraints included in the model design?",
+        "Experimental Rigor: Is the experimental design robust enough to evaluate the model under varying arrival rates?"
+      ],
+      "student_answer": "# Discrete-Event Simulation Model: New Triage Protocol Evaluation\n\n## 1. Simulation Components\n\n### Entities\n*   **Patient**: Attributes include `Type` (Critical, Urgent, Non-Urgent), `ArrivalTime`, `ServiceStartTime`, `ServiceEndTime`, `WaitTime`, and `PriorityLevel`.\n*   **Resource**:\n    *   `Doctor`: Capacity = 3.\n    *   `Nurse`: Capacity = 5.\n    *   `TriageStation`: Single server for initial assessment.\n    *   `TreatmentBeds`: Capacity = 8 (Critical: 2, Urgent: 4, Non-Urgent: 2).\n\n### Queues\n*   `TriageQueue`: FIFO (First-Come-First-Served).\n*   `CriticalQueue`: Infinite priority (Immediate service).\n*   `UrgentQueue`: FIFO.\n*   `NonUrgentQueue`: Blocked until `UrgentQueue` is empty.\n\n### Parameters & Distributions\n*   **Arrival Process**: Poisson process with rates $\\lambda_{crit}=2$, $\\lambda_{urg}=5$, $\\lambda_{non}=10$ per hour. Inter-arrival times follow Exponential distributions.\n*   **Service Times**:\n    *   Critical: Normal($\\mu=15, \\sigma=5$) minutes.\n    *   Urgent: Normal($\\mu=30, \\sigma=10$) minutes.\n    *   Non-Urgent: Normal($\\mu=45, \\sigma=15$) minutes.\n    *   *Note: Negative values truncated to 1 minute.*\n\n## 2. Logic Flow\n\n1.  **Initialization**: Set simulation clock $t=0$. Initialize resource counts and queue states.\n2.  **Patient Generation**:\n    *   Generate inter-arrival time based on patient type probabilities.\n    *   Create `Patient` entity with `ArrivalTime = t`.\n    *   Advance clock to next arrival.\n3.  **Triage Processing**:\n    *   Patient enters `TriageQueue`.\n    *   Upon resource availability (Nurse), patient moves to `TriageStation`.\n    *   Service time sampled from distribution.\n    *   Upon completion, determine `PriorityLevel` based on `Patient.Type`.\n4.  **Routing Logic (New Protocol)**:\n    *   **If Critical**:\n        *   Check `CriticalQueue`.\n        *   If Doctor available, proceed immediately to Treatment.\n        *   Else, wait in `CriticalQueue` (Highest Priority).\n    *   **If Urgent**:\n        *   Check `UrgentQueue`.\n        *   If Doctor available, proceed to Treatment.\n        *   Else, wait in `UrgentQueue` (FIFO).\n    *   **If Non-Urgent**:\n        *   **Condition Check**: Is `UrgentQueue` empty AND `CriticalQueue` empty?\n        *   **Yes**: Proceed to `NonUrgentQueue` (FIFO).\n        *   **No**: Patient enters a \"Hold\" state. Re-evaluate condition every 1 minute or upon Urgent departure.\n5.  **Treatment Processing**:\n    *   Patient waits for Doctor and Bed.\n    *   Service time sampled based on type.\n    *   Upon completion, record `ServiceEndTime`.\n    *   Release resources (Doctor, Bed, Nurse).\n    *   Patient departs system.\n6.  **Termination**: Run simulation for $T_{run} = 720$ hours (30 days) to ensure steady-state. Discard first 48 hours as warm-up.\n\n## 3. Key Performance Indicators (KPIs)\n\n| KPI | Definition | Target Metric |\n| :--- | :--- | :--- |\n| **Avg Wait Time (Total)** | Mean time from Arrival to Treatment Start. | Minutes |\n| **Avg Wait Time (By Type)** | Mean wait time for Critical, Urgent, and Non-Urgent patients separately. | Minutes |\n| **Max Wait Time** | Longest wait time observed for any patient type. | Minutes |\n| **Queue Utilization** | Percentage of time resources (Doctors/Nurses) are busy. | % |\n| **Throughput** | Number of patients treated per hour. | Patients/Hour |\n| **Blocking Rate** | Frequency of Non-Urgent patients being delayed due to Urgent queue. | % of Non-Urgent |\n| **Critical Response Time** | Time from Triage completion to Treatment Start for Critical patients. | Minutes |\n\n## 4. Experimental Design\n\n### Objective\nEvaluate system stability and wait time sensitivity under varying demand loads.\n\n### Variables\n*   **Independent Variable**: Arrival Rate Multiplier ($M$).\n    *   Scenarios: $M \\in \\{0.8, 1.0, 1.2, 1.4, 1.6\\}$.\n    *   Base Case ($M=1.0$): Current rates (2, 5, 10).\n    *   Stress Case ($M=1.6$): 3.2, 8, 16 arrivals/hour.\n*   **Dependent Variables**: All KPIs defined above.\n*   **Control Variables**: Service time distributions, Staff counts, Protocol rules.\n\n### Replication Strategy\n*   **Replications**: 30 independent runs per scenario.\n*   **Warm-up Period**: 48 hours (discarded).\n*   **Run Length**: 720 hours per replication.\n*   **Random Seed**: Different seed for each replication to ensure statistical independence.\n\n### Analysis Plan\n1.  **Descriptive Statistics**: Calculate mean and 95% Confidence Intervals (CI) for all KPIs per scenario.\n2.  **ANOVA**: Perform Analysis of Variance to determine if differences in mean wait times across arrival rate multipliers are statistically significant.\n3.  **Bottleneck Identification**: Analyze resource utilization to identify if Doctors or Nurses become the limiting factor as $M$ increases.\n4.  **Protocol Validation**: Compare the \"Non-Urgent Blocking Rate\" against a baseline FIFO model to quantify the trade-off between Urgent care speed and Non-Urgent access.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        4,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission correctly addresses all task requirements with a clear structure (Clarity: 5). Logic and KPIs are sound, though the TriageStation capacity (1 server) contradicts the 5 available nurses without justification, slightly impacting Correctness (4) and Domain Accuracy (4). Completeness is high (4) as all sections are covered, though resource assumptions (beds) are not explicitly grounded in context. Best Practices score (3) reflects the use of time-based polling for queue logic instead of event-driven triggers, and the use of Normal distribution with truncation rather than skewed distributions common in ED modeling."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Educate staff in the use of mathematical models.",
+      "task_type": "Training and Documentation",
+      "user_prompt": "You are an Operations Research Analyst tasked with training the inventory management team on a new inventory optimization model. Create a training guide that explains the model's components, how to interpret the results, and how to adjust parameters. The guide must be self-contained and understandable by non-technical staff. Include a step-by-step example using the provided data.",
+      "reference_context": {
+        "model_type": "Economic Order Quantity (EOQ) with Safety Stock",
+        "parameters": {
+          "holding_cost_per_unit": 5,
+          "ordering_cost_per_order": 100,
+          "demand_per_day": 50,
+          "lead_time_days": 7,
+          "service_level_target": 0.95
+        },
+        "example_demand_data": [
+          48,
+          52,
+          50,
+          49,
+          51,
+          53,
+          47,
+          50,
+          52,
+          48
+        ],
+        "safety_stock_formula": "Z * sqrt(lead_time) * std_dev_demand",
+        "z_score_95": 1.645
+      },
+      "evaluation_criteria": [
+        "Clarity: Is the explanation of the model and its components clear and accessible to non-technical staff?",
+        "Accuracy: Are the calculations and interpretations of the example data correct?",
+        "Completeness: Does the guide cover all necessary steps for using the model and adjusting parameters?"
+      ],
+      "student_answer": "# Training Guide: Inventory Optimization Model (EOQ with Safety Stock)\n\n## 1. Overview\nWelcome to the new inventory optimization training. This guide explains our updated model designed to balance two competing costs: the cost of holding inventory and the cost of placing orders. By using this model, we ensure we have enough stock to meet customer demand (Service Level) while minimizing total inventory costs.\n\n**The Model:** Economic Order Quantity (EOQ) with Safety Stock.\n**Goal:** Determine the optimal order size and the minimum buffer stock required to prevent stockouts.\n\n---\n\n## 2. Model Components Explained\nTo use this model effectively, you must understand the four key inputs:\n\n1.  **Holding Cost ($H$):** The cost to store one unit of inventory for one year (or day, depending on your time unit). This includes warehousing, insurance, and capital costs.\n    *   *Current Value:* $5 per unit.\n2.  **Ordering Cost ($S$):** The fixed cost incurred every time an order is placed, regardless of size. This includes administrative work, shipping setup, and receiving labor.\n    *   *Current Value:* $100 per order.\n3.  **Demand ($D$):** The average number of units customers buy per day.\n    *   *Current Value:* 50 units/day.\n4.  **Lead Time ($L$):** The number of days it takes from placing an order until the goods arrive at the warehouse.\n    *   *Current Value:* 7 days.\n5.  **Service Level Target:** The probability that we will not run out of stock during the lead time. A 95% target means we aim to meet demand 95% of the time.\n    *   *Current Value:* 95% (Z-score = 1.645).\n\n---\n\n## 3. Step-by-Step Calculation Example\nWe will calculate the optimal order quantity and safety stock using the provided historical demand data.\n\n### Step A: Analyze Demand Variability\nFirst, we calculate the standard deviation of demand to understand how much daily sales fluctuate.\n\n**Historical Data (Last 10 Days):**\n48, 52, 50, 49, 51, 53, 47, 50, 52, 48\n\n1.  **Calculate Average Demand:**\n    Sum = 500\n    Count = 10\n    Average = $500 / 10 = 50$ units/day.\n    *(Note: This matches our standard parameter of 50).*\n\n2.  **Calculate Standard Deviation ($\\sigma_d$):**\n    We measure how far each day's demand deviates from the average (50).\n    *   Deviations: -2, +2, 0, -1, +1, +3, -3, 0, +2, -2\n    *   Squared Deviations: 4, 4, 0, 1, 1, 9, 9, 0, 4, 4\n    *   Sum of Squares = 36\n    *   Variance = $36 / (10 - 1) = 4$ (Using sample variance for better accuracy).\n    *   **Standard Deviation ($\\sigma_d$)** = $\\sqrt{4} = 2$ units.\n\n### Step B: Calculate Safety Stock\nSafety Stock is the extra inventory we keep to handle unexpected spikes in demand during the 7-day lead time.\n\n*   **Formula:** $Z \\times \\sqrt{\\text{Lead Time}} \\times \\text{Standard Deviation}$\n*   **Inputs:**\n    *   $Z$ (for 95% service) = 1.645\n    *   $\\sqrt{\\text{Lead Time}}$ = $\\sqrt{7} \\approx 2.646$\n    *   $\\sigma_d$ = 2\n\n*   **Calculation:**\n    $$1.645 \\times 2.646 \\times 2 \\approx 8.7$$\n\n*   **Result:** Round up to **9 units**.\n    *   *Interpretation:* We must always keep 9 units in reserve to meet our 95% service goal.\n\n### Step C: Calculate Economic Order Quantity (EOQ)\nThis tells us the ideal number of units to order each time to minimize total costs.\n\n*   **Formula:** $\\sqrt{\\frac{2 \\times \\text{Ordering Cost} \\times \\text{Annual Demand}}{\\text{Holding Cost}}}$\n    *(Note: Since our demand is daily, we will calculate the daily equivalent or assume a 365-day year. For this guide, we will calculate the order quantity based on the daily flow to determine the \"Order Size\".)*\n\n    *Simplified Daily Logic:*\n    $$EOQ = \\sqrt{\\frac{2 \\times S \\times D}{H}}$$\n    *(Where D is daily demand, H is daily holding cost. If H is annual, convert D to annual. Here, we assume H=$5 is the relevant period cost for the formula context).*\n\n    *   **Inputs:**\n        *   Ordering Cost ($S$) = $100\n        *   Demand ($D$) = 50 units/day\n        *   Holding Cost ($H$) = $5\n\n    *   **Calculation:**\n        $$EOQ = \\sqrt{\\frac{2 \\times 100 \\times 50}{5}}$$\n        $$EOQ = \\sqrt{\\frac{10,000}{5}}$$\n        $$EOQ = \\sqrt{2,000} \\approx 44.7$$\n\n*   **Result:** Round to **45 units**.\n    *   *Interpretation:* Every time we place an order, we should order 45 units.\n\n### Step D: Determine Reorder Point (ROP)\nWhen should we place the order?\n\n*   **Formula:** $(\\text{Average Daily Demand} \\times \\text{Lead Time}) + \\text{Safety Stock}$\n*   **Calculation:**\n    *   Demand during lead time = $50 \\times 7 = 350$ units.\n    *   Safety Stock = 9 units.\n    *   **ROP** = $350 + 9 = 359$ units.\n\n---\n\n## 4. Interpreting the Results\nBased on the calculation above, your inventory policy is now:\n\n1.  **Order Quantity:** Order **45 units** whenever you place an order.\n2.  **Reorder Trigger:** Place a new order immediately when your inventory level drops to **359 units**.\n3.  **Buffer:** You will always have at least **9 units** of safety stock on hand (unless a massive demand spike occurs).\n\n**Why this works:**\n*   If you order less than 45, you place orders too frequently, increasing administrative costs.\n*   If you order more than 45, you pay too much in storage fees.\n*   If you reorder at 350 (without safety stock), you risk stockouts 5% of the time. At 359, you meet the 95% target.\n\n---\n\n## 5. How to Adjust Parameters\nYou may need to update the model if business conditions change. Here is how to adjust the inputs:\n\n| Parameter | When to Adjust | How to Adjust |\n| :--- | :--- | :--- |\n| **Holding Cost** | If warehouse rent increases or interest rates rise. | Increase the value. This will **decrease** the Order Quantity (order smaller amounts more often). |\n| **Ordering Cost** | If you automate ordering (lower cost) or if shipping fees rise. | Decrease the value. This will **increase** the Order Quantity (order larger amounts less often). |\n| **Service Level** | If customer complaints about stockouts rise. | Increase the target (e.g., from 0.95 to 0.98). This will **increase** Safety Stock significantly. |\n| **Lead Time** | If your supplier becomes slower or faster. | Update the days. Longer lead times **increase** both Safety Stock and the Reorder Point. |\n\n**Important Note:** Changing the Service Level has the biggest impact on Safety Stock. A small increase in service level (e.g., 95% to 99%) can double the required safety stock. Always weigh the cost of extra storage against the cost of a stockout.\n\n---\n\n## 6. Quick Reference Checklist\nBefore finalizing an order, verify:\n- [ ] Is current inventory $\\le$ 359 units?\n- [ ] If yes, place an order for 45 units.\n- [ ] Ensure the supplier lead time is still 7 days.\n- [ ] Confirm the holding cost is still $5/unit.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        4,
+        4
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission is comprehensive and well-structured, covering all required sections including components, interpretation, adjustments, and a step-by-step example (Completeness: 5). Calculations for Safety Stock and ROP are accurate. However, the EOQ formula display contains a typo (missing Holding Cost in the denominator), and there is a terminology inconsistency between 'Annual Demand' in the formula description and 'Daily Demand' in the inputs, which affects Correctness and Domain Accuracy (4). The assumption regarding Holding Cost time units is explained but simplifies a common industry pitfall, impacting Best Practices (4). Clarity is high despite the formula typo (4)."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Specify manipulative or computational methods to be applied to models.",
+      "task_type": "Algorithm Selection and Specification",
+      "user_prompt": "You are an Operations Research Analyst for a telecommunications company. You need to select the appropriate computational method to solve a network flow problem for optimizing data packet routing. The problem involves minimizing latency while maximizing throughput. Specify the computational method, justify your choice, and outline the steps to implement it. Use the provided network data to illustrate the method.",
+      "reference_context": {
+        "network_nodes": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "links": [
+          {
+            "from": "A",
+            "to": "B",
+            "capacity": 100,
+            "latency_ms": 10
+          },
+          {
+            "from": "A",
+            "to": "C",
+            "capacity": 80,
+            "latency_ms": 15
+          },
+          {
+            "from": "B",
+            "to": "D",
+            "capacity": 90,
+            "latency_ms": 12
+          },
+          {
+            "from": "C",
+            "to": "D",
+            "capacity": 70,
+            "latency_ms": 8
+          }
+        ],
+        "source_node": "A",
+        "sink_node": "D",
+        "demand": 150
+      },
+      "evaluation_criteria": [
+        "Method Appropriateness: Is the selected computational method suitable for the network flow problem?",
+        "Justification: Is the choice of method well-justified based on the problem characteristics?",
+        "Implementation Clarity: Are the steps to implement the method clear and actionable?"
+      ],
+      "student_answer": "### Computational Method: Multi-Objective Linear Programming (MOLP) via Weighted Sum Method\n\n#### 1. Justification\nThe problem requires simultaneously optimizing two conflicting objectives: minimizing total latency and maximizing throughput (flow).\n*   **Nature of Problem:** This is a network flow problem with multiple objectives. Standard Max-Flow algorithms (like Ford-Fulkerson) only maximize throughput without considering latency, while Shortest Path algorithms (like Dijkstra) minimize latency without considering capacity constraints for total volume.\n*   **Selection:** **Multi-Objective Linear Programming (MOLP)** is the appropriate method. By converting the multi-objective problem into a single objective using a **Weighted Sum approach**, we can find a Pareto-optimal solution that balances the trade-off between latency and throughput based on specific operational priorities. This allows the formulation of a single linear objective function subject to flow conservation and capacity constraints.\n\n#### 2. Implementation Steps\n\n**Step 1: Define Decision Variables**\nLet $x_{ij}$ represent the flow of data packets on the link from node $i$ to node $j$.\n*   $x_{AB}, x_{AC}, x_{BD}, x_{CD}$ are the decision variables.\n\n**Step 2: Formulate the Objective Function**\nWe minimize a weighted cost function $Z$.\n$$Z = w_1 \\cdot (\\text{Total Latency Cost}) - w_2 \\cdot (\\text{Total Throughput})$$\nWhere:\n*   Total Latency Cost = $\\sum (x_{ij} \\cdot \\text{latency}_{ij})$\n*   Total Throughput = Flow out of Source (or into Sink).\n*   $w_1, w_2$ are weights representing the relative importance of latency vs. throughput (e.g., $w_1=1, w_2=100$ to prioritize throughput, or normalized values).\n\n*Alternative Formulation for Strict Constraint:* If the demand (150) is a hard constraint, we simply minimize total latency subject to flow = 150. If demand is a target to be maximized up to 150, we use the weighted sum. Given the context \"minimizing latency while maximizing throughput,\" we assume a weighted sum where we minimize:\n$$Z = \\sum_{(i,j) \\in L} (x_{ij} \\cdot \\text{latency}_{ij}) - \\lambda \\cdot \\sum_{j} x_{Sj}$$\n*(Note: In practice, this is often solved by minimizing Latency subject to a minimum flow constraint, or maximizing Flow subject to a maximum latency constraint. Here, we define a composite cost).*\n\n**Step 3: Define Constraints**\n1.  **Flow Conservation:** For every node $k$ (except Source and Sink):\n    $$\\sum_{i} x_{ik} = \\sum_{j} x_{kj}$$\n2.  **Capacity Constraints:**\n    $$0 \\leq x_{ij} \\leq \\text{capacity}_{ij}$$\n3.  **Demand/Throughput Constraint:**\n    $$\\sum_{j} x_{Aj} = \\text{Target Flow}$$ (If target is fixed at 150) or $\\sum_{j} x_{Aj} \\leq 150$ (if 150 is the max demand).\n\n**Step 4: Solve using Linear Programming Solver**\nInput the model into an LP solver (e.g., Gurobi, CPLEX, or Python's `scipy.optimize.linprog`).\n\n---\n\n#### 3. Illustration with Provided Network Data\n\n**Network Parameters:**\n*   **Nodes:** A (Source), B, C, D (Sink)\n*   **Links & Data:**\n    *   $A \\to B$: Cap=100, Lat=10\n    *   $A \\to C$: Cap=80, Lat=15\n    *   $B \\to D$: Cap=90, Lat=12\n    *   $C \\to D$: Cap=70, Lat=8\n\n**Mathematical Model Formulation:**\n\n**Objective:** Minimize $Z = 10x_{AB} + 15x_{AC} + 12x_{BD} + 8x_{CD}$\n*(Note: We assume the primary goal is to satisfy the demand of 150 with minimum latency. If throughput maximization is the primary goal, the constraint would be $Flow \\leq 150$ and we maximize Flow, but since 150 is the specific demand, we treat it as a constraint).*\n\n**Constraints:**\n1.  **Flow Conservation at B:**\n    $x_{AB} - x_{BD} = 0 \\implies x_{AB} = x_{BD}$\n2.  **Flow Conservation at C:**\n    $x_{AC} - x_{CD} = 0 \\implies x_{AC} = x_{CD}$\n3.  **Flow Conservation at D (Sink):**\n    $x_{BD} + x_{CD} = 150$ (Demand)\n4.  **Capacity Limits:**\n    $0 \\leq x_{AB} \\leq 100$\n    $0 \\leq x_{AC} \\leq 80$\n    $0 \\leq x_{BD} \\leq 90$\n    $0 \\leq x_{CD} \\leq 70$\n\n**Solution Execution:**\n\n1.  **Check Feasibility:**\n    Max possible flow = $Cap(A \\to B) + Cap(A \\to C) = 100 + 80 = 180$.\n    Since $180 \\geq 150$, the demand is feasible.\n\n2.  **Optimization Logic (Greedy approach for illustration):**\n    To minimize latency, we should route as much flow as possible through the path with the lowest total latency.\n    *   **Path A-C-D:** Latency = $15 + 8 = 23$ ms. Capacity = $\\min(80, 70) = 70$.\n    *   **Path A-B-D:** Latency = $10 + 12 = 22$ ms. Capacity = $\\min(100, 90) = 90$.\n\n    *Comparison:* Path A-B-D (22ms) is faster than Path A-C-D (23ms).\n    *Strategy:* Maximize flow on the faster path (A-B-D) first.\n\n3.  **Calculate Flow Allocation:**\n    *   **Path A-B-D:** Assign maximum possible flow limited by the bottleneck (90).\n        $x_{AB} = 90$\n        $x_{BD} = 90$\n        Remaining Demand = $150 - 90 = 60$.\n    *   **Path A-C-D:** Assign remaining demand (60).\n        $x_{AC} = 60$\n        $x_{CD} = 60$\n        (Check capacity: $60 \\leq 70$ and $60 \\leq 80$. Valid).\n\n**Final Optimal Routing Plan:**\n*   **Link A-B:** 90 units\n*   **Link B-D:** 90 units\n*   **Link A-C:** 60 units\n*   **Link C-D:** 60 units\n\n**Performance Metrics:**\n*   **Total Throughput:** 150 units (Demand Met).\n*   **Total Latency Cost:** $(90 \\times 22) + (60 \\times 23) = 1980 + 1380 = 3360$ ms-units.\n*   **Average Latency:** $3360 / 150 = 22.4$ ms.\n\nThis solution satisfies the demand of 150 while minimizing the aggregate latency by prioritizing the lower-latency path (A-B-D) to its capacity limit before utilizing the higher-latency path (A-C-D).",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        4,
+        4
+      ],
+      "score": 3.8,
+      "grade_reason": "The solution correctly formulates the network flow problem as a Linear Programming model and derives the optimal flow allocation accurately. However, the submission contains pervasive notation errors where variable subscripts are omitted (e.g., x_ instead of x_AB), which undermines professional presentation and mathematical precision. The methodological shift from MOLP to a constrained single-objective formulation is logically consistent with the fixed demand constraint provided."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Develop and apply time and cost networks to plan, control, and review large projects.",
+      "task_type": "Project Network Analysis",
+      "user_prompt": "You are an Operations Research Analyst for a construction firm. You need to develop a time and cost network to plan a large construction project. The project has multiple activities with dependencies, durations, and costs. Identify the critical path, calculate the earliest and latest start/finish times, and determine the total project cost. Use the provided activity data to construct the network and perform the analysis.",
+      "reference_context": {
+        "activities": [
+          {
+            "id": "A",
+            "duration_days": 5,
+            "cost": 1000,
+            "predecessors": []
+          },
+          {
+            "id": "B",
+            "duration_days": 3,
+            "cost": 800,
+            "predecessors": [
+              "A"
+            ]
+          },
+          {
+            "id": "C",
+            "duration_days": 4,
+            "cost": 1200,
+            "predecessors": [
+              "A"
+            ]
+          },
+          {
+            "id": "D",
+            "duration_days": 6,
+            "cost": 1500,
+            "predecessors": [
+              "B",
+              "C"
+            ]
+          },
+          {
+            "id": "E",
+            "duration_days": 2,
+            "cost": 500,
+            "predecessors": [
+              "D"
+            ]
+          }
+        ]
+      },
+      "evaluation_criteria": [
+        "Network Construction: Is the time and cost network correctly constructed with all activities and dependencies?",
+        "Critical Path: Is the critical path correctly identified?",
+        "Calculations: Are the earliest and latest start/finish times and total project cost calculated accurately?"
+      ],
+      "student_answer": "### Project Network Analysis Report\n\n#### 1. Network Structure & Dependencies\nThe project consists of 5 activities with the following logical flow:\n- **Start Node** $\\rightarrow$ Activity A\n- Activity A $\\rightarrow$ Activities B and C (Parallel paths)\n- Activities B and C $\\rightarrow$ Activity D (Merge point)\n- Activity D $\\rightarrow$ Activity E\n- Activity E $\\rightarrow$ **End Node**\n\n#### 2. Time Analysis (Forward & Backward Pass)\n\n| Activity | Duration (Days) | Earliest Start (ES) | Earliest Finish (EF) | Latest Start (LS) | Latest Finish (LF) | Slack (Float) | Critical? |\n| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n| **A** | 5 | 0 | 5 | 0 | 5 | 0 | **Yes** |\n| **B** | 3 | 5 | 8 | 7 | 10 | 2 | No |\n| **C** | 4 | 5 | 9 | 9 | 13 | 4 | No |\n| **D** | 6 | 9 | 15 | 9 | 15 | 0 | **Yes** |\n| **E** | 2 | 15 | 17 | 15 | 17 | 0 | **Yes** |\n\n*Note: ES/EF calculated via Forward Pass; LS/LF calculated via Backward Pass.*\n\n#### 3. Critical Path Identification\nThe sequence of activities with zero slack determines the minimum project duration.\n- **Critical Path:** A $\\rightarrow$ C $\\rightarrow$ D $\\rightarrow$ E\n- **Total Project Duration:** 17 Days\n\n*Path Verification:*\n- Path A-B-D-E: $5 + 3 + 6 + 2 = 16$ days\n- Path A-C-D-E: $5 + 4 + 6 + 2 = 17$ days (Longest Path)\n\n#### 4. Cost Analysis\nTotal Project Cost is the sum of direct costs for all activities.\n\n$$ \\text{Total Cost} = \\sum (\\text{Activity Cost}) $$\n$$ \\text{Total Cost} = 1000 (A) + 800 (B) + 1200 (C) + 1500 (D) + 500 (E) $$\n$$ \\text{Total Cost} = 5,000 $$\n\n#### 5. Final Summary\n- **Critical Path:** A-C-D-E\n- **Project Duration:** 17 Days\n- **Total Project Cost:** $5,000\n- **Non-Critical Activities:** B (2 days slack), C (4 days slack)",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        4,
+        2,
+        2,
+        4
+      ],
+      "score": 2.8,
+      "grade_reason": "The submission correctly identifies the critical path name, total duration, and cost in the text sections. However, the Time Analysis Table contains significant calculation errors in the backward pass (specifically for activities B and C), resulting in incorrect slack values. There is a direct contradiction between the table (marking C as non-critical with slack 4) and the text (identifying A-C-D-E as the critical path). While the structure and clarity are good, the internal inconsistency and calculation errors significantly reduce professional utility and domain accuracy."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Develop business methods and procedures, including accounting systems, file systems, office systems, logistics systems, and production schedules.",
+      "task_type": "Process Optimization Modeling",
+      "user_prompt": "You are an Operations Research Analyst for a manufacturing firm. The company needs to redesign its production scheduling procedure to minimize total operational costs while adhering to strict delivery deadlines. You are provided with historical data on production rates, setup times, and inventory holding costs for three product lines. Formulate a mixed-integer linear programming (MILP) model to determine the optimal production schedule over a 5-day horizon. Define the decision variables, objective function (minimizing setup and holding costs), and all necessary constraints (including production capacity, setup logic, and demand fulfillment). Output the mathematical formulation in a structured format.",
+      "reference_context": {
+        "product_lines": [
+          "Alpha",
+          "Beta",
+          "Gamma"
+        ],
+        "planning_horizon_days": 5,
+        "production_capacity_units_per_day": 500,
+        "setup_times_hours": {
+          "Alpha": 4,
+          "Beta": 6,
+          "Gamma": 3
+        },
+        "setup_costs_usd": {
+          "Alpha": 500,
+          "Beta": 750,
+          "Gamma": 400
+        },
+        "holding_cost_per_unit_per_day_usd": {
+          "Alpha": 2.5,
+          "Beta": 3.0,
+          "Gamma": 1.8
+        },
+        "daily_demand_units": {
+          "Alpha": [
+            100,
+            120,
+            110,
+            130,
+            115
+          ],
+          "Beta": [
+            80,
+            90,
+            85,
+            95,
+            88
+          ],
+          "Gamma": [
+            150,
+            160,
+            155,
+            170,
+            165
+          ]
+        },
+        "max_inventory_capacity_units": 2000
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the mathematical formulations (variables, objective, constraints) logically sound and mathematically valid?",
+        "Completeness: Does the model account for all constraints mentioned in the prompt (capacity, setup logic, demand fulfillment, inventory limits)?",
+        "Best Practices: Is the notation clear, standardized, and suitable for implementation in optimization software (e.g., Gurobi, CPLEX)?"
+      ],
+      "student_answer": "# Mixed-Integer Linear Programming (MILP) Formulation\n**Problem:** Production Scheduling Optimization\n**Objective:** Minimize Total Operational Costs (Setup + Holding)\n\n## 1. Sets and Indices\n*   $i \\in I = \\{\\text{Alpha, Beta, Gamma}\\}$: Set of product lines.\n*   $t \\in T = \\{1, 2, 3, 4, 5\\}$: Set of days in the planning horizon.\n\n## 2. Parameters\n*   $D_{i,t}$: Demand for product $i$ on day $t$ (units).\n*   $C_{\\text{cap}}$: Total production capacity per day (units) = 500.\n*   $S_i$: Setup cost for product $i$ (USD).\n*   $h_i$: Holding cost per unit of product $i$ per day (USD).\n*   $K_i$: Setup time required for product $i$ (hours).\n*   $H_{\\text{max}}$: Maximum inventory capacity (units) = 2000.\n*   $M$: A sufficiently large constant (Big-M) for logical constraints.\n\n**Data Values:**\n*   $D_{\\text{Alpha}, t} = [100, 120, 110, 130, 115]$\n*   $D_{\\text{Beta}, t} = [80, 90, 85, 95, 88]$\n*   $D_{\\text{Gamma}, t} = [150, 160, 155, 170, 165]$\n*   $S_{\\text{Alpha}} = 500, S_{\\text{Beta}} = 750, S_{\\text{Gamma}} = 400$\n*   $h_{\\text{Alpha}} = 2.5, h_{\\text{Beta}} = 3.0, h_{\\text{Gamma}} = 1.8$\n*   $K_{\\text{Alpha}} = 4, K_{\\text{Beta}} = 6, K_{\\text{Gamma}} = 3$\n\n## 3. Decision Variables\n*   $x_{i,t} \\ge 0$: Number of units of product $i$ produced on day $t$.\n*   $I_{i,t} \\ge 0$: Inventory level of product $i$ at the end of day $t$.\n*   $y_{i,t} \\in \\{0, 1\\}$: Binary variable; equals 1 if product $i$ is produced (setup occurs) on day $t$, 0 otherwise.\n\n## 4. Objective Function\nMinimize the sum of setup costs and inventory holding costs over the 5-day horizon.\n\n$$ \\text{Minimize } Z = \\sum_{t \\in T} \\sum_{i \\in I} \\left( S_i \\cdot y_{i,t} + h_i \\cdot I_{i,t} \\right) $$\n\n## 5. Constraints\n\n### 5.1 Inventory Balance Constraints\nEnsure inventory flow continuity for each product and day.\n$$ I_{i,t-1} + x_{i,t} - I_{i,t} = D_{i,t} \\quad \\forall i \\in I, \\forall t \\in T $$\n*Note: Assume initial inventory $I_{i,0} = 0$.*\n\n### 5.2 Production Capacity Constraints\nTotal production volume across all products on any given day cannot exceed the daily capacity.\n$$ \\sum_{i \\in I} x_{i,t} \\le C_{\\text{cap}} \\quad \\forall t \\in T $$\n\n### 5.3 Setup Logic Constraints (Big-M)\nLink production quantity to the binary setup variable. Production can only occur if the setup variable is 1.\n$$ x_{i,t} \\le M \\cdot y_{i,t} \\quad \\forall i \\in I, \\forall t \\in T $$\n*Where $M$ is an upper bound on production (e.g., $C_{\\text{cap}} = 500$).*\n\n### 5.4 Setup Time Constraints\nThe total setup time required on any day must not exceed the available working hours.\n*Assumption: The firm operates 24 hours/day or a specific shift limit $H_{\\text{shift}}$. If not specified, we assume the constraint applies to the total setup time relative to a standard shift limit (e.g., 24 hours). If the problem implies a specific shift limit $H_{\\text{limit}}$, replace 24 with that value.*\n\n$$ \\sum_{i \\in I} K_i \\cdot y_{i,t} \\le H_{\\text{limit}} \\quad \\forall t \\in T $$\n*(If no specific shift limit is provided in the prompt, this constraint ensures logical consistency if a limit exists. If the prompt implies unlimited hours but limited capacity, this constraint may be omitted or set to a large number. However, strictly adhering to \"setup times\" implies a time resource constraint. Assuming a standard 24-hour day for calculation purposes unless a specific shift is defined).*\n\n### 5.5 Inventory Capacity Constraints\nInventory levels cannot exceed the maximum storage capacity.\n$$ I_{i,t} \\le H_{\\text{max}} \\quad \\forall i \\in I, \\forall t \\in T $$\n\n### 5.6 Non-Negativity and Integrality Constraints\n$$ x_{i,t} \\ge 0, \\quad I_{i,t} \\ge 0 \\quad \\forall i \\in I, \\forall t \\in T $$\n$$ y_{i,t} \\in \\{0, 1\\} \\quad \\forall i \\in I, \\forall t \\in T $$",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "score": 3.0,
+      "grade_reason": "The submission provides a logically sound MILP formulation with correct objective functions and standard constraints (inventory balance, capacity, setup logic). However, it receives a score of 3 across dimensions due to significant notation errors: the symbol $H_{\text}$ is reused for both Maximum Inventory Capacity and Shift Hours, creating ambiguity in the mathematical model. Additionally, the data mapping in the parameters section is not explicit (arrays are not labeled with product names), and the setup time constraint relies on an assumption (24-hour shift) not provided in the context. While the structure is clear, these technical flaws prevent a higher score."
+    }
+  ]
+}

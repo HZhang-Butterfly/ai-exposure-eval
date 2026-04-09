@@ -1,0 +1,68 @@
+{
+  "job_id": "atm_scientist",
+  "job_title": "Atmospheric and Space Scientists",
+  "onet_code": "19-2021.00",
+  "role_description": "Senior Atmospheric Data Scientist and Climate Modeling Specialist",
+  "task_types": "Data Acquisition and Validation / Numerical Modeling and Simulation / Forecast Interpretation and Visualization / Climate Trend Analysis / Stakeholder Communication and Briefing",
+  "onet_tasks": [
+    "Broadcast weather conditions, forecasts, or severe weather warnings to the public via television, radio, or the Internet or provide this information to the news media.",
+    "Gather data from sources such as surface or upper air stations, satellites, weather bureaus, or radar for use in meteorological reports or forecasts.",
+    "Develop or use mathematical or computer models for weather forecasting.",
+    "Prepare weather reports or maps for analysis, distribution, or use in weather broadcasts, using computer graphics.",
+    "Interpret data, reports, maps, photographs, or charts to predict long- or short-range weather conditions, using computer models and knowledge of climate theory, physics, and mathematics.",
+    "Formulate predictions by interpreting environmental data, such as meteorological, atmospheric, oceanic, paleoclimate, climate, or related information.",
+    "Prepare forecasts or briefings to meet the needs of industry, business, government, or other groups.",
+    "Analyze historical climate information, such as precipitation or temperature records, to help predict future weather or climate trends.",
+    "Analyze climate data sets, using techniques such as geophysical fluid dynamics, data assimilation, or numerical modeling.",
+    "Conduct numerical simulations of climate conditions to understand and predict global or regional weather patterns."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly reference relevant physical laws or climate theories (e.g., thermodynamics, fluid dynamics) where applicable",
+    "Requirement 6: Data handling must account for missing values, sensor noise, and coordinate system transformations (e.g., WGS84 to projection)",
+    "Requirement 7: Communication tasks must be tailored to the specific audience (e.g., technical vs. layperson) with appropriate terminology"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Analyze climate data sets, using techniques such as geophysical fluid dynamics, data assimilation, or numerical modeling.",
+    "task_type": "Climate Trend Analysis",
+    "user_prompt": "You are provided with a CSV dataset containing 50 years of monthly average temperature and precipitation records for a specific coastal region. The data contains gaps due to sensor failures. Write a Python script using pandas and scipy to: 1) Impute missing values using a linear interpolation method weighted by seasonal trends, 2) Calculate the 10-year rolling average to smooth out short-term variability, 3) Perform a linear regression to determine the long-term warming trend and precipitation change rate, and 4) Output the results as a JSON object containing the trend coefficients, R-squared values, and a summary of the imputation strategy used.",
+    "reference_context": {
+      "data_sample": [
+        {
+          "date": "1974-01",
+          "temp": 12.5,
+          "precip": 85.2
+        },
+        {
+          "date": "1974-02",
+          "temp": null,
+          "precip": 90.1
+        },
+        {
+          "date": "1974-03",
+          "temp": 14.2,
+          "precip": 78.5
+        }
+      ],
+      "library_constraints": "pandas>=1.5.0, scipy>=1.10.0, numpy>=1.24.0"
+    },
+    "evaluation_criteria": [
+      "Correctness: Does the imputation logic correctly handle seasonal patterns and missing data?",
+      "Completeness: Are all four steps (imputation, rolling average, regression, JSON output) implemented?",
+      "Best Practices: Is the code modular, documented, and efficient for large datasets?"
+    ]
+  },
+  "grading_notes": "Watch for incorrect handling of time-series data (e.g., shuffling before imputation), failure to account for seasonal cycles in interpolation, and lack of statistical significance testing in trend analysis. Ensure the JSON output is valid and parsable.",
+  "grading_rubric_template": [
+    "1. Scientific Accuracy: Are the physical principles and statistical methods applied correctly?",
+    "2. Data Integrity: Does the solution handle data quality issues (missing values, outliers) robustly?",
+    "3. Technical Implementation: Is the code efficient, readable, and free of syntax errors?",
+    "4. Analytical Depth: Does the solution provide meaningful insights beyond basic calculations?",
+    "5. Clarity and Documentation: Is the reasoning and output format clear and professional?"
+  ],
+  "grading_scale_max": 5
+}

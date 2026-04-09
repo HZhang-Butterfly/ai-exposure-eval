@@ -1,0 +1,52 @@
+{
+  "job_id": "proofreader_copy",
+  "job_title": "Proofreaders and Copy Markers",
+  "onet_code": "43-9081.00",
+  "role_description": "Senior Editorial Standards Specialist and Quality Assurance Lead",
+  "task_types": "Grammar and Syntax Correction / Layout and Typesetting Verification / Fact-Checking and Data Consistency / Editorial Consultation and Communication / Content Creation and Captioning",
+  "onet_tasks": [
+    "Mark copy to indicate and correct errors in type, arrangement, grammar, punctuation, or spelling, using standard printers' marks.",
+    "Read corrected copies or proofs to ensure that all corrections have been made.",
+    "Correct or record omissions, errors, or inconsistencies found.",
+    "Compare information or figures on one record against same data on other records, or with original copy, to detect errors.",
+    "Route proofs with marked corrections to authors, editors, typists, or typesetters for correction or reprinting.",
+    "Consult reference books or secure aid of readers to check references with rules of grammar and composition.",
+    "Consult with authors and editors regarding manuscript changes and suggestions.",
+    "Archive documents, conduct research, and read copy, using the internet and various computer programs.",
+    "Write original content, such as headlines, cutlines, captions, and cover copy.",
+    "Typeset and measure dimensions, spacing, and positioning of page elements, such as copy and illustrations, to verify conformance to specifications, using printer's ruler or layout software."
+  ],
+  "specific_requirement": [
+    "Tasks must be realistic, not toy examples",
+    "Each task should be self-contained with all necessary context",
+    "Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Output format must be strict JSON without markdown",
+    "AI must distinguish between subjective stylistic choices and objective grammatical errors",
+    "AI must accurately interpret standard printer's marks in text-based descriptions",
+    "AI must maintain strict consistency with provided style guides (e.g., AP, Chicago, or specific client guidelines)"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Mark copy to indicate and correct errors in type, arrangement, grammar, punctuation, or spelling, using standard printers' marks.",
+    "task_type": "Grammar and Syntax Correction",
+    "user_prompt": "You are reviewing a draft article for a financial newsletter. The text contains multiple errors in grammar, punctuation, and factual consistency. Identify all errors, apply standard printer's marks (represented as [CORRECTED: ...] or [DELETE: ...]), and provide a summary of changes. Ensure the final text adheres to AP Style guidelines.",
+    "reference_context": {
+      "original_text": "The companys revenue grew 15% last quarter, which was the highest in five years. Their stock price jumped $5.00, reaching a new high of $120.50. The CEO, John Smith, said 'we are very happy with the results.' The report also noted that the company has 500 employes worldwide.",
+      "style_guide": "AP Style: Use 'company's' for possessive, spell out numbers under ten unless they are percentages or currency, use title case for names, and use double quotation marks for direct quotes."
+    },
+    "evaluation_criteria": [
+      "Correctness: All grammatical, punctuation, and spelling errors are identified and fixed.",
+      "Completeness: The output includes both the marked text and a summary of changes.",
+      "Best practices: The solution strictly adheres to the provided AP Style guide."
+    ]
+  },
+  "grading_notes": "Watch for failure to catch the possessive 'companys' vs 'company's', incorrect number formatting (e.g., writing '500' instead of '500' is fine but ensure consistency), and the misspelling of 'employes'. Ensure the AI does not change the meaning of the quote or the CEO's name.",
+  "grading_rubric_template": [
+    "1. Accuracy: Are all grammatical, spelling, and punctuation errors correctly identified and fixed?",
+    "2. Style Adherence: Does the output strictly follow the specified style guide (e.g., AP, Chicago)?",
+    "3. Completeness: Did the AI address all parts of the prompt, including marking and summarizing?",
+    "4. Consistency: Are changes consistent throughout the text without introducing new errors?",
+    "5. Clarity: Is the output well-structured and easy for an editor to review?"
+  ],
+  "grading_scale_max": 5
+}

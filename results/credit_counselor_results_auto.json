@@ -1,0 +1,939 @@
+{
+  "meta": {
+    "job_title": "Credit Counselors",
+    "job_id": "credit_counselor",
+    "onet_code": "13-2071.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 23,
+    "evaluated_tasks": 23,
+    "batches": 5,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 3.83,
+      "dimensions": {
+        "Correctness": 3.57,
+        "Completeness": 3.78,
+        "Best Practices": 3.39,
+        "Domain Accuracy": 3.74,
+        "Clarity": 4.65
+      },
+      "evaluated_tasks": 23,
+      "scale_max": 5
+    },
+    "total_time_seconds": 4950.71
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Calculate clients' available monthly income to meet debt obligations.",
+      "task_type": "Financial Assessment and Analysis",
+      "user_prompt": "Analyze the provided financial statement for a client named 'Sarah J.' who has a monthly gross income of $3,200. She has a mortgage payment of $1,100, car payment of $350, minimum credit card payments totaling $450, and student loan payment of $200. Her average monthly utility and grocery expenses are $600. Calculate her disposable income available for a Debt Management Plan (DMP) after accounting for a 15% tax withholding rate. Present the breakdown and the final available amount.",
+      "reference_context": {
+        "client_income": 3200,
+        "tax_rate": 0.15,
+        "fixed_expenses": {
+          "mortgage": 1100,
+          "car_payment": 350,
+          "credit_cards": 450,
+          "student_loans": 200
+        },
+        "variable_expenses": {
+          "utilities_groceries": 600
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the tax calculation and subtraction of expenses yield the accurate disposable income?",
+        "Criterion 2: Completeness — Did the response clearly itemize all income and expense categories?",
+        "Criterion 3: Best practices — Is the financial advice presented in a clear, empathetic, and professional tone suitable for a client facing debt?"
+      ],
+      "student_answer": "**Financial Analysis for Sarah J.**\n\n**1. Income Calculation**\n*   **Gross Monthly Income:** $3,200.00\n*   **Tax Withholding (15%):** $480.00\n*   **Net Monthly Income:** $2,720.00\n\n**2. Expense Breakdown**\n*   **Fixed Obligations:**\n    *   Mortgage: $1,100.00\n    *   Car Payment: $350.00\n    *   Credit Cards (Minimums): $450.00\n    *   Student Loans: $200.00\n    *   *Subtotal Fixed:* $2,100.00\n*   **Essential Living Expenses:**\n    *   Utilities & Groceries: $600.00\n    *   *Subtotal Variable:* $600.00\n*   **Total Monthly Expenses:** $2,700.00\n\n**3. Disposable Income for Debt Management Plan (DMP)**\n*   **Net Income:** $2,720.00\n*   **Less Total Expenses:** ($2,700.00)\n*   **Available for DMP:** **$20.00**\n\n**Conclusion:**\nAfter accounting for taxes and all listed expenses, Sarah J. has **$20.00** available monthly to contribute toward a Debt Management Plan. Given the minimal surplus, a DMP may require additional budget adjustments or a reduction in fixed housing costs to be effective.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "Correctness (4): Mathematical calculations for tax, net income, and expenses are accurate. Completeness (3): While the breakdown is provided, the submission fails to explicitly check if the calculated income is sufficient to cover minimum debt payments as requested in the additional checks. Best Practices (3): Professional tone is good, but the advice relies on a flawed DMP budgeting metric (subtracting debt payments to find capacity rather than living expenses). Domain Accuracy (3): In DMP counseling, 'Available for DMP' typically refers to Net Income minus Essential Living Expenses (the contribution capacity), not the surplus after debt service. The student calculated surplus ($20) rather than contribution capacity ($670), which is a significant conceptual gap. Clarity (5): The output is well-structured, easy to read, and logically organized."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Explain services or policies to clients, such as debt management program rules, advantages and disadvantages of using services, or creditor concession policies.",
+      "task_type": "Client Communication and Policy Explanation",
+      "user_prompt": "Draft a script for a 15-minute consultation with a client, 'Michael T.', who is hesitant to join a Debt Management Plan (DMP). He is concerned about closing his credit card accounts and fears it will hurt his credit score permanently. Explain the DMP rules, the specific advantages (such as reduced interest rates and waived fees), and the disadvantages (such as the temporary inability to use new credit). Address his concern about the credit score impact using current industry standards.",
+      "reference_context": {
+        "client_name": "Michael T.",
+        "client_concern": "Fear of permanent credit score damage and account closure",
+        "program_type": "Debt Management Plan (DMP)",
+        "key_policies": [
+          "Credit card accounts are closed or frozen during the plan",
+          "Creditors may report the account as 'paid as agreed' under a special program",
+          "Interest rates are typically reduced to 0-8%",
+          "Late fees and over-limit fees are waived"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Accuracy — Are the DMP rules and creditor concession policies described accurately according to standard industry practices?",
+        "Criterion 2: Clarity — Is the explanation of advantages and disadvantages balanced and easy for a layperson to understand?",
+        "Criterion 3: Empathy — Does the script address the client's specific fears regarding credit scores without making false promises?"
+      ],
+      "student_answer": "**Consultation Script: Debt Management Plan (DMP) Overview**\n**Client:** Michael T.\n**Duration:** 15 Minutes\n**Counselor:** Credit Counselor\n\n---\n\n**[0:00 – 2:00] Introduction & Agenda Setting**\n\n**Counselor:** Good morning, Michael. Thank you for meeting with me today. I know you've been doing some research on your options, and I appreciate your honesty about your hesitation regarding the Debt Management Plan.\n\nMy goal today is to walk you through exactly how a DMP works, address your specific concerns about closing accounts and your credit score, and help you decide if this is the right path for your financial recovery. We have about 15 minutes, so I'll cover the mechanics of the plan, the immediate benefits, the temporary limitations, and then we'll look at the data regarding your credit score. Does that sound like a good plan?\n\n**Michael:** Yes, that sounds good. I just really don't want to ruin my credit score permanently by closing my cards.\n\n**Counselor:** That is a very common and valid concern. Let's tackle that head-on once we understand the rules of the program.\n\n---\n\n**[2:00 – 6:00] Explaining DMP Rules & Mechanics**\n\n**Counselor:** First, let's clarify what a DMP actually is. It is a structured repayment program where we negotiate with your creditors on your behalf.\n\nHere are the specific rules and policies that apply to your plan:\n\n1.  **Account Status:** To qualify for the negotiated terms, the credit card accounts included in the plan must be closed or frozen. This means you will no longer be able to make new purchases on these cards while the plan is active.\n2.  **Reporting:** While the accounts are closed, your creditors will typically report your status to the credit bureaus as \"Paid as Agreed\" under a special program notation. This is different from a \"Settlement\" or \"Charge-off.\"\n3.  **Interest Rates:** Through our negotiation, we aim to reduce your interest rates significantly, typically bringing them down to a range of 0% to 8%, depending on the creditor.\n4.  **Fee Waivers:** A major part of this is that late fees and over-limit fees are waived for the duration of the plan.\n\n**Michael:** So, if I join, I have to stop using these cards immediately?\n\n**Counselor:** Yes, that is a requirement. The creditors agree to lower your interest and waive fees only because you are committing to a single, consolidated payment and not adding new debt to those accounts.\n\n---\n\n**[6:00 – 10:00] Advantages & Disadvantages**\n\n**Counselor:** Let's look at the pros and cons of this approach so you can weigh them clearly.\n\n**The Advantages:**\n*   **Debt Freedom Timeline:** Because interest is reduced to 0-8%, a much larger portion of your monthly payment goes directly toward your principal balance. This often allows you to become debt-free 3 to 5 years faster than if you paid the minimums.\n*   **Cost Savings:** By waiving late fees and over-limit fees, and drastically cutting interest, you save thousands of dollars over the life of the plan.\n*   **Simplicity:** Instead of managing multiple due dates and varying interest rates, you make one single payment to us, and we distribute it to your creditors.\n\n**The Disadvantages:**\n*   **Credit Access:** As mentioned, you cannot use new credit on the enrolled cards.\n*   **New Credit Restrictions:** While on the plan, obtaining *new* credit (like a car loan or a new credit card) is generally difficult and often discouraged by the program rules, as it could jeopardize your ability to pay the DMP.\n\n**Michael:** That makes sense regarding the savings. But I'm still stuck on the credit score part. If I close these accounts, won't my score drop and stay low?\n\n---\n\n**[10:00 – 14:00] Addressing Credit Score Concerns**\n\n**Counselor:** This is the most critical part of our conversation, Michael. Let's look at the industry standards and data regarding credit scores and DMPs.\n\n**The Immediate Impact:**\nIt is true that your score may experience a temporary dip when the accounts are closed. This happens for two reasons:\n1.  **Credit Utilization:** Closing accounts reduces your total available credit, which can temporarily increase your utilization ratio if you have other balances.\n2.  **Account Age:** The average age of your accounts may shift slightly.\n\n**The Long-Term Reality:**\nHowever, this impact is **not permanent**. In fact, for most clients, the DMP is the fastest route to *improving* their score long-term. Here is why:\n\n1.  **Payment History is King:** Payment history makes up 35% of your FICO score. The single biggest factor in a low score is often missed payments. A DMP stops the bleeding immediately. Once you are on the plan, your payment history becomes 100% positive.\n2.  **The \"Paid as Agreed\" Notation:** Creditors report these accounts as current and being paid as agreed. This is a positive mark. It is far better than having accounts in collections or charged off.\n3.  **The Data:** Industry data shows that while there might be a small initial fluctuation, clients on DMPs typically see their credit scores begin to recover within 6 to 12 months as the balance decreases and payment history builds.\n4.  **Permanent Damage?** Permanent damage usually comes from bankruptcy or long-term delinquency. A DMP is a proactive solution. By paying off the debt faster, you remove the \"high debt\" factor from your report much sooner than if you tried to pay it off on your own with high interest.\n\n**Michael:** So, you're saying the short-term hit is worth the long-term gain?\n\n**Counselor:** Exactly. Think of it this way: If you don't join the plan, your interest keeps compounding, you might miss a payment, and your score could drop significantly due to delinquency. With the DMP, you accept a temporary administrative change to your accounts to secure a guaranteed path to a debt-free status, which is the ultimate foundation for a high credit score.\n\n---\n\n**[14:00 – 15:00] Conclusion & Next Steps**\n\n**Counselor:** To summarize, Michael:\n*   The DMP requires closing accounts to secure 0-8% interest and fee waivers.\n*   You will have a temporary inability to use new credit on those cards.\n*   Your credit score may dip slightly at the start but will recover and improve as you build a perfect payment history and reduce your debt load.\n\nThe goal is to get you out of debt as quickly as possible. Once the plan is complete, you will have a clean slate and the ability to rebuild your credit on your own terms.\n\nDo you feel you have enough information to make a decision, or is there one specific part of the process you'd like to discuss further?\n\n**Michael:** I think I understand the trade-off better now. The idea of stopping the interest bleeding is appealing.\n\n**Counselor:** That's great to hear. If you're ready to move forward, I can prepare the creditor proposals for your review. If you need a day to think about it, that is perfectly fine as well. How would you like to proceed?\n\n**Michael:** Let's go ahead and start the paperwork.\n\n**Counselor:** Excellent. I'll get those documents ready for you right now. Thank you for trusting us with your financial future, Michael.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        5,
+        4,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The script correctly addresses all task requirements (Correctness: 5) and follows professional counseling best practices with an empathetic, compliant tone (Best Practices: 5). It is exceptionally well-structured and easy to follow (Clarity: 5). However, it receives a 4 for Completeness and Domain Accuracy due to minor omissions: it generalizes creditor reporting (some report 'Account Closed' rather than 'Paid as Agreed') and omits mention of enrollment fees or credit mix impacts, which are relevant nuances for a truly exceptional industry-standard script. The 'Additional Checks' regarding tax calculations were disregarded as they are irrelevant to a consultation script task."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Create debt management plans, spending plans, or budgets to assist clients to meet financial goals.",
+      "task_type": "Budgeting and Plan Creation",
+      "user_prompt": "Develop a 6-month Debt Management Plan for 'Elena R.' who has a total unsecured debt of $25,000. Her available monthly surplus for debt repayment is $450. She has three debts: Credit Card A ($10,000 at 24% APR), Credit Card B ($8,000 at 18% APR), and Personal Loan ($7,000 at 10% APR). Create a budget that prioritizes high-interest debt while ensuring minimum payments are met. Project the total interest savings over 6 months if the DMP reduces the average APR on credit cards to 6%.",
+      "reference_context": {
+        "total_debt": 25000,
+        "monthly_surplus": 450,
+        "debts": [
+          {
+            "name": "Credit Card A",
+            "balance": 10000,
+            "apr": 0.24,
+            "min_payment": 250
+          },
+          {
+            "name": "Credit Card B",
+            "balance": 8000,
+            "apr": 0.18,
+            "min_payment": 200
+          },
+          {
+            "name": "Personal Loan",
+            "balance": 7000,
+            "apr": 0.1,
+            "min_payment": 150
+          }
+        ],
+        "dmp_apr_reduction": 0.06,
+        "planning_horizon_months": 6
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Mathematical Accuracy — Are the interest calculations and payment allocations correct based on the provided APRs and balances?",
+        "Criterion 2: Feasibility — Does the plan ensure all minimum payments are covered before allocating surplus to high-interest debt?",
+        "Criterion 3: Strategic Value — Is the projected interest savings calculation logical and clearly explained?"
+      ],
+      "student_answer": "# Debt Management Plan: Elena R.\n\n## 1. Executive Summary\nThis 6-month Debt Management Plan (DMP) is designed to reduce Elena R.'s total unsecured debt of $25,000 by prioritizing high-interest obligations while maintaining all minimum payment requirements. By consolidating credit card interest rates to a reduced 6% APR, this plan projects significant interest savings compared to the current high-interest structure.\n\n## 2. Monthly Budget Allocation\n**Total Available Surplus:** $450.00  \n**Total Minimum Payments Required:** $600.00 ($250 + $200 + $150)\n\n*Note: The total minimum payments ($600) exceed the available surplus ($450). In a real-world scenario, this indicates an immediate cash flow crisis requiring temporary forbearance, income increase, or asset liquidation. However, for the purpose of this DMP projection, we assume the \"surplus\" represents the **additional** funds available *on top* of the minimums, or that the minimums have been temporarily restructured to fit the $450 total. To proceed with a viable plan, we will assume the $450 is the **total** monthly payment capacity and the minimums must be adjusted or the plan assumes a partial payment scenario.\n\n**Correction for Viability:** Since the minimums ($600) exceed the total capacity ($450), a standard DMP cannot function without external intervention. For this exercise, we will assume the \"surplus\" of $450 is the **total** amount available to pay creditors, and the minimums listed are the baseline obligations that must be met. Since $450 < $600, this plan is mathematically impossible without increasing income or reducing minimums.\n\n**Revised Assumption for Plan Execution:** To provide a functional plan, we will assume the $450 is the **additional** payment available *after* minimums are covered (i.e., Total Monthly Payment = $600 + $450 = $1,050). If the $450 is the *total* budget, the plan fails immediately. Given the prompt asks to \"prioritize high-interest debt while ensuring minimum payments are met,\" we must assume the $450 is the **extra** funds available for accelerated repayment.\n\n**Revised Monthly Cash Flow:**\n*   **Total Monthly Payment Capacity:** $1,050 ($600 Minimums + $450 Surplus)\n*   **Allocation Strategy:**\n    1.  Pay Minimums on all accounts.\n    2.  Apply the $450 surplus to **Credit Card A** (Highest APR).\n\n## 3. Payment Schedule (Months 1–6)\n\n### Month 1\n*   **Credit Card A:** $250 (Min) + $450 (Surplus) = **$700**\n*   **Credit Card B:** $200 (Min) = **$200**\n*   **Personal Loan:** $150 (Min) = **$150**\n*   **Total Paid:** $1,050\n\n### Month 2\n*   **Credit Card A:** $250 (Min) + $450 (Surplus) = **$700**\n*   **Credit Card B:** $200 (Min) = **$200**\n*   **Personal Loan:** $150 (Min) = **$150**\n*   **Total Paid:** $1,050\n\n### Month 3\n*   **Credit Card A:** $250 (Min) + $450 (Surplus) = **$700**\n*   **Credit Card B:** $200 (Min) = **200**\n*   **Personal Loan:** $150 (Min) = **150**\n*   **Total Paid:** $1,050\n\n### Month 4\n*   **Credit Card A:** $250 (Min) + $450 (Surplus) = **$700**\n*   **Credit Card B:** $200 (Min) = **200**\n*   **Personal Loan:** $150 (Min) = **150**\n*   **Total Paid:** $1,050\n\n### Month 5\n*   **Credit Card A:** $250 (Min) + $450 (Surplus) = **$700**\n*   **Credit Card B:** $200 (Min) = **200**\n*   **Personal Loan:** $150 (Min) = **150**\n*   **Total Paid:** $1,050\n\n### Month 6\n*   **Credit Card A:** $250 (Min) + $450 (Surplus) = **$700**\n*   **Credit Card B:** $200 (Min) = **200**\n*   **Personal Loan:** $150 (Min) = **150**\n*   **Total Paid:** $1,050\n\n*(Note: If Credit Card A is paid off before Month 6, the surplus will be redirected to Credit Card B. Based on the balance of $10,000 and $700/month, it will take approx 14 months to pay off Card A, so the surplus remains on Card A for the full 6 months.)*\n\n## 4. Interest Savings Projection\n\n### Scenario A: Current Rates (No DMP)\n*   **Credit Card A:** $10,000 @ 24% APR\n*   **Credit Card B:** $8,000 @ 18% APR\n*   **Personal Loan:** $7,000 @ 10% APR\n*   **Average Weighted APR:** ~20.2%\n\n**Estimated Interest (6 Months):**\n*   Card A: ~$1,200 (approx)\n*   Card B: ~$720 (approx)\n*   Loan: ~$350 (approx)\n*   **Total Interest (6 Months): ~$2,270**\n\n### Scenario B: DMP Rates (Reduced to 6% APR)\n*   **Credit Card A:** $10,000 @ 6% APR\n*   **Credit Card B:** $8,000 @ 6% APR (Assuming DMP covers all unsecured debt)\n*   **Personal Loan:** $7,000 @ 6% APR (Assuming DMP covers all unsecured debt)\n\n**Estimated Interest (6 Months):**\n*   Card A: $10,000 * 0.06 * (6/12) = $300\n*   Card B: $8,000 * 0.06 * (6/12) = $240\n*   Loan: $7,000 * 0.06 * (6/12) = $210\n*   **Total Interest (6 Months): $750**\n\n### Total Interest Savings\n*   **Savings:** $2,270 (Current) - $750 (DMP) = **$1,520**\n\n## 5. Conclusion\nBy implementing this Debt Management Plan, Elena R. will pay $1,050 monthly, ensuring all minimums are met while aggressively attacking the highest interest debt. The reduction of credit card APRs from an average of ~21% to 6% will result in an estimated **$1,520 in interest savings** over the first 6 months. This strategy accelerates principal reduction and prevents the debt from growing due to compounding high-interest charges.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The student correctly identified the cash flow contradiction and made a logical assumption to proceed, demonstrating strong critical thinking. However, the interest savings calculation uses simple interest on opening balances rather than amortized balances, leading to significant inaccuracies in the financial projections. This impacts Correctness, Domain Accuracy, and Best Practices. The structure and clarity are excellent, and all main sections are present though ending balances are omitted."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Prioritize client debt repayment to avoid dire consequences, such as bankruptcy or foreclosure or to reduce overall costs, such as by paying high-interest or short-term loans first.",
+      "task_type": "Debt Prioritization Strategy",
+      "user_prompt": "A client, 'David L.', is at risk of foreclosure on his home due to missed mortgage payments and has $15,000 in credit card debt. He has a monthly surplus of $800. His mortgage arrears are $3,500. The credit card interest is compounding daily at 22%. Evaluate two strategies: 1) Paying the mortgage arrears first to stop foreclosure, or 2) Paying down the high-interest credit card debt first to stop financial bleeding. Recommend a prioritization strategy that balances immediate legal risk (foreclosure) with long-term cost reduction, citing the specific risks of each path.",
+      "reference_context": {
+        "client_name": "David L.",
+        "monthly_surplus": 800,
+        "mortgage_arrears": 3500,
+        "credit_card_debt": 15000,
+        "credit_card_apr": 0.22,
+        "risk_factors": [
+          "Immediate foreclosure risk if mortgage arrears are not addressed",
+          "Rapid accumulation of high-interest debt on credit cards"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Risk Assessment — Does the response correctly identify the severity of foreclosure risk versus the cost of high-interest debt?",
+        "Criterion 2: Strategic Logic — Is the recommended prioritization strategy sound and aligned with consumer protection best practices?",
+        "Criterion 3: Clarity — Is the trade-off between immediate legal consequences and long-term financial costs clearly articulated?"
+      ],
+      "student_answer": "**Credit Counseling Strategy Recommendation for David L.**\n\n**Executive Summary**\nGiven the immediate threat of foreclosure, the recommended strategy is a **Hybrid Approach: Immediate Mortgage Stabilization followed by Aggressive Debt Reduction.** Prioritizing credit card debt exclusively while ignoring mortgage arrears creates an unacceptable risk of losing the primary asset (the home), which would result in total financial collapse. Conversely, ignoring the 22% interest on credit cards while paying only the minimum on the mortgage accelerates long-term insolvency.\n\n**Strategic Analysis & Risks**\n\n**Option 1: Pay Mortgage Arrears First (Full Focus)**\n*   **Action:** Allocate the entire $800 monthly surplus to the $3,500 mortgage arrears until cleared (approx. 4-5 months), while making only minimum payments on credit cards.\n*   **Immediate Benefit:** Halts the foreclosure process and preserves housing stability.\n*   **Critical Risk:** At 22% APR, the $15,000 credit card balance will grow by approximately $275/month in interest alone if only minimums are paid. Over the 5 months required to clear arrears, the debt could balloon to nearly $16,500, creating a significantly larger hole to dig out of once the mortgage is current.\n\n**Option 2: Pay Credit Card Debt First (Full Focus)**\n*   **Action:** Allocate the entire $800 monthly surplus to the credit card debt.\n*   **Immediate Benefit:** Reduces the compounding interest burden and prevents the debt from growing further.\n*   **Critical Risk:** **Foreclosure.** With $3,500 in arrears and no payments applied to the mortgage, the lender will likely proceed with legal foreclosure proceedings within 30–60 days. Losing the home is a catastrophic event that destroys equity, credit score, and housing security, rendering all other financial progress irrelevant.\n\n**Recommended Prioritization Strategy: The \"Stabilize and Attack\" Plan**\n\nThis strategy balances the legal necessity of keeping the home with the mathematical necessity of stopping high-interest bleeding.\n\n**Phase 1: Immediate Stabilization (Months 1–5)**\n*   **Goal:** Clear the $3,500 mortgage arrears to stop foreclosure.\n*   **Allocation:**\n    *   **Mortgage Arrears:** $800/month.\n    *   **Credit Cards:** Pay only the absolute minimum required to avoid default notices (do not ignore them, but do not attack principal).\n*   **Outcome:** In approximately 4.5 months, the mortgage will be current, and the foreclosure threat will be neutralized.\n*   **Risk Mitigation:** During this phase, the credit card debt will increase due to interest, but the client retains their home.\n\n**Phase 2: Aggressive Debt Elimination (Month 6 Onward)**\n*   **Goal:** Eliminate the $15,000+ credit card debt and build an emergency fund.\n*   **Allocation:**\n    *   **Mortgage:** Resume standard monthly payment + any additional surplus.\n    *   **Credit Cards:** Apply the full $800 monthly surplus (plus any new surplus generated) to the credit card principal.\n*   **Outcome:** At $800/month, the credit card debt will be eliminated in approximately 20–22 months, assuming no new charges are made.\n\n**Critical Action Items for David L.**\n1.  **Contact Mortgage Servicer Immediately:** Inform them of the intent to cure arrears. Ask if a \"Repayment Plan\" can be formalized to spread the $3,500 over 6–12 months if the $800 surplus is insufficient to clear it in 5 months without causing cash flow issues for current living expenses.\n2.  **Stop Using Credit Cards:** Freeze all credit card usage immediately to prevent the balance from growing further during Phase 1.\n3.  **Negotiate Interest Rates:** Once the mortgage is current, contact credit card issuers to request a lower APR or a hardship program to reduce the 22% rate, which will accelerate Phase 2.\n\n**Conclusion**\nThe risk of foreclosure is an existential threat that must be addressed first. However, the strategy must transition immediately to aggressive credit card repayment the moment the arrears are cleared. Delaying the mortgage cure is not an option; delaying the credit card attack is a financial necessity only until the home is secured.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The submission demonstrates strong clarity and accurate financial calculations (Domain Accuracy 5, Clarity 5). However, it fails to explicitly verify if the $800 surplus is sufficient to cover both mortgage arrears and credit card minimum payments simultaneously, which is a critical compliance and correctness gap (Correctness 3, Completeness 3, Best Practices 3). A Senior Compliance Officer would require confirmation that minimums are met before allocating surplus to arrears, and the submission assumes this without verification. Additionally, it does not explicitly assess the necessity of a Debt Management Plan (DMP) as per the additional checks."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Assess clients' overall financial situations by reviewing income, assets, debts, expenses, credit reports, or other financial information.",
+      "task_type": "Comprehensive Financial Assessment",
+      "user_prompt": "Perform a comprehensive financial health assessment for 'Amanda K.' based on the following data: Monthly Net Income $4,500; Total Monthly Debt Obligations $2,800; Liquid Assets $1,200; Non-Liquid Assets (Car) $8,000; Total Unsecured Debt $35,000; Credit Score 580. Calculate her Debt-to-Income (DTI) ratio and determine if she qualifies for a standard DMP or if she requires a more aggressive intervention like bankruptcy counseling. Provide a summary of her financial stability and immediate next steps.",
+      "reference_context": {
+        "monthly_net_income": 4500,
+        "monthly_debt_obligations": 2800,
+        "liquid_assets": 1200,
+        "non_liquid_assets": 8000,
+        "total_unsecured_debt": 35000,
+        "credit_score": 580,
+        "dmp_threshold_dti": 0.4,
+        "emergency_fund_minimum_months": 3
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Calculation Accuracy — Is the Debt-to-Income (DTI) ratio calculated correctly?",
+        "Criterion 2: Diagnostic Accuracy — Is the recommendation for DMP vs. Bankruptcy Counseling consistent with the calculated DTI and asset levels?",
+        "Criterion 3: Completeness — Does the assessment cover income, assets, debts, and credit health as required by the O*NET standard?"
+      ],
+      "student_answer": "**Financial Health Assessment: Amanda K.**\n\n**1. Debt-to-Income (DTI) Ratio Calculation**\n*   **Formula:** Total Monthly Debt Obligations ÷ Monthly Net Income\n*   **Calculation:** $2,800 ÷ $4,500 = 0.622\n*   **Result:** **62.2%**\n\n**2. Qualification Determination**\n*   **Standard DMP Eligibility:** **No.**\n    *   *Reasoning:* The calculated DTI of 62.2% significantly exceeds the standard Debt Management Plan (DMP) threshold of 40%. A DMP typically requires a manageable surplus after essential living expenses to fund the repayment plan. With debt obligations consuming over 60% of net income, there is insufficient cash flow to sustain a standard DMP while covering basic living costs (housing, food, utilities).\n*   **Recommended Intervention:** **Immediate Bankruptcy Counseling Required.**\n    *   *Reasoning:* Amanda is in a state of severe financial distress. Her liquid assets ($1,200) are critically low, falling far short of the recommended 3-month emergency fund minimum ($13,500). Furthermore, her unsecured debt ($35,000) is nearly 8 times her monthly net income, and her credit score (580) indicates a history of significant delinquency or default. The combination of high DTI, depleted liquidity, and high debt load suggests that debt consolidation or repayment plans are mathematically unfeasible without legal protection.\n\n**3. Summary of Financial Stability**\nAmanda K. is currently in a **critical financial instability** state.\n*   **Cash Flow:** Negative sustainability; debt payments consume the majority of income, leaving no buffer for emergencies or essential living expenses.\n*   **Liquidity:** Insufficient. With only $1,200 in liquid assets, a single unexpected expense (e.g., car repair, medical bill) will likely trigger immediate default.\n*   **Asset Position:** While she holds a vehicle ($8,000), it is non-liquid and does not provide immediate cash relief.\n*   **Credit Health:** Poor (580), limiting access to new credit or refinancing options.\n\n**4. Immediate Next Steps**\n1.  **Schedule Emergency Bankruptcy Consultation:** Contact a licensed bankruptcy attorney or a non-profit credit counseling agency immediately to evaluate Chapter 7 or Chapter 13 eligibility.\n2.  **Cease Non-Essential Spending:** Halt all discretionary spending immediately to preserve the remaining $1,200 for absolute necessities (food, shelter, utilities).\n3.  **Contact Creditors:** Proactively contact creditors to inform them of the situation and request temporary forbearance or hardship programs to prevent further collection actions while legal counsel is secured.\n4.  **Secure Essential Documentation:** Gather all recent pay stubs, bank statements, debt statements, and tax returns to facilitate the bankruptcy filing process.\n5.  **Do Not Take New Debt:** Avoid any new loans or credit card usage, as this will complicate potential bankruptcy proceedings.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "Correctness (4): Core calculations (DTI) are accurate, but the statement that there is 'no buffer for essential living costs' is imprecise given the $1,700 monthly surplus. Completeness (5): All required sections including DTI, qualification, summary, and next steps are fully addressed. Best Practices (4): Recommendation for immediate bankruptcy counseling is aggressive; a credit counseling assessment is typically the standard first step before legal intervention. Domain Accuracy (4): The emergency fund calculation ($13,500) incorrectly uses Net Income rather than Living Expenses, a technical financial planning error. Clarity (5): The output is well-structured, professional, and easy to understand."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Recommend strategies for clients to meet their financial goals, such as borrowing money through loans or loan programs, declaring bankruptcy, making budget adjustments, or enrolling in debt management plans.",
+      "task_type": "Strategic Financial Planning",
+      "user_prompt": "A client, 'Michael R.', has $18,500 in unsecured credit card debt with an average APR of 24.5%. His monthly disposable income after essential living expenses is $450. He is considering a Debt Management Plan (DMP) which typically reduces interest to 8% but adds a 5% administrative fee to the monthly payment. Alternatively, he could file for Chapter 7 bankruptcy, which would remain on his credit report for 10 years but discharge the debt immediately. Calculate the total cost of the DMP over 5 years (assuming no new debt) and compare it to the long-term credit impact of bankruptcy. Recommend the most viable strategy based on his ability to pay and ethical considerations regarding debt discharge.",
+      "reference_context": {
+        "total_debt": 18500,
+        "current_apr": 0.245,
+        "monthly_disposable_income": 450,
+        "dmp_apr": 0.08,
+        "dmp_admin_fee_rate": 0.05,
+        "bankruptcy_impact_years": 10,
+        "dmp_duration_years": 5
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Accuracy — Does the DMP cost calculation correctly apply the reduced interest rate and administrative fees over the 5-year term?",
+        "Criterion 2: Analysis — Does the response clearly contrast the total financial cost of the DMP against the immediate relief and long-term credit consequences of bankruptcy?",
+        "Criterion 3: Ethics — Is the recommendation grounded in consumer protection laws and does it avoid suggesting bankruptcy as a first resort without exhausting repayment options?"
+      ],
+      "student_answer": "### Debt Management Plan (DMP) Cost Analysis\n\n**1. Monthly Payment Calculation**\n*   **Base Debt:** $18,500\n*   **DMP Interest Rate:** 8% APR (0.6667% monthly)\n*   **Administrative Fee:** 5% of the monthly payment amount.\n*   **Payment Structure:** Let $P$ be the total monthly payment. The portion applied to principal and interest is $0.95P$.\n*   **Amortization:** To determine the exact payoff time and total cost, we calculate the payment required to clear $18,500 in 60 months (5 years) at 8% interest, then adjust for the fee.\n    *   Standard Loan Payment Formula: $P_{base} = P \\times \\frac{r(1+r)^n}{(1+r)^n - 1}$\n    *   $P_{base} = 18,500 \\times \\frac{0.006667(1.006667)^{60}}{(1.006667)^{60} - 1} \\approx \\$375.48$\n    *   This is the amount needed to service the debt. Since the client pays 95% of their total check toward this:\n    *   Total Monthly Payment ($P$) = $375.48 / 0.95 \\approx \\$395.24$\n*   **Feasibility Check:** The required payment ($395.24) is within Michael's disposable income ($450).\n\n**2. Total Cost of DMP (5 Years)**\n*   **Total Payments Made:** $395.24 \\times 60 \\text{ months} = \\$23,714.40$\n*   **Total Interest & Fees Paid:** $\\$23,714.40 - \\$18,500 \\text{ (Principal)} = \\$5,214.40$\n*   **Final Outcome:** Debt is fully satisfied in 5 years.\n\n---\n\n### Chapter 7 Bankruptcy Analysis\n\n*   **Immediate Impact:** Debt is discharged immediately. No further payments are required.\n*   **Financial Cost:** $0 (excluding court filing fees, typically $338–$350).\n*   **Credit Impact:**\n    *   **Duration:** Remains on credit report for 10 years.\n    *   **Score Impact:** Typically causes a drop of 130–240 points.\n    *   **Recovery:** While severe, credit scores often begin recovering within 2–4 years if new positive credit history is established.\n    *   **Long-term Consequences:** Significant difficulty obtaining unsecured credit, higher interest rates on auto/home loans, potential impact on rental applications and employment background checks for the full decade.\n\n---\n\n### Recommendation\n\n**Recommended Strategy: Debt Management Plan (DMP)**\n\n**Rationale:**\n1.  **Financial Viability:** Michael's disposable income ($450) comfortably covers the required DMP payment ($395.24). He has the capacity to repay the debt without resorting to legal discharge.\n2.  **Cost Efficiency:** While the DMP costs an additional $5,214.40 in interest and fees over 5 years, this is a known, finite cost. Bankruptcy, while eliminating the debt, carries a hidden \"cost\" of 10 years of severely restricted financial freedom and higher borrowing costs for any future credit needs.\n3.  **Ethical Considerations:** As a Credit Counselor, I must advise that bankruptcy should be a last resort when repayment is impossible. Since Michael can afford the DMP, filing for Chapter 7 would be an unnecessary discharge of a debt he is contractually and financially capable of paying. This preserves his integrity as a borrower and avoids the long-term stigma of bankruptcy.\n4.  **Credit Trajectory:** Successfully completing a DMP demonstrates responsible financial behavior. While the DMP may initially lower his score due to account closures, the consistent on-time payments over 5 years will rebuild his credit profile more effectively than the \"fresh start\" of bankruptcy, which leaves a permanent negative mark for a decade.\n\n**Action Plan:**\n*   Enroll in a reputable non-profit credit counseling agency to initiate the DMP.\n*   Ensure the agency negotiates the 8% interest rate and waives any late fees.\n*   Commit to the 5-year term without incurring new debt.\n*   Monitor credit reports annually to ensure accurate reporting of the DMP status.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        4
+      ],
+      "score": 4.4,
+      "grade_reason": "Correctness (4): Minor arithmetic rounding error in amortization calculation ($375.48 vs ~$375.12) and broken LaTeX notation in the formula presentation. Completeness (5): All task requirements (DMP cost, bankruptcy comparison, recommendation) are fully addressed. Best Practices (4): Professional tone and ethical reasoning are strong, but the broken mathematical notation reduces professional polish. Domain Accuracy (5): All financial concepts, terms, and regulatory facts (e.g., 10-year bankruptcy mark) are accurate. Clarity (4): Structure is logical and easy to follow, though the broken formula notation slightly impedes verification of the math."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Estimate time for debt repayment, given amount of debt, interest rates, and available funds.",
+      "task_type": "Debt Repayment Modeling",
+      "user_prompt": "Client 'Elena T.' has a total student loan balance of $42,000 at 5.25% APR and a credit card balance of $8,500 at 22.99% APR. She can allocate $600 per month toward debt repayment. Using the standard amortization formula, calculate the payoff timeline if she uses the 'Avalanche Method' (paying minimums on all, extra on highest interest) versus the 'Snowball Method' (paying minimums on all, extra on lowest balance). Assume minimum payments are 2% of the balance for both debts. Present the total interest paid and the number of months to be debt-free for both strategies.",
+      "reference_context": {
+        "student_loan_balance": 42000,
+        "student_loan_apr": 0.0525,
+        "credit_card_balance": 8500,
+        "credit_card_apr": 0.2299,
+        "monthly_allocation": 600,
+        "minimum_payment_rate": 0.02
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Mathematical Precision — Are the amortization calculations for both methods accurate using standard financial formulas?",
+        "Criterion 2: Methodology — Does the response correctly distinguish between the Avalanche (interest-focused) and Snowball (balance-focused) approaches?",
+        "Criterion 3: Clarity — Is the comparison of total interest paid and time to payoff presented in a clear, comparative format?"
+      ],
+      "student_answer": "### Debt Repayment Analysis for Elena T.\n\n**Initial Parameters:**\n*   **Total Monthly Allocation:** $600\n*   **Minimum Payment Rate:** 2% of current balance (calculated monthly).\n*   **Student Loan:** $42,000 @ 5.25% APR\n*   **Credit Card:** $8,500 @ 22.99% APR\n\n---\n\n### Strategy 1: The Avalanche Method\n*Focus: Paying minimums on all debts, directing all extra funds to the debt with the highest interest rate (Credit Card).*\n\n**Execution Logic:**\n1.  **Month 1 Minimums:**\n    *   Student Loan: $42,000 × 0.02 = $840.00\n    *   Credit Card: $8,500 × 0.02 = $170.00\n    *   *Note:* The calculated minimums ($1,010) exceed the total allocation ($600). In a real-world scenario, the client would pay the full $600 to the highest interest debt first, but strictly following the \"Avalanche\" definition where minimums are paid first, this scenario is mathematically impossible under the constraint of $600 total if minimums are strictly enforced as 2%.\n    *   *Correction for Feasibility:* Since the sum of minimums ($1,010) > Total Allocation ($600), the client cannot pay the minimums on both. The standard industry practice in this specific \"Avalanche\" constraint violation is to apply the entire $600 to the highest interest debt (Credit Card) until the minimums can be met, or to adjust the minimums to the available funds.\n    *   *Revised Assumption for Calculation:* To provide a valid timeline, we assume the client pays the **entire $600** toward the highest interest debt (Credit Card) first, as paying less than the minimum on the student loan would trigger default/penalties, but paying the minimum on the student loan ($840) is impossible with $600 total. Therefore, the \"Avalanche\" strategy here effectively becomes: **Pay $600 to Credit Card** until the balance is low enough that the minimum payment drops below $600, then pay the minimum on the student loan and the rest to the credit card.\n\n    *However, to strictly adhere to the prompt's request for a comparison using standard amortization logic where minimums are defined as 2%:*\n    If the client *must* pay minimums, they cannot.\n    *Alternative Interpretation:* The prompt implies a scenario where the minimums are calculated but the *extra* is allocated. Since $600 < $1,010, the \"extra\" is negative.\n    *Practical Solution:* We will calculate the timeline assuming the client pays the **entire $600** to the Credit Card (highest interest) until the Credit Card minimum drops, then pays the Student Loan minimum and the rest to the Credit Card.\n\n    **Revised Calculation Path (Avalanche):**\n    *   **Phase 1:** Pay $600/mo to Credit Card.\n        *   Month 1 Interest (CC): $8,500 × (0.2299/12) = $162.60.\n        *   Principal Paid: $600 - $162.60 = $437.40.\n        *   New Balance: $8,062.60.\n        *   This continues until the Credit Card balance is low enough that the 2% minimum is less than $600.\n        *   Target Balance for CC: $600 / 0.02 = $30,000 (Wait, 2% of $30k is $600. The current balance is $8,500. 2% is $170. The minimum is *already* less than $600).\n        *   *Correction:* The minimum on the CC is $170. The minimum on the Student Loan is $840. Total Minimum = $1,010.\n        *   **Critical Constraint:** The client cannot pay the minimums.\n        *   **Standard Counselor Adjustment:** In this specific case, the client must prioritize the highest interest debt (CC) to stop the bleeding, but the Student Loan will go into default if the minimum ($840) is not paid.\n        *   *Hypothetical Scenario for Calculation:* To fulfill the \"Avalanche vs Snowball\" comparison requested, we must assume the \"Minimum Payment\" constraint is flexible or the $600 is the *total* available, meaning the client pays $600 to the CC and $0 to the SL, or we assume the \"Minimum\" is a target that is scaled.\n        *   *Most Professional Interpretation:* The prompt asks for a calculation based on the formula. If the math shows minimums > budget, the timeline is \"Indefinite/Default\" unless we assume the client pays the $600 entirely to the highest interest debt (CC) and the SL balance grows.\n        *   *Let's assume the prompt implies the \"Minimums\" are the baseline, and the $600 is the **Total** budget, meaning the client pays the minimums *if possible*, but here they are not.*\n        *   *Alternative:* Perhaps the \"Minimums\" are not 2% of the *current* balance but a fixed amount? No, prompt says \"2% of the balance\".\n        *   *Decision:* I will calculate the timeline assuming the client pays the **entire $600** to the Credit Card (Avalanche) and the **entire $600** to the Student Loan (Snowball - lowest balance) to demonstrate the difference, acknowledging that the Student Loan minimum ($840) is not met in either scenario, leading to default.\n        *   *Wait, let's re-read:* \"paying minimums on all, extra on...\" This implies the budget *must* cover minimums. Since $600 < $1,010, the premise is flawed.\n        *   *Correction:* I will assume the \"Minimum Payment\" is a *target* that is reduced proportionally or that the client pays the $600 to the highest interest debt first, and the \"minimum\" logic is secondary to the budget constraint.\n        *   *Actually, let's look at the numbers again.* $42k @ 5.25% -> Min $840. $8.5k @ 22.99% -> Min $170. Total $1,010.\n        *   If the client pays $600, they cannot pay minimums.\n        *   *Standard Professional Response:* I will calculate the payoff assuming the client pays the **entire $600** to the highest interest debt (CC) for the Avalanche method, and the **entire $600** to the lowest balance debt (CC) for the Snowball method.\n        *   *Wait, Snowball is lowest balance.* CC is $8,500 (Lowest). SL is $42,000 (Highest).\n        *   **Avalanche:** Pay CC (High Interest).\n        *   **Snowball:** Pay CC (Low Balance).\n        *   **Result:** In this specific case, **both methods target the same debt first** (the Credit Card) because it is both the highest interest AND the lowest balance.\n        *   **Therefore:** The strategies are identical in the first phase.\n        *   **Phase 1:** Pay $600/mo to Credit Card.\n            *   Interest rate: 22.99%.\n            *   Monthly Interest: $8,500 * (0.2299/12) = $162.60.\n            *   Principal: $437.40.\n            *   Time to pay off CC: N = -ln(1 - (r*P)/A) / ln(1+r).\n            *   r = 0.019158. P = 8500. A = 600.\n            *   N = -ln(1 - (0.019158*8500)/600) / ln(1.019158)\n            *   N = -ln(1 - 0.2714) / 0.0190 = -ln(0.7286) / 0.0190 = 0.316 / 0.0190 ≈ 16.6 months.\n            *   Let's refine:\n                *   Month 1: Bal 8500, Int 162.60, Pay 600, Prin 437.40, New Bal 8062.60.\n                *   ...\n                *   Month 16: Bal ~1,200. Int ~23. Pay 600.\n                *   Month 17: Bal ~0.\n            *   **CC Payoff:** ~17 months.\n        *   **Phase 2:** Once CC is paid, apply $600 to Student Loan.\n            *   Remaining SL Balance: $42,000.\n            *   Interest: 5.25%.\n            *   Monthly Interest: $42,000 * (0.0525/12) = $183.75.\n            *   Principal: $600 - $183.75 = $416.25.\n            *   Time to pay off SL:\n                *   r = 0.004375. P = 42000. A = 600.\n                *   N = -ln(1 - (0.004375*42000)/600) / ln(1.004375)\n                *   N = -ln(1 - 0.30625) / 0.004365 = -ln(0.69375) / 0.004365 = 0.365 / 0.004365 ≈ 83.6 months.\n            *   **SL Payoff:** ~84 months.\n        *   **Total Time:** 17 + 84 = 101 months.\n        *   **Total Interest:**\n            *   CC Interest: Sum of monthly interest over 17 months. Approx $1,500.\n            *   SL Interest: Sum of monthly interest over 84 months. Approx $15,000.\n            *   Total: ~$16,500.\n\n    *Wait, did I miss something?*\n    \"Snowball Method (paying minimums on all, extra on lowest balance).\"\n    \"Avalanche Method (paying minimums on all, extra on highest interest).\"\n    Since the Credit Card is **both** the lowest balance ($8,500) and the highest interest (22.99%), **both methods result in the exact same payment allocation**: $600 to the Credit Card until it is paid off, then $600 to the Student Loan.\n\n    **Is there a trick?**\n    Maybe the \"Minimums\" are the key.\n    If the client *could* pay minimums, the allocation would be:\n    Min SL: $840. Min CC: $170. Total $1,010.\n    Budget $600.\n    The client cannot pay minimums.\n    Therefore, the \"Minimums on all\" instruction is impossible to follow literally.\n    However, if we assume the \"Minimums\" are just a theoretical baseline and the client pays $600 to the target debt:\n    Since the target debt is the same for both (CC), the results are identical.\n\n    **Let's double check the balances.**\n    SL: $42,000.\n    CC: $8,500.\n    Lowest Balance = CC.\n    Highest Interest = CC.\n    **Conclusion:** The strategies are identical in this specific scenario.\n\n    **Wait, what if the prompt implies the \"Minimums\" are paid *first* from the $600, and the rest is extra?**\n    If Min SL ($840) + Min CC ($170) = $1,010.\n    Budget $600.\n    The client cannot pay minimums.\n    If the client pays $600 to the CC (Avalanche) and $0 to SL.\n    If the client pays $600 to the CC (Snowball) and $0 to SL.\n    The result is the same.\n\n    **Is it possible the user made a typo and the Student Loan is lower?**\n    No, I must work with the provided data.\n    **Is it possible the \"Minimums\" are calculated differently?**\n    \"Assume minimum payments are 2% of the balance\".\n    Maybe the Student Loan minimum is not 2%? No, prompt says \"for both debts\".\n\n    **Conclusion:**\n    Because the Credit Card is simultaneously the lowest balance and the highest interest rate, the Avalanche and Snowball methods dictate the exact same payment order.\n    1. Pay $600/mo to Credit Card.\n    2. Pay $600/mo to Student Loan.\n\n    **Calculations:**\n    **Phase 1: Credit Card ($8,500 @ 22.99%)**\n    *   Monthly Rate: 0.2299 / 12 = 0.0191583\n    *   Payment: $600\n    *   Formula: $N = -\\frac{\\ln(1 - \\frac{r \\times P}{A})}{\\ln(1+r)}$\n    *   $N = -\\frac{\\ln(1 - \\frac{0.0191583 \\times 8500}{600})}{\\ln(1.0191583)}$\n    *   $N = -\\frac{\\ln(1 - 0.27140)}{0.01897}$\n    *   $N = -\\frac{\\ln(0.7286)}{0.01897} = -\\frac{-0.3166}{0.01897} \\approx 16.69$ months.\n    *   **Months to clear CC:** 17 months.\n    *   **Interest Paid (CC):**\n        *   Total Paid: 16 * $600 + (Final Payment).\n        *   Let's approximate total interest.\n        *   Month 1 Int: $162.60. Month 17 Int: ~$10.\n        *   Roughly $1,450.\n\n    **Phase 2: Student Loan ($42,000 @ 5.25%)**\n    *   Monthly Rate: 0.0525 / 12 = 0.004375\n    *   Payment: $600\n    *   $N = -\\frac{\\ln(1 - \\frac{0.004375 \\times 42000}{600})}{\\ln(1.004375)}$\n    *   $N = -\\frac{\\ln(1 - 0.30625)}{0.004365}$\n    *   $N = -\\frac{\\ln(0.69375)}{0.004365} = -\\frac{-0.3656}{0.004365} \\approx 83.76$ months.\n    *   **Months to clear SL:** 84 months.\n    *   **Interest Paid (SL):**\n        *   Total Paid: 83 * $600 + Final.\n        *   Total Principal: $42,000.\n        *   Total Paid: $42,000 + Interest.\n        *   Approx Interest: $15,500.\n\n    **Total Timeline:** 17 + 84 = 101 months (8 years, 5 months).\n    **Total Interest:** ~$16,950.\n\n    **Wait, is there any scenario where they differ?**\n    Only if the \"Minimums\" were paid.\n    If the client had $1,200 budget:\n    Min SL: $840. Min CC: $170. Extra: $190.\n    Avalanche: Extra to CC.\n    Snowball: Extra to CC (Lowest balance).\n    Still the same.\n\n    What if the Student Loan balance was lower than the CC?\n    e.g., SL $5,000, CC $10,000.\n    Then SL is lowest balance. CC is highest interest.\n    Avalanche: Extra to CC.\n    Snowball: Extra to SL.\n    **But in this specific case:**\n    SL Balance: $42,000.\n    CC Balance: $8,500.\n    Lowest Balance = CC.\n    Highest Interest = CC.\n    **The strategies are identical.**\n\n    **Final Check:**\n    Did I misread \"lowest balance\"?\n    \"Snowball Method (paying minimums on all, extra on lowest balance).\"\n    Lowest balance is $8,500 (CC",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        2,
+        1,
+        4,
+        2
+      ],
+      "score": 2.4,
+      "grade_reason": "The submission demonstrates sound financial logic and correctly identifies that the Avalanche and Snowball methods converge in this specific scenario (Credit Card is both highest interest and lowest balance). However, the submission fails professional standards by including raw internal monologue ('Wait, did I miss something?', 'Decision:') which violates Best Practices (Score 1). The text is also truncated at the end ('Lowest Balance = CC.'), impacting Completeness (Score 2). While the domain accuracy regarding amortization and interest is high (Score 4), the cluttered structure significantly reduces Clarity (Score 2). Correctness is rated 3 because the core math is accurate but obscured by the unprofessional presentation."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Explain general financial topics to clients, such as credit report ratings, bankruptcy laws, consumer protection laws, wage attachments, or collection actions.",
+      "task_type": "Client Education and Legal Compliance",
+      "user_prompt": "Draft a client communication letter for 'David L.' who has received a wage garnishment notice from a creditor. The letter must explain the legal limits of wage garnishment under the Consumer Credit Protection Act (CCPA), specifically the 25% cap on disposable earnings or the amount by which weekly earnings exceed 30 times the federal minimum wage, whichever is less. Additionally, explain how filing for Chapter 13 bankruptcy would automatically stay (stop) this garnishment. Ensure the tone is informative, empathetic, and strictly adheres to ethical guidelines regarding legal advice.",
+      "reference_context": {
+        "client_name": "David L.",
+        "weekly_earnings": 850,
+        "federal_minimum_wage": 7.25,
+        "garnishment_cap_percentage": 0.25,
+        "bankruptcy_type": "Chapter 13"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Legal Accuracy — Does the explanation of the CCPA garnishment limits correctly apply the 25% cap and the 30x minimum wage threshold?",
+        "Criterion 2: Procedural Knowledge — Is the mechanism of the automatic stay in Chapter 13 bankruptcy explained accurately?",
+        "Criterion 3: Tone and Ethics — Is the letter professional and does it clearly state that the counselor is providing information, not legal representation?"
+      ],
+      "student_answer": "David L.\n[Client Address]\n[City, State, Zip Code]\n\n[Date]\n\n**Re: Wage Garnishment Notice and Potential Relief Options**\n\nDear David,\n\nI am writing to you regarding the recent wage garnishment notice you received from your creditor. I understand that receiving such a notice can be a source of significant stress and anxiety. Please know that you are not alone, and there are specific legal protections in place designed to ensure you retain enough income to support yourself and your family.\n\nUnder the federal Consumer Credit Protection Act (CCPA), there are strict limits on how much of your paycheck can be garnished. The law protects your \"disposable earnings\" (the amount remaining after legally required deductions) by capping garnishment at the lesser of:\n1. 25% of your disposable earnings; or\n2. The amount by which your weekly earnings exceed 30 times the federal minimum wage.\n\nBased on your current weekly earnings of $850 and the federal minimum wage of $7.25, we can calculate your maximum allowable garnishment as follows:\n*   **30 times the federal minimum wage:** $7.25 × 30 = $217.50\n*   **Excess earnings:** $850.00 (your earnings) – $217.50 = $632.50\n*   **25% of disposable earnings:** 25% of $850.00 = $212.50\n\nSince $212.50 is less than $632.50, the maximum amount that can legally be taken from your weekly paycheck is **$212.50**. If the creditor is attempting to garnish an amount higher than this, they may be in violation of federal law.\n\nFurthermore, if you are considering filing for **Chapter 13 bankruptcy**, it is important to understand that the moment your petition is filed with the court, an \"automatic stay\" goes into effect. This is a powerful legal injunction that immediately stops most collection activities, including wage garnishments, lawsuits, and phone calls from creditors. This stay provides you with immediate relief while you work through a court-approved repayment plan.\n\nPlease note that while I can provide you with this information regarding federal laws and the general process of bankruptcy, I am a Credit Counselor, not an attorney. The information provided here is for educational purposes and does not constitute legal advice. To determine the best course of action for your specific situation, or to discuss the legal implications of filing for bankruptcy, I strongly recommend that you consult with a qualified bankruptcy attorney.\n\nI am here to support you in understanding your financial options and to help you navigate the next steps. Please feel free to contact my office to schedule a follow-up appointment to discuss your options further.\n\nSincerely,\n\n[Your Name]\nCredit Counselor\n[Agency Name]\n[Contact Information]",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        5,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is well-structured and empathetic with an excellent disclaimer protecting against unauthorized practice of law (Best Practices: 5, Clarity: 5). However, it conflates 'weekly earnings' (gross) with 'disposable earnings' (net of mandatory deductions) in the calculation, which is a technical inaccuracy in a compliance context (Correctness: 4, Domain Accuracy: 4). Additionally, it fails to address the 'Additional Checks' requirement regarding tax withholding rates, which is a notable omission for a financial compliance letter (Completeness: 4). The core legal explanation of CCPA and Chapter 13 is accurate."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Interview clients by telephone or in person to gather financial information.",
+      "task_type": "Financial Data Synthesis and Gap Analysis",
+      "user_prompt": "You are reviewing a client interview transcript for 'Sarah J.' who reports a gross monthly income of $3,200. She lists fixed expenses: Mortgage ($1,100), Car ($350), Student Loans ($200), and Credit Cards ($450). Variable expenses are estimated at $600. However, she also mentions a recent medical bill of $1,200 due in 30 days and a car repair estimate of $800. Calculate her current debt-to-income (DTI) ratio and her projected disposable income after accounting for the one-time medical and repair costs. Identify the specific financial gap and recommend a specific budget adjustment strategy to prevent default.",
+      "reference_context": {
+        "gross_income": 3200,
+        "fixed_expenses": {
+          "mortgage": 1100,
+          "car": 350,
+          "student_loans": 200,
+          "credit_cards": 450
+        },
+        "variable_expenses": 600,
+        "one_time_medical": 1200,
+        "one_time_repair": 800,
+        "payment_period_months": 1
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Calculation — Is the Debt-to-Income (DTI) ratio calculated correctly based on total monthly debt obligations?",
+        "Criterion 2: Scenario Analysis — Does the response accurately project the cash flow impact of the one-time expenses on the monthly budget?",
+        "Criterion 3: Strategic Recommendation — Is the suggested budget adjustment realistic and directly addresses the identified cash flow gap?"
+      ],
+      "student_answer": "**Financial Analysis for Sarah J.**\n\n**1. Current Debt-to-Income (DTI) Ratio**\n*   **Gross Monthly Income:** $3,200\n*   **Total Monthly Debt Obligations:** $2,100\n    *   Mortgage: $1,100\n    *   Car Payment: $350\n    *   Student Loans: $200\n    *   Credit Cards: $450\n*   **Calculation:** ($2,100 ÷ $3,200) × 100\n*   **Current DTI Ratio:** **65.6%**\n    *   *Note: This is significantly above the recommended threshold of 36% and indicates high financial stress.*\n\n**2. Projected Disposable Income (One-Time Costs)**\n*   **Total Monthly Income:** $3,200\n*   **Total Monthly Expenses (Fixed + Variable):** $2,700\n    *   Fixed Debts: $2,100\n    *   Variable Living Expenses: $600\n*   **One-Time Costs (Medical + Repair):** $2,000\n*   **Total Cash Outflow for Month:** $4,700\n*   **Projected Disposable Income:** $3,200 - $4,700 = **-$1,500**\n*   **Result:** Sarah faces a **$1,500 deficit** for the upcoming month.\n\n**3. Identified Financial Gap**\nThe specific financial gap is a **$1,500 monthly shortfall**. Without intervention, Sarah will be unable to cover her mandatory debt payments, living expenses, and the immediate one-time obligations, leading to a high probability of default on her mortgage, car loan, or credit cards.\n\n**4. Recommended Budget Adjustment Strategy**\nTo prevent default, Sarah must immediately implement a **Debt Restructuring and Expense Freeze** strategy:\n\n*   **Immediate Action (Expense Freeze):** Halt all non-essential variable spending (currently $600) to zero. This recovers $600 immediately.\n*   **Debt Negotiation (Priority):** Contact the credit card issuer and medical provider immediately to request a payment plan extension or interest waiver for the $1,200 medical bill.\n*   **Asset Liquidation or Financing:** The $800 car repair is critical to maintaining employment. If the repair cannot be financed through a 0% APR credit offer or a personal loan, the car payment ($350) should be temporarily suspended via a lender hardship program, though this risks repossession.\n*   **Specific Budget Adjustment:**\n    *   **Revised Monthly Cash Flow:** $3,200 (Income) - $2,100 (Fixed Debts) - $0 (Variable) = **$1,100 Available**.\n    *   **Allocation:** Use the full $1,100 available to pay the $800 car repair immediately.\n    *   **Remaining Deficit:** $100.\n    *   **Final Step:** The remaining $100 deficit must be covered by a short-term bridge loan or by deferring the credit card minimum payment ($450) to the following month via a hardship arrangement, prioritizing the mortgage ($1,100) and car ($350) to avoid asset loss.\n\n**Conclusion:** Sarah cannot cover these costs with current income. She must freeze all variable spending, negotiate payment plans for the medical bill, and prioritize the car repair to maintain employment, while seeking a short-term bridge loan for the remaining $100 gap.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        2,
+        2,
+        5
+      ],
+      "score": 3.0,
+      "grade_reason": "The submission performs accurate arithmetic for DTI and cash flow but conflates Gross Income with Disposable Income, a significant domain accuracy error. It recommends eliminating all variable expenses to zero, which is unrealistic and violates best practices regarding essential living costs. Tax implications are not addressed despite being critical for compliance. The structure and clarity are excellent."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Prepare written documents to establish contracts with or communicate financial recommendations to clients.",
+      "task_type": "Contract Drafting and Recommendation",
+      "user_prompt": "Draft a formal 'Financial Recommendation Summary' for a client 'James K.' who has $25,000 in debt and a monthly surplus of $300. The document must outline a proposed Debt Management Plan (DMP) that consolidates his debts into a single monthly payment of $450 (including a $150 fee for the agency's negotiation services). The plan assumes a negotiated interest rate reduction to 6% and a 48-month term. Calculate the total amount James will pay under this plan versus paying off the debts individually at an average 21% APR over the same period. Include a section on the benefits of the DMP regarding credit score protection and the risks of non-compliance.",
+      "reference_context": {
+        "total_debt": 25000,
+        "monthly_surplus": 300,
+        "proposed_dmp_payment": 450,
+        "agency_fee_monthly": 150,
+        "negotiated_apr": 0.06,
+        "plan_duration_months": 48,
+        "current_average_apr": 0.21
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Financial Projection — Are the total repayment amounts for both the DMP and individual repayment scenarios calculated correctly?",
+        "Criterion 2: Document Structure — Does the output follow a professional contract summary format with clear sections for terms, benefits, and risks?",
+        "Criterion 3: Compliance — Does the document clearly disclose the agency fees and explain the consequences of missing a DMP payment?"
+      ],
+      "student_answer": "**FINANCIAL RECOMMENDATION SUMMARY**\n\n**Client Name:** James K.\n**Date:** October 26, 2023\n**Subject:** Proposed Debt Management Plan (DMP) Analysis\n\n### 1. Executive Overview\nThis document outlines a strategic Debt Management Plan (DMP) designed to resolve your current debt obligations of $25,000. Based on your financial profile, the proposed plan consolidates multiple high-interest obligations into a single, manageable monthly payment, leveraging negotiated interest rate reductions to accelerate debt elimination.\n\n### 2. Proposed Debt Management Plan (DMP) Details\nThe DMP consolidates your total debt into a structured repayment schedule with the following parameters:\n\n*   **Total Consolidated Debt:** $25,000\n*   **Monthly Payment Amount:** $450.00\n    *   *Breakdown:* $300.00 applied to principal/interest + $150.00 agency administrative fee.\n*   **Negotiated Interest Rate:** 6.0% APR (reduced from current average)\n*   **Plan Duration:** 48 Months (4 Years)\n*   **Total Cost Under DMP:** **$21,600.00**\n    *   *Calculation:* $450.00/month × 48 months.\n\n*Note: The total cost of $21,600 represents the sum of all payments made. Since the principal is $25,000, this calculation indicates that the $150 monthly fee is an additional cost on top of the principal repayment. However, based on the prompt's specific instruction to calculate the \"total amount James will pay under this plan,\" the figure is derived strictly from the payment stream defined ($450 × 48).*\n\n**Correction on Total Cost Logic:**\n*Clarification:* In a standard DMP, the monthly payment covers the principal and the negotiated interest. The agency fee is typically an *additional* cost or included in the payment. Based on the prompt's constraint that the payment is $450 (including the $150 fee), the math implies the $300 surplus is being used to pay down the debt, but the prompt states the payment is $450.\n*Re-evaluating the prompt's financial logic:*\nIf the payment is $450 for 48 months, the total cash outflow is $21,600.\nHowever, the debt is $25,000.\nIf the interest is 6%, the interest on $25,000 over 48 months is significant.\nLet's calculate the actual payoff amount required for a $25,000 loan at 6% over 48 months to see if the $450 payment is sufficient.\n*   Loan: $25,000\n*   Rate: 6% (0.5% monthly)\n*   Term: 48 months\n*   Monthly Payment Required (Principal + Interest): ~$588.00.\n\n*Critical Discrepancy:* The prompt states the payment is $450 (including $150 fee), meaning only $300 goes to the debt. $300/month at 6% over 48 months will **not** pay off $25,000.\n*However*, as an AI following the prompt's specific constraints to \"Draft a formal summary... Calculate the total amount James will pay under this plan,\" I must adhere to the provided numbers for the *calculation of the total payment*, even if the mathematical feasibility of paying off $25k with $300/month at 6% is impossible without a balloon payment or extended term.\n\n*Alternative Interpretation:* The prompt asks to calculate the total amount paid *under the plan* based on the provided numbers.\nTotal Paid (DMP) = $450 × 48 = **$21,600**.\n*Wait, this is less than the principal ($25,000).* This is mathematically impossible for a loan.\n*Re-reading the prompt context:* \"Calculate the total amount James will pay under this plan versus paying off the debts individually...\"\nPerhaps the prompt implies the $25,000 is the *current* balance, and the DMP reduces the balance? No, DMPs usually don't reduce principal unless negotiated.\n*Most likely scenario for the output:* The user wants the calculation based on the *provided inputs* ($450 x 48) vs the *individual* calculation, even if the inputs create a logical paradox (paying less than the principal).\n*However*, as a professional Credit Counselor, I cannot present a plan that pays $21,600 on a $25,000 debt.\n*Hypothesis:* The prompt might imply the $25,000 is the *original* debt, and the DMP reduces it? No.\n*Hypothesis:* The prompt implies the $450 is the *total* payment, and the $25,000 is the debt, but the math is flawed in the prompt.\n*Decision:* I will calculate the \"Total Amount Paid\" based on the explicit payment stream provided ($450 x 48) but I must address the feasibility.\n*Actually, let's look at the \"Individual\" calculation.*\nIf James pays $300/month (his surplus) on $25,000 at 21% APR.\nThis will take much longer than 48 months.\nThe prompt asks to compare \"over the same period\" (48 months).\nIf he pays $300/month for 48 months at 21%:\nTotal Paid = $300 * 48 = $14,400.\nRemaining Balance would be huge.\n\n*Let's reconsider the \"Total Amount Paid\" calculation request.*\nThe prompt asks: \"Calculate the total amount James will pay under this plan versus paying off the debts individually at an average 21% APR over the same period.\"\nThis implies a comparison of total cash outflow over 48 months.\n**DMP Total:** $450 * 48 = $21,600.\n**Individual Total:** If he pays his surplus ($300) for 48 months? Or if he pays the *required* amount to pay it off in 48 months?\n\"paying off the debts individually... over the same period.\" This implies calculating the payment required to clear the debt in 48 months at 21%, then multiplying by 48.\n*Calculation for Individual Payoff (48 months, 21% APR, $25k):*\n*   P = 25,000\n*   r = 0.21 / 12 = 0.0175\n*   n = 48\n*   Payment = P * [r(1+r)^n] / [(1+r)^n - 1]\n*   Payment = 25,000 * [0.0175(1.0175)^48] / [(1.0175)^48 - 1]\n*   (1.0175)^48 ≈ 2.29\n*   Payment ≈ 25,000 * (0.0175 * 2.29) / (1.29)\n*   Payment ≈ 25,000 * 0.040075 / 1.29 ≈ $777.50\n*   Total Paid (Individual) = $777.50 * 48 = **$37,320**.\n\n*Comparison:*\nDMP Total: $21,600 (as per prompt's $450 payment).\nIndividual Total: $37,320.\n*Wait, the DMP total ($21,600) is still less than the principal ($25,000).* This is a critical error in the prompt's provided numbers. A DMP cannot pay off $25k with $21.6k total payments.\n*Correction Strategy:* As a professional Credit Counselor, I must point out the discrepancy or adjust the interpretation.\n*Interpretation A:* The $25,000 is the debt, but the DMP includes a \"settlement\" where creditors accept less? The prompt doesn't say that.\n*Interpretation B:* The prompt's numbers are hypothetical and I must simply perform the math requested ($450 * 48) vs ($777.50 * 48).\n*Interpretation C:* The $450 payment is *in addition* to the surplus? No, \"single monthly payment of $450\".\n*Interpretation D:* The $25,000 debt is being paid off, but the $450 payment is insufficient.\n*Best Professional Approach:* I will present the calculation based on the *payment stream* provided for the DMP ($450 x 48) and the *required payment* to pay off the debt individually in 48 months ($777.50 x 48). I will explicitly state the total cash outflow for both scenarios. I will add a professional note that the DMP payment of $450 appears insufficient to cover the $25,000 principal at 6% over 48 months, suggesting the plan might involve a settlement or the term needs extension, but I will strictly follow the prompt's instruction to calculate the \"total amount James will pay\" based on the provided figures.\n\n*Actually, let's re-read the prompt carefully:* \"Calculate the total amount James will pay under this plan versus paying off the debts individually... over the same period.\"\nIf the DMP payment is $450, the total paid is $21,600.\nIf the individual payment is calculated to pay off $25k in 48 months at 21%, the total paid is ~$37,320.\nThe comparison shows savings.\n*However*, the fact that $21,600 < $25,000 is a red flag.\n*Maybe the $25,000 is the balance, but the DMP reduces it?* No, DMPs don't reduce principal unless specified.\n*Maybe the $450 is the payment, but the term is longer?* No, prompt says 48 months.\n*Maybe the $25,000 is not the principal?* \"James K. who has $25,000 in debt\".\n*Okay, I will proceed with the calculation as requested, but I will frame the \"Total Amount Paid\" as the sum of the payments made, and I will add a professional caveat in the \"Benefits\" or \"Risks\" section regarding the feasibility of the payment amount covering the principal, or I will assume the prompt implies the $25,000 is the *original* debt and the DMP results in a settlement (which is common in DMPs where creditors accept less). If it's a settlement, the total paid ($21,600) is the settlement amount.*\n*Let's assume the DMP results in a settlement or the numbers are illustrative.* I will present the numbers as calculated.\n\n**Revised Plan for Output:**\n1.  **DMP Total Payment:** $450 * 48 = $21,600.\n2.  **Individual Total Payment:** Calculate the payment required to pay $25,000 in 48 months at 21%.\n    *   Payment = $777.53\n    *   Total = $777.53 * 48 = $37,321.44.\n3.  **Savings:** $37,321.44 - $21,600 = $15,721.44.\n4.  **Caveat:** I must mention that the DMP payment of $450 is significantly lower than the principal, implying a potential settlement or that the numbers are illustrative. *Actually, as a professional, I should not present a plan that mathematically fails.*\n*Alternative:* Maybe the $25,000 is the debt, but the $450 payment is *only* the fee? No, \"single monthly payment of $450 (including a $150 fee)\".\n*Okay, I will present the calculation as requested but add a strong disclaimer that the payment amount must be sufficient to cover the principal, and if the $25,000 is the principal, the term or payment needs adjustment. However, to fulfill the prompt's request for a \"Draft,\" I will present the numbers as derived from the inputs, assuming the DMP successfully resolves the debt (perhaps via settlement).*\n\n**Wait, let's look at the \"monthly surplus\" of $300.**\nThe prompt says he has a $300 surplus.\nThe DMP payment is $450.\nThis means he needs to find an *additional* $150/month to fund the DMP.\nThe prompt says \"consolidates his debts into a single monthly payment of $450\".\nThis implies the DMP payment is $450.\nThe \"surplus\" of $300 is likely the amount he *currently* can pay, but the DMP requires $450.\n*Wait, the prompt says:* \"monthly surplus of $300... proposed DMP payment of $450\".\nThis is a contradiction. If he only has $300 surplus, he cannot pay $450.\n*Unless* the $150 fee is *part* of the $450, and the $300 surplus is the *principal* portion?\nIf he pays $300 to the debt and $150 to the fee, total $450.\nBut he only has $300 surplus.\n*Maybe the \"surplus\" is the amount he *can* pay, and the DMP is *proposed* to be $450, implying he needs to cut expenses or increase income?*\n*Or maybe the prompt implies the DMP payment is $300 (surplus) + $150 (fee) = $450?*\nYes, that fits. He uses his $300 surplus + $150 from somewhere else? No, that doesn't make sense.\n*Let's assume the prompt means:* The DMP payment is $450. The client *has* a $300 surplus, meaning the DMP is *affordable* if he allocates his entire surplus plus $150? No.\n*Let's assume the prompt means:* The DMP payment is $450. The client's *current* ability to pay is $300. The DMP is *higher* than his surplus.\n*Actually, the most logical reading:* The client has $300 surplus. The DMP payment is $450. This is a problem.\n*But the prompt asks me to draft the summary.* I will draft it as requested, noting the payment amount.\n*Wait, maybe the $300 surplus is the amount he *currently* pays to creditors?*\n\"monthly surplus of $300\" usually means income - expenses = $300 available for debt.\nIf the DMP payment is $450, he is short $150.\n*Maybe the $150 fee is *included* in the $450, and the $300 surplus is the *principal* portion?*\nIf he pays $300 to the debt and $150 to the fee, total $450.\nBut he only has $300 surplus.\n*Okay, I will ignore the feasibility of the $300 surplus vs $450 payment and focus on the calculation requested.*\n*Calculation:*\nDMP Total: $450 * 48 = $21,600.\nIndividual Total: $37,321 (calculated above).\n*Comparison:* The DMP saves money.\n*Note:* I will add a professional note that the DMP payment of $450 is the total outflow.\n\n**Structure of the Document:**\n1.  **Header:** Client Name, Date, Subject.\n2.  **Plan Overview:** DMP details (Payment, Term, Rate).\n3.  **Financial Comparison:**\n    *   DMP Total Cost.\n    *   Individual Payoff Total Cost (calculated for 48 months at 21%).\n    *   Total Savings.\n4.  **Benefits:** Credit score protection, single payment, interest reduction.\n5.  **Risks:** Non-compliance, impact on credit if missed.\n\n**Refining the \"Individual\" Calculation:**\nThe prompt says \"paying off the debts individually... over the same period\".\nThis implies calculating the payment required to pay off $25,000 in 48 months at 21%.\nPayment = $777.53.\nTotal Paid = $37,321.44.\nDMP Total Paid = $21,600.\nSavings = $15,721.44.\n\n**Refining the \"DMP\" Calculation:**\nThe prompt says \"total amount James will pay under this plan\".\nThis is $450 * 48 = $21,600.\n*Self-Correction:* I must address the fact that $21,600 < $25,000.\nI will phrase it as: \"Total payments under the DMP: $21,600.\"\nI will add a note: \"Note: This total reflects the agreed-upon payment stream. In a standard DMP, this amount would typically cover principal and interest. The discrepancy between the total payments ($21,600) and the principal ($25,000) suggests the plan",
+      "score": 1.2,
+      "dimension_scores": [
+        1,
+        1,
+        1,
+        2,
+        1
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission fails to produce a professional document, instead including extensive internal reasoning and meta-commentary (e.g., \"*Critical Discrepancy:*\", \"*Decision:*\") that should not be visible to a client. It is also incomplete, cutting off mid-sentence before the required Benefits and Risks sections are finalized. While the underlying financial calculations (DMP total vs. Individual payoff) are logically derived in the text, the final output is unusable as a formal recommendation. Domain accuracy is slightly higher as the underlying math and concepts were correctly identified, but the presentation is fundamentally flawed."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Maintain or update records of client account activity, including financial transactions, counseling session notes, correspondence, document images, or client inquiries.",
+      "task_type": "Financial Assessment and Analysis",
+      "user_prompt": "Analyze the provided financial statement for a client named 'Sarah J.' who has a monthly gross income of $3,200. She has a mortgage payment of $1,100, car payment of $350, minimum credit card payments totaling $450, and student loan payment of $200. Her average monthly utility and grocery expenses are $600. Calculate her disposable income available for a Debt Management Plan (DMP) after accounting for a 15% tax withholding rate. Present the breakdown and the final available amount.",
+      "reference_context": {
+        "client_income": 3200,
+        "tax_rate": 0.15,
+        "fixed_expenses": {
+          "mortgage": 1100,
+          "car_payment": 350,
+          "credit_cards": 450,
+          "student_loans": 200
+        },
+        "variable_expenses": {
+          "utilities_groceries": 600
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the tax calculation and subtraction of expenses yield the accurate disposable income?",
+        "Criterion 2: Completeness — Did the response clearly itemize all income and expense categories?",
+        "Criterion 3: Best practices — Is the financial advice presented in a clear, empathetic, and professional tone suitable for a client facing debt?"
+      ],
+      "student_answer": "**Financial Analysis for Sarah J.**\n\n**1. Income Calculation**\n*   **Gross Monthly Income:** $3,200.00\n*   **Tax Withholding (15%):** $480.00\n*   **Net Monthly Income:** $2,720.00\n\n**2. Expense Breakdown**\n*   **Fixed Debt Obligations:**\n    *   Mortgage: $1,100.00\n    *   Car Payment: $350.00\n    *   Credit Cards: $450.00\n    *   Student Loans: $200.00\n    *   *Subtotal Fixed:* $2,100.00\n*   **Essential Living Expenses:**\n    *   Utilities & Groceries: $600.00\n    *   *Subtotal Variable:* $600.00\n*   **Total Monthly Expenses:** $2,700.00\n\n**3. Disposable Income for Debt Management Plan (DMP)**\n*   **Net Income:** $2,720.00\n*   **Less Total Expenses:** ($2,700.00)\n*   **Available for DMP:** **$20.00**\n\n**Conclusion:**\nAfter accounting for taxes, fixed debt obligations, and essential living expenses, Sarah J. has **$20.00** available monthly to contribute toward a Debt Management Plan. This amount is insufficient to significantly reduce debt without additional income or expense reduction strategies.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "Correctness (3): Math is accurate, but the DMP budgeting logic is flawed; 'Disposable Income for DMP' should typically be Net Income minus Living Expenses (allowing the DMP to cover debt), not Net Income minus All Expenses (including debt). Completeness (3): Missed the explicit instruction to check if income covers minimum debt payments. Best Practices (3): Professional tone, but strategic advice is industry-inaccurate regarding DMP structure. Domain Accuracy (3): Misunderstands that DMP payments consolidate minimums rather than just covering surplus. Clarity (5): Excellent formatting, structure, and readability."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Negotiate with creditors on behalf of clients to arrange for payment adjustments, interest rate reductions, time extensions, or payment plans.",
+      "task_type": "Debt Restructuring Strategy",
+      "user_prompt": "A client, 'Mark T.', has a credit card balance of $12,500 with an APR of 24.99% and a minimum monthly payment of $375. He can afford a fixed monthly payment of $450. Draft a negotiation script and a proposed repayment plan to present to the creditor. The plan must propose a reduced APR of 14.99% and a term extension to 36 months. Calculate the total interest savings compared to the current terms and verify if the $450 payment clears the debt within the proposed term.",
+      "reference_context": {
+        "current_balance": 12500,
+        "current_apr": 0.2499,
+        "current_min_payment": 375,
+        "proposed_payment": 450,
+        "proposed_apr": 0.1499,
+        "proposed_term_months": 36
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Mathematical Accuracy — Are the interest calculations for both current and proposed scenarios correct using standard amortization formulas?",
+        "Criterion 2: Strategic Alignment — Does the script clearly articulate the client's ability to pay and the mutual benefit of the reduced rate?",
+        "Criterion 3: Feasibility — Does the proposed plan mathematically demonstrate the debt is fully paid off within 36 months?"
+      ],
+      "student_answer": "### Negotiation Script\n\n**Counselor:** \"Good morning/afternoon. I am calling on behalf of my client, Mark T., regarding his account ending in [Last 4 Digits]. Mark is committed to resolving this debt in full but is currently facing financial constraints that make the existing terms unsustainable.\n\nCurrently, Mark is paying $375 monthly, which barely covers the interest due to the 24.99% APR. To prevent default and ensure consistent repayment, we are proposing a structured modification to the account terms.\n\nWe are requesting a reduction of the Annual Percentage Rate (APR) from 24.99% to 14.99%. This reduction is critical to lowering the monthly interest burden and allowing the principal to be paid down more effectively. In exchange for this rate reduction, Mark has committed to a fixed monthly payment of $450.\n\nFurthermore, to align the payment schedule with his cash flow while ensuring the debt is cleared within a reasonable timeframe, we propose extending the repayment term to 36 months. This plan guarantees a higher monthly payment than the current minimum and will result in the account being paid off in full within three years.\n\nWe have calculated that this modification will result in significant interest savings for the creditor by securing a reliable payment stream and reducing the risk of default. We are ready to implement this plan immediately upon your approval. Do you have the authority to approve a rate reduction to 14.99% and a 36-month term at a $450 monthly payment?\"\n\n---\n\n### Proposed Repayment Plan & Financial Analysis\n\n**Client:** Mark T.\n**Current Balance:** $12,500.00\n\n#### 1. Current Scenario (Status Quo)\n*   **APR:** 24.99%\n*   **Monthly Payment:** $450.00\n*   **Estimated Payoff Time:** ~39 months (3 years, 3 months)\n*   **Total Interest Paid:** ~$5,050.00\n*   **Total Repayment:** ~$17,550.00\n\n#### 2. Proposed Scenario (Negotiated Terms)\n*   **APR:** 14.99%\n*   **Monthly Payment:** $450.00\n*   **Proposed Term:** 36 months\n*   **Total Interest Paid:** ~$3,700.00\n*   **Total Repayment:** ~$16,200.00\n\n#### 3. Verification of Payoff\nUsing the amortization formula for a loan of $12,500 at 14.99% APR (1.249% monthly interest) with a $450 monthly payment:\n*   **Month 1 Interest:** $12,500 × 0.01249 ≈ $156.13\n*   **Month 1 Principal:** $450 - $156.13 = $293.87\n*   **Balance Trajectory:** The balance decreases steadily. By Month 36, the remaining balance is calculated to be approximately $0.00 (specifically, the final payment would be slightly less than $450 to clear the exact balance, or the 36th payment of $450 will result in a small overpayment of ~$15 which can be refunded or applied to future fees).\n*   **Conclusion:** **Yes**, the $450 monthly payment at 14.99% APR will successfully clear the $12,500 debt within the proposed 36-month term.\n\n#### 4. Financial Impact Summary\n*   **Interest Savings:** Approximately **$1,350.00** saved over the life of the loan compared to the current 24.99% APR.\n*   **Time Savings:** The debt is cleared **3 months earlier** than the projected payoff date under current terms.\n*   **Risk Mitigation:** The plan reduces the likelihood of missed payments by lowering the interest burden, ensuring the creditor receives the full principal amount faster.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        4,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "The submission is well-structured and professional (Clarity/Best Practices/Completeness), covering all required sections including the script and financial analysis. However, Correctness and Domain Accuracy are impacted by significant calculation errors: the current payoff time at 24.99%/$450 is ~42 months (not 39), and interest savings are ~$3,500 (not $1,350). Additionally, describing the 36-month term as an 'extension' is inaccurate compared to the actual payoff timeline at current rates. These financial inaccuracies reduce the reliability of the proposal despite the strong presentation."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Advise clients on housing matters, such as housing rental, homeownership, mortgage delinquency, or foreclosure prevention.",
+      "task_type": "Housing Crisis Intervention",
+      "user_prompt": "Client 'Elena R.' is facing foreclosure on a home valued at $220,000 with an outstanding mortgage balance of $215,000. She has missed 3 payments totaling $4,200 in arrears. Her current monthly income is $2,800, and her total monthly debt obligations (including the mortgage) are $3,100. Develop a foreclosure prevention action plan that includes a proposal for a loan modification to reduce the monthly payment to $1,800. Calculate the required interest rate reduction or term extension needed to achieve this payment, assuming the arrears are capitalized into the loan balance.",
+      "reference_context": {
+        "home_value": 220000,
+        "outstanding_balance": 215000,
+        "arrears": 4200,
+        "new_total_balance": 219200,
+        "monthly_income": 2800,
+        "target_monthly_payment": 1800,
+        "current_interest_rate": 0.055,
+        "current_term_remaining_years": 25
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Financial Logic — Is the calculation for the new loan balance (capitalized arrears) and the required rate/term adjustment accurate?",
+        "Criterion 2: Compliance — Does the plan adhere to ethical guidelines regarding foreclosure prevention and consumer protection?",
+        "Criterion 3: Clarity — Is the action plan structured logically with clear steps for the client to follow?"
+      ],
+      "student_answer": "**Foreclosure Prevention Action Plan: Client Elena R.**\n\n**1. Executive Summary**\nClient Elena R. is at immediate risk of foreclosure due to a payment deficit. Her current debt-to-income (DTI) ratio is 110.7% ($3,100 obligations / $2,800 income), which is unsustainable. This plan proposes a loan modification to restructure the debt, capitalize arrears, and reduce the monthly obligation to $1,800, bringing her DTI to a manageable 64.3%.\n\n**2. Financial Restructuring Proposal**\n\n*   **Current Status:**\n    *   Outstanding Principal: $215,000\n    *   Arrears (3 missed payments): $4,200\n    *   **New Loan Balance (Capitalized):** $219,200\n    *   Current Interest Rate: 5.50%\n    *   Remaining Term: 25 years (300 months)\n\n*   **Modification Objective:**\n    *   Target Monthly Payment: $1,800\n    *   Target Debt-to-Income Ratio: 64.3%\n\n**3. Mathematical Feasibility Analysis**\n\nTo achieve a monthly payment of $1,800 on a principal balance of $219,200, we must determine the necessary interest rate or term extension.\n\n*   **Scenario A: Term Extension (Keeping 5.5% Interest)**\n    Using the standard mortgage formula $M = P \\frac{r(1+r)^n}{(1+r)^n - 1}$:\n    *   $P = 219,200$\n    *   $r = 0.055 / 12 = 0.0045833$\n    *   $M = 1,800$\n    *   Solving for $n$ (months): $n \\approx 366$ months.\n    *   **Required Term:** 366 months (30.5 years).\n    *   **Action:** Extend the loan term by approximately 5.5 years from the current 25-year remaining balance.\n\n*   **Scenario B: Interest Rate Reduction (Keeping 25-Year Term)**\n    *   $P = 219,200$\n    *   $n = 300$ months\n    *   $M = 1,800$\n    *   Solving for $r$ (monthly rate): $r \\approx 0.00404$\n    *   Annual Rate: $0.00404 \\times 12 \\approx 4.85\\%$\n    *   **Required Rate:** 4.85%\n    *   **Action:** Reduce interest rate by 0.65% (from 5.50% to 4.85%).\n\n**Recommendation:** Given current market conditions and lender guidelines, a **Term Extension to 30 years** is the most viable path to achieve the $1,800 target without requiring a significant rate reduction that may not be available. If a rate reduction is possible, a combination of a 28-year term and a 5.1% rate would also suffice.\n\n**4. Implementation Steps**\n\n1.  **Hardship Letter Submission:** Submit a formal letter detailing the loss of income or increased expenses leading to the 3 missed payments, emphasizing the client's willingness to resume payments immediately upon modification.\n2.  **Loan Modification Application:** File Form 1003 (Uniform Residential Loan Application) or the lender's specific modification package, including:\n    *   Proof of income (pay stubs for last 3 months).\n    *   Bank statements (last 2 months).\n    *   Tax returns (last 2 years).\n    *   Hardship affidavit.\n3.  **Negotiation Strategy:**\n    *   Propose capitalizing the $4,200 arrears into the principal balance.\n    *   Request a term extension to 30 years (from the current 25-year remaining) to lower the amortization pressure.\n    *   If the lender refuses the term extension, request a rate reduction to 4.85% to maintain the 25-year payoff schedule.\n4.  **Interim Payment Plan:** While the modification is under review, negotiate a \"Forbearance Agreement\" to pause foreclosure proceedings for 60 days, allowing time for the modification approval.\n\n**5. Projected Outcome**\n\nUpon successful modification:\n*   **New Monthly Payment:** $1,800\n*   **New Total Debt:** $219,200\n*   **New DTI Ratio:** 64.3% (Down from 110.7%)\n*   **Foreclosure Status:** Suspended pending modification approval.\n\n**6. Next Immediate Actions for Client**\n*   Contact the loan servicer within 24 hours to request a \"Loss Mitigation\" application.\n*   Gather all financial documentation listed in Step 4.\n*   Do not stop paying the $1,800 (once approved) or any agreed-upon interim amount to maintain good faith.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The submission demonstrates strong structural clarity and correctly applies amortization formulas for the term/rate calculations (Clarity 5, Completeness 4). However, it contains significant financial logic errors: it calculates the new DTI (64.3%) assuming the modified mortgage payment ($1,800) replaces the total debt obligations ($3,100), ignoring other existing debts. This is a fundamental Domain Accuracy and Correctness flaw (Score 3). Additionally, it fails to account for tax withholding or net income analysis as required by the Additional Checks, further impacting Best Practices and Domain Accuracy (Score 3)."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Create action plans to assist clients in obtaining permanent housing via rent or mortgage programs.",
+      "task_type": "Housing Assistance Planning",
+      "user_prompt": "Client 'David L.' is currently homeless and seeking permanent housing. He has a monthly income of $1,400 from disability benefits. He needs to secure a rental unit with a security deposit of $1,200 and first month's rent of $900. His monthly rent budget is capped at 30% of his gross income. Identify the gap in his immediate funds and propose a 3-month action plan to bridge this gap using a combination of emergency rental assistance (assuming 50% coverage of the gap) and a micro-savings strategy. Calculate the monthly savings required from his disposable income to meet the goal.",
+      "reference_context": {
+        "monthly_income": 1400,
+        "security_deposit": 1200,
+        "first_month_rent": 900,
+        "total_initial_cost": 2100,
+        "rent_benefit_ratio": 0.3,
+        "assistance_coverage": 0.5,
+        "action_plan_duration_months": 3
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Budget Accuracy — Is the 30% rent cap correctly applied to determine his maximum affordable rent?",
+        "Criterion 2: Gap Analysis — Is the funding gap calculated correctly after applying the 50% assistance assumption?",
+        "Criterion 3: Actionability — Is the 3-month savings plan realistic given his income and expenses?"
+      ],
+      "student_answer": "### Financial Gap Analysis\n\n**1. Immediate Funding Requirements**\n*   **Total Initial Cost:** $2,100 ($1,200 Security Deposit + $900 First Month's Rent)\n*   **Maximum Affordable Monthly Rent:** $420 (30% of $1,400 income)\n*   **Rent Shortfall:** $480 ($900 Required - $420 Affordable)\n*   **Total Funding Gap:** $2,100 (Total Cost) - $420 (First Month's Affordable Rent) = **$1,680**\n    *   *Note: The $420 represents the portion of the first month's rent David can pay immediately from his current income. The remaining $1,680 must be covered by assistance and savings.*\n\n**2. Emergency Rental Assistance Projection**\n*   **Assistance Coverage:** 50% of the Total Funding Gap ($1,680)\n*   **Assistance Amount:** **$840**\n\n**3. Remaining Balance to be Covered by Savings**\n*   **Total Gap:** $1,680\n*   **Less Assistance:** $840\n*   **Savings Required:** **$840**\n\n---\n\n### 3-Month Action Plan\n\n**Objective:** Secure $840 in savings over 3 months to cover the remaining housing costs after assistance is applied.\n\n**Monthly Savings Target Calculation:**\n*   **Total Savings Goal:** $840\n*   **Duration:** 3 Months\n*   **Monthly Savings Required:** $840 ÷ 3 = **$280 per month**\n\n**Implementation Strategy:**\n\n1.  **Budget Adjustment (Immediate):**\n    *   David must reduce non-essential discretionary spending to free up **$280** monthly.\n    *   *Current Disposable Income Calculation:* $1,400 (Income) - $420 (Allocated Rent) = $980.\n    *   *Action:* Allocate $280 of the remaining $980 strictly to a dedicated \"Housing Fund\" savings account.\n\n2.  **Month 1: Application & Initial Savings**\n    *   **Action:** Submit applications for Emergency Rental Assistance (ERA) programs immediately, citing the $1,680 gap.\n    *   **Savings:** Deposit $280 into the Housing Fund.\n    *   **Status:** $280 saved; Assistance application pending.\n\n3.  **Month 2: Continued Savings & Follow-up**\n    *   **Action:** Follow up on assistance application status. If approved, confirm the $840 disbursement timeline.\n    *   **Savings:** Deposit $280 into the Housing Fund.\n    *   **Status:** $560 saved; Assistance funds expected soon.\n\n4.  **Month 3: Final Savings & Lease Signing**\n    *   **Action:** Deposit final $280. Coordinate with landlord to apply the $840 assistance grant + $840 personal savings + $420 current income toward the $2,100 total cost.\n    *   **Savings:** Deposit $280 into the Housing Fund.\n    *   **Status:** **$840 saved.** Total funds available: $2,100 ($840 Savings + $840 Assistance + $420 Income).\n\n**Conclusion:**\nDavid L. must save **$280 per month** for three months. Combined with a 50% emergency rental assistance grant ($840) and his immediate monthly income ($420), this plan will fully cover the $2,100 required to secure permanent housing.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        2,
+        3,
+        5
+      ],
+      "score": 3.2,
+      "grade_reason": "Correctness (3): Gap calculation conflates monthly rent budget with upfront cash availability ($2,100 - $420 vs $2,100 - $0). Completeness (3): Failed to address Additional Checks regarding tax withholding and debt assessment. Best Practices (2): Lacks standard financial planning due diligence (debt/tax) required for compliance. Domain Accuracy (3): Terminology is correct but application of financial concepts is imprecise. Clarity (5): Well-structured and easy to follow."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Advise clients or respond to inquiries about financial matters in person or via phone, email, Web site, or Internet chat.",
+      "task_type": "Client Consultation and Education",
+      "user_prompt": "A client inquires about the difference between a Debt Management Plan (DMP) and a Debt Settlement program. The client has $15,000 in unsecured debt, a credit score of 580, and a monthly surplus of $300. Provide a comprehensive advisory response comparing the two options. Include a projection of the total cost (fees + interest) for a DMP (assuming 0% interest reduction and 5% admin fee) versus a Settlement program (assuming 40% debt reduction but 20% tax liability on forgiven debt and 3 years of credit score damage). Recommend the best path based on ethical standards and long-term financial health.",
+      "reference_context": {
+        "total_debt": 15000,
+        "credit_score": 580,
+        "monthly_surplus": 300,
+        "dmp_admin_fee_rate": 0.05,
+        "dmp_interest_reduction": 0.0,
+        "settlement_reduction_rate": 0.4,
+        "settlement_tax_rate": 0.2,
+        "settlement_duration_years": 3
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Comparative Analysis — Are the cost projections for both DMP and Settlement calculated accurately including tax implications?",
+        "Criterion 2: Ethical Compliance — Does the recommendation prioritize consumer protection and avoid predatory advice?",
+        "Criterion 3: Communication — Is the explanation clear, jargon-free, and suitable for a client with a credit score of 580?"
+      ],
+      "student_answer": "**Advisory Response: Debt Management Plan (DMP) vs. Debt Settlement**\n\n**1. Financial Projection Analysis**\n\nBased on your current financial profile ($15,000 unsecured debt, $300 monthly surplus, 580 credit score), here is the comparative cost analysis:\n\n**Option A: Debt Management Plan (DMP)**\n*   **Structure:** You pay the full principal amount through a non-profit credit counseling agency.\n*   **Duration:** $15,000 ÷ $300/month = **50 months (approx. 4 years, 2 months)**.\n*   **Interest:** $0 (Based on your 0% reduction assumption).\n*   **Fees:** 5% of total debt = $15,000 × 0.05 = **$750**.\n*   **Total Cost:** $15,000 (Principal) + $750 (Fees) = **$15,750**.\n*   **Tax Impact:** $0 (Debt is paid in full; no forgiven amount).\n*   **Credit Impact:** Accounts are reported as \"current\" or \"paid as agreed.\" Your score may stabilize or improve gradually as on-time payments are reported.\n\n**Option B: Debt Settlement Program**\n*   **Structure:** You stop paying creditors and save funds in a dedicated account until a lump-sum settlement can be negotiated.\n*   **Debt Reduction:** 40% reduction on $15,000 = $6,000 forgiven.\n*   **Settlement Amount:** $15,000 - $6,000 = **$9,000** (to be paid over 3 years).\n*   **Fees:** Typically 15-25% of enrolled debt (Industry standard). *Note: Your prompt did not specify a settlement fee rate, so we will calculate based on the tax liability and opportunity cost of the principal reduction.*\n*   **Tax Liability:** The IRS treats forgiven debt as income.\n    *   Taxable Amount: $6,000.\n    *   Tax Due (20%): $6,000 × 0.20 = **$1,200**.\n*   **Total Cash Outlay:** $9,000 (Settlement) + $1,200 (Taxes) = **$10,200**.\n*   **Credit Impact:** Accounts will be reported as \"delinquent\" or \"settled for less than full amount\" for the duration of the 3-year program. This will likely drop your score further (potentially below 500) and remain on your report for 7 years from the date of first delinquency.\n\n**2. Comparative Summary**\n\n| Metric | Debt Management Plan (DMP) | Debt Settlement |\n| :--- | :--- | :--- |\n| **Total Cash Paid** | $15,750 | ~$10,200 (excluding potential penalty fees) |\n| **Debt Resolution** | 100% Paid | 60% Paid (40% Forgiven) |\n| **Credit Score Trajectory** | Gradual Recovery | Significant Damage (3+ years) |\n| **Tax Consequences** | None | $1,200 Liability |\n| **Risk Profile** | Low | High (Creditor lawsuits, credit damage) |\n\n**3. Professional Recommendation**\n\n**Recommended Path: Debt Management Plan (DMP)**\n\nAs a Credit Counselor, I strongly recommend the **Debt Management Plan** over debt settlement for your specific situation.\n\n**Rationale:**\n1.  **Long-Term Financial Health:** While debt settlement appears cheaper upfront ($10,200 vs. $15,750), the \"savings\" are offset by the $1,200 tax bill and the severe, long-term damage to your creditworthiness. A 580 credit score is already in the \"poor\" range; allowing it to deteriorate further will make securing housing, employment, or future financing significantly more difficult and expensive.\n2.  **Ethical Standards:** Debt settlement requires you to stop paying creditors, which violates the ethical obligation to honor financial contracts and exposes you to potential lawsuits and collection harassment. A DMP is a structured, legal agreement that prioritizes full repayment.\n3.  **Feasibility:** With a $300 monthly surplus, you can comfortably afford the DMP. The 5% administrative fee is a reasonable cost for professional management and the certainty of becoming debt-free without tax liabilities.\n\n**Next Steps:**\nWe will proceed with a DMP application. This will consolidate your $15,000 into a single monthly payment of $300 (plus the prorated admin fee) over approximately 4 years, ensuring you pay off your debt in full while protecting your future credit standing.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is well-structured and financially accurate based on the provided constraints. Correctness and Completeness receive a 4 due to a minor omission: the student states the client can afford the DMP but does not explicitly verify if the $300 surplus covers the minimum creditor payments versus the DMP payment structure, which was a specific instruction in the additional checks. Best Practices is a 4 because while the recommendation is ethical, a senior advisor would explicitly flag the missing settlement fee variable as a significant risk factor in the comparison. Domain Accuracy and Clarity are 5s as terminology is precise and the layout is professional."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Review changes to financial, family, or employment situations to determine whether changes to existing debt management plans, spending plans, or budgets are needed.",
+      "task_type": "Financial Assessment and Analysis",
+      "user_prompt": "Analyze the provided financial statement for a client named 'Sarah J.' who has a monthly gross income of $3,200. She has a mortgage payment of $1,100, car payment of $350, minimum credit card payments totaling $450, and student loan payment of $200. Her average monthly utility and grocery expenses are $600. Calculate her disposable income available for a Debt Management Plan (DMP) after accounting for a 15% tax withholding rate. Present the breakdown and the final available amount.",
+      "reference_context": {
+        "client_income": 3200,
+        "tax_rate": 0.15,
+        "fixed_expenses": {
+          "mortgage": 1100,
+          "car_payment": 350,
+          "credit_cards": 450,
+          "student_loans": 200
+        },
+        "variable_expenses": {
+          "utilities_groceries": 600
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the tax calculation and subtraction of expenses yield the accurate disposable income?",
+        "Criterion 2: Completeness — Did the response clearly itemize all income and expense categories?",
+        "Criterion 3: Best practices — Is the financial advice presented in a clear, empathetic, and professional tone suitable for a client facing debt?"
+      ],
+      "student_answer": "**Financial Analysis for Sarah J.**\n\n**1. Income Calculation**\n*   **Gross Monthly Income:** $3,200.00\n*   **Tax Withholding (15%):** $480.00\n*   **Net Monthly Income:** $2,720.00\n\n**2. Expense Breakdown**\n*   **Fixed Obligations:**\n    *   Mortgage: $1,100.00\n    *   Car Payment: $350.00\n    *   Credit Cards: $450.00\n    *   Student Loans: $200.00\n    *   *Subtotal Fixed:* $2,100.00\n*   **Variable Living Expenses:**\n    *   Utilities & Groceries: $600.00\n    *   *Subtotal Variable:* $600.00\n*   **Total Monthly Expenses:** $2,700.00\n\n**3. Disposable Income for Debt Management Plan (DMP)**\n*   **Net Income:** $2,720.00\n*   **Less Total Expenses:** ($2,700.00)\n*   **Available for DMP:** **$20.00**\n\n**Conclusion:**\nAfter accounting for taxes and all listed expenses, Sarah J. has **$20.00** available monthly to contribute toward a Debt Management Plan. This amount is insufficient to significantly reduce debt balances without adjusting the budget or increasing income.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission is mathematically accurate, correctly applying the 15% tax to gross income and summing all specified expenses to find the $20 surplus. It fully addresses the prompt's requirements for breakdown and final amount with excellent clarity and professional formatting. Domain terminology is used correctly. However, Best Practices receives a 4 because a truly exceptional submission would clarify that a DMP payment typically consolidates the debt obligations ($650) plus the surplus ($20), rather than implying the $20 is the sole contribution, to prevent client confusion about the total monthly plan payment."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Recommend educational materials or resources to clients on matters, such as financial planning, budgeting, or credit.",
+      "task_type": "Resource Recommendation and Strategy",
+      "user_prompt": "A client, 'David M.', has a credit score of 580, $12,000 in credit card debt, and no emergency savings. He earns $2,800/month and spends $2,400 on essentials. Draft a personalized resource recommendation plan that includes three specific educational topics he should prioritize, one reputable external organization for financial literacy, and a brief explanation of why these resources address his specific gap in emergency savings and credit health.",
+      "reference_context": {
+        "client_name": "David M.",
+        "credit_score": 580,
+        "total_debt": 12000,
+        "monthly_income": 2800,
+        "monthly_essentials": 2400,
+        "emergency_savings": 0
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Relevance — Are the recommended resources specifically tailored to low credit scores and lack of emergency savings?",
+        "Criterion 2: Actionability — Does the plan provide clear, immediate steps David can take?",
+        "Criterion 3: Compliance — Do the recommendations adhere to ethical guidelines and avoid predatory lending suggestions?"
+      ],
+      "student_answer": "**Personalized Resource Recommendation Plan for David M.**\n\n**1. Priority Educational Topics**\n*   **Debt Management Strategies (Snowball vs. Avalanche):** Learn how to prioritize high-interest credit card balances to reduce total interest paid and accelerate debt payoff, directly addressing the $12,000 liability.\n*   **Budgeting for Cash Flow Optimization:** Master techniques to identify and eliminate non-essential spending to convert the current $400 monthly surplus into a dedicated savings and debt repayment fund.\n*   **Credit Score Fundamentals:** Understand the specific factors influencing a 580 score (payment history, utilization ratios) and actionable steps to improve it through consistent on-time payments and lowering credit utilization.\n\n**2. Recommended External Organization**\n*   **National Foundation for Credit Counseling (NFCC)**\n    *   *Why:* As a non-profit organization accredited by the Council on Accreditation, the NFCC provides free or low-cost certified credit counseling and financial education resources tailored to individuals with high debt and low credit scores.\n\n**3. Strategic Rationale**\nThese resources directly address David's critical gaps by first stabilizing his cash flow through budgeting education, which is the prerequisite for building an emergency fund from his $400 monthly surplus. Simultaneously, the debt management and credit score modules provide a roadmap to reduce the $12,000 liability and improve his 580 score, preventing future reliance on high-interest credit while establishing a safety net to avoid new debt when unexpected expenses arise.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "The submission meets all explicit task requirements (3 topics, 1 org, rationale) and is well-structured (Clarity 5). However, it fails to verify if the $2,800 income is gross or net, ignoring tax withholding implications which is a compliance gap (Best Practices 3, Domain Accuracy 3). The surplus calculation assumes net income without confirmation, a notable omission in professional financial planning (Correctness 4, Completeness 4)."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Refer clients to social service or community resources for needs beyond those of credit or debt counseling.",
+      "task_type": "Social Service Referral",
+      "user_prompt": "Client 'Elena R.' is a single mother of two with a monthly income of $1,900. She is behind on rent by $800 and has recently lost her job. Her debt counseling needs are secondary to immediate housing stability. Identify three specific types of community resources or social services Elena should be referred to immediately, and draft a brief referral script explaining why these services are critical for her current situation.",
+      "reference_context": {
+        "client_name": "Elena R.",
+        "monthly_income": 1900,
+        "rent_arrears": 800,
+        "employment_status": "Unemployed",
+        "dependents": 2,
+        "primary_need": "Housing Stability"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Appropriateness — Are the referrals focused on immediate social needs (housing, food, unemployment) rather than just debt?",
+        "Criterion 2: Clarity — Is the referral script clear and supportive?",
+        "Criterion 3: Scope — Does the response correctly identify needs that are beyond the scope of standard credit counseling?"
+      ],
+      "student_answer": "### Immediate Referrals for Elena R.\n\n1.  **Local Emergency Rental Assistance Program (ERAP)**\n    *   **Purpose:** To provide immediate funds to cover the $800 arrears and potentially secure the next month's rent, preventing eviction and stabilizing her housing situation.\n2.  **Temporary Assistance for Needy Families (TANF) or State Emergency Assistance**\n    *   **Purpose:** To provide immediate cash assistance for basic living expenses (food, utilities) while she is unemployed, ensuring her family's survival needs are met before debt counseling can be addressed.\n3.  **Workforce Development Center / Unemployment Benefits Office**\n    *   **Purpose:** To facilitate immediate filing for unemployment insurance to replace lost income and connect Elena with job placement services, rapid re-employment training, and resume workshops.\n\n***\n\n### Referral Script\n\n\"Ms. R., given your current situation as a single mother with two dependents and a temporary loss of income, our primary focus right now is securing your family's immediate safety and housing. We are prioritizing three critical resources for you today:\n\nFirst, we are connecting you immediately with the **Emergency Rental Assistance Program**. This is essential to address your $800 rent arrears and stop any eviction proceedings, ensuring your children have a stable home.\n\nSecond, we are referring you to **State Emergency Assistance (TANF)**. Since you are currently unemployed, this program will provide immediate cash support for food and utilities, bridging the gap until your income is restored.\n\nFinally, we are directing you to the **Workforce Development Center** to file for unemployment benefits and begin job placement services. Securing new employment is the fastest path to long-term stability.\n\nOnce your housing is secured and your immediate financial needs are met, we can revisit your debt counseling plan. For now, let's get these referrals processed so you can access these funds today.\"",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission correctly identifies three appropriate resources and drafts a professional script prioritizing housing stability as required. Correctness, Completeness, Domain Accuracy, and Clarity are exceptional (5). Best Practices receives a 4 due to minor passivity in the script ('connecting you' vs 'facilitating now') and a slight risk in promising 'immediate' cash for TANF without clarifying potential processing delays, though the inclusion of State Emergency Assistance mitigates this. The submission correctly focused on the assigned referral task rather than unrequested financial calculations, adhering to the task scope."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Explain loan information to clients, such as available loan types, eligibility requirements, or loan restrictions.",
+      "task_type": "Loan Education and Eligibility Analysis",
+      "user_prompt": "Client 'Marcus T.' has a gross monthly income of $4,500, a credit score of 720, and a current debt-to-income (DTI) ratio of 35%. He is interested in a personal loan to consolidate $15,000 in high-interest debt. Explain the eligibility requirements for a standard unsecured personal loan versus a secured loan in the current market environment (assume average APR for unsecured is 12% and secured is 6%). Calculate his maximum recommended loan amount based on a conservative 36% DTI cap and determine if he qualifies for the consolidation amount.",
+      "reference_context": {
+        "client_name": "Marcus T.",
+        "monthly_income": 4500,
+        "credit_score": 720,
+        "current_dti": 0.35,
+        "consolidation_amount": 15000,
+        "unsecured_apr": 0.12,
+        "secured_apr": 0.06,
+        "dti_cap": 0.36
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Accuracy — Are the DTI calculations and loan qualification logic mathematically correct?",
+        "Criterion 2: Comparison — Does the response clearly distinguish between unsecured and secured loan terms?",
+        "Criterion 3: Compliance — Does the explanation adhere to consumer protection laws regarding loan disclosures?"
+      ],
+      "student_answer": "**Loan Eligibility Analysis for Marcus T.**\n\n**1. Eligibility Requirements: Unsecured vs. Secured Loans**\n\n*   **Standard Unsecured Personal Loan:**\n    *   **Credit Profile:** Typically requires a credit score of 670 or higher. Marcus’s score of 720 places him in the \"Good\" to \"Very Good\" tier, making him highly eligible.\n    *   **Income Stability:** Lenders generally require proof of steady income sufficient to cover the new monthly payment.\n    *   **Debt-to-Income (DTI):** Most lenders prefer a DTI below 36% to 43%. Marcus is currently at 35%, which is within the acceptable range for approval, though adding new debt will push this ratio higher.\n    *   **Collateral:** None required. Approval is based solely on creditworthiness and income.\n    *   **Cost:** Higher interest rates (current average 12%) due to the lack of collateral and higher risk to the lender.\n\n*   **Secured Personal Loan:**\n    *   **Credit Profile:** Often available to borrowers with lower credit scores (580–660), though Marcus’s 720 score ensures top-tier rates.\n    *   **Collateral:** Requires an asset (e.g., savings account, vehicle, or certificate of deposit) to secure the loan.\n    *   **DTI:** Lenders may be slightly more flexible with DTI ratios because the collateral reduces their risk.\n    *   **Cost:** Significantly lower interest rates (current average 6%) due to the reduced risk profile.\n\n**2. Maximum Recommended Loan Amount Calculation**\n\nTo determine the maximum recommended loan amount, we apply the conservative 36% DTI cap to Marcus's gross monthly income.\n\n*   **Gross Monthly Income:** $4,500\n*   **Maximum Allowable Total Monthly Debt Payment:** $4,500 × 0.36 = **$1,620**\n*   **Current Monthly Debt Payment:** $4,500 × 0.35 = **$1,575**\n*   **Available Monthly Budget for New Loan:** $1,620 - $1,575 = **$45**\n\n*Note: A $45 monthly payment is insufficient to service a $15,000 loan at either interest rate.*\n\n**Re-evaluating based on Total Debt Capacity:**\nIf the goal is to consolidate the $15,000 while staying *at* the 36% cap, we must calculate the maximum loan principal that results in a total monthly payment of $1,620.\n\n*   **Target Total Monthly Payment:** $1,620\n*   **Current Monthly Debt:** $1,575\n*   **Remaining Capacity for Consolidation Payment:** $45\n\n**Scenario A: Unsecured Loan (12% APR)**\n*   Term: 60 months (Standard)\n*   Monthly Payment Formula: $P = \\frac{r(PV)}{1-(1+r)^{-n}}$\n*   Solving for Principal (PV) with Payment = $45, Rate = 1% (0.12/12), Months = 60:\n    *   $PV \\approx \\$2,350$\n*   *Result:* He can only afford a **$2,350** unsecured loan under a strict 36% DTI cap.\n\n**Scenario B: Secured Loan (6% APR)**\n*   Term: 60 months\n*   Solving for Principal (PV) with Payment = $45, Rate = 0.5% (0.06/12), Months = 60:\n    *   $PV \\approx \\$2,470$\n*   *Result:* He can only afford a **$2,470** secured loan under a strict 36% DTI cap.\n\n**3. Qualification Assessment for $15,000 Consolidation**\n\n*   **Current Status:** Marcus qualifies for the *type* of loan (both unsecured and secured) based on his credit score (720) and current DTI (35%).\n*   **Consolidation Feasibility:** **No.**\n    *   Adding a $15,000 loan to his current debt load would increase his monthly payment significantly.\n    *   **New Monthly Payment (Unsecured, 12%, 60mo):** ~$333\n    *   **New Total Monthly Debt:** $1,575 (current) + $333 (new) = $1,908\n    *   **New DTI:** $1,908 / $4,500 = **42.4%**\n    *   **New Monthly Payment (Secured, 6%, 60mo):** ~$290\n    *   **New Total Monthly Debt:** $1,575 (current) + $290 (new) = $1,865\n    *   **New DTI:** $1,865 / $4,500 = **41.4%**\n\n**Conclusion:**\nWhile Marcus T. has excellent credit, he **does not qualify** for a $15,000 consolidation loan under a conservative 36% DTI cap. The proposed loan would push his DTI to approximately 41–42%, exceeding the recommended threshold. To proceed with this consolidation, he would need to either:\n1.  Reduce existing debt to lower his current monthly obligations.\n2.  Extend the loan term (e.g., 72 or 84 months) to lower the monthly payment, though this increases total interest paid.\n3.  Seek a lender with a higher DTI tolerance (up to 43-50%), though this may come with higher rates or stricter scrutiny.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        4,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "The submission is exceptionally clear and well-structured (Clarity 5), addressing all task components including eligibility, calculation, and qualification assessment (Completeness 4). Professional tone and strategic recommendations are sound (Best Practices 4). However, there is a significant calculation error in the maximum loan principal derivation based on the $45 budget ($2,350 vs actual ~$2,023), which impacts Correctness (3) and Domain Accuracy (3). Despite the arithmetic error, the strategic conclusion regarding the $15,000 consolidation remains valid."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Teach courses or seminars on topics, such as budgeting, management of personal finances, or financial literacy.",
+      "task_type": "Curriculum Development and Instruction",
+      "user_prompt": "Develop a 45-minute seminar outline for a group of 15 young adults (ages 22-28) who are new to the workforce. The seminar must cover 'The Mechanics of Compound Interest' and 'Building a Zero-Based Budget.' Include three interactive activities for the group, a list of key learning objectives, and a sample 30-minute budgeting exercise using a hypothetical $3,000 monthly income.",
+      "reference_context": {
+        "target_audience": "Young Adults (22-28)",
+        "seminar_duration": 45,
+        "group_size": 15,
+        "topics": [
+          "Compound Interest",
+          "Zero-Based Budgeting"
+        ],
+        "hypothetical_income": 3000
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Structure — Is the seminar outline logical and time-appropriate for the 45-minute limit?",
+        "Criterion 2: Engagement — Do the interactive activities effectively reinforce the learning objectives?",
+        "Criterion 3: Educational Value — Is the content accurate, accessible, and aligned with financial literacy best practices?"
+      ],
+      "student_answer": "# Seminar Title: Financial Foundations: Mastering Compound Interest & Zero-Based Budgeting\n**Target Audience:** Young Adults (Ages 22–28)\n**Duration:** 45 Minutes\n**Group Size:** 15 Participants\n\n---\n\n## I. Key Learning Objectives\nBy the end of this session, participants will be able to:\n1.  **Explain** the mechanics of compound interest and demonstrate how time and consistency impact long-term wealth accumulation.\n2.  **Define** a zero-based budget and articulate the principle that every dollar must have a specific job before the month begins.\n3.  **Construct** a functional zero-based budget for a $3,000 monthly income, allocating funds across needs, wants, savings, and debt repayment.\n4.  **Apply** interactive budgeting strategies to identify and eliminate unnecessary expenses.\n\n---\n\n## II. Seminar Outline (45 Minutes)\n\n### **0:00 – 0:05 | Introduction & The \"Why\" (5 Minutes)**\n*   **Welcome & Icebreaker:** Quick round of names and one financial goal for the next year.\n*   **Context Setting:** Briefly discuss the unique financial challenges of the 22–28 age bracket (entry-level salaries, student loans, rising cost of living).\n*   **Overview:** Introduce the two pillars of the session: Compound Interest (growing wealth) and Zero-Based Budgeting (controlling cash flow).\n\n### **0:05 – 0:20 | Module 1: The Mechanics of Compound Interest (15 Minutes)**\n*   **Concept Delivery:**\n    *   Definition: \"Interest on interest.\"\n    *   The Power of Time: Visualizing the exponential curve vs. linear growth.\n    *   The \"Rule of 72\": A quick mental math trick to estimate doubling time.\n*   **Interactive Activity 1: The Time Machine Challenge (5 Minutes)**\n    *   *Setup:* Divide the group into pairs.\n    *   *Task:* Provide two scenarios:\n        *   **Scenario A:** Invest $100/month starting at age 23, stop at age 33, let it grow until 65.\n        *   **Scenario B:** Invest $100/month starting at age 33, continue until 65.\n    *   *Action:* Participants calculate (using a provided simplified table or calculator) the final totals.\n    *   *Debrief:* Reveal the massive disparity in final wealth despite Scenario A investing for only 10 years. Emphasize that starting early is more powerful than investing more later.\n\n### **0:20 – 0:35 | Module 2: Building a Zero-Based Budget (15 Minutes)**\n*   **Concept Delivery:**\n    *   Definition: Income minus Expenses equals $0 (not $0 left over).\n    *   The 50/30/20 Rule as a starting framework (Needs/Wants/Savings).\n    *   The \"Job\" Concept: Assigning every dollar a specific purpose (e.g., Rent, Groceries, Emergency Fund, Student Loan).\n*   **Interactive Activity 2: The \"Leak\" Hunt (5 Minutes)**\n    *   *Setup:* Hand out a \"Leaky Bucket\" worksheet showing a hypothetical monthly expense list with hidden small costs (e.g., unused subscriptions, daily coffee, impulse buys).\n    *   *Task:* In small groups of 3, identify 5 \"leaks\" that could be redirected to savings.\n    *   *Debrief:* Groups share their top \"leak\" and calculate the annual savings potential if that leak were plugged.\n\n### **0:35 – 0:45 | Module 3: Practical Application & Closing (10 Minutes)**\n*   **Sample Exercise Walkthrough:** Detailed breakdown of the $3,000 budget (see Section III below).\n*   **Interactive Activity 3: The \"Budget Builder\" Sprint (5 Minutes)**\n    *   *Setup:* Participants receive a blank budget template and a list of 10 common expenses for a 22–28-year-old.\n    *   *Task:* Individually allocate the $3,000 income to ensure the budget balances to $0.\n    *   *Review:* Facilitator highlights common allocation errors and corrects them on the board.\n*   **Q&A and Call to Action:**\n    *   Final question: \"What is one change you will make to your finances this week?\"\n    *   Distribute a one-page \"Zero-Based Budget Starter Kit\" handout.\n\n---\n\n## III. Sample 30-Minute Budgeting Exercise\n**Scenario:** A 24-year-old professional earning **$3,000/month** (Net/After-Tax).\n**Goal:** Create a Zero-Based Budget where Income - Expenses = $0.\n\n### **Step 1: Fixed Needs (50% Target: $1,500)**\n*   **Rent/Utilities:** $1,200 (Shared apartment, includes internet).\n*   **Transportation:** $200 (Car payment + Gas + Insurance).\n*   **Minimum Debt Payments:** $100 (Student loan minimum).\n*   **Subtotal:** $1,500.\n\n### **Step 2: Variable Needs & Wants (30% Target: $900)**\n*   **Groceries:** $400 (Cooking at home).\n*   **Dining Out/Entertainment:** $250 (Socializing, occasional takeout).\n*   **Personal Care/Clothing:** $150.\n*   **Miscellaneous:** $100 (Buffer for unexpected small costs).\n*   **Subtotal:** $900.\n\n### **Step 3: Financial Goals & Savings (20% Target: $600)**\n*   **Emergency Fund:** $300 (Building a 3-month buffer).\n*   **Retirement (Roth IRA):** $200 (Long-term growth).\n*   **Short-term Goal:** $100 (Saving for a vacation or new laptop).\n*   **Subtotal:** $600.\n\n### **Step 4: The Zero-Balance Check**\n*   **Total Income:** $3,000\n*   **Total Expenses:** $1,500 (Needs) + $900 (Wants) + $600 (Savings) = **$3,000**\n*   **Remaining Balance:** **$0**\n\n### **Facilitator Notes for the Exercise:**\n1.  **Flexibility:** Remind participants that if Rent is higher ($1,400), they must reduce \"Dining Out\" or \"Miscellaneous\" to keep the balance at zero.\n2.  **Prioritization:** If the Emergency Fund is the priority, the \"Short-term Goal\" can be temporarily reduced to $0.\n3.  **The \"Job\" Concept:** Ask participants to verbally assign a \"job\" to the $100 Miscellaneous fund (e.g., \"This dollar is the job of covering a $100 car repair\"). If it has no job, it is wasted.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "Correctness (3): The seminar outline allocates 10 minutes to the 'Sample 30-Minute Budgeting Exercise', creating a logical contradiction between the exercise's labeled duration and the allocated time slot. Completeness (4): All required sections (objectives, outline, activities, exercise) are present, but the timeline inconsistency affects the plan's feasibility. Best Practices (4): Good structure and engagement, though conflating the 50/30/20 rule with Zero-Based Budgeting is a minor pedagogical simplification. Domain Accuracy (5): Financial concepts (compound interest, zero-based budgeting) and calculations are accurate; using Net income is appropriate for budgeting. Clarity (5): The document is well-structured, professional, and easy to follow."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Conduct research to help clients avoid repossessions or foreclosures or remove levies or wage garnishments.",
+      "task_type": "Foreclosure Prevention Strategy",
+      "user_prompt": "Client 'Michael T.' is facing imminent foreclosure on a property with a current mortgage balance of $245,000. He has missed 3 consecutive payments of $1,850 each. His current monthly income is $4,200, and his total monthly debt obligations (excluding the mortgage) are $1,100. Essential living expenses are estimated at $1,400. Research and propose a structured repayment plan to bring the account current within 4 months, including a calculation of the required monthly surplus needed to cover the arrears and the current month's payment. Assume a 30-year fixed mortgage at 6.5% interest for the current payment calculation if not provided, but use the provided missed payment amount for arrears. Ensure the plan adheres to ethical debt management standards.",
+      "reference_context": {
+        "client_name": "Michael T.",
+        "mortgage_balance": 245000,
+        "missed_payments_count": 3,
+        "missed_payment_amount": 1850,
+        "monthly_income": 4200,
+        "other_debt_obligations": 1100,
+        "essential_living_expenses": 1400,
+        "target_recovery_months": 4
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Accuracy — Does the calculation of total arrears (3 * $1,850) plus the current month's payment yield the correct total catch-up amount?",
+        "Criterion 2: Feasibility — Is the proposed monthly surplus derived from (Income - Other Debt - Living Expenses) sufficient to cover the catch-up amount over the 4-month period?",
+        "Criterion 3: Compliance — Does the response explicitly state that the plan is a proposal subject to lender approval and avoids guaranteeing specific outcomes?"
+      ],
+      "student_answer": "**Structured Repayment Plan for Michael T.**\n\n**1. Financial Gap Analysis**\n*   **Total Arrears (Missed Payments):** $5,550 ($1,850 × 3)\n*   **Current Month's Obligation:** $1,850\n*   **Total Amount Required to Bring Account Current:** $7,400\n*   **Recovery Period:** 4 Months\n*   **Required Monthly Surplus for Arrears:** $1,850 ($7,400 ÷ 4)\n\n**2. Cash Flow Assessment**\n*   **Total Monthly Income:** $4,200\n*   **Less: Other Debt Obligations:** ($1,100)\n*   **Less: Essential Living Expenses:** ($1,400)\n*   **Less: Current Month's Mortgage Payment:** ($1,850)\n*   **Less: Required Arrears Repayment Portion:** ($1,850)\n*   **Net Monthly Surplus/Deficit:** **($1,000)**\n\n**3. Ethical Debt Management Recommendation**\nBased on the current cash flow, Michael T. cannot bring the account current within 4 months while maintaining essential living expenses and meeting other debt obligations. A standard repayment plan is mathematically unfeasible under current conditions.\n\nTo proceed ethically and avoid further default, the following immediate actions are required:\n\n*   **Immediate Action:** Contact the lender to request a **Forbearance Agreement** or a **Loan Modification** rather than a standard repayment plan. Forbearance will pause payments for 4 months, allowing time to secure additional income or liquidate non-essential assets.\n*   **Income Adjustment:** Michael must increase monthly income by at least **$1,000** (approx. 24% increase) or reduce essential living expenses by the same amount to meet the 4-month target.\n*   **Asset Liquidation:** If income cannot be increased immediately, Michael must consider selling non-essential personal property or utilizing emergency savings to cover the $7,400 gap in a lump sum, followed by a standard repayment schedule.\n*   **Counseling Referral:** Immediate referral to a HUD-approved housing counselor is recommended to negotiate a formal workout plan with the lender, potentially extending the repayment period beyond 4 months to a sustainable 12–24 months.\n\n**Conclusion:**\nUnder current financial constraints, a 4-month repayment plan results in a **$1,000 monthly deficit**. The plan must be modified to include a forbearance period or a longer repayment term to ensure ethical debt management and prevent immediate foreclosure.",
+      "score": 3.2,
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        3,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Correctness is scored 2 due to a significant arithmetic error in the Cash Flow Assessment (calculated deficit of $1,000 vs actual $2,000) and failure to account for tax withholding as per compliance standards. Completeness is 3 as the structure addresses the task but lacks tax analysis. Best Practices and Domain Accuracy are 3 due to sound terminology and ethical recommendations (HUD, Forbearance) undermined by the calculation error. Clarity is 5 as the document is well-organized and easy to read."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Investigate missing checks, payment histories, held funds, returned checks, or other related issues to resolve client or creditor problems.",
+      "task_type": "Payment Discrepancy Resolution",
+      "user_prompt": "A client, 'Elena R.', reports that a payment of $500 made via wire transfer to 'First National Bank' on October 15th has not been credited to her account, and she is now being charged a $35 late fee. Her bank statement shows the debit on Oct 15, but the creditor's portal shows no receipt. The wire transfer fee was $25. Investigate the potential causes for this discrepancy (e.g., routing error, bank hold, processing delay) and draft a formal dispute letter to the creditor. The letter must include a calculation of the total amount currently owed by the client ($500 principal + $35 late fee) and request a waiver of the late fee pending investigation. Ensure the tone is professional and the request for fee waiver is grounded in the fact that the client fulfilled their obligation.",
+      "reference_context": {
+        "client_name": "Elena R.",
+        "payment_amount": 500,
+        "payment_date": "2023-10-15",
+        "creditor_name": "First National Bank",
+        "wire_transfer_fee": 25,
+        "late_fee_charged": 35,
+        "total_disputed_amount": 535
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Logical Analysis — Does the response identify at least two plausible reasons for the payment delay (e.g., bank processing time, incorrect account number)?",
+        "Criterion 2: Financial Accuracy — Is the total disputed amount correctly calculated as $535 ($500 + $35)?",
+        "Criterion 3: Professionalism — Is the dispute letter structured formally, clearly stating the facts, the error, and the specific request for a fee waiver?"
+      ],
+      "student_answer": "**Investigation Summary: Potential Causes for Discrepancy**\n\nBased on the details provided, the following factors likely contributed to the delay in crediting the account:\n\n1.  **Intermediary Processing Delays:** Wire transfers, particularly those sent on a Friday or near a banking holiday, often experience a 1–3 business day lag before the receiving bank posts the funds to the specific account, even if the sending bank has already debited the client.\n2.  **Routing or Reference Number Error:** If the wire transfer instructions lacked a specific account number, reference code, or if the routing number was slightly incorrect, the funds may have been held in a suspense account by First National Bank pending manual verification.\n3.  **Bank Cut-off Times:** If the wire was initiated after the bank's daily cut-off time on October 15th, the transaction would not be processed by the receiving institution until the next business day, potentially pushing the credit date past the payment due date.\n4.  **System Synchronization Lag:** There may be a delay between the bank's internal ledger update and the public-facing creditor portal, causing the payment to appear \"unreceived\" in the system despite being in transit.\n\n***\n\n**Formal Dispute and Fee Waiver Request**\n\n[Your Name/Agency Name]\n[Your Address]\n[City, State, Zip Code]\n[Date]\n\nFirst National Bank\nAttn: Billing Disputes Department\n[Bank Address]\n[City, State, Zip Code]\n\n**Re: Payment Dispute and Late Fee Waiver Request**\n**Account Holder:** Elena R.\n**Account Number:** [Insert Account Number]\n**Date of Dispute:** [Current Date]\n\nTo Whom It May Concern,\n\nI am writing on behalf of my client, Elena R., to formally dispute a late fee of $35.00 assessed to her account and to request an immediate credit for this charge.\n\nOn October 15, 2023, Ms. R. fulfilled her payment obligation by initiating a wire transfer in the amount of **$500.00** to First National Bank. The transaction was processed successfully, as evidenced by the debit of $500.00 plus a $25.00 wire transfer fee appearing on her bank statement for that date. However, the creditor's portal currently reflects no receipt of this payment, resulting in an erroneous late fee assessment.\n\nGiven that the funds were debited from the client's account on the due date, the delay in crediting the account appears to be a result of standard wire transfer processing times or a temporary system synchronization issue, rather than a failure to pay by the client.\n\n**Current Account Status and Calculation:**\n*   **Principal Payment:** $500.00 (Sent Oct 15, 2023)\n*   **Erroneous Late Fee:** $35.00\n*   **Total Amount Currently Disputed:** **$535.00**\n\nWe respectfully request that First National Bank:\n1.  Locate the pending wire transfer or confirm the receipt of the $500.00 principal payment.\n2.  Immediately waive the $35.00 late fee, as the client has demonstrated good faith and fulfilled her financial obligation on time.\n3.  Update the account status to reflect a current balance of $0.00 (excluding the principal, which is already paid) and remove any negative reporting associated with this late fee.\n\nPlease investigate this matter immediately and provide written confirmation of the fee waiver and account adjustment within five (5) business days. If the funds are not yet located, please advise on the specific steps required to expedite the credit.\n\nThank you for your prompt attention to this matter.\n\nSincerely,\n\n[Your Name]\nCredit Counselor\n[Your Agency Name]\n[Your Contact Information]",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission correctly addresses all task requirements, including the investigation of potential causes and the drafting of a formal dispute letter with accurate calculations ($535 total disputed). The tone is professional and the structure is clear. However, Best Practices receives a 4 due to a minor persona mismatch (signing as 'Credit Counselor' instead of the assigned 'Strategy Advisor') and the investigation section providing generic reasons without specifically noting that October 15, 2023 was a Sunday, which is a relevant detail for wire transfer processing delays."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Disburse funds from client accounts to creditors.",
+      "task_type": "Debt Management Plan Disbursement Analysis",
+      "user_prompt": "You are managing a Debt Management Plan (DMP) for 'David L.' who has a monthly surplus of $850 available for debt repayment. He has three creditors: Creditor A ($1,200 balance, 18% APR), Creditor B ($3,000 balance, 22% APR), and Creditor C ($500 balance, 0% APR). The DMP policy requires paying minimums to all creditors first, then allocating the surplus to the highest interest rate debt. Creditor A's minimum is $40, Creditor B's is $60, and Creditor C's is $15. Calculate the total minimum payments, determine the remaining surplus, and allocate the surplus to Creditor B (highest rate) for this month. Provide a detailed disbursement schedule showing exactly how much each creditor receives this month. Ensure the allocation follows the 'avalanche' method and adheres to consumer protection laws regarding fair debt collection.",
+      "reference_context": {
+        "client_name": "David L.",
+        "monthly_surplus": 850,
+        "creditors": [
+          {
+            "name": "Creditor A",
+            "balance": 1200,
+            "apr": 18,
+            "minimum": 40
+          },
+          {
+            "name": "Creditor B",
+            "balance": 3000,
+            "apr": 22,
+            "minimum": 60
+          },
+          {
+            "name": "Creditor C",
+            "balance": 500,
+            "apr": 0,
+            "minimum": 15
+          }
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Calculation — Is the total minimum payment ($40 + $60 + $15 = $115) correctly calculated?",
+        "Criterion 2: Allocation Logic — Is the remaining surplus ($850 - $115 = $735) correctly allocated entirely to Creditor B (highest APR) as per the avalanche method?",
+        "Criterion 3: Output Clarity — Does the response clearly list the final disbursement amount for each creditor (Creditor A: $40, Creditor B: $795, Creditor C: $15)?"
+      ],
+      "student_answer": "**Debt Management Plan Disbursement Schedule**\n**Client:** David L.\n**Month:** Current Cycle\n**Total Available Funds:** $850.00\n\n### 1. Minimum Payment Calculation\nPer DMP policy, minimum payments are distributed to all creditors first to maintain account standing.\n\n*   **Creditor A:** $40.00\n*   **Creditor B:** $60.00\n*   **Creditor C:** $15.00\n*   **Total Minimums Required:** $115.00\n\n### 2. Surplus Allocation\n*   **Total Available:** $850.00\n*   **Less Total Minimums:** -$115.00\n*   **Remaining Surplus:** $735.00\n\n**Allocation Strategy (Avalanche Method):**\nThe remaining surplus of $735.00 is allocated to the debt with the highest interest rate (Creditor B at 22% APR) to maximize interest savings, in compliance with the avalanche method and fair debt collection standards.\n\n*   **Creditor B Additional Payment:** $735.00\n\n### 3. Final Disbursement Schedule\nThe following amounts are to be disbursed to each creditor for this month:\n\n| Creditor | Minimum Payment | Surplus Allocation | **Total Disbursement** |\n| :--- | :--- | :--- | :--- |\n| **Creditor A** | $40.00 | $0.00 | **$40.00** |\n| **Creditor B** | $60.00 | $735.00 | **$795.00** |\n| **Creditor C** | $15.00 | $0.00 | **$15.00** |\n| **TOTAL** | **$115.00** | **$735.00** | **$850.00** |\n\n*Note: All payments are processed in accordance with applicable consumer protection laws and the terms of the Debt Management Plan.*",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is mathematically precise and adheres strictly to the DMP policy and avalanche method described in the task. All calculations (minimums, surplus, allocation) are correct. The formatting is professional with a clear disbursement table. Regarding the 'Additional Checks' in the prompt instructions, the student correctly interpreted 'monthly surplus' as the available funds for repayment, rendering tax calculations on gross income inapplicable; this demonstrates strong domain judgment rather than a failure to comply. The compliance note is appropriate for the context. No meaningful gaps exist."
+    }
+  ]
+}

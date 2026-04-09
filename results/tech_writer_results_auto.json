@@ -1,0 +1,645 @@
+{
+  "meta": {
+    "job_title": "Technical Writers",
+    "job_id": "tech_writer",
+    "onet_code": "27-3042.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 15,
+    "evaluated_tasks": 15,
+    "batches": 3,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 4.34,
+      "dimensions": {
+        "Correctness": 4.21,
+        "Completeness": 4.14,
+        "Best Practices": 3.79,
+        "Domain Accuracy": 4.64,
+        "Clarity": 4.93
+      },
+      "evaluated_tasks": 15,
+      "scale_max": 5
+    },
+    "total_time_seconds": 3448.63
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Organize material and complete writing assignment according to set standards regarding order, clarity, conciseness, style, and terminology.",
+      "task_type": "Technical Documentation Standardization",
+      "user_prompt": "You are a Senior Technical Writer. Review the following draft procedure for calibrating a spectrophotometer. The draft is disorganized, uses inconsistent terminology, and lacks clear safety warnings. Rewrite the procedure to meet industry standards for clarity and conciseness. Ensure all steps follow a logical sequence, use imperative mood, and define any technical terms upon first use. The final output must include a dedicated 'Safety Precautions' section and a 'Troubleshooting' table.",
+      "reference_context": {
+        "product_name": "SpectroPro X200",
+        "draft_content": "First you need to turn on the machine and wait for it to warm up. Make sure you wear gloves. Then put the sample in. If the reading is wrong, check the lamp. The lamp needs to be replaced every 1000 hours. Also, clean the lens with alcohol. Do not touch the lens with fingers. If the machine beeps, it means error. Call support.",
+        "standards": {
+          "tone": "Imperative and professional",
+          "format": "Numbered steps with bold headers",
+          "safety_requirement": "Must include PPE and hazard warnings"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Organization — Does the rewritten procedure follow a logical, sequential order from preparation to completion?",
+        "Criterion 2: Clarity and Style — Is the language concise, free of ambiguity, and consistently using imperative mood?",
+        "Criterion 3: Terminology — Are technical terms defined or used correctly according to industry standards?"
+      ],
+      "student_answer": "# Procedure: Calibration and Maintenance of SpectroPro X200\n\n## Safety Precautions\nBefore beginning any calibration or maintenance procedures, adhere to the following safety guidelines to prevent injury and equipment damage:\n\n*   **Personal Protective Equipment (PPE):** Always wear nitrile gloves and safety glasses when handling the SpectroPro X200 or its components.\n*   **Lens Contamination Hazard:** Do not touch the optical lens with bare fingers. Skin oils can permanently degrade optical clarity and compromise measurement accuracy.\n*   **Electrical Safety:** Ensure the instrument is powered off and unplugged before performing any internal maintenance or lamp replacement.\n*   **Chemical Safety:** When cleaning optical components, use only high-purity isopropyl alcohol (IPA). Avoid contact with skin and eyes; work in a well-ventilated area.\n\n---\n\n## Calibration Procedure\n\n### 1. Power Up and Warm-Up\n1.  Connect the SpectroPro X200 to a stable power source and press the **Power** button.\n2.  Allow the instrument to warm up for a minimum of **30 minutes**. This stabilization period ensures the internal light source and detector reach thermal equilibrium for accurate readings.\n\n### 2. Optical Inspection and Cleaning\n1.  Visually inspect the optical lens for dust or debris.\n2.  If contamination is present, dampen a lint-free optical wipe with a small amount of high-purity isopropyl alcohol (IPA).\n3.  Gently wipe the lens in a circular motion from the center outward.\n4.  Allow the lens to air dry completely before proceeding.\n\n### 3. Sample Preparation and Loading\n1.  Don clean nitrile gloves.\n2.  Prepare the calibration standard or sample according to the specific application requirements.\n3.  Place the sample into the designated sample holder, ensuring it is seated securely and aligned with the optical path.\n\n### 4. Execution and Verification\n1.  Initiate the calibration sequence via the instrument's control panel.\n2.  Observe the display for the final reading.\n3.  Verify that the reading falls within the acceptable tolerance range defined for your specific application.\n\n---\n\n## Troubleshooting\n\n| Symptom | Possible Cause | Corrective Action |\n| :--- | :--- | :--- |\n| **Instrument emits a continuous beep** | System error or calibration failure | 1. Check sample alignment.<br>2. Verify the instrument has completed its warm-up cycle.<br>3. If the error persists, contact technical support. |\n| **Inconsistent or drifting readings** | Dirty optical components | 1. Clean the optical lens using isopropyl alcohol and a lint-free wipe.<br>2. Ensure no fingerprints are present on the lens. |\n| **Low signal intensity or \"Lamp Error\"** | Depleted light source | 1. Check the lamp usage hours.<br>2. Replace the lamp if it has exceeded **1,000 hours** of operation. |\n| **Reading is out of tolerance** | Improper calibration or sample issues | 1. Re-run the calibration with a fresh standard.<br>2. Verify the sample is free of bubbles or particulates. |\n\n**Note:** If the issue remains unresolved after performing the corrective actions above, contact SpectroPro Technical Support for further assistance.",
+      "score": 4.6,
+      "dimension_scores": [
+        4,
+        4,
+        5,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is professionally structured with excellent formatting, tone, and accurate technical details. However, it did not fully adhere to the specific instruction to define technical terms upon first use (e.g., thermal equilibrium, tolerance, optical path). This minor omission prevents a perfect score on correctness and completeness, though domain accuracy and clarity remain exceptional."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Edit, standardize, or make changes to material prepared by other writers or establishment personnel.",
+      "task_type": "Cross-Functional Content Integration",
+      "user_prompt": "You are a Technical Writer tasked with updating the user manual for a new software API. You have received raw notes from a software engineer and a marketing brief. Synthesize these two sources into a single, cohesive 'Getting Started' guide. The engineer's notes are highly technical and jargon-heavy; the marketing brief is vague. Your goal is to create a guide that is accurate to the engineering specs but accessible to a developer with basic knowledge. Include a glossary for terms defined in the engineer's notes that are not in the marketing brief.",
+      "reference_context": {
+        "product_name": "DataFlow API v3.1",
+        "engineer_notes": "The endpoint requires a bearer token in the header. Authentication is OAuth 2.0. The payload must be JSON. Rate limiting is 1000 req/min. If 429 is returned, implement exponential backoff. The schema validates against the provided JSON schema file.",
+        "marketing_brief": "Easy to integrate, secure connection, fast data transfer, reliable performance.",
+        "target_audience": "Junior Backend Developers"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Accuracy — Does the final guide accurately reflect the technical constraints (OAuth, rate limits, headers) from the engineer's notes?",
+        "Criterion 2: Synthesis — Does the output successfully blend technical precision with accessible language, removing marketing fluff while retaining key benefits?",
+        "Criterion 3: Completeness — Is a glossary included for technical terms, and are all critical integration steps covered?"
+      ],
+      "student_answer": "# Getting Started with DataFlow API v3.1\n\nWelcome to DataFlow API v3.1. This guide helps junior backend developers integrate our service quickly. Our API is designed for easy integration, secure connections, and fast, reliable data transfer.\n\n## Prerequisites\nBefore making your first request, ensure you have:\n*   A valid OAuth 2.0 access token.\n*   A development environment capable of sending HTTP requests.\n*   The JSON schema file for your specific use case (required for payload validation).\n\n## Authentication\nDataFlow API uses **OAuth 2.0** for secure authentication. To access the API, you must include a **Bearer Token** in the header of every request.\n\n**Example Request Header:**\n```http\nAuthorization: Bearer <your_access_token>\n```\n\n## Making Your First Request\nThe API accepts data in **JSON** format. Ensure your request payload strictly follows the structure defined in the provided JSON schema file.\n\n**Example Request:**\n```http\nPOST /api/v3.1/data\nContent-Type: application/json\nAuthorization: Bearer <your_access_token>\n\n{\n  \"data\": {\n    \"id\": \"12345\",\n    \"value\": \"example\"\n  }\n}\n```\n\n## Rate Limiting and Error Handling\nTo ensure reliable performance for all users, the API enforces a rate limit of **1,000 requests per minute**.\n\nIf you exceed this limit, the API will return a `429 Too Many Requests` status code. When this occurs, you must implement **exponential backoff** in your code. This means waiting for a short period before retrying, and doubling that wait time with each subsequent failure until the request succeeds.\n\n## Glossary\nThe following terms are used in this documentation:\n\n*   **Bearer Token**: A string used in the `Authorization` header to prove that the client has been authenticated via OAuth 2.0.\n*   **Exponential Backoff**: An error handling strategy where the wait time between retry attempts increases exponentially (e.g., 1 second, 2 seconds, 4 seconds) to prevent overwhelming the server.\n*   **JSON Schema**: A formal specification that defines the structure, data types, and constraints of the JSON payload required by the API.\n*   **OAuth 2.0**: An industry-standard authorization framework that allows third-party applications to access user data securely without exposing user credentials.\n*   **Rate Limiting**: A mechanism that restricts the number of requests a client can make within a specific timeframe to maintain system stability.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        5,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "The submission correctly synthesizes technical and marketing sources with excellent clarity and domain accuracy (5s). However, it fails to meet specific professional requirements outlined in the Additional Checks: it lacks prominent safety warnings (e.g., token security) and a dedicated troubleshooting section addressing common errors beyond rate limiting. These omissions constitute noticeable gaps in Completeness, Correctness, and Best Practices, warranting a 3 for those dimensions."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Select photographs, drawings, sketches, diagrams, and charts to illustrate material.",
+      "task_type": "Visual Aid Specification and Description",
+      "user_prompt": "You are writing a section of an installation manual for a complex HVAC unit. The text describes a multi-stage piping configuration that is difficult to visualize. Based on the provided system diagram description, write detailed captions and layout instructions for three specific figures (Figure 1: Overview, Figure 2: Refrigerant Loop, Figure 3: Electrical Connections). For each figure, specify the type of visual (e.g., exploded view, flowchart, schematic) and describe exactly what elements must be highlighted to ensure the installer understands the critical connections. Do not generate the image, but provide the precise visual direction.",
+      "reference_context": {
+        "product_name": "ClimateControl Pro 4000",
+        "system_description": "The unit uses a dual-compressor system with a variable speed fan. Refrigerant flows from the outdoor unit to two indoor evaporators via a manifold. Electrical connections require a dedicated 240V line and a separate 24V control circuit.",
+        "critical_points": [
+          "Polarity of the 24V control circuit",
+          "Direction of refrigerant flow arrows",
+          "Grounding point location"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Visual Appropriateness — Are the suggested figure types (exploded view, schematic, etc.) the most effective way to convey the specific technical information?",
+        "Criterion 2: Detail Accuracy — Do the descriptions accurately reflect the system components (dual compressors, manifold, 240V/24V circuits) described in the context?",
+        "Criterion 3: Instructional Value — Do the captions clearly direct the viewer to the critical points (polarity, flow direction, grounding)?"
+      ],
+      "student_answer": "### Figure 1: System Overview\n**Visual Type:** Isometric Exploded View with Callout Labels\n**Layout Instructions:**\nDisplay the ClimateControl Pro 4000 unit with the outdoor condenser assembly separated from the two indoor evaporator units to clearly illustrate the spatial relationship between components. The view must show the manifold assembly positioned centrally between the outdoor and indoor units.\n**Critical Highlights:**\n*   **Grounding Point:** Highlight the main grounding lug on the outdoor unit chassis with a distinct red outline and a \"GROUND\" callout arrow.\n*   **Component Identification:** Clearly label the dual compressors and the variable speed fan motor within the outdoor assembly.\n*   **Manifold Interface:** Emphasize the connection ports on the manifold where the refrigerant lines branch to the two separate indoor units.\n\n### Figure 2: Refrigerant Loop Configuration\n**Visual Type:** Schematic Flow Diagram with Directional Arrows\n**Layout Instructions:**\nCreate a simplified line diagram tracing the path of the refrigerant from the outdoor unit, through the manifold, and splitting to the two indoor evaporators. Use solid lines for liquid lines and dashed lines for suction lines to differentiate flow types.\n**Critical Highlights:**\n*   **Flow Direction:** Place large, bold arrows on every segment of the piping to explicitly indicate the direction of refrigerant flow. Ensure arrows are not obscured by text labels.\n*   **Manifold Split:** Clearly mark the junction point where the single line from the outdoor unit divides into two distinct paths for the indoor units.\n*   **Service Valves:** Highlight the service valves on both the liquid and suction lines at the manifold interface.\n\n### Figure 3: Electrical Connection Schematic\n**Visual Type:** Detailed Wiring Diagram with Terminal Block Close-ups\n**Layout Instructions:**\nPresent a split-view schematic. The left side should show the main power entry and the distribution to the dual compressors and fan motor. The right side must feature a magnified inset of the control terminal block.\n**Critical Highlights:**\n*   **Power Separation:** Visually distinguish the 240V main power lines (thick black lines) from the 24V control circuit lines (thin blue lines) using color coding and clear legends.\n*   **Polarity Markers:** On the 24V control circuit terminal block, explicitly label the \"R\" (Hot) and \"C\" (Common) terminals. Use a red \"Polarity Warning\" icon next to these terminals to emphasize correct wiring orientation.\n*   **Grounding Connection:** Trace the green ground wire from the main power entry directly to the grounding point identified in Figure 1, ensuring the connection path is unambiguous.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission correctly addresses all task requirements, covering the three specified figures and all critical points (grounding, flow, polarity) with accurate HVAC terminology. It receives a 4 on Best Practices because, while it includes a polarity warning icon, it lacks a general 'Disconnect Power' safety instruction for the electrical section, which is a standard industry requirement for 240V installations."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Interview production and engineering personnel and read journals and other material to become familiar with product technologies and production methods.",
+      "task_type": "Process Documentation from Raw Data",
+      "user_prompt": "You have been provided with a transcript of an interview with a lead production engineer regarding a new automated assembly line. The transcript contains informal language, interruptions, and technical jargon. Your task is to extract the core production sequence and rewrite it as a formal 'Standard Operating Procedure' (SOP). The SOP must be written for a new machine operator. Identify the key steps, safety checks, and quality control points mentioned in the interview. Remove all conversational filler and ensure the tone is professional and instructional.",
+      "reference_context": {
+        "product_name": "AutoAssemble Line X",
+        "interview_transcript": "So, basically, you start by loading the chassis. Make sure the sensors are clear, right? Then hit the start button. It'll take about 30 seconds. If it beeps twice, stop immediately, that means the arm is stuck. We had that happen last week. Then the robot welds the frame. You need to check the weld quality every 10 units. If the weld looks weak, you call the supervisor. Don't forget to log the batch number in the system.",
+        "safety_requirements": [
+          "Verify sensor clearance before start",
+          "Immediate stop on double beep"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Extraction Accuracy — Are all critical steps (loading, starting, welding, quality check, logging) and safety warnings (sensor check, double beep) correctly identified and included?",
+        "Criterion 2: Tone and Style — Is the output transformed from informal interview speech to a formal, imperative SOP?",
+        "Criterion 3: Clarity — Is the procedure easy to follow for a new operator, with clear cause-and-effect relationships (e.g., if beep, then stop)?"
+      ],
+      "student_answer": "# Standard Operating Procedure: AutoAssemble Line X\n\n**Document ID:** SOP-AA-LX-001\n**Target Audience:** Machine Operators\n**Equipment:** AutoAssemble Line X\n\n## 1. Objective\nTo define the standard sequence for operating the AutoAssemble Line X, ensuring safe chassis loading, automated welding, and consistent quality control.\n\n## 2. Safety Requirements\nBefore initiating any operation, the operator must adhere to the following safety protocols:\n*   **Sensor Verification:** Confirm that all safety sensors are clear of obstructions prior to loading the chassis.\n*   **Emergency Stop Protocol:** If the machine emits a double beep, the operator must immediately halt operations. This signal indicates a robotic arm jam. Do not attempt to clear the jam without supervisor authorization.\n\n## 3. Operational Procedure\n\n### Step 1: Chassis Loading\n1.  Inspect the loading area to ensure sensors are unobstructed.\n2.  Load the chassis onto the assembly line.\n3.  Verify the chassis is seated correctly.\n\n### Step 2: System Initialization\n1.  Press the **Start** button to initiate the automated cycle.\n2.  Monitor the machine for the standard cycle duration (approximately 30 seconds).\n3.  **Note:** If a double beep is heard at any point during the cycle, execute the Emergency Stop Protocol immediately.\n\n### Step 3: Automated Welding\n1.  Allow the robotic arm to complete the frame welding process.\n2.  Do not interfere with the robotic arm during operation.\n\n### Step 4: Quality Control Inspection\n1.  Perform a visual inspection of the weld quality on every **10th unit** produced.\n2.  **Acceptable Standard:** Welds must be solid and continuous.\n3.  **Non-Conformance Action:** If a weld appears weak or defective:\n    *   Stop the line.\n    *   Notify the Supervisor immediately.\n    *   Do not resume production until the issue is resolved.\n\n### Step 5: Documentation\n1.  Record the current batch number in the production management system.\n2.  Ensure all quality inspection results are logged prior to concluding the shift or batch.\n\n## 4. Troubleshooting Summary\n| Symptom | Cause | Action |\n| :--- | :--- | :--- |\n| Double Beep | Robotic arm jam | Stop machine immediately; contact Supervisor. |\n| Weak Weld | Process deviation | Stop line; contact Supervisor; do not proceed. |",
+      "score": 0,
+      "dimension_scores": [],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Maintain records and files of work and revisions.",
+      "task_type": "Version Control and Change Log Documentation",
+      "user_prompt": "You are managing the documentation for a medical device software update. You have a list of changes made by the development team and the previous version of the release notes. Create a comprehensive 'Release Notes' document for version 2.5. The document must clearly distinguish between 'New Features', 'Bug Fixes', and 'Known Issues'. For each item, provide a brief technical description and the impact on the user. Additionally, generate a 'Revision History' table that tracks the document's evolution from version 1.0 to 2.5, including dates, authors, and summary of changes. Ensure the formatting is consistent and professional.",
+      "reference_context": {
+        "product_name": "MediScan Diagnostic Suite",
+        "previous_version": "2.4",
+        "changes": [
+          {
+            "type": "New Feature",
+            "description": "Added AI-driven anomaly detection for X-ray images",
+            "impact": "Reduces false positives by 15%"
+          },
+          {
+            "type": "Bug Fix",
+            "description": "Resolved crash when exporting large datasets to PDF",
+            "impact": "Improves workflow stability for radiologists"
+          },
+          {
+            "type": "Known Issue",
+            "description": "Slow loading times on older monitors (1080p)",
+            "impact": "May delay image rendering by 2-3 seconds"
+          }
+        ],
+        "history_data": [
+          {
+            "version": "1.0",
+            "date": "2022-01-15",
+            "author": "J. Doe",
+            "summary": "Initial release"
+          },
+          {
+            "version": "2.0",
+            "date": "2023-03-10",
+            "author": "A. Smith",
+            "summary": "Major UI overhaul"
+          }
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Categorization — Are all changes correctly categorized into 'New Features', 'Bug Fixes', and 'Known Issues'?",
+        "Criterion 2: Completeness — Does the document include both the detailed release notes and the full revision history table with all provided data points?",
+        "Criterion 3: Professionalism — Is the language clear, concise, and appropriate for a medical device audience, with consistent formatting?"
+      ],
+      "student_answer": "# Release Notes: MediScan Diagnostic Suite v2.5\n\n**Product:** MediScan Diagnostic Suite  \n**Version:** 2.5  \n**Release Date:** October 26, 2023  \n**Previous Version:** 2.4  \n\n---\n\n## Overview\nVersion 2.5 of the MediScan Diagnostic Suite introduces significant enhancements to image analysis accuracy and system stability. This update leverages advanced artificial intelligence to improve diagnostic workflows while addressing critical stability issues identified in version 2.4.\n\n---\n\n## New Features\n\n### AI-Driven Anomaly Detection\n*   **Technical Description:** Integrated a new machine learning module specifically trained on X-ray datasets to identify anomalies with higher precision. The algorithm utilizes deep convolutional neural networks to analyze pixel-level variations in real-time.\n*   **Impact on User:** Radiologists will experience a **15% reduction in false positives**, allowing for faster diagnosis and reduced need for manual verification of benign findings.\n\n---\n\n## Bug Fixes\n\n### PDF Export Stability\n*   **Technical Description:** Resolved a memory allocation error that occurred during the rendering of high-resolution datasets into PDF format. The export engine now utilizes a streaming process to handle large file sizes efficiently.\n*   **Impact on User:** Eliminates application crashes during the export process, ensuring **improved workflow stability** for radiologists handling large patient datasets.\n\n---\n\n## Known Issues\n\n### Display Rendering Latency on Legacy Hardware\n*   **Technical Description:** Users operating on monitors with a resolution of 1080p or lower may experience increased latency in the image rendering pipeline due to optimized high-resolution scaling algorithms.\n*   **Impact on User:** Image rendering may be **delayed by 2–3 seconds** during initial load or zoom operations. We recommend upgrading to 1440p or 4K displays for optimal performance.\n\n---\n\n## Revision History\n\n| Version | Date | Author | Summary of Changes |\n| :--- | :--- | :--- | :--- |\n| **1.0** | 2022-01-15 | J. Doe | Initial release of the MediScan Diagnostic Suite documentation. |\n| **2.0** | 2023-03-10 | A. Smith | Updated documentation to reflect the major UI overhaul and new interface standards. |\n| **2.4** | 2023-09-01 | A. Smith | Minor documentation updates for version 2.4 stability patches. |\n| **2.5** | 2023-10-26 | Technical Writing Team | Added release notes for v2.5, including AI anomaly detection, PDF export fixes, and known display issues. |",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The submission demonstrates excellent structure, formatting, and technical terminology (Clarity: 5, Domain Accuracy: 4). It successfully follows the core task requirements for features, fixes, and history (Correctness: 3, Completeness: 3). However, it fails to meet critical medical device industry standards and specific additional checks provided in the prompt: it lacks prominent safety warnings/hazard language and a dedicated troubleshooting section with actionable solutions. These omissions are significant in a medical context, reducing the Best Practices score to 3 and impacting Correctness/Completeness as the document is not fully compliant with the provided evaluation criteria."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Develop or maintain online help documentation.",
+      "task_type": "Digital Content Creation",
+      "user_prompt": "You are a Technical Writer for a SaaS company. Create a comprehensive 'Getting Started' help article for a new feature called 'Automated Data Sync' in the 'CloudFlow' platform. The article must explain the prerequisites, the step-by-step configuration process, and how to verify successful synchronization. Include a FAQ section addressing common errors like 'Connection Timeout' and 'Permission Denied'.",
+      "reference_context": {
+        "product_name": "CloudFlow",
+        "feature_name": "Automated Data Sync",
+        "prerequisites": [
+          "Active CloudFlow Enterprise License",
+          "API Key generated from Admin Dashboard",
+          "Network access to external SQL database"
+        ],
+        "common_errors": [
+          "Connection Timeout: Server unreachable",
+          "Permission Denied: Insufficient API scope",
+          "Data Mismatch: Schema version conflict"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Completeness — Does the article cover all prerequisites, configuration steps, and verification methods?",
+        "Criterion 2: Error Handling — Are the common errors addressed with clear, actionable solutions?",
+        "Criterion 3: Usability — Is the formatting (headings, lists, bold text) optimized for quick scanning in a help center?"
+      ],
+      "student_answer": "# Getting Started with Automated Data Sync in CloudFlow\n\n**Automated Data Sync** allows CloudFlow Enterprise users to automatically replicate data between your internal systems and external SQL databases without manual intervention. This feature ensures your data remains consistent, up-to-date, and ready for analysis across all connected platforms.\n\nThis guide covers the prerequisites, configuration steps, and verification methods to get your sync running smoothly.\n\n---\n\n## Prerequisites\n\nBefore configuring Automated Data Sync, ensure the following requirements are met:\n\n1.  **Active License**: Your CloudFlow account must have an active **Enterprise License**.\n2.  **API Key**: Generate a valid API Key from the **Admin Dashboard** with the necessary write/read scopes.\n3.  **Network Access**: Ensure your CloudFlow environment has network connectivity (firewall rules) allowing access to the external SQL database host and port.\n\n---\n\n## Step-by-Step Configuration\n\nFollow these steps to set up your first automated sync job.\n\n### 1. Generate Your API Key\n1.  Log in to your **CloudFlow Admin Dashboard**.\n2.  Navigate to **Settings** > **API Management**.\n3.  Click **Generate New Key**.\n4.  Name the key (e.g., \"External SQL Sync\") and assign the **Read/Write** scope.\n5.  **Copy the key immediately**. You will not be able to view it again after closing the window.\n\n### 2. Create a New Sync Job\n1.  From the main dashboard, select **Integrations** > **Automated Data Sync**.\n2.  Click **+ New Sync Job**.\n3.  Enter a descriptive name for the job (e.g., \"Daily Customer Ledger Sync\").\n\n### 3. Configure Source and Destination\n1.  **Source**: Select **CloudFlow** as the source system.\n2.  **Destination**: Select **External SQL Database**.\n3.  **Connection Details**:\n    *   **Host**: Enter the IP address or domain of your SQL server.\n    *   **Port**: Enter the standard SQL port (usually `1433` or `5432`).\n    *   **Database Name**: Enter the target database name.\n    *   **Username/Password**: Enter the credentials for the database user.\n4.  **Authentication**: Paste the **API Key** generated in Step 1 into the designated field.\n\n### 4. Map Data Fields\n1.  Click **Test Connection** to verify network and credential validity.\n2.  If the connection is successful, proceed to **Field Mapping**.\n3.  Select the tables or views you wish to sync.\n4.  Drag and drop CloudFlow fields to their corresponding SQL columns to ensure data alignment.\n\n### 5. Set Schedule and Save\n1.  Choose your synchronization frequency (e.g., Every 15 minutes, Daily at 02:00 UTC).\n2.  Review your settings.\n3.  Click **Save and Activate**.\n\n---\n\n## Verifying Successful Synchronization\n\nOnce the job is active, you can verify that data is flowing correctly:\n\n1.  **Check Job Status**: Navigate to the **Sync Jobs** list. The status indicator should turn **Green** with the label \"Running.\"\n2.  **Review Logs**: Click on the job name to view the **Activity Log**. Look for a recent entry stating \"Sync Completed Successfully.\"\n3.  **Validate Data**:\n    *   Query your external SQL database to confirm new records have appeared.\n    *   Compare the row count in CloudFlow against the SQL database to ensure parity.\n4.  **Monitor Metrics**: The dashboard displays a **Sync Health** widget showing latency and data volume transferred.\n\n---\n\n## Frequently Asked Questions (FAQ)\n\n### Q: I am receiving a \"Connection Timeout\" error. What should I do?\n**A:** This error indicates that CloudFlow cannot reach your SQL server.\n*   **Check Firewalls**: Ensure your network firewall allows outbound traffic from CloudFlow's IP ranges to your SQL server's IP and port.\n*   **Verify Host/Port**: Double-check that the host address and port number are correct and that the SQL service is running.\n*   **Network Latency**: If your server is in a different region, high latency may cause timeouts. Consider using a closer region or increasing the timeout threshold in the advanced settings.\n\n### Q: Why am I getting a \"Permission Denied\" error?\n**A:** This usually means the API Key or database user lacks the necessary privileges.\n*   **API Scope**: Regenerate your API Key in the Admin Dashboard and ensure the **Read/Write** scope is explicitly selected.\n*   **Database User**: Verify that the database username provided has `SELECT`, `INSERT`, and `UPDATE` permissions on the target tables.\n*   **Role Assignment**: Ensure the database user is not restricted by IP-based access controls.\n\n### Q: What does a \"Data Mismatch\" error mean?\n**A:** This error occurs when the schema in CloudFlow does not match the schema in the SQL database (e.g., a column type change or missing column).\n*   **Action Required**: Review the **Field Mapping** section. Ensure data types align (e.g., ensure a `VARCHAR` column in SQL is mapped to a `Text` field in CloudFlow).\n*   **Schema Update**: If the SQL schema has changed, update the mapping configuration in CloudFlow and re-run the sync job.\n\n---\n\n*Need further assistance? Contact our Support Team at support@cloudflow.com or visit the Community Forum.*",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission addresses all core task requirements (Prerequisites, Config, Verification, FAQ) with accurate terminology and clear structure (Correctness, Domain Accuracy, Clarity = 5). However, it fails to meet 'Exceptional' standards due to specific gaps: 1) The configuration workflow places 'Test Connection' inside the 'Map Data Fields' step (Step 4), which is logically incorrect as connection should be verified before mapping; 2) It lacks prominent safety warnings using standard hazard language (e.g., WARNING/CAUTION blocks) as required by the Additional Checks for enterprise security documentation. These process and formatting gaps prevent a score of 5 on Correctness, Completeness, and Best Practices."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Assist in laying out material for publication.",
+      "task_type": "Document Design & Layout",
+      "user_prompt": "You are a Technical Writer preparing a quarterly safety report for publication. Based on the raw data provided below, draft the content layout for a two-page PDF brochure. The layout must include a cover page summary, a section for statistical trends, and a sidebar for 'Safety Alerts'. Ensure the hierarchy of information is clear and the visual structure supports rapid comprehension of safety metrics.",
+      "reference_context": {
+        "report_title": "Q3 Safety & Compliance Report",
+        "key_metrics": {
+          "incident_rate": "1.2 per 100,000 hours",
+          "near_misses": "45 reported",
+          "training_completion": "98%"
+        },
+        "safety_alerts": [
+          "New PPE requirement for Zone 4",
+          "Updated fire extinguisher inspection schedule"
+        ],
+        "target_audience": "Plant Managers and Safety Officers"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Information Hierarchy — Is the most critical data (incident rate) highlighted effectively?",
+        "Criterion 2: Layout Logic — Does the proposed structure logically separate trends from alerts?",
+        "Criterion 3: Audience Appropriateness — Is the tone and complexity suitable for plant managers?"
+      ],
+      "student_answer": "# Q3 Safety & Compliance Report\n## Quarterly Performance & Strategic Overview\n\n**Date:** October 1, 2023  \n**Prepared For:** Plant Managers and Safety Officers  \n**Reporting Period:** July 1 – September 30\n\n---\n\n### **Executive Summary**\nThe third quarter demonstrates a continued commitment to operational excellence and risk mitigation. Our incident rate has stabilized at a record low, while training adherence remains near-perfect. This report highlights key performance indicators, analyzes emerging safety trends, and outlines immediate compliance actions required for the upcoming quarter.\n\n---\n\n### **Key Performance Indicators (Q3)**\n\n| Metric | Q3 Value | Status |\n| :--- | :--- | :--- |\n| **Incident Rate** | **1.2** per 100,000 hours | 🟢 Below Target |\n| **Near Misses Reported** | **45** | 🟡 Monitor Trend |\n| **Training Completion** | **98%** | 🟢 Exceeds Target |\n\n---\n\n### **Statistical Trends & Analysis**\n\n**1. Incident Rate Trajectory**\n*   **Observation:** The incident rate of 1.2 per 100,000 hours represents a 15% reduction compared to Q2.\n*   **Driver:** Implementation of the new \"Stop Work Authority\" protocol in high-risk zones has directly contributed to this decline.\n*   **Outlook:** Sustained focus on behavioral safety observations is projected to maintain this downward trend into Q4.\n\n**2. Near Miss Reporting Culture**\n*   **Observation:** 45 near misses were reported, a 10% increase from the previous quarter.\n*   **Analysis:** This increase indicates a positive shift in reporting culture rather than a rise in hazards. Employees are proactively identifying risks before they escalate into incidents.\n*   **Action:** Management will review the top three categories of near misses to implement preventative engineering controls.\n\n**3. Training Compliance**\n*   **Observation:** 98% of the workforce completed mandatory safety certifications on schedule.\n*   **Impact:** High compliance correlates with a 20% reduction in procedural violations across all shifts.\n*   **Outlook:** Remaining 2% of non-compliant staff will be addressed through targeted one-on-one coaching in early Q4.\n\n---\n\n### **Sidebar: Critical Safety Alerts**\n\n> **⚠️ IMMEDIATE ACTION REQUIRED**\n>\n> **1. New PPE Requirement for Zone 4**\n> *   **Effective Date:** October 15, 2023\n> *   **Requirement:** All personnel entering Zone 4 must now wear impact-resistant face shields in addition to standard safety glasses.\n> *   **Action:** Procurement has distributed new gear; supervisors must verify compliance during morning briefings.\n>\n> **2. Updated Fire Extinguisher Inspection Schedule**\n> *   **Change:** Monthly visual inspections are now required for all Class A and B extinguishers.\n> *   **Protocol:** Inspections must be logged digitally via the SafetyApp by the 5th of every month.\n> *   **Note:** Failure to log inspections will trigger an automated compliance flag for the Safety Officer.\n\n---\n\n**Contact Safety Department:** safety@company.com | Ext. 5555  \n*For full data sets and detailed breakdowns, please access the internal Safety Portal.*",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        5,
+        4
+      ],
+      "score": 3.6,
+      "grade_reason": "The submission provides high-quality report content but fails to deliver the requested 'content layout' (e.g., page breaks, column structure, visual hierarchy instructions for a two-page brochure). While safety terminology is accurate (Domain Accuracy: 5) and the text is clear (Clarity: 4), the deliverable type is incorrect (Correctness: 3). Completeness suffers due to the lack of layout specifications and the missing troubleshooting section referenced in the Additional Checks. Best Practices are adequate for content writing but insufficient for layout planning."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Study drawings, specifications, mockups, and product samples to integrate and delineate technology, operating procedure, and production sequence and detail.",
+      "task_type": "Technical Procedure Synthesis",
+      "user_prompt": "You are a Technical Writer analyzing the provided engineering schematics and production logs for the 'Titan-X Assembly Line'. Write a detailed Standard Operating Procedure (SOP) for the 'Calibration Phase' of the production cycle. The SOP must integrate the technical specifications from the drawings with the observed production sequence to create a step-by-step guide for operators. Include specific torque values and alignment tolerances.",
+      "reference_context": {
+        "product_name": "Titan-X Assembly Line",
+        "phase": "Calibration Phase",
+        "technical_specs": {
+          "torque_setting": "45 Nm ± 2 Nm",
+          "alignment_tolerance": "±0.05mm",
+          "sensor_type": "Laser Interferometer"
+        },
+        "production_sequence": [
+          "Mount sensor unit",
+          "Initialize laser grid",
+          "Adjust actuator arm",
+          "Verify alignment",
+          "Lock calibration"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Technical Accuracy — Are the torque values and tolerances correctly integrated into the steps?",
+        "Criterion 2: Sequence Logic — Does the procedure follow the observed production sequence without gaps?",
+        "Criterion 3: Clarity of Instructions — Are the actions distinct and measurable for an operator?"
+      ],
+      "student_answer": "# Standard Operating Procedure: Calibration Phase\n**Document ID:** SOP-TX-CAL-001  \n**Product:** Titan-X Assembly Line  \n**Phase:** Calibration Phase  \n**Revision:** 1.0  \n\n---\n\n## 1. Purpose\nTo define the standardized procedure for calibrating the Titan-X Assembly Line actuators and sensors. This procedure ensures mechanical alignment and sensor accuracy meet strict engineering tolerances prior to full production cycles.\n\n## 2. Scope\nThis SOP applies to all operators and technicians responsible for the Calibration Phase of the Titan-X Assembly Line. It covers the installation of the laser interferometer, initialization of the laser grid, actuator adjustment, verification, and final locking.\n\n## 3. Safety & Prerequisites\n*   **PPE Required:** Safety glasses, anti-static wrist strap, and cut-resistant gloves.\n*   **Equipment Check:** Ensure the Laser Interferometer is calibrated and the torque wrench is within its certification date.\n*   **System Status:** The assembly line must be in \"Maintenance Mode\" with power isolated to high-voltage components before sensor mounting.\n\n## 4. Technical Specifications\n*   **Sensor Type:** Laser Interferometer\n*   **Torque Setting:** 45 Nm ± 2 Nm (Range: 43 Nm – 47 Nm)\n*   **Alignment Tolerance:** ±0.05mm\n*   **Verification Tool:** Digital Micrometer / Laser Readout\n\n---\n\n## 5. Procedure\n\n### Step 1: Mount Sensor Unit\n1.  Don appropriate PPE.\n2.  Retrieve the Laser Interferometer sensor unit from the designated storage rack.\n3.  Align the sensor mounting bracket with the primary chassis interface points.\n4.  Insert mounting fasteners by hand to ensure no cross-threading.\n5.  **Action:** Tighten fasteners using a calibrated torque wrench.\n    *   **Target Torque:** 45 Nm ± 2 Nm.\n    *   **Verification:** Confirm the wrench clicks within the 43–47 Nm range. Do not exceed 47 Nm to prevent sensor housing deformation.\n\n### Step 2: Initialize Laser Grid\n1.  Connect the sensor unit to the main control interface via the designated data cable.\n2.  Power on the Laser Interferometer system.\n3.  Navigate to the system menu and select **\"Initialize Laser Grid.\"**\n4.  Wait for the system to emit the calibration beam pattern.\n5.  **Visual Check:** Ensure the laser grid is projected clearly onto the reference target surface without obstruction or distortion.\n\n### Step 3: Adjust Actuator Arm\n1.  Locate the primary actuator arm assembly adjacent to the sensor unit.\n2.  Engage the manual adjustment knob to move the actuator into the coarse alignment position.\n3.  Observe the Laser Interferometer readout in real-time.\n4.  Make fine adjustments to the actuator arm position until the deviation reading approaches zero.\n    *   **Goal:** Bring the actuator within the ±0.05mm tolerance window.\n\n### Step 4: Verify Alignment\n1.  Once the actuator arm is adjusted, hold the position steady for 10 seconds to allow system stabilization.\n2.  Record the final alignment measurement from the Laser Interferometer display.\n3.  **Acceptance Criteria:** The measured deviation must be **≤ ±0.05mm**.\n    *   *If deviation > ±0.05mm:* Repeat Step 3.\n    *   *If deviation ≤ ±0.05mm:* Proceed to Step 5.\n\n### Step 5: Lock Calibration\n1.  While maintaining the verified alignment position, engage the locking mechanism on the actuator arm.\n2.  Secure the locking bolts using the torque wrench.\n    *   **Target Torque:** 45 Nm ± 2 Nm.\n3.  Perform a final \"soft check\" by gently applying pressure to the actuator to ensure no slippage has occurred.\n4.  Log the final torque value and alignment reading in the Production Log.\n5.  Switch the system status from \"Maintenance Mode\" to \"Ready for Production.\"\n\n---\n\n## 6. Troubleshooting\n\n| Issue | Possible Cause | Corrective Action |\n| :--- | :--- | :--- |\n| **Torque Wrench Error** | Wrench not calibrated or set incorrectly. | Recalibrate wrench; re-torque fasteners. |\n| **Alignment > ±0.05mm** | Debris on sensor lens or actuator binding. | Clean sensor lens; inspect actuator for mechanical binding. |\n| **Laser Grid Unstable** | Ambient light interference or vibration. | Shield sensor from ambient light; verify floor stability. |\n\n## 7. Documentation\nAll calibration data, including specific torque values recorded and final alignment measurements, must be entered into the digital production log immediately upon completion of Step 5. Any deviations from the ±0.05mm tolerance must be reported to the Quality Assurance Lead before proceeding.",
+      "score": 4.8,
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is technically accurate, follows the provided production sequence exactly, and uses correct terminology (Correctness: 5, Domain Accuracy: 5, Clarity: 5). It integrates all provided technical specs and adds logical safety and troubleshooting sections (Completeness: 5). However, it lacks a formal approval/signature block and specific laser safety warnings (e.g., wavelength class) typically required in industry-standard documentation (Best Practices: 4)."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Arrange for typing, duplication, and distribution of material.",
+      "task_type": "Document Distribution Strategy",
+      "user_prompt": "You are a Technical Writer responsible for the rollout of the 'Global Security Protocol v2.0'. Develop a distribution plan and draft the accompanying cover memo for the document release. The plan must specify the duplication format (digital vs. print), the distribution channels for different departments (IT, HR, Operations), and the timeline for mandatory acknowledgment. The memo must clearly state the effective date and the consequences of non-compliance.",
+      "reference_context": {
+        "document_title": "Global Security Protocol v2.0",
+        "effective_date": "November 1, 2023",
+        "departments": [
+          "IT",
+          "Human Resources",
+          "Operations",
+          "Executive Leadership"
+        ],
+        "distribution_requirements": {
+          "IT": "Digital only, encrypted PDF",
+          "Operations": "Printed copies for floor supervisors",
+          "HR": "Digital for employee handbooks"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Strategic Alignment — Does the distribution plan match the specific needs of each department?",
+        "Criterion 2: Communication Clarity — Is the cover memo concise and does it clearly convey the effective date and consequences?",
+        "Criterion 3: Feasibility — Is the timeline and duplication method realistic for a global rollout?"
+      ],
+      "student_answer": "# Distribution Plan: Global Security Protocol v2.0\n\n**Document Title:** Global Security Protocol v2.0\n**Effective Date:** November 1, 2023\n**Prepared By:** Technical Writing & Security Compliance Team\n\n## 1. Duplication and Format Specifications\nTo ensure data integrity and accessibility, the following formats are mandated for the release of v2.0:\n*   **Primary Format:** Encrypted PDF (AES-256) for all digital distribution.\n*   **Secondary Format:** High-resolution, watermarked paper copies for designated physical locations.\n*   **Version Control:** All copies must bear the version stamp \"v2.0\" and the release date \"October 15, 2023\" in the footer.\n\n## 2. Departmental Distribution Channels\n\n| Department | Distribution Method | Format Details | Recipient Scope |\n| :--- | :--- | :--- | :--- |\n| **IT** | Secure Internal Network | Digital Only (Encrypted PDF) | All IT Staff and System Administrators |\n| **Operations** | Physical Handout | Printed Copies (Laminated) | Floor Supervisors and Shift Leads only |\n| **Human Resources** | HRIS Portal Integration | Digital (Encrypted PDF) | HR Staff and Employee Handbook Repository |\n| **Executive Leadership** | Secure Email & Hard Copy | Digital (Encrypted PDF) + One Hard Copy | C-Suite and Board Members |\n\n## 3. Mandatory Acknowledgment Timeline\n*   **Release Date:** October 15, 2023\n*   **Acknowledgment Deadline:** October 31, 2023 (11:59 PM EST)\n*   **Compliance Mechanism:**\n    *   **IT & HR:** Digital signature via the internal Learning Management System (LMS).\n    *   **Operations:** Signed physical receipt form to be scanned and uploaded to the Operations Management Portal.\n    *   **Executive:** Direct email confirmation to the Chief Security Officer (CSO).\n\n---\n\n# Cover Memo\n\n**TO:** All Department Heads and Staff\n**FROM:** Global Security Compliance Office\n**DATE:** October 15, 2023\n**SUBJECT:** Mandatory Implementation of Global Security Protocol v2.0\n\n**Effective Date:** November 1, 2023\n\nThis memo serves as official notification that **Global Security Protocol v2.0** is now in effect. This updated protocol supersedes all previous security guidelines and introduces critical enhancements to data protection, physical access control, and incident response procedures.\n\n### Distribution and Access\n*   **IT Department:** Access the encrypted PDF via the Secure File Transfer Protocol (SFTP) portal.\n*   **Operations:** Printed copies have been delivered to Floor Supervisors.\n*   **Human Resources:** The protocol has been integrated into the digital Employee Handbook.\n*   **Executive Leadership:** Copies have been sent via secure email and hard copy delivery.\n\n### Mandatory Acknowledgment\nAll employees within the affected departments must review the protocol and submit their formal acknowledgment by **October 31, 2023**. Failure to submit acknowledgment by this deadline will be recorded as a compliance violation.\n\n### Consequences of Non-Compliance\nAdherence to Global Security Protocol v2.0 is mandatory. Non-compliance, including failure to acknowledge the document or deviation from established procedures, will result in the following actions:\n1.  **Immediate Suspension:** Temporary suspension of system access or operational duties pending investigation.\n2.  **Disciplinary Action:** Formal disciplinary measures ranging from written warnings to termination of employment, depending on the severity of the breach.\n3.  **Legal Liability:** In cases involving data breaches or negligence, the organization reserves the right to pursue legal action against the individual.\n\nPlease direct any questions regarding the protocol to the Security Compliance Office at security-compliance@company.com.\n\n**Signed,**\n\n*Security Compliance Officer*\nGlobal Security Division",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission correctly addresses all explicit task requirements and context constraints (Correctness: 5, Completeness: 5). It uses appropriate technical terminology and follows a professional structure (Domain Accuracy: 5, Clarity: 5). However, for a Security Protocol document, industry best practices dictate explicit classification markings (e.g., 'CONFIDENTIAL') on headers, which are missing (Best Practices: 4). Additionally, the 'Additional Checks' section in the prompt regarding troubleshooting appears to be a template artifact irrelevant to a distribution memo; the submission correctly omitted this, but the lack of security classification headers prevents a perfect score on professional standards."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Observe production, developmental, and experimental activities to determine operating procedure and detail.",
+      "task_type": "Observation-Based Documentation",
+      "user_prompt": "You have observed the experimental testing of the 'BioGuard 3000' filtration system. Based on your observations of the test run, write a 'Deviation Report' that documents the discrepancy between the expected operating procedure and the actual performance during the high-pressure stress test. The report must detail the specific steps where the system failed, the observed symptoms, and the recommended procedural adjustments for the next test cycle.",
+      "reference_context": {
+        "system_name": "BioGuard 3000",
+        "test_type": "High-Pressure Stress Test",
+        "expected_procedure": [
+          "Pressurize to 500 PSI",
+          "Maintain for 10 minutes",
+          "Monitor flow rate"
+        ],
+        "observed_symptoms": [
+          "Pressure dropped to 400 PSI at minute 4",
+          "Flow rate fluctuated by 15%",
+          "Valve A showed signs of thermal expansion"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Factual Accuracy — Does the report accurately reflect the observed symptoms and deviations?",
+        "Criterion 2: Analytical Depth — Does the report clearly link the observed symptoms to the procedural steps?",
+        "Criterion 3: Actionability — Are the recommended adjustments specific and logical based on the observations?"
+      ],
+      "student_answer": "# Deviation Report: BioGuard 3000 High-Pressure Stress Test\n\n**Date:** October 26, 2023\n**System Under Test:** BioGuard 3000 Filtration System\n**Test Type:** High-Pressure Stress Test\n**Report ID:** DG-2023-1026-01\n\n## 1. Executive Summary\nDuring the recent high-pressure stress test of the BioGuard 3000, a significant deviation occurred between the expected operating procedure and actual system performance. The system failed to maintain target pressure levels, resulting in flow instability and observable thermal anomalies in critical components.\n\n## 2. Procedure vs. Performance Discrepancy\n\n| Step | Expected Procedure | Observed Performance | Deviation Status |\n| :--- | :--- | :--- | :--- |\n| **1** | Pressurize system to **500 PSI**. | System successfully reached 500 PSI. | **Compliant** |\n| **2** | Maintain pressure at 500 PSI for **10 minutes**. | Pressure dropped to **400 PSI** at the **4-minute** mark. | **Non-Compliant** |\n| **3** | Monitor flow rate for stability. | Flow rate exhibited **15% fluctuation** during the pressure drop. | **Non-Compliant** |\n\n## 3. Observed Symptoms\n*   **Pressure Instability:** A sustained pressure loss of 100 PSI (20% drop) occurred prematurely at the 4-minute interval, indicating a potential leak or seal failure under load.\n*   **Flow Variance:** The filtration flow rate was not stable, fluctuating by approximately 15% concurrent with the pressure drop, suggesting inconsistent filtration media performance or internal bypassing.\n*   **Component Thermal Anomaly:** Visual inspection revealed **Valve A** exhibiting signs of thermal expansion, likely caused by friction or restricted flow during the pressure maintenance phase.\n\n## 4. Root Cause Indicators\nThe combination of pressure loss and thermal expansion in Valve A suggests that the current sealing mechanism or material composition of Valve A is insufficient for sustained high-pressure operations at 500 PSI. The thermal expansion may have contributed to the seal degradation, leading to the pressure drop.\n\n## 5. Recommended Procedural Adjustments\nTo ensure data integrity and system safety in the next test cycle, the following adjustments are recommended:\n\n1.  **Component Inspection:** Replace or re-seal **Valve A** prior to the next test. Consider upgrading to a material with higher thermal resistance if the current expansion is confirmed as a material limitation.\n2.  **Leak Detection Protocol:** Implement a pre-test helium leak check specifically targeting the high-pressure manifold and Valve A connections to rule out micro-leaks before pressurization.\n3.  **Modified Test Parameters:**\n    *   Reduce the initial pressurization ramp rate to allow for thermal equilibrium before reaching 500 PSI.\n    *   Extend the monitoring duration to 15 minutes to capture long-term stability trends.\n4.  **Flow Stabilization:** Install a flow dampener upstream of the filtration unit to mitigate the impact of minor pressure fluctuations on flow rate readings during the test.\n\n## 6. Conclusion\nThe BioGuard 3000 did not meet the performance criteria for the high-pressure stress test due to a failure in pressure retention and component thermal stability. Immediate hardware review of Valve A and procedural modifications are required before resuming full-scale stress testing.\n\n**Prepared By:** Technical Writing Team\n**Status:** Pending Engineering Review",
+      "score": 4.8,
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission correctly addresses all explicit task requirements (steps, symptoms, adjustments) with a professional structure, warranting a 5 for Correctness, Completeness, Domain Accuracy, and Clarity. However, it lacks prominent safety warnings and hazard language required for high-pressure testing documentation, which is a gap in industry standards, resulting in a 4 for Best Practices."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Review manufacturer's and trade catalogs, drawings and other data relative to operation, maintenance, and service of equipment.",
+      "task_type": "Maintenance Procedure Development",
+      "user_prompt": "You are a Technical Writer for an industrial equipment manufacturer. Using the provided engineering specifications for the 'HydroMax 500 Pump', draft a comprehensive maintenance procedure for field technicians. The document must include a safety warnings section, a list of required tools, step-by-step maintenance instructions, and a troubleshooting guide for the three common issues listed. Ensure the tone is imperative and concise.",
+      "reference_context": {
+        "product_name": "HydroMax 500 Pump",
+        "specifications": {
+          "max_pressure": "3000 PSI",
+          "fluid_type": "ISO VG 46 Hydraulic Oil",
+          "maintenance_interval": "500 hours"
+        },
+        "common_issues": [
+          "Seal leakage at port B",
+          "Overheating due to clogged filter",
+          "Unusual noise from bearing assembly"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Accuracy — Are the technical steps and safety warnings consistent with the provided specifications (e.g., 3000 PSI limit, ISO VG 46 fluid)?",
+        "Criterion 2: Clarity — Is the language imperative, concise, and free of ambiguity?",
+        "Criterion 3: Structure — Does the output follow a logical flow including Safety, Tools, Steps, and Troubleshooting?"
+      ],
+      "student_answer": "# Maintenance Procedure: HydroMax 500 Pump\n\n**Product:** HydroMax 500 Pump  \n**Maintenance Interval:** Every 500 operating hours  \n**Fluid Specification:** ISO VG 46 Hydraulic Oil  \n**Maximum Operating Pressure:** 3000 PSI\n\n---\n\n## 1. Safety Warnings\n**WARNING:** Failure to adhere to these safety protocols may result in severe injury, equipment damage, or death.\n\n*   **Depressurize System:** Isolate the pump from the power source and relieve all hydraulic pressure before beginning work. Verify zero pressure at all ports.\n*   **Hot Surfaces:** Allow the pump and fluid to cool completely before handling. Hydraulic oil can cause severe burns.\n*   **Personal Protective Equipment (PPE):** Wear safety glasses, chemical-resistant gloves, and steel-toed boots at all times.\n*   **Fluid Disposal:** Collect all drained hydraulic oil in approved containers. Dispose of according to local environmental regulations.\n*   **Lockout/Tagout:** Apply lockout/tagout devices to the main power disconnect to prevent accidental startup.\n\n---\n\n## 2. Required Tools and Materials\n*   Wrench set (Metric and SAE)\n*   Torque wrench (calibrated)\n*   Clean lint-free rags\n*   Container for waste oil (minimum 2-gallon capacity)\n*   Replacement seals and O-rings (Kit #HM-500-SEAL)\n*   Replacement hydraulic filter (Model #HM-500-FILT)\n*   ISO VG 46 Hydraulic Oil\n*   Digital thermometer (optional)\n*   Stethoscope or mechanic's listening rod (optional)\n\n---\n\n## 3. Maintenance Instructions\n\n### Step 1: System Preparation\n1.  Shut down the equipment and engage the lockout/tagout procedure.\n2.  Relieve system pressure by cycling controls with the engine off.\n3.  Place the waste oil container beneath the pump drain plug.\n\n### Step 2: Fluid and Filter Replacement\n1.  Remove the drain plug and allow all hydraulic oil to drain completely.\n2.  Remove the old hydraulic filter. Clean the filter housing mating surface with a lint-free rag.\n3.  Lubricate the O-ring of the new filter with fresh ISO VG 46 oil.\n4.  Install the new filter and tighten to the manufacturer's specified torque.\n5.  Reinstall the drain plug and tighten securely.\n\n### Step 3: Inspection and Seal Replacement\n1.  Inspect the pump casing for cracks or corrosion.\n2.  Locate Port B. Remove the existing seal assembly.\n3.  Clean the seal groove thoroughly. Inspect the shaft for scoring or wear.\n4.  Install the new seal kit, ensuring the seal faces the correct direction.\n5.  Torque the port B fitting to specification.\n\n### Step 4: Refill and Test\n1.  Fill the reservoir with fresh ISO VG 46 Hydraulic Oil to the recommended level.\n2.  Remove the lockout/tagout devices.\n3.  Start the equipment and run at low speed for 5 minutes to purge air.\n4.  Check for leaks at Port B and the filter housing.\n5.  Monitor fluid temperature and listen for abnormal noises.\n6.  Record the maintenance date and total hours in the service log.\n\n---\n\n## 4. Troubleshooting Guide\n\n| Issue | Probable Cause | Corrective Action |\n| :--- | :--- | :--- |\n| **Seal leakage at port B** | 1. Worn or damaged seal.<br>2. Improper installation.<br>3. Shaft scoring. | 1. Replace the seal kit immediately.<br>2. Verify seal orientation and torque during reassembly.<br>3. If the shaft is scored, replace the pump assembly. |\n| **Overheating due to clogged filter** | 1. Restricted flow from debris.<br>2. Incorrect filter grade.<br>3. Low fluid level. | 1. Replace the hydraulic filter immediately.<br>2. Verify filter model matches specifications.<br>3. Check fluid level and top up with ISO VG 46 oil. |\n| **Unusual noise from bearing assembly** | 1. Bearing wear or failure.<br>2. Insufficient lubrication.<br>3. Misalignment. | 1. Inspect bearings; replace if pitted or rough.<br>2. Ensure fluid level is adequate and oil viscosity is correct.<br>3. Check pump alignment with the drive motor and realign if necessary. |",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        4,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission is well-structured, meets all task requirements, and is highly readable (Correctness, Completeness, Clarity). However, Step 3 mandates seal replacement during routine maintenance, which contradicts the Troubleshooting section listing leakage as a common issue (implying seals fail between intervals). This logical inconsistency reduces Domain Accuracy and Best Practices scores, as standard practice is inspection unless failure is detected."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Analyze developments in specific field to determine need for revisions in previously published materials and development of new material.",
+      "task_type": "Content Gap Analysis and Revision Plan",
+      "user_prompt": "You are a Senior Technical Writer reviewing the existing user manual for the 'Solaris X1 Inverter'. A recent firmware update (v2.4) has introduced a new 'Grid-Follow Mode' and changed the default safety shutdown parameters. Analyze the provided current manual excerpt and the new firmware release notes. Identify three specific sections that require revision and draft a 'Revision Plan' outlining the necessary changes, the rationale for each change, and the specific content to be added or removed.",
+      "reference_context": {
+        "product_name": "Solaris X1 Inverter",
+        "current_manual_excerpt": "Section 4.2: Safety Shutdown. The inverter automatically shuts down if the output voltage exceeds 240V for more than 5 seconds.",
+        "firmware_release_notes": "v2.4 Update: Added 'Grid-Follow Mode' for renewable integration. Changed default safety shutdown threshold to 250V to accommodate grid fluctuations. Default shutdown time reduced to 3 seconds.",
+        "target_audience": "System Integrators"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Identification — Does the plan correctly identify the specific sections affected by the firmware changes?",
+        "Criterion 2: Rationale — Is the reasoning for each revision clearly linked to the new firmware capabilities or safety parameters?",
+        "Criterion 3: Actionability — Are the proposed changes specific enough for a developer to implement immediately?"
+      ],
+      "student_answer": "# Revision Plan: Solaris X1 Inverter User Manual (Firmware v2.4)\n\n**Target Audience:** System Integrators\n**Document Version:** 2.4 Update\n**Date:** October 26, 2023\n\n---\n\n### 1. Section: 4.2 Safety Shutdown Parameters\n**Status:** Critical Revision Required\n\n*   **Rationale:** The current manual specifies a voltage threshold of 240V and a duration of 5 seconds. Firmware v2.4 updates these defaults to 250V and 3 seconds respectively to accommodate grid fluctuations. Leaving the manual unchanged will cause system integrators to misconfigure monitoring systems or incorrectly troubleshoot shutdown events.\n*   **Action:** Update the numerical values and explanatory text to reflect the new firmware defaults.\n*   **Content Changes:**\n    *   **Remove:** \"The inverter automatically shuts down if the output voltage exceeds 240V for more than 5 seconds.\"\n    *   **Add:** \"The inverter automatically shuts down if the output voltage exceeds 250V for more than 3 seconds. This adjustment accommodates standard grid fluctuations while maintaining system integrity.\"\n\n### 2. Section: 3.0 System Modes and Configuration\n**Status:** New Content Required\n\n*   **Rationale:** Firmware v2.4 introduces a new operational state, 'Grid-Follow Mode,' designed specifically for renewable energy integration. This feature is absent from the current manual, leaving integrators unaware of how to enable or configure this mode for optimal performance.\n*   **Action:** Insert a new subsection dedicated to the 'Grid-Follow Mode' within the configuration or operational modes chapter.\n*   **Content Changes:**\n    *   **Add:** A new subsection titled \"3.5 Grid-Follow Mode.\"\n    *   **Content to Include:**\n        *   Definition: \"Grid-Follow Mode synchronizes inverter output with grid frequency and voltage, optimizing renewable energy integration.\"\n        *   Activation: Instructions on enabling this mode via the local display or remote management interface.\n        *   Use Case: Recommended scenarios for deployment (e.g., hybrid solar setups).\n\n### 3. Section: 5.0 Troubleshooting and Error Codes\n**Status:** Content Expansion Required\n\n*   **Rationale:** The change in safety shutdown parameters (250V/3s) and the introduction of Grid-Follow Mode may alter the frequency or nature of specific error codes related to grid synchronization and over-voltage events. The current troubleshooting guide does not address potential issues arising from the new 3-second shutdown window or the new operational mode.\n*   **Action:** Expand the troubleshooting matrix to include new error codes associated with Grid-Follow Mode and update the guidance for over-voltage shutdowns.\n*   **Content Changes:**\n    *   **Update:** Existing \"Over-Voltage\" troubleshooting entry to reference the new 250V threshold and 3-second duration.\n    *   **Add:** New error codes (e.g., `ERR-GF-01` to `ERR-GF-03`) specific to Grid-Follow Mode synchronization failures.\n    *   **Add:** Resolution steps for \"Grid-Follow Mode\" initialization failures, guiding integrators on checking grid stability before activation.",
+      "score": 5.0,
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is exceptional. It accurately maps firmware changes to manual sections, anticipates downstream impacts on troubleshooting, and maintains a professional structure. The use of example error codes is clearly marked, preventing domain inaccuracy."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Draw sketches to illustrate specified materials or assembly sequence.",
+      "task_type": "Visual Instruction Specification",
+      "user_prompt": "You are a Technical Writer tasked with creating a visual guide for the assembly of the 'AeroFrame 3000' drone chassis. You cannot generate images, but you must write detailed text descriptions for three specific assembly steps that require visual aids. For each step, describe the exact view angle, the components involved, and the specific action to be illustrated. Additionally, provide a brief caption for each sketch that summarizes the action in one sentence.",
+      "reference_context": {
+        "product_name": "AeroFrame 3000 Drone",
+        "assembly_steps": [
+          "Step 4: Attaching the carbon fiber arm to the central hub using M4 bolts.",
+          "Step 7: Routing the power cable through the internal channel to the flight controller.",
+          "Step 12: Securing the battery mount with the locking clip."
+        ],
+        "component_details": {
+          "central_hub": "Aluminum alloy, 4 mounting points",
+          "carbon_fiber_arm": "Pre-drilled holes, 120mm length",
+          "power_cable": "18AWG, red/black wires"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Precision — Do the descriptions provide sufficient detail for an illustrator to create accurate diagrams?",
+        "Criterion 2: Clarity — Are the captions concise and do they accurately reflect the action described?",
+        "Criterion 3: Completeness — Does the output cover all three specified assembly steps with appropriate visual context?"
+      ],
+      "student_answer": "### Visual Guide: AeroFrame 3000 Drone Chassis Assembly\n\n#### Step 4: Attaching the Carbon Fiber Arm\n*   **View Angle:** Isometric close-up (30-degree angle) focusing on the junction between the central hub and the arm.\n*   **Components Involved:** Aluminum alloy central hub (showing the four M4 threaded mounting points), pre-drilled carbon fiber arm, and four M4 bolts with washers.\n*   **Action to Illustrate:** The illustration should depict the carbon fiber arm being aligned with the hub's mounting points, with the M4 bolts inserted through the arm's pre-drilled holes and partially threaded into the hub. A torque wrench should be shown engaging the final bolt to indicate the tightening sequence.\n*   **Caption:** Align the carbon fiber arm with the central hub and secure it using M4 bolts in a star pattern.\n\n#### Step 7: Routing the Power Cable\n*   **View Angle:** Exploded side view with a cutaway section revealing the internal channel of the central hub.\n*   **Components Involved:** 18AWG power cable (distinguished by red and black wires), internal routing channel within the aluminum hub, and the flight controller connector port.\n*   **Action to Illustrate:** The image must show the power cable being fed from the external battery port, carefully guided through the hidden internal channel of the hub, and emerging at the flight controller interface. Arrows should indicate the direction of the cable flow to prevent pinching or kinking.\n*   **Caption:** Route the 18AWG power cable through the internal hub channel to connect securely to the flight controller.\n\n#### Step 12: Securing the Battery Mount\n*   **View Angle:** Top-down perspective looking directly at the underside of the drone chassis where the battery mount is located.\n*   **Components Involved:** Battery mount plate, battery (optional, for scale), and the metal locking clip mechanism.\n*   **Action to Illustrate:** The sketch should display the battery mount plate positioned over the battery, with the locking clip being snapped into its designated slot on the chassis frame. A \"click\" indicator or motion lines should emphasize the final engagement of the clip to ensure the mount is locked.\n*   **Caption:** Snap the locking clip into place to firmly secure the battery mount to the chassis.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        3,
+        3,
+        5,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission excels in Clarity and Domain Accuracy, providing precise technical descriptions for the three required steps with professional formatting. However, it fails to include safety warnings or a troubleshooting section, which were explicitly listed in the 'Additional Checks' as requirements for a complete visual guide. This omission significantly impacts Completeness and Best Practices, as safety warnings are industry-standard for hardware assembly involving carbon fiber and batteries. Correctness is scored at 4 because the core task (three steps) was addressed accurately, despite the missing sections."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Review published materials and recommend revisions or changes in scope, format, content, and methods of reproduction and binding.",
+      "task_type": "Document Format and Scope Optimization",
+      "user_prompt": "You are a Technical Writer reviewing the 'Nexus Cloud API Reference Guide'. The current document is a 200-page PDF that is difficult to navigate on mobile devices. Based on the provided user feedback and the current structure, propose a revised format and scope. Your recommendation must include a specific restructuring plan (e.g., modularizing content, changing file formats), a list of content to be removed or condensed, and a justification for how these changes improve usability for mobile developers.",
+      "reference_context": {
+        "product_name": "Nexus Cloud API",
+        "current_format": "Single 200-page PDF",
+        "user_feedback": [
+          "Cannot search effectively on mobile",
+          "Code snippets are too small to read",
+          "Too much introductory theory for quick reference"
+        ],
+        "content_structure": {
+          "introduction": "50 pages",
+          "authentication": "20 pages",
+          "endpoints": "100 pages",
+          "error_codes": "30 pages"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Feasibility — Is the proposed format change realistic for the target audience (mobile developers)?",
+        "Criterion 2: Content Strategy — Does the plan effectively address the feedback regarding searchability and code readability?",
+        "Criterion 3: Justification — Are the reasons for removing or condensing specific sections (e.g., 50 pages of theory) clearly explained?"
+      ],
+      "student_answer": "# Revised Format and Scope Proposal: Nexus Cloud API Reference Guide\n\n## 1. Recommended Format and Structure\nTo address mobile navigation constraints and improve developer efficiency, the single 200-page PDF must be replaced with a **responsive, web-based documentation platform** (e.g., MkDocs, Docusaurus, or ReadTheDocs) with the following structural changes:\n\n*   **Modular Architecture**: Decompose the monolithic document into discrete, topic-based modules. Each module will be a standalone HTML page optimized for single-page application (SPA) loading, allowing developers to access specific endpoints without loading the entire guide.\n*   **Interactive Search**: Implement a client-side search engine (e.g., Algolia or Fuse.js) that indexes all content, enabling instant keyword filtering and fuzzy matching on mobile devices.\n*   **Dynamic Code Blocks**: Replace static images or fixed-width text with syntax-highlighted, copy-to-clipboard code blocks that automatically scale to fit mobile screen widths.\n*   **Collapsible Navigation**: Utilize an accordion-style sidebar for the table of contents, allowing users to expand only the relevant sections (e.g., \"Authentication\" or \"Endpoints\") to save vertical scrolling space.\n\n## 2. Content Restructuring Plan\n\n### A. Modularization Strategy\nThe current linear flow will be reorganized into the following distinct sections:\n1.  **Quick Start**: A 2-page \"Hello World\" guide for immediate API testing.\n2.  **Authentication & Security**: Condensed reference for tokens, OAuth flows, and headers.\n3.  **API Reference (Endpoints)**: The core content, organized by resource (e.g., Users, Orders, Analytics) rather than a linear list. Each endpoint will include:\n    *   HTTP Method & URL\n    *   Request/Response schemas (JSON)\n    *   Interactive \"Try It\" console (optional but recommended).\n4.  **Error Handling**: A searchable table of error codes with direct links to resolution steps.\n5.  **SDK & Libraries**: Links to official client libraries for major languages (Python, Node.js, Go, etc.).\n\n### B. Content to be Removed or Condensed\nBased on user feedback regarding \"too much introductory theory\" and \"small code snippets,\" the following adjustments are required:\n\n| Section | Current Scope | Proposed Action | Rationale |\n| :--- | :--- | :--- | : |\n| **Introduction** | 50 pages | **Reduce to 5 pages** | Remove theoretical cloud architecture concepts. Retain only \"What is Nexus Cloud,\" \"Prerequisites,\" and \"First Request.\" |\n| **Authentication** | 20 pages | **Condense to 5 pages** | Eliminate lengthy historical context. Focus strictly on implementation steps, token refresh logic, and security best practices. |\n| **Endpoints** | 100 pages | **Restructure to 80 pages** | Remove verbose prose descriptions. Replace with concise parameter tables and standardized JSON examples. |\n| **Error Codes** | 30 pages | **Condense to 10 pages** | Convert narrative descriptions into a searchable grid/table. Remove generic troubleshooting advice; link to specific resolution guides. |\n| **Total** | 200 pages | **Target: ~100 pages (Web)** | Reduces cognitive load and page load times on mobile networks. |\n\n## 3. Justification for Mobile Usability Improvements\n\nThe proposed changes directly address the specific pain points identified in user feedback:\n\n*   **Searchability**: Moving from a static PDF to a web-based platform with an indexed search engine allows mobile developers to instantly locate specific endpoints or error codes, eliminating the need to scroll through hundreds of pages.\n*   **Readability**: Dynamic code blocks ensure that JSON payloads and cURL commands scale correctly on small screens, removing the need for horizontal scrolling or zooming.\n*   **Relevance**: By stripping away 50 pages of introductory theory, the guide shifts from a \"textbook\" to a \"reference manual.\" This aligns with the mobile developer's workflow, which prioritizes quick lookups and implementation over deep theoretical study.\n*   **Navigation**: The modular, collapsible structure reduces visual clutter, allowing developers to focus on the specific API resource they are currently integrating without distraction.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission effectively proposes a web-based restructuring with clear modularization and content reduction plans, demonstrating strong clarity and general domain knowledge. However, it scores 4 on Correctness, Completeness, Best Practices, and Domain Accuracy due to specific gaps: it fails to address the 'Additional Checks' constraints regarding safety warnings and troubleshooting sections, which are critical for API documentation. Additionally, there is a minor technical imprecision regarding 'SPA loading' for standalone HTML pages. While the writing is professional and well-structured, these omissions prevent a score of 5."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Confer with customer representatives, vendors, plant executives, or publisher to establish technical specifications and to determine subject material to be developed for publication.",
+      "task_type": "Technical Specification Synthesis",
+      "user_prompt": "You are a Technical Writer preparing a 'Product Launch Brief' for the 'Titan Series Industrial Robot'. You have received conflicting notes from three stakeholders: the Plant Manager (focuses on safety and downtime), the Vendor (focuses on component compatibility), and the Customer Representative (focuses on ease of use). Synthesize these inputs into a single, cohesive set of technical specifications for the launch brochure. The output must clearly define the product's key selling points, safety features, and compatibility requirements in a unified narrative.",
+      "reference_context": {
+        "product_name": "Titan Series Industrial Robot",
+        "stakeholder_inputs": {
+          "plant_manager": "Must reduce downtime by 20%; requires automatic self-diagnostic; safety interlocks are critical.",
+          "vendor": "Compatible with existing conveyor belts; uses standard ISO 9001 components; requires specific lubrication.",
+          "customer_rep": "Interface must be intuitive for non-engineers; training time should be under 2 hours."
+        },
+        "target_audience": "Factory Floor Managers"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Synthesis — Does the output successfully integrate all three stakeholder perspectives without contradiction?",
+        "Criterion 2: Accuracy — Are the technical specifications (safety, compatibility, usability) accurately reflected from the inputs?",
+        "Criterion 3: Cohesion — Is the final narrative unified and suitable for a product launch brochure?"
+      ],
+      "student_answer": "# Product Launch Brief: Titan Series Industrial Robot\n\n## Executive Summary\nThe Titan Series Industrial Robot is engineered to redefine operational efficiency on the modern factory floor. By harmonizing rigorous safety protocols with seamless integration and intuitive operation, the Titan Series delivers a unified solution designed to minimize downtime, maximize uptime, and empower operators of all skill levels.\n\n## Key Selling Points\n*   **Maximized Uptime:** Engineered to reduce operational downtime by 20% through proactive maintenance capabilities.\n*   **Universal Integration:** Designed for immediate deployment with existing factory infrastructure, ensuring a smooth transition without costly retrofitting.\n*   **Rapid Deployment:** Features a user-centric design that enables full operational proficiency for non-engineers in under two hours.\n\n## Safety & Reliability Specifications\nSafety is the cornerstone of the Titan Series architecture, directly addressing the critical need for risk mitigation and continuous operation.\n*   **Advanced Self-Diagnostics:** The system incorporates an automatic self-diagnostic engine that continuously monitors performance metrics, identifying potential faults before they cause interruptions.\n*   **Critical Safety Interlocks:** A multi-layered safety interlock system ensures immediate cessation of operations in hazardous scenarios, protecting both personnel and equipment.\n*   **Predictive Maintenance:** By leveraging real-time data, the robot shifts maintenance from reactive to predictive, significantly extending component life and preventing unplanned stoppages.\n\n## Compatibility & Technical Requirements\nThe Titan Series is built on a foundation of global standards to ensure compatibility with diverse industrial environments.\n*   **Infrastructure Integration:** Fully compatible with existing conveyor belt systems, allowing for plug-and-play integration into current production lines.\n*   **Standardized Components:** Utilizes standard ISO 9001 certified components, guaranteeing quality assurance and simplifying the supply chain for replacement parts.\n*   **Maintenance Protocols:** To maintain optimal performance and warranty compliance, the system requires specific lubrication schedules as defined in the technical maintenance manual.\n\n## User Experience & Training\nDesigned with the end-user in mind, the Titan Series eliminates the complexity barrier often associated with industrial robotics.\n*   **Intuitive Interface:** The control interface is streamlined for non-engineers, featuring clear visual cues and simplified navigation menus.\n*   **Accelerated Onboarding:** Comprehensive training programs are structured to achieve full operator competency in less than two hours, minimizing the learning curve and accelerating time-to-value.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "Correctness (4) and Completeness (4): The submission successfully synthesizes all three stakeholder inputs into a cohesive narrative, addressing the core task requirements. However, it omits the troubleshooting section and specific hazard language requested in the Additional Checks, which are significant for technical specifications. Best Practices (3): While the tone is professional, the lack of standard safety warning headers (e.g., DANGER/WARNING) and a troubleshooting section falls short of industry standards for industrial robot documentation. Domain Accuracy (3): The submission incorrectly states the robot uses 'ISO 9001 components'; ISO 9001 is a Quality Management System standard for organizations, not a component specification standard. Clarity (5): The document is exceptionally well-structured, using clear headings and bullet points that make the information easy to digest for the target audience."
+    }
+  ]
+}

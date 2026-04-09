@@ -55,9 +55,7 @@ FIXED_DIMENSION_LABELS = ["Correctness", "Completeness", "Best Practices", "Doma
 CONFIGS_DIR = "configs"
 
 
-# ─────────────────────────────────────────────
 # SECTION 1: EVALUATION PIPELINE  (Steps 1–3)
-# ─────────────────────────────────────────────
 
 def _normalize_job_config(job_config):  # -> Dict
     """Accept a single config dict or a list of one dict (e.g. from saved JSON)."""
@@ -259,6 +257,16 @@ def step_3_grading(results: List[Dict], job_config: Dict = None) -> Tuple[List[D
         student_answer_text = item.get("student_answer") or ""
 
         print(f"\n  Task {i+1}/{len(results)}: {item.get('task_id', '?')} | {item.get('task_type', '?')}")
+
+        # Skip grading if student produced no answer (API timeout) — don't pollute scores
+        if not student_answer_text or student_answer_text.strip() in ("(no response)", ""):
+            print("    Skipped (no student answer — API timeout)")
+            item["score"] = None
+            item["dimension_scores"] = []
+            item["dimension_labels"] = dimension_labels
+            item["reason"] = "Skipped: student API timed out, no answer produced."
+            results[i] = item
+            continue
 
         grading_prompt = render_prompt_template(
             template,
@@ -596,8 +604,108 @@ def select_job_interactive(it_jobs: List[Tuple[str, str]]) -> Tuple[str, str]:
 
 
 # ─────────────────────────────────────────────
-# SECTION 3: PER-JOB RUNNER
+# SECTION 3: PER-JOB RUNNER + PATCH
 # ─────────────────────────────────────────────
+
+def patch_job(
+    job_title: str,
+    onet_code: str,
+    df: pd.DataFrame,
+    batch_size: int,
+    results_dir: str,
+    suffix: str,
+) -> bool:
+    """
+    Patch an existing result file:
+      1. Re-grade tasks that have a student answer but no dimension scores.
+      2. Evaluate O*NET tasks that were never covered (Step 1 batch failures).
+    Rewrites the result file in-place with updated scores and exposure summary.
+    """
+    import glob as _glob
+
+    # Find existing result file for this job
+    out_path = None
+    existing_data = None
+    for fpath in _glob.glob(os.path.join(results_dir, "*" + suffix)):
+        try:
+            d = json.load(open(fpath, encoding="utf-8"))
+        except Exception:
+            continue
+        if d.get("meta", {}).get("onet_code") == onet_code or \
+           d.get("meta", {}).get("job_title") == job_title:
+            out_path = fpath
+            existing_data = d
+            break
+
+    if not existing_data:
+        print(f"  No existing result file for [{job_title}] — run normally instead.")
+        return False
+
+    all_tasks = df[df["O*NET-SOC Code"].astype(str) == onet_code]["Task"].dropna().tolist()
+    if not all_tasks:
+        all_tasks = df[df["Title"] == job_title]["Task"].dropna().tolist()
+    if not all_tasks:
+        print(f"  No O*NET tasks found for [{job_title}].")
+        return False
+
+    try:
+        job_config = generate_or_load_config(job_title, onet_code, all_tasks)
+    except Exception as e:
+        print(f"  Config load failed: {e}")
+        return False
+
+    existing_tasks = existing_data["tasks"]
+    modified = False
+
+    # ── Pass 1: re-grade tasks that have an answer but no scores ─────────────
+    unscored = [
+        (i, t) for i, t in enumerate(existing_tasks)
+        if t.get("student_answer", "").strip() not in ("(no response)", "")
+        and not t.get("dimension_scores")
+    ]
+    if unscored:
+        print(f"  Re-grading {len(unscored)} unscored tasks...")
+        regraded_tasks, _, _ = step_3_grading([t for _, t in unscored], job_config)
+        for (orig_idx, _), patched in zip(unscored, regraded_tasks):
+            if patched.get("dimension_scores"):
+                existing_tasks[orig_idx] = patched
+                modified = True
+
+    # ── Pass 2: evaluate O*NET tasks that were never batched ─────────────────
+    # Use fuzzy matching: an O*NET task is considered "covered" if its text appears
+    # as a substring of any existing onet_source, or vice versa (handles Teacher rewrites).
+    covered_sources = [t.get("onet_source", "").strip().lower() for t in existing_tasks]
+
+    def _is_covered(onet_task: str) -> bool:
+        needle = onet_task.strip().lower()
+        for src in covered_sources:
+            if needle in src or src in needle:
+                return True
+        return False
+
+    unevaluated = [t for t in all_tasks if not _is_covered(t)]
+    if unevaluated:
+        print(f"  Running evaluation for {len(unevaluated)} unevaluated O*NET tasks...")
+        new_tasks = run_batched_pipeline_for_job(job_config, unevaluated, batch_size=batch_size)
+        existing_tasks.extend(new_tasks)
+        modified = True
+
+    if not modified:
+        print(f"  [{job_title}] — no gaps found, nothing to patch.")
+        return True
+
+    # ── Recompute exposure and save ───────────────────────────────────────────
+    exposure = compute_exposure_summary(existing_tasks, FIXED_DIMENSION_LABELS)
+    existing_data["meta"]["evaluated_tasks"] = len(existing_tasks)
+    existing_data["meta"]["exposure_score"] = exposure
+    existing_data["tasks"] = existing_tasks
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(existing_data, f, indent=2, ensure_ascii=False)
+
+    scored_count = sum(1 for t in existing_tasks if t.get("dimension_scores"))
+    print(f"  Patched → {out_path}  (scored: {scored_count}/{len(existing_tasks)}, "
+          f"exposure: {exposure['overall']:.2f}/5)")
+    return True
 
 def run_job(
     job_title: str,
@@ -707,6 +815,8 @@ def main():
 Examples:
   python qwen_main_pipeline.py --batch-all                   # run all 114 jobs
   python qwen_main_pipeline.py --batch-all --resume          # skip already-done jobs
+  python qwen_main_pipeline.py --patch-all                   # patch all existing results
+  python qwen_main_pipeline.py --patch --job "Budget"        # patch one job
   python qwen_main_pipeline.py --job "Software Developers"   # single job
   python qwen_main_pipeline.py                               # interactive picker
   python qwen_main_pipeline.py --config saved.json           # use saved config
@@ -723,6 +833,10 @@ Examples:
                         help="Run all jobs from digital_jobs.csv")
     parser.add_argument("--resume",       action="store_true",
                         help="Skip jobs that already have a results file (--batch-all)")
+    parser.add_argument("--patch",        action="store_true",
+                        help="Patch an existing result file: re-grade unscored tasks and fill unevaluated O*NET tasks")
+    parser.add_argument("--patch-all",    action="store_true",
+                        help="Apply --patch to every existing result file")
     parser.add_argument("--batch-size",   type=int, default=None,
                         help="Tasks per batch (default: pipeline_config batch_size = 5)")
     parser.add_argument("--skip-eval",    action="store_true",
@@ -800,6 +914,24 @@ Examples:
     df       = load_onet_excel(args.excel)
     all_jobs = load_digital_jobs(args.digital_jobs)
     print(f"\n  Loaded {len(all_jobs)} digital jobs from '{args.digital_jobs}'")
+
+    # ── Mode B2: --patch / --patch-all  (fix gaps in existing results) ──────
+    if args.patch_all or args.patch:
+        jobs_to_patch = all_jobs
+        if args.patch and args.job:
+            jobs_to_patch = [(t, c) for t, c in all_jobs if args.job.lower() in t.lower()]
+            if not jobs_to_patch:
+                print(f"  No job matching '{args.job}' found.")
+                sys.exit(1)
+        total = len(jobs_to_patch)
+        patched = 0
+        for idx, (job_title, onet_code) in enumerate(jobs_to_patch, 1):
+            print(f"\n[{idx}/{total}] Patching: {job_title}  ({onet_code})")
+            ok = patch_job(job_title, onet_code, df, batch_size, results_dir, suffix)
+            if ok:
+                patched += 1
+        print(f"\n  Patch complete: {patched}/{total} jobs processed.")
+        return
 
     # ── Mode B: --batch-all  (run every job) ─────────────────────────────────
     if args.batch_all:

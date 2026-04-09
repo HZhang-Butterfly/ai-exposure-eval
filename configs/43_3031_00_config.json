@@ -1,0 +1,99 @@
+{
+  "job_id": "bookkeeping_clerk",
+  "job_title": "Bookkeeping, Accounting, and Auditing Clerks",
+  "onet_code": "43-3031.00",
+  "role_description": "Senior Accounting Supervisor and Compliance Auditor",
+  "task_types": "Financial Data Entry & Validation / Reconciliation & Discrepancy Resolution / Regulatory Compliance & Reporting / Cash Handling & Banking / Financial Calculation & Analysis / Document Coding & Filing / Client Inquiry & Information Retrieval",
+  "onet_tasks": [
+    "Operate computers programmed with accounting software to record, store, and analyze information.",
+    "Check figures, postings, and documents for correct entry, mathematical accuracy, and proper codes.",
+    "Comply with federal, state, and company policies, procedures, and regulations.",
+    "Operate 10-key calculators, typewriters, and copy machines to perform calculations and produce documents.",
+    "Receive, record, and bank cash, checks, and vouchers.",
+    "Code documents according to company procedures.",
+    "Perform financial calculations, such as amounts due, interest charges, balances, discounts, equity, and principal.",
+    "Reconcile or note and report discrepancies found in records.",
+    "Perform general office duties, such as filing, answering telephones, and handling routine correspondence.",
+    "Access computerized financial information to answer general questions as well as those related to specific accounts."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: All financial calculations must be mathematically precise to the cent",
+    "Requirement 6: Solutions must explicitly reference relevant GAAP principles or tax regulations where applicable",
+    "Requirement 7: Discrepancy reports must include a clear audit trail of findings"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Reconcile or note and report discrepancies found in records.",
+    "task_type": "Reconciliation & Discrepancy Resolution",
+    "user_prompt": "You are a bookkeeper for 'Apex Logistics'. You have received the bank statement for October 2023 and the internal general ledger extract. Compare the two datasets provided in the context. Identify all outstanding checks, deposits in transit, and any unrecorded bank fees or interest. Calculate the adjusted bank balance and the adjusted book balance. If they do not match, identify the specific transaction causing the variance and draft a formal discrepancy report including the amount, date, and recommended corrective action.",
+    "reference_context": {
+      "bank_statement_transactions": [
+        {
+          "date": "2023-10-02",
+          "description": "Deposit",
+          "amount": 5000.0
+        },
+        {
+          "date": "2023-10-05",
+          "description": "Check #101",
+          "amount": -1200.5
+        },
+        {
+          "date": "2023-10-12",
+          "description": "Service Fee",
+          "amount": -25.0
+        },
+        {
+          "date": "2023-10-15",
+          "description": "Interest",
+          "amount": 15.5
+        }
+      ],
+      "ledger_transactions": [
+        {
+          "date": "2023-10-01",
+          "description": "Opening Balance",
+          "amount": 12000.0
+        },
+        {
+          "date": "2023-10-02",
+          "description": "Deposit",
+          "amount": 5000.0
+        },
+        {
+          "date": "2023-10-05",
+          "description": "Check #101",
+          "amount": -1200.5
+        },
+        {
+          "date": "2023-10-10",
+          "description": "Check #102",
+          "amount": -800.0
+        },
+        {
+          "date": "2023-10-18",
+          "description": "Deposit",
+          "amount": 3000.0
+        }
+      ]
+    },
+    "evaluation_criteria": [
+      "Correctness: Are all calculations (adjusted balances) mathematically accurate?",
+      "Completeness: Did the AI identify all reconciling items (outstanding checks, deposits in transit, fees)?",
+      "Best Practices: Is the discrepancy report structured professionally with clear audit trails?"
+    ]
+  },
+  "grading_notes": "Watch for rounding errors in currency calculations. Ensure the AI distinguishes between 'outstanding checks' (recorded in ledger but not bank) and 'deposits in transit' (recorded in ledger but not bank). Verify that the AI correctly applies bank fees and interest to the book balance, not the bank balance, during reconciliation. Check that the final adjusted balances match exactly.",
+  "grading_rubric_template": [
+    "1. Accuracy: Are all financial calculations and reconciliations mathematically precise to the cent?",
+    "2. Completeness: Did the solution identify and address all reconciling items and discrepancies?",
+    "3. Compliance: Does the output adhere to standard accounting principles (GAAP) and internal control procedures?",
+    "4. Clarity: Is the discrepancy report and explanation clear, logical, and easy for a supervisor to review?",
+    "5. Professionalism: Is the tone and formatting appropriate for a formal business accounting document?"
+  ],
+  "grading_scale_max": 5
+}

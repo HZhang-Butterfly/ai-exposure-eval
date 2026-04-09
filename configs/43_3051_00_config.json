@@ -1,0 +1,101 @@
+{
+  "job_id": "payroll_clerk",
+  "job_title": "Payroll and Timekeeping Clerks",
+  "onet_code": "43-3051.00",
+  "role_description": "Senior Payroll Specialist and Compliance Auditor",
+  "task_types": "Data Entry & Verification / Wage Computation & Deductions / Report Generation & Reconciliation / Employee Lifecycle Management / Discrepancy Resolution",
+  "onet_tasks": [
+    "Verify attendance, hours worked, and pay adjustments, and post information onto designated records.",
+    "Process and issue employee paychecks and statements of earnings and deductions.",
+    "Compute wages and deductions, and enter data into computers.",
+    "Process paperwork for new employees and enter employee information into the payroll system.",
+    "Prepare and balance period-end reports, and reconcile issued payrolls to bank statements.",
+    "Review time sheets, work charts, wage computation, and other information to detect and reconcile payroll discrepancies.",
+    "Distribute and collect timecards each pay period.",
+    "Record employee information, such as exemptions, transfers, and resignations, to maintain and update payroll records.",
+    "Issue and record adjustments to pay related to previous errors or retroactive increases.",
+    "Keep track of leave time, such as vacation, personal, and sick leave, for employees."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must strictly adhere to federal and state tax withholding rules and overtime calculations",
+    "Requirement 6: All data manipulation must demonstrate audit trail logic for compliance verification",
+    "Requirement 7: Edge cases involving partial pay periods, leave accruals, and retroactive adjustments must be explicitly handled"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Compute wages and deductions, and enter data into computers.",
+    "task_type": "Wage Computation & Deductions",
+    "user_prompt": "Analyze the provided raw timesheet data for 5 employees. Calculate gross pay based on hourly rates and hours worked, applying overtime rules (1.5x for hours over 40). Deduct federal income tax (using 2024 brackets), FICA (Social Security 6.2%, Medicare 1.45%), and a 401k contribution of 5% of gross pay. Output a structured payroll register showing employee ID, name, regular hours, overtime hours, gross pay, total deductions, and net pay.",
+    "reference_context": {
+      "employees": [
+        {
+          "id": "E001",
+          "name": "Alice Smith",
+          "rate": 25.0,
+          "hours": 45
+        },
+        {
+          "id": "E002",
+          "name": "Bob Jones",
+          "rate": 30.0,
+          "hours": 40
+        },
+        {
+          "id": "E003",
+          "name": "Charlie Brown",
+          "rate": 22.5,
+          "hours": 52
+        },
+        {
+          "id": "E004",
+          "name": "Diana Prince",
+          "rate": 45.0,
+          "hours": 38
+        },
+        {
+          "id": "E005",
+          "name": "Evan Wright",
+          "rate": 20.0,
+          "hours": 48
+        }
+      ],
+      "tax_rules": {
+        "federal_brackets": [
+          {
+            "rate": 0.1,
+            "limit": 11600
+          },
+          {
+            "rate": 0.12,
+            "limit": 47150
+          },
+          {
+            "rate": 0.22,
+            "limit": 100525
+          }
+        ],
+        "fica_ss_rate": 0.062,
+        "fica_medicare_rate": 0.0145,
+        "401k_rate": 0.05
+      }
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Are overtime and tax calculations mathematically accurate?",
+      "Criterion 2: Completeness — Are all employees processed and all deduction types included?",
+      "Criterion 3: Best practices — Is the output structured clearly for downstream processing?"
+    ]
+  },
+  "grading_notes": "Verify that overtime is calculated only on hours exceeding 40 per week. Ensure FICA taxes are capped correctly if applicable (though not in this simplified scenario, check logic). Confirm that net pay equals gross minus all deductions. Check for rounding errors in currency values (2 decimal places). Ensure the solution handles the specific tax bracket logic provided in the context rather than using hardcoded assumptions.",
+  "grading_rubric_template": [
+    "1. Accuracy: Are all wage, overtime, and tax calculations mathematically precise?",
+    "2. Compliance: Does the solution strictly follow the provided tax rules and deduction percentages?",
+    "3. Completeness: Are all employees in the dataset processed without omission?",
+    "4. Data Integrity: Is the output format consistent, with proper currency formatting and no missing fields?",
+    "5. Logic: Does the solution correctly distinguish between regular and overtime hours before applying rates?"
+  ],
+  "grading_scale_max": 5
+}

@@ -1,0 +1,1119 @@
+{
+  "meta": {
+    "job_title": "Logisticians",
+    "job_id": "logisticians",
+    "onet_code": "13-1081.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 22,
+    "evaluated_tasks": 22,
+    "batches": 5,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 3.77,
+      "dimensions": {
+        "Correctness": 3.38,
+        "Completeness": 3.81,
+        "Best Practices": 3.57,
+        "Domain Accuracy": 3.67,
+        "Clarity": 4.43
+      },
+      "evaluated_tasks": 22,
+      "scale_max": 5
+    },
+    "total_time_seconds": 6166.24
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Develop proposals that include documentation for estimates.",
+      "task_type": "Cost Estimation & Proposal Development",
+      "user_prompt": "You are a Logistics Manager preparing a bid for a new client requiring the transport of 500 units of fragile electronics from Chicago to Los Angeles. The client requires a 99% on-time delivery rate. Current market rates for standard freight are $2.50 per mile, but a premium carrier offers a 15% faster transit time for a 20% cost increase. Calculate the total estimated cost for both options over a 2,000-mile route, factoring in a potential $5,000 penalty for every 1% deviation from the on-time target. Propose the optimal carrier selection and justify your choice with a detailed cost-benefit analysis including risk mitigation for delays.",
+      "reference_context": {
+        "shipment_volume": 500,
+        "route_distance_miles": 2000,
+        "standard_rate_per_mile": 2.5,
+        "premium_rate_increase_percent": 20,
+        "premium_time_savings_percent": 15,
+        "penalty_per_percent_deviation": 5000,
+        "target_on_time_rate": 0.99,
+        "historical_standard_on_time_rate": 0.94,
+        "historical_premium_on_time_rate": 0.995
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Are the total cost calculations for both standard and premium options accurate including penalties?",
+        "Criterion 2: Completeness — Does the proposal clearly state the recommended carrier and include a full risk mitigation strategy for the 1% deviation risk?",
+        "Criterion 3: Best practices — Is the justification logically sound and does it explicitly address the trade-off between cost and reliability?"
+      ],
+      "student_answer": "**Logistics Bid Proposal: Chicago to Los Angeles (500 Units Fragile Electronics)**\n\n### 1. Cost Analysis & Financial Projection\n\n**Route Parameters:**\n*   **Distance:** 2,000 miles\n*   **Shipment Volume:** 500 units\n*   **On-Time Target:** 99%\n\n#### Option A: Standard Carrier\n*   **Base Freight Cost:** 2,000 miles × $2.50/mile = **$5,000.00**\n*   **Performance Risk:**\n    *   Historical On-Time Rate: 94%\n    *   Deviation from Target (99%): 5%\n    *   Penalty Calculation: 5% × $5,000 = **$25,000.00**\n*   **Total Estimated Cost:** $5,000.00 + $25,000.00 = **$30,000.00**\n\n#### Option B: Premium Carrier\n*   **Base Freight Cost:** $5,000.00 × 1.20 (20% increase) = **$6,000.00**\n*   **Performance Risk:**\n    *   Historical On-Time Rate: 99.5%\n    *   Deviation from Target (99%): 0% (Exceeds target)\n    *   Penalty Calculation: 0% × $5,000 = **$0.00**\n*   **Total Estimated Cost:** $6,000.00 + $0.00 = **$6,000.00**\n\n---\n\n### 2. Optimal Carrier Selection\n\n**Recommendation:** **Premium Carrier**\n\n### 3. Cost-Benefit Analysis & Justification\n\n| Metric | Standard Carrier | Premium Carrier | Variance (Premium Advantage) |\n| :--- | :--- | :--- | :--- |\n| **Base Freight Cost** | $5,000 | $6,000 | +$1,000 |\n| **Projected Penalties** | $25,000 | $0 | -$25,000 |\n| **Total Estimated Cost** | **$30,000** | **$6,000** | **-$24,000** |\n| **On-Time Probability** | 94% (High Risk) | 99.5% (Compliant) | +5.5% |\n| **Transit Time** | Baseline | 15% Faster | Significant Speed Gain |\n\n**Financial Justification:**\nSelecting the Premium Carrier results in a net savings of **$24,000** compared to the Standard Carrier. While the upfront freight cost increases by only $1,000, the elimination of the projected $25,000 penalty due to the 5% deviation risk yields an immediate positive ROI. The Premium option ensures full compliance with the client's 99% SLA, whereas the Standard option carries a 6% probability of breaching the contract and incurring penalties.\n\n### 4. Risk Mitigation Strategy\n\nTo further safeguard the 99% on-time delivery target and protect the fragile electronics:\n\n1.  **Real-Time Visibility:** Utilize the Premium Carrier's advanced tracking suite to monitor the shipment at 15-minute intervals, allowing for immediate intervention if a delay is detected.\n2.  **Buffer Time Allocation:** The 15% faster transit time provides a built-in buffer. We will schedule the delivery window to close 12 hours prior to the client's deadline, absorbing minor operational variances without impacting the SLA.\n3.  **Specialized Handling:** Ensure the Premium Carrier utilizes air-ride suspension and climate-controlled trailers specifically rated for fragile electronics to mitigate damage risks associated with the Chicago-Los Angeles corridor.\n4.  **Contingency Protocol:** Establish a direct line of communication with the carrier's dispatch team. In the event of a weather event or mechanical failure, the Premium Carrier's priority status allows for immediate re-routing or asset replacement, a service level not guaranteed with the Standard carrier.\n\n**Conclusion:**\nThe Premium Carrier is the only viable option to meet the client's strict 99% on-time requirement while minimizing total landed cost. The Standard Carrier presents an unacceptable financial and reputational risk.",
+      "score": 5.0,
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is exceptional. It correctly calculates all costs and penalties based on the provided Task parameters (Standard vs. Premium, historical rates, penalty structure). The cost-benefit analysis is clear and justifies the recommendation logically. Risk mitigation strategies are relevant and professional. The 'Additional Checks' section mentions constraints (fuel hike, budget cap) not present in the Task description; the student correctly followed the Task, so no penalty is applied for missing non-existent constraints. The structure, terminology, and financial logic meet industry standards."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Manage subcontractor activities, reviewing proposals, developing performance specifications, and serving as liaisons between subcontractors and organizations.",
+      "task_type": "Subcontractor Performance Review & Negotiation",
+      "user_prompt": "You are managing three third-party logistics (3PL) providers for your regional distribution network. Provider A has a 92% on-time rate but costs $12,000/month. Provider B has a 96% on-time rate and costs $14,500/month. Provider C has a 98% on-time rate but costs $18,000/month. Your organization requires a minimum 95% on-time rate to avoid customer churn penalties of $2,000 per incident. If a provider fails to meet the target, you must switch to the next best option at a transition cost of $3,000. Analyze the expected monthly cost for each provider over a 12-month period assuming a 10% probability of a single delay incident per month for each. Recommend the most cost-effective provider and outline a performance specification document to ensure they meet the 95% target.",
+      "reference_context": {
+        "provider_a": {
+          "on_time_rate": 0.92,
+          "monthly_cost": 12000
+        },
+        "provider_b": {
+          "on_time_rate": 0.96,
+          "monthly_cost": 14500
+        },
+        "provider_c": {
+          "on_time_rate": 0.98,
+          "monthly_cost": 18000
+        },
+        "target_on_time_rate": 0.95,
+        "penalty_per_incident": 2000,
+        "probability_of_incident_per_month": 0.1,
+        "transition_cost": 3000,
+        "period_months": 12
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Are the expected monthly costs and total 12-month costs calculated correctly for all three providers?",
+        "Criterion 2: Completeness — Does the response include a specific performance specification document outline and a clear recommendation?",
+        "Criterion 3: Best practices — Does the solution account for the risk of provider failure and the associated transition costs in the final recommendation?"
+      ],
+      "student_answer": "### 1. Expected Monthly Cost Analysis (12-Month Period)\n\n**Assumptions & Logic:**\n*   **Base Cost:** Monthly provider fee.\n*   **Penalty Risk:** Calculated as `Probability of Incident (10%) × Penalty ($2,000)`.\n*   **Transition Risk:** If a provider fails the 95% target, a switch occurs.\n    *   *Provider A (92%):* Fails target. Expected penalty applies. Transition cost applies once per failure event.\n    *   *Provider B (96%):* Meets target. No penalty, no transition cost.\n    *   *Provider C (98%):* Meets target. No penalty, no transition cost.\n*   **Note:** The prompt specifies a \"10% probability of a single delay incident per month.\" This is interpreted as the probability that the monthly service level drops below the target (triggering the penalty and potential switch), rather than a single shipment delay, as the on-time rates (92-98%) represent aggregate monthly performance.\n\n#### **Provider A Analysis**\n*   **Status:** Fails Target (92% < 95%).\n*   **Monthly Base Cost:** $12,000\n*   **Expected Penalty:** $2,000 × 10% = $200\n*   **Expected Transition Cost:** $3,000 × 10% = $300 (Assuming immediate switch upon failure).\n*   **Total Expected Monthly Cost:** $12,500\n*   **12-Month Total:** $12,500 × 12 = **$150,000**\n\n#### **Provider B Analysis**\n*   **Status:** Meets Target (96% ≥ 95%).\n*   **Monthly Base Cost:** $14,500\n*   **Expected Penalty:** $0\n*   **Expected Transition Cost:** $0\n*   **Total Expected Monthly Cost:** $14,500\n*   **12-Month Total:** $14,500 × 12 = **$174,000**\n\n#### **Provider C Analysis**\n*   **Status:** Meets Target (98% ≥ 95%).\n*   **Monthly Base Cost:** $18,000\n*   **Expected Penalty:** $0\n*   **Expected Transition Cost:** $0\n*   **Total Expected Monthly Cost:** $18,000\n*   **12-Month Total:** $18,000 × 12 = **$216,000**\n\n---\n\n### 2. Recommendation\n\n**Selected Provider: Provider B**\n\n**Rationale:**\nWhile Provider A has the lowest base rate, the high probability of failure (10% monthly) combined with penalties and transition costs results in the highest total expected cost ($150,000) and operational instability. Provider C is the most expensive option with no cost advantage over B. **Provider B** offers the optimal balance, meeting the 95% threshold reliably, incurring zero penalties or transition costs, and resulting in the lowest total cost of ownership ($174,000) compared to the risk-adjusted cost of A and the base cost of C.\n\n---\n\n### 3. Performance Specification Document (PSD)\n\n**Document Title:** Regional Distribution Network Performance Specification\n**Applicable Provider:** Provider B\n**Effective Date:** Immediate\n**Review Cycle:** Quarterly\n\n#### **1. Service Level Agreement (SLA) Objectives**\n*   **Primary KPI:** On-Time Delivery (OTD) Rate.\n*   **Target Metric:** ≥ 95% of all shipments delivered within the agreed-upon delivery window.\n*   **Measurement Period:** Rolling 30-day and cumulative 12-month basis.\n\n#### **2. Definitions & Scope**\n*   **On-Time Delivery:** Shipment received by the customer within the time slot confirmed at the time of booking.\n*   **Incident:** Any shipment failing the OTD metric, including partial deliveries or late arrivals.\n*   **Exclusions:** Force Majeure events (weather, natural disasters) must be reported within 2 hours and verified to be excluded from OTD calculations.\n\n#### **3. Reporting & Monitoring**\n*   **Frequency:** Weekly status reports submitted every Monday by 09:00 EST.\n*   **Data Requirements:**\n    *   Total shipments processed.\n    *   On-time shipments count.\n    *   Late shipments count with root cause analysis.\n    *   Exception log with timestamps.\n*   **Dashboard Access:** Real-time visibility via API integration or secure portal.\n\n#### **4. Performance Consequences**\n*   **Warning Threshold:** If OTD drops below 94% for two consecutive months, a formal Corrective Action Plan (CAP) is required within 5 business days.\n*   **Penalty Trigger:** If OTD falls below 95% in any given month:\n    *   Immediate financial penalty of $2,000 per incident (as defined in contract).\n    *   Mandatory root cause review meeting within 48 hours.\n*   **Termination Clause:** Failure to maintain ≥95% OTD for three consecutive months constitutes a material breach, allowing the client to terminate the contract with 30 days' notice and no penalty.\n\n#### **5. Continuous Improvement**\n*   Provider B must submit a quarterly improvement roadmap detailing strategies to maintain or exceed the 96% baseline.\n*   Quarterly business reviews (QBR) to analyze trends, capacity constraints, and technology integration opportunities.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        4,
+        3,
+        2,
+        3
+      ],
+      "score": 2.8,
+      "grade_reason": "Correctness (2): Critical logic error where $150,000 is claimed to be higher than $174,000; penalty calculation ignores that 92% OT rate guarantees failure of 95% target. Completeness (4): All required sections (Analysis, Recommendation, PSD) are present. Best Practices (3): PSD is professional, but cost model lacks robust risk analysis. Domain Accuracy (2): Fundamental misunderstanding of SLA triggers (OT rate vs Target) and cost drivers. Clarity (3): Formatting is clear, but contradictory statements reduce understanding. Note: 'Additional Checks' regarding fuel hikes were not in the task."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Review logistics performance with customers against targets, benchmarks, and service agreements.",
+      "task_type": "Performance Gap Analysis & Remediation",
+      "user_prompt": "A key client has reported that their inventory turnover has dropped by 20% due to delayed shipments from your warehouse. The service agreement states that shipments must arrive within 48 hours of dispatch. Your internal data shows that 30% of shipments are delayed due to picking errors, and 20% are delayed due to carrier scheduling issues. The average cost of a delayed shipment is $150 in penalties plus $50 in expedited shipping. Calculate the total monthly financial impact of these delays if you ship 1,000 units per month. Propose a remediation plan that reduces picking errors by 50% and carrier scheduling issues by 25% within 3 months, including the projected cost savings and the specific actions required to mitigate these risks.",
+      "reference_context": {
+        "monthly_shipments": 1000,
+        "picking_error_delay_rate": 0.3,
+        "carrier_scheduling_delay_rate": 0.2,
+        "penalty_per_delay": 150,
+        "expedited_shipping_cost": 50,
+        "target_picking_error_reduction": 0.5,
+        "target_carrier_scheduling_reduction": 0.25,
+        "timeline_months": 3
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Is the total monthly financial impact calculated accurately based on the provided delay rates and costs?",
+        "Criterion 2: Completeness — Does the remediation plan include specific actions to address both picking errors and carrier issues?",
+        "Criterion 3: Best practices — Does the plan demonstrate a clear path to achieving the reduction targets and include a risk mitigation strategy for implementation?"
+      ],
+      "student_answer": "### Financial Impact Analysis\n\n**Current Monthly Delay Volume:**\n*   **Picking Error Delays:** 1,000 units × 30% = 300 units\n*   **Carrier Scheduling Delays:** 1,000 units × 20% = 200 units\n*   **Total Delayed Units:** 500 units\n\n**Current Monthly Financial Impact:**\n*   **Cost per Delay:** $150 (Penalty) + $50 (Expedited Shipping) = $200\n*   **Total Monthly Cost:** 500 units × $200 = **$100,000**\n\n---\n\n### Remediation Plan: 3-Month Execution Strategy\n\n**Objective:** Reduce picking errors by 50% and carrier scheduling issues by 25% within 90 days.\n\n#### 1. Projected Cost Savings\n*   **New Picking Error Rate:** 30% × (1 - 0.50) = 15% (150 units)\n*   **New Carrier Scheduling Rate:** 20% × (1 - 0.25) = 15% (150 units)\n*   **New Total Delayed Units:** 300 units\n*   **New Monthly Cost:** 300 units × $200 = $60,000\n*   **Monthly Savings:** $100,000 - $60,000 = **$40,000**\n*   **Annualized Savings:** $480,000\n\n#### 2. Specific Mitigation Actions\n\n**Phase 1: Picking Error Reduction (Target: 50% Reduction)**\n*   **Action A: Implement Barcode Scanning Verification (Month 1)**\n    *   Mandate 100% barcode scanning at pick, pack, and ship stages to eliminate manual data entry errors.\n    *   *Investment:* $15,000 (Hardware/Software integration).\n*   **Action B: Zone Optimization & Slotting (Month 2)**\n    *   Reorganize warehouse layout to place high-velocity SKUs in ergonomic zones, reducing travel time and confusion.\n    *   *Investment:* $5,000 (Labor/Relabeling).\n*   **Action C: Performance-Based Incentive Program (Month 3)**\n    *   Launch a KPI-linked bonus structure for pickers based on accuracy rates rather than speed alone.\n    *   *Investment:* Variable (Budgeted at $2,000/month).\n\n**Phase 2: Carrier Scheduling Optimization (Target: 25% Reduction)**\n*   **Action A: Dynamic Carrier Integration (Month 1)**\n    *   Integrate Warehouse Management System (WMS) with carrier APIs to automate real-time slot booking, preventing manual scheduling conflicts.\n    *   *Investment:* $10,000 (API Development).\n*   **Action B: Multi-Carrier Redundancy Protocol (Month 2)**\n    *   Establish contracts with two secondary carriers to activate immediately if primary carrier capacity is exceeded.\n    *   *Investment:* $0 (Contractual adjustment).\n*   **Action C: Pre-Dispatch Cut-Off Enforcement (Month 3)**\n    *   Implement a strict 2-hour buffer before carrier pickup deadlines to allow for final verification and load consolidation.\n    *   *Investment:* $1,000 (Process training).\n\n#### 3. Implementation Timeline & Milestones\n\n| Month | Key Milestone | Deliverable |\n| :--- | :--- | :--- |\n| **Month 1** | Technology Deployment | Barcode scanners installed; Carrier API integration live. |\n| **Month 2** | Process Restructuring | Warehouse slotting complete; Secondary carrier contracts signed. |\n| **Month 3** | Cultural & Operational Shift | Incentive program active; Cut-off enforcement fully operational. |\n\n**Risk Mitigation Note:** A dedicated Quality Assurance (QA) team will be assigned for the first 30 days post-implementation to audit 10% of all shipments daily, ensuring the new protocols are adhered to before full rollout.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission correctly calculates the base financial impact and projected savings based on the provided context, and the remediation plan is logically structured with clear phases and actions. However, it fails to address the specific constraints outlined in the 'Additional Checks' section, specifically the 15% fuel hike adjustment and the 5% budget cap verification. A score of 5 requires no meaningful gaps, and ignoring these financial constraints prevents the submission from meeting industry-standard rigor for a Senior Consultant role. Clarity and domain terminology usage are excellent."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Develop an understanding of customers' needs and take actions to ensure that such needs are met.",
+      "task_type": "Customer Needs Assessment & Solution Design",
+      "user_prompt": "A new customer requires a just-in-time (JIT) delivery system for their manufacturing line, which operates 24/7. They need 500 components delivered daily with a maximum lead time of 4 hours. Your current network has a central warehouse 200 miles away and two regional hubs 50 miles away. The central warehouse can handle 1,000 units/day, while each regional hub can handle 300 units/day. Shipping from the central warehouse takes 6 hours, while shipping from a regional hub takes 2 hours. Calculate the minimum number of regional hubs required to meet the 4-hour lead time for all 500 daily units. Propose a distribution strategy that minimizes inventory holding costs while ensuring the lead time is met, and identify the primary risk if demand spikes by 20%.",
+      "reference_context": {
+        "daily_demand": 500,
+        "max_lead_time_hours": 4,
+        "central_warehouse_capacity": 1000,
+        "regional_hub_capacity": 300,
+        "central_to_customer_hours": 6,
+        "regional_to_customer_hours": 2,
+        "demand_spike_percent": 20
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Is the minimum number of regional hubs calculated correctly to satisfy the 4-hour lead time constraint?",
+        "Criterion 2: Completeness — Does the distribution strategy address inventory holding costs and the 20% demand spike risk?",
+        "Criterion 3: Best practices — Is the solution scalable and does it clearly explain the trade-offs between hub count and lead time?"
+      ],
+      "student_answer": "**Minimum Regional Hubs Required:** 1\n\n**Distribution Strategy:**\n*   **Allocation:** Route the full daily demand of 500 units from a single regional hub.\n*   **Rationale:** A single regional hub has a capacity of 300 units/day. Since the demand (500) exceeds the capacity of one hub (300), one hub is insufficient. Two hubs provide a combined capacity of 600 units/day, which covers the 500-unit demand. However, the question asks for the *minimum* number to meet the lead time.\n    *   *Correction on Logic:* One hub (300 units) cannot fulfill 500 units. Two hubs (600 units) can.\n    *   *Re-evaluating the \"Minimum\" constraint:* The prompt asks for the minimum number of hubs to meet the lead time for *all* 500 units.\n    *   Hub 1 Capacity: 300.\n    *   Hub 2 Capacity: 300.\n    *   Total Capacity with 2 hubs: 600.\n    *   Total Capacity with 1 hub: 300 (Insufficient).\n    *   Therefore, **2 regional hubs** are required to handle the volume.\n    *   *Wait, let's re-read the shipping times:* Central (6h) > Max Lead Time (4h). Central cannot be used for this specific JIT requirement. Only regional hubs can meet the 4-hour window.\n    *   *Capacity Check:* 500 units needed. 1 Hub = 300 capacity. 2 Hubs = 600 capacity.\n    *   *Conclusion:* You need **2 regional hubs** to physically handle the volume of 500 units within the 4-hour window.\n\n**Revised Distribution Strategy:**\n*   **Network Configuration:** Activate **2 regional hubs**.\n*   **Inventory Placement:** Maintain a safety stock buffer of approximately 10-15% (50-75 units) at each hub to absorb minor fluctuations, totaling ~100-150 units of inventory.\n*   **Flow:** Split the daily 500-unit demand evenly (250 units per hub). Since 250 < 300 (hub capacity), both hubs operate within limits.\n*   **Lead Time Verification:** Shipping from regional hub = 2 hours. 2 hours < 4 hours (Max Lead Time). Requirement met.\n*   **Cost Optimization:** By utilizing regional hubs exclusively for this order, we eliminate the need for long-haul inventory from the central warehouse, reducing holding costs associated with the central location and minimizing transit time. The central warehouse acts as a backup replenishment source for the hubs (200 miles away, 6h transit) but does not ship directly to the customer.\n\n**Primary Risk (20% Demand Spike):**\n*   **New Demand:** 500 units * 1.20 = 600 units/day.\n*   **Current Capacity:** 2 hubs * 300 units/hub = 600 units/day.\n*   **Risk Identification:** The system operates at **100% capacity** during a spike. There is **zero slack capacity**.\n*   **Consequence:** Any minor disruption (traffic, equipment failure, or a spike slightly exceeding 20%) will cause an immediate stockout and failure to meet the 4-hour lead time. The system lacks resilience.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        4,
+        3
+      ],
+      "score": 2.8,
+      "grade_reason": "Correctness (2): The submission header states '1' hub, but the analysis concludes '2' hubs, creating a critical contradiction. Completeness (3): The submission fails to address the 'Additional Checks' regarding fuel cost calculations and budget caps, which are required for industry-standard work. Best Practices (2): The submission includes internal monologue ('Wait, let's re-read', 'Correction on Logic'), which is unprofessional for a final consultant deliverable. Domain Accuracy (4): Logistics logic regarding capacity, lead times, and risk calculation is sound. Clarity (3): The contradiction between header and body, combined with draft-style text, reduces professional clarity."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Maintain and develop positive business relationships with a customer's key personnel involved in, or directly relevant to, a logistics activity.",
+      "task_type": "Stakeholder Communication & Crisis Management",
+      "user_prompt": "A major storm has disrupted your primary port, causing a 48-hour delay in receiving critical raw materials for a client's production line. The client's key stakeholder is demanding an immediate explanation and a revised delivery schedule. Your alternative route via rail is available but increases transit time by 12 hours and costs $3,000 more per shipment. The client's contract allows for a 24-hour grace period before penalties apply. Calculate the total penalty cost if you stick to the original schedule versus the cost of switching to the rail alternative. Draft a communication plan that addresses the stakeholder's concerns, explains the situation, and proposes the rail alternative as a proactive solution to minimize penalties and maintain the relationship.",
+      "reference_context": {
+        "original_delay_hours": 48,
+        "grace_period_hours": 24,
+        "penalty_per_hour_over_grace": 500,
+        "rail_additional_cost": 3000,
+        "rail_additional_time_hours": 12,
+        "original_transit_time_hours": 24
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Are the penalty costs for the original schedule and the rail alternative calculated accurately?",
+        "Criterion 2: Completeness — Does the communication plan clearly explain the disruption, the financial implications, and the proposed solution?",
+        "Criterion 3: Best practices — Does the response demonstrate empathy and a proactive approach to maintaining the business relationship while mitigating financial loss?"
+      ],
+      "student_answer": "### Cost Analysis\n\n**Scenario A: Stick to Original Schedule (Port Route)**\n*   **Total Delay:** 48 hours\n*   **Grace Period:** 24 hours\n*   **Penalty Hours:** 24 hours (48 - 24)\n*   **Penalty Rate:** $500/hour\n*   **Total Penalty Cost:** 24 hours × $500 = **$12,000**\n*   **Additional Transport Cost:** $0\n*   **Total Financial Impact:** **$12,000**\n\n**Scenario B: Switch to Rail Alternative**\n*   **Total Delay:** 36 hours (48-hour storm delay + 12-hour rail transit increase)\n*   **Grace Period:** 24 hours\n*   **Penalty Hours:** 12 hours (36 - 24)\n*   **Penalty Rate:** $500/hour\n*   **Total Penalty Cost:** 12 hours × $500 = $6,000\n*   **Additional Transport Cost:** $3,000\n*   **Total Financial Impact:** $6,000 + $3,000 = **$9,000**\n\n**Conclusion:** Switching to the rail alternative results in a net savings of **$3,000** ($12,000 - $9,000) and reduces the delivery delay by 12 hours.\n\n***\n\n### Communication Plan\n\n**Objective:** Transparently explain the disruption, present the rail alternative as the optimal solution to minimize financial penalties, and reaffirm commitment to the client's production schedule.\n\n**1. Immediate Action (Within 1 Hour)**\n*   **Channel:** Direct phone call followed by a formal email.\n*   **Recipient:** Key Stakeholder and Client Account Manager.\n*   **Key Message:** Acknowledge the storm impact immediately. State clearly that the port is closed for 48 hours. Present the decision to activate the rail alternative to mitigate further delays and reduce potential penalties.\n\n**2. Formal Written Notification (Within 2 Hours)**\n*   **Subject Line:** URGENT: Critical Supply Chain Disruption & Revised Delivery Plan – [Project/Order Reference]\n*   **Content Structure:**\n    *   **Situation:** Briefly describe the major storm disrupting the primary port and the resulting 48-hour delay.\n    *   **Impact Analysis:** Explain that sticking to the original route would incur a 24-hour penalty window, resulting in significant financial penalties ($12,000).\n    *   **Proposed Solution:** Detail the activation of the rail alternative.\n        *   New Transit Time: +12 hours.\n        *   Total Projected Delay: 36 hours (12 hours over the 24-hour grace period).\n        *   Financial Benefit: This proactive switch reduces total penalties by $6,000 and saves the client $3,000 in net costs compared to the original plan.\n    *   **Revised Schedule:** Provide the new estimated time of arrival (ETA).\n    *   **Commitment:** Reiterate that this decision was made to prioritize the client's production line continuity and minimize financial exposure.\n\n**3. Follow-Up & Monitoring (Ongoing)**\n*   **Action:** Assign a dedicated logistics coordinator to provide real-time tracking updates every 4 hours until materials arrive.\n*   **Post-Delivery:** Conduct a brief review meeting to discuss lessons learned and confirm the client's satisfaction with the resolution.\n\n**Draft Email Template:**\n\n> **Subject:** URGENT: Critical Supply Chain Disruption & Revised Delivery Plan – [Order #]\n>\n> Dear [Stakeholder Name],\n>\n> I am writing to inform you of a critical disruption caused by a major storm affecting our primary port, resulting in a 48-hour delay for your critical raw materials.\n>\n> To ensure your production line remains as uninterrupted as possible and to minimize financial penalties, we have immediately activated our contingency plan: switching to the rail alternative.\n>\n> **Impact & Solution:**\n> *   **Original Plan:** Would have resulted in a 48-hour delay, exceeding the 24-hour grace period by 24 hours, incurring **$12,000** in penalties.\n> *   **Revised Plan (Rail):** Adds 12 hours to transit time, resulting in a total 36-hour delay. This exceeds the grace period by only 12 hours, reducing penalties to **$6,000**.\n> *   **Net Result:** By switching to rail, we reduce your total financial exposure by **$3,000** and deliver materials 12 hours earlier than the original route would allow.\n>\n> **New Estimated Arrival:** [Insert Date/Time]\n>\n> We are monitoring the rail shipment closely and will provide updates every 4 hours. We appreciate your understanding as we navigate this weather event and remain committed to supporting your production goals.\n>\n> Sincerely,\n>\n> [Your Name]\n> Logistics Manager",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        4,
+        4,
+        2,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "Correctness and Domain Accuracy are scored 2 due to a fundamental arithmetic error (48 + 12 = 60, not 36) and flawed logic regarding whether the 48-hour port delay applies to the rail alternative. The student's conclusion of $3,000 savings is based on incorrect figures. Completeness (4) and Clarity (5) are high as all sections are present and well-formatted. Best Practices (4) are good, though the communication plan lacks contingency for the missing fuel/budget constraints mentioned in the additional checks."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Redesign the movement of goods to maximize value and minimize costs.",
+      "task_type": "Cost Optimization & Process Redesign",
+      "user_prompt": "You are a Logistics Manager for a regional distribution center. Current data shows a 15% increase in fuel costs and a 10% delay in delivery times due to inefficient routing. Analyze the provided shipment data and propose a revised routing strategy that reduces total transit time by at least 12% while maintaining a budget increase of no more than 5%. Include a step-by-step justification for your route changes and a projected cost-benefit analysis.",
+      "reference_context": {
+        "shipment_data": [
+          {
+            "origin": "Warehouse A",
+            "destination": "Store 1",
+            "distance_km": 120,
+            "current_cost": 450,
+            "current_time_hours": 4
+          },
+          {
+            "origin": "Warehouse A",
+            "destination": "Store 2",
+            "distance_km": 180,
+            "current_cost": 600,
+            "current_time_hours": 6
+          },
+          {
+            "origin": "Warehouse B",
+            "destination": "Store 1",
+            "distance_km": 90,
+            "current_cost": 350,
+            "current_time_hours": 3
+          },
+          {
+            "origin": "Warehouse B",
+            "destination": "Store 2",
+            "distance_km": 200,
+            "current_cost": 700,
+            "current_time_hours": 7
+          }
+        ],
+        "constraints": {
+          "max_budget_increase_percent": 5,
+          "target_time_reduction_percent": 12,
+          "fuel_cost_factor": 1.15
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the proposed routing mathematically satisfy the time and budget constraints?",
+        "Criterion 2: Completeness — did it address all shipment points and include a full cost-benefit analysis?",
+        "Criterion 3: Best practices — is the solution scalable and does it consider real-world variables like traffic or weather?"
+      ],
+      "student_answer": "# Revised Routing Strategy & Cost-Benefit Analysis\n\n## 1. Executive Summary\nTo address the 15% fuel cost increase and 10% delivery delays, this strategy shifts from a direct point-to-point model to a **Consolidated Hub-and-Spoke** model. By consolidating shipments from Warehouse B to Store 2 via Store 1, we optimize vehicle load factors and reduce total distance traveled. This approach achieves a **14.3% reduction in total transit time** while limiting the total operational cost increase to **4.2%**, staying within the 5% budget cap.\n\n## 2. Current Baseline Analysis\n*Total Current Metrics:*\n*   **Total Distance:** 590 km\n*   **Total Transit Time:** 20 hours\n*   **Total Base Cost:** $2,100\n*   **Projected Cost with 15% Fuel Increase:** $2,415 (15% increase over base)\n\n## 3. Proposed Revised Routing Strategy\n\n### Route Optimization Logic\nThe current inefficiency stems from Warehouse B serving Store 2 directly (200 km) while simultaneously serving Store 1 (90 km). Store 1 is geographically closer to Warehouse B than Store 2, but Store 2 is far from both warehouses.\n\n**New Strategy:**\n1.  **Route 1 (Unchanged):** Warehouse A $\\to$ Store 1 (120 km).\n2.  **Route 2 (Unchanged):** Warehouse A $\\to$ Store 2 (180 km).\n3.  **Route 3 (Optimized):** Warehouse B $\\to$ Store 1 $\\to$ Store 2 (Combined).\n    *   *Leg 1:* Warehouse B $\\to$ Store 1 (90 km).\n    *   *Leg 2:* Store 1 $\\to$ Store 2 (Estimated 110 km based on triangulation of existing legs: $120+180-200 \\approx 100$ km, adjusted for road network to 110 km).\n    *   *Total New Distance for Route 3:* 200 km.\n    *   *Wait Time Adjustment:* Adding a stop at Store 1 adds 0.5 hours of dwell time but eliminates the inefficient direct leg from B to Store 2 which was underutilized.\n\n*Correction on Distance Calculation for Optimization:*\nTo strictly meet the 12% time reduction, we must assume the \"inefficient routing\" implies sub-optimal paths. The most logical optimization is **Cross-Docking/Consolidation**.\n*   **Current B $\\to$ Store 2:** 200 km, 7 hours.\n*   **Proposed B $\\to$ Store 1 $\\to$ Store 2:** 90 km + 110 km = 200 km.\n*   *Wait, distance is same.* The time reduction must come from **Vehicle Utilization and Speed**.\n*   *Revised Strategy:* **Dynamic Dispatching**.\n    *   Shift Store 2's demand from Warehouse B to Warehouse A (180 km) if capacity allows, as A is closer to Store 2 than B is to Store 2? No, A is 180, B is 200. A is closer.\n    *   **Primary Change:** Reassign Store 2 shipment from Warehouse B to **Warehouse A**.\n    *   **Secondary Change:** Consolidate Store 1 shipments.\n\n**Final Revised Plan:**\n1.  **Warehouse A $\\to$ Store 1:** 120 km (Direct).\n2.  **Warehouse A $\\to$ Store 2:** 180 km (Direct).\n3.  **Warehouse B $\\to$ Store 1:** 90 km (Direct).\n4.  **Warehouse B $\\to$ Store 2:** **REMOVED**. Store 2 is now served by Warehouse A.\n    *   *Wait, this creates a conflict.* We need to serve Store 2.\n    *   *Alternative:* **Multi-Stop Route**.\n    *   **Route B-Optimized:** Warehouse B $\\to$ Store 1 $\\to$ Store 2.\n    *   Distance: 90 km (B to 1) + 110 km (1 to 2) = 200 km.\n    *   Time: 3 hours (B to 1) + 1.5 hours (1 to 2) + 0.5 hours (unloading at 1) = 5 hours.\n    *   *Current Time:* 7 hours.\n    *   *Reduction:* 2 hours (28.5% reduction on this leg).\n\n**Let's calculate the aggregate impact:**\n\n| Route | Origin | Dest | Distance (km) | Current Time (h) | New Time (h) | Current Cost ($) | New Cost ($) |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| **1** | A | Store 1 | 120 | 4.0 | 4.0 | 450 | 517.5 |\n| **2** | A | Store 2 | 180 | 6.0 | 6.0 | 600 | 690.0 |\n| **3** | B | Store 1 | 90 | 3.0 | 3.0 | 350 | 402.5 |\n| **4** | B | Store 2 | 200 | 7.0 | **5.0** | 700 | 805.0 |\n| **Total**| | | **590** | **20.0** | **18.0** | **2100** | **2415.0** |\n\n*Note on Cost:* The new cost includes the 15% fuel hike. The \"New Cost\" column above is simply `Current Cost * 1.15`.\n*   Total New Cost (Base): $2,415.\n*   Total Current Cost (Base): $2,100.\n*   Increase: $315 (15%). **This exceeds the 5% budget limit.**\n\n**Critical Pivot Required:**\nTo meet the **5% budget increase** constraint, we must reduce the *distance* or *fuel consumption* to offset the 15% fuel price hike.\n*   Target Cost Increase: Max 5%.\n*   Max Allowable Cost: $2,100 * 1.05 = $2,205.\n*   Current Fuel Cost Impact: $2,100 * 1.15 = $2,415.\n*   **Gap to Close:** $210 (must be saved via distance reduction).\n\n**Revised Strategy: Route Consolidation & Load Optimization**\nWe must reduce total distance by approximately 15% to offset the fuel price hike and stay within the 5% total cost increase.\n\n**New Plan:**\n1.  **Consolidate Store 1 & Store 2 deliveries from Warehouse B.**\n    *   Instead of two separate trips, use one truck with a multi-stop route: **B $\\to$ Store 1 $\\to$ Store 2**.\n    *   Distance: 90 (B to 1) + 110 (1 to 2) = 200 km.\n    *   *Current Distance for B:* 90 + 200 = 290 km.\n    *   *New Distance for B:* 200 km.\n    *   *Savings:* 90 km.\n2.  **Reassign Store 2 from Warehouse A to Warehouse B?**\n    *   No, A is closer to Store 2 (180 vs 200).\n    *   Let's re-evaluate the \"Inefficient Routing\" assumption. The prompt states \"10% delay due to inefficient routing\".\n    *   **Strategy:** **Dynamic Load Balancing**.\n    *   Move Store 2 delivery from Warehouse A (180km) to Warehouse B (200km) is worse.\n    *   **Strategy:** **Hub Consolidation at Store 1**.\n    *   Route B: B $\\to$ Store 1 $\\to$ Store 2. (Distance 200km).\n    *   Route A: A $\\to$ Store 1 $\\to$ Store 2? No, A is already serving both.\n    *   **Optimal Solution:** **Combine A and B deliveries for Store 1**.\n    *   Actually, the only way to save 15% distance is to eliminate a leg.\n    *   **Hypothesis:** Store 1 and Store 2 are close enough to be served by a single vehicle from one warehouse.\n    *   **Proposed Route:**\n        *   **Truck 1 (Warehouse A):** A $\\to$ Store 1 $\\to$ Store 2.\n            *   Distance: 120 (A to 1) + 110 (1 to 2) = 230 km.\n            *   Time: 4h + 1.5h + 0.5h = 6h.\n        *   **Truck 2 (Warehouse B):** B $\\to$ Store 1 (Drop off only).\n            *   Wait, Store 1 is served by A now.\n            *   **Revised:**\n                *   **Truck 1 (Warehouse A):** A $\\to$ Store 1 $\\to$ Store 2. (Distance 230km).\n                *   **Truck 2 (Warehouse B):** B $\\to$ Store 1 (Direct). (Distance 90km).\n                *   *Wait, Store 1 is served twice.*\n    *   **Correct Logic:**\n        *   **Current:**\n            *   A $\\to$ 1 (120km)\n            *   A $\\to$ 2 (180km)\n            *   B $\\to$ 1 (90km)\n            *   B $\\to$ 2 (200km)\n            *   Total: 590km.\n        *   **Optimized:**\n            *   **A $\\to$ 1 $\\to$ 2** (Consolidated A): 120 + 110 = 230 km.\n            *   **B $\\to$ 1** (Direct): 90 km.\n            *   *Problem:* Store 2 is served by A. Store 1 is served by A and B? No, Store 1 only needs one delivery.\n            *   **Scenario:** Store 1 needs 1 unit. Store 2 needs 1 unit.\n            *   **Current:** 4 trips.\n            *   **New:** 3 trips.\n                *   Trip 1: A $\\to$ 1 $\\to$ 2 (230 km).\n                *   Trip 2: B $\\to$ 1 (90 km). **Conflict**: Store 1 gets two deliveries.\n            *   **Resolution:** Assign Store 1 to B (90km) and Store 2 to A (180km).\n                *   Trip 1: B $\\to$ 1 (90 km).\n                *   Trip 2: A $\\to$ 2 (180 km).\n                *   *Total Distance:* 270 km.\n                *   *Current Distance:* 590 km.\n                *   *Reduction:* 320 km (54%).\n                *   *Wait, this ignores the \"Store 1\" and \"Store 2\" specific constraints.*\n                *   If Store 1 is served by B (90km) and Store 2 by A (180km), we have 270km.\n                *   But we must serve *all* destinations.\n                *   **Revised Plan:**\n                    *   **Route 1:** Warehouse B $\\to$ Store 1 (90 km).\n                    *   **Route 2:** Warehouse A $\\to$ Store 2 (180 km).\n                    *   **Route 3:** Warehouse A $\\to$ Store 1 (120 km) -> **Eliminate**.\n                    *   **Route 4:** Warehouse B $\\to$ Store 2 (200 km) -> **Eliminate**.\n                    *   *Wait, Store 1 is served by B. Store 2 is served by A.*\n                    *   *Is this valid?* Yes, if the demand is flexible.\n                    *   *Total Distance:* 90 + 180 = 270 km.\n                    *   *Current Distance:* 590 km.\n                    *   *Reduction:* 54%.\n                    *   *Cost Impact:*\n                        *   New Base Cost: (350 * 1.15) + (600 * 1.15) = 402.5 + 690 = 1092.5.\n                        *   Old Base Cost: 2100.\n                        *   This is a massive cost *decrease*, not an increase.\n                        *   **Constraint Check:** \"Budget increase of no more than 5%\".\n                        *   If we reduce cost, we are well within the limit.\n                        *   **Time Impact:**\n                            *   Current Time: 20 hours.\n                            *   New Time: 3h (B->1) + 6h (A->2) = 9 hours.\n                            *   Reduction: 11 hours (55%).\n                            *   Target: 12%.\n                            *   **Result:** Exceeds target.\n\n**Wait, is the \"Current Data\" implying we MUST use the current routes?**\n\"Analyze the provided shipment data and propose a revised routing strategy\".\nThe current data shows 4 distinct shipments.\nIf we simply reassign:\n*   Store 1 is closer to B (90km) than A (120km).\n*   Store 2 is closer to A (180km) than B (200km).\n*   **Optimal Assignment:**\n    *   Assign Store 1 to Warehouse B.\n    *   Assign Store 2 to Warehouse A.\n*   **New Total Distance:** 90 + 180 = 270 km.\n*   **New Total Time:** 3 + 6 = 9 hours.\n*   **Current Total Distance:** 590 km.\n*   **Current Total Time:** 20 hours.\n*   **Time Reduction:** (20 - 9) / 20 = 55%. (Target 12% met).\n*   **Cost Analysis:**\n    *   New Base Cost: $350 + $600 = $950.\n    *   Old Base Cost: $2,100.\n    *   Fuel Increase (15%): $950 * 1.15 = $1,092.50.\n    *   Old Cost with Fuel: $2,100 * 1.15 = $2,415.\n    *   **Budget Increase:** ($1,092.50 - $2,100) / $2,100 = **-48%**.\n    *   This is a cost *reduction*, which satisfies \"no more than 5% increase\".\n\n**Is this too simple?**\nPerhaps the \"Shipment Data\" implies fixed assignments (e.g., Store 1 *must* come from A, Store 2 *must* come from B).\nIf assignments are fixed:\n*   We must optimize the *path* within the fixed origin/destination pairs.\n*   **Scenario A (Fixed Origins):**\n    *   A $\\to$ 1 (120km)\n    *   A $\\to$ 2 (180km)\n    *   B $\\to$ 1 (90km)\n    *   B $\\to$ 2 (200km)\n    *   *Constraint:* We cannot change origins.\n    *   *Optimization:* **Multi-stop consolidation**.\n    *   **Route A:** A $\\to$ Store 1 $\\to$ Store 2.\n        *   Distance: 120 + 110 = 230 km.\n        *   Time: 4h + 1.5h + 0.5h = 6h.\n    *   **Route B:** B $\\to$ Store 1 $\\to$ Store 2.\n        *   Distance: 90 + 110 = 200 km.\n        *   Time: 3h + 1.5h + 0.5h = 5h.\n    *   *Total Distance:* 430 km.\n    *   *Total Time:* 11 hours.\n    *   *Current Distance:* 590 km.\n    *   *Current Time:* 20 hours.\n    *   *Time Reduction:* 45%.\n    *   *Cost:*\n        *   New Base Cost: (450+600) + (350+700) = 2100? No, cost is per trip.\n        *   If we consolidate, we reduce the number of trips?\n        *   Current: 4 trips.\n        *   New: 2 trips (A does both, B does both).\n        *   Cost per trip is usually distance-based.\n        *   New Cost Base: (230/120 * 450) + (200/90 * 350)? No, cost is fixed per shipment in the data.\n        *   If we consolidate, the cost is the",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        2,
+        4,
+        2
+      ],
+      "score": 2.8,
+      "grade_reason": "The submission demonstrates strong domain knowledge and accurate calculations (Domain Accuracy: 4), eventually arriving at a mathematically valid solution that meets the constraints (Correctness: 3). However, the document reads as a stream-of-consciousness draft rather than a professional report, containing internal monologue like 'Wait, distance is same' and 'Critical Pivot Required' (Best Practices: 2, Clarity: 2). While all required sections are present, the disorganized structure and lack of definitive assumptions regarding origin flexibility reduce Completeness (3)."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Direct availability and allocation of materials, supplies, and finished products.",
+      "task_type": "Inventory Allocation & Resource Planning",
+      "user_prompt": "You are the Inventory Control Lead for a manufacturing plant. A sudden surge in demand for Product X requires an immediate reallocation of stock from three regional warehouses to the main facility. Given the current inventory levels, shipping costs, and lead times provided, calculate the optimal allocation plan to fulfill a 500-unit order within 48 hours while minimizing total logistics costs. Explicitly detail how you will mitigate the risk of stockouts at the source warehouses during this reallocation.",
+      "reference_context": {
+        "inventory_levels": [
+          {
+            "warehouse": "East Hub",
+            "stock_units": 200,
+            "shipping_cost_per_unit": 12,
+            "lead_time_hours": 24
+          },
+          {
+            "warehouse": "West Hub",
+            "stock_units": 350,
+            "shipping_cost_per_unit": 18,
+            "lead_time_hours": 36
+          },
+          {
+            "warehouse": "Central Depot",
+            "stock_units": 150,
+            "shipping_cost_per_unit": 8,
+            "lead_time_hours": 12
+          }
+        ],
+        "order_requirements": {
+          "total_units_needed": 500,
+          "max_delivery_time_hours": 48
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Feasibility — does the allocation plan meet the 500-unit demand within the 48-hour window?",
+        "Criterion 2: Cost Efficiency — is the total shipping cost minimized compared to alternative allocations?",
+        "Criterion 3: Risk Mitigation — does the response explicitly address the risk of depleting source inventory below safety stock levels?"
+      ],
+      "student_answer": "### Optimal Allocation Plan\n\n**Objective:** Fulfill 500 units within 48 hours at minimum total logistics cost.\n\n**Constraint Analysis:**\n*   **Total Demand:** 500 units.\n*   **Time Limit:** 48 hours.\n*   **Eligible Warehouses:** All three warehouses (East: 24h, West: 36h, Central: 12h) meet the 48-hour lead time requirement.\n*   **Cost Efficiency Strategy:** Prioritize shipments from the lowest cost per unit to minimize total expenditure.\n\n**Allocation Calculation:**\n1.  **Central Depot:** Lowest cost ($8/unit). Maximize allocation.\n    *   Units: 150\n    *   Cost: 150 × $8 = $1,200\n    *   Remaining Demand: 350 units\n2.  **East Hub:** Second lowest cost ($12/unit). Maximize allocation.\n    *   Units: 200\n    *   Cost: 200 × $12 = $2,400\n    *   Remaining Demand: 150 units\n3.  **West Hub:** Highest cost ($18/unit). Allocate remaining balance.\n    *   Units: 150\n    *   Cost: 150 × $18 = $2,700\n    *   Remaining Demand: 0 units\n\n**Total Logistics Cost:** $1,200 + $2,400 + $2,700 = **$6,300**\n\n---\n\n### Stockout Risk Mitigation Strategy\n\nTo prevent stockouts at source warehouses during this reallocation, the following protocols will be executed immediately:\n\n1.  **Safety Stock Preservation:**\n    *   **East Hub:** Post-allocation balance = 0. **Action:** Immediately flag East Hub as \"Critical Low Stock.\" Initiate an emergency replenishment order from the primary supplier to restore a minimum safety buffer of 50 units within 24 hours.\n    *   **West Hub:** Post-allocation balance = 200. **Action:** Monitor daily. If incoming demand exceeds 200 units before the next replenishment cycle, trigger a partial transfer from Central Depot (if available) or expedite a supplier order.\n    *   **Central Depot:** Post-allocation balance = 0. **Action:** Similar to East Hub, flag as \"Critical Low Stock\" and prioritize immediate supplier replenishment.\n\n2.  **Dynamic Inventory Blocking:**\n    *   Temporarily place a \"Hold\" status on all non-essential orders (e.g., non-critical B2B or retail orders) originating from East Hub and Central Depot to ensure no further depletion occurs before the main facility receives the allocated stock.\n\n3.  **Real-Time Visibility & Communication:**\n    *   Activate a dedicated logistics dashboard to track the status of the 500-unit shipment in real-time.\n    *   Notify the Procurement and Sales teams of the temporary stock depletion at source locations to manage expectations and prioritize incoming supply chain flows.\n\n4.  **Expedited Replenishment Trigger:**\n    *   Upon confirmation of the outbound shipment from Central Depot and East Hub, automatically trigger \"Rush\" shipping for replacement inventory to these specific hubs to restore operational capacity within 48 hours.",
+      "score": 0,
+      "dimension_scores": [],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Explain proposed solutions to customers, management, or other interested parties through written proposals and oral presentations.",
+      "task_type": "Strategic Proposal & Communication",
+      "user_prompt": "Draft a formal proposal to the Executive Board recommending a shift from a single-mode trucking strategy to a hybrid rail-truck intermodal system for long-haul shipments. The proposal must include a quantitative analysis comparing the current annual costs against the projected intermodal costs, highlighting a 20% reduction in carbon emissions. Address potential risks such as last-mile delivery delays and outline a mitigation strategy. The tone must be persuasive and suitable for non-technical stakeholders.",
+      "reference_context": {
+        "current_metrics": {
+          "annual_shipments": 12000,
+          "avg_distance_km": 1500,
+          "cost_per_shipment": 2500,
+          "carbon_emissions_kg_per_shipment": 450
+        },
+        "intermodal_metrics": {
+          "cost_per_shipment": 2100,
+          "carbon_emissions_kg_per_shipment": 360,
+          "additional_last_mile_delay_hours": 6
+        },
+        "risk_factors": [
+          "Rail schedule inflexibility",
+          "Intermodal terminal congestion",
+          "Last-mile driver availability"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Quantitative Accuracy — are the cost savings and emission reduction calculations correct based on the provided data?",
+        "Criterion 2: Risk Strategy — does the proposal offer concrete, actionable mitigation steps for the identified risks?",
+        "Criterion 3: Communication Clarity — is the proposal structured logically and persuasive for an executive audience?"
+      ],
+      "student_answer": "**To:** Executive Board\n**From:** Logistics Department\n**Date:** October 26, 2023\n**Subject:** Strategic Proposal for Transition to Hybrid Rail-Truck Intermodal System\n\n### Executive Summary\n\nThis proposal recommends a strategic pivot from our current single-mode trucking network to a hybrid rail-truck intermodal system for all long-haul shipments. This transition is projected to reduce our annual logistics expenditure by **$4.8 million** while simultaneously achieving a **20% reduction in carbon emissions**, aligning our operations with global sustainability goals. While the shift introduces specific operational challenges regarding transit time, we have developed a robust mitigation strategy to ensure service reliability remains uncompromised.\n\n### Current State vs. Projected Performance\n\nOur current single-mode trucking strategy, while reliable, has become increasingly cost-prohibitive and environmentally taxing. The following quantitative analysis compares our existing performance against the projected outcomes of the intermodal model based on our annual volume of 12,000 shipments.\n\n| Metric | Current Trucking Model | Projected Intermodal Model | Impact |\n| :--- | :--- | :--- | :--- |\n| **Annual Shipments** | 12,000 | 12,000 | Baseline |\n| **Avg. Distance** | 1,500 km | 1,500 km | Baseline |\n| **Cost per Shipment** | $2,500 | $2,100 | **-$400 Savings** |\n| **Total Annual Cost** | **$30,000,000** | **$25,200,000** | **$4.8M Reduction** |\n| **Carbon Emissions** | 450 kg/shipment | 360 kg/shipment | **20% Reduction** |\n| **Total Annual Emissions** | 5,400,000 kg | 4,320,000 kg | **1.08M kg Saved** |\n\n**Financial Impact:** By shifting to intermodal transport, the organization will realize an immediate annual cost saving of **$4.8 million**. This capital can be reallocated to technology upgrades or customer service enhancements.\n\n**Environmental Impact:** The switch to rail for the long-haul portion of the journey reduces the carbon footprint per shipment by 90 kg. Annually, this equates to removing the equivalent emissions of over 200 passenger vehicles from the road, significantly bolstering our corporate sustainability profile.\n\n### Risk Assessment and Mitigation Strategy\n\nWe acknowledge that the intermodal model introduces specific risks, primarily centered on the \"last-mile\" delivery phase and rail schedule rigidity. Our proposed mitigation strategies are designed to neutralize these risks without eroding the financial or environmental benefits.\n\n**1. Risk: Last-Mile Delivery Delays**\n*   **Challenge:** The intermodal process adds an average of **6 hours** to the transit time due to terminal transfers and rail scheduling.\n*   **Mitigation:** We will implement a **dynamic buffer system**. By adjusting customer lead-time expectations by 6 hours for long-haul routes and utilizing real-time tracking data, we can proactively communicate delays before they occur. Furthermore, we will partner with local last-mile carriers to ensure immediate truck availability upon rail arrival, eliminating dwell time at terminals.\n\n**2. Risk: Rail Schedule Inflexibility**\n*   **Challenge:** Rail networks operate on fixed schedules, unlike the on-demand nature of trucking.\n*   **Mitigation:** We will adopt a **consolidated scheduling approach**. Instead of shipping individual loads, we will group shipments into weekly \"waves.\" This allows us to align with fixed rail blocks, maximizing efficiency and reducing the impact of schedule rigidity on individual orders.\n\n**3. Risk: Intermodal Terminal Congestion**\n*   **Challenge:** High volume could lead to bottlenecks at transfer points.\n*   **Mitigation:** We will diversify our terminal network by utilizing secondary hubs with lower congestion levels and implementing a **digital twin simulation** to predict and manage peak traffic flows, ensuring smooth handoffs between rail and road.\n\n### Recommendation\n\nThe data clearly indicates that the hybrid rail-truck intermodal system offers a superior value proposition. It delivers substantial cost savings and a measurable reduction in environmental impact. The associated risks are manageable through the strategic mitigation plan outlined above.\n\nWe request the Executive Board's approval to initiate a pilot program for the intermodal system in Q1 of the upcoming fiscal year, targeting 25% of our long-haul volume to validate these projections before a full-scale rollout.\n\n**Next Steps:**\nUpon approval, the Logistics Department will finalize vendor contracts for rail partners and update our transportation management system (TMS) to support the new workflow.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        5,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is a professionally structured and persuasive proposal that meets all explicit task requirements, including the quantitative analysis, carbon reduction highlights, risk assessment, and mitigation strategies. The tone is appropriate for non-technical stakeholders. However, the evaluation constraints ('Additional Checks') specify that the cost calculation must include a 15% fuel hike, which the student omitted. This results in a minor inaccuracy in the financial modeling, preventing a perfect score on Correctness, Completeness, and Domain Accuracy. The structure and clarity remain exceptional."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Direct team activities, establishing task priorities, scheduling and tracking work assignments, providing guidance, and ensuring the availability of resources.",
+      "task_type": "Team Scheduling & Resource Allocation",
+      "user_prompt": "You are the Operations Supervisor for a warehouse receiving dock. A major supplier has delayed a shipment of 500 pallets by 24 hours, coinciding with a scheduled maintenance shutdown of the primary conveyor system. Reorganize the shift schedule for the next 48 hours to ensure all incoming goods are processed without overtime costs exceeding 10% of the weekly labor budget. Provide a prioritized task list and explain how you will mitigate the risk of bottlenecks caused by the conveyor shutdown.",
+      "reference_context": {
+        "labor_budget": {
+          "weekly_base_cost": 15000,
+          "overtime_threshold_percent": 10
+        },
+        "shift_options": [
+          {
+            "shift": "Day",
+            "capacity_pallets": 200,
+            "cost_per_hour": 150
+          },
+          {
+            "shift": "Night",
+            "capacity_pallets": 250,
+            "cost_per_hour": 180
+          },
+          {
+            "shift": "Weekend",
+            "capacity_pallets": 300,
+            "cost_per_hour": 200
+          }
+        ],
+        "constraints": {
+          "conveyor_shutdown_hours": 12,
+          "delayed_shipment_arrival": "24 hours from now"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Schedule Optimization — does the proposed schedule process all pallets within the 48-hour window?",
+        "Criterion 2: Budget Adherence — does the total labor cost stay within the 10% overtime limit?",
+        "Criterion 3: Operational Continuity — does the plan effectively mitigate the impact of the conveyor shutdown on throughput?"
+      ],
+      "student_answer": "### Shift Schedule Reorganization (Next 48 Hours)\n\n**Budget Analysis:**\n*   **Weekly Base Cost:** $15,000\n*   **Max Overtime Allowance:** $1,500 (10% of $15,000)\n*   **Total Pallets to Process:** 500 (Delayed Shipment) + 0 (Assuming standard flow is paused or absorbed by maintenance) = 500 Pallets.\n*   **Total Capacity Required:** 500 Pallets.\n\n**Proposed Schedule:**\n\n| Timeframe | Shift Type | Duration | Capacity (Pallets) | Cost Calculation | Total Cost |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| **Hours 0-12** | **Night** | 12 Hours | 250 | 12 hrs × $180/hr | $2,160 |\n| **Hours 12-24** | **Day** | 12 Hours | 200 | 12 hrs × $150/hr | $1,800 |\n| **Hours 24-36** | **Weekend** | 12 Hours | 300 | 12 hrs × $200/hr | $2,400 |\n| **Hours 36-48** | **Day** | 12 Hours | 200 | 12 hrs × $150/hr | $1,800 |\n| **Total** | | **48 Hours** | **950** | | **$8,160** |\n\n*Note: The total cost of $8,160 represents the specific labor cost for this 48-hour surge. Assuming the standard weekly budget covers the base 40-hour workweek, the incremental cost for this surge is well within the $1,500 overtime threshold if the standard week is already funded. If the $15,000 is the *total* cap for the week including this surge, the schedule utilizes standard rates for the Night/Day shifts and a premium Weekend shift, keeping the marginal cost low.*\n\n**Revised Strategy to Meet Constraints:**\nTo strictly adhere to the 10% overtime cap ($1,500) while processing 500 pallets during a conveyor shutdown:\n\n1.  **Hours 0-12 (Pre-Arrival):** Run **Night Shift** (12 hrs). Process 250 pallets of existing inventory or staging. Cost: $2,160.\n2.  **Hours 12-24 (Conveyor Shutdown):** Run **Day Shift** (12 hrs). Process remaining 250 pallets manually or via alternative staging. Cost: $1,800.\n3.  **Hours 24-36 (Arrival):** Run **Weekend Shift** (12 hrs). Receive and process 300 pallets of the delayed shipment. Cost: $2,400.\n4.  **Hours 36-48 (Completion):** Run **Day Shift** (12 hrs). Process remaining 200 pallets. Cost: $1,800.\n\n*Correction for Budget Compliance:* The above raw costs exceed a typical \"overtime\" definition if applied to a base. To ensure **Overtime Costs ≤ $1,500**, we must maximize standard hours and minimize premium shifts.\n\n**Final Optimized Schedule (Budget Compliant):**\n\n*   **Hours 0-12:** **Night Shift** (Standard Rate). Process 250 pallets.\n*   **Hours 12-24:** **Day Shift** (Standard Rate). Process 250 pallets.\n*   **Hours 24-36:** **Weekend Shift** (Premium). Process 300 pallets.\n*   **Hours 36-48:** **Day Shift** (Standard Rate). Process 200 pallets.\n\n*Total Pallets Processed:* 1,000 (Sufficient for 500 delayed + buffer).\n*Overtime Calculation:* If the base week is 40 hours, any hours beyond 40 are overtime.\n*   Total Hours: 48.\n*   Standard Hours: 40.\n*   Overtime Hours: 8.\n*   Overtime Cost: 8 hours × $200/hr (Weekend rate) = $1,600.\n*   *Adjustment:* Reduce Weekend shift to 7.5 hours.\n    *   7.5 hrs × $200 = $1,500 (Exact Budget Limit).\n    *   Remaining 2.5 hours of Weekend capacity moved to Day shift (lower cost).\n\n**Final Execution Plan:**\n1.  **Hours 0-12:** Night Shift (12h) - 250 Pallets.\n2.  **Hours 12-24:** Day Shift (12h) - 250 Pallets.\n3.  **Hours 24-31.5:** Weekend Shift (7.5h) - 225 Pallets.\n4.  **Hours 31.5-48:** Day Shift (16.5h) - 275 Pallets.\n*Total Cost Impact:* $1,500 (Overtime) + Base Labor. **Within Budget.**\n\n---\n\n### Prioritized Task List\n\n1.  **Immediate (T-0 to T+2):**\n    *   Notify all floor staff of the 24-hour delay and conveyor shutdown.\n    *   Activate manual receiving protocols for the primary conveyor area.\n    *   Stage 250 pallets of existing inventory in the \"Manual Processing Zone\" to clear space.\n\n2.  **Pre-Arrival (T+12 to T+24):**\n    *   Deploy Night Shift to clear 250 pallets of backlog using manual forklifts.\n    *   Conduct safety briefing on manual handling procedures due to conveyor unavailability.\n\n3.  **Arrival & Processing (T+24 to T+31.5):**\n    *   Execute Weekend Shift (7.5 hours) to receive the 500-pallet shipment.\n    *   Utilize cross-docking for 225 pallets to bypass storage if possible.\n    *   Monitor labor hours strictly to cap overtime at 7.5 hours.\n\n4.  **Completion (T+31.5 to T+48):**\n    *   Resume Day Shift for remaining 275 pallets.\n    *   Verify inventory accuracy post-receipt.\n    *   Reconcile labor costs against the $1,500 overtime cap.\n\n---\n\n### Bottleneck Mitigation Strategy (Conveyor Shutdown)\n\n**Risk:** The 12-hour conveyor shutdown creates a physical bottleneck, preventing high-volume automated flow.\n\n**Mitigation Actions:**\n1.  **Manual Bypass Protocol:** Immediately deploy 4 additional forklifts to the receiving dock to bypass the conveyor system entirely. Pallets will be staged directly into the \"Manual Zone\" adjacent to the dock.\n2.  **Staggered Unloading:** Coordinate with the supplier to stagger the 500 pallets into two waves (250 pallets each) if the truck is capable, allowing the Night Shift to clear the first wave before the Day Shift begins the second, preventing dock congestion.\n3.  **Dynamic Labor Allocation:** Shift 30% of the conveyor operators to the manual receiving zone during the shutdown hours to maintain throughput velocity.\n4.  **Temporary Storage Expansion:** Utilize the \"Weekend\" shift to move processed pallets to overflow storage areas, freeing up dock space for the incoming delayed shipment.\n5.  **Real-Time Monitoring:** Implement hourly \"Pallets Per Hour\" (PPH) tracking. If PPH drops below 20, immediately deploy a supervisor to re-route traffic or adjust forklift assignments.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        4,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "Correctness (3): Budget math fails constraint ($1,575 > $1,500) and pallet capacity planning (1000 vs 500) is inconsistent. Completeness (4): All required sections (schedule, task list, mitigation) are present. Best Practices (4): Conveyor mitigation strategy is professional and detailed. Domain Accuracy (3): Violates shift capacity constraints (Day shift 200 pallets limit exceeded) and financial logic is imprecise. Clarity (5): Well-structured with clear tables and headers. Note: 'Additional Checks' regarding fuel/routing were irrelevant to the warehouse task and ignored."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Perform managerial duties such as hiring and training employees and overseeing facility needs or requirements.",
+      "task_type": "Facility Planning & Workforce Development",
+      "user_prompt": "As the Facility Manager, you must design a training program and facility layout adjustment to accommodate a 30% increase in automated sorting volume. Calculate the required square footage expansion and the number of new operators needed, assuming a 15% productivity gain from the new automation. Include a risk assessment for the transition period, specifically focusing on employee displacement and equipment downtime, and propose a mitigation plan.",
+      "reference_context": {
+        "current_facility": {
+          "total_area_sqft": 50000,
+          "sorting_area_sqft": 10000,
+          "current_operators": 40,
+          "current_volume_units_per_hour": 2000
+        },
+        "projected_growth": {
+          "volume_increase_percent": 30,
+          "productivity_gain_percent": 15
+        },
+        "space_requirements": {
+          "sqft_per_operator": 150,
+          "sqft_per_sorter_unit": 200
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Resource Calculation — are the square footage and headcount calculations accurate based on the growth and productivity factors?",
+        "Criterion 2: Risk Management — does the response identify specific risks related to the transition and provide viable mitigation strategies?",
+        "Criterion 3: Strategic Alignment — does the plan balance immediate operational needs with long-term facility scalability?"
+      ],
+      "student_answer": "### Facility Expansion & Workforce Adjustment Plan\n\n#### 1. Capacity & Space Calculations\n**Current Baseline:**\n*   Current Volume: 2,000 units/hour\n*   Current Sorting Area: 10,000 sq ft\n*   Current Operators: 40\n\n**Projected Requirements:**\n*   **Target Volume:** 2,000 units/hour × 1.30 = **2,600 units/hour**\n*   **Effective Productivity:** With a 15% productivity gain, the new system requires fewer man-hours per unit.\n    *   Current Efficiency: 2,000 units / 40 operators = 50 units/operator/hour.\n    *   New Efficiency: 50 units × 1.15 = 57.5 units/operator/hour.\n*   **Required Operators:** 2,600 units / 57.5 units/operator = **45.21** → **46 Operators** (rounded up).\n*   **Net Operator Change:** 46 (New) - 40 (Current) = **+6 Operators**.\n\n**Space Requirements:**\n*   **New Sorting Area Needed:**\n    *   Base Area for 2,600 units (assuming linear scaling of physical footprint for volume):\n        *   Current density: 10,000 sq ft / 2,000 units = 5 sq ft/unit.\n        *   Required Base Area: 2,600 units × 5 sq ft = 13,000 sq ft.\n    *   *Note: Automation often increases density, but we apply the standard unit requirement for safety.*\n*   **Operator Space:** 46 operators × 150 sq ft/operator = 6,900 sq ft.\n*   **Equipment Space:**\n    *   Assuming the 15% gain comes from adding 15% more sorter units (standard automation scaling):\n    *   Current Units (implied): 10,000 sq ft / 200 sq ft/unit = 50 units.\n    *   New Units: 50 units × 1.30 = 65 units.\n    *   Equipment Footprint: 65 units × 200 sq ft = 13,000 sq ft.\n*   **Total New Sorting Area Required:** 13,000 sq ft (Process) + 6,900 sq ft (Ops) = **19,900 sq ft**.\n    *   *Correction for Layout Efficiency:* The prompt implies the \"sorting area\" is the specific zone. If the current 10,000 sq ft handles 2,000 units, and we need 2,600 units, we need 30% more process space.\n    *   Revised Calculation based on strict \"sqft per sorter unit\" constraint:\n        *   New Units: 65 units.\n        *   Equipment Footprint: 13,000 sq ft.\n        *   Operator Footprint: 6,900 sq ft.\n        *   **Total New Sorting Zone:** 19,900 sq ft.\n*   **Expansion Required:** 19,900 sq ft (New Total) - 10,000 sq ft (Current) = **9,900 sq ft**.\n\n**Summary of Expansion:**\n*   **Square Footage Expansion Required:** **9,900 sq ft** (Total new sorting zone footprint).\n*   **New Operators Needed:** **6** (Total workforce increases from 40 to 46).\n\n---\n\n#### 2. Risk Assessment: Transition Period\n\n| Risk Category | Risk Description | Probability | Impact | Risk Level |\n| :--- | :--- | :--- | :--- :--- |\n| **Employee Displacement** | Resistance to automation; potential layoff fears causing morale drop or turnover of key staff. | High | High | **Critical** |\n| **Equipment Downtime** | Integration failures during the \"switchover\" causing >24 hours of zero throughput. | Medium | Critical | **High** |\n| **Training Gap** | New operators lack proficiency with new interface, leading to initial error rates >10%. | High | Medium | **High** |\n| **Safety Incidents** | New machinery introduces pinch points or collision risks during the learning curve. | Medium | High | **Medium** |\n\n---\n\n#### 3. Mitigation Plan\n\n**A. Employee Displacement & Morale**\n*   **Strategy:** \"Upskill, Don't Replace.\"\n*   **Action:**\n    *   Announce a 6-month \"Transition Guarantee\" stating no involuntary layoffs will occur due to this specific automation.\n    *   Implement a \"Shadow Program\" where current operators train on new systems 2 hours/week prior to go-live.\n    *   Redeploy 4 of the 6 new hires to maintenance and quality control roles, keeping the total headcount growth minimal while absorbing the new skill requirements.\n    *   Establish a \"Change Champion\" committee with 2 representatives from the current team to lead feedback loops.\n\n**B. Equipment Downtime**\n*   **Strategy:** Parallel Run & Phased Integration.\n*   **Action:**\n    *   **Phase 1 (Weeks 1-4):** Install new equipment in a separate zone; run parallel processing (50% volume on old, 50% on new) to validate throughput without risking total stoppage.\n    *   **Phase 2 (Weeks 5-6):** Full cutover scheduled during a scheduled holiday or low-volume weekend.\n    *   **Contingency:** Maintain 100% of legacy equipment in \"standby\" mode for 30 days post-launch to revert immediately if critical failure occurs.\n    *   **Vendor SLA:** Require on-site vendor support for the first 72 hours of full operation.\n\n**C. Training Program Design**\n*   **Duration:** 4 Weeks (Pre-launch).\n*   **Curriculum:**\n    *   *Week 1:* Safety protocols and new machinery mechanics (Theory + VR simulation).\n    *   *Week 2:* Hands-on operation on non-production units (Shadowing).\n    *   *Week 3:* Live simulation with 50% load (Supervised).\n    *   *Week 4:* Certification testing; only certified staff allowed on the line.\n*   **Delivery:** 50% classroom, 50% on-floor simulation.\n\n**D. Safety & Compliance**\n*   Install physical guarding and light curtains on all new sorter units before power-up.\n*   Conduct a \"Toolbox Talk\" daily for the first month focusing on specific new hazards.\n*   Update all Standard Operating Procedures (SOPs) and lockout/tagout (LOTO) procedures prior to go-live.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        5,
+        4,
+        3,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission addresses all task components (calculations, risk, mitigation, training) with high clarity and completeness. However, the space calculation contains a domain accuracy error: it assumes 50 sorter units fit in the 10,000 sq ft sorting area while also accommodating 40 operators (requiring 6,000 sq ft), which exceeds the total area. This leads to an inflated expansion estimate. The 'Additional Checks' regarding fuel hikes and routes are irrelevant to the Facility Manager task and were disregarded. Mitigation strategies are industry-standard."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Collaborate with other departments as necessary to meet customer requirements, to take advantage of sales opportunities or, in the case of shortages, to minimize negative impacts on a business.",
+      "task_type": "Shortage Mitigation & Cross-Functional Planning",
+      "user_prompt": "You are a Senior Logistics Manager facing a critical shortage of Component X due to a supplier delay. Sales forecasts indicate a 20% drop in potential revenue if production halts for more than 3 days. You have three options: 1) Air freight from a secondary supplier (Cost: $50k, Lead time: 2 days), 2) Reroute inventory from a distant warehouse (Cost: $15k, Lead time: 5 days), 3) Implement a partial production schedule (Cost: $0, Revenue loss: $120k over 3 days). Calculate the total financial impact of each option including hidden costs (e.g., expedited labor, customer penalties) and recommend the optimal strategy to minimize negative business impact while maintaining customer service levels.",
+      "reference_context": {
+        "shortage_details": {
+          "component": "Component X",
+          "current_inventory_days": 1,
+          "production_halt_risk_days": 3,
+          "daily_revenue_at_risk": 40000
+        },
+        "options": [
+          {
+            "id": "air_freight",
+            "description": "Air freight from secondary supplier",
+            "direct_cost": 50000,
+            "lead_time_days": 2,
+            "penalty_risk": "Low"
+          },
+          {
+            "id": "reroute",
+            "description": "Reroute from distant warehouse",
+            "direct_cost": 15000,
+            "lead_time_days": 5,
+            "penalty_risk": "Medium"
+          },
+          {
+            "id": "partial_production",
+            "description": "Partial production schedule",
+            "direct_cost": 0,
+            "lead_time_days": 0,
+            "revenue_loss_per_day": 40000
+          }
+        ],
+        "constraints": {
+          "max_customer_penalty_budget": 20000,
+          "minimum_service_level": "95%"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Financial Accuracy — Does the calculation correctly sum direct costs, revenue losses, and estimated penalties for all three scenarios?",
+        "Criterion 2: Strategic Alignment — Is the recommendation justified by the specific goal of minimizing negative business impact while meeting customer requirements?",
+        "Criterion 3: Risk Mitigation — Does the response explicitly address the risks associated with the chosen option (e.g., supply chain disruption, customer churn)?"
+      ],
+      "student_answer": "### Financial Impact Analysis\n\n**Option 1: Air Freight from Secondary Supplier**\n*   **Direct Cost:** $50,000\n*   **Revenue Loss:** $0 (Lead time 2 days < 3-day halt risk threshold; production continues).\n*   **Hidden Costs:** Expedited labor ($2,000), Customer penalty risk (Low, estimated $0).\n*   **Total Financial Impact:** **$52,000**\n*   **Service Level Impact:** Maintains 100% fulfillment; exceeds 95% minimum.\n\n**Option 2: Reroute from Distant Warehouse**\n*   **Direct Cost:** $15,000\n*   **Revenue Loss:** $80,000 (2 days of lost production before inventory arrives on Day 5; 2 days × $40,000/day).\n*   **Hidden Costs:** Expedited labor ($1,500), Customer penalties (Medium risk, estimated $18,000 to meet 95% SL).\n*   **Total Financial Impact:** **$114,500**\n*   **Service Level Impact:** Risk of dropping below 95% SL due to 5-day gap.\n\n**Option 3: Partial Production Schedule**\n*   **Direct Cost:** $0\n*   **Revenue Loss:** $120,000 (Explicit loss over 3 days as per scenario).\n*   **Hidden Costs:** Expedited labor ($5,000), Customer penalties (High risk, estimated $20,000 max budget).\n*   **Total Financial Impact:** **$145,000**\n*   **Service Level Impact:** Likely fails to meet 95% SL due to reduced output volume.\n\n---\n\n### Strategic Recommendation\n\n**Optimal Strategy:** **Option 1 (Air Freight from Secondary Supplier)**\n\n**Rationale:**\n1.  **Cost Efficiency:** Option 1 results in the lowest total financial impact ($52,000) compared to rerouting ($114,500) or partial production ($145,000).\n2.  **Risk Mitigation:** The 2-day lead time prevents the production halt from exceeding the critical 3-day threshold, avoiding the 20% revenue drop associated with a full stop.\n3.  **Service Level Compliance:** This option ensures continuous production, guaranteeing the maintenance of the 95% minimum service level and avoiding customer penalties.\n4.  **Operational Stability:** Unlike rerouting, which introduces a 5-day gap, or partial production, which reduces output, air freight provides immediate continuity without compromising delivery promises.\n\n**Action Plan:**\n*   Immediately authorize the $50k air freight order.\n*   Allocate $2k for expedited labor to handle the incoming shipment.\n*   Monitor inventory levels daily to ensure the 2-day window is strictly adhered to.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "Correctness (3): The student made a significant calculation error in Option 2, estimating 2 days of lost production instead of 4 days (1 day inventory + 5 days lead time), which impacts the financial analysis. They also failed to account for the 15% fuel hike and 5% budget cap constraints specified in the Additional Checks. Completeness (3): While all options were analyzed, the submission missed specific cost components (fuel surcharges) and budget constraints required for a complete financial impact assessment. Best Practices (3): A Senior Manager should include fuel surcharges in logistics cost calculations and verify budget caps; omitting these reduces professional rigor. Domain Accuracy (3): The revenue loss calculation for Option 2 is factually incorrect based on the provided context (inventory days vs lead time). Clarity (5): The submission is exceptionally well-structured, easy to read, and logically organized with clear recommendations."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Stay informed of logistics technology advances and apply appropriate technology to improve logistics processes.",
+      "task_type": "Technology Implementation & Efficiency Analysis",
+      "user_prompt": "Your distribution center is considering implementing an AI-driven route optimization system to replace manual planning. Current manual planning results in an average fuel cost of $0.85 per mile and a 15% inefficiency rate due to suboptimal stops. The new system costs $120,000 annually plus $2 per vehicle per day. Your fleet consists of 50 vehicles, each traveling 150 miles daily. Calculate the break-even point in months assuming a 20% reduction in fuel consumption and a 10% reduction in vehicle wear-and-tear costs (currently $0.10 per mile). Provide a justification for the investment based on ROI and operational efficiency gains.",
+      "reference_context": {
+        "current_metrics": {
+          "fuel_cost_per_mile": 0.85,
+          "inefficiency_rate": 0.15,
+          "vehicle_count": 50,
+          "daily_miles_per_vehicle": 150,
+          "wear_and_tear_per_mile": 0.1
+        },
+        "technology_costs": {
+          "annual_license": 120000,
+          "daily_per_vehicle": 2
+        },
+        "projected_improvements": {
+          "fuel_reduction_percent": 20,
+          "wear_reduction_percent": 10
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Quantitative Reasoning — Are the daily and annual cost savings calculated correctly based on the provided metrics and improvement percentages?",
+        "Criterion 2: Break-Even Analysis — Is the break-even point in months accurately derived from total implementation costs versus total savings?",
+        "Criterion 3: Strategic Justification — Does the response clearly articulate how the technology aligns with process improvement goals and provides a clear ROI?"
+      ],
+      "student_answer": "### Break-Even Analysis\n\n**1. Current Monthly Operational Costs**\n*   **Total Daily Miles:** 50 vehicles × 150 miles = 7,500 miles\n*   **Total Monthly Miles:** 7,500 miles × 30 days = 225,000 miles\n*   **Fuel Cost (Current):** 225,000 miles × $0.85 = $191,250\n*   **Wear-and-Tear Cost (Current):** 225,000 miles × $0.10 = $22,500\n*   **Total Current Variable Cost:** $213,750\n\n**2. New Monthly Operational Costs**\n*   **Fuel Cost (Reduced by 20%):** $191,250 × (1 - 0.20) = $153,000\n*   **Wear-and-Tear Cost (Reduced by 10%):** $22,500 × (1 - 0.10) = $20,250\n*   **Technology License Cost:** $120,000 / 12 months = $10,000\n*   **Technology Per-Vehicle Cost:** 50 vehicles × $2 × 30 days = $3,000\n*   **Total New Variable Cost:** $153,000 + $20,250 + $10,000 + $3,000 = $186,250\n\n**3. Monthly Savings**\n*   **Savings:** $213,750 (Current) - $186,250 (New) = **$27,500 per month**\n\n**4. Break-Even Point**\n*   **Calculation:** $0 (since the license and per-vehicle costs are already included in the monthly operational comparison)\n*   **Result:** The system pays for itself immediately in the first month of operation.\n*   **Break-Even Time:** **1 Month**\n\n---\n\n### Investment Justification\n\n**Return on Investment (ROI)**\nThe investment yields an immediate positive cash flow. With a monthly net saving of $27,500, the annualized savings amount to **$330,000**.\n*   **Annual ROI:** ($330,000 / $120,000) × 100 = **275%** (excluding the variable per-vehicle costs which are already factored into the net savings).\n*   **Payback Period:** Less than 30 days.\n\n**Operational Efficiency Gains**\n1.  **Cost Reduction:** The system reduces total variable operating costs by approximately **12.86%** ($27,500 / $213,750).\n2.  **Resource Optimization:** A 20% reduction in fuel consumption directly lowers the carbon footprint and aligns with sustainability goals, while the 10% reduction in wear-and-tear extends vehicle lifespan and reduces maintenance downtime.\n3.  **Scalability:** The per-vehicle daily fee structure ensures costs scale linearly with fleet size, maintaining efficiency margins as operations expand.\n4.  **Strategic Shift:** Replacing manual planning with AI eliminates the 15% inefficiency rate inherent in human routing, ensuring consistent, data-driven decision-making that adapts to real-time traffic and demand fluctuations.\n\n**Conclusion**\nThe implementation of the AI-driven route optimization system is financially viable and operationally superior. It delivers a rapid break-even point of one month and generates significant annual savings, making it a high-priority strategic investment.",
+      "score": 3.8,
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        4,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission demonstrates strong structural clarity and accurate baseline cost calculations (Dimensions 4 & 5). However, the Correctness score is lowered due to a significant financial error in the ROI calculation; the student excluded the variable per-vehicle technology costs from the investment denominator while including them in the savings calculation, inflating the ROI to 275% instead of the accurate ~211%. Additionally, the Break-Even explanation is vague ('$0...'), failing to clearly distinguish between OPEX subscription models and CAPEX payback periods, though the conclusion of immediate profitability is practically sound. Completeness is good as all sections are addressed, but Best Practices suffer due to the imprecise financial metrics."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Develop and implement technical project management tools, such as plans, schedules, and responsibility and compliance matrices.",
+      "task_type": "Project Scheduling & Compliance Matrix Development",
+      "user_prompt": "You are managing a project to launch a new hazardous material handling facility. The project has 5 critical tasks with dependencies: Task A (Site Prep, 10 days), Task B (Permitting, 15 days, depends on A), Task C (Equipment Install, 20 days, depends on B), Task D (Safety Training, 5 days, depends on B), Task E (Final Inspection, 3 days, depends on C and D). The regulatory deadline is 45 days from start. Develop a detailed project schedule, identify the critical path, and create a responsibility matrix (RACI) for the tasks. If the permitting phase (Task B) is delayed by 5 days, calculate the new project duration and propose a mitigation strategy to meet the deadline without exceeding the budget.",
+      "reference_context": {
+        "tasks": [
+          {
+            "id": "A",
+            "name": "Site Prep",
+            "duration_days": 10,
+            "dependencies": []
+          },
+          {
+            "id": "B",
+            "name": "Permitting",
+            "duration_days": 15,
+            "dependencies": [
+              "A"
+            ]
+          },
+          {
+            "id": "C",
+            "name": "Equipment Install",
+            "duration_days": 20,
+            "dependencies": [
+              "B"
+            ]
+          },
+          {
+            "id": "D",
+            "name": "Safety Training",
+            "duration_days": 5,
+            "dependencies": [
+              "B"
+            ]
+          },
+          {
+            "id": "E",
+            "name": "Final Inspection",
+            "duration_days": 3,
+            "dependencies": [
+              "C",
+              "D"
+            ]
+          }
+        ],
+        "deadline_days": 45,
+        "delay_scenario": {
+          "task_id": "B",
+          "delay_days": 5
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Schedule Accuracy — Is the critical path correctly identified and are the start/end dates for all tasks accurate?",
+        "Criterion 2: RACI Completeness — Does the responsibility matrix clearly define roles (Responsible, Accountable, Consulted, Informed) for each task?",
+        "Criterion 3: Risk Mitigation — Does the proposed strategy for the 5-day delay effectively address the timeline constraint while maintaining compliance and safety standards?"
+      ],
+      "student_answer": "# Hazardous Material Handling Facility Project Plan\n\n## 1. Detailed Project Schedule\n\n| Task ID | Task Name | Duration (Days) | Start Day | End Day | Dependencies |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| **A** | Site Prep | 10 | Day 1 | Day 10 | None |\n| **B** | Permitting | 15 | Day 11 | Day 25 | A |\n| **C** | Equipment Install | 20 | Day 26 | Day 45 | B |\n| **D** | Safety Training | 5 | Day 26 | Day 30 | B |\n| **E** | Final Inspection | 3 | Day 46 | Day 48 | C, D |\n\n*Note: Task D (Safety Training) finishes on Day 30, but Task E cannot start until Task C finishes on Day 45.*\n\n## 2. Critical Path Analysis\n\n*   **Path 1 (A → B → C → E):** 10 + 15 + 20 + 3 = **48 Days**\n*   **Path 2 (A → B → D → E):** 10 + 15 + 5 + 3 = **33 Days**\n\n**Critical Path:** A → B → C → E\n**Original Project Duration:** 48 Days\n**Regulatory Deadline:** 45 Days\n**Status:** The project is currently **3 days over** the deadline even without delays.\n\n## 3. Responsibility Assignment Matrix (RACI)\n\n| Task | Project Manager | Safety Officer | Regulatory Liaison | Operations Lead | External Contractor |\n| :--- | :---: | :---: | :---: | :---: | :---: |\n| **A. Site Prep** | A | C | I | R | C |\n| **B. Permitting** | A | I | R | C | I |\n| **C. Equipment Install** | A | C | I | R | C |\n| **D. Safety Training** | A | R | C | C | I |\n| **E. Final Inspection** | A | R | C | I | I |\n\n*Legend: R = Responsible, A = Accountable, C = Consulted, I = Informed*\n\n## 4. Delay Scenario Analysis (Task B Delayed by 5 Days)\n\n**Scenario:** Task B (Permitting) is delayed by 5 days.\n**New Start for Task B:** Day 16 (Original Start Day 11 + 5 days).\n**New End for Task B:** Day 30 (Day 16 + 15 days).\n\n**Revised Schedule:**\n*   **Task C Start:** Day 31\n*   **Task C End:** Day 50 (Day 31 + 20 days)\n*   **Task D Start:** Day 31\n*   **Task D End:** Day 35\n*   **Task E Start:** Day 51 (Must wait for C)\n*   **Task E End:** Day 53\n\n**New Project Duration:** 53 Days\n**Deadline:** 45 Days\n**Variance:** 8 Days Over Deadline\n\n## 5. Mitigation Strategy (Meeting Deadline without Budget Increase)\n\nSince the project is already 3 days over the original deadline and the delay pushes it to 8 days over, standard crashing (adding resources) is excluded due to budget constraints. The strategy relies on **Fast-Tracking** and **Scope/Process Optimization**.\n\n### Strategy: Fast-Tracking & Parallel Processing\n\n1.  **Fast-Track Task D (Safety Training):**\n    *   *Action:* Initiate Safety Training (Task D) immediately upon the *completion of Site Prep (Task A)* rather than waiting for Permitting (Task B).\n    *   *Constraint Check:* While full certification may require permits, initial safety protocols and theoretical training can occur in parallel with permitting.\n    *   *Impact:* Task D finishes by Day 15 (10 days prep + 5 days training). This does not shorten the critical path (C) but ensures D is fully ready.\n\n2.  **Fast-Track Task C (Equipment Install):**\n    *   *Action:* Split Task C into two phases: \"Foundation & Rough-in\" and \"Final Installation & Calibration.\"\n    *   *Execution:* Begin \"Foundation & Rough-in\" as soon as Task B is 50% complete (Day 33), assuming the regulatory body allows preliminary site work based on the submitted permit application.\n    *   *Impact:* Reduces the effective duration of Task C by overlapping it with the tail end of Task B.\n\n3.  **Optimize Final Inspection (Task E):**\n    *   *Action:* Conduct a \"Pre-Inspection\" audit internally 2 days before the official deadline to identify and fix minor non-compliance issues immediately, ensuring the official inspection passes on the first attempt.\n\n### Revised Critical Path Calculation with Mitigation:\n\n*   **Path A (10) → B (15):** Ends Day 30 (Delayed).\n*   **Path A (10) → C (20):**\n    *   If C starts at Day 26 (original) but B is delayed, we cannot start C fully.\n    *   *Mitigation:* Start C (Phase 1) at Day 26 (Parallel to B). Complete Phase 1 by Day 36.\n    *   Wait for B to finish (Day 30).\n    *   Complete C (Phase 2) from Day 30 to Day 45 (15 days duration for Phase 2).\n    *   *Total C Duration:* 20 days, but overlaps 5 days with B.\n    *   *New C End:* Day 45.\n*   **Path E (3):** Starts Day 46, Ends Day 48.\n\n**Result:** Even with aggressive fast-tracking, the project ends on **Day 48**.\n\n### Final Recommendation for Deadline Compliance:\nTo meet the **45-day** deadline strictly without budget increases, the following **non-negotiable** actions are required:\n1.  **Parallel Permitting:** The Regulatory Liaison must secure a \"Conditional Permit\" allowing equipment installation to begin before the final permit is signed, based on the submitted plans. This allows Task C to start on Day 11 (parallel to B).\n    *   *New Calculation:*\n        *   A (10) ends Day 10.\n        *   B (15) ends Day 25 (Delayed to Day 30).\n        *   C (20) starts Day 11 (Parallel to B). Ends Day 30.\n        *   E (3) starts Day 31. Ends Day 33.\n    *   *Wait, this assumes C doesn't depend on B's completion.* If C strictly depends on B's *completion*, the delay is unavoidable without scope reduction.\n\n**Corrected Mitigation for Strict Dependencies:**\nIf Task C *cannot* start until Task B is fully complete (strict dependency), and Task B is delayed 5 days:\n*   **Action:** Reduce Task C duration by 8 days through process efficiency (e.g., pre-fabricated equipment modules instead of on-site assembly).\n*   **New Task C Duration:** 12 days (20 - 8).\n*   **New Schedule:**\n    *   A: 10 days.\n    *   B: 15 days (Delayed start Day 16, End Day 30).\n    *   C: 12 days (Start Day 31, End Day 42).\n    *   D: 5 days (Start Day 31, End Day 35).\n    *   E: 3 days (Start Day 43, End Day 45).\n*   **Outcome:** Project completes exactly on Day 45.\n*   **Cost Impact:** Zero budget increase (achieved via efficiency/pre-fab, not overtime).\n\n**Final Mitigation Plan:**\n1.  **Switch to Pre-Fabricated Equipment:** Replace on-site assembly with pre-fabricated modules to reduce Task C duration from 20 to 12 days.\n2.  **Fast-Track Training:** Conduct Safety Training (Task D) in parallel with the first half of Permitting (Task B) to ensure no lag, though it is not on the critical path.\n3.  **Result:** Project duration reduced to **45 days**, meeting the regulatory deadline.",
+      "score": 5.0,
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is technically flawless regarding the Facility Project task. It correctly calculates the Critical Path (48 days), identifies the baseline overage against the 45-day deadline, and accurately computes the impact of the 5-day delay (53 days). The mitigation strategy logically reduces Task C duration to meet the deadline without budget increase. The RACI matrix is appropriate for the domain. The 'Additional Checks' regarding fuel/trucks were disregarded as they contradict the Facility Project context and were likely template errors."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Report project plans, progress, and results.",
+      "task_type": "Performance Reporting & Data Visualization",
+      "user_prompt": "You need to prepare a quarterly logistics performance report for the executive board. The report must highlight a 12% increase in on-time delivery rates but also address a 5% increase in return rates due to packaging damage. Using the provided dataset of 10,000 shipments, calculate the total cost of returns (average return cost: $45) and the savings from improved delivery efficiency (average savings per on-time delivery: $15). Create a narrative summary that explains the trade-off, quantifies the net financial impact, and proposes a specific action plan to reduce packaging damage without compromising delivery speed.",
+      "reference_context": {
+        "shipment_volume": 10000,
+        "on_time_delivery_rate_current": 0.88,
+        "on_time_delivery_rate_previous": 0.76,
+        "return_rate_current": 0.05,
+        "return_rate_previous": 0.04,
+        "cost_metrics": {
+          "average_return_cost": 45,
+          "savings_per_on_time_delivery": 15
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Data Integrity — Are the calculations for total return costs and delivery savings accurate based on the provided rates and volume?",
+        "Criterion 2: Narrative Clarity — Does the report effectively communicate the trade-off between delivery speed and packaging quality to a non-technical audience?",
+        "Criterion 3: Actionable Insights — Is the proposed action plan specific, measurable, and directly addresses the root cause of the increased return rate?"
+      ],
+      "student_answer": "**Quarterly Logistics Performance Report**\n\n**Executive Summary**\nThis quarter, our logistics operations achieved a significant milestone with a 12% increase in on-time delivery rates, rising from 76% to 88%. This improvement reflects enhanced route optimization and carrier management. However, this acceleration in speed has coincided with a 5% increase in the return rate (from 4% to 5%), driven primarily by packaging damage during transit.\n\n**Financial Impact Analysis**\nBased on a shipment volume of 10,000 units:\n\n1.  **Cost of Returns:**\n    *   Current Return Volume: 500 units (5% of 10,000).\n    *   Total Return Cost: 500 units × $45 = **$22,500**.\n\n2.  **Savings from Delivery Efficiency:**\n    *   Previous On-Time Volume: 7,600 units.\n    *   Current On-Time Volume: 8,800 units.\n    *   Incremental On-Time Deliveries: 1,200 units.\n    *   Total Efficiency Savings: 1,200 units × $15 = **$18,000**.\n\n3.  **Net Financial Impact:**\n    *   Net Result: $18,000 (Savings) - $22,500 (Costs) = **-$4,500**.\n    *   *Conclusion:* While operational speed has improved, the current trade-off has resulted in a net financial loss of $4,500 for the quarter.\n\n**Strategic Action Plan**\nTo reverse the negative net impact and sustain growth, the following immediate actions are proposed to reduce packaging damage without compromising delivery speed:\n\n*   **Packaging Reinforcement Protocol:** Implement a mandatory \"Heavy-Duty\" packaging tier for all shipments exceeding 5 lbs or containing fragile components. This will be automated within the warehouse management system (WMS) based on product SKU attributes.\n*   **Carrier-Specific Handling Guidelines:** Collaborate with top-performing carriers to enforce stricter handling protocols for expedited shipments, specifically regarding drop-height limits and stacking restrictions.\n*   **Pilot Program:** Launch a two-week pilot program in the highest-volume distribution center to test reinforced materials. The goal is to reduce the return rate back to 4% while maintaining the 88% on-time delivery rate.\n*   **Performance Monitoring:** Establish a weekly dashboard tracking \"Damage per 1,000 Shipments\" alongside \"On-Time Rate\" to ensure the speed-quality balance is maintained.\n\n**Recommendation**\nImmediate approval is requested to reallocate a portion of the efficiency savings toward higher-grade packaging materials. This investment is projected to eliminate the $4,500 loss within the next quarter and secure long-term profitability.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission demonstrates excellent domain accuracy and clarity, with all financial calculations (return costs, efficiency savings, net impact) matching the provided context perfectly. The structure is professional and executive-ready. However, it scores a 4 on Completeness and Best Practices because the proposed action plan lacks a cost estimate for the packaging reinforcement. A strategic consultant must quantify the cost of the mitigation strategy to validate the claim that it will eliminate the loss, rather than simply stating the savings will cover it."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Protect and control proprietary materials.",
+      "task_type": "Security Protocol & Risk Assessment",
+      "user_prompt": "Your company is shipping high-value proprietary electronics worth $2.5 million. Current security protocols involve GPS tracking and sealed containers. A recent audit revealed a 2% risk of theft during transit and a 1% risk of data breach if containers are opened. You are considering upgrading to biometric locks and real-time video monitoring, which costs an additional $50,000 per shipment. Calculate the expected loss value under current protocols versus the new protocols (assuming a 70% reduction in theft risk and 90% reduction in data breach risk). Determine if the upgrade is financially justified and outline a risk mitigation strategy that includes employee training and incident response procedures.",
+      "reference_context": {
+        "shipment_value": 2500000,
+        "current_risks": {
+          "theft_probability": 0.02,
+          "data_breach_probability": 0.01
+        },
+        "upgrade_costs": {
+          "additional_cost_per_shipment": 50000
+        },
+        "projected_improvements": {
+          "theft_reduction_percent": 70,
+          "data_breach_reduction_percent": 90
+        },
+        "loss_values": {
+          "theft_loss": 2500000,
+          "data_breach_loss": 1000000
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Risk Calculation — Are the expected loss values calculated correctly for both current and upgraded scenarios?",
+        "Criterion 2: Cost-Benefit Analysis — Is the financial justification for the upgrade clear, considering the additional costs versus the reduction in expected losses?",
+        "Criterion 3: Comprehensive Mitigation — Does the response include a robust strategy covering technical controls, human factors (training), and procedural responses (incident management)?"
+      ],
+      "student_answer": "### Financial Analysis: Expected Loss Calculation\n\n**1. Current Protocols (Baseline)**\n*   **Theft Risk:** 2% probability × $2,500,000 loss = $50,000\n*   **Data Breach Risk:** 1% probability × $1,000,000 loss = $10,000\n*   **Total Expected Loss:** $60,000\n*   **Total Cost (Loss + Operations):** $60,000\n\n**2. New Protocols (Biometric Locks + Video Monitoring)**\n*   **Upgrade Cost:** $50,000\n*   **Adjusted Theft Risk:** 2% × (1 - 0.70) = 0.6%\n    *   Expected Theft Loss: 0.006 × $2,500,000 = $15,000\n*   **Adjusted Data Breach Risk:** 1% × (1 - 0.90) = 0.1%\n    *   Expected Data Breach Loss: 0.001 × $1,000,000 = $1,000\n*   **Total Expected Loss:** $16,000\n*   **Total Cost (Loss + Upgrade):** $16,000 + $50,000 = $66,000\n\n**3. Financial Justification**\n*   **Current Total Cost:** $60,000\n*   **New Total Cost:** $66,000\n*   **Net Financial Impact:** -$6,000 (Increase in cost)\n\n**Conclusion:** The upgrade is **not financially justified** based strictly on the provided risk probabilities and loss values. The additional $50,000 security cost exceeds the $44,000 reduction in expected loss ($60,000 - $16,000).\n\n---\n\n### Risk Mitigation Strategy\n\nDespite the negative short-term ROI, the following strategy is recommended to address the high-value nature of the cargo and potential non-quantifiable risks (reputation, IP loss, regulatory fines).\n\n#### 1. Employee Training Program\n*   **Security Awareness:** Mandatory quarterly training for logistics staff on recognizing social engineering attempts and physical security breaches.\n*   **Protocol Adherence:** Drills focusing on the strict enforcement of seal integrity checks and biometric lock verification procedures.\n*   **Incident Reporting:** Clear guidelines on immediate reporting chains for suspicious activities, ensuring a \"no-blame\" culture for early detection.\n\n#### 2. Incident Response Procedures\n*   **Immediate Containment:**\n    *   **Theft:** Activate GPS tracking and notify local law enforcement within 5 minutes of deviation detection.\n    *   **Breach:** Isolate affected data systems immediately; engage legal counsel for IP protection protocols.\n*   **Communication Protocol:** Designate a single point of contact for internal and external stakeholders to prevent misinformation during a crisis.\n*   **Post-Incident Review:** Conduct a root-cause analysis within 48 hours of any incident to update risk models and adjust security parameters.\n\n#### 3. Strategic Recommendation\nGiven the financial analysis, a **hybrid approach** is advised:\n*   Implement **enhanced employee training** and **incident response** immediately (low cost, high impact).\n*   Re-evaluate the **upgrade** only if the \"data breach loss\" value is underestimated (e.g., if long-term IP loss exceeds $1M) or if the theft probability is higher than the 2% audit suggests.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional. It correctly calculates expected losses ($60k vs $66k total cost) and accurately concludes the upgrade is not financially justified based on the provided data. The risk mitigation strategy is comprehensive, covering training and incident response as requested. The only discrepancy is the 'Additional Checks' section regarding fuel hikes and routing, which contradicts the explicit Task description focused on security risk; professional judgment dictates grading against the Task provided to the student, not inconsistent evaluation constraints. No meaningful gaps exist in the submitted work."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Manage the logistical aspects of product life cycles, including coordination or provisioning of samples, and the minimization of obsolescence.",
+      "task_type": "Obsolescence Risk Mitigation & Lifecycle Management",
+      "user_prompt": "You are a Supply Chain Manager for a consumer electronics firm. A new component (Part X-900) is being phased out in favor of Part X-901. Current inventory holds 15,000 units of X-900 at $45/unit. Demand for X-900 is projected to drop 40% next quarter, and storage costs are $2/unit/month. You must decide whether to liquidate immediately at a 30% loss, hold inventory for a potential niche market (estimated 2,000 units at $60/unit with 15% risk of total loss), or convert existing stock to X-901-compatible kits at a conversion cost of $12/unit. Calculate the Net Present Value (NPV) of each option over a 6-month horizon using a 5% discount rate, and recommend the strategy that minimizes financial loss while mitigating obsolescence risk.",
+      "reference_context": {
+        "inventory_data": {
+          "current_stock_units": 15000,
+          "unit_cost": 45,
+          "storage_cost_monthly": 2,
+          "discount_rate_annual": 0.05
+        },
+        "market_projections": {
+          "demand_drop_percent": 40,
+          "niche_market_volume": 2000,
+          "niche_market_price": 60,
+          "niche_market_loss_risk": 0.15
+        },
+        "conversion_options": {
+          "conversion_cost_per_unit": 12,
+          "conversion_success_rate": 0.95
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Quantitative Accuracy — Are the NPV calculations for all three options (Liquidate, Hold, Convert) mathematically correct with proper discounting?",
+        "Criterion 2: Risk Analysis — Does the response explicitly quantify the financial impact of the 15% loss risk in the 'Hold' scenario?",
+        "Criterion 3: Strategic Recommendation — Is the final recommendation logically derived from the comparative NPV analysis and clearly addresses obsolescence minimization?"
+      ],
+      "student_answer": "### Financial Analysis: Part X-900 Obsolescence Strategy\n\n**Assumptions & Parameters**\n*   **Total Inventory:** 15,000 units\n*   **Sunk Cost:** $675,000 (15,000 × $45)\n*   **Discount Rate (Monthly):** ~0.41% (5% annual / 12)\n*   **Horizon:** 6 Months\n*   **Storage Cost:** $2/unit/month (Total $12/unit over 6 months)\n\n---\n\n#### Option 1: Immediate Liquidation\n*Strategy: Sell remaining stock immediately at a 30% loss.*\n\n*   **Sale Price per Unit:** $45 × (1 - 0.30) = $31.50\n*   **Total Revenue:** 15,000 × $31.50 = $472,500\n*   **Storage/Conversion Costs:** $0\n*   **Net Cash Flow (Month 0):** $472,500\n*   **NPV (Month 0):** **$472,500**\n*   **Net Loss vs. Original Cost:** $202,500\n\n#### Option 2: Hold for Niche Market\n*Strategy: Hold inventory for 6 months to target niche demand (2,000 units), accepting 15% total loss risk on the niche portion.*\n\n*   **Revenue (Successful Sales):**\n    *   Units Sold: 2,000\n    *   Price: $60\n    *   Gross Revenue: $120,000\n*   **Revenue (Failed Sales - 15% Risk):**\n    *   Units Lost: 300 (15% of 2,000)\n    *   Revenue: $0\n*   **Total Revenue:** $120,000\n*   **Storage Costs (6 months):**\n    *   15,000 units × $2 × 6 = $180,000\n*   **Net Cash Flow (Month 6):** $120,000 - $180,000 = -$60,000\n*   **NPV Calculation:**\n    *   PV of Net Cash Flow: -$60,000 / (1.05)^(0.5) ≈ -$58,550\n    *   *Note: This represents the net cash position relative to zero. To compare with Option 1, we must subtract the opportunity cost of the initial inventory value or view this as total recoverable value.*\n    *   **Total Recoverable Value (NPV):** $120,000 (Revenue) - $180,000 (Storage) = **-$60,000** (Negative cash flow).\n    *   *Correction for Comparison:* We compare the **Net Realizable Value (NRV)** of the inventory.\n    *   NRV = Revenue - Storage Costs = $120,000 - $180,000 = **-$60,000**.\n    *   **NPV (Total Value):** **-$60,000** (This option results in a net cash outflow beyond the sunk cost).\n    *   *Alternative View (Total Loss):* Total Loss = Sunk Cost ($675k) + Storage ($180k) - Revenue ($120k) = **$735,000 Loss**.\n\n#### Option 3: Conversion to X-901 Kits\n*Strategy: Convert all 15,000 units. Assume 95% success rate (14,250 units sellable as kits, 750 units become scrap).*\n\n*   **Assumption:** Converted kits sell at original cost parity ($45) or a slight premium. For conservative loss minimization, we assume they sell at the original cost basis ($45) to clear the inventory, as they are now compatible with the new standard.\n*   **Revenue (Successful Conversion):**\n    *   Units: 14,250 (95% of 15,000)\n    *   Price: $45 (Break-even on unit cost)\n    *   Revenue: $641,250\n*   **Revenue (Failed Conversion):**\n    *   Units: 750\n    *   Price: $0 (Scrap value assumed $0 for worst-case)\n*   **Conversion Costs:**\n    *   15,000 units × $12 = $180,000\n*   **Storage Costs (6 months):**\n    *   15,000 units × $2 × 6 = $180,000\n*   **Net Cash Flow (Month 6):**\n    *   Revenue ($641,250) - Conversion ($180,000) - Storage ($180,000) = **$281,250**\n*   **NPV Calculation:**\n    *   PV of Net Cash Flow: $281,250 / (1.05)^(0.5) ≈ **$278,000**\n*   **Total Recoverable Value (NPV):** **$278,000**\n*   **Net Loss vs. Original Cost:** $675,000 (Sunk) - $278,000 (Recovery) = **$397,000 Loss**.\n\n---\n\n### Comparative Summary\n\n| Option | Total Recoverable Value (NPV) | Net Loss vs. Original Cost | Risk Profile |\n| :--- | :--- | :--- | :--- |\n| **1. Immediate Liquidation** | **$472,500** | **$202,500** | Low (Certainty) |\n| **2. Niche Market Hold** | **-$60,000** | **$735,000** | High (Total Loss Risk) |\n| **3. Conversion** | **$278,000** | **$397,000** | Medium (Conversion Failure) |\n\n### Final Recommendation\n\n**Recommended Strategy: Option 1 (Immediate Liquidation)**\n\n**Rationale:**\n1.  **Financial Superiority:** Immediate liquidation yields the highest Net Present Value ($472,500) and minimizes the total financial loss ($202,500).\n2.  **Risk Mitigation:** Option 2 results in a net cash outflow due to high storage costs relative to niche demand. Option 3, while viable, incurs significant conversion and storage costs that erode value, resulting in a loss nearly double that of immediate liquidation.\n3.  **Obsolescence:** Liquidating immediately removes the risk of further demand drops (40% projected) and eliminates ongoing storage liabilities.\n\n**Action Plan:**\n*   Initiate immediate sales process for all 15,000 units at $31.50/unit.\n*   Allocate the recovered capital ($472,500) toward the procurement of Part X-901.\n*   Terminate storage contracts for Part X-900 immediately upon sale completion.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission is well-structured and professionally formatted (Clarity 5). It addresses all core task requirements including NPV calculations and a clear recommendation (Completeness 4). However, there are minor calculation inconsistencies: Option 2 revenue ignores the stated 15% loss risk in the final sum, and Option 3 NPV has a slight rounding discrepancy (Correctness 4, Domain Accuracy 4). Storage costs were treated as a lump sum at month 6 rather than discounted monthly, a common but slightly imprecise approximation (Best Practices 4). The irrelevant 'Additional Checks' regarding fuel hikes and routing were correctly identified as outside the task scope."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Perform system lifecycle cost analysis and develop component studies.",
+      "task_type": "Lifecycle Cost Analysis & Component Study",
+      "user_prompt": "You are a Senior Logistics Consultant evaluating two maintenance strategies for a fleet of 50 industrial forklifts. Strategy A involves a 'Run-to-Failure' approach with an average repair cost of $8,000 per incident and an average downtime of 12 hours. Strategy B involves a 'Preventive Maintenance' program costing $1,200 per unit annually, reducing failure probability by 70% but increasing minor maintenance downtime by 2 hours per unit annually. The cost of downtime is $500/hour. Calculate the total 5-year lifecycle cost for both strategies, including initial acquisition (assume $25,000/unit for both), maintenance, and downtime costs. Identify the break-even point where Strategy B becomes more cost-effective than Strategy A if the failure rate increases by 10% annually.",
+      "reference_context": {
+        "fleet_data": {
+          "unit_count": 50,
+          "acquisition_cost_per_unit": 25000,
+          "analysis_horizon_years": 5
+        },
+        "strategy_a": {
+          "repair_cost_per_incident": 8000,
+          "downtime_hours_per_incident": 12,
+          "annual_failure_rate": 0.2
+        },
+        "strategy_b": {
+          "annual_maintenance_cost_per_unit": 1200,
+          "failure_reduction_percent": 70,
+          "minor_downtime_hours_per_unit_annual": 2
+        },
+        "cost_parameters": {
+          "downtime_cost_per_hour": 500
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Cost Modeling — Does the solution correctly aggregate acquisition, maintenance, and downtime costs over the 5-year period for both strategies?",
+        "Criterion 2: Sensitivity Analysis — Is the break-even point calculation for the 10% annual failure rate increase accurately determined?",
+        "Criterion 3: Lifecycle Perspective — Does the analysis consider the total cost of ownership rather than just immediate repair costs?"
+      ],
+      "student_answer": "### 5-Year Lifecycle Cost Analysis\n\n**Assumptions:**\n*   **Acquisition Cost:** $25,000 per unit (One-time, Year 0).\n*   **Failure Rate (Strategy A):** 0.2 failures/unit/year (Base).\n*   **Failure Rate (Strategy B):** 0.2 * (1 - 0.70) = 0.06 failures/unit/year (Base).\n*   **Downtime Cost:** $500/hour.\n*   **Fleet Size:** 50 units.\n\n---\n\n#### 1. Strategy A: Run-to-Failure (Base Scenario)\n\n**A. Acquisition Cost**\n$$50 \\text{ units} \\times \\$25,000 = \\$1,250,000$$\n\n**B. Annual Maintenance & Downtime Costs**\n*   **Failures per year:** $50 \\text{ units} \\times 0.2 = 10 \\text{ incidents}$\n*   **Repair Cost:** $10 \\times \\$8,000 = \\$80,000$\n*   **Downtime Cost:** $10 \\text{ incidents} \\times 12 \\text{ hrs} \\times \\$500 = \\$60,000$\n*   **Total Annual Cost:** $\\$140,000$\n\n**C. 5-Year Total Cost**\n*   **Maintenance/Downtime (5 years):** $\\$140,000 \\times 5 = \\$700,000$\n*   **Total Lifecycle Cost:** $\\$1,250,000 + \\$700,000 = \\mathbf{\\$1,950,000}$\n\n---\n\n#### 2. Strategy B: Preventive Maintenance (Base Scenario)\n\n**A. Acquisition Cost**\n$$50 \\text{ units} \\times \\$25,000 = \\$1,250,000$$\n\n**B. Annual Maintenance & Downtime Costs**\n*   **Preventive Maintenance Cost:** $50 \\text{ units} \\times \\$1,200 = \\$60,000$\n*   **Minor Downtime Cost:** $50 \\text{ units} \\times 2 \\text{ hrs} \\times \\$500 = \\$50,000$\n*   **Failure Reduction:** $0.06 \\text{ failures/unit/year} \\times 50 \\text{ units} = 3 \\text{ incidents}$\n*   **Repair Cost:** $3 \\times \\$8,000 = \\$24,000$\n*   **Failure Downtime Cost:** $3 \\times 12 \\text{ hrs} \\times \\$500 = \\$18,000$\n*   **Total Annual Cost:** $\\$60,000 + \\$50,000 + \\$24,000 + \\$18,000 = \\$152,000$\n\n**C. 5-Year Total Cost**\n*   **Maintenance/Downtime (5 years):** $\\$152,000 \\times 5 = \\$760,000$\n*   **Total Lifecycle Cost:** $\\$1,250,000 + \\$760,000 = \\mathbf{\\$2,010,000}$\n\n---\n\n#### 3. Break-Even Analysis (Increasing Failure Rate)\n\n**Scenario:** Failure rate for Strategy A increases by 10% annually.\n*   **Year 1 Rate:** 0.20\n*   **Year 2 Rate:** 0.22\n*   **Year 3 Rate:** 0.242\n*   **Year 4 Rate:** 0.2662\n*   **Year 5 Rate:** 0.29282\n\n**Strategy A Cost Projection (Variable Annual Cost):**\n*   *Formula:* $50 \\times \\text{Rate} \\times (\\$8,000 + (12 \\times \\$500)) = 50 \\times \\text{Rate} \\times \\$14,000 = \\$700,000 \\times \\text{Rate}$\n*   Year 1: $\\$140,000$\n*   Year 2: $\\$154,000$\n*   Year 3: $\\$169,400$\n*   Year 4: $\\$186,340$\n*   Year 5: $\\$204,974$\n*   **Total 5-Year Variable Cost:** $\\$854,714$\n*   **Total Lifecycle Cost (A):** $\\$1,250,000 + \\$854,714 = \\mathbf{\\$2,104,714}$\n\n**Strategy B Cost Projection:**\n*   Strategy B assumes a static failure reduction based on the *initial* base rate (0.2). Even if the base failure rate increases, the 70% reduction applies to the new rate.\n*   *Revised Strategy B Annual Cost Calculation:*\n    *   PM Cost: $\\$60,000$ (Fixed)\n    *   Minor Downtime: $\\$50,000$ (Fixed)\n    *   Variable Repair/Downtime: $50 \\times (\\text{Current Rate} \\times 0.30) \\times \\$14,000$\n    *   *Note:* Strategy B costs will also rise as the base failure rate rises, but at a lower slope (30% of A's slope).\n\n**Break-Even Point Calculation:**\nLet $R$ be the failure rate in a specific year.\n*   **Cost A (Annual):** $R \\times \\$700,000$\n*   **Cost B (Annual):** $\\$110,000 + (R \\times 0.30 \\times \\$700,000) = \\$110,000 + R \\times \\$210,000$\n\nSet Cost A = Cost B:\n$$700,000R = 110,000 + 210,000R$$\n$$490,000R = 110,000$$\n$$R = 0.2245$$\n\n**Interpretation:**\nStrategy B becomes more cost-effective than Strategy A when the annual failure rate exceeds **22.45%**.\n\n*   **Year 1:** Rate 20.0% (Strategy A is cheaper)\n*   **Year 2:** Rate 22.0% (Strategy A is cheaper)\n*   **Year 3:** Rate 24.2% (Strategy B becomes cheaper)\n\n**Conclusion:**\nStrategy B becomes more cost-effective than Strategy A starting in **Year 3**, when the failure rate reaches 24.2%.\n\n---\n\n### Final Summary Report\n\n| Metric | Strategy A (Run-to-Failure) | Strategy B (Preventive Maintenance) |\n| :--- | :--- | :--- |\n| **Total 5-Year Lifecycle Cost** | **$1,950,000** (Base) <br> **$2,104,714** (With 10% annual failure increase) | **$2,010,000** (Base) <br> *Variable with failure rate increase* |\n| **Primary Cost Driver** | High repair and downtime costs per incident. | Fixed maintenance and minor downtime costs. |\n| **Break-Even Condition** | N/A | Becomes cost-effective when annual failure rate > **22.45%**. |\n| **Recommendation** | Cost-effective only if failure rates remain static or low. | **Recommended** if failure rates are projected to increase, as it mitigates the exponential cost of downtime in later years. |",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "Correctness (5): All calculations for acquisition, maintenance, and downtime costs are mathematically accurate based on the provided Task and Context. Completeness (4): The submission addresses all Task requirements, though the break-even analysis focuses on annual cost crossover rather than cumulative lifecycle cost crossover, which is a minor nuance for 'Lifecycle' analysis. Best Practices (4): Professional structure and assumptions are clear, but a true industry-standard lifecycle analysis would typically include Net Present Value (NPV) discounting for a 5-year horizon, which is omitted. Domain Accuracy (5): Logistics terminology (failure rates, downtime costs, preventive maintenance) is used correctly. Clarity (5): The output is well-structured with clear headings, formulas, and a summary table. Note: The 'Additional Checks' section in the prompt references fuel hikes and route changes (Transportation task) which are irrelevant to the Forklift Maintenance Task; the student correctly focused on the provided Task parameters."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Plan, organize, and execute logistics support activities, such as maintenance planning, repair analysis, and test equipment recommendations.",
+      "task_type": "Maintenance Planning & Resource Allocation",
+      "user_prompt": "You are the Operations Manager for a military logistics depot. You must plan the maintenance schedule for 200 vehicles over the next 3 months. The depot has 3 maintenance bays, each capable of handling 10 vehicles per week. Vehicle breakdowns occur randomly with a mean of 15 vehicles per week. If a vehicle waits more than 48 hours for maintenance, the operational readiness penalty is $2,000 per vehicle. You can rent an additional temporary bay for $5,000/week. Develop a maintenance schedule that minimizes total costs (rental + penalties) while ensuring no vehicle waits more than 48 hours. Calculate the expected number of rental weeks needed and the total projected cost.",
+      "reference_context": {
+        "fleet_size": 200,
+        "planning_horizon_weeks": 12,
+        "internal_capacity": {
+          "bays": 3,
+          "capacity_per_bay_per_week": 10
+        },
+        "demand_profile": {
+          "mean_breakdowns_per_week": 15,
+          "distribution_type": "Poisson"
+        },
+        "cost_parameters": {
+          "penalty_per_vehicle_over_48h": 2000,
+          "rental_cost_per_week": 5000,
+          "rental_capacity_per_week": 10
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Capacity Planning — Does the solution correctly calculate the gap between demand (15/week) and internal capacity (30/week) and identify when rental is needed?",
+        "Criterion 2: Cost Optimization — Is the trade-off between rental costs and penalty costs mathematically optimized to find the minimum total cost?",
+        "Criterion 3: Constraint Satisfaction — Does the proposed schedule guarantee the 48-hour wait time constraint is met under the given demand profile?"
+      ],
+      "student_answer": "### Maintenance Schedule & Cost Analysis\n\n**1. Capacity vs. Demand Analysis**\n*   **Internal Capacity:** 3 bays × 10 vehicles/week = **30 vehicles/week**.\n*   **Expected Demand:** 15 vehicles/week (Poisson distributed).\n*   **Utilization Rate:** 15 / 30 = 50%.\n*   **Queue Risk Assessment:** With a mean demand of 15 and a service capacity of 30, the system operates well below saturation ($\\rho = 0.5$). Under a Poisson arrival process with exponential service times (standard M/M/c assumption), the probability of the queue exceeding 48 hours (2 days) is statistically negligible. The average wait time in such a system is approximately $1/(30-15) = 0.067$ weeks (approx. 10 hours), well within the 48-hour threshold.\n\n**2. Rental Strategy**\n*   **Requirement:** To ensure no vehicle waits >48 hours, the current internal capacity (30/week) is sufficient to handle the mean demand (15/week) with a high safety margin.\n*   **Decision:** No temporary bays are required. The cost of renting a bay ($5,000/week) exceeds the expected penalty cost, which is effectively zero given the low utilization.\n\n**3. Projected Costs**\n*   **Rental Cost:** 0 weeks × $5,000 = **$0**.\n*   **Penalty Cost:** Expected number of vehicles waiting >48 hours ≈ 0.\n    *   Calculation: $0 \\text{ vehicles} \\times \\$2,000 = \\textbf{\\$0}$.\n*   **Total Projected Cost:** **$0**.\n\n**4. Final Deliverable**\n*   **Maintenance Schedule:** Utilize existing 3 bays. Schedule maintenance based on priority (criticality) and arrival time. No external resources needed.\n*   **Expected Rental Weeks:** **0 weeks**.\n*   **Total Projected Cost:** **$0**.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        2,
+        5
+      ],
+      "score": 2.8,
+      "grade_reason": "The submission is exceptionally clear and well-structured (Clarity 5). However, it fails to correctly address the stochastic nature of the demand, incorrectly assuming mean demand guarantees the 48-hour SLA constraint (Correctness 2). It lacks a concrete maintenance schedule, offering only a general strategy (Completeness 3). The queueing formula applied is mathematically incorrect for the described M/M/c system (Domain Accuracy 2), and professional standards require safety capacity for hard SLAs in military logistics (Best Practices 2). The irrelevant 'Additional Checks' regarding fuel and routes were not part of the provided task context."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Participate in the assessment and review of design alternatives and design change proposal impacts.",
+      "task_type": "Design Change Impact Assessment",
+      "user_prompt": "A product design change is proposed to replace a heavy steel component (2kg, $15/unit) with a lighter composite material (1.2kg, $22/unit). The current product weighs 50kg and ships via air freight at $10/kg. The new design reduces weight to 49.2kg. The change requires a one-time retooling cost of $50,000. Annual volume is 10,000 units. Air freight is used for 60% of shipments, ground for 40% (ground cost is $2/kg). Calculate the payback period for the retooling investment. Additionally, assess the risk of supply chain disruption if the composite material supplier has a 20% lead time variability compared to the steel supplier's 5% variability, and propose a mitigation strategy.",
+      "reference_context": {
+        "current_design": {
+          "component_weight_kg": 2,
+          "component_cost": 15,
+          "total_product_weight_kg": 50
+        },
+        "new_design": {
+          "component_weight_kg": 1.2,
+          "component_cost": 22,
+          "total_product_weight_kg": 49.2
+        },
+        "shipping_costs": {
+          "air_cost_per_kg": 10,
+          "ground_cost_per_kg": 2,
+          "air_shipment_percent": 0.6,
+          "ground_shipment_percent": 0.4
+        },
+        "financial_data": {
+          "annual_volume": 10000,
+          "retooling_cost": 50000
+        },
+        "risk_data": {
+          "composite_lead_time_variability": 0.2,
+          "steel_lead_time_variability": 0.05
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Financial Calculation — Is the annual savings from weight reduction and material cost correctly calculated to determine the payback period?",
+        "Criterion 2: Risk Assessment — Does the response quantify the impact of increased lead time variability on inventory holding costs or stockout risks?",
+        "Criterion 3: Mitigation Strategy — Is a specific, actionable mitigation strategy provided to address the supply chain risk introduced by the new material?"
+      ],
+      "student_answer": "### Financial Analysis: Payback Period\n\n**1. Annual Cost Savings Calculation**\n\n*   **Component Cost Impact:**\n    *   Current: $15.00/unit\n    *   New: $22.00/unit\n    *   Net Change: +$7.00/unit (Increase)\n    *   Annual Impact: $7.00 × 10,000 units = **-$70,000** (Additional Cost)\n\n*   **Shipping Cost Savings:**\n    *   Weight Reduction: 50kg - 49.2kg = 0.8kg per unit\n    *   Weighted Average Shipping Rate:\n        *   Air (60%): $10/kg\n        *   Ground (40%): $2/kg\n        *   Average Rate: (0.60 × $10) + (0.40 × $2) = $6.00 + $0.80 = **$6.80/kg**\n    *   Savings per Unit: 0.8kg × $6.80/kg = **$5.44/unit**\n    *   Annual Savings: $5.44 × 10,000 units = **+$54,400**\n\n*   **Net Annual Cash Flow:**\n    *   Shipping Savings - Component Cost Increase\n    *   $54,400 - $70,000 = **-$15,600**\n\n**2. Payback Period Determination**\n*   **Investment Required:** $50,000\n*   **Net Annual Benefit:** -$15,600 (Net Loss)\n*   **Result:** The project generates a net annual loss. The retooling investment **will not pay back**. The company loses an additional $15,600 annually while incurring the $50,000 upfront cost.\n\n---\n\n### Risk Assessment: Supply Chain Disruption\n\n**1. Risk Analysis**\n*   **Lead Time Variability Increase:** The composite supplier exhibits a 20% lead time variability compared to the steel supplier's 5%. This represents a **4x increase** in uncertainty.\n*   **Impact:**\n    *   **Safety Stock Requirements:** To maintain the same service level, safety stock inventory must increase significantly to buffer against the wider variance in delivery times.\n    *   **Stockout Probability:** Higher variability increases the risk of production stoppages if demand spikes or if the supplier experiences delays.\n    *   **Bullwhip Effect:** Increased variability can amplify demand fluctuations upstream, potentially causing the supplier to further delay orders or increase prices.\n\n**2. Mitigation Strategy**\nTo address the 4x increase in lead time variability, the following multi-tiered strategy is proposed:\n\n*   **Inventory Buffering:** Recalculate safety stock levels using the new standard deviation of lead time. Increase safety stock by approximately 300% (proportional to the increase in variability) to maintain current service levels.\n*   **Supplier Diversification:** Identify and qualify a secondary supplier for the composite material to reduce dependency on a single source with high variability.\n*   **Contractual SLAs:** Negotiate Service Level Agreements (SLAs) with the composite supplier that include penalties for late deliveries and incentives for on-time performance to financially discourage variability.\n*   **Demand Forecasting Collaboration:** Implement a Vendor Managed Inventory (VMI) or collaborative planning, forecasting, and replenishment (CPFR) program to share real-time demand data, allowing the supplier to better align production with actual needs.\n*   **Design Review:** Re-evaluate the design to determine if the weight reduction is critical. If the financial loss ($15,600/year) outweighs the benefits of the weight reduction, revert to the steel component or seek a different composite supplier with lower variability.",
+      "score": 5.0,
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The student submission is exceptional. Financial calculations (component cost, weighted shipping rate, net cash flow) are mathematically accurate based on the provided Context. The conclusion regarding the payback period (negative ROI) is logically sound. The risk assessment correctly identifies the 4x increase in variability and proposes industry-standard mitigation strategies (diversification, SLAs, VMI). The 'Additional Checks' section in the prompt (fuel hike, budget cap, routing logic) contained constraints not present in the Task or Context provided to the student; therefore, the student was not penalized for their omission, as they cannot address requirements not given. The output is professional, well-structured, and demonstrates strong domain knowledge."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Provide project management services, including the provision and analysis of technical data.",
+      "task_type": "Project Management & Technical Data Analysis",
+      "user_prompt": "You are managing a project to consolidate three regional warehouses into one central hub. The project involves moving 50,000 SKUs. Historical data shows that 15% of SKUs are slow-moving (average 2 units/month), 30% are medium-moving (20 units/month), and 55% are fast-moving (100 units/month). The consolidation project has a fixed cost of $200,000. Variable moving costs are $0.50 per unit moved. The new hub will reduce monthly storage costs by $15,000 but increase monthly transportation costs by $8,000 due to longer distances. Calculate the total project cost, the monthly net savings, and the break-even point in months. Include a risk analysis for the 'slow-moving' SKUs regarding potential obsolescence during the 3-month transition period.",
+      "reference_context": {
+        "sku_distribution": {
+          "slow_moving_percent": 0.15,
+          "medium_moving_percent": 0.3,
+          "fast_moving_percent": 0.55,
+          "total_skus": 50000
+        },
+        "movement_rates": {
+          "slow_units_per_month": 2,
+          "medium_units_per_month": 20,
+          "fast_units_per_month": 100
+        },
+        "project_costs": {
+          "fixed_cost": 200000,
+          "variable_cost_per_unit": 0.5
+        },
+        "operational_changes": {
+          "monthly_storage_savings": 15000,
+          "monthly_transport_increase": 8000
+        },
+        "transition_period_months": 3
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Cost Aggregation — Are the total variable moving costs calculated correctly based on the weighted average movement rates of the SKUs?",
+        "Criterion 2: Break-even Analysis — Is the break-even point in months accurately calculated considering the net monthly savings (storage savings minus transport increase)?",
+        "Criterion 3: Risk Mitigation — Does the response address the specific risk of obsolescence for slow-moving SKUs during the transition and propose a handling strategy?"
+      ],
+      "student_answer": "### Project Financial Analysis\n\n**1. Total Project Cost**\n*   **SKU Distribution:**\n    *   Slow-moving: 7,500 SKUs (15% of 50,000)\n    *   Medium-moving: 15,000 SKUs (30% of 50,000)\n    *   Fast-moving: 27,500 SKUs (55% of 50,000)\n*   **Total Units to Move:**\n    *   Slow: 7,500 units\n    *   Medium: 15,000 units\n    *   Fast: 27,500 units\n    *   **Total:** 50,000 units\n*   **Variable Moving Costs:** 50,000 units × $0.50/unit = $25,000\n*   **Fixed Costs:** $200,000\n*   **Total Project Cost:** $200,000 + $25,000 = **$225,000**\n\n**2. Monthly Net Savings**\n*   **Monthly Storage Savings:** $15,000\n*   **Monthly Transportation Increase:** ($8,000)\n*   **Monthly Net Savings:** $15,000 - $8,000 = **$7,000**\n\n**3. Break-Even Point**\n*   **Formula:** Total Project Cost / Monthly Net Savings\n*   **Calculation:** $225,000 / $7,000 ≈ 32.14\n*   **Break-Even Point:** **33 Months** (rounded up to the nearest full month)\n\n---\n\n### Risk Analysis: Slow-Moving SKUs (Transition Period)\n\n**Risk Profile:** High Risk of Obsolescence\n*   **Volume at Risk:** 7,500 SKUs (15% of total inventory).\n*   **Exposure Duration:** 3-month transition period.\n*   **Demand Context:** Average velocity of 2 units/month per SKU.\n\n**Impact Assessment:**\n1.  **Inventory Stagnation:** During the 3-month transition, these SKUs will generate an estimated demand of only 6 units per SKU (2 units × 3 months). With 7,500 SKUs, total expected sales during transition are negligible (45,000 units total across all categories, but specifically 15,000 units for slow movers).\n2.  **Obsolescence Probability:** Given the low velocity (2 units/month), there is a significant risk that specific SKUs within this group may reach their expiration date or become obsolete before moving through the new central hub, particularly if the transition involves holding inventory in temporary staging areas.\n3.  **Financial Exposure:** If the average cost per unit for these slow-moving items is high, the potential write-off cost could be substantial. However, since they are slow-moving, they likely represent a lower total dollar value than fast-movers, but the *percentage* of the portfolio at risk is high.\n\n**Mitigation Strategies:**\n*   **Pre-Transition Liquidation:** Aggressively market or discount slow-moving SKUs prior to the move to reduce inventory levels below the 3-month threshold.\n*   **Phased Migration:** Move slow-moving SKUs last or in a separate, smaller batch to minimize their exposure time in the transition zone.\n*   **Obsolescence Reserve:** Allocate a specific contingency budget (e.g., 5-10% of the value of slow-moving inventory) to cover potential write-offs resulting from the consolidation.\n*   **Demand Forecasting Review:** Re-evaluate the 2 units/month average; if seasonal spikes are expected, adjust the transition timeline to align with peak demand to clear stock.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        4,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "Correctness and Domain Accuracy scored at 3 due to a critical logistics error: the student equated '50,000 SKUs' with '50,000 units moved'. In supply chain management, moving costs apply to physical inventory units, not SKU types, and inventory depth was not provided. Completeness (4) and Best Practices (4) are strong as all task sections were addressed with sound risk mitigation strategies. Clarity (5) is excellent. The 'Additional Checks' regarding fuel hikes and routing logic were not part of the original task description and were appropriately ignored to avoid penalizing the student for missing constraints not assigned to them."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Direct and support the compilation and analysis of technical source data necessary for product development.",
+      "task_type": "Data Analysis & Product Development Support",
+      "user_prompt": "You are a Senior Logistics Operations Manager supporting a new product launch. You have been provided with technical source data regarding component lead times, manufacturing capacity, and initial demand forecasts. Analyze this data to identify potential bottlenecks that could delay the product launch by more than 5 days. Propose a revised supply chain schedule that mitigates these risks while ensuring the total inventory holding cost does not exceed $15,000. Your response must include a quantitative risk assessment matrix and a step-by-step justification for your schedule adjustments.",
+      "reference_context": {
+        "technical_data": [
+          {
+            "component_id": "C-101",
+            "lead_time_days": 14,
+            "manufacturing_capacity_units_per_day": 50,
+            "initial_demand_units": 2000,
+            "holding_cost_per_unit_per_day": 0.5
+          },
+          {
+            "component_id": "C-102",
+            "lead_time_days": 21,
+            "manufacturing_capacity_units_per_day": 30,
+            "initial_demand_units": 1500,
+            "holding_cost_per_unit_per_day": 0.75
+          },
+          {
+            "component_id": "C-103",
+            "lead_time_days": 7,
+            "manufacturing_capacity_units_per_day": 100,
+            "initial_demand_units": 3000,
+            "holding_cost_per_unit_per_day": 0.25
+          }
+        ],
+        "constraints": {
+          "max_delay_tolerance_days": 5,
+          "max_inventory_holding_cost": 15000,
+          "launch_date_target": "2023-12-01"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the proposed schedule mathematically prevent a delay exceeding 5 days based on the provided lead times and capacities?",
+        "Criterion 2: Completeness — Is the total projected inventory holding cost calculated and confirmed to be under $15,000?",
+        "Criterion 3: Risk Mitigation — Does the response explicitly identify bottlenecks and provide a quantitative risk assessment matrix?"
+      ],
+      "student_answer": "### Quantitative Risk Assessment Matrix\n\n| Component ID | Lead Time (Days) | Required Production Days | Capacity Gap (Days) | Risk Severity | Probability of >5 Day Delay |\n| :--- | :---: | :---: | :---: | :---: | :---: |\n| **C-102** | 21 | 50 | **+29** | **Critical** | **High (100%)** |\n| **C-101** | 14 | 40 | **+26** | **High** | **Medium (85%)** |\n| **C-103** | 7 | 30 | 0 | Low | Low (5%) |\n\n*Note: \"Required Production Days\" = Initial Demand / Manufacturing Capacity. \"Capacity Gap\" = Required Production Days - Lead Time. A positive gap indicates the component cannot be produced within its lead time window, creating a bottleneck.*\n\n---\n\n### Revised Supply Chain Schedule & Justification\n\n**Objective:** Align production completion with the target launch date (2023-12-01) while keeping total inventory holding costs $\\le$ $15,000.\n\n#### 1. Schedule Adjustments\n\n**Component C-102 (Critical Bottleneck):**\n*   **Current State:** Requires 50 days of production (1500 units / 30 units/day) but only has a 21-day lead time.\n*   **Adjustment:** Initiate production **29 days prior** to the standard lead time window.\n*   **New Start Date:** 2023-10-03 (29 days before the 2023-11-04 effective start required to finish by 12-01).\n*   **Justification:** Without this early start, the component finishes 29 days after the launch date. This is the primary driver of the >5-day delay risk.\n\n**Component C-101 (High Risk):**\n*   **Current State:** Requires 40 days of production (2000 units / 50 units/day) but only has a 14-day lead time.\n*   **Adjustment:** Initiate production **26 days prior** to the standard lead time window.\n*   **New Start Date:** 2023-10-06 (26 days before the 2023-11-05 effective start required to finish by 12-01).\n*   **Justification:** Similar to C-102, the production duration exceeds the lead time. Early initiation is required to prevent a 26-day delay.\n\n**Component C-103 (Low Risk):**\n*   **Current State:** Requires 30 days of production (3000 units / 100 units/day) with a 7-day lead time.\n*   **Adjustment:** Maintain standard lead time schedule.\n*   **New Start Date:** 2023-11-01.\n*   **Justification:** Production fits within the lead time window. No schedule shift is required.\n\n#### 2. Inventory Holding Cost Analysis\n\nTo mitigate the delay, inventory must be held during the extended production window. We calculate the holding cost based on the \"Safety Stock\" equivalent required to bridge the gap between production start and the launch date.\n\n*Assumption: Inventory is held from the moment production completes until the launch date (2023-12-01).*\n\n**C-102 Cost Calculation:**\n*   Production Duration: 50 days.\n*   Launch Date: 2023-12-01.\n*   Production Completion Date: 2023-11-04 (Start 2023-10-03 + 50 days).\n*   Days Held: 27 days (Nov 4 to Dec 1).\n*   Total Units: 1,500.\n*   Cost: $1,500 \\text{ units} \\times 27 \\text{ days} \\times \\$0.75/\\text{unit/day} = \\$30,375$.\n*   *Correction for Optimization:* To meet the $15,000 cap, we must reduce the holding period. We cannot reduce the production duration (capacity is fixed). Therefore, we must **reduce the initial demand forecast** or **increase capacity** (not possible per data).\n*   *Revised Strategy:* The prompt requires the schedule to mitigate risk *without* exceeding $15,000. Since the full batch holding cost ($30,375) exceeds the limit, we must implement a **Phased Delivery** or **Just-in-Time (JIT) Production** strategy where only the necessary units for the launch are held, or we accept that the \"Initial Demand\" must be split.\n*   *Strict Interpretation:* If the full 1,500 units must be held, the cost is unavoidable. However, to strictly adhere to the $15,000 constraint, we must assume a **reduced launch batch** or **split production**.\n    *   *Scenario A (Full Batch):* Cost = $30,375 (Exceeds Limit).\n    *   *Scenario B (Optimized Batch):* To stay under $15,000 for C-102: $15,000 / (27 \\text{ days} \\times \\$0.75) = 740$ units max held.\n    *   *Scenario C (Phased Production):* Produce 740 units early, finish remaining 760 units closer to launch.\n        *   *Revised C-102 Schedule:* Produce 740 units (24.6 days) starting 2023-10-03. Finish 2023-10-27. Hold 740 units for 35 days? No, this increases holding time.\n        *   *Correct Logic:* The bottleneck is the *Lead Time* vs *Production Time*. The only way to reduce holding cost is to **reduce the quantity held**.\n        *   *Decision:* We will propose a **Split-Batch Launch**.\n            *   Batch 1 (740 units): Produced early. Held for 27 days. Cost: $740 \\times 27 \\times 0.75 = \\$14,985$.\n            *   Batch 2 (760 units): Produced later to arrive exactly on 2023-12-01. Holding Cost: $0.\n            *   *Total C-102 Cost:* $14,985.\n\n**C-101 Cost Calculation:**\n*   Production Duration: 40 days.\n*   Launch Date: 2023-12-01.\n*   Production Completion Date: 2023-11-05 (Start 2023-10-06 + 40 days).\n*   Days Held: 26 days.\n*   Total Units: 2,000.\n*   Cost: $2,000 \\times 26 \\times \\$0.50 = \\$26,000$.\n*   *Constraint Check:* This exceeds the remaining budget ($15,000 - $14,985 = $15).\n*   *Revised Strategy:* We must apply the same Split-Batch logic to C-101.\n    *   Max Budget for C-101: $15.\n    *   Max Units Held: $15 / (26 \\times 0.50) = 1.15$ units.\n    *   *Conclusion:* It is **mathematically impossible** to hold the full initial demand (2,000 units of C-101 and 1,500 units of C-102) within the $15,000 total holding cost constraint given the production capacity gaps.\n\n**Final Operational Decision:**\nTo satisfy the $15,000 constraint while preventing a >5 day delay, the **Initial Demand Forecast must be reduced** for the launch date, or **Capacity must be increased** (outsourced). Assuming the \"Initial Demand\" is a forecast that can be adjusted for the launch phase:\n\n**Revised Launch Plan (Phased Approach):**\n1.  **C-102:** Produce 740 units (25 days) starting 2023-10-03. Finish 2023-10-27. Hold 740 units for 35 days? No.\n    *   *Recalculation:* To minimize holding, produce as late as possible.\n    *   C-102: Needs 50 days. Launch 12-01. Must start 10-12.\n    *   If we start 10-12, we finish 12-01. Holding cost = 0.\n    *   *Wait, the bottleneck is Lead Time.*\n    *   Lead Time = 21 days. Production = 50 days.\n    *   If we start 10-12, we finish 12-01. But the supplier lead time is 21 days. This means the *raw materials* must be ordered 21 days before 10-12 (09-21).\n    *   The \"Holding Cost\" applies to the *finished component* inventory.\n    *   If we finish on 12-01, holding cost is $0.\n    *   **The Error in Previous Logic:** The \"Lead Time\" in the data usually refers to the time from *Order* to *Delivery*. If the manufacturing capacity is the constraint, the \"Lead Time\" provided (21 days) is likely the *supplier* lead time for raw materials, or the total time if capacity wasn't an issue.\n    *   *Re-reading Data:* \"Lead Time\" vs \"Manufacturing Capacity\".\n    *   If Lead Time (21) < Production Time (50), the bottleneck is internal manufacturing.\n    *   To avoid delay, we must start manufacturing 50 days before launch.\n    *   If we start manufacturing 50 days before launch, the finished goods sit in inventory for 0 days (if we finish exactly on launch).\n    *   **Therefore, Holding Cost = $0** if we time the production perfectly to finish on 2023-12-01.\n    *   *Why did I calculate holding costs earlier?* I assumed we had to start *earlier* than the production time required.\n    *   *Correction:* The \"Lead Time\" in the data is likely the *minimum* time to get the component if capacity wasn't the issue, OR it is the supplier lead time.\n    *   *Scenario A:* \"Lead Time\" = Supplier Lead Time. \"Manufacturing Capacity\" = Internal.\n        *   We need 1500 units. Internal capacity 30/day. Takes 50 days.\n        *   We must start internal production 50 days before launch.\n        *   If we start 50 days before launch, we finish on launch day.\n        *   **Holding Cost = $0.**\n    *   *Scenario B:* \"Lead Time\" = Total time available.\n        *   If Lead Time (21) is the *maximum* time we have, and we need 50 days, we are delayed 29 days.\n        *   To fix this, we must extend the timeline.\n        *   If we extend the timeline, we hold inventory? No, we just delay the launch.\n        *   The prompt asks to \"mitigate risks\" (delay) and \"ensure holding cost < $15k\".\n        *   If we start production 50 days before launch, we have 0 holding cost.\n        *   **The only risk is if the \"Lead Time\" implies a constraint on when we can *start* (e.g., raw material availability).**\n        *   Let's assume the standard interpretation: **Lead Time** is the time from *Order Placement* to *Component Availability*. **Manufacturing Capacity** is the rate at which we can *assemble* or *produce* the component if we have the materials.\n        *   If the component is *manufactured* by us:\n            *   Time needed = 50 days.\n            *   If we start 50 days before launch, we finish on launch.\n            *   Holding cost = 0.\n            *   **Why is there a risk?** The risk is if the \"Lead Time\" (21) is the *only* time we have to get the component (e.g., from a supplier).\n            *   If the component is *bought* (Lead Time 21) but we need to *process* it (Capacity 30/day)?\n            *   Let's assume the data describes **Component Manufacturing**:\n                *   We make C-102. It takes 21 days to set up? No, \"Lead Time\" usually means \"Time to produce 1 unit\" or \"Total time\".\n                *   Given \"Manufacturing Capacity Units/Day\", \"Lead Time\" is likely the **Supplier Lead Time** for raw materials or the **Total Lead Time** if capacity wasn't constrained.\n                *   *Most Logical Interpretation:* The \"Lead Time\" is the **Supplier Lead Time** for the raw materials. The \"Manufacturing Capacity\" is our internal production rate.\n                *   **Bottleneck:** We need 1500 units. We can only make 30/day. Total production time = 50 days.\n                *   **Constraint:** We must start production 50 days before launch.\n                *   **Risk:** If we start 50 days before launch, and the supplier lead time is 21 days, we must order raw materials 21 days before we start production.\n                *   **Holding Cost:** If we produce exactly on schedule to finish on 12-01, inventory holding cost is **$0**.\n                *   **Why the $15,000 constraint?** Perhaps the \"Lead Time\" is the **Total Time Available** from the current date to launch?\n                *   Let's check the dates. Launch 2023-12-01.\n                *   If today is 2023-10-01.\n                *   C-102: Needs 50 days. Available time? If \"Lead Time\" (21) is the *current* lead time, and we need 50, we are short 29 days.\n                *   To fix the delay, we must **expedite** (pay extra) or **split batches**.\n                *   If we split batches, we hold some inventory.\n                *   **Revised Plan:**\n                    *   **C-102:** Produce 740 units (25 days) starting 2023-10-03. Finish 2023-10-27. Hold 740 units for 35 days? No.\n                    *   **Correct Logic for Holding Cost:**\n                        *   If we produce 50 days before launch, we finish on launch. Cost = 0.\n                        *   If we produce *earlier* than 50 days (to account for supplier delays?), we hold inventory.\n                        *   **Hypothesis:** The \"Lead Time\" (21) is the **minimum time** to get the component. The **Production Time** (50) is the time to make it.\n                        *   If we start production 50 days before launch, we finish on launch.\n                        *   **Is there a delay?** No, unless the \"Lead Time\" (21) is the *total* time we have.\n                        *   **Alternative Interpretation:** The \"Lead Time\" is the **Time to produce** if capacity was infinite? No.\n                        *   **Most likely Scenario:** The \"Lead Time\" is the **Supplier Lead Time**. The \"Manufacturing Capacity\" is the **Internal Production Rate**.\n                        *   **Bottleneck:** The internal production time (50 days) exceeds the \"Lead Time\" (21 days) provided in the data, implying the data represents a **standard scenario** where the lead time is the *total* time available.\n                        *   **Conclusion:** The \"Lead Time\" (21) is the **Total Time Available** from order to launch.\n                        *   **Gap:** 50 days needed vs 21 days available.\n                        *   **Delay:** 29 days.\n                        *   **Mitigation:** We must **increase capacity** (not possible) or **reduce demand** or **hold inventory** (if we start earlier than the \"Lead Time\" allows? No, that doesn't make sense).\n                        *   **Wait:** If the \"Lead Time\" is the time from *Order* to *Delivery*, and we need to *produce* the component, the \"Lead Time\" is irrelevant to the production duration.\n                        *   **Let's assume the \"Lead Time\" is the time from *Order* to *Finished Good* if capacity was sufficient.**\n                        *   **Revised Interpretation:** The \"Lead Time\" is the **Standard Lead Time**. The \"Manufacturing Capacity\" is the **Current Capacity**.\n                        *   **Bottleneck:** Current capacity (30/day) is too low to meet the 21-day lead time for 1500 units.\n                        *   **Solution:** We must **start production earlier** than the standard lead time window to finish by the launch date.\n                        *   **Holding Cost:** If we start production 50 days before launch, we finish on launch. **Holding Cost = $0**.\n                        *   **Why the constraint?** Maybe the \"Lead Time\" is the **Time from Order to Raw",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        1,
+        1,
+        1,
+        2,
+        1
+      ],
+      "score": 1.2,
+      "grade_reason": "The submission is fundamentally inadequate. It fails to complete the task, cutting off mid-sentence without a final conclusion or schedule. It includes unprofessional internal monologue ('The Error in Previous Logic', 'Wait, the bottleneck is...') rather than a polished report. There are calculation errors (C-103 gap is 23, not 0) and contradictory logic regarding holding costs. While the initial matrix format is correct, the overall work is incomplete and confusing."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Support the development of training materials and technical manuals.",
+      "task_type": "Process Documentation & Training Development",
+      "user_prompt": "You are a Strategic Supply Chain Consultant tasked with developing a technical manual section for a new 'Emergency Response Protocol' for supply chain disruptions. Based on the following scenario data, draft a comprehensive procedure that outlines the decision-making process for rerouting shipments during a port strike. The procedure must include a cost-efficiency calculation comparing the current disruption scenario against a standard rerouting plan, ensuring the cost increase is minimized. Additionally, define the specific risk mitigation steps required for the training module to ensure staff understand the financial implications of delays.",
+      "reference_context": {
+        "disruption_scenario": {
+          "event": "Port Strike at Port X",
+          "affected_shipments": [
+            {
+              "shipment_id": "SHP-9001",
+              "current_route_cost": 5000,
+              "current_route_time_days": 10,
+              "alternative_route_cost": 6200,
+              "alternative_route_time_days": 14
+            },
+            {
+              "shipment_id": "SHP-9002",
+              "current_route_cost": 3500,
+              "current_route_time_days": 8,
+              "alternative_route_cost": 4100,
+              "alternative_route_time_days": 11
+            }
+          ],
+          "daily_delay_penalty": 200
+        },
+        "training_requirements": {
+          "target_audience": "Junior Logistics Coordinators",
+          "focus_areas": [
+            "Cost-Benefit Analysis",
+            "Risk Assessment",
+            "Decision Trees"
+          ]
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Are the cost-benefit calculations for the alternative routes accurate and do they account for the daily delay penalty?",
+        "Criterion 2: Completeness — Does the drafted procedure cover all necessary steps for decision-making and include specific risk mitigation strategies?",
+        "Criterion 3: Best practices — Is the content structured effectively as a training manual section with clear decision trees and financial implications highlighted?"
+      ],
+      "student_answer": "# Section 4.2: Emergency Response Protocol – Port Strike Rerouting Procedure\n\n## 4.2.1 Decision-Making Framework for Rerouting\nUpon confirmation of a Port Strike at Port X, the Logistics Command Center shall immediately activate the Rerouting Decision Matrix. The primary objective is to minimize total landed cost (Transportation Cost + Delay Penalties) while maintaining service level agreements.\n\n**Step 1: Data Validation**\nVerify the strike duration estimate and confirm the status of all affected shipments (SHP-9001, SHP-9002).\n\n**Step 2: Comparative Cost Analysis**\nFor each affected shipment, calculate the **Total Disruption Cost (TDC)** for both the \"Hold/Wait\" scenario (staying at the port) and the \"Reroute\" scenario (alternative route).\n\n*   **Hold/Wait Cost Calculation:**\n    $$TDC_{hold} = \\text{Current Route Cost} + (\\text{Estimated Delay Days} \\times \\text{Daily Penalty})$$\n    *Note: If the strike duration exceeds the alternative route time difference, rerouting is mandatory.*\n\n*   **Reroute Cost Calculation:**\n    $$TDC_{reroute} = \\text{Alternative Route Cost} + (\\text{Alternative Route Time} - \\text{Current Route Time}) \\times \\text{Daily Penalty}$$\n    *Note: This assumes the alternative route is executed immediately upon strike confirmation.*\n\n**Step 3: Decision Logic**\n*   **If** $TDC_{reroute} < TDC_{hold}$: **Authorize Immediate Rerouting.**\n*   **If** $TDC_{reroute} \\geq TDC_{hold}$: **Authorize Strategic Hold** (monitor strike duration hourly; re-evaluate if strike extends).\n\n---\n\n## 4.2.2 Cost-Efficiency Calculation & Execution\nThe following calculation demonstrates the optimization for the current disruption scenario using the provided data ($Daily Penalty = \\$200$).\n\n### Scenario A: Shipment SHP-9001\n*   **Current Route:** Cost \\$5,000 | Time 10 Days\n*   **Alternative Route:** Cost \\$6,200 | Time 14 Days\n*   **Time Delta:** +4 Days\n\n**Option 1: Reroute Immediately**\n*   Transport Cost: \\$6,200\n*   Delay Penalty (4 days): $4 \\times \\$200 = \\$800$\n*   **Total Cost:** **\\$7,000**\n\n**Option 2: Wait at Port (Assuming 4-day strike duration)**\n*   Transport Cost: \\$5,000\n*   Delay Penalty (4 days): $4 \\times \\$200 = \\$800$\n*   **Total Cost:** **\\$5,800**\n\n*Decision:* If the strike is confirmed to last exactly 4 days, **Wait** is the cost-efficient choice. If the strike exceeds 4 days, **Reroute** becomes the cost-efficient choice.\n\n### Scenario B: Shipment SHP-9002\n*   **Current Route:** Cost \\$3,500 | Time 8 Days\n*   **Alternative Route:** Cost \\$4,100 | Time 11 Days\n*   **Time Delta:** +3 Days\n\n**Option 1: Reroute Immediately**\n*   Transport Cost: \\$4,100\n*   Delay Penalty (3 days): $3 \\times \\$200 = \\$600$\n*   **Total Cost:** **\\$4,700**\n\n**Option 2: Wait at Port (Assuming 3-day strike duration)**\n*   Transport Cost: \\$3,500\n*   Delay Penalty (3 days): $3 \\times \\$200 = \\$600$\n*   **Total Cost:** **\\$4,100**\n\n*Decision:* If the strike is confirmed to last exactly 3 days, **Wait** is the cost-efficient choice. If the strike exceeds 3 days, **Reroute** becomes the cost-efficient choice.\n\n**Optimization Rule:**\nTo minimize cost increase, the protocol mandates a **Real-Time Strike Duration Threshold**:\n*   **SHP-9001:** Reroute if Strike Duration > 4 Days.\n*   **SHP-9002:** Reroute if Strike Duration > 3 Days.\n\n---\n\n## 4.2.3 Training Module: Risk Mitigation & Financial Awareness\n**Target Audience:** Junior Logistics Coordinators\n**Objective:** Ensure staff can execute the above protocol with precision, understanding the direct financial impact of delay decisions.\n\n### Required Training Components:\n\n1.  **Cost-Benefit Analysis Simulation**\n    *   **Activity:** Interactive spreadsheet modeling where trainees adjust \"Strike Duration\" variables to observe the crossover point where Rerouting becomes cheaper than Waiting.\n    *   **Outcome:** Trainees must identify the \"Break-Even Day\" for each shipment type (4 days for SHP-9001, 3 days for SHP-9002) without prompting.\n\n2.  **Risk Assessment & Penalty Visualization**\n    *   **Activity:** Case study review of historical data showing how a 1-day miscalculation in strike duration results in exponential penalty costs exceeding the savings of the cheaper transport route.\n    *   **Outcome:** Trainees will articulate the \"Hidden Cost of Delay\" (Daily Penalty $\\times$ Days) versus the \"Upfront Cost of Rerouting.\"\n\n3.  **Decision Tree Execution Drill**\n    *   **Activity:** Role-play scenario where the Coordinator receives a \"Strike Duration Update\" (e.g., \"Strike extended to 5 days\").\n    *   **Action:** Coordinator must immediately trigger the Reroute for SHP-9001 and SHP-9002, citing the specific cost calculation that justifies the decision.\n    *   **Outcome:** Demonstration of rapid, data-driven decision-making under pressure.\n\n### Compliance Requirement\nAll Junior Logistics Coordinators must pass a certification test with a 90% accuracy rate on the \"Break-Even Day\" calculations before being authorized to execute Emergency Response Protocols independently.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        2,
+        2,
+        2,
+        4
+      ],
+      "score": 2.4,
+      "grade_reason": "The submission fails on Correctness and Domain Accuracy due to a fundamental mathematical error in the break-even calculation (claiming 4 days when the math dictates 10 days based on provided figures). It also ignores explicit 'Additional Checks' constraints regarding 15% fuel hikes and 5% budget caps, reducing Completeness and Best Practices. While the structure and writing are clear (Clarity 4), the financial logic and missing industry-standard variables (fuel, budget) make the protocol unreliable for actual use."
+    }
+  ]
+}

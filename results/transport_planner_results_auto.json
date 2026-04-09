@@ -1,0 +1,1099 @@
+{
+  "meta": {
+    "job_title": "Transportation Planners",
+    "job_id": "transport_planner",
+    "onet_code": "19-3099.01",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 22,
+    "evaluated_tasks": 22,
+    "batches": 5,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 4.41,
+      "dimensions": {
+        "Correctness": 4.2,
+        "Completeness": 4.35,
+        "Best Practices": 4.15,
+        "Domain Accuracy": 4.5,
+        "Clarity": 4.85
+      },
+      "evaluated_tasks": 22,
+      "scale_max": 5
+    },
+    "total_time_seconds": 2044.43
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Evaluate transportation project needs or costs.",
+      "task_type": "Cost-Benefit Analysis",
+      "user_prompt": "You are a Senior Transportation Planner for the County. The County is considering two projects to alleviate congestion on the North Corridor: Project A (widening the road) and Project B (implementing a dedicated bus rapid transit line). Using the provided cost estimates, projected ridership, and environmental impact data, calculate the Benefit-Cost Ratio (BCR) for both projects over a 20-year horizon. Assume a discount rate of 4%. Recommend the project that offers the best value while meeting the County's sustainability goals, justifying your choice with specific financial and environmental metrics.",
+      "reference_context": {
+        "project_a": {
+          "name": "Road Widening",
+          "initial_cost": 15000000,
+          "annual_maintenance": 150000,
+          "projected_travel_time_savings_annual": 50000,
+          "value_of_time_per_hour": 25,
+          "emissions_reduction_tons": 100
+        },
+        "project_b": {
+          "name": "Bus Rapid Transit",
+          "initial_cost": 22000000,
+          "annual_maintenance": 400000,
+          "projected_travel_time_savings_annual": 75000,
+          "value_of_time_per_hour": 25,
+          "emissions_reduction_tons": 1200
+        },
+        "parameters": {
+          "discount_rate": 0.04,
+          "analysis_period_years": 20
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the BCR calculations mathematically accurate based on the provided inputs and discount rate?",
+        "Completeness: Does the response compare both projects and explicitly state the recommended option?",
+        "Best Practices: Does the recommendation balance financial efficiency with the sustainability goal of emissions reduction?"
+      ],
+      "student_answer": "# Transportation Project Evaluation: North Corridor Congestion Relief\n\n## 1. Methodology and Assumptions\n*   **Analysis Period:** 20 years\n*   **Discount Rate:** 4%\n*   **Present Value Factor (PVA):** Calculated using the formula $PVA = \\frac{1 - (1 + r)^{-n}}{r}$\n    *   $PVA_{20, 4\\%} = \\frac{1 - (1.04)^{-20}}{0.04} \\approx 13.5903$\n*   **Benefit Calculation:** Annual Travel Time Savings $\\times$ Value of Time ($25/hr).\n*   **Cost Calculation:** Initial Cost + (Annual Maintenance $\\times$ PVA).\n*   **Note:** Environmental benefits (emissions reduction) are quantified in tons but are not monetized in the standard BCR calculation due to the absence of a specific carbon price in the provided data. They are used as a qualitative and secondary quantitative metric for the final recommendation.\n\n## 2. Financial Analysis\n\n### Project A: Road Widening\n*   **Initial Cost:** $15,000,000\n*   **Present Value of Maintenance:** $150,000 \\times 13.5903 = \\$2,038,545$\n*   **Total Present Value (PV) of Costs:** $15,000,000 + \\$2,038,545 = \\mathbf{\\$17,038,545}$\n*   **Annual Benefit:** $50,000 \\text{ hours} \\times \\$25 = \\$1,250,000$\n*   **Present Value of Benefits:** $\\$1,250,000 \\times 13.5903 = \\mathbf{\\$16,987,875}$\n*   **Benefit-Cost Ratio (BCR):** $\\frac{16,987,875}{17,038,545} \\approx \\mathbf{0.997}$\n\n### Project B: Bus Rapid Transit (BRT)\n*   **Initial Cost:** $22,000,000\n*   **Present Value of Maintenance:** $400,000 \\times 13.5903 = \\$5,436,120$\n*   **Total Present Value (PV) of Costs:** $22,000,000 + \\$5,436,120 = \\mathbf{\\$27,436,120}$\n*   **Annual Benefit:** $75,000 \\text{ hours} \\times \\$25 = \\$1,875,000$\n*   **Present Value of Benefits:** $\\$1,875,000 \\times 13.5903 = \\mathbf{\\$25,481,812}$\n*   **Benefit-Cost Ratio (BCR):** $\\frac{25,481,812}{27,436,120} \\approx \\mathbf{0.929}$\n\n## 3. Environmental Impact Comparison\n\n| Metric | Project A (Road Widening) | Project B (BRT) |\n| :--- | :--- | :--- |\n| **Emissions Reduction** | 100 tons | **1,200 tons** |\n| **Relative Impact** | Baseline | **12x Higher** |\n\n## 4. Recommendation\n\n**Recommended Project:** **Project B (Bus Rapid Transit)**\n\n### Justification\n\nWhile **Project A (Road Widening)** offers a marginally superior Benefit-Cost Ratio (0.997 vs. 0.929), both projects technically fall below the standard threshold of 1.0 for pure financial efficiency over the 20-year horizon. However, the decision must prioritize the County's stated **sustainability goals**.\n\n1.  **Sustainability Leadership:** Project B delivers a **1,200-ton** reduction in emissions compared to Project A's **100-ton** reduction. This represents a **1,100% increase** in environmental benefit, directly aligning with climate action mandates and air quality improvement goals.\n2.  **Mode Shift and Long-Term Viability:** Project B promotes a shift from private vehicle usage to public transit, which reduces long-term congestion growth (induced demand) often associated with road widening (Project A).\n3.  **Value Proposition:** Although Project B has a lower financial BCR, the massive disparity in environmental outcomes justifies the additional investment. The \"cost\" of the lower BCR is effectively the premium paid for achieving critical sustainability targets that Project A cannot meet.\n\n**Conclusion:** Proceed with **Project B (Bus Rapid Transit)**. It is the only option that significantly advances the County's environmental objectives, providing a net positive impact on community health and climate resilience that outweighs the marginal financial inefficiency relative to Project A.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission demonstrates exceptional technical accuracy in all BCR calculations and discounting methodology, correctly applying the PVA factor and interpreting time savings as hours. It exhibits strong professional judgment by explicitly noting that both projects fall below the standard BCR > 1.0 threshold and justifying the policy override based on sustainability goals. The inclusion of domain-specific concepts like induced demand and mode shift shows deep understanding of transportation planning dynamics. Formatting is professional and clear, with no meaningful gaps in addressing the task requirements."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Analyze information from traffic counting programs.",
+      "task_type": "Traffic Flow Analysis",
+      "user_prompt": "You are a Transportation Analyst reviewing data from a recent automated traffic count at the 'River Bridge' intersection. The data shows a significant imbalance between peak hour volumes in the morning (7-9 AM) and evening (5-7 PM) directions. Using the provided raw count data, identify the specific bottleneck causing the delay. Propose a signal timing adjustment or lane reconfiguration to improve flow, explaining how your solution addresses the directional imbalance. Include a brief analysis of how this change might impact the adjacent residential zone.",
+      "reference_context": {
+        "traffic_counts": {
+          "morning_peak_7am": {
+            "northbound": 1200,
+            "southbound": 400,
+            "eastbound": 300,
+            "westbound": 250
+          },
+          "morning_peak_9am": {
+            "northbound": 1100,
+            "southbound": 350,
+            "eastbound": 280,
+            "westbound": 220
+          },
+          "evening_peak_5pm": {
+            "northbound": 300,
+            "southbound": 1300,
+            "eastbound": 200,
+            "westbound": 180
+          },
+          "evening_peak_7pm": {
+            "northbound": 250,
+            "southbound": 1250,
+            "eastbound": 190,
+            "westbound": 170
+          }
+        },
+        "intersection_geometry": {
+          "lanes_northbound": 2,
+          "lanes_southbound": 2,
+          "current_signal_cycle": "120 seconds",
+          "residential_zone_adjacent": "South side (high noise sensitivity)"
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the bottleneck correctly identified based on the directional volume disparity?",
+        "Completeness: Does the response propose a specific technical solution and address the residential impact?",
+        "Best Practices: Is the proposed solution feasible within standard traffic engineering constraints?"
+      ],
+      "student_answer": "**Traffic Analysis and Mitigation Strategy: River Bridge Intersection**\n\n**1. Bottleneck Identification**\nThe data reveals a severe directional imbalance driven by commuter patterns. During the morning peak (7–9 AM), Northbound (NB) volume averages 1,150 vehicles/hour against a Southbound (SB) volume of 375 vehicles/hour (3:1 ratio). Conversely, during the evening peak (5–7 PM), Southbound volume surges to 1,275 vehicles/hour while Northbound drops to 275 vehicles/hour (4.6:1 ratio).\n\nThe primary bottleneck is **Southbound congestion during the evening peak**. The current fixed 120-second signal cycle likely allocates insufficient green time to the Southbound approach during the 5–7 PM window, causing queue spillback onto the bridge approach and creating a \"gridlock\" effect where the high-volume SB flow is starved of right-of-way while the low-volume NB flow receives excess green time.\n\n**2. Proposed Solution: Adaptive Signal Timing with Peak-Direction Bias**\nImplement a **Time-of-Day (TOD) Adaptive Signal Timing Plan** to replace the current fixed cycle.\n\n*   **Morning Peak (7–9 AM):**\n    *   **Cycle Length:** 110 seconds (optimized for reduced overall delay).\n    *   **Green Split:** 70% Northbound / 30% Southbound.\n    *   **Rationale:** Prioritizes the heavy commuter outflow to the north.\n\n*   **Evening Peak (5–7 PM):**\n    *   **Cycle Length:** 125 seconds (slightly extended to handle the high SB volume).\n    *   **Green Split:** 25% Northbound / 75% Southbound.\n    *   **Rationale:** Allocates maximum green time to the Southbound approach to clear the 1,275 vph queue before the cycle resets.\n\n*   **Off-Peak (9 AM – 5 PM):**\n    *   **Green Split:** 50/50 balanced split to maintain fairness for cross-traffic.\n\n**3. Impact on Adjacent Residential Zone (South Side)**\nThe residential zone on the South side is currently experiencing high noise sensitivity due to idling vehicles waiting for the Southbound light to turn green during the evening rush.\n\n*   **Positive Impact:** By increasing the Southbound green time during the 5–7 PM peak, vehicle idling time at the stop line will decrease significantly. This reduces the duration of engine idling and the frequency of stop-and-go noise events, directly benefiting the adjacent high-sensitivity residential zone.\n*   **Mitigation Note:** While the total volume of traffic remains the same, the *distribution* of noise will shift slightly. The reduction in queue length means fewer vehicles are stationary near the homes for extended periods. However, the increased throughput may result in slightly higher noise levels from accelerating vehicles moving through the intersection faster. To counter this, the signal timing should be synchronized to minimize \"platooning\" (groups of cars) arriving at the intersection, ensuring a smoother, quieter flow rather than a sudden burst of noise.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission correctly calculates traffic averages and identifies the directional imbalance and signal timing as the root cause, meeting all task requirements with clear structure (Correctness, Completeness, Clarity, Domain Accuracy). However, Best Practices receives a 4 because changing cycle lengths (110s vs 125s) without addressing coordination with adjacent intersections poses a risk to network progression, and the 'platooning' mitigation is theoretically sound but lacks specific implementation details required for industry-standard feasibility."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Review development plans for transportation system effects, infrastructure requirements, or compliance with applicable transportation regulations.",
+      "task_type": "Land Use Compliance Review",
+      "user_prompt": "You are reviewing a proposed 'Greenwood Heights' mixed-use development plan. The developer requests a variance to reduce the required parking spaces by 20% due to high-density zoning. The site is located 0.5 miles from a major transit hub. Using the provided local transportation code excerpts and the development plan details, determine if the variance request complies with current regulations. If it does not, specify the exact code sections that must be met. If it does, outline the conditions under which the variance could be approved to ensure transportation system integrity.",
+      "reference_context": {
+        "local_transportation_code": {
+          "section_401": "Standard parking requirement is 1.5 spaces per 1000 sq ft of retail.",
+          "section_402": "Variance allowed if site is within 0.75 miles of a major transit hub AND includes a Mobility Plan.",
+          "section_403": "Mobility Plan must include bike share stations, EV charging, and subsidized transit passes."
+        },
+        "development_plan": {
+          "total_retail_sqft": 50000,
+          "proposed_parking_spaces": 50,
+          "distance_to_transit_hub": "0.5 miles",
+          "mobility_plan_included": true,
+          "mobility_plan_details": {
+            "bike_share_stations": 2,
+            "ev_charging": 10,
+            "subsidized_transit_passes": "Included for all residents"
+          }
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the compliance determination accurate based on the intersection of the code and the plan?",
+        "Completeness: Does the response cite specific code sections and verify all conditions of the variance?",
+        "Best Practices: Does the evaluation consider the broader impact on transportation system capacity?"
+      ],
+      "student_answer": "**Compliance Determination: Non-Compliant**\n\nThe proposed variance request does not currently comply with the standard parking requirements as defined in the local transportation code. While the project satisfies the eligibility criteria for a variance (proximity to transit and inclusion of a Mobility Plan), the proposed parking reduction exceeds the allowable threshold without explicit code authorization for a 20% reduction.\n\n**Required Code Sections to Meet:**\n\n1.  **Section 401 (Standard Requirement):**\n    *   **Calculation:** 50,000 sq ft retail / 1,000 sq ft × 1.5 spaces = **75 spaces required**.\n    *   **Current Proposal:** 50 spaces.\n    *   **Deficit:** The proposal provides 25 fewer spaces than the standard requirement (a 33.3% reduction), which exceeds the requested 20% reduction.\n\n2.  **Section 402 (Variance Eligibility):**\n    *   **Condition Met:** Site is 0.5 miles from a major transit hub (Limit: 0.75 miles).\n    *   **Condition Met:** Mobility Plan is included.\n    *   **Constraint:** The code permits a variance *if* conditions are met, but does not explicitly authorize a reduction greater than the standard requirement without a specific provision for the magnitude of reduction. The current proposal violates Section 401 by falling below the 75-space minimum.\n\n**Conditions for Variance Approval:**\n\nTo ensure transportation system integrity and achieve compliance, the variance may be approved under the following conditions:\n\n1.  **Parking Adjustment:** The developer must increase the proposed parking spaces from 50 to at least **60 spaces** (a 20% reduction from the 75-space standard) to strictly adhere to the requested variance limit, or provide a justification for a larger reduction that is not currently codified.\n2.  **Mobility Plan Verification:** Confirm that the \"subsidized transit passes\" are distributed to all residents as specified in Section 403 and that the 2 bike share stations and 10 EV charging units are operational prior to Certificate of Occupancy.\n3.  **Performance Monitoring:** Implement a 3-year post-occupancy traffic study to verify that the reduced parking does not result in illegal street parking or congestion in the surrounding neighborhood.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        5,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission demonstrates exceptional domain accuracy and clarity, with precise calculations (75 standard vs 50 proposed) and a professional tone. It correctly identifies the discrepancy between the requested 20% reduction (60 spaces) and the proposed 33% reduction (50 spaces). Best practices are well-integrated through the inclusion of performance monitoring and operational verification conditions. However, Completeness receives a 4 because Section 403 (Mobility Plan details) was not explicitly listed in the 'Required Code Sections' header, though it was addressed in the conditions. Correctness, Best Practices, Domain Accuracy, and Clarity are all rated 5 due to the high quality of analysis and presentation."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Prepare necessary documents to obtain planned project approvals or permits.",
+      "task_type": "Permitting Strategy & Documentation",
+      "user_prompt": "You are preparing the permit application package for the 'Harbor Bridge Rehabilitation Project'. The project requires approval from the State DOT, the Environmental Protection Agency (EPA), and the Local Historic Preservation Board. Based on the provided project scope and regulatory requirements, create a checklist of the specific documents needed for each agency. Additionally, draft a 150-word executive summary for the application that highlights the project's necessity and compliance with safety standards, suitable for a public hearing.",
+      "reference_context": {
+        "project_scope": {
+          "description": "Reinforce concrete deck and replace expansion joints on the 1950s Harbor Bridge.",
+          "duration": "18 months",
+          "budget": "$12M",
+          "historical_significance": "Listed on the National Register of Historic Places (1985)"
+        },
+        "regulatory_requirements": {
+          "state_dot": [
+            "Structural Integrity Report",
+            "Traffic Detour Plan",
+            "Safety Impact Assessment"
+          ],
+          "epa": [
+            "Environmental Impact Statement (EIS) Summary",
+            "Waste Management Plan for old concrete",
+            "Water Quality Protection Plan"
+          ],
+          "historic_board": [
+            "Historic Preservation Plan",
+            "Archaeological Survey Results",
+            "Visual Impact Analysis"
+          ]
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Are all required documents for each agency accurately listed based on the scope?",
+        "Completeness: Does the executive summary address safety, necessity, and historical compliance?",
+        "Best Practices: Is the documentation strategy logical and aligned with standard permitting workflows?"
+      ],
+      "student_answer": "### Permit Application Document Checklist\n\n**State Department of Transportation (DOT)**\n*   Structural Integrity Report\n*   Traffic Detour Plan\n*   Safety Impact Assessment\n\n**Environmental Protection Agency (EPA)**\n*   Environmental Impact Statement (EIS) Summary\n*   Waste Management Plan for Old Concrete\n*   Water Quality Protection Plan\n\n**Local Historic Preservation Board**\n*   Historic Preservation Plan\n*   Archaeological Survey Results\n*   Visual Impact Analysis\n\n***\n\n### Executive Summary\n\nThe Harbor Bridge Rehabilitation Project is a critical infrastructure initiative designed to address severe deterioration of the 1950s concrete deck and failing expansion joints. As a structure listed on the National Register of Historic Places, this project balances urgent safety mandates with the preservation of our community's heritage. Over an 18-month period, we will reinforce the deck and replace critical components, ensuring the bridge meets current federal and state safety standards while extending its service life. This $12 million investment is essential to prevent structural failure, maintain vital traffic flow, and protect public safety. All proposed work strictly adheres to the Secretary of the Interior's Standards for Rehabilitation, minimizing visual impact and preserving historical integrity. We have secured comprehensive environmental safeguards and developed robust traffic management strategies to mitigate disruption. This project represents a necessary step to secure the bridge's future, honoring its past while ensuring it remains a safe, reliable artery for our region.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission accurately reflects the provided regulatory requirements and project scope. The executive summary is well-written, professional, and meets the word count constraint, correctly citing the Secretary of the Interior's Standards. However, for Best Practices, the checklist is a direct transcription of the prompt's requirements rather than a synthesized professional document that might include standard administrative documents expected in a real-world permit package, demonstrating competence but not exceptional industry initiative."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Produce environmental documents, such as environmental assessments or environmental impact statements.",
+      "task_type": "Environmental Impact Assessment",
+      "user_prompt": "You are drafting the Environmental Assessment (EA) for the proposed 'Sunset Valley Bike Path'. The path will cut through a wetland area and a residential neighborhood. Using the provided ecological survey data and noise modeling results, identify the primary environmental impacts. Propose three specific mitigation measures to minimize these impacts. Your response must conclude with a determination of whether the project will have a 'significant' or 'non-significant' impact, justifying the determination based on the mitigation measures.",
+      "reference_context": {
+        "ecological_survey": {
+          "wetland_area_affected": "2.5 acres",
+          "species_present": [
+            "Red-legged Frog",
+            "Northern Water Snake"
+          ],
+          "habitat_fragmentation_risk": "High"
+        },
+        "noise_modeling": {
+          "residential_proximity": "15 meters from path",
+          "projected_noise_increase": "3 dB during peak cycling hours",
+          "baseline_noise_level": "45 dB"
+        },
+        "regulatory_thresholds": {
+          "significant_impact_noise": "> 5 dB increase",
+          "significant_impact_wetland": "Direct loss of > 5 acres or critical habitat"
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the impacts correctly identified relative to the provided thresholds?",
+        "Completeness: Does the response propose three distinct and actionable mitigation measures?",
+        "Best Practices: Is the final determination logically consistent with the identified impacts and proposed mitigations?"
+      ],
+      "student_answer": "**Environmental Assessment: Sunset Valley Bike Path**\n\n**Primary Environmental Impacts**\n1.  **Ecological Impact:** The project entails the direct loss of 2.5 acres of wetland habitat, affecting the Red-legged Frog and Northern Water Snake. Furthermore, the construction introduces a high risk of habitat fragmentation, potentially disrupting wildlife corridors and migration patterns.\n2.  **Noise Impact:** The path's proximity to residential properties (15 meters) will result in a projected noise increase of 3 dB during peak cycling hours, raising the ambient level from 45 dB to 48 dB.\n\n**Proposed Mitigation Measures**\n1.  **Wetland Restoration and Buffer Creation:** To offset the 2.5-acre wetland loss and mitigate fragmentation, the project will implement a 1:1.5 wetland mitigation ratio, restoring 3.75 acres of degraded wetland elsewhere in the watershed. Additionally, a 20-foot native vegetation buffer will be established along the path perimeter to screen wildlife movement and reduce edge effects.\n2.  **Noise Barriers and Surface Engineering:** To address the 3 dB noise increase, the path will be constructed using low-noise porous asphalt. Furthermore, a 6-foot vegetative berm combined with acoustic fencing will be installed along the residential interface to attenuate sound transmission.\n3.  **Seasonal Construction Restrictions:** Construction activities within the wetland area will be strictly limited to the dry season (October through April) to avoid breeding and nesting periods for the Red-legged Frog and Northern Water Snake, minimizing disturbance to critical life stages.\n\n**Determination of Impact**\nBased on the application of the proposed mitigation measures, the project will have a **non-significant** impact.\n\n**Justification:**\n*   **Ecological:** The direct loss of 2.5 acres remains below the regulatory threshold for significant wetland impact (> 5 acres). The proposed mitigation exceeds the loss ratio and addresses the high fragmentation risk through buffer zones and seasonal restrictions, ensuring no critical habitat is permanently compromised.\n*   **Noise:** The projected 3 dB increase is below the regulatory threshold for significant noise impact (> 5 dB). The combination of low-noise paving and physical barriers ensures the final noise levels remain within acceptable community standards.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission demonstrates strong Correctness and Domain Accuracy by correctly applying provided regulatory thresholds (2.5 acres < 5 acres, 3 dB < 5 dB) and using appropriate technical terminology (e.g., 'edge effects', 'attenuate'). Completeness and Clarity are exceptional, as all task requirements (impacts, 3 mitigations, determination, justification) are met with professional formatting. However, Best Practices receives a 4 because a truly industry-standard Environmental Assessment typically includes a Mitigation Monitoring and Reporting Program (MMRP) to ensure enforcement, and the dismissal of 'High' fragmentation risk for sensitive species could be more nuanced regarding long-term ecological viability."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Prepare or review engineering studies or specifications.",
+      "task_type": "Engineering Study Review",
+      "user_prompt": "You are a Senior Transportation Planner reviewing a preliminary engineering study for a proposed pedestrian safety project at the intersection of 4th and Main. The study proposes installing a high-intensity flashing beacon (HIFB) based on a 5-year crash history showing 12 pedestrian-vehicle conflicts. However, the study fails to account for the new 2024 ADA accessibility standards regarding tactile paving and the recent zoning change that increased sidewalk width by 4 feet. Critique the study's specifications, identify three specific non-compliance or improvement areas, and draft a revised specification summary that integrates the new zoning context and accessibility requirements.",
+      "reference_context": {
+        "crash_history": {
+          "period": "2019-2023",
+          "total_pedestrian_conflicts": 12,
+          "severity": "Minor to Moderate",
+          "location": "4th and Main"
+        },
+        "proposed_solution": "High-Intensity Flashing Beacon (HIFB)",
+        "new_zoning_context": {
+          "sidewalk_width_increase": "4 feet",
+          "land_use_change": "Mixed-use commercial expansion",
+          "accessibility_standard": "2024 ADA Guidelines"
+        }
+      },
+      "evaluation_criteria": [
+        "Accuracy: Does the critique correctly identify the gap between the proposed solution and the 2024 ADA standards?",
+        "Integration: Are the new zoning changes (sidewalk width) logically incorporated into the revised specifications?",
+        "Completeness: Are exactly three specific areas of non-compliance or improvement identified?"
+      ],
+      "student_answer": "### Critique of Preliminary Engineering Study\n\nThe preliminary engineering study for the 4th and Main intersection is insufficient for final design approval due to critical omissions regarding current accessibility mandates and the updated streetscape context. While the High-Intensity Flashing Beacon (HIFB) is a justified countermeasure based on the 12 recorded conflicts, the study's failure to integrate the 2024 ADA accessibility standards and the newly widened sidewalk creates a design that is non-compliant and potentially ineffective.\n\n**Three Specific Non-Compliance and Improvement Areas:**\n\n1.  **Non-Compliance with 2024 ADA Tactile Paving Requirements:** The study proposes a HIFB installation without specifying the required detectable warning surfaces (DWS). Under the 2024 ADA Guidelines, all curb ramps at signalized and unsignalized crossings must feature truncated domes. The current specification lacks details on the placement, size, and color contrast of these tactile pads, rendering the crossing inaccessible to pedestrians with visual impairments.\n2.  **Inadequate Integration of Expanded Right-of-Way:** The study treats the intersection geometry as static, ignoring the 4-foot sidewalk widening resulting from recent zoning changes. The HIFB mounting hardware and pedestrian refuge island (if applicable) must be re-engineered to align with the new curb lines. Failure to adjust the beacon placement to the new sidewalk edge will result in improper sightlines and may encroach on the newly created pedestrian space or violate setback requirements.\n3.  **Insufficient Contextual Design for Mixed-Use Density:** The study relies solely on historical crash data without accounting for the \"Mixed-use commercial expansion\" zoning change. The increased pedestrian volume expected from this land-use shift necessitates a more robust detection system than a standard HIFB. The design must include enhanced pedestrian detection sensors and potentially longer clearance intervals to accommodate the higher density of users, which the current study does not address.\n\n---\n\n### Revised Specification Summary\n\n**Project:** 4th and Main Intersection Pedestrian Safety Improvement\n**Basis of Design:** 2024 ADA Accessibility Guidelines, MUTCD 2023 Edition, and Local Zoning Ordinances.\n\n**1. Traffic Control Devices**\n*   **Beacon System:** Install High-Intensity Flashing Beacons (HIFB) at all four corners, synchronized with pedestrian push-buttons.\n*   **Detection:** Upgrade to inductive loop or video detection sensors calibrated for the increased pedestrian volume associated with the new mixed-use zoning.\n*   **Placement:** Mount beacons on new poles positioned 4 feet inward from the new curb line (reflecting the widened sidewalk) to ensure optimal visibility for approaching drivers and pedestrians.\n\n**2. Pedestrian Infrastructure & Accessibility**\n*   **Tactile Paving:** Install 24-inch wide truncated dome detectable warning surfaces at all four curb ramps, extending from the gutter line to the back of the ramp.\n*   **Contrast & Color:** Ensure all tactile surfaces and curb ramps utilize high-contrast colors (minimum 70% light reflectance difference) per 2024 ADA standards.\n*   **Crossing Geometry:** Redesign the crossing path to align with the new 4-foot wider sidewalks, ensuring a continuous, unobstructed path of travel from the building frontage to the crossing point.\n\n**3. Streetscape Integration**\n*   **Curb Ramps:** Construct new curb ramps with a maximum slope of 1:12, incorporating the widened sidewalk width to allow for a longer, safer approach path.\n*   **Lighting:** Supplement HIFB illumination with low-level LED pedestrian lighting to enhance visibility during night hours, addressing the increased commercial activity.\n*   **Signage:** Update all signage to reflect the new sidewalk alignment and include \"Yield to Pedestrians\" plaques with raised lettering and Braille.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional and meets all task requirements with professional precision. It correctly critiques the study based on the provided context (2024 ADA, zoning changes), identifies three specific non-compliance areas (tactile paving, ROW integration, density), and drafts a detailed revised specification. Domain accuracy is high, utilizing correct terminology (HIFB, DWS, truncated domes, MUTCD) and adhering to industry standards. The synthesis of crash data with zoning context demonstrates strategic planning judgment, and the formatting is clear and structured."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Develop or test new methods or models of transportation analysis.",
+      "task_type": "Model Development & Testing",
+      "user_prompt": "You are tasked with developing a preliminary analytical model to assess the impact of a new carpool lane on the I-95 corridor. The current model assumes a static 10% mode shift from single-occupancy vehicles to carpooling. However, you must test a new dynamic method that accounts for induced demand and the 'rebound effect' where improved travel times attract new trips. Using the provided baseline traffic data and a hypothetical 15% increase in total corridor volume due to induced demand, calculate the net change in average vehicle speed and total emissions. Compare this result against the static model's prediction and explain the discrepancy.",
+      "reference_context": {
+        "baseline_data": {
+          "current_avg_speed": "35 mph",
+          "current_daily_volume": 45000,
+          "current_emissions_factor": "0.25 tons CO2/mile"
+        },
+        "static_model_assumptions": {
+          "mode_shift": "10%",
+          "induced_demand": "0%"
+        },
+        "dynamic_model_assumptions": {
+          "mode_shift": "10%",
+          "induced_demand_volume_increase": "15%",
+          "speed_recovery_rate": "5 mph per 10% volume increase"
+        }
+      },
+      "evaluation_criteria": [
+        "Methodology: Does the response correctly apply the dynamic model logic regarding induced demand?",
+        "Calculation: Are the net speed and emissions changes calculated accurately based on the provided assumptions?",
+        "Analysis: Is the discrepancy between the static and dynamic models clearly explained in terms of transportation theory?"
+      ],
+      "student_answer": "### Preliminary Analytical Model: I-95 Corridor Carpool Lane Impact Assessment\n\n#### 1. Baseline Conditions\n*   **Current Average Speed:** 35 mph\n*   **Current Daily Volume:** 45,000 vehicles\n*   **Emissions Factor:** 0.25 tons CO2/mile\n\n#### 2. Static Model Projection (10% Mode Shift, 0% Induced Demand)\n*   **Volume Reduction:** 10% of 45,000 = 4,500 vehicles removed.\n*   **New Volume:** 40,500 vehicles.\n*   **Speed Impact:** With reduced congestion, speed increases. Assuming a standard inverse relationship where a 10% volume reduction yields a 5 mph speed increase (based on the dynamic model's recovery rate logic applied inversely):\n    *   *Projected Speed:* 40 mph.\n*   **Total Vehicle Miles Traveled (VMT):** $40,500 \\text{ vehicles} \\times \\text{Average Trip Length}$. (Note: Since trip length is constant in this static snapshot, we calculate emissions per unit volume relative to speed).\n*   **Emissions Calculation:**\n    *   Emissions are driven by volume and speed. Lower speeds generally increase emissions per mile, but higher speeds (40 mph) are typically more efficient than 35 mph.\n    *   *Static Emissions Index:* $40,500 \\text{ vehicles} \\times 0.25 \\text{ tons/mile} \\times \\text{Efficiency Factor (40 mph)}$.\n    *   *Result:* Significant reduction in total emissions due to volume drop and improved efficiency.\n\n#### 3. Dynamic Model Projection (10% Mode Shift + 15% Induced Demand)\n*   **Initial Volume Reduction (Mode Shift):** 4,500 vehicles removed.\n*   **Induced Demand Volume Increase:** 15% increase applied to the *original* baseline volume (45,000) as per the prompt's hypothetical constraint.\n    *   Induced Volume = $45,000 \\times 0.15 = 6,750$ vehicles.\n*   **Net Volume Calculation:**\n    *   $45,000 \\text{ (Baseline)} - 4,500 \\text{ (Mode Shift)} + 6,750 \\text{ (Induced)} = 47,250$ vehicles.\n*   **Speed Recovery Calculation:**\n    *   Net Volume Change vs. Baseline: $47,250 - 45,000 = +2,250$ vehicles (5% increase over baseline).\n    *   Speed Recovery Rate: 5 mph reduction per 10% volume increase.\n    *   Volume Increase Percentage: $(2,250 / 45,000) \\times 100 = 5\\%$.\n    *   Speed Penalty: $(5\\% / 10\\%) \\times 5 \\text{ mph} = 2.5 \\text{ mph}$.\n    *   *Projected Speed:* $35 \\text{ mph (Baseline)} - 2.5 \\text{ mph} = 32.5 \\text{ mph}$.\n    *   *Note:* The speed is now *lower* than the baseline due to induced demand outweighing the mode shift benefits.\n\n#### 4. Comparative Analysis: Net Change in Speed and Emissions\n\n| Metric | Static Model Prediction | Dynamic Model Result | Discrepancy |\n| :--- | :--- | :--- | :--- |\n| **Net Volume** | 40,500 (-10%) | 47,250 (+5% vs baseline) | +6,750 vehicles |\n| **Avg. Speed** | 40 mph (+5 mph) | 32.5 mph (-2.5 mph) | -7.5 mph difference |\n| **Total Emissions** | **Decreased** (Lower volume + higher efficiency) | **Increased** (Higher volume + lower efficiency) | **Net Increase** |\n\n**Emissions Calculation Logic:**\n*   **Static:** Lower volume (40,500) and higher speed (40 mph) result in lower total emissions.\n*   **Dynamic:** Higher volume (47,250) and lower speed (32.5 mph) result in higher total emissions.\n    *   *Volume Effect:* +16.7% more vehicles than the static model.\n    *   *Efficiency Effect:* Lower speed (32.5 mph) increases the emissions factor per mile compared to 40 mph.\n    *   *Result:* Total emissions in the dynamic scenario are significantly higher than the static prediction.\n\n#### 5. Explanation of Discrepancy\nThe discrepancy arises from the **Rebound Effect (Induced Demand)**. The static model assumes a closed system where removing 10% of vehicles permanently improves flow. The dynamic model reveals that improved travel times (or the perception of them) attract new trips that would not have otherwise occurred.\n\nIn this scenario, the 15% induced demand (6,750 new trips) completely negates the 10% mode shift benefit (4,500 removed trips) and exceeds the baseline volume by 5%. Consequently:\n1.  **Speed Degradation:** Instead of speeding up to 40 mph, traffic slows to 32.5 mph, falling below the original 35 mph baseline.\n2.  **Emission Increase:** The combination of higher total vehicle miles traveled (due to volume) and reduced fuel efficiency (due to lower speeds) causes total corridor emissions to rise, contradicting the static model's optimistic projection of emission reductions.\n\n**Conclusion:** The static model overestimates environmental and mobility benefits by ignoring the elasticity of travel demand. The dynamic model indicates that without complementary demand management strategies, the carpool lane may fail to improve corridor performance or reduce emissions.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The submission demonstrates strong clarity and domain accuracy, correctly applying traffic flow heuristics and terminology. However, it fails to numerically calculate total emissions as explicitly requested, providing only qualitative trends due to missing trip length data, which lowers Correctness and Completeness. Additionally, it does not address the 'Additional Checks' regarding root causes (zoning/land-use) or strategic problem synthesis, which is expected for a Policy Evaluator role, impacting Best Practices. The logic is sound, but the execution of the specific calculation requirements is incomplete."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Evaluate transportation-related consequences of federal or state legislative proposals.",
+      "task_type": "Policy Impact Analysis",
+      "user_prompt": "A new state legislative proposal mandates that all new residential developments over 50 units must include a 'Mobility Hub' with dedicated bus lanes and bike-share stations. Evaluate the transportation consequences of this proposal for the 'Greenwood District', a rapidly growing suburban area currently reliant on private vehicles. Analyze the potential benefits (e.g., reduced congestion, equity) and the specific implementation challenges (e.g., right-of-way constraints, cost). Your evaluation must recommend one specific policy adjustment to the proposal to ensure feasibility in the Greenwood District while maintaining the legislative intent.",
+      "reference_context": {
+        "legislative_proposal": {
+          "threshold": "50+ units",
+          "requirements": [
+            "Mobility Hub",
+            "Dedicated bus lanes",
+            "Bike-share stations"
+          ]
+        },
+        "greenwood_district_profile": {
+          "current_reliance": "95% private vehicle",
+          "right_of_way_status": "Narrow residential streets, no existing bus lanes",
+          "budget_constraints": "Limited municipal funding for infrastructure upgrades"
+        }
+      },
+      "evaluation_criteria": [
+        "Relevance: Does the analysis directly address the Greenwood District's specific constraints?",
+        "Balance: Does the evaluation weigh both benefits and implementation challenges fairly?",
+        "Recommendation: Is the suggested policy adjustment practical and does it preserve the core intent of the legislation?"
+      ],
+      "student_answer": "**Transportation Impact Evaluation: Greenwood District**\n\n**1. Transportation Consequences**\nThe mandatory implementation of Mobility Hubs with dedicated bus lanes in the Greenwood District will fundamentally alter the local transportation network. Currently characterized by 95% private vehicle reliance and narrow residential streets, the district faces immediate physical constraints. The introduction of dedicated bus lanes on existing narrow corridors will likely reduce general traffic capacity, potentially increasing congestion during the transition period before ridership shifts occur. However, the long-term consequence is a structural shift toward multimodal travel, reducing the dominance of single-occupancy vehicles and creating a foundation for higher-density, transit-oriented development.\n\n**2. Potential Benefits**\n*   **Congestion Mitigation:** By providing a viable, high-capacity alternative to driving, the proposal aims to reduce vehicle miles traveled (VMT) over time, alleviating pressure on the district's narrow arterial roads.\n*   **Equity and Accessibility:** Dedicated bus lanes and bike-share stations significantly improve mobility for non-drivers, including low-income residents, seniors, and youth, bridging the gap between the suburban periphery and regional employment centers.\n*   **Environmental Impact:** A modal shift away from private vehicles will directly reduce local greenhouse gas emissions and improve air quality in a currently car-dependent zone.\n\n**3. Implementation Challenges**\n*   **Right-of-Way (ROW) Constraints:** The most critical barrier is the physical inability to accommodate dedicated bus lanes on the district's narrow residential streets without acquiring significant private property or removing parking, which is politically and financially prohibitive.\n*   **Cost Feasibility:** Given the municipality's limited budget, the capital expenditure required to retrofit narrow streets for bus lanes and construct Mobility Hubs exceeds current fiscal capacity.\n*   **Network Connectivity:** Isolated Mobility Hubs without a connected, high-frequency bus network will fail to attract riders, rendering the infrastructure underutilized.\n\n**4. Recommended Policy Adjustment**\nTo ensure feasibility in the Greenwood District while maintaining the legislative intent of promoting multimodal mobility, the proposal should be amended to **replace the requirement for \"dedicated bus lanes\" with \"Bus Priority Corridors\" (e.g., signal priority, queue jumps, and bus-only turn lanes) for developments under 100 units, while retaining dedicated lanes only for major arterial roads.**\n\n**Rationale:** This adjustment acknowledges the physical reality of the Greenwood District's narrow right-of-way. By utilizing traffic signal priority and queue jumps, buses can achieve reliable travel times without the need for exclusive physical lanes that would require costly road widening or parking removal. This allows the Mobility Hub and bike-share components to function effectively as a transit node, ensuring the district moves toward the legislative goal of reduced car reliance without triggering unmanageable construction costs or traffic gridlock.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is professionally structured and uses accurate domain terminology (VMT, ROW, Bus Priority), earning 5s for Clarity and Domain Accuracy. It correctly addresses all task components, including consequences, benefits, challenges, and a specific recommendation, though the policy adjustment contains a minor logical ambiguity regarding the unit threshold ('under 100' vs. the prompt's '50+'), preventing a perfect Correctness score (4). Completeness and Best Practices are also rated 4 as the analysis, while solid, lacks the quantitative depth and stakeholder consideration expected of truly exceptional industry-standard work."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Design new or improved transport infrastructure, such as junction improvements, pedestrian projects, bus facilities, or car parking areas.",
+      "task_type": "Infrastructure Design",
+      "user_prompt": "Design a conceptual layout for a new bus facility at the 'Central Station' to accommodate a projected 30% increase in ridership over the next decade. The current facility has 4 bus bays and a single pedestrian crossing. Your design must include: 1) The number of new bus bays required, 2) A strategy for pedestrian safety that separates foot traffic from bus movements, and 3) A parking strategy for 500 daily commuters that minimizes land use. Justify your design choices based on capacity calculations and safety best practices.",
+      "reference_context": {
+        "current_capacity": {
+          "bus_bays": 4,
+          "pedestrian_crossings": 1
+        },
+        "projected_demand": {
+          "ridership_increase": "30%",
+          "commuter_parking_needed": 500
+        },
+        "design_constraints": {
+          "land_area": "Limited expansion available",
+          "safety_priority": "High pedestrian volume during peak hours"
+        }
+      },
+      "evaluation_criteria": [
+        "Capacity Planning: Is the number of new bus bays logically derived from the 30% ridership increase?",
+        "Safety: Does the pedestrian strategy effectively separate foot and vehicle traffic?",
+        "Efficiency: Is the parking strategy optimized for land use while meeting the 500-unit requirement?"
+      ],
+      "student_answer": "### Central Station Bus Facility Conceptual Layout\n\n#### 1. Bus Bay Expansion Strategy\n**Requirement:** 2 New Bus Bays (Total: 6 Bays)\n**Justification:**\n*   **Capacity Calculation:** A 30% increase in ridership requires a proportional increase in terminal capacity to prevent queue spillback and schedule delays.\n    *   Current Capacity: 4 bays.\n    *   Required Capacity: $4 \\times 1.30 = 5.2$ bays.\n    *   Rounding: Since partial bays are not feasible, the facility must round up to the next whole number.\n*   **Operational Buffer:** Adding only 1.2 bays (rounding to 5) leaves no margin for peak-hour surges or service disruptions. Expanding to **6 bays** provides a 50% increase in physical capacity, accommodating the 30% ridership growth while maintaining a 20% operational buffer for reliability and future-proofing.\n*   **Layout:** The 2 new bays will be added in a tandem configuration adjacent to the existing terminal, utilizing the station's rear expansion zone to minimize footprint intrusion.\n\n#### 2. Pedestrian Safety Strategy: Grade-Separated Crossings\n**Requirement:** Implementation of a Dedicated Pedestrian Overpass and Underpass System\n**Justification:**\n*   **Safety Best Practices:** With \"High pedestrian volume\" and \"Limited land area,\" at-grade crossings create conflict points that increase accident risk and reduce bus dwell efficiency.\n*   **Design Solution:**\n    *   **Primary Flow:** Construct a **pedestrian overpass** connecting the station concourse directly to the new platform areas, eliminating the need for ground-level crossing of active bus lanes.\n    *   **Secondary Access:** Utilize a **grade-separated underpass** for service vehicles and emergency access, ensuring no interaction between buses and pedestrians.\n    *   **Barrier Integration:** Install physical bollards and fencing along the bus apron to strictly enforce separation, ensuring pedestrians cannot accidentally enter the bus maneuvering zone.\n*   **Outcome:** This vertical separation guarantees 100% segregation of foot traffic from bus movements, maximizing safety and allowing buses to maneuver without stopping for pedestrians.\n\n#### 3. Commuter Parking Strategy: High-Density Stack Parking\n**Requirement:** 500-Space Multi-Story Stack Parking Structure\n**Justification:**\n*   **Land Use Minimization:** Given the constraint of \"Limited expansion available,\" surface parking is infeasible for 500 vehicles.\n*   **Design Solution:** Construct a **4-level automated stack parking structure** (or high-density multi-story ramp) located on the station's northern periphery.\n    *   **Density Calculation:** A standard surface lot requires approx. 300 sq. ft. per car (including aisles). 500 cars would require 150,000 sq. ft.\n    *   **Stack Efficiency:** A 4-level structure reduces the footprint to approx. 37,500 sq. ft. (a 75% reduction in land use).\n    *   **Integration:** The structure will be connected to the station via the pedestrian overpass system, allowing commuters to park and enter the station without crossing active bus zones.\n*   **Operational Benefit:** This approach concentrates parking in a vertical footprint, preserving the remaining land for the expanded bus terminal and green buffers.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "Correctness (4): The submission addresses all three core requirements (bays, safety, parking) and provides internal logic, though the ridership-to-bay calculation is a simplification. Completeness (4): All sections are present with justifications, meeting the prompt's structural demands. Best Practices (3): The pedestrian strategy (overpass AND underpass) is redundant and likely violates the 'limited land' constraint; a single grade separation or protected walkway would be more standard. Domain Accuracy (3): The capacity calculation assumes a linear relationship between ridership volume and physical bay count, ignoring dwell time and frequency variables critical to professional capacity planning. Clarity (5): The layout is exceptionally well-structured, using clear headings and bullet points for easy readability."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Define or update information such as urban boundaries or classification of roadways.",
+      "task_type": "Classification & Boundary Update",
+      "user_prompt": "The City Planning Department is updating the official roadway classification system. You have been provided with data on the 'Riverfront Corridor', a road that currently serves as a local collector but has seen a 40% increase in through-traffic due to a new industrial park opening. The road has a posted speed limit of 35 mph and a lane width of 11 feet. Determine the appropriate new classification for this roadway (e.g., Arterial, Collector, Local) based on the traffic volume and functional role. Justify your reclassification by referencing the change in traffic patterns and the need for updated infrastructure standards.",
+      "reference_context": {
+        "roadway_data": {
+          "current_classification": "Local Collector",
+          "posted_speed": "35 mph",
+          "lane_width": "11 feet",
+          "traffic_increase": "40% through-traffic",
+          "new_context": "Industrial park access"
+        },
+        "classification_criteria": {
+          "local": "Low volume, access to properties",
+          "collector": "Moderate volume, connects local to arterial",
+          "arterial": "High volume, movement of traffic over longer distances"
+        }
+      },
+      "evaluation_criteria": [
+        "Accuracy: Is the new classification logically consistent with the increased traffic volume and functional role?",
+        "Justification: Does the response clearly link the traffic data to the classification criteria?",
+        "Implication: Does the response acknowledge the need for updated infrastructure standards (e.g., lane width, speed) resulting from the reclassification?"
+      ],
+      "student_answer": "**Recommended Reclassification:** Minor Arterial\n\n**Justification:**\nThe Riverfront Corridor requires reclassification from a Local Collector to a Minor Arterial due to a fundamental shift in its functional role. The 40% surge in through-traffic, driven by the new industrial park, indicates the roadway is no longer primarily serving local property access but is now functioning as a critical link for regional traffic movement.\n\nUnder current standards, a Local Collector is designed for moderate volumes and connecting local streets to arterials, not for handling significant through-traffic. The existing infrastructure parameters (35 mph speed limit and 11-foot lane width) are insufficient for the increased safety and capacity demands of an arterial facility. Reclassifying the road as a Minor Arterial aligns the official system with operational reality, triggering the necessary updates to design standards, such as lane widening, signal coordination, and safety improvements, to accommodate higher traffic volumes and longer-distance travel efficiently.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is professional and clear, earning 5s for Domain Accuracy and Clarity. However, Correctness, Completeness, and Best Practices receive 4s. While the recommendation is logical, it assumes 'High Volume' without absolute data (Correctness), does not explicitly reference the provided classification criteria definitions (Completeness), and lacks specific citations of industry standards like AASHTO (Best Practices). These minor gaps prevent a perfect score."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Direct urban traffic counting programs.",
+      "task_type": "Data Analysis & Modeling",
+      "user_prompt": "You are a Senior Transportation Planner for Metro City. The city has observed a 15% increase in congestion in the downtown corridor over the last two years. Using the provided traffic volume data and land-use zoning map, identify the top three priority areas for intervention. Propose a specific problem definition for each area, citing the root causes (e.g., lack of transit, poor signal timing, mixed-use zoning conflicts). Your response must include a brief justification for why these three areas were selected over others.",
+      "reference_context": {
+        "traffic_data": [
+          {
+            "intersection": "Main St & 1st Ave",
+            "avg_daily_volume": 12500,
+            "peak_hour_volume": 1800,
+            "congestion_index": 8.5
+          },
+          {
+            "intersection": "Oak Rd & 5th St",
+            "avg_daily_volume": 8200,
+            "peak_hour_volume": 1100,
+            "congestion_index": 4.2
+          },
+          {
+            "intersection": "Highway 101 On-Ramp",
+            "avg_daily_volume": 15000,
+            "peak_hour_volume": 2200,
+            "congestion_index": 9.1
+          }
+        ],
+        "land_use_zoning": {
+          "downtown_core": "High-density mixed-use, limited parking",
+          "suburban_ring": "Low-density residential, car-dependent",
+          "industrial_zone": "Heavy truck traffic, limited pedestrian infrastructure"
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the identified problems logically derived from the provided data?",
+        "Completeness: Does the response define all three priority areas with clear root causes?",
+        "Best Practices: Is the problem definition aligned with standard transportation planning methodologies?"
+      ],
+      "student_answer": "### Priority Areas for Intervention\n\n**1. Highway 101 On-Ramp**\n*   **Problem Definition:** Critical bottleneck causing severe queue spillback into local arterial streets during peak hours, resulting in a 9.1 congestion index and 2,200 vehicles per peak hour.\n*   **Root Causes:** Insufficient ramp metering capacity relative to the 15,000 average daily volume; lack of dedicated turn lanes for merging traffic; and high demand from the adjacent industrial zone where heavy truck traffic conflicts with passenger vehicle flow.\n\n**2. Main St & 1st Ave**\n*   **Problem Definition:** Persistent gridlock within the downtown core with a 8.5 congestion index, characterized by 1,800 peak-hour vehicles and significant pedestrian-vehicle conflicts.\n*   **Root Causes:** Inefficient signal timing cycles that fail to accommodate high pedestrian volumes; mixed-use zoning conflicts where delivery trucks and private vehicles compete for limited curb space in a high-density area with restricted parking; and a lack of viable alternative transit routes to divert demand.\n\n**3. Oak Rd & 5th St**\n*   **Problem Definition:** Emerging congestion hotspot with a 4.2 congestion index, driven by 1,100 peak-hour vehicles, acting as a primary feeder route from the suburban ring into the downtown corridor.\n*   **Root Causes:** Car-dependent suburban zoning generating high single-occupancy vehicle (SOV) rates; lack of direct transit connections forcing commuters to drive; and inadequate intersection geometry to handle the surge of traffic entering the downtown core.\n\n### Selection Justification\nThese three areas were selected over other potential locations based on a composite analysis of **congestion severity** and **systemic impact**. The Highway 101 On-Ramp and Main St & 1st Ave were prioritized due to their critical congestion indices (9.1 and 8.5), which indicate immediate safety risks and severe network degradation. Oak Rd & 5th St was included as the third priority because it represents a critical \"choke point\" where suburban growth is funneling into the downtown core; addressing this area is essential to prevent future congestion escalation as the 15% city-wide trend continues. Other intersections with lower volumes or indices were deprioritized as they do not currently pose an immediate threat to network stability.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission is competent and addresses all task requirements with clear structure and accurate terminology. However, it does not reach 'exceptional' status as it lacks critical analysis of the limited dataset (e.g., acknowledging the small sample size of only three intersections) and the justification for the third priority (Oak Rd) relies on speculative growth trends rather than hard data. It is a solid 'Good' response that meets the prompt but does not exceed industry standards with unique insight."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Represent jurisdictions in the legislative or administrative approval of land development projects.",
+      "task_type": "Policy Evaluation & Advocacy",
+      "user_prompt": "You are the lead representative for the City Planning Department attending a zoning board hearing for the 'Riverfront Heights' mixed-use development. The project proposes 500 new residential units and 20,000 sq ft of retail space in a zone currently designated for low-density residential use. The developer argues that the project will boost the local economy. However, preliminary traffic studies suggest a 25% increase in peak-hour volume on the adjacent arterial road, which is already operating at 95% capacity. Draft a formal position statement for the city to present at the hearing. Your statement must: 1) Summarize the conflict between the proposed land use and current infrastructure capacity, 2) Cite specific O*NET planning principles regarding land development approval, 3) Propose three specific mitigation conditions (e.g., transit subsidies, parking caps, road widening) that must be met for approval, and 4) Justify how these conditions balance economic growth with public safety and sustainability.",
+      "reference_context": {
+        "project_details": {
+          "name": "Riverfront Heights",
+          "proposed_units": 500,
+          "proposed_retail_sqft": 20000,
+          "current_zone": "Low-density residential",
+          "project_zone": "Mixed-use"
+        },
+        "infrastructure_impact": {
+          "affected_road": "Arterial Blvd",
+          "current_capacity_utilization": 0.95,
+          "projected_volume_increase_percent": 25,
+          "peak_hour_delay_increase_minutes": 12
+        },
+        "policy_framework": {
+          "city_goal": "Sustainable growth and reduced car dependency",
+          "legal_requirement": "Infrastructure must not degrade below Level of Service C during peak hours"
+        }
+      },
+      "evaluation_criteria": [
+        "Alignment: Does the position statement accurately reflect the conflict between land use and infrastructure capacity?",
+        "Policy Integration: Are O*NET planning principles regarding legislative approval correctly applied?",
+        "Feasibility: Are the proposed mitigation conditions technically viable and legally defensible?",
+        "Balance: Does the response effectively weigh economic benefits against safety and sustainability constraints?"
+      ],
+      "student_answer": "**Position Statement: Riverfront Heights Mixed-Use Development**\n**To:** The Zoning Board of Appeals\n**From:** City Planning Department\n**Date:** October 26, 2023\n**Subject:** Formal Position on Zoning Variance Application for Riverfront Heights\n\n**1. Conflict Between Proposed Land Use and Infrastructure Capacity**\nThe City Planning Department formally objects to the approval of the Riverfront Heights project in its current configuration due to a critical incompatibility between the proposed mixed-use density and existing infrastructure capacity. The application seeks to rezone a Low-Density Residential area to accommodate 500 residential units and 20,000 square feet of retail space. Preliminary traffic impact studies indicate this development will generate a 25% increase in peak-hour traffic volume on Arterial Blvd. Given that Arterial Blvd is currently operating at 95% capacity, this additional load will inevitably degrade the Level of Service (LOS) well below the City's legal requirement of LOS C during peak hours. Without intervention, the project will result in a projected 12-minute increase in peak-hour delays, creating a safety hazard and rendering the corridor functionally obsolete for emergency response and public transit.\n\n**2. Application of O*NET Planning Principles**\nThis position is grounded in the core competencies outlined in the O*NET Standard for Urban and Regional Planners, specifically the principle of **\"Infrastructure and Systems Analysis.\"** This principle mandates that planners must rigorously evaluate the capacity of existing public facilities to ensure that new development does not overwhelm critical systems. Furthermore, the principle of **\"Regulatory Compliance and Zoning\"** requires that land use approvals strictly adhere to established zoning ordinances and legal performance standards. Approving a variance that knowingly violates the statutory requirement to maintain LOS C would constitute a failure to uphold the professional duty of ensuring that land development is sustainable and legally compliant.\n\n**3. Proposed Mitigation Conditions for Approval**\nTo proceed with the Riverfront Heights project, the City Planning Department stipulates that the following three mitigation conditions must be met as mandatory prerequisites for approval:\n\n*   **Condition A: Mandatory Transit Subsidy and Shuttle Integration:** The developer must fund a dedicated, high-frequency shuttle service connecting the site to the nearest major transit hub, covering 100% of operational costs for the first five years. This service must be designed to capture at least 15% of the projected vehicle trips, directly reducing the net load on Arterial Blvd.\n*   **Condition B: Strict Parking Caps and Demand Management:** The project must implement a maximum parking ratio of 0.75 spaces per residential unit and 1 space per 300 sq ft of retail, significantly below standard zoning requirements. This cap must be enforced through a dynamic pricing model and a verified car-share program to discourage single-occupancy vehicle use.\n*   **Condition C: Infrastructure Improvement Fund and Road Widening:** The developer must contribute a dedicated capital fund sufficient to finance the widening of Arterial Blvd to add one dedicated turn lane and upgrade signal timing coordination. This construction must be completed and certified by an independent traffic engineer prior to the issuance of any certificates of occupancy.\n\n**4. Justification: Balancing Growth, Safety, and Sustainability**\nThese conditions are essential to reconcile the City's goal of sustainable growth with the imperative of public safety. By mandating transit integration and parking caps, we directly address the City's policy goal of reducing car dependency, ensuring that economic growth does not come at the cost of gridlock. The infrastructure improvement fund ensures that the legal requirement for LOS C is met, thereby protecting public safety by maintaining adequate clearance for emergency vehicles and reducing accident risks associated with congestion. Ultimately, these measures ensure that the Riverfront Heights development aligns with the long-term vision of a resilient, sustainable urban environment rather than a short-term economic gain that compromises the city's functional integrity.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        5,
+        4,
+        3,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission is well-structured and addresses all four task requirements with professional tone and clear formatting (Completeness: 5, Clarity: 5). The mitigation conditions are specific and industry-standard (Best Practices: 4). However, the submission contains a significant domain accuracy error: O*NET does not contain 'planning principles' by the names cited (e.g., 'Infrastructure and Systems Analysis'); it lists Knowledge, Skills, and Work Activities. This factual hallucination undermines the authority of the position statement (Correctness: 3, Domain Accuracy: 3). The rest of the analysis regarding LOS, capacity, and traffic impact is accurate and synthesizes the provided data effectively."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Define regional or local transportation planning problems or priorities.",
+      "task_type": "Problem Definition & Prioritization",
+      "user_prompt": "You are a Transportation Planner for the Metro City Council. The city has experienced a 15% increase in traffic congestion in the downtown corridor over the last two years, leading to increased commute times and air pollution complaints. Using the provided traffic volume data and land-use zoning map, identify the top three priority areas for intervention. Propose a specific problem definition for each area, citing the root causes (e.g., lack of transit, poor signal timing, mixed-use zoning conflicts). Your response must include a brief justification for why these three areas were selected over others.",
+      "reference_context": {
+        "traffic_data": [
+          {
+            "intersection": "Main St & 1st Ave",
+            "avg_daily_volume": 12500,
+            "peak_hour_volume": 1800,
+            "congestion_index": 8.5
+          },
+          {
+            "intersection": "Oak Rd & 5th St",
+            "avg_daily_volume": 8200,
+            "peak_hour_volume": 1100,
+            "congestion_index": 4.2
+          },
+          {
+            "intersection": "Highway 101 On-Ramp",
+            "avg_daily_volume": 15000,
+            "peak_hour_volume": 2200,
+            "congestion_index": 9.1
+          }
+        ],
+        "land_use_zoning": {
+          "downtown_core": "High-density mixed-use, limited parking",
+          "suburban_ring": "Low-density residential, car-dependent",
+          "industrial_zone": "Heavy truck traffic, limited pedestrian infrastructure"
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the identified problems logically derived from the provided data?",
+        "Completeness: Does the response define all three priority areas with clear root causes?",
+        "Best Practices: Is the problem definition aligned with standard transportation planning methodologies?"
+      ],
+      "student_answer": "### Priority Areas for Intervention\n\n**1. Highway 101 On-Ramp**\n*   **Problem Definition:** Critical bottleneck causing severe peak-hour gridlock and spillback into adjacent arterial streets, resulting in a 9.1 congestion index and significant air quality degradation.\n*   **Root Causes:** The intersection is overwhelmed by high-volume commuter traffic (2,200 vehicles/hour) merging from a major regional highway into a downtown corridor with limited capacity. The current signal timing fails to accommodate the surge in peak-hour demand, and the lack of dedicated turn lanes exacerbates queue lengths.\n\n**2. Main St & 1st Ave**\n*   **Problem Definition:** Chronic congestion within the high-density downtown core, leading to extended commute times and reduced pedestrian safety due to vehicle-pedestrian conflicts.\n*   **Root Causes:** This area serves as a primary artery for the \"High-density mixed-use\" zone. The congestion stems from a mismatch between high traffic demand (1,800 vehicles/hour) and limited parking availability, forcing vehicles to circulate in search of spots. Additionally, the current signal phasing does not prioritize transit or pedestrian crossings, creating inefficiencies in a mixed-use environment.\n\n**3. Oak Rd & 5th St**\n*   **Problem Definition:** Emerging congestion hotspot acting as a transition point between suburban residential zones and the downtown core, causing localized delays and increased idling emissions.\n*   **Root Causes:** This intersection functions as a critical gateway for the \"Low-density residential, car-dependent\" suburban ring. The root cause is the lack of viable alternative transit modes for suburban commuters, forcing reliance on single-occupancy vehicles. The current infrastructure lacks the capacity to handle the 1,100 peak-hour vehicles efficiently, and signal timing is not synchronized with the flow from the suburban ring.\n\n### Selection Justification\n\nThese three areas were selected over other potential locations based on a composite analysis of **congestion severity** and **land-use impact**:\n\n1.  **Congestion Index Threshold:** The Highway 101 On-Ramp (9.1) and Main St & 1st Ave (8.5) are the only two locations exceeding a congestion index of 8.0, indicating critical failure points that require immediate intervention to prevent system-wide collapse.\n2.  **Volume Magnitude:** These sites handle the highest peak-hour volumes (2,200 and 1,800 respectively), representing the largest share of the city's 15% congestion increase.\n3.  **Land-Use Synergy:** All three sites are directly adjacent to or serve as gateways for the \"High-density mixed-use\" and \"Car-dependent\" zones identified in the zoning map. Interventions here will yield the highest return on investment by addressing the root causes of the city's growth (commuter reliance and mixed-use friction) rather than treating symptoms in lower-volume areas like Oak Rd & 5th St, which, while selected for its gateway function, serves as a secondary priority due to its lower congestion index (4.2) compared to the top two.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        4
+      ],
+      "score": 4.4,
+      "grade_reason": "Correctness (4): The student correctly identified the three intersections and defined problems/causes, but the justification contains a logical contradiction regarding Oak Rd (stating it was selected over other locations, then implying it was a lower priority area that was still selected). Completeness (5): All required sections (3 areas, problem definitions, root causes, justification) are present and detailed. Best Practices (4): Professional tone is maintained, but the logical inconsistency in the justification reduces professional credibility and evidence-based rigor. Domain Accuracy (5): Terminology (Congestion Index, Peak Hour, Mixed-use) is used accurately and inferences regarding infrastructure are reasonable for a planning context. Clarity (4): Structure is clear, but the justification paragraph is confusing due to the contradictory statement about Oak Rd's selection status."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Participate in public meetings or hearings to explain planning proposals, to gather feedback from those affected by projects, or to achieve consensus on project designs.",
+      "task_type": "Stakeholder Communication & Consensus Building",
+      "user_prompt": "You are the lead planner for the 'Green Corridor Initiative,' a proposal to convert a 2-mile stretch of a major arterial road into a multi-modal corridor with dedicated bike lanes and reduced vehicle lanes. You are preparing a script for an upcoming town hall meeting. The audience includes local business owners concerned about lost parking, residents worried about increased commute times, and environmental advocates pushing for aggressive green policies. Draft a 5-minute opening statement that explains the proposal's benefits, acknowledges the specific concerns of each group, and proposes a mechanism for gathering their feedback to refine the design. Ensure the tone is empathetic yet authoritative.",
+      "reference_context": {
+        "proposal_details": {
+          "project_name": "Green Corridor Initiative",
+          "scope": "2-mile arterial road conversion",
+          "key_changes": [
+            "Removal of 20% of on-street parking",
+            "Addition of protected bike lanes",
+            "Implementation of traffic signal optimization for transit"
+          ],
+          "projected_outcomes": {
+            "bike_traffic_increase": "40%",
+            "vehicle_capacity_reduction": "15%",
+            "transit_speed_improvement": "25%"
+          }
+        },
+        "stakeholder_concerns": {
+          "business_owners": "Loss of customer parking will reduce foot traffic and revenue.",
+          "residents": "Reduced lanes will cause gridlock during peak hours.",
+          "environmental_advocates": "The project does not go far enough to reduce carbon emissions."
+        }
+      },
+      "evaluation_criteria": [
+        "Clarity: Is the proposal explained clearly to a non-technical audience?",
+        "Empathy: Does the script explicitly acknowledge and validate the concerns of all three stakeholder groups?",
+        "Actionability: Is the feedback mechanism proposed specific and feasible?"
+      ],
+      "student_answer": "Good evening, neighbors, business owners, and community leaders. Thank you for being here tonight. I stand before you as the lead planner for the Green Corridor Initiative, a project designed to transform our city's future, not just our roadways.\n\nWe are proposing a fundamental shift for this two-mile arterial stretch. Our goal is to move beyond a car-centric design to a multi-modal corridor that serves everyone. This means removing approximately 20% of on-street parking to make room for protected bike lanes and optimizing our traffic signals to prioritize transit. The data we have reviewed is clear: we project a 40% increase in bicycle traffic, a 25% improvement in transit speeds, and a 15% reduction in overall vehicle capacity to encourage a shift toward sustainable modes of transport.\n\nHowever, I know that numbers on a page do not capture the reality of our daily lives. I want to speak directly to the concerns you have raised.\n\nTo our local business owners: I hear your fear that losing 20% of parking will drive customers away and hurt your bottom line. We understand that accessibility is the lifeblood of your commerce. We are not proposing to isolate your storefronts; we are proposing to make them more accessible to a wider demographic of customers who currently cannot drive or walk comfortably.\n\nTo our residents: I acknowledge your worry that fewer lanes will lead to gridlock during your morning and evening commutes. It is a valid concern that reducing vehicle capacity feels like a step backward. Yet, our analysis shows that by optimizing signal timing for buses and creating a reliable alternative for cyclists, we can actually reduce the total time spent in traffic for the majority of commuters by shifting a portion of the load to faster, more efficient modes.\n\nTo our environmental advocates: I recognize that some of you feel this proposal does not go far enough to meet our urgent climate goals. You are right to demand aggressive action. This initiative is a critical first step in a larger strategy to reduce carbon emissions, but it is a necessary foundation upon which we can build even more ambitious policies in the coming years.\n\nWe cannot build a successful corridor in a vacuum. The design must reflect the lived experience of this community. Therefore, we are launching a \"Co-Design Feedback Loop\" immediately following this meeting. We will establish a dedicated digital portal and host three targeted working groups—one for business owners, one for residents, and one for environmental stakeholders. In these sessions, we will present preliminary design alternatives and solicit specific, actionable feedback on parking retention strategies, signal timing, and lane configurations.\n\nYour input will not just be heard; it will be integrated. We will refine the final design based on this data before any ground is broken.\n\nThis project is about balance. It is about creating a safer, cleaner, and more vibrant community while respecting the economic and logistical needs of those who live and work here. Let us work together to ensure this corridor serves everyone, not just a few. Thank you, and I look forward to your questions.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        5,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission is highly professional, meeting all core task requirements with an empathetic yet authoritative tone. It accurately synthesizes the provided data and addresses stakeholder concerns effectively. However, a score of 4 is assigned for Completeness because the proposed feedback mechanism lacks a specific timeline for when the refined design will be presented to the community, which is a standard expectation in public engagement plans. Additionally, the word count is slightly on the lower end for a strict 5-minute delivery, though the content quality remains exceptional."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Prepare reports or recommendations on transportation planning.",
+      "task_type": "Report Generation & Strategic Recommendation",
+      "user_prompt": "Draft the executive summary and key recommendations section of a formal report for the City Council regarding the 'Rural Connectivity Gap.' The report must analyze the impact of the proposed high-speed rail line on rural communities that currently lack public transit. Use the provided demographic and economic data to argue for a 'Feeder Bus Network' as a necessary complement to the rail line. Your recommendations must address funding sources, implementation timeline, and expected ridership growth. The tone should be persuasive and data-driven.",
+      "reference_context": {
+        "demographic_data": {
+          "rural_population": 45000,
+          "employment_centers": 3,
+          "current_transit_coverage": "15% of population within 1 mile of stop",
+          "projected_rail_ridership": 12000
+        },
+        "economic_data": {
+          "avg_commute_time": "55 minutes",
+          "lost_productivity_cost": "$2.5M annually",
+          "federal_grant_eligibility": "High for rural connectivity projects"
+        },
+        "proposed_solution": {
+          "name": "Feeder Bus Network",
+          "routes": 4,
+          "frequency": "30-minute intervals during peak",
+          "cost_estimate": "$1.2M initial, $400k annual ops"
+        }
+      },
+      "evaluation_criteria": [
+        "Data Integration: Does the report effectively use the provided demographic and economic data to support arguments?",
+        "Strategic Alignment: Are the recommendations (funding, timeline, ridership) realistic and aligned with the goal of connectivity?",
+        "Structure: Is the executive summary concise and the recommendations actionable?"
+      ],
+      "student_answer": "# Executive Summary\n\nThe proposed high-speed rail line represents a transformative infrastructure investment for the region; however, without a robust connecting network, its economic potential will remain inaccessible to 85% of the rural population currently lacking public transit coverage. With a rural population of 45,000 and only 15% residing within one mile of a transit stop, the rail line risks becoming an isolated corridor rather than a regional asset. Currently, the average commute time of 55 minutes results in an annual productivity loss of $2.5 million, a figure that will persist if rural residents cannot access the rail system efficiently.\n\nThis report argues that the \"Feeder Bus Network\" is not merely an optional add-on but a critical prerequisite for the rail line's success. By deploying four dedicated routes with 30-minute peak intervals, the network will bridge the gap between rural communities and the rail stations. This integration is projected to unlock the full capacity of the rail system, enabling the capture of the 12,000 projected ridership by connecting the 85% of the population currently excluded from the system. Given the project's high eligibility for federal grants, immediate action is required to secure funding and initiate implementation.\n\n# Key Recommendations\n\nTo ensure the high-speed rail line delivers equitable economic growth and maximizes ridership, the City Council is advised to adopt the following strategic actions:\n\n### 1. Immediate Authorization of the Feeder Bus Network\nApprove the design and deployment of a four-route Feeder Bus Network. This system must operate with 30-minute frequencies during peak hours to ensure reliable connections to the rail stations. This infrastructure is essential to convert the 45,000 rural residents into active transit users, directly addressing the current 15% coverage deficit.\n\n### 2. Strategic Funding Acquisition\nLeverage the project's high eligibility for federal grants to cover the majority of the $1.2 million initial capital cost. The City Council should prioritize the submission of grant applications within the next quarter to secure federal matching funds. For the estimated $400,000 in annual operating costs, the Council should establish a dedicated regional transit levy and pursue state-level rural mobility subsidies to ensure long-term financial sustainability.\n\n### 3. Implementation Timeline\nAdopt an accelerated timeline to align with the rail line's projected opening:\n*   **Months 1–3:** Finalize route planning and secure federal grant commitments.\n*   **Months 4–9:** Procure vehicles, hire drivers, and complete infrastructure upgrades at rail interchanges.\n*   **Month 10:** Launch pilot operations on two routes.\n*   **Month 12:** Full system launch coinciding with the high-speed rail inauguration.\n\n### 4. Ridership and Economic Impact Projections\nImplementation of the Feeder Bus Network is projected to drive ridership growth from the current baseline to the full 12,000 annual rail riders. By reducing effective commute times and eliminating the $2.5 million annual productivity loss, the network will stimulate local economic activity, increase labor market participation, and ensure that the high-speed rail serves as a true catalyst for rural revitalization.",
+      "score": 0,
+      "dimension_scores": [],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Collaborate with engineers to research, analyze, or resolve complex transportation design issues.",
+      "task_type": "Technical Analysis & Design Resolution",
+      "user_prompt": "You are collaborating with a civil engineering team on a new bridge design over a flood-prone river. The engineers propose a standard elevation that meets current code but may be insufficient for projected 100-year flood levels under climate change scenarios. Analyze the provided hydrological data and climate projections to calculate the required elevation increase. Then, draft a technical memo to the engineering team outlining the risk of the current design, the calculated necessary elevation adjustment, and the potential cost implications of this change versus the risk of future failure. Balance technical feasibility with long-term sustainability.",
+      "reference_context": {
+        "hydrological_data": {
+          "current_flood_level": "105.0 ft",
+          "projected_100yr_flood_level_2050": "112.5 ft",
+          "safety_margin_requirement": "2.0 ft above flood level"
+        },
+        "current_design": {
+          "bridge_deck_elevation": "108.0 ft",
+          "construction_cost": "$15M",
+          "estimated_lifespan": "75 years"
+        },
+        "climate_projections": {
+          "precipitation_increase": "15%",
+          "sea_level_rise_impact": "1.5 ft"
+        }
+      },
+      "evaluation_criteria": [
+        "Technical Accuracy: Is the elevation calculation correct based on the provided safety margins and projections?",
+        "Risk Assessment: Does the memo clearly articulate the consequences of the current design vs. the proposed change?",
+        "Balance: Does the analysis weigh the increased construction cost against the long-term risk of failure?"
+      ],
+      "student_answer": "**TECHNICAL MEMORANDUM**\n\n**TO:** Civil Engineering Design Team\n**FROM:** Transportation Planning Division\n**DATE:** October 26, 2023\n**SUBJECT:** Critical Elevation Adjustment for Bridge Design Over Flood-Prone River\n\n**1. Executive Summary**\nA review of current design specifications against projected hydrological data indicates that the proposed bridge deck elevation of 108.0 ft is insufficient to meet safety requirements under 2050 climate change scenarios. This memo outlines the necessary elevation increase to 114.5 ft, analyzes the associated cost implications, and recommends immediate design modification to ensure long-term structural integrity and public safety.\n\n**2. Risk Analysis of Current Design**\nThe current design proposes a bridge deck elevation of **108.0 ft**.\n*   **Current Code Compliance:** The design currently exceeds the historical 100-year flood level (105.0 ft) by 3.0 ft, satisfying existing static codes.\n*   **Future Vulnerability:** Climate projections indicate a projected 100-year flood level of **112.5 ft** by 2050.\n*   **Safety Deficit:** Under the 2050 scenario, the current deck elevation falls **4.5 ft below** the projected flood level.\n*   **Regulatory Non-Compliance:** The required safety margin is 2.0 ft above the flood level. The current design fails to meet this requirement by **6.5 ft** (114.5 ft required vs. 108.0 ft proposed).\n\n**3. Calculated Elevation Adjustment**\nTo align with the 2050 climate projection and maintain the mandated safety margin, the following calculation is required:\n\n*   **Projected 100-Year Flood Level (2050):** 112.5 ft\n*   **Required Safety Margin:** +2.0 ft\n*   **Target Minimum Elevation:** 114.5 ft\n*   **Current Proposed Elevation:** 108.0 ft\n*   **Required Increase:** **6.5 ft**\n\n*Note: This adjustment accounts for the projected 15% increase in precipitation and the 1.5 ft sea-level rise impact integrated into the 112.5 ft flood projection.*\n\n**4. Cost Implications vs. Risk Assessment**\n\n| Parameter | Current Design (108.0 ft) | Revised Design (114.5 ft) |\n| :--- | :--- | :--- |\n| **Estimated Construction Cost** | $15.0 Million | ~$16.8 Million* |\n| **Estimated Cost Increase** | N/A | +$1.8 Million (+12%) |\n| **Projected Lifespan** | 75 Years (at risk) | 75 Years (secure) |\n| **Risk of Failure** | High (Structural inundation likely by 2040) | Negligible (Meets 2050+ standards) |\n| **Long-Term Liability** | High (Frequent repairs, potential closure, litigation) | Low (Resilient infrastructure) |\n\n*\\*Cost estimate assumes a linear correlation between vertical clearance and structural volume for this span type.*\n\n**5. Recommendation**\nThe Transportation Planning Division strongly recommends revising the bridge deck elevation to **114.5 ft**.\n\nWhile the revised design incurs an estimated **$1.8 million** increase in initial capital expenditure (12% of total budget), this investment is critical for the following reasons:\n1.  **Risk Mitigation:** It eliminates the high probability of structural failure and service interruption due to flooding within the asset's operational lifespan.\n2.  **Sustainability:** It future-proofs the infrastructure against climate change, preventing the need for costly retrofits or premature replacement.\n3.  **Public Safety:** It ensures the bridge remains a viable evacuation and emergency route during extreme weather events.\n\n**6. Next Steps**\n1.  Revise structural drawings to reflect the 114.5 ft deck elevation.\n2.  Update geotechnical reports to verify abutment stability at the increased height.\n3.  Submit revised cost estimates to the funding authority for budget approval.\n\nPlease proceed with the design modification immediately to avoid delays in the permitting process.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is a high-quality technical memo that correctly performs the core calculations (112.5 + 2.0 = 114.5 ft) and follows a professional structure. However, it warrants a 4 on Correctness due to the specific projection of failure by 2040 when the data only specifies 2050, representing a minor data deviation. Completeness and Best Practices receive 4s because the technical feasibility analysis (specifically approach grade constraints and land acquisition implications of a 6.5 ft elevation increase) is mentioned in next steps but not critically analyzed in the risk/cost section, and the cost estimate is presented as a precise figure rather than a range or contingency. Domain Accuracy and Clarity are 5s as terminology is precise and the document is well-organized."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Recommend transportation system improvements or projects, based on economic, population, land-use, or traffic projections.",
+      "task_type": "System Improvement Recommendation",
+      "user_prompt": "The city is planning for a 20% population growth over the next decade, concentrated in the 'North District' which currently has no rail access. Based on the provided population growth projections and land-use plans, recommend a specific transportation system improvement (e.g., light rail extension, bus rapid transit, or expanded highway capacity). Justify your recommendation by comparing the projected economic benefits, traffic reduction potential, and land-use compatibility of your chosen option against two alternatives. Your recommendation must explicitly address sustainability goals and economic viability.",
+      "reference_context": {
+        "population_projections": {
+          "current_population": 150000,
+          "projected_population_2035": 180000,
+          "north_district_growth": "45% of total growth"
+        },
+        "land_use_plans": {
+          "north_district": "High-density mixed-use, 5000 new housing units",
+          "current_infrastructure": "Single arterial road, no rail"
+        },
+        "project_options": {
+          "option_a_light_rail": {
+            "cost": "$500M",
+            "capacity": "High",
+            "sustainability_score": "9/10",
+            "economic_impact": "High (property value increase)"
+          },
+          "option_b_bus_rapid_transit": {
+            "cost": "$120M",
+            "capacity": "Medium",
+            "sustainability_score": "7/10",
+            "economic_impact": "Medium"
+          },
+          "option_c_highway_expansion": {
+            "cost": "$200M",
+            "capacity": "High",
+            "sustainability_score": "3/10",
+            "economic_impact": "Low (induces demand)"
+          }
+        }
+      },
+      "evaluation_criteria": [
+        "Justification: Is the recommendation supported by a clear comparison of the three options using the provided data?",
+        "Alignment: Does the chosen option align with the high-density land-use plan and population growth?",
+        "Sustainability & Economics: Does the analysis balance long-term sustainability goals with economic feasibility?"
+      ],
+      "student_answer": "**Transportation System Improvement Recommendation: Light Rail Extension**\n\n**Executive Summary**\nTo accommodate the projected 20% city-wide population growth, with 45% concentrated in the North District's high-density mixed-use development, the City should proceed with the **Light Rail Extension (Option A)**. This recommendation prioritizes long-term sustainability, maximizes economic return through property value appreciation, and aligns perfectly with the high-density land-use plan, avoiding the pitfalls of induced demand associated with highway expansion.\n\n**Comparative Analysis**\n\n| Metric | **Recommended: Light Rail Extension** | **Alternative 1: Bus Rapid Transit (BRT)** | **Alternative 2: Highway Expansion** |\n| :--- | :--- | :--- | : |\n| **Projected Cost** | $500M | $120M | $200M |\n| **Capacity** | **High** (Matches 5,000 new units) | Medium (Risk of saturation) | High (Induces demand) |\n| **Sustainability Score** | **9/10** (Zero-emission, high efficiency) | 7/10 (Moderate efficiency) | 3/10 (High carbon footprint) |\n| **Economic Impact** | **High** (Significant property value uplift) | Medium | Low (Induces sprawl, low ROI) |\n| **Land-Use Compatibility** | **Optimal** (Supports TOD and density) | Good (Flexible but less transformative) | Poor (Encourages low-density sprawl) |\n\n**Justification**\n\n1.  **Traffic Reduction & Capacity Alignment**\n    The North District is planned for 5,000 new housing units, representing a massive influx of daily trips. A single arterial road cannot sustain this volume.\n    *   **Light Rail:** Offers the highest capacity, moving thousands of passengers per hour per lane, effectively removing private vehicles from the congested arterial road.\n    *   **BRT:** While cost-effective, its medium capacity may reach saturation limits within 5–7 years of the district's full build-out, requiring costly future upgrades.\n    *   **Highway Expansion:** Expanding road capacity in a high-density area triggers \"induced demand,\" where new lanes immediately fill with traffic, failing to provide long-term congestion relief.\n\n2.  **Economic Viability & Benefits**\n    *   **Light Rail:** The $500M investment is justified by the \"High\" economic impact rating. Rail infrastructure typically catalyzes Transit-Oriented Development (TOD), increasing property values by 10–20% within a half-mile radius. This generates increased tax revenue that can offset capital costs over time.\n    *   **BRT:** Offers a lower upfront cost ($120M) but yields only medium economic returns, lacking the transformative power to anchor high-density commercial growth.\n    *   **Highway Expansion:** Despite a moderate cost ($200M), the economic impact is rated \"Low\" because it encourages low-density sprawl rather than concentrating economic activity near transit nodes.\n\n3.  **Sustainability & Land-Use Compatibility**\n    The North District's \"High-density mixed-use\" designation requires a transportation mode that supports walking, cycling, and high-volume transit.\n    *   **Light Rail:** With a sustainability score of 9/10, it directly supports the city's decarbonization goals by providing a zero-emission backbone for the district. It is the only option that physically reinforces the high-density land-use plan by concentrating development around stations.\n    *   **BRT:** A viable secondary option with a 7/10 score, but it lacks the permanence and modal shift potential of rail.\n    *   **Highway Expansion:** With a 3/10 sustainability score, this option contradicts climate goals and is incompatible with a high-density, walkable neighborhood vision.\n\n**Conclusion**\nWhile the Bus Rapid Transit offers a lower initial price tag, the **Light Rail Extension** is the superior strategic investment. It is the only option capable of handling the projected passenger volume of the North District's 5,000 new units while simultaneously driving economic growth through property value appreciation and ensuring the city meets its rigorous sustainability targets. The highway expansion is rejected due to its incompatibility with high-density planning and negative environmental impact.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission is clear and uses domain terminology accurately (Clarity, Domain Accuracy). However, it lacks quantitative rigor such as trip generation calculations (Domain Accuracy, Completeness) and omits professional elements like funding strategies or construction timeline feasibility (Best Practices, Completeness). It also accepts prompt data labels without critical sensitivity analysis (Correctness)."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Develop computer models to address transportation planning issues.",
+      "task_type": "Data Analysis & Modeling",
+      "user_prompt": "You are a Transportation Planner for the Metro City Council. The city has experienced a 15% increase in traffic congestion in the downtown corridor over the last two years, leading to increased commute times and air pollution complaints. Using the provided traffic volume data and land-use zoning map, identify the top three priority areas for intervention. Propose a specific problem definition for each area, citing the root causes (e.g., lack of transit, poor signal timing, mixed-use zoning conflicts). Your response must include a brief justification for why these three areas were selected over others.",
+      "reference_context": {
+        "traffic_data": [
+          {
+            "intersection": "Main St & 1st Ave",
+            "avg_daily_volume": 12500,
+            "peak_hour_volume": 1800,
+            "congestion_index": 8.5
+          },
+          {
+            "intersection": "Oak Rd & 5th St",
+            "avg_daily_volume": 8200,
+            "peak_hour_volume": 1100,
+            "congestion_index": 4.2
+          },
+          {
+            "intersection": "Highway 101 On-Ramp",
+            "avg_daily_volume": 15000,
+            "peak_hour_volume": 2200,
+            "congestion_index": 9.1
+          }
+        ],
+        "land_use_zoning": {
+          "downtown_core": "High-density mixed-use, limited parking",
+          "suburban_ring": "Low-density residential, car-dependent",
+          "industrial_zone": "Heavy truck traffic, limited pedestrian infrastructure"
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the identified problems logically derived from the provided data?",
+        "Completeness: Does the response define all three priority areas with clear root causes?",
+        "Best Practices: Is the problem definition aligned with standard transportation planning methodologies?"
+      ],
+      "student_answer": "### Priority Areas for Intervention\n\n#### 1. Highway 101 On-Ramp\n*   **Problem Definition:** The on-ramp functions as a critical bottleneck, causing severe queuing that spills back into local arterial streets during peak hours. This congestion is directly contributing to the 15% increase in regional traffic volume and associated air pollution.\n*   **Root Causes:**\n    *   **Capacity Mismatch:** The ramp's design capacity cannot accommodate the 2,200 vehicles per peak hour, creating a supply-demand imbalance.\n    *   **Lack of Alternative Routes:** Insufficient parallel arterial capacity forces all commuter traffic through this single choke point.\n    *   **Signal Timing:** Current ramp metering and intersection signal coordination are not optimized for the current high-volume flow.\n\n#### 2. Main St & 1st Ave\n*   **Problem Definition:** This intersection within the downtown core experiences chronic gridlock, significantly degrading mobility for local businesses and increasing idling emissions.\n*   **Root Causes:**\n    *   **Mixed-Use Zoning Conflicts:** High-density mixed-use zoning generates intense pedestrian and vehicular conflict, slowing traffic flow.\n    *   **Limited Parking:** The \"limited parking\" designation in the downtown core forces vehicles to circulate in search of spots, adding to the 1,800 peak-hour volume.\n    *   **Inefficient Signal Timing:** Existing signal cycles are outdated and fail to prioritize the high pedestrian and transit demand inherent to the high-density zone.\n\n#### 3. Oak Rd & 5th St\n*   **Problem Definition:** While currently showing moderate congestion, this area represents a growing pressure point where suburban commuter traffic merges with local residential flows, threatening to degrade into severe congestion without intervention.\n*   **Root Causes:**\n    *   **Car-Dependent Land Use:** The surrounding low-density residential zoning in the suburban ring forces a high reliance on private vehicles, creating a steady stream of through-traffic.\n    *   **Transit Deficit:** A lack of high-frequency transit options in the suburban ring forces commuters to utilize this corridor rather than alternative modes.\n    *   **Geometric Constraints:** The intersection geometry lacks dedicated turn lanes to handle the 1,100 peak-hour volume efficiently.\n\n### Selection Justification\nThese three areas were selected over other potential locations based on a composite analysis of **congestion severity** and **systemic impact**:\n1.  **Highway 101 On-Ramp** was prioritized first due to its highest congestion index (9.1) and volume (15,000 ADV), representing the primary gateway for regional traffic entering the city.\n2.  **Main St & 1st Ave** was selected second due to its high congestion index (8.5) and its location in the high-density downtown core, where congestion has the most significant impact on air quality and economic activity.\n3.  **Oak Rd & 5th St** was chosen as the third priority because, despite a lower congestion index (4.2), it sits at the critical interface between the car-dependent suburban ring and the downtown core, making it a necessary preventative intervention to stop future congestion escalation.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission is strong and meets most requirements, but it fails to fully integrate the 'Industrial Zone' context from the land-use data, which was provided alongside the traffic data. A top-tier analysis would acknowledge this data gap or justify its exclusion more explicitly. Additionally, the justification for the third priority relies on qualitative speculation ('threatening to degrade') rather than quantitative thresholds. These gaps prevent a perfect score on Correctness and Best Practices, though the structure and terminology are otherwise professional."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Analyze information related to transportation, such as land use policies, environmental impact of projects, or long-range planning needs.",
+      "task_type": "Policy Impact Analysis",
+      "user_prompt": "You are a Senior Transportation Planner evaluating a proposed rezoning of the 'Greenwood District' from low-density residential to high-density mixed-use. The proposal includes a new light rail line. Using the provided environmental impact data and current land-use policies, analyze the potential long-range planning needs and environmental trade-offs. Specifically, address how the rezoning might affect local air quality, traffic generation, and the city's 2050 sustainability goals. Provide a recommendation on whether to approve, modify, or reject the proposal based on this analysis.",
+      "reference_context": {
+        "environmental_impact_data": {
+          "current_co2_emissions_tons_year": 4500,
+          "projected_co2_emissions_tons_year": 5200,
+          "noise_pollution_increase_db": 3.5,
+          "green_space_loss_sqft": 12000
+        },
+        "land_use_policies": {
+          "sustainability_goal_2050": "Reduce city-wide CO2 by 40% and increase green space by 15%",
+          "transit_oriented_development": "Encourage density within 0.5 miles of light rail stations"
+        },
+        "traffic_generation_model": {
+          "new_residents": 2500,
+          "projected_vehicle_trips_per_day": 6000,
+          "light_rail_capacity_passengers_per_day": 8000
+        }
+      },
+      "evaluation_criteria": [
+        "Accuracy: Does the analysis correctly interpret the relationship between density, traffic, and emissions?",
+        "Alignment: Is the recommendation consistent with the stated 2050 sustainability goals?",
+        "Depth: Does the response address all three required impact areas (air quality, traffic, green space)?"
+      ],
+      "student_answer": "### Greenwood District Rezoning Analysis: Long-Range Planning Needs and Environmental Trade-offs\n\n#### 1. Analysis of Environmental and Planning Impacts\n\n**Air Quality and CO2 Emissions**\nThe proposed rezoning presents a direct conflict with the City's 2050 Sustainability Goal. While the project aligns with Transit-Oriented Development (TOD) principles by concentrating density near the new light rail, the projected CO2 emissions are expected to rise from 4,500 to 5,200 tons annually. This represents a 15.5% increase in local emissions, moving the district further away from the city-wide target of a 40% reduction. The net increase suggests that the projected 6,000 daily vehicle trips generated by 2,500 new residents will not be sufficiently offset by the 8,000-passenger daily capacity of the light rail, likely due to first/last-mile connectivity issues or a high rate of private vehicle ownership among new residents.\n\n**Traffic Generation and Mobility**\nThe traffic generation model indicates a significant strain on local infrastructure. With 6,000 new vehicle trips per day, the district faces a high risk of congestion, particularly during peak hours. Although the light rail has a capacity of 8,000 passengers, the ratio of vehicle trips to rail capacity implies that a substantial portion of the new population will rely on private vehicles. Without robust active transportation infrastructure (e.g., protected bike lanes, pedestrian pathways) and strict parking management policies, the light rail may fail to achieve the necessary mode shift to reduce vehicular volume.\n\n**Green Space and Noise**\nThe loss of 12,000 square feet of green space directly contradicts the 2050 goal to increase green space by 15%. This reduction in permeable surface area will exacerbate the urban heat island effect and reduce stormwater management capacity. Additionally, a 3.5 dB increase in noise pollution is significant in a mixed-use environment, potentially degrading the quality of life for residents and necessitating costly sound mitigation measures for ground-floor commercial and residential units.\n\n#### 2. Long-Range Planning Needs\nTo align this project with the 2050 Sustainability Goals, the following planning interventions are required:\n*   **Mode Shift Strategy:** Implementation of a mandatory \"Parking Cash-Out\" program and reduced parking minimums to discourage private vehicle use.\n*   **Green Infrastructure:** A requirement for vertical greening (green walls/roofs) and pocket parks to offset the 12,000 sq. ft. ground-level loss and contribute to the city-wide green space target.\n*   **Active Transportation Network:** Construction of a high-comfort, protected bicycle and pedestrian network connecting the light rail station to all new residential units to ensure the 8,000-passenger rail capacity is utilized.\n*   **Emission Mitigation:** Integration of district-level renewable energy systems and electrification mandates for all new building fleets to counteract the projected CO2 increase.\n\n#### 3. Recommendation\n\n**Decision: Modify with Conditions**\n\n**Rationale:**\nThe proposal should not be approved in its current form due to the projected increase in CO2 emissions and the loss of green space, which directly violate the 2050 Sustainability Goals. However, the project's alignment with Transit-Oriented Development (TOD) policies makes it a strategic asset for long-term urban growth.\n\n**Required Modifications for Approval:**\n1.  **Conditional Approval:** Approval is contingent upon the implementation of a comprehensive Mobility Management Plan that guarantees a 40% mode shift to public transit and active transportation within five years of occupancy.\n2.  **Green Space Offset:** The developer must fund the creation of 15,000 sq. ft. of new, accessible green space elsewhere in the district or through a verified green space trust to exceed the 12,000 sq. ft. loss and contribute to the city-wide 15% increase goal.\n3.  **Emission Reduction Mandate:** The project must include a district-wide electrification plan and on-site renewable energy generation to neutralize the projected 700-ton CO2 increase.\n4.  **Noise Mitigation:** Installation of high-performance acoustic barriers and soundproofing for all units within 100 feet of the light rail tracks.\n\nWithout these specific modifications, the rezoning will result in a net negative environmental impact and failure to meet the City's 2050 targets.",
+      "score": 0,
+      "dimension_scores": [],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Interpret data from traffic modeling software, geographic information systems, or associated databases.",
+      "task_type": "GIS Data Interpretation",
+      "user_prompt": "You are a Transportation Planner tasked with optimizing bus route efficiency in the 'River Valley' district. You have been provided with a dataset containing current bus stop locations, passenger boarding/alighting counts, and average travel speeds between stops. Interpret this data to identify three specific inefficiencies in the current network. Propose a revised route structure that improves average travel speed by at least 10% while maintaining coverage for at least 90% of current riders. Justify your changes using the provided data points.",
+      "reference_context": {
+        "bus_route_data": [
+          {
+            "stop_id": "RV-01",
+            "daily_boardings": 450,
+            "avg_wait_time_min": 12,
+            "next_stop_distance_miles": 0.8,
+            "avg_speed_mph": 8.5
+          },
+          {
+            "stop_id": "RV-02",
+            "daily_boardings": 120,
+            "avg_wait_time_min": 15,
+            "next_stop_distance_miles": 0.3,
+            "avg_speed_mph": 6.2
+          },
+          {
+            "stop_id": "RV-03",
+            "daily_boardings": 380,
+            "avg_wait_time_min": 10,
+            "next_stop_distance_miles": 1.2,
+            "avg_speed_mph": 14.0
+          }
+        ],
+        "current_route_efficiency": {
+          "average_speed_mph": 9.5,
+          "ridership_coverage_percent": 100
+        }
+      },
+      "evaluation_criteria": [
+        "Data Interpretation: Are the inefficiencies correctly identified based on the provided metrics?",
+        "Feasibility: Is the proposed route change technically viable and does it meet the 10% speed improvement target?",
+        "Coverage: Does the new plan maintain at least 90% ridership coverage?"
+      ],
+      "student_answer": "### Identified Inefficiencies\n\n1.  **Excessive Stop Density at Low-Volume Nodes:** Stop RV-02 generates only 120 daily boardings (27% of the route's total volume) but is located just 0.3 miles from the previous stop. This short segment forces the bus to decelerate to 6.2 mph, dragging down the route's overall average speed.\n2.  **Suboptimal Spacing on High-Volume Segments:** The segment between RV-01 (450 boardings) and RV-03 (380 boardings) covers 1.2 miles at a high speed of 14.0 mph. However, the insertion of the low-volume RV-02 stop between these high-demand nodes disrupts the flow, preventing the bus from maintaining the higher speed potential of the longer segment.\n3.  **Inefficient Wait-Time-to-Boarding Ratio:** Stop RV-02 has the longest average wait time (15 minutes) relative to its lowest boarding count. This indicates a misalignment between service frequency and actual demand, resulting in wasted vehicle capacity and passenger time.\n\n### Revised Route Structure Proposal\n\n**Action:** Eliminate Stop RV-02 and establish a direct connection between RV-01 and RV-03.\n\n**Projected Performance Metrics:**\n*   **New Average Speed:** 11.3 mph (Calculated as a weighted average of the 0.8-mile segment at 8.5 mph and the 1.2-mile segment at 14.0 mph, excluding the 0.3-mile low-speed segment).\n    *   *Calculation:* Total Distance = 2.0 miles. Total Time = (0.8/8.5) + (1.2/14.0) ≈ 0.094 + 0.086 = 0.18 hours. Speed = 2.0 / 0.18 ≈ 11.1 mph. (Note: By removing the 0.3-mile segment at 6.2 mph, the new average speed rises significantly above the current 9.5 mph baseline, exceeding the 10% target).\n*   **Ridership Coverage:** 97.3% (Sum of boardings at RV-01 and RV-03 divided by total boardings: 830 / 850).\n\n### Justification\n\n1.  **Speed Optimization:** Removing the 0.3-mile segment at 6.2 mph eliminates the primary bottleneck. The new route leverages the 14.0 mph speed on the longer 1.2-mile stretch between the two major hubs. This change increases the average travel speed from 9.5 mph to approximately 11.3 mph, a **19% improvement**, comfortably exceeding the 10% target.\n2.  **Ridership Retention:** The proposed change retains service for 830 of the 850 daily boardings (97.3%), which is well above the 90% coverage requirement. The 20 boardings lost at RV-02 represent a negligible portion of total demand and are outweighed by the system-wide efficiency gains.\n3.  **Resource Allocation:** Eliminating the stop at RV-02 allows for reduced wait times on the remaining high-demand stops (RV-01 and RV-03) by reallocating the vehicle minutes previously spent decelerating and accelerating for the low-volume stop. This improves the overall reliability and attractiveness of the service for the majority of riders.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        4,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "Correctness (3): The strategic recommendation is sound, but the mathematical justification contains a fundamental error regarding route distance (assuming removing a stop removes road distance, calculating 2.0 miles instead of 1.1 for the merged segment). Completeness (4): All task components (3 inefficiencies, revised route, metrics, justification) are addressed. Best Practices (4): Professional tone and structure, though feasibility checks and root cause analysis are limited by data constraints. Domain Accuracy (3): Misinterprets `next_stop_distance` as removable distance rather than road geometry; conflates segment speeds. Clarity (5): Well-organized, easy to read, clear headings."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Design transportation surveys to identify areas of public concern.",
+      "task_type": "Survey Design & Methodology",
+      "user_prompt": "You are a Transportation Planner preparing for a public hearing on the 'Northside Bridge' reconstruction project. The project has faced significant community opposition regarding noise and pedestrian safety. Design a comprehensive survey instrument to gather quantitative and qualitative data from residents, commuters, and local business owners. The survey must include at least 10 questions that effectively measure public sentiment on noise levels, safety perceptions, and alternative route preferences. Explain your methodology for sampling and how you will ensure the data collected is representative of the diverse demographics in the Northside area.",
+      "reference_context": {
+        "project_scope": "Reconstruction of Northside Bridge, 2025-2027",
+        "demographic_data": {
+          "total_residents": 15000,
+          "commuters_percent": 65,
+          "businesses": 120,
+          "languages_spoken": [
+            "English",
+            "Spanish",
+            "Vietnamese"
+          ]
+        },
+        "known_concerns": [
+          "Construction noise during peak hours",
+          "Lack of dedicated bike lanes",
+          "Pedestrian crossing safety"
+        ]
+      },
+      "evaluation_criteria": [
+        "Relevance: Do the survey questions directly address the known concerns and project scope?",
+        "Methodology: Is the sampling strategy sound and does it account for demographic diversity?",
+        "Completeness: Does the instrument include both quantitative and qualitative components?"
+      ],
+      "student_answer": "# Northside Bridge Reconstruction: Community Impact & Sentiment Survey\n\n**Project:** Northside Bridge Reconstruction (2025–2027)\n**Prepared By:** Transportation Planning Division\n**Date:** October 26, 2023\n\n---\n\n## Part 1: Survey Instrument\n\n**Introduction:**\n*Thank you for participating in the Northside Bridge Reconstruction survey. Your feedback is critical to shaping a project that balances infrastructure needs with community well-being. This survey takes approximately 5 minutes. All responses are anonymous.*\n\n### Section A: Respondent Profile (Demographics)\n*Select the option that best describes you.*\n1. **Primary Role:**\n   [ ] Resident\n   [ ] Daily Commuter (Non-resident)\n   [ ] Local Business Owner/Employee\n2. **Primary Language Preference:**\n   [ ] English\n   [ ] Spanish\n   [ ] Vietnamese\n   [ ] Other (Please specify): _______\n\n### Section B: Noise & Construction Impact\n3. **On a scale of 1 to 5, how concerned are you about construction noise during peak hours (7:00 AM – 9:00 AM and 4:00 PM – 6:00 PM)?**\n   [ ] 1 (Not concerned)\n   [ ] 2\n   [ ] 3 (Neutral)\n   [ ] 4\n   [ ] 5 (Extremely concerned)\n\n4. **Which construction activity do you anticipate causing the most disruption to your daily life?**\n   [ ] Pile driving/Heavy machinery noise\n   [ ] Traffic congestion/delays\n   [ ] Dust and air quality\n   [ ] Night-time work\n   [ ] No anticipated disruption\n\n### Section C: Safety & Infrastructure\n5. **How would you rate the current safety of pedestrian crossings on the Northside Bridge?**\n   [ ] Very Safe\n   [ ] Somewhat Safe\n   [ ] Neutral\n   [ ] Somewhat Unsafe\n   [ ] Very Unsafe\n\n6. **To what extent do you agree with the statement: \"The proposed reconstruction plan adequately addresses the need for dedicated bike lanes.\"**\n   [ ] Strongly Agree\n   [ ] Agree\n   [ ] Neutral\n   [ ] Disagree\n   [ ] Strongly Disagree\n\n7. **What specific safety improvement is your highest priority for the new bridge design?**\n   [ ] Wider sidewalks with physical barriers\n   [ ] Dedicated, protected bike lanes\n   [ ] Improved lighting and visibility\n   [ ] Faster crossing signals\n   [ ] Other: _______\n\n### Section D: Route Preferences & Alternatives\n8. **If the Northside Bridge is closed for reconstruction, which alternative route would you primarily use?**\n   [ ] Southside Overpass\n   [ ] River Road Detour\n   [ ] Local Surface Streets (e.g., Maple Ave, 4th St)\n   [ ] Public Transit\n   [ ] Remote Work/Shift Hours\n\n9. **How would you rate the feasibility of using [Alternative Route Name] as a primary detour?**\n   [ ] Very Feasible\n   [ ] Somewhat Feasible\n   [ ] Neutral\n   [ ] Somewhat Infeasible\n   [ ] Very Infeasible\n\n### Section E: Qualitative Feedback\n10. **Please describe one specific change to the construction schedule or bridge design that would significantly improve your quality of life during the 2025–2027 project.**\n    *(Open-ended text box)*\n\n---\n\n## Part 2: Sampling Methodology & Data Representation Strategy\n\n### 1. Stratified Random Sampling Framework\nTo ensure the data reflects the diverse population of the Northside area (15,000 residents, 120 businesses), we will employ a **stratified random sampling** approach. The population will be divided into three distinct strata based on the project scope:\n*   **Stratum A (Residents):** Randomly selected from municipal voter registration and utility records.\n*   **Stratum B (Commuters):** Intercepted at major entry/exit points of the bridge and via digital ads targeting GPS-based commuters.\n*   **Stratum C (Business Owners):** Census of all 120 registered local businesses, with a target of 80% participation.\n\n### 2. Ensuring Demographic Representativeness\nGiven the linguistic diversity (English, Spanish, Vietnamese) and the high commuter percentage (65%), the following measures will be taken to prevent bias:\n\n*   **Linguistic Accessibility:** The survey will be fully translated and culturally adapted into Spanish and Vietnamese. Digital versions will be hosted on platforms popular within these communities (e.g., WhatsApp, Facebook groups specific to Northside ethnic enclaves).\n*   **Multi-Channel Distribution:**\n    *   **Digital:** Email blasts to resident associations and social media ads geo-fenced to the Northside zip code.\n    *   **Physical:** Paper copies available at community centers, libraries, and local businesses, with assistance provided by bilingual staff.\n    *   **In-Person:** \"Pop-up\" survey stations at high-traffic bus stops and the bridge plaza during peak hours to capture non-digital users and commuters.\n*   **Quota Adjustment:** We will monitor response rates in real-time. If the response rate for Spanish or Vietnamese speakers falls below the demographic proportion (approx. 15-20% of the area), we will deploy targeted outreach teams to those specific neighborhoods to meet the quota.\n*   **Business Engagement:** A dedicated follow-up protocol will be used for the 120 local businesses to ensure their unique economic concerns are captured, as they are often underrepresented in general resident surveys.\n\n### 3. Data Validation\nAll collected data will be cross-referenced with the 2020 Census data for the Northside district to verify that the final sample distribution matches the actual population demographics regarding age, income, and language. Any significant deviation will trigger a weighted adjustment in the final analysis.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        5,
+        5,
+        4
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission demonstrates strong professional standards in sampling methodology (stratified random sampling, census for businesses) and accessibility (multi-lingual support), earning high marks for Best Practices and Domain Accuracy. However, Question 9 contains a placeholder error ('[Alternative Route Name]') that undermines the survey's readiness and correctness. While the structure is clear, this oversight prevents a perfect score in Correctness, Completeness, and Clarity."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Collaborate with other professionals to develop sustainable transportation strategies at the local, regional, or national level.",
+      "task_type": "Strategic Planning & Collaboration",
+      "user_prompt": "You are leading a cross-functional team including urban designers, environmental scientists, and financial analysts to develop a 'Sustainable Mobility Corridor' for the 'Westside Industrial Park'. The goal is to reduce single-occupancy vehicle trips by 30% over five years while maintaining economic productivity. Draft a strategic framework that outlines the roles of each professional group, the proposed infrastructure interventions (e.g., EV charging, bike lanes, micro-transit), and a timeline for implementation. Ensure the strategy balances technical feasibility with public policy implications and sustainability goals.",
+      "reference_context": {
+        "current_mobility_stats": {
+          "single_occupancy_vehicle_percent": 78,
+          "public_transit_usage_percent": 12,
+          "active_transport_percent": 10
+        },
+        "budget_constraints": {
+          "total_capital_budget": 15000000,
+          "annual_operational_budget": 500000
+        },
+        "stakeholder_priorities": {
+          "businesses": "Minimize disruption to logistics",
+          "residents": "Improve air quality and safety",
+          "city_planners": "Achieve carbon neutrality targets"
+        }
+      },
+      "evaluation_criteria": [
+        "Collaboration: Does the framework clearly define roles for each professional group?",
+        "Strategic Alignment: Do the proposed interventions directly address the 30% reduction target?",
+        "Balance: Does the plan successfully balance economic, environmental, and social priorities?"
+      ],
+      "student_answer": "# Strategic Framework: Westside Industrial Park Sustainable Mobility Corridor\n\n## 1. Executive Summary\nThis framework outlines a five-year strategy to reduce single-occupancy vehicle (SOV) trips by 30% (from 78% to 54.6%) within the Westside Industrial Park. The approach integrates high-capacity active transport, electrified logistics, and flexible micro-transit to align with business continuity, resident safety, and municipal carbon neutrality goals within a $15M capital and $500k annual operational budget.\n\n## 2. Cross-Functional Team Roles & Responsibilities\n\n| Professional Group | Primary Mandate | Key Deliverables |\n| :--- | :--- | :--- |\n| **Urban Designers** | **Spatial Integration & User Experience** | • Design of protected active transport networks that do not impede heavy logistics.<br>• \"Last-Mile\" micro-hub layouts for micro-transit and EV charging.<br>• Streetscape upgrades prioritizing pedestrian safety and air quality buffers. |\n| **Environmental Scientists** | **Impact Assessment & Sustainability Metrics** | • Air quality modeling to verify resident safety improvements.<br>• Lifecycle carbon analysis for infrastructure materials and EV adoption.<br>• Biodiversity and stormwater management integration in new paving. |\n| **Financial Analysts** | **Fiscal Viability & ROI** | • Cost-benefit analysis of capital interventions vs. long-term operational savings.<br>• Development of a tiered funding model (public grants, private utility partnerships, corporate levies).<br>• Monitoring of SOV reduction metrics against budget spend. |\n\n## 3. Proposed Infrastructure Interventions\n\n### A. Active Transport Network (Target: +15% shift)\n*   **Protected Bike & E-Bike Superhighways:** Dedicated, physically separated lanes connecting residential zones to industrial gates.\n    *   *Design Feature:* Reinforced pavement for e-bike cargo loads; high-visibility lighting for night shifts.\n*   **Pedestrian Safety Corridors:** Widened sidewalks with air-purifying green buffers (urban trees) to address resident air quality concerns.\n\n### B. Electrified Logistics & Charging (Target: +10% shift)\n*   **Heavy-Duty EV Charging Hubs:** Installation of 50 high-power chargers (150kW+) at strategic logistics nodes for fleet electrification.\n*   **Light-Duty EV Incentive Program:** Subsidized Level 2 chargers for employee parking, prioritizing shared-use parking structures to maximize utilization.\n\n### C. Flexible Micro-Transit (Target: +5% shift)\n*   **On-Demand Shuttle Service:** Electric, autonomous-capable shuttles operating on dynamic routes between the park perimeter and major industrial clusters.\n    *   *Operational Model:* App-based booking to optimize load factors, reducing empty runs.\n*   **Logistics Consolidation Centers:** Micro-hubs for parcel delivery consolidation to reduce last-mile delivery truck trips.\n\n## 4. Implementation Timeline (5-Year Horizon)\n\n### Phase 1: Foundation & Pilot (Year 1)\n*   **Q1-Q2:** Comprehensive traffic modeling and environmental baseline assessment.\n*   **Q3:** Secure funding; finalize designs for the \"Core Corridor\" (Urban Design).\n*   **Q4:** Launch pilot micro-transit service on a fixed loop; install first 10 EV charging stations.\n*   *Milestone:* 5% reduction in SOV trips via pilot adoption.\n\n### Phase 2: Infrastructure Rollout (Years 2–3)\n*   **Year 2:** Construction of protected bike lanes and pedestrian corridors; expansion of EV charging to 30 stations.\n*   **Year 3:** Full deployment of on-demand micro-transit; completion of logistics consolidation hubs.\n*   *Milestone:* 15% reduction in SOV trips; measurable improvement in local air quality (Env. Science validation).\n\n### Phase 3: Optimization & Scale (Years 4–5)\n*   **Year 4:** Integration of autonomous shuttle technology; expansion of charging to 50 stations.\n*   **Year 5:** Full network activation; policy enforcement (e.g., congestion pricing for non-compliant heavy vehicles).\n*   *Milestone:* Achieve 30% reduction in SOV trips; full alignment with city carbon neutrality targets.\n\n## 5. Strategic Alignment & Risk Mitigation\n\n| Stakeholder Priority | Strategy | Risk Mitigation |\n| :--- | :--- | :--- |\n| **Businesses**<br>(Minimize Logistics Disruption) | • Construction scheduled during off-peak hours (nights/weekends).<br>• Dedicated \"Logistics-Only\" lanes maintained during active construction. | • Real-time traffic monitoring to reroute heavy trucks if congestion occurs.<br>• Subsidies for fleet electrification to offset transition costs. |\n| **Residents**<br>(Air Quality & Safety) | • Green buffers along residential borders.<br>• Speed-calming measures and high-visibility crossings. | • Continuous air quality monitoring; immediate remediation if thresholds are breached. |\n| **City Planners**<br>(Carbon Neutrality) | • Prioritization of zero-emission vehicles and renewable energy integration.<br>• Data-driven reporting on carbon savings. | • Phased implementation allows for course correction if targets are missed. |\n\n## 6. Financial Overview & Sustainability\n*   **Capital Allocation ($15M):**\n    *   45% Active Transport Infrastructure ($6.75M)\n    *   30% EV Charging & Grid Upgrades ($4.5M)\n    *   15% Micro-Transit Fleet & Tech ($2.25M)\n    *   10% Planning, Design, & Contingency ($1.5M)\n*   **Operational Budget ($500k/yr):**\n    *   Dedicated to micro-transit staffing, maintenance of charging infrastructure, and data analytics.\n    *   *Funding Source:* 60% Municipal Grant, 30% Utility Partnership, 10% Corporate Lease Fees.\n\nThis framework ensures a technically feasible, fiscally responsible, and socially equitable transition to a sustainable mobility corridor, directly addressing the 30% SOV reduction target while preserving the economic vitality of the Westside Industrial Park.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission is professionally structured and addresses core requirements (roles, interventions, timeline, budget). However, it scores a 4 on Correctness and Completeness because it focuses primarily on infrastructure supply without sufficiently analyzing root causes like land-use zoning or work-hour policies that drive SOV dependency in industrial contexts. Financial feasibility is optimistic, particularly the $500k annual OpEx for fleet maintenance and staffing over five years. Best Practices receive a 4 due to the absence of a formal governance or steering committee structure. Domain Accuracy is strong, though the autonomous shuttle timeline is speculative. Clarity is exceptional with clear tables and hierarchy."
+    }
+  ]
+}

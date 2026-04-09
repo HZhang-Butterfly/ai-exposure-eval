@@ -1,0 +1,646 @@
+{
+  "meta": {
+    "job_title": "Family Medicine Physicians",
+    "job_id": "family_medicine_phys",
+    "onet_code": "29-1215.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 13,
+    "evaluated_tasks": 13,
+    "batches": 3,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 4.31,
+      "dimensions": {
+        "Correctness": 4.23,
+        "Completeness": 3.92,
+        "Best Practices": 4.08,
+        "Domain Accuracy": 4.31,
+        "Clarity": 5.0
+      },
+      "evaluated_tasks": 13,
+      "scale_max": 5
+    },
+    "total_time_seconds": 2607.9
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Order, perform, and interpret tests and analyze records, reports, and examination information to diagnose patients' condition.",
+      "task_type": "Clinical Diagnosis and Treatment Planning",
+      "user_prompt": "A 54-year-old male presents with fatigue, polyuria, and blurred vision. His BMI is 32. Lab results show fasting glucose of 145 mg/dL, HbA1c of 7.8%, and LDL of 130 mg/dL. He has a family history of type 2 diabetes. Based on current AAFP guidelines, formulate a comprehensive management plan including diagnostic confirmation steps, lifestyle modifications, and pharmacological interventions, while addressing potential contraindications.",
+      "reference_context": {
+        "patient_profile": {
+          "age": 54,
+          "gender": "Male",
+          "symptoms": [
+            "Fatigue",
+            "Polyuria",
+            "Blurred Vision"
+          ],
+          "vitals": {
+            "bp": "135/85 mmHg",
+            "bmi": 32
+          },
+          "labs": {
+            "fasting_glucose": 145,
+            "hba1c": 7.8,
+            "ldl": 130
+          },
+          "family_history": "Type 2 Diabetes"
+        },
+        "guidelines_reference": "AAFP Guidelines for Type 2 Diabetes Management 2023"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Clinical Accuracy — Does the diagnosis and treatment plan align with current evidence-based guidelines?",
+        "Criterion 2: Safety — Are drug interactions, contraindications, and patient comorbidities properly addressed?",
+        "Criterion 3: Completeness — Does the plan cover diagnosis, medication, lifestyle, and follow-up?"
+      ],
+      "student_answer": "**Diagnosis and Confirmation**\n*   **Working Diagnosis:** Type 2 Diabetes Mellitus (T2DM).\n*   **Diagnostic Confirmation:** The patient meets diagnostic criteria based on HbA1c ≥ 6.5% (7.8%) and fasting plasma glucose ≥ 126 mg/dL (145 mg/dL). Per AAFP guidelines, if the patient is not symptomatic, a second abnormal test is required. However, given the presence of classic symptoms (polyuria, blurred vision, fatigue), a single abnormal test is sufficient for diagnosis.\n*   **Baseline Assessment:** Order a comprehensive metabolic panel (CMP), lipid panel (repeat to confirm LDL), urinalysis for microalbuminuria, and estimated glomerular filtration rate (eGFR). Perform a dilated retinal exam to assess for diabetic retinopathy given blurred vision. Assess for peripheral neuropathy via monofilament testing.\n\n**Lifestyle Modifications (First-Line Therapy)**\n*   **Medical Nutrition Therapy:** Refer to a Registered Dietitian. Implement a calorie-restricted diet (500–750 kcal deficit) emphasizing whole grains, lean proteins, non-starchy vegetables, and limited saturated fats and added sugars.\n*   **Physical Activity:** Prescribe at least 150 minutes of moderate-intensity aerobic activity per week (e.g., brisk walking) spread over ≥3 days, with no more than 2 consecutive days without exercise. Include resistance training 2–3 times per week.\n*   **Weight Management:** Set an initial goal of 5–7% weight loss to improve glycemic control and cardiovascular risk.\n*   **Smoking Cessation:** Screen for tobacco use and provide cessation counseling if applicable.\n\n**Pharmacological Interventions**\n*   **First-Line Agent:** Initiate Metformin immediately, unless contraindicated.\n    *   *Dosing:* Start 500 mg once daily with the evening meal for 1 week, then increase to 500 mg twice daily. Titrate up to 1000 mg twice daily as tolerated.\n    *   *Contraindications:* Do not initiate if eGFR < 30 mL/min/1.73 m². Use with caution if eGFR is 30–45 mL/min/1.73 m² (do not initiate; if already on, reduce dose and monitor). Monitor for Vitamin B12 deficiency with long-term use.\n*   **Cardiovascular Risk Management:**\n    *   **Lipid Control:** Initiate moderate-intensity statin therapy (e.g., Atorvastatin 20 mg or Rosuvastatin 10 mg) given age ≥40 and LDL ≥70 mg/dL.\n    *   **Blood Pressure:** Target BP <130/80 mmHg. Given current BP of 135/85 mmHg, initiate lifestyle measures and consider an ACE inhibitor or ARB (e.g., Lisinopril) if albuminuria is present or if BP remains elevated after 3 months of lifestyle changes.\n\n**Follow-Up and Monitoring**\n*   **Glycemic Control:** Recheck HbA1c in 3 months. Target HbA1c <7.0% for most adults.\n*   **Complication Screening:** Annual dilated eye exam, annual urine albumin-to-creatinine ratio, and annual foot exam.\n*   **Vaccinations:** Ensure up-to-date status for Influenza, Pneumococcal, and Hepatitis B vaccines.\n*   **Referrals:** Refer to a Certified Diabetes Care and Education Specialist (CDCES) for self-management education.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission demonstrates strong clinical reasoning with accurate diagnostic criteria and standard first-line pharmacotherapy (Metformin, Statin, BP management). However, it scores a 4 on Correctness, Completeness, and Best Practices because it omits the consideration of GLP-1 receptor agonists for weight management, which is a key component of 2023 guidelines for patients with BMI ≥30. Additionally, depression screening is not mentioned. Domain Accuracy is 5 as all stated medical facts and dosing are correct. Clarity is 5 due to excellent structure and professional formatting."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Prescribe or administer treatment, therapy, medication, vaccination, and other specialized medical care to treat or prevent illness, disease, or injury.",
+      "task_type": "Medication Management and Vaccination Strategy",
+      "user_prompt": "A 68-year-old female with a history of hypertension, osteoarthritis, and seasonal allergies presents for a wellness visit. She is currently taking lisinopril 20mg, ibuprofen 400mg TID, and loratadine 10mg daily. Her blood pressure is 148/92 mmHg, and she reports knee pain limiting her mobility. She has not received any vaccinations in the last 10 years. Develop a revised medication regimen that addresses her uncontrolled hypertension and pain while minimizing renal risk, and create a catch-up vaccination schedule based on CDC/ACIP guidelines for her age group.",
+      "reference_context": {
+        "patient_profile": {
+          "age": 68,
+          "gender": "Female",
+          "history": [
+            "Hypertension",
+            "Osteoarthritis",
+            "Seasonal Allergies"
+          ],
+          "current_meds": [
+            "Lisinopril 20mg",
+            "Ibuprofen 400mg TID",
+            "Loratadine 10mg"
+          ],
+          "vitals": {
+            "bp": "148/92 mmHg"
+          },
+          "vaccination_history": "None in last 10 years"
+        },
+        "guidelines_reference": "JNC 8 Hypertension Guidelines, CDC/ACIP Adult Immunization Schedule 2023"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Pharmacological Safety — Does the plan identify risks of NSAID use with ACE inhibitors and propose safer alternatives?",
+        "Criterion 2: Guideline Adherence — Are vaccination recommendations accurate for a 68-year-old adult?",
+        "Criterion 3: Holistic Care — Does the plan address both acute pain management and long-term cardiovascular risk reduction?"
+      ],
+      "student_answer": "### Revised Medication Regimen\n\n**1. Hypertension Management**\n*   **Action:** Discontinue Ibuprofen immediately due to significant risk of worsening hypertension and acute kidney injury (AKI) when combined with an ACE inhibitor (lisinopril).\n*   **Adjustment:** Increase Lisinopril to **40mg daily** (max dose) to optimize blood pressure control.\n*   **Addition:** Initiate **Amlodipine 5mg daily** (calcium channel blocker) as a second-line agent to achieve target BP <130/80 mmHg per JNC 8/ACC/AHA guidelines.\n*   **Monitoring:** Check BMP (Basic Metabolic Panel) in 2–4 weeks to monitor renal function and potassium levels.\n\n**2. Osteoarthritis Pain Management**\n*   **Action:** Replace NSAID therapy with a safer analgesic regimen.\n*   **Prescription:** **Acetaminophen 650mg every 6 hours as needed** (max 3g/day) for systemic pain.\n*   **Adjunct:** Prescribe **Topical Diclofenac 1% gel** applied to the knees 4 times daily (minimizes systemic absorption and renal risk compared to oral NSAIDs).\n*   **Non-Pharmacologic:** Refer to Physical Therapy for quadriceps strengthening and gait training to improve mobility and reduce joint load.\n\n**3. Allergy Management**\n*   **Action:** Continue **Loratadine 10mg daily** as currently effective and safe.\n\n---\n\n### Catch-Up Vaccination Schedule (CDC/ACIP 2023)\n\nGiven the patient is 68 years old with no vaccinations in the last 10 years, the following schedule is recommended:\n\n**1. Influenza (Flu)**\n*   **Status:** Annual.\n*   **Action:** Administer **Inactivated Influenza Vaccine (IIV4)** immediately.\n*   **Frequency:** Repeat annually.\n\n**2. Pneumococcal Disease**\n*   **Status:** Indicated for all adults ≥65 years.\n*   **Action:** Administer **PCV20 (Pneumococcal Conjugate Vaccine 20-valent)** as a single dose.\n    *   *Alternative:* If PCV20 is unavailable, administer **PCV15** followed by **PPSV23** at least 1 year later.\n*   **Frequency:** Single dose (or 2-dose series if PCV15 used).\n\n**3. Herpes Zoster (Shingles)**\n*   **Status:** Indicated for adults ≥50 years.\n*   **Action:** Administer **Recombinant Zoster Vaccine (RZV, Shingrix)** (2-dose series).\n*   **Schedule:** Dose 1 now; Dose 2 in 2–6 months.\n\n**4. Tetanus, Diphtheria, Pertussis (Tdap/Td)**\n*   **Status:** Catch-up required (last dose >10 years ago).\n*   **Action:** Administer **Tdap** (Tetanus, Diphtheria, acellular Pertussis) immediately.\n*   **Future:** Administer **Td** or **Tdap** booster every 10 years thereafter.\n\n**5. Hepatitis B**\n*   **Status:** Indicated for all adults 19–59 years; for adults ≥60 years, it is recommended based on risk factors (e.g., diabetes, chronic liver disease, or high-risk behaviors).\n*   **Action:** Assess risk factors. If risk factors are present or patient preference aligns, initiate **Hepatitis B Vaccine series** (3 doses: 0, 1, and 6 months). If no risk factors, this may be deferred or discussed as a shared decision.\n\n**6. SARS-CoV-2**\n*   **Status:** Recommended for all adults.\n*   **Action:** Administer the most recent updated **mRNA vaccine** (e.g., 2023-2024 formulation) if not received within the last 6 months.\n\n**Summary of Immediate Orders:**\n1.  Stop Ibuprofen.\n2.  Start Amlodipine 5mg daily.\n3.  Increase Lisinopril to 40mg daily.\n4.  Start Acetaminophen PRN and Topical Diclofenac.\n5.  Administer: Flu, PCV20, Tdap, and Shingrix (Dose 1).\n6.  Schedule follow-up in 4 weeks for BP check and BMP.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        5,
+        4,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "Correctness (5): Clinical decisions are safe and effective, particularly the cessation of oral NSAIDs to protect renal function. Completeness (4): While medication and vaccine plans are detailed, explicit lifestyle counseling for hypertension (e.g., DASH diet, sodium restriction) is omitted, which is a standard component of comprehensive HTN management. Best Practices (5): Prioritizes patient safety by addressing the high-risk NSAID-ACE inhibitor interaction and follows current ACIP immunization guidelines accurately. Domain Accuracy (4): Cites JNC 8 for a blood pressure target of <130/80 mmHg; JNC 8 recommends <150/90 for patients >60, whereas <130/80 is from ACC/AHA 2017 guidelines, creating a minor citation inaccuracy. Clarity (5): The response is well-structured, easy to follow, and includes a clear summary of orders."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Collect, record, and maintain patient information, such as medical history, reports, or examination results.",
+      "task_type": "Comprehensive History Taking and Risk Stratification",
+      "user_prompt": "A 32-year-old female presents with a 3-month history of irregular menstrual cycles, hirsutism, and weight gain. She reports a BMI of 31 and a family history of gestational diabetes. She is sexually active and desires pregnancy within the next year. Review the provided clinical vignette to construct a structured differential diagnosis, identify necessary diagnostic tests to confirm Polycystic Ovary Syndrome (PCOS), and outline a preconception care plan that addresses metabolic health and fertility.",
+      "reference_context": {
+        "patient_profile": {
+          "age": 32,
+          "gender": "Female",
+          "symptoms": [
+            "Irregular Menses",
+            "Hirsutism",
+            "Weight Gain"
+          ],
+          "vitals": {
+            "bmi": 31
+          },
+          "family_history": "Gestational Diabetes",
+          "reproductive_status": "Sexually active, desires pregnancy"
+        },
+        "guidelines_reference": "Endocrine Society Clinical Practice Guidelines for PCOS, ACOG Preconception Care Guidelines"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Diagnostic Rigor — Are the correct exclusion criteria and lab tests (e.g., TSH, prolactin, 17-OHP) specified to rule out other causes?",
+        "Criterion 2: Fertility Planning — Does the plan include specific interventions for ovulation induction or lifestyle changes to improve fertility outcomes?",
+        "Criterion 3: Metabolic Risk — Is the risk of gestational diabetes and cardiovascular disease addressed in the preconception plan?"
+      ],
+      "student_answer": "### Structured Differential Diagnosis\n1.  **Polycystic Ovary Syndrome (PCOS):** Most likely given the triad of oligo/anovulation (irregular menses), clinical hyperandrogenism (hirsutism), and obesity (BMI 31).\n2.  **Non-Classic Congenital Adrenal Hyperplasia (NCCAH):** Can present with hirsutism and menstrual irregularities; must be ruled out via 17-hydroxyprogesterone.\n3.  **Thyroid Dysfunction:** Hypothyroidism can cause weight gain, menstrual irregularities, and hair changes.\n4.  **Hyperprolactinemia:** Can cause menstrual irregularities and anovulation, though less commonly associated with hirsutism.\n5.  **Cushing’s Syndrome:** Considered due to weight gain and menstrual irregularities, though hirsutism is less specific; look for striae, moon facies, or proximal muscle weakness.\n6.  **Androgen-Secreting Tumor:** Unlikely given the 3-month history and lack of rapid virilization, but must be considered if testosterone levels are markedly elevated.\n\n### Diagnostic Workup to Confirm PCOS\n*Per Endocrine Society Guidelines (Rotterdam Criteria: 2 of 3: Oligo/anovulation, Hyperandrogenism, Polycystic Ovaries).*\n\n**1. Laboratory Evaluation:**\n*   **Androgen Profile:** Total and free testosterone, DHEA-S (to assess adrenal contribution).\n*   **17-Hydroxyprogesterone:** Fasting morning level to rule out Non-Classic CAH.\n*   **Thyroid Function:** TSH (to rule out thyroid disease).\n*   **Prolactin:** To rule out hyperprolactinemia.\n*   **Metabolic Screening:**\n    *   Fasting glucose and HbA1c (baseline).\n    *   75g Oral Glucose Tolerance Test (OGTT) is preferred over fasting glucose alone for PCOS patients due to high risk of insulin resistance.\n    *   Fasting lipid profile.\n*   **Pregnancy Test:** Serum or urine hCG (mandatory prior to initiating any hormonal therapy or ovulation induction).\n\n**2. Imaging:**\n*   **Pelvic Ultrasound (Transvaginal preferred):** To assess for polycystic ovarian morphology (≥20 follicles per ovary or ovarian volume >10 mL). *Note: Ultrasound is not required if clinical/biochemical hyperandrogenism and ovulatory dysfunction are already present.*\n\n### Preconception Care Plan\n\n**1. Metabolic Optimization & Lifestyle Intervention**\n*   **Weight Management:** Target a 5–10% reduction in body weight prior to conception. This often restores spontaneous ovulation and improves pregnancy outcomes.\n*   **Dietary Modification:** Low glycemic index diet with caloric restriction tailored to BMI 31.\n*   **Physical Activity:** Minimum 150 minutes of moderate-intensity aerobic exercise per week plus resistance training.\n*   **Supplementation:** Initiate **Folic Acid 400–800 mcg daily** immediately to prevent neural tube defects. Consider Vitamin D supplementation if levels are low.\n\n**2. Fertility Management**\n*   **Ovulation Induction:** Given the desire for pregnancy within one year and confirmed anovulation:\n    *   **First-line:** Letrozole (aromatase inhibitor) is superior to Clomiphene Citrate for ovulation induction in PCOS patients.\n    *   **Second-line:** Metformin may be added if there is significant insulin resistance or if letrozole fails, though it is less effective as a sole agent for ovulation induction compared to letrozole.\n*   **Monitoring:** Serial ultrasound monitoring during induction cycles to assess follicular development and mitigate risk of multiple gestation or OHSS.\n\n**3. Risk Mitigation**\n*   **Gestational Diabetes Prevention:** Due to BMI 31 and family history, schedule early screening for GDM (at first prenatal visit) rather than waiting for 24–28 weeks.\n*   **Hypertension/Preeclampsia:** Monitor blood pressure at every visit; consider low-dose aspirin (81 mg) starting at 12 weeks gestation if other risk factors persist.\n*   **Contraception:** If pregnancy is not achieved within 6 months of ovulation induction, refer to a Reproductive Endocrinologist for further evaluation (e.g., tubal patency testing, partner semen analysis).",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission is medically accurate and follows current guidelines (Endocrine Society, ACOG, ASRM) regarding PCOS diagnosis (Rotterdam criteria), workup (OGTT preference), and treatment (Letrozole first-line). Domain accuracy and clarity are exceptional. However, it scores 4 on Completeness and Best Practices due to specific omissions: it fails to state the HbA1c diagnostic thresholds for metabolic screening and does not explicitly mention checking renal function (eGFR) prior to initiating Metformin, which is a critical safety best practice in a preconception care plan."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Monitor patients' conditions and progress and reevaluate treatments as necessary.",
+      "task_type": "Chronic Disease Monitoring and Treatment Adjustment",
+      "user_prompt": "A 72-year-old male with a history of ischemic heart disease and chronic kidney disease (CKD Stage 3) presents for a follow-up. He was started on metoprolol succinate 50mg and atorvastatin 40mg six months ago. Current vitals show BP 130/80 mmHg, HR 62 bpm. Recent labs show eGFR 45 mL/min/1.73m2, K+ 5.1 mEq/L, and LDL 95 mg/dL. He reports mild fatigue. Evaluate his current regimen for safety regarding renal function and hyperkalemia, and adjust the treatment plan to optimize cardiovascular protection while adhering to KDIGO guidelines.",
+      "reference_context": {
+        "patient_profile": {
+          "age": 72,
+          "gender": "Male",
+          "history": [
+            "Ischemic Heart Disease",
+            "CKD Stage 3"
+          ],
+          "current_meds": [
+            "Metoprolol Succinate 50mg",
+            "Atorvastatin 40mg"
+          ],
+          "vitals": {
+            "bp": "130/80 mmHg",
+            "hr": 62
+          },
+          "labs": {
+            "egfr": 45,
+            "potassium": 5.1,
+            "ldl": 95
+          }
+        },
+        "guidelines_reference": "KDIGO 2021 Clinical Practice Guideline for the Management of Blood Pressure in CKD, ACC/AHA Cholesterol Guidelines"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Renal Safety — Does the response address the potassium level and potential need to adjust or discontinue specific agents?",
+        "Criterion 2: Guideline Alignment — Are blood pressure and lipid targets appropriate for a patient with CKD and established CVD?",
+        "Criterion 3: Symptom Correlation — Is the reported fatigue evaluated in the context of medication side effects or disease progression?"
+      ],
+      "student_answer": "**Assessment of Current Regimen**\n*   **Renal Safety:** Metoprolol succinate and atorvastatin are safe for use in CKD Stage 3 (eGFR 45 mL/min/1.73m²) with no dose adjustment required.\n*   **Hyperkalemia Risk:** The patient's potassium is 5.1 mEq/L. While not immediately life-threatening, this is elevated for a patient not currently on a RAAS inhibitor (ACEi/ARB/MRA). In the context of ischemic heart disease and CKD, the absence of a renoprotective agent is a missed opportunity, but initiating one now carries a risk of worsening hyperkalemia.\n*   **Cardiovascular Protection:** LDL 95 mg/dL is above the target (<70 mg/dL) for very high-risk ASCVD patients per ACC/AHA guidelines. BP 130/80 mmHg is at goal per KDIGO (target <130/80 mmHg). Heart rate is acceptable.\n\n**Treatment Plan Adjustments**\n\n1.  **Hyperkalemia Management (Priority):**\n    *   **Action:** Do **not** initiate an ACE inhibitor or ARB at this time due to K+ 5.1 mEq/L.\n    *   **Intervention:** Recheck serum potassium in 1–2 weeks. Implement dietary counseling to limit high-potassium foods.\n    *   **Future Plan:** Once K+ is <5.0 mEq/L, initiate a low-dose ACE inhibitor (e.g., Lisinopril 2.5–5 mg daily) or ARB (e.g., Losartan 25 mg daily) for renal and cardiovascular protection, titrating slowly with close monitoring of K+ and creatinine.\n\n2.  **Lipid Management:**\n    *   **Action:** Increase Atorvastatin intensity.\n    *   **Regimen:** Increase Atorvastatin from 40 mg to **80 mg daily**.\n    *   **Rationale:** Patient is at very high risk for ASCVD events. KDIGO and ACC/AHA guidelines recommend high-intensity statin therapy (maximally tolerated) to lower LDL to <70 mg/dL. No dose adjustment is needed for eGFR 45.\n\n3.  **Blood Pressure & Heart Rate:**\n    *   **Action:** Maintain current Metoprolol succinate 50 mg daily.\n    *   **Rationale:** BP is at target (130/80 mmHg) and HR is appropriate (62 bpm). No changes needed.\n\n4.  **Follow-Up:**\n    *   Re-evaluate in 4 weeks to assess tolerance of high-intensity statin, repeat lipid panel, and re-check renal function and potassium prior to considering RAAS inhibitor initiation.",
+      "score": 3.4,
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is well-structured and clear (Clarity 5). However, it contains a significant guideline inaccuracy regarding KDIGO 2021 blood pressure targets (KDIGO recommends SBP <120 mmHg, not 130/80 mmHg), impacting Correctness and Domain Accuracy (3). Additionally, the management of hyperkalemia omits modern best practices regarding potassium binders (e.g., patiromer, sodium zirconium cyclosilicate) which facilitate RAAS inhibitor use in CKD patients with mild hyperkalemia, affecting Completeness and Best Practices (3). The statin adjustment is appropriate, but general lifestyle counseling beyond potassium restriction is missing."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Explain procedures and discuss test results or prescribed treatments with patients.",
+      "task_type": "Patient Communication and Shared Decision Making",
+      "user_prompt": "A 45-year-old male with a strong family history of colorectal cancer (father diagnosed at 48) presents with a positive fecal immunochemical test (FIT). He has limited health literacy and expresses significant anxiety about colonoscopy, fearing pain and embarrassment. Based on USPSTF guidelines, explain the necessity of a diagnostic colonoscopy, address his specific fears using culturally sensitive and health-literacy-appropriate language, and outline the procedure steps and preparation requirements to facilitate informed consent and adherence.",
+      "reference_context": {
+        "patient_profile": {
+          "age": 45,
+          "gender": "Male",
+          "risk_factors": [
+            "Positive FIT",
+            "Father diagnosed with CRC at 48"
+          ],
+          "health_literacy": "Limited",
+          "concerns": [
+            "Fear of pain",
+            "Fear of embarrassment"
+          ]
+        },
+        "guidelines_reference": "USPSTF Colorectal Cancer Screening Recommendations, AAFP Patient Communication Best Practices"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Communication Effectiveness — Is the explanation of the procedure and risks simplified and tailored to low health literacy?",
+        "Criterion 2: Empathy and Cultural Sensitivity — Does the response validate the patient's fears and use non-judgmental language?",
+        "Criterion 3: Clinical Urgency — Is the link between the positive FIT, family history, and the need for immediate colonoscopy clearly established?"
+      ],
+      "student_answer": "**Why You Need This Test**\nYour recent stool test showed blood, which is a warning sign that something needs to checked inside your colon. Because your father had colon cancer at a young age, you are at higher risk. The stool test is a screening tool, but it cannot tell us exactly what is causing the blood. A colonoscopy is the only way to see inside your colon, find the problem, and fix it right away. If we find a small growth (polyp), we can remove it during this same visit to prevent cancer from starting. Waiting is not safe because early detection saves lives.\n\n**Addressing Your Worries**\n*   **About Pain:** You will not feel pain during the procedure. We give you medicine through an IV to help you relax and sleep deeply. You will not feel anything, and you will not remember the procedure. Most patients wake up feeling fine.\n*   **About Embarrassment:** This is a very common worry, but please know that your care team has done this hundreds of times. We are medical professionals, and we treat every patient with dignity and respect. We will ensure your privacy at all times. Your body is just a body to us; we are focused entirely on your health and safety.\n\n**What to Expect: The Procedure Steps**\n1.  **Arrival:** You will check in and change into a hospital gown.\n2.  **Sedation:** A nurse will start an IV. You will receive medicine to make you very relaxed and sleepy.\n3.  **The Exam:** A doctor will gently insert a thin, flexible tube with a camera into your rectum. This takes about 15 to 30 minutes. You will be on your side, and the doctor will guide the tube carefully.\n4.  **Recovery:** You will wake up in a recovery room. You will feel groggy but safe. You cannot drive yourself home, so please arrange for a friend or family member to take you.\n\n**Preparation: Getting Ready**\nTo see clearly, your colon must be empty. This is the most important part of the process.\n*   **Diet:** For 1 to 2 days before the test, you will eat only clear liquids (water, broth, clear juice, gelatin). No solid food.\n*   **Medicine:** You will drink a special laxative solution the night before. It may taste salty or sweet; you can add flavoring if allowed.\n*   **Hydration:** Drink plenty of water while taking the medicine to stay hydrated.\n*   **Timing:** You must finish the preparation the night before so your colon is clean by the morning of the test.\n\n**Next Steps**\nPlease sign the consent form to confirm you understand this is necessary for your health. If you have questions about the medicine or the diet, ask us now. We are here to support you every step of the way.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "Correctness (4): The submission correctly explains the clinical necessity but fails to explicitly reference USPSTF guidelines as requested in the task prompt. Completeness (4): While procedure and prep are detailed, the informed consent section omits material risks (e.g., bleeding, perforation) required for true informed consent, though simplified for literacy. Best Practices (4): Communication is empathetic, but the phrase 'Your body is just a body to us' is slightly dehumanizing and could be more culturally sensitive. Domain Accuracy (5): All medical facts regarding FIT, colonoscopy, sedation, and prep are accurate. Clarity (5): The structure, headings, and language are highly accessible for a patient with limited health literacy."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Advise patients and community members concerning diet, activity, hygiene, and disease prevention.",
+      "task_type": "Preventive Care and Lifestyle Counseling",
+      "user_prompt": "A 45-year-old female with a BMI of 34 presents for a routine check-up. She has no diagnosed chronic conditions but reports a sedentary lifestyle and a diet high in processed foods. Her blood pressure is 128/82 mmHg. Based on USPSTF guidelines, develop a comprehensive preventive care plan that includes specific dietary recommendations, an activity progression plan, and screening schedules appropriate for her age and risk profile, ensuring the advice is tailored to her reported low health literacy.",
+      "reference_context": {
+        "patient_profile": {
+          "age": 45,
+          "gender": "Female",
+          "bmi": 34,
+          "lifestyle": "Sedentary, high processed food intake",
+          "vitals": {
+            "bp": "128/82 mmHg"
+          }
+        },
+        "guidelines_reference": "USPSTF Recommendations for Obesity and Cardiovascular Risk Prevention"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Guideline Adherence — Does the plan align with current USPSTF recommendations for obesity and preventive screening?",
+        "Criterion 2: Health Literacy — Is the communication strategy simplified and culturally sensitive for a patient with low health literacy?",
+        "Criterion 3: Actionability — Are the diet and activity recommendations specific, measurable, and progressive?"
+      ],
+      "student_answer": "# Comprehensive Preventive Care Plan\n**Patient:** 45-year-old Female | **BMI:** 34 (Obesity Class I) | **Risk Profile:** Sedentary, High Processed Food Intake, Elevated BP (Prehypertension range)\n\n## 1. Simplified Nutrition Plan (Low Health Literacy Focus)\n*Goal: Reduce processed food intake and increase whole foods without complex counting.*\n\n*   **The \"Plate Method\" (No counting needed):**\n    *   **Half your plate:** Vegetables and fruits (fresh, frozen, or canned with no added sugar).\n    *   **One-quarter plate:** Lean protein (chicken, fish, beans, eggs, tofu).\n    *   **One-quarter plate:** Whole grains (brown rice, whole wheat bread, oatmeal).\n*   **Swap, Don't Stop:**\n    *   Instead of \"cutting out\" foods, swap them for healthier versions.\n    *   *Swap:* Soda → Water or sparkling water with lemon.\n    *   *Swap:* Chips/Crackers → Apple slices with peanut butter or a handful of nuts.\n    *   *Swap:* White bread/pasta → Whole grain versions.\n*   **Read Labels Simply:**\n    *   Look at the \"Total Sugars\" and \"Sodium\" lines. Try to pick items with less than 5 grams of sugar and less than 140 mg of sodium per serving.\n    *   Avoid foods where \"sugar,\" \"syrup,\" or \"flour\" are the first 3 ingredients.\n*   **Hydration:** Drink a full glass of water before every meal to help feel full.\n\n## 2. Activity Progression Plan (Sedentary to Active)\n*Goal: Build consistency before intensity. Start small to avoid injury.*\n\n*   **Weeks 1–4: The \"Walk\" Phase**\n    *   **Action:** Walk for 10 minutes, 3 days a week.\n    *   **Tip:** Park further away from the store entrance or walk while talking on the phone.\n    *   **Goal:** Make it a habit, not a workout.\n*   **Weeks 5–8: The \"Double Up\" Phase**\n    *   **Action:** Increase to 15–20 minutes, 4 days a week.\n    *   **Tip:** Try to walk at a pace where you can talk but not sing.\n*   **Weeks 9+: The \"Strength & Speed\" Phase**\n    *   **Action:** 30 minutes of walking 5 days a week. Add light body-weight exercises (like standing up from a chair or wall push-ups) 2 days a week.\n    *   **Goal:** Reach 150 minutes of moderate activity per week (USPSTF recommendation).\n\n## 3. Screening & Prevention Schedule (USPSTF Aligned)\n*Based on age 45, BMI 34, and elevated blood pressure.*\n\n| Screening Category | Test/Action | Frequency | Notes for Patient |\n| :--- | :--- | :--- | :--- |\n| **Cardiovascular** | **Blood Pressure Check** | Every 1–2 years (or sooner) | Currently 128/82. Monitor at home if possible. |\n| **Cardiovascular** | **Lipid Panel** | Every 4–6 years (or sooner) | Checks cholesterol; start now due to BMI and diet. |\n| **Metabolic** | **Diabetes Screening (A1C)** | Every 3 years | High BMI and diet increase risk. |\n| **Cancer** | **Colorectal Cancer** | Start now (Age 45) | Annual stool test OR colonoscopy every 10 years. |\n| **Cancer** | **Breast Cancer** | Mammogram | Every 2 years (USPSTF) or annually per preference. |\n| **Cancer** | **Cervical Cancer** | Pap Smear | Every 3 years (ages 30–65). |\n| **Mental Health** | **Depression Screening** | At every visit | Brief questionnaire to check mood and stress. |\n| **Lifestyle** | **Obesity Counseling** | Every visit | Focus on small, achievable changes. |\n\n## 4. Next Steps & Follow-Up\n1.  **Schedule Follow-up:** Return in 3 months to review blood pressure, weight, and how the diet/activity changes are going.\n2.  **Home Monitoring:** Purchase a simple blood pressure cuff to check once a week and write down the numbers.\n3.  **Support:** Ask a family member or friend to join you for one walk per week to stay motivated.\n\n*Note: This plan is based on current USPSTF guidelines. Always consult your primary care provider before starting new supplements or intense exercise routines.*",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        3,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "Correctness (4): Clinical actions are safe and appropriate, though BP classification terminology is outdated. Completeness (4): Diet, activity, and screening covered well; standard immunizations omitted. Best Practices (4): Strong patient-centered, low-literacy focus. Domain Accuracy (3): Uses obsolete 'Prehypertension' term and slightly misstates USPSTF breast cancer screening age 45 recommendation. Clarity (5): Highly structured and accessible."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Refer patients to medical specialists or other practitioners when necessary.",
+      "task_type": "Referral and Care Coordination",
+      "user_prompt": "A 68-year-old male with a history of hypertension and type 2 diabetes presents with worsening lower extremity edema, shortness of breath on exertion, and an ejection fraction of 35% on recent echocardiogram. His current medications include lisinopril, metformin, and aspirin. Determine the appropriate specialist referral pathway, draft a referral summary highlighting critical clinical data and potential drug interactions, and outline the immediate management steps the primary care physician should take while the patient awaits specialist evaluation.",
+      "reference_context": {
+        "patient_profile": {
+          "age": 68,
+          "gender": "Male",
+          "history": [
+            "Hypertension",
+            "Type 2 Diabetes"
+          ],
+          "symptoms": [
+            "Lower extremity edema",
+            "Dyspnea on exertion"
+          ],
+          "labs_imaging": {
+            "ef": 35,
+            "current_meds": [
+              "Lisinopril",
+              "Metformin",
+              "Aspirin"
+            ]
+          }
+        },
+        "guidelines_reference": "ACC/AHA Guidelines for Heart Failure Management"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Referral Appropriateness — Is the referral to the correct specialist (e.g., Cardiology) justified by the clinical presentation?",
+        "Criterion 2: Safety — Does the plan address potential contraindications or interactions with current medications?",
+        "Criterion 3: Communication — Is the referral summary concise, accurate, and includes all critical data for the specialist?"
+      ],
+      "student_answer": "**Specialist Referral Pathway**\nImmediate referral to a Cardiologist with a subspecialty focus in Heart Failure (HF) or a dedicated Heart Failure Clinic. Given the patient's reduced ejection fraction (HFrEF) and symptomatic decompensation, a \"Heart Failure\" specific pathway is preferred over a general cardiology referral to ensure rapid initiation of guideline-directed medical therapy (GDMT).\n\n**Referral Summary**\n\n**Patient:** 68-year-old Male\n**Reason for Referral:** New diagnosis of symptomatic Heart Failure with Reduced Ejection Fraction (HFrEF) and acute decompensation.\n\n**Critical Clinical Data:**\n*   **History:** Hypertension, Type 2 Diabetes Mellitus.\n*   **Presenting Symptoms:** Worsening bilateral lower extremity edema, dyspnea on exertion (NYHA Class II-III).\n*   **Diagnostic Findings:** Echocardiogram reveals Left Ventricular Ejection Fraction (LVEF) of 35%.\n*   **Current Medications:**\n    *   Lisinopril (ACE Inhibitor)\n    *   Metformin (Biguanide)\n    *   Aspirin (Antiplatelet)\n\n**Potential Drug Interactions & Clinical Considerations:**\n*   **Metformin & Renal Function:** In the setting of acute heart failure and potential hemodynamic instability, there is an elevated risk of lactic acidosis. Metformin should be held pending assessment of renal function (eGFR) and volume status.\n*   **ACE Inhibitor & Potassium:** Lisinopril requires monitoring of serum potassium and creatinine, especially if diuretics or mineralocorticoid receptor antagonists are initiated.\n*   **Aspirin:** Continue unless contraindicated by bleeding risk; however, verify if the indication is secondary prevention for coronary artery disease (CAD) given the high likelihood of ischemic etiology.\n\n**Immediate Management Steps (Primary Care)**\n\n1.  **Medication Adjustment:**\n    *   **Hold Metformin** immediately to reduce the risk of metformin-associated lactic acidosis in the setting of potential renal hypoperfusion.\n    *   **Continue Lisinopril** unless the patient is hypotensive (SBP < 90 mmHg) or has acute kidney injury (creatinine rise >30% from baseline).\n    *   **Continue Aspirin** pending cardiology review of ischemic history.\n\n2.  **Volume Management:**\n    *   Initiate a loop diuretic (e.g., Furosemide 20–40 mg PO BID) to manage congestion, titrating based on daily weight and symptom response.\n    *   Implement strict sodium restriction (<2g/day) and fluid restriction (1.5–2L/day) if hyponatremia is present or symptoms are severe.\n\n3.  **Monitoring & Diagnostics:**\n    *   Obtain baseline labs: BMP (electrolytes, BUN/Creatinine), CBC, TSH, and BNP/NT-proBNP.\n    *   Monitor daily weights and strict intake/output.\n    *   Assess for orthostatic hypotension before and after diuretic initiation.\n\n4.  **Patient Education:**\n    *   Instruct the patient to report immediate worsening of dyspnea, chest pain, or inability to lie flat (orthopnea).\n    *   Educate on daily weight monitoring (report gain >2-3 lbs in 24 hours or >5 lbs in a week).\n\n5.  **Follow-up:**\n    *   Schedule a follow-up appointment within 3–5 days to review renal function, electrolytes, and response to diuretic therapy prior to the specialist visit.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "The submission is well-structured and clinically safe regarding immediate stabilization (Metformin hold, diuretics, ACEi monitoring), earning high marks for Clarity and Correctness of stated advice. However, it fails to include SGLT2 inhibitors and Beta-blockers in the management plan, which are critical components of current ACC/AHA HFrEF GDMT, particularly in a patient with T2DM. This omission represents a significant gap in Completeness and adherence to Best Practices. Terminology is accurate, but the domain knowledge regarding modern pharmacotherapy is slightly dated."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Coordinate work with nurses, social workers, rehabilitation therapists, pharmacists, psychologists, and other health care providers.",
+      "task_type": "Multidisciplinary Care Planning",
+      "user_prompt": "A 72-year-old female with recent hip fracture, mild cognitive impairment, and social isolation is being discharged to home. She requires physical therapy, wound care, and medication reconciliation. Develop a coordinated discharge plan that outlines the specific roles of the nurse, physical therapist, pharmacist, and social worker, including a timeline for follow-up visits and a strategy for ensuring medication adherence given her cognitive status.",
+      "reference_context": {
+        "patient_profile": {
+          "age": 72,
+          "gender": "Female",
+          "condition": "Recent hip fracture",
+          "comorbidities": [
+            "Mild cognitive impairment",
+            "Social isolation"
+          ],
+          "needs": [
+            "Physical therapy",
+            "Wound care",
+            "Medication reconciliation"
+          ]
+        },
+        "guidelines_reference": "AAFP Guidelines on Discharge Planning for Geriatric Patients"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Role Clarity — Are the responsibilities of each team member (nurse, PT, pharmacist, social worker) clearly defined?",
+        "Criterion 2: Safety — Does the plan address medication safety and fall prevention given the patient's cognitive status?",
+        "Criterion 3: Coordination — Is there a clear timeline and communication strategy for the multidisciplinary team?"
+      ],
+      "student_answer": "# Coordinated Discharge Plan: 72-Year-Old Female with Hip Fracture and Mild Cognitive Impairment\n\n## 1. Role-Specific Responsibilities\n\n### **Registered Nurse (RN)**\n*   **Wound Care Management:** Perform initial post-operative wound assessment, teach the home health aide or family member (if available) on sterile dressing changes, and establish a daily log for wound monitoring.\n*   **Safety Assessment:** Conduct a home safety evaluation (e.g., removing rugs, ensuring adequate lighting, installing grab bars) prior to discharge.\n*   **Education:** Provide simplified, written instructions with large font and visual aids regarding hip precautions (no flexion >90°, no crossing legs) and signs of infection or DVT.\n*   **Coordination:** Serve as the primary point of contact for the home health agency and the primary care physician (PCP).\n\n### **Physical Therapist (PT)**\n*   **Mobility Training:** Instruct the patient on safe transfer techniques (bed to chair, toilet) using assistive devices (walker or crutches) with weight-bearing status as ordered.\n*   **Gait Training:** Conduct supervised ambulation training to prevent falls, focusing on balance and endurance.\n*   **Exercise Prescription:** Develop a home exercise program (HEP) focusing on hip abductor strengthening and range of motion, demonstrated to the patient and a designated caregiver.\n*   **Equipment Recommendation:** Ensure the patient has appropriate durable medical equipment (DME) such as a raised toilet seat, shower chair, and walker before discharge.\n\n### **Pharmacist**\n*   **Medication Reconciliation:** Review all pre-admission and inpatient medications to identify duplications, interactions, and high-risk medications (e.g., anticholinergics, benzodiazepines) that may worsen cognitive status.\n*   **Simplification:** Consolidate dosing schedules to minimize pill burden; utilize blister packs or automated dispensers.\n*   **Adherence Strategy:** Implement a \"teach-back\" method to confirm understanding of new medications. Recommend a pill organizer with daily compartments and set up automatic refills.\n*   **Monitoring:** Establish a protocol for monitoring renal function and electrolytes if new diuretics or anticoagulants were initiated.\n\n### **Social Worker (SW)**\n*   **Resource Linkage:** Arrange for home health nursing and physical therapy services through insurance authorization.\n*   **Support System Activation:** Identify and engage any distant relatives, neighbors, or community volunteers to mitigate social isolation; connect the patient with local senior meal delivery (Meals on Wheels) and transportation services.\n*   **Advocacy:** Assess for potential elder abuse or neglect risks given the isolation and cognitive status.\n*   **Financial Planning:** Assist with applications for supplemental insurance or financial aid if out-of-pocket costs for DME or home care are prohibitive.\n\n---\n\n## 2. Follow-Up Timeline\n\n| Timeframe | Provider | Action Item |\n| :--- | :--- | :--- |\n| **Within 48 hours** | RN / Home Health | First home visit: Wound check, DME verification, and safety reassessment. |\n| **Within 72 hours** | Pharmacist | Medication reconciliation review and adherence tool setup (pill box/dispenser). |\n| **Day 3** | Physical Therapist | First home PT session: Gait training and HEP reinforcement. |\n| **Day 7** | Primary Care Physician | Post-discharge clinic visit: Wound evaluation, fracture healing check, and medication review. |\n| **Day 14** | Social Worker | Follow-up call: Assess social support utilization, meal delivery status, and isolation levels. |\n| **Day 30** | Multidisciplinary Team | Comprehensive review: PT progress, wound status, and cognitive function reassessment. |\n\n---\n\n## 3. Medication Adherence Strategy for Mild Cognitive Impairment\n\nGiven the patient's cognitive status, a multi-layered approach is required to ensure safety and compliance:\n\n1.  **Simplified Regimen:** The pharmacist will reduce the total number of daily doses to once or twice daily where clinically feasible.\n2.  **Visual Aids:** The nurse will provide a large-print, color-coded medication schedule chart placed directly above the medication container.\n3.  **Technology:** Utilization of an automated pill dispenser that locks and unlocks at specific times, emitting an audible alarm and sending a notification to a designated family member or caregiver if a dose is missed.\n4.  **Caregiver Involvement:** If a family member or friend is identified by the Social Worker, they will be trained to administer medications directly. If no caregiver is available, the home health nurse will be instructed to administer medications during visits.\n5.  **Teach-Back Verification:** At every interaction, the provider will ask the patient to demonstrate how they take their medication or explain the purpose of the drug to ensure retention.\n6.  **Blister Packing:** All medications will be pre-sorted into a weekly blister pack by the pharmacy to eliminate the need for the patient to sort pills manually.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        5,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission correctly addresses all task requirements (roles, timeline, adherence) with high domain accuracy and clarity. Best practices for geriatric discharge (teach-back, safety assessment) are well-integrated. A score of 4 for Completeness is assigned because, while the medication reconciliation is covered, a truly exceptional hip fracture discharge plan would explicitly detail pain management protocols and DVT prophylaxis education as distinct priorities, rather than subsuming them under general reconciliation. The 'Additional Checks' regarding diabetes (HbA1c) were irrelevant to the patient profile and correctly ignored by the student."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Plan, implement, or administer health programs or standards in hospitals, businesses, or communities for prevention or treatment of injury or illness.",
+      "task_type": "Community Health Program Design",
+      "user_prompt": "You are tasked with designing a community-based hypertension management program for a low-income urban neighborhood with high rates of uncontrolled blood pressure. The program must address barriers such as cost of medication, lack of transportation, and limited health literacy. Outline the program's objectives, target interventions (e.g., pharmacy partnerships, mobile clinics), and a monitoring framework to evaluate success based on blood pressure control rates.",
+      "reference_context": {
+        "patient_profile": {
+          "community_demographics": "Low-income urban",
+          "primary_issue": "Uncontrolled hypertension",
+          "barriers": [
+            "Cost of medication",
+            "Lack of transportation",
+            "Limited health literacy"
+          ]
+        },
+        "guidelines_reference": "JNC 8 Guidelines and CDC Community Health Strategies"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Feasibility — Are the proposed interventions realistic and address the specific barriers identified?",
+        "Criterion 2: Impact — Does the monitoring framework effectively measure the program's success in controlling blood pressure?",
+        "Criterion 3: Equity — Does the program design prioritize access for vulnerable populations?"
+      ],
+      "student_answer": "# Community-Based Hypertension Management Program: \"Heart Health Hub\"\n\n## 1. Program Objectives\n*   **Primary Objective:** Achieve a 25% reduction in the proportion of patients with uncontrolled hypertension (BP ≥140/90 mmHg) within the target neighborhood over 18 months.\n*   **Secondary Objectives:**\n    *   Increase medication adherence rates to ≥80% among enrolled participants by addressing cost barriers.\n    *   Reduce missed appointments by 40% through enhanced access and transportation support.\n    *   Improve patient health literacy scores regarding hypertension management by 30% as measured by pre- and post-program assessments.\n    *   Establish a sustainable network of community partners to ensure long-term program viability.\n\n## 2. Target Interventions\n\n### A. Medication Access & Cost Mitigation\n*   **Pharmacy Partnership Program:** Collaborate with local independent and chain pharmacies to implement a \"30-Day Starter Pack\" initiative, providing the first month of antihypertensive medication at no cost for uninsured or underinsured patients.\n*   **Prescription Assistance Navigation:** Deploy Community Health Workers (CHWs) to assist patients in applying for patient assistance programs (PAPs) and sliding-scale fee structures at local clinics.\n*   **Generic Medication Protocol:** Standardize prescribing protocols to prioritize FDA-approved generic antihypertensives (e.g., lisinopril, amlodipine, hydrochlorothiazide) in alignment with JNC 8 guidelines to minimize out-of-pocket expenses.\n\n### B. Transportation & Access Solutions\n*   **Mobile Health Clinics:** Operate a dedicated mobile clinic unit three days per week, rotating through high-density housing complexes and community centers to provide on-site blood pressure screening, medication refills, and brief counseling.\n*   **Non-Emergency Medical Transportation (NEMT) Voucher System:** Partner with local transit authorities to provide free bus passes or ride-share vouchers for patients requiring travel to specialist appointments or pharmacy pick-ups.\n*   **Telehealth Integration:** Implement a HIPAA-compliant telehealth platform for routine follow-ups, allowing patients to consult with physicians via smartphone or community center kiosks, eliminating travel requirements for stable patients.\n\n### C. Health Literacy & Education\n*   **Plain-Language Educational Materials:** Develop and distribute culturally tailored, low-literacy educational resources (infographics, pictorial guides, and audio recordings) explaining hypertension, medication mechanisms, and lifestyle modifications.\n*   **CHW-Led \"Heart Health\" Workshops:** Conduct weekly group sessions led by bilingual CHWs focusing on sodium reduction, stress management, and medication self-management, utilizing the \"teach-back\" method to ensure comprehension.\n*   **Medication Adherence Kits:** Provide pill organizers pre-filled with weekly medication schedules and color-coded reminders to simplify complex dosing regimens.\n\n## 3. Monitoring and Evaluation Framework\n\n### Data Collection Methods\n*   **Electronic Health Records (EHR):** Integration of mobile clinic and telehealth data into a centralized registry to track blood pressure readings, medication dispensing, and visit frequency.\n*   **Patient Surveys:** Quarterly anonymous surveys to assess self-reported adherence, satisfaction with transportation services, and confidence in managing their condition.\n*   **Pharmacy Claims Data:** Monthly reconciliation with partner pharmacies to monitor refill rates and medication acquisition gaps.\n\n### Key Performance Indicators (KPIs)\n1.  **Blood Pressure Control Rate:** Percentage of enrolled patients with BP <140/90 mmHg at 3, 6, 12, and 18-month intervals.\n2.  **Medication Adherence Rate:** Proportion of patients with a Medication Possession Ratio (MPR) ≥80%.\n3.  **Appointment Attendance Rate:** Percentage of scheduled visits (in-person or telehealth) that are completed.\n4.  **Health Literacy Score:** Average improvement in knowledge assessment scores regarding hypertension management.\n\n### Evaluation Timeline\n*   **Baseline Assessment:** Conducted at program launch to establish current community BP control rates and barrier prevalence.\n*   **Quarterly Reviews:** Data analysis to identify trends, adjust interventions (e.g., modifying mobile clinic routes or educational content), and address emerging barriers.\n*   **Final Evaluation:** Comprehensive report at 18 months comparing pre- and post-intervention data against JNC 8 and CDC benchmarks to determine program efficacy and scalability.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission correctly addresses all task requirements (objectives, interventions, monitoring) with high clarity and appropriate terminology (Correctness: 5, Completeness: 5, Clarity: 5). It adheres to the referenced JNC 8 guidelines and CDC strategies (Domain Accuracy: 5). However, in the 'Medication Access' section, while generic prescribing is mentioned, the program design omits explicit clinical safety protocols required for antihypertensives (e.g., checking renal function and electrolytes before initiating ACE inhibitors like lisinopril). For a Senior Physician evaluating a medical program, this is a meaningful gap in professional standards (Best Practices: 4)."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Direct and coordinate activities of nurses, students, assistants, specialists, therapists, and other medical staff.",
+      "task_type": "Clinical Supervision and Quality Assurance",
+      "user_prompt": "A team of medical students and nurse practitioners is managing a clinic flow for acute respiratory infections. Review the following case: A 30-year-old male presents with fever, cough, and sore throat. Rapid strep is negative, and viral symptoms are prominent. Evaluate the team's proposed management plan (which includes prescribing antibiotics) against current AAFP guidelines for acute pharyngitis. Identify the error, provide the correct management strategy, and draft a brief educational memo for the team on appropriate antibiotic stewardship.",
+      "reference_context": {
+        "patient_profile": {
+          "age": 30,
+          "gender": "Male",
+          "symptoms": [
+            "Fever",
+            "Cough",
+            "Sore throat"
+          ],
+          "test_results": {
+            "rapid_strep": "Negative"
+          }
+        },
+        "guidelines_reference": "AAFP Guidelines for Acute Pharyngitis and Antibiotic Stewardship"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Guideline Compliance — Does the corrected plan align with AAFP guidelines for viral vs. bacterial pharyngitis?",
+        "Criterion 2: Stewardship — Does the educational memo effectively explain the rationale for avoiding unnecessary antibiotics?",
+        "Criterion 3: Leadership — Is the feedback constructive and suitable for a team of students and NPs?"
+      ],
+      "student_answer": "**Clinical Case Evaluation & Management Correction**\n\n**Identified Error:**\nThe proposed management plan to prescribe antibiotics is incorrect and violates current AAFP guidelines. The patient presents with a classic viral prodrome (cough, fever, sore throat) and has a negative rapid strep test. In the absence of a positive Group A Streptococcus (GAS) test, antibiotic therapy provides no clinical benefit, increases the risk of adverse drug reactions, and contributes to antimicrobial resistance. The presence of a cough is a specific clinical predictor against GAS pharyngitis.\n\n**Correct Management Strategy:**\n1.  **Diagnosis:** Acute viral pharyngitis.\n2.  **Therapy:** No antibiotics. Management should be supportive, including analgesics (e.g., acetaminophen or NSAIDs), hydration, and throat lozenges.\n3.  **Follow-up:** Advise the patient to return if symptoms worsen, persist beyond 7–10 days, or if new concerning symptoms (e.g., difficulty breathing, drooling) develop.\n4.  **Testing:** No further testing is required given the negative rapid strep and high likelihood of viral etiology.\n\n***\n\n**MEMORANDUM**\n\n**TO:** Medical Students and Nurse Practitioners\n**FROM:** Family Medicine Physician\n**DATE:** October 26, 2023\n**SUBJECT:** Antibiotic Stewardship in Acute Pharyngitis\n\n**Overview**\nRecent clinic flow reviews indicate a deviation from evidence-based guidelines regarding the management of acute pharyngitis. Specifically, the prescription of antibiotics for patients with negative rapid strep tests and prominent viral symptoms (e.g., cough) is inappropriate.\n\n**Key Guideline Points (AAFP)**\n*   **Viral vs. Bacterial:** The presence of cough, rhinorrhea, hoarseness, or conjunctivitis strongly suggests a viral etiology. Antibiotics are ineffective against viruses.\n*   **Testing Protocol:** Antibiotics should only be prescribed if Group A Streptococcus (GAS) is confirmed via a positive rapid antigen detection test (RADT) or a positive throat culture.\n*   **Negative Rapid Strep:** In patients with a negative rapid strep test and no high-risk features (e.g., history of rheumatic fever, severe symptoms), no further testing or empiric antibiotics are indicated.\n\n**Action Items**\n1.  **Stop Empiric Prescribing:** Do not prescribe antibiotics for patients with negative rapid strep tests, regardless of symptom severity, unless a backup culture is pending and the patient is at high risk.\n2.  **Focus on Supportive Care:** Document the plan for symptomatic relief (analgesics, hydration) and patient education regarding the self-limiting nature of viral infections.\n3.  **Patient Education:** Clearly explain to patients why antibiotics are not being prescribed to prevent misconceptions about \"stronger\" care and to reinforce the importance of stewardship.\n\nAdherence to these protocols ensures optimal patient outcomes and preserves the efficacy of our antibiotic arsenal.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission accurately identifies the clinical error (antibiotic overuse in viral pharyngitis) and aligns with AAFP guidelines. It provides a complete management strategy and a professional educational memo. The 'Additional Checks' regarding diabetes (HbA1c, renal function) are clinically irrelevant to the provided respiratory case and were appropriately not included. The response demonstrates high domain accuracy, clarity, and adherence to best practices."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Train residents, medical students, and other health care professionals.",
+      "task_type": "Clinical Teaching and Case Management",
+      "user_prompt": "You are supervising a medical student who is presenting a case of a 68-year-old female with a history of atrial fibrillation, hypertension, and a recent fall resulting in a wrist fracture. Her current medications include warfarin (INR 2.8), lisinopril, and metoprolol. The student proposes immediate surgical fixation and continuing warfarin. Based on AAFP guidelines for anticoagulation management in the elderly and perioperative care, generate a structured teaching module for the student. The module must explain the risks of continuing warfarin, the criteria for bridging therapy, and how to communicate the plan to the patient considering her health literacy level.",
+      "reference_context": {
+        "patient_profile": {
+          "age": 68,
+          "gender": "Female",
+          "history": [
+            "Atrial Fibrillation",
+            "Hypertension",
+            "Recent Fall with Wrist Fracture"
+          ],
+          "medications": [
+            "Warfarin",
+            "Lisinopril",
+            "Metoprolol"
+          ],
+          "labs": {
+            "INR": 2.8
+          },
+          "vitals": {
+            "bp": "140/88 mmHg",
+            "hr": 72
+          }
+        },
+        "guidelines_reference": "AAFP Guidelines on Anticoagulation in Elderly Patients and Perioperative Management 2023"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Clinical Accuracy — Does the teaching content correctly reflect current guidelines on warfarin management and surgical timing?",
+        "Criterion 2: Safety — Are bleeding risks and the need for bridging therapy accurately assessed and explained?",
+        "Criterion 3: Educational Effectiveness — Is the communication strategy tailored to the student's learning level and the patient's health literacy?"
+      ],
+      "student_answer": "# Teaching Module: Perioperative Anticoagulation Management in the Elderly\n\n## 1. Case Analysis & Immediate Correction\n**Student Proposal:** Immediate surgical fixation with continued warfarin.\n**Corrective Action:** **Do not proceed with surgery.** Continuing warfarin with an INR of 2.8 significantly increases the risk of uncontrolled intraoperative and postoperative hemorrhage, which can lead to hematoma formation, compartment syndrome, and the need for re-operation.\n\n## 2. Risks of Continuing Warfarin\nPer AAFP guidelines, proceeding with surgery while therapeutic anticoagulation is active poses the following specific risks:\n*   **Hemorrhagic Complications:** High risk of excessive bleeding during fracture fixation, potentially obscuring the surgical field and compromising the reduction of the fracture.\n*   **Postoperative Hematoma:** Accumulation of blood in the surgical site can increase pressure, leading to nerve compression, skin necrosis, or infection.\n*   **Delayed Healing:** Hematomas can interfere with bone healing and soft tissue recovery.\n*   **Transfusion Requirements:** Increased likelihood of requiring blood products, which carries its own risks in an elderly patient.\n\n## 3. Bridging Therapy Criteria\nBridging therapy (switching from warfarin to a short-acting anticoagulant like low-molecular-weight heparin) is **not** routinely recommended for most patients with atrial fibrillation. It is reserved for those at **very high risk of thromboembolism**.\n\n**Decision Framework for This Patient:**\n1.  **Risk Stratification (CHA₂DS₂-VASc Score):**\n    *   Age 65–74: +1\n    *   Female: +1\n    *   Hypertension: +1\n    *   **Total Score: 3**\n    *   *Interpretation:* Moderate risk. The patient is not in the \"very high risk\" category (typically score ≥4 or history of prior stroke/TIA).\n2.  **Bleeding Risk Assessment (ORBIT or HAS-BLED):**\n    *   Recent fall and fracture indicate a high baseline bleeding risk.\n3.  **Guideline Recommendation:**\n    *   For a patient with a CHA₂DS₂-VASc score of 3 and no history of stroke/TIA, **bridging therapy is generally NOT indicated.**\n    *   **Plan:** Hold warfarin 5 days prior to surgery to allow INR to normalize (<1.5). No bridging is required.\n\n## 4. Communication Plan: Patient-Centered Approach\n**Goal:** Explain the need to pause blood thinners to prevent bleeding without causing alarm about stroke risk.\n\n**Strategy:** Use the \"Teach-Back\" method and plain language. Avoid medical jargon.\n\n### Script for the Physician\n\"Mrs. [Name], we need to make sure your wrist surgery is safe. Right now, your blood is a little too thin to stop bleeding during the operation. If we operated today, you could bleed too much, which might hurt your wrist or require another surgery.\n\nTo fix this, we need to pause your blood thinner (warfarin) for about 5 days before the surgery. This gives your blood time to get back to a normal thickness so the surgeon can work safely.\n\n**Addressing Stroke Concern:**\nI know you might worry about having a stroke if you stop the medicine. Because your risk of stroke is moderate and the surgery is on your wrist (not your heart or brain), the risk of bleeding from surgery is higher than the risk of a stroke in the next few days. We will restart the medicine the day after surgery once the bleeding is under control.\n\n**Check for Understanding:**\nCan you tell me in your own words why we are stopping the warfarin for a few days?\"\n\n### Key Points to Reinforce\n*   **Safety First:** Stopping the drug prevents dangerous bleeding.\n*   **Timeline:** Warfarin is stopped 5 days prior; surgery happens once INR is normal.\n*   **Restart:** Medication resumes 24 hours post-op (or as directed by surgeon).\n*   **No Bridging:** Explain that for her specific heart rhythm, the short pause is safe and does not require \"bridge\" injections.",
+      "score": 4.6,
+      "dimension_scores": [
+        4,
+        4,
+        5,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is clinically accurate, adheres to AAFP/ACCP guidelines regarding bridging and warfarin management, and provides an excellent patient-centered communication script. Scores of 4 for Correctness and Completeness reflect minor omissions in explicit safety protocols (e.g., confirming INR immediately pre-op rather than assuming 5-day hold suffices, and specifying surgeon-dependent hemostasis timing for restart) which are critical for 'Exceptional' status. The communication plan and domain accuracy are flawless."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Operate on patients to remove, repair, or improve functioning of diseased or injured body parts and systems.",
+      "task_type": "Surgical Decision Making and Pre-operative Assessment",
+      "user_prompt": "A 45-year-old male with a BMI of 38 presents with severe right lower quadrant pain, fever (38.5°C), and leukocytosis (WBC 16,000). CT scan confirms acute appendicitis with a perforation and a small abscess. He has a history of severe penicillin allergy (anaphylaxis) and poorly controlled Type 2 diabetes (HbA1c 9.2%). As the attending physician, formulate a comprehensive pre-operative and intra-operative management plan. This must include antibiotic selection adhering to allergy constraints, glycemic control strategies to reduce surgical site infection risk, and criteria for deciding between laparoscopic versus open appendectomy given the patient's comorbidities.",
+      "reference_context": {
+        "patient_profile": {
+          "age": 45,
+          "gender": "Male",
+          "symptoms": [
+            "Right Lower Quadrant Pain",
+            "Fever",
+            "Leukocytosis"
+          ],
+          "diagnosis": "Perforated Appendicitis with Abscess",
+          "comorbidities": [
+            "Obesity (BMI 38)",
+            "Type 2 Diabetes (HbA1c 9.2%)",
+            "Penicillin Allergy (Anaphylaxis)"
+          ],
+          "vitals": {
+            "temp": "38.5°C",
+            "bp": "118/76 mmHg",
+            "hr": 105
+          }
+        },
+        "guidelines_reference": "Surgical Infection Society Guidelines and AAFP Guidelines on Diabetes Management in Perioperative Settings"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Clinical Accuracy — Is the antibiotic regimen appropriate for the allergy and infection type?",
+        "Criterion 2: Safety — Are glycemic targets and surgical approach risks properly evaluated to prevent complications?",
+        "Criterion 3: Completeness — Does the plan cover pre-op optimization, intra-op strategy, and post-op monitoring?"
+      ],
+      "student_answer": "### Comprehensive Pre-Operative and Intra-Operative Management Plan\n\n#### 1. Pre-Operative Management\n\n**A. Antibiotic Selection (Allergy-Conscious)**\nGiven the history of anaphylaxis to penicillin and the diagnosis of perforated appendicitis with abscess, broad-spectrum coverage against Gram-negative rods (e.g., *E. coli*, *Klebsiella*) and anaerobes (e.g., *Bacteroides fragilis*) is mandatory.\n*   **Regimen:** **Moxifloxacin 400 mg IV** (single dose) OR **Ciprofloxacin 400 mg IV + Metronidazole 500 mg IV**.\n*   **Rationale:** Fluoroquinolones provide excellent Gram-negative coverage. Metronidazole is required to cover anaerobes, as fluoroquinolones alone have variable anaerobic activity. Avoid cephalosporins (e.g., cefazolin, cefoxitin) due to the risk of cross-reactivity in patients with IgE-mediated penicillin anaphylaxis.\n*   **Duration:** Continue IV antibiotics for 24–48 hours post-operatively or until clinical resolution (afebrile, normalized WBC, tolerating diet), then transition to oral therapy (e.g., Ciprofloxacin + Metronidazole or Moxifloxacin) to complete a 5–7 day course.\n\n**B. Glycemic Control Strategy**\nTargeting an HbA1c of 9.2% significantly increases the risk of surgical site infection (SSI) and poor wound healing. Immediate optimization is required.\n*   **Pre-Induction Target:** Blood glucose 140–180 mg/dL.\n*   **Protocol:**\n    *   **NPO Status:** Hold all oral hypoglycemic agents (metformin, sulfonylureas) on the day of surgery.\n    *   **Insulin Regimen:** Initiate a basal-bolus regimen or a sliding scale with correctional insulin.\n        *   *Basal:* Administer long-acting insulin (e.g., glargine) at 50–80% of the usual home dose the night before or morning of surgery.\n        *   *Correction:* Use rapid-acting insulin (lispro/aspart) subcutaneously every 1–2 hours to maintain glucose between 140–180 mg/dL.\n    *   **Intra-operative Monitoring:** Check blood glucose hourly.\n    *   **Post-operative:** Resume basal insulin immediately post-op; transition to subcutaneous rapid-acting insulin as soon as the patient is NPO or tolerating oral intake.\n\n**C. Resuscitation and Optimization**\n*   **Fluids:** Initiate aggressive IV crystalloid resuscitation (e.g., Lactated Ringer's) to address tachycardia (HR 105) and fever-induced dehydration.\n*   **Imaging Review:** Confirm abscess size and location on CT. If the abscess is large (>3–4 cm) and accessible percutaneously, consider interval drainage prior to surgery, though immediate surgery is often preferred for perforated appendicitis with peritonitis.\n*   **DVT Prophylaxis:** Administer mechanical prophylaxis (SCDs) immediately. Given BMI 38 and active infection, consider pharmacologic prophylaxis (e.g., Enoxaparin 40 mg SC) if bleeding risk is low, typically starting 12–24 hours post-op.\n\n#### 2. Intra-Operative Management\n\n**A. Surgical Approach: Laparoscopic vs. Open**\n*   **Decision:** **Laparoscopic Appendectomy** is the preferred approach, despite the perforation and abscess, provided the surgeon has adequate expertise.\n*   **Rationale:**\n    *   **Obesity (BMI 38):** Laparoscopy offers superior visualization in obese patients, reduces wound complications (SSI, dehiscence), and allows for better intra-abdominal lavage and abscess drainage compared to a small incision.\n    *   **Diabetes:** Minimally invasive techniques reduce tissue trauma and pain, facilitating earlier mobilization, which is critical for glycemic control and pulmonary hygiene.\n    *   **Contraindications for Laparoscopy:** Only convert to open if there is dense adhesions obscuring the anatomy, uncontrolled hemorrhage, or inability to safely visualize the appendix base due to extensive phlegmon.\n*   **Technique:**\n    *   Perform thorough irrigation of the peritoneal cavity with warm saline.\n    *   Drain the abscess cavity via the trocar sites or place a closed-suction drain if the abscess cavity is large and cannot be fully evacuated.\n    *   Ensure secure closure of the appendiceal stump (endoloop or stapler).\n\n**B. Anesthetic Considerations**\n*   **Airway:** Assess for difficult airway due to obesity; prepare for rapid sequence induction (RSI) if full stomach is suspected.\n*   **Antibiotic Timing:** Ensure the second dose of antibiotics is administered within 1 hour of incision if the case duration exceeds 3–4 hours or if significant blood loss occurs.\n\n#### 3. Post-Operative Plan\n*   **Glycemic Monitoring:** Continue hourly glucose checks until stable, then every 4–6 hours. Maintain target 140–180 mg/dL.\n*   **Antibiotics:** Continue IV antibiotics for 24–48 hours post-op.\n*   **Wound Care:** Inspect incision sites daily for signs of infection. Given the high BMI and diabetes, consider negative pressure wound therapy (NPWT) for the port sites if they are large or show signs of maceration.\n*   **Mobilization:** Encourage ambulation within 6 hours post-op to reduce DVT risk and improve insulin sensitivity.",
+      "score": 3.4,
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Correctness (3): Significant clinical errors exist, specifically suggesting rapid-acting insulin for NPO patients (hypoglycemia risk) and describing Moxifloxacin as a 'single dose' for treatment of perforated appendicitis. Completeness (3): Omitted lifestyle counseling and renal function checks, which are critical for comprehensive management per additional checks. Best Practices (3): Insulin protocol deviates from standard perioperative guidelines; NPWT suggestion is non-standard. Domain Accuracy (3): Insulin logic error and slightly imprecise rationale regarding fluoroquinolone anaerobic coverage. Clarity (5): Excellent structure, professional formatting, and easy to follow."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Prepare government or organizational reports which include birth, death, and disease statistics, workforce evaluations, or medical status of individuals.",
+      "task_type": "Public Health Reporting and Epidemiological Analysis",
+      "user_prompt": "You are the lead physician for a community health clinic. Over the past quarter, you have treated 150 patients diagnosed with Influenza A (H1N1). The data shows a 20% hospitalization rate among patients over 65, compared to 2% in patients under 40. Additionally, 40% of the pediatric patients were unvaccinated. Draft a formal report for the local health department summarizing these findings. The report must include a statistical breakdown of the outbreak, an analysis of risk factors (age, vaccination status), and specific recommendations for the upcoming flu season based on CDC and AAFP guidelines to improve community herd immunity and reduce hospitalizations.",
+      "reference_context": {
+        "patient_profile": {
+          "total_cases": 150,
+          "demographics": {
+            "over_65": {
+              "count": 45,
+              "hospitalization_rate": 0.2
+            },
+            "under_40": {
+              "count": 80,
+              "hospitalization_rate": 0.02
+            },
+            "pediatric": {
+              "unvaccinated_percentage": 0.4
+            }
+          },
+          "pathogen": "Influenza A (H1N1)"
+        },
+        "guidelines_reference": "CDC Influenza Surveillance Guidelines and AAFP Recommendations for Influenza Prevention and Control"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Data Integrity — Are the statistics accurately calculated and presented?",
+        "Criterion 2: Guideline Adherence — Do the recommendations align with current CDC and AAFP public health strategies?",
+        "Criterion 3: Actionability — Is the report structured to provide clear, actionable insights for public health officials?"
+      ],
+      "student_answer": "**TO:** Local Health Department\n**FROM:** Lead Physician, Community Health Clinic\n**DATE:** October 26, 2023\n**SUBJECT:** Quarterly Influenza A (H1N1) Outbreak Analysis and Strategic Recommendations\n\n### 1. Executive Summary\nThis report summarizes the clinical findings from the past quarter regarding 150 confirmed cases of Influenza A (H1N1) treated at the Community Health Clinic. The data reveals a significant disparity in hospitalization rates based on age and highlights a critical gap in pediatric vaccination coverage. Immediate action is required to align community immunization strategies with CDC and AAFP guidelines to mitigate future morbidity and mortality.\n\n### 2. Statistical Breakdown of the Outbreak\n*   **Total Confirmed Cases:** 150\n*   **Pathogen:** Influenza A (H1N1)\n*   **Demographic Distribution & Hospitalization Rates:**\n    *   **Patients >65 Years:** 45 cases (30% of total). Hospitalization rate: **20%** (9 patients).\n    *   **Patients <40 Years:** 80 cases (53.3% of total). Hospitalization rate: **2%** (1.6 patients).\n    *   **Pediatric Population:** A subset of the <40 cohort. **40%** of pediatric patients were unvaccinated at the time of infection.\n\n### 3. Risk Factor Analysis\n\n**A. Age as a Primary Risk Factor**\nThe data demonstrates a stark correlation between advanced age and severe disease progression. Patients over 65 exhibited a hospitalization rate ten times higher than those under 40 (20% vs. 2%). This aligns with established immunosenescence patterns, where the elderly possess a diminished capacity to mount an effective immune response to the H1N1 strain, necessitating aggressive clinical management and early antiviral intervention.\n\n**B. Vaccination Status and Pediatric Vulnerability**\nThe finding that 40% of pediatric patients were unvaccinated indicates a significant lapse in preventive care within this demographic. Given that children are primary vectors for influenza transmission within the community, this unvaccinated cohort likely contributed to the spread of the virus to high-risk populations, including the elderly. The lack of herd immunity in the pediatric sector directly correlates with the sustained transmission observed this quarter.\n\n### 4. Recommendations for the Upcoming Flu Season\nBased on CDC Influenza Surveillance Guidelines and AAFP Recommendations for Influenza Prevention and Control, the following actions are recommended to improve community herd immunity and reduce hospitalizations:\n\n**A. Targeted Vaccination Campaigns**\n*   **High-Risk Priority:** Launch a dedicated outreach program for adults over 65, prioritizing the administration of high-dose or adjuvanted influenza vaccines, which are specifically indicated for this age group to enhance immunogenicity.\n*   **Pediatric Outreach:** Implement school-based vaccination clinics and community drives to increase pediatric coverage. The goal is to reduce the unvaccinated rate from 40% to <10% to establish robust herd immunity.\n\n**B. Early Detection and Antiviral Prophylaxis**\n*   **Rapid Testing:** Ensure rapid diagnostic testing is available at all primary care points to facilitate immediate treatment.\n*   **Early Antiviral Therapy:** Adhere to AAFP guidelines to initiate antiviral treatment (e.g., oseltamivir) within 48 hours of symptom onset for all high-risk patients, regardless of vaccination status, to reduce the severity of illness and hospitalization risk.\n\n**C. Community Education and Surveillance**\n*   **Public Awareness:** Distribute educational materials clarifying the risks of H1N1 to the elderly and the role of children in viral transmission.\n*   **Surveillance Integration:** Maintain close coordination with the Health Department to monitor real-time case trends and adjust resource allocation (e.g., hospital bed capacity, antiviral stockpiles) proactively.\n\n### 5. Conclusion\nThe current outbreak underscores the critical importance of vaccination in preventing severe outcomes, particularly among the elderly and unvaccinated children. By implementing these targeted interventions, the clinic and the Health Department can significantly reduce the burden on local healthcare systems and protect the most vulnerable members of our community.\n\n**Signed,**\n\nLead Physician\nCommunity Health Clinic",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission is professionally formatted and accurately reflects CDC/AAFP guidelines for Influenza management. However, it reports '1.6 patients' which is clinically impossible, and the demographic breakdown (45+80) does not sum to the stated total of 150, indicating a minor data integrity gap. The 'Additional Checks' regarding HbA1c and Diabetes were disregarded as they are irrelevant to the Influenza task. Clarity is excellent."
+    }
+  ]
+}

@@ -1,0 +1,558 @@
+{
+  "meta": {
+    "job_title": "Data Warehousing Specialists",
+    "job_id": "dw_specialist",
+    "onet_code": "15-1243.01",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 18,
+    "evaluated_tasks": 18,
+    "batches": 4,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 3.13,
+      "dimensions": {
+        "Correctness": 2.72,
+        "Completeness": 2.89,
+        "Best Practices": 2.61,
+        "Domain Accuracy": 2.89,
+        "Clarity": 4.56
+      },
+      "evaluated_tasks": 18,
+      "scale_max": 5
+    },
+    "total_time_seconds": 4252.51
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Develop data warehouse process models, including sourcing, loading, transformation, and extraction.",
+      "task_type": "ETL Pipeline Design",
+      "user_prompt": "Design an incremental ETL pipeline to migrate customer transaction data from a legacy Oracle billing system to a Snowflake data warehouse. The source system uses a 'last_modified' timestamp column, but the data contains duplicates and timezone inconsistencies. Provide the SQL logic for the extraction, transformation (normalizing timezones, deduplicating based on transaction_id and timestamp), and loading strategy. Include a mechanism to handle late-arriving data.",
+      "reference_context": "Source Schema: BILLING_TRANSACTIONS (TXN_ID VARCHAR, AMOUNT DECIMAL, TXN_DATE TIMESTAMP, MODIFIED_DATE TIMESTAMP, CUSTOMER_ID INT). Target Schema: DW_TRANSACTIONS (TXN_ID VARCHAR, AMOUNT DECIMAL, TXN_DATE DATE, CUSTOMER_ID INT, BATCH_ID VARCHAR). Constraints: TXN_ID must be unique in target.",
+      "evaluation_criteria": [
+        "Correctness: Does the SQL logic correctly identify new and changed records using CDC?",
+        "Completeness: Are timezone normalization and deduplication logic explicitly defined?",
+        "Best Practices: Is the solution scalable and does it handle late-arriving data gracefully?"
+      ],
+      "student_answer": "### Incremental ETL Pipeline Design: Oracle to Snowflake\n\n#### 1. Extraction Strategy (Oracle Source)\nExtracts records modified since the last successful run, handling timezone normalization at the source level if possible, or preparing raw data for transformation.\n\n```sql\n-- Extract Staging Table Creation (Oracle)\nCREATE TABLE STG_BILLING_RAW AS\nSELECT \n    TXN_ID,\n    AMOUNT,\n    -- Normalize TXN_DATE to UTC if source is not UTC, assuming source is EST (5 hours behind UTC)\n    -- Adjust offset based on actual legacy system timezone\n    CAST(TXN_DATE AT TIME ZONE 'America/New_York' AS TIMESTAMP) AS TXN_DATE_UTC,\n    MODIFIED_DATE,\n    CUSTOMER_ID\nFROM BILLING_TRANSACTIONS\nWHERE MODIFIED_DATE > :LAST_RUN_TIMESTAMP\nORDER BY MODIFIED_DATE;\n```\n\n#### 2. Transformation & Deduplication (Snowflake)\nLoads raw data into a staging table, normalizes the date to a DATE type, deduplicates based on `TXN_ID` (keeping the record with the latest `TXN_DATE_UTC`), and assigns a batch ID.\n\n```sql\n-- 1. Load Raw Data into Snowflake Staging\n-- (Assuming COPY INTO command is used to load STG_BILLING_RAW from Oracle/S3)\nCOPY INTO STG_BILLING_RAW (TXN_ID, AMOUNT, TXN_DATE_UTC, MODIFIED_DATE, CUSTOMER_ID)\nFROM @my_stage/billing_raw/\nFILE_FORMAT = (TYPE = CSV SKIP_HEADER = 1);\n\n-- 2. Deduplicate and Transform Logic\n-- Strategy: Use QUALIFY to keep the latest record per TXN_ID based on TXN_DATE_UTC\nCREATE OR REPLACE TABLE DW_TRANSACTIONS_STAGE AS\nSELECT \n    TXN_ID,\n    AMOUNT,\n    CAST(TXN_DATE_UTC AS DATE) AS TXN_DATE, -- Convert to DATE as per target schema\n    CUSTOMER_ID,\n    CURRENT_TIMESTAMP()::VARCHAR AS BATCH_ID\nFROM STG_BILLING_RAW\nQUALIFY ROW_NUMBER() OVER (\n    PARTITION BY TXN_ID \n    ORDER BY TXN_DATE_UTC DESC, MODIFIED_DATE DESC\n) = 1;\n\n-- 3. Handle Late-Arriving Data (Upsert Logic)\n-- This step merges new/updated records into the main warehouse table\n-- It handles late-arriving data by overwriting existing records with the same TXN_ID \n-- if the incoming record has a newer or equal timestamp (based on business logic).\nMERGE INTO DW_TRANSACTIONS AS T\nUSING DW_TRANSACTIONS_STAGE AS S\nON T.TXN_ID = S.TXN_ID\nWHEN MATCHED THEN\n    UPDATE SET \n        T.AMOUNT = S.AMOUNT,\n        T.TXN_DATE = S.TXN_DATE,\n        T.CUSTOMER_ID = S.CUSTOMER_ID,\n        T.BATCH_ID = S.BATCH_ID\nWHEN NOT MATCHED THEN\n    INSERT (TXN_ID, AMOUNT, TXN_DATE, CUSTOMER_ID, BATCH_ID)\n    VALUES (S.TXN_ID, S.AMOUNT, S.TXN_DATE, S.CUSTOMER_ID, S.BATCH_ID);\n\n-- 4. Cleanup Staging\nTRUNCATE TABLE DW_TRANSACTIONS_STAGE;\nTRUNCATE TABLE STG_BILLING_RAW;\n```\n\n#### 3. Late-Arriving Data Mechanism\nThe `MERGE` statement above inherently handles late-arriving data. If a transaction arrives after the initial load with a `TXN_ID` that already exists in `DW_TRANSACTIONS`, the `WHEN MATCHED` clause updates the record.\n\nTo ensure data integrity for late-arriving data that might have a *different* `TXN_DATE` than the one currently stored (e.g., a correction), the logic relies on the deduplication step in `DW_TRANSACTIONS_STAGE`. If the late-arriving data is the \"correct\" version, it will be the one with the latest `TXN_DATE_UTC` in the staging phase, ensuring the `MERGE` overwrites the old, potentially incorrect record in the target.\n\n**Key Constraints Enforcement:**\n*   **Uniqueness:** The `QUALIFY ROW_NUMBER()...` step ensures only one record per `TXN_ID` exists in the staging table before the `MERGE`, guaranteeing the `TXN_ID` unique constraint in `DW_TRANSACTIONS` is never violated.\n*   **Timezone:** Normalization occurs during extraction (Oracle) or immediately upon loading (Snowflake) to ensure consistent `TXN_DATE` calculation.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.2,
+      "grade_reason": "The submission is exceptionally clear and well-structured (Clarity 5), with solid Snowflake transformation logic. However, it fails on Correctness (2) because the incremental filter `WHERE MODIFIED_DATE > :LAST_RUN_TIMESTAMP` will skip all records where `MODIFIED_DATE` is NULL, breaking CDC. Domain Accuracy (3) and Best Practices (3) are impacted by hardcoding 'America/New_York' for a legacy system without metadata verification and using Oracle syntax that may vary by version. Completeness (3) is adequate but lacks explicit detail on the data movement bridge (Oracle to S3 to Snowflake) and watermark persistence."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Verify the structure, accuracy, or quality of warehouse data.",
+      "task_type": "Data Quality Audit",
+      "user_prompt": "Write a SQL script to audit the 'DW_ORDERS' table for data integrity issues following a recent migration. The script must identify records where the 'order_total' is negative, 'customer_id' is null but 'order_date' is not, and 'status' values do not match the allowed enum list ('PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED'). Additionally, flag any rows where the 'created_at' timestamp is in the future or before '2020-01-01'. Return a report of invalid records with specific error codes.",
+      "reference_context": "Target Schema: DW_ORDERS (ORDER_ID INT, CUSTOMER_ID INT, ORDER_TOTAL DECIMAL, STATUS VARCHAR, CREATED_AT TIMESTAMP). Allowed Statuses: 'PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED'. Business Rules: Order total must be >= 0; Customer ID cannot be null for active orders.",
+      "evaluation_criteria": [
+        "Accuracy: Does the query correctly identify all specified data anomalies?",
+        "Null Handling: Does the logic explicitly handle NULL values in comparisons without returning unexpected results?",
+        "Completeness: Are all business rules (negative totals, invalid statuses, date ranges) covered?"
+      ],
+      "student_answer": "```sql\nSELECT \n    ORDER_ID,\n    CUSTOMER_ID,\n    ORDER_TOTAL,\n    STATUS,\n    CREATED_AT,\n    CASE \n        WHEN ORDER_TOTAL < 0 THEN 'ERR_NEGATIVE_TOTAL'\n        WHEN CUSTOMER_ID IS NULL AND ORDER_DATE IS NOT NULL THEN 'ERR_NULL_CUSTOMER_WITH_DATE'\n        WHEN STATUS NOT IN ('PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED') THEN 'ERR_INVALID_STATUS'\n        WHEN CREATED_AT > CURRENT_TIMESTAMP THEN 'ERR_FUTURE_CREATED_AT'\n        WHEN CREATED_AT < '2020-01-01' THEN 'ERR_OLD_CREATED_AT'\n        ELSE 'UNKNOWN_ERROR'\n    END AS ERROR_CODE,\n    CASE \n        WHEN ORDER_TOTAL < 0 THEN 'Order total is negative'\n        WHEN CUSTOMER_ID IS NULL AND ORDER_DATE IS NOT NULL THEN 'Customer ID is null but order date exists'\n        WHEN STATUS NOT IN ('PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED') THEN 'Status value is not in allowed enum list'\n        WHEN CREATED_AT > CURRENT_TIMESTAMP THEN 'Created timestamp is in the future'\n        WHEN CREATED_AT < '2020-01-01' THEN 'Created timestamp is before 2020-01-01'\n        ELSE 'Unknown issue'\n    END AS ERROR_DESCRIPTION\nFROM DW_ORDERS\nWHERE \n    ORDER_TOTAL < 0 \n    OR (CUSTOMER_ID IS NULL AND ORDER_DATE IS NOT NULL)\n    OR STATUS NOT IN ('PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED')\n    OR CREATED_AT > CURRENT_TIMESTAMP\n    OR CREATED_AT < '2020-01-01';\n```",
+      "score": 3.0,
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        3,
+        4
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Correctness (2): The query references 'ORDER_DATE' which is not defined in the provided 'DW_ORDERS' schema (only 'CREATED_AT' exists), causing a runtime error. Completeness (3): Addresses the explicit text requirements but fails to address the 'ADDITIONAL CHECKS' regarding CDC, deduplication, and 'last_modified' handling expected for a migration audit. Best Practices (3): The CASE statement flags only the first error, masking multiple data quality issues per row; lacks parameterization for dates. Domain Accuracy (3): Demonstrates understanding of business rules but fails to reconcile them with the physical schema definition. Clarity (4): The SQL code is well-structured, readable, and logically organized."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Map data between source systems, data warehouses, and data marts.",
+      "task_type": "Data Mapping and Transformation",
+      "user_prompt": "Create a transformation logic to map data from a legacy 'CLAIMS_DB' to a modern 'DW_CLAIMS_MART'. The source uses a single 'CLAIM_TYPE' column with values 'A', 'B', 'C' which must be mapped to 'AUTO', 'BULLETIN', 'CATASTROPHE'. The 'AMOUNT' column in the source is stored as a string with currency symbols and commas, requiring conversion to a DECIMAL. Handle cases where 'AMOUNT' is NULL or contains non-numeric characters by setting the target to NULL. Provide the SQL CASE statement and CAST logic.",
+      "reference_context": "Source Schema: CLAIMS_DB (CLAIM_ID INT, CLAIM_TYPE VARCHAR, AMOUNT VARCHAR, CLAIM_DATE DATE). Target Schema: DW_CLAIMS_MART (CLAIM_ID INT, CLAIM_TYPE_DESC VARCHAR, AMOUNT_DECIMAL DECIMAL, CLAIM_DATE DATE). Mapping: 'A'->'AUTO', 'B'->'BULLETIN', 'C'->'CATASTROPHE'.",
+      "evaluation_criteria": [
+        "Mapping Accuracy: Are all source values correctly mapped to target descriptions?",
+        "Data Type Safety: Does the logic safely handle string-to-decimal conversion and explicitly manage non-numeric strings?",
+        "Null Handling: Are NULL source values and invalid formats correctly propagated as NULL in the target?"
+      ],
+      "student_answer": "SELECT\n    CLAIM_ID,\n    CASE \n        WHEN CLAIM_TYPE = 'A' THEN 'AUTO'\n        WHEN CLAIM_TYPE = 'B' THEN 'BULLETIN'\n        WHEN CLAIM_TYPE = 'C' THEN 'CATASTROPHE'\n        ELSE NULL\n    END AS CLAIM_TYPE_DESC,\n    CASE \n        WHEN AMOUNT IS NULL THEN NULL\n        WHEN TRY_CAST(REPLACE(REPLACE(REPLACE(AMOUNT, '$', ''), ',', ''), ' ', '') AS DECIMAL(18, 2)) IS NOT NULL \n            THEN TRY_CAST(REPLACE(REPLACE(REPLACE(AMOUNT, '$', ''), ',', ''), ' ', '') AS DECIMAL(18, 2))\n        ELSE NULL\n    END AS AMOUNT_DECIMAL,\n    CLAIM_DATE\nFROM CLAIMS_DB;",
+      "score": 4.2,
+      "dimension_scores": [
+        4,
+        5,
+        3,
+        4,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The solution correctly implements the required type mapping and amount cleaning logic, addressing all explicit task requirements (Completeness: 5, Clarity: 5). However, the TRY_CAST function is called twice within the CASE statement, which is inefficient and violates industry best practices for performance (Best Practices: 3). Additionally, the currency stripping logic hardcodes '$', which may not satisfy the general requirement for 'currency symbols' if other currencies exist (Correctness: 4, Domain Accuracy: 4). The 'Additional Checks' regarding CDC and last_modified timestamps could not be evaluated as that column is not present in the provided Source Schema."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Develop and implement data extraction procedures from other systems, such as administration, billing, or claims.",
+      "task_type": "Incremental Extraction Logic",
+      "user_prompt": "Develop a stored procedure logic to extract 'ADMIN_USERS' data from a SQL Server source to a Data Warehouse. The extraction must be incremental based on a 'LAST_UPDATE' datetime column. The procedure must handle the scenario where the 'LAST_UPDATE' column contains NULL values (treat as '1900-01-01' for sorting but exclude from CDC logic if the record is new). Ensure that if a user record is updated, the old version is marked as 'IS_ACTIVE = 0' in the target before inserting the new version. Assume the target table has a 'VERSION' column.",
+      "reference_context": "Source Schema: ADMIN_USERS (USER_ID INT, USERNAME VARCHAR, LAST_UPDATE DATETIME, IS_ACTIVE BIT). Target Schema: DW_ADMIN_USERS (USER_ID INT, USERNAME VARCHAR, LAST_UPDATE DATETIME, IS_ACTIVE BIT, VERSION INT, BATCH_ID VARCHAR). Logic: Incremental load based on LAST_UPDATE > @LastBatchTime.",
+      "evaluation_criteria": [
+        "CDC Logic: Is the incremental extraction correctly filtering based on the timestamp while handling NULLs?",
+        "Versioning: Does the logic correctly manage the 'VERSION' column and handle record updates vs. inserts?",
+        "Robustness: Are edge cases like NULL timestamps handled without causing query errors?"
+      ],
+      "student_answer": "```sql\nCREATE PROCEDURE [DW].[usp_Load_Admin_Users_Incremental]\n    @LastBatchTime DATETIME = '1900-01-01 00:00:00.000',\n    @BatchID VARCHAR(50)\nAS\nBEGIN\n    SET NOCOUNT ON;\n\n    DECLARE @CurrentVersion INT;\n    DECLARE @NextVersion INT;\n\n    -- 1. Mark existing records in the target as inactive if they are superseded by new updates\n    -- We identify records that exist in the source with a newer LAST_UPDATE than the last batch time\n    -- and match them by USER_ID.\n    UPDATE T\n    SET T.IS_ACTIVE = 0\n    FROM [DW].[DW_ADMIN_USERS] T\n    INNER JOIN [ADMIN].[ADMIN_USERS] S\n        ON T.USER_ID = S.USER_ID\n    WHERE S.LAST_UPDATE > @LastBatchTime\n      AND T.BATCH_ID = @BatchID -- Optional: Only deactivate if it was part of the current batch context, \n                                 -- or remove this condition if you want to deactivate any record that has a newer source version.\n                                 -- Based on standard CDC, we deactivate based on the existence of a newer source record.\n      AND T.LAST_UPDATE < S.LAST_UPDATE; -- Ensure we only deactivate if the source is actually newer\n\n    -- 2. Determine the next version number for the new records\n    -- Get the maximum version currently in the target for the users being loaded\n    SELECT @CurrentVersion = ISNULL(MAX(VERSION), 0)\n    FROM [DW].[DW_ADMIN_USERS]\n    WHERE USER_ID IN (SELECT USER_ID FROM [ADMIN].[ADMIN_USERS] WHERE LAST_UPDATE > @LastBatchTime);\n\n    SET @NextVersion = @CurrentVersion + 1;\n\n    -- 3. Insert new/updated records into the target\n    -- Handle NULL LAST_UPDATE by treating it as '1900-01-01' for sorting logic, \n    -- but only insert if the record is new (not present in target) or has a newer update.\n    -- Since we are doing an incremental load based on @LastBatchTime, we assume any record \n    -- with LAST_UPDATE > @LastBatchTime is new or updated.\n    -- We use a COALESCE to handle NULLs for the comparison logic if needed, \n    -- but the WHERE clause in the source join handles the filtering.\n    \n    INSERT INTO [DW].[DW_ADMIN_USERS] (\n        USER_ID, \n        USERNAME, \n        LAST_UPDATE, \n        IS_ACTIVE, \n        VERSION, \n        BATCH_ID\n    )\n    SELECT \n        S.USER_ID,\n        S.USERNAME,\n        S.LAST_UPDATE,\n        S.IS_ACTIVE,\n        @NextVersion,\n        @BatchID\n    FROM [ADMIN].[ADMIN_USERS] S\n    LEFT JOIN [DW].[DW_ADMIN_USERS] T\n        ON S.USER_ID = T.USER_ID \n        AND T.BATCH_ID = @BatchID -- Check against current batch to avoid re-inserting if logic runs twice\n    WHERE S.LAST_UPDATE > @LastBatchTime\n      AND (T.USER_ID IS NULL OR T.LAST_UPDATE < S.LAST_UPDATE);\n\n    -- Note: If a record has NULL LAST_UPDATE, it will be treated as '1900-01-01'. \n    -- If @LastBatchTime is '1900-01-01', these records will be included. \n    -- If @LastBatchTime is later, NULL records are excluded unless they are new and the logic \n    -- implies they should be treated as 'new' regardless of the timestamp. \n    -- The requirement \"exclude from CDC logic if the record is new\" implies: \n    -- If it's a brand new record (not in target), include it even if LAST_UPDATE is NULL.\n    -- The logic above handles this via the LEFT JOIN check (T.USER_ID IS NULL).\nEND\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        2,
+        2,
+        2,
+        4
+      ],
+      "score": 2.4,
+      "grade_reason": "The solution demonstrates clear code structure and readability (Clarity: 4), but fails on technical implementation and ETL standards. Correctness (2) is low because the NULL handling logic (`S.LAST_UPDATE > @LastBatchTime`) fails for NULL values as SQL treats NULL comparisons as Unknown, violating the requirement to treat NULLs as '1900-01-01'. Completeness (2) and Best Practices (2) are low due to the absence of Transaction management (`BEGIN TRAN`) and Error Handling (`TRY...CATCH`), which are mandatory for production ETL. Domain Accuracy (2) is low because the SCD2 deactivation logic restricts updates to `T.BATCH_ID = @BatchID`, which breaks historical record deactivation in subsequent batches. While the student understands the concepts (SCD2, Incremental), the SQL implementation contains critical flaws."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Design and implement warehouse database structures.",
+      "task_type": "Schema Design and Constraint Implementation",
+      "user_prompt": "Design the DDL for a 'DW_FINANCIAL_REPORTS' table that supports slowly changing dimensions (Type 2). The table must include columns for 'REPORT_ID', 'REPORT_DATE', 'AMOUNT', 'CURRENCY', and 'IS_CURRENT'. The 'AMOUNT' column must handle negative values and NULLs explicitly. Implement a composite primary key on ('REPORT_ID', 'REPORT_DATE') and a unique constraint on ('REPORT_ID', 'IS_CURRENT') where 'IS_CURRENT' is 1. Ensure the schema enforces that 'CURRENCY' must be one of 'USD', 'EUR', 'GBP' or NULL.",
+      "reference_context": "Business Requirement: Track historical changes to financial reports. 'IS_CURRENT' indicates the active version of a report. 'AMOUNT' can be null if data is missing. 'CURRENCY' is optional but must be valid if present.",
+      "evaluation_criteria": [
+        "Schema Integrity: Does the DDL correctly implement Type 2 SCD logic with the 'IS_CURRENT' flag?",
+        "Constraint Validity: Are the primary key, unique, and check constraints correctly defined to prevent invalid data?",
+        "Data Type Handling: Does the schema explicitly allow NULLs for 'AMOUNT' and 'CURRENCY' where appropriate?"
+      ],
+      "student_answer": "CREATE TABLE DW_FINANCIAL_REPORTS (\n    REPORT_ID INT NOT NULL,\n    REPORT_DATE DATE NOT NULL,\n    AMOUNT DECIMAL(18, 2) NULL,\n    CURRENCY VARCHAR(3) NULL,\n    IS_CURRENT TINYINT NOT NULL DEFAULT 0,\n    CONSTRAINT PK_FINANCIAL_REPORTS PRIMARY KEY (REPORT_ID, REPORT_DATE),\n    CONSTRAINT UQ_FINANCIAL_REPORTS_CURRENT UNIQUE (REPORT_ID, IS_CURRENT) WHERE IS_CURRENT = 1,\n    CONSTRAINT CHK_FINANCIAL_REPORTS_CURRENCY CHECK (CURRENCY IN ('USD', 'EUR', 'GBP') OR CURRENCY IS NULL),\n    CONSTRAINT CHK_FINANCIAL_REPORTS_AMOUNT CHECK (AMOUNT IS NULL OR AMOUNT IS NOT NULL)\n);",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        2,
+        2,
+        2,
+        4
+      ],
+      "score": 2.4,
+      "grade_reason": "The DDL contains critical syntax errors: filtered unique constraints (WHERE clause in CONSTRAINT) are not valid in standard SQL DDL and require separate index creation. The Amount check constraint is a tautology (IS NULL OR IS NOT NULL) and provides no validation. Additionally, the solution omits a 'last_modified' timestamp, which is a standard requirement for SCD Type 2 CDC logic mentioned in the additional checks. While the code is readable, it is not functionally correct or complete for production use."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Develop or maintain standards, such as organization, structure, or nomenclature, for the design of data warehouse elements, such as data architectures, models, tools, and databases.",
+      "task_type": "Data Model Standardization",
+      "user_prompt": "Design a standardized schema for a new 'Product Inventory' dimension table in a data warehouse. The source data comes from three different ERP systems with inconsistent naming conventions (e.g., 'prod_id', 'item_code', 'sku') and varying data types (INT vs VARCHAR). Define the target table structure, including data types, primary keys, and handling for null values. Provide a mapping strategy that normalizes these fields into a single 'product_key' and 'product_name' column, ensuring all records are valid even if source data is missing.",
+      "reference_context": "Source Systems: ERP_A (prod_id INT, name VARCHAR), ERP_B (item_code VARCHAR, item_name VARCHAR), ERP_C (sku INT, product_name VARCHAR). Target Requirements: product_key (VARCHAR, PK), product_name (VARCHAR), source_system (VARCHAR), load_timestamp (TIMESTAMP). All source fields must be mapped to target fields with explicit NULL handling.",
+      "evaluation_criteria": [
+        "Correctness: Does the schema design correctly normalize disparate source fields into a unified structure?",
+        "Completeness: Are data type mismatches and null values explicitly handled in the mapping logic?",
+        "Best Practices: Does the solution adhere to standard data warehouse modeling principles for dimension tables?"
+      ],
+      "student_answer": "### Target Dimension Table: `DIM_PRODUCT_INVENTORY`\n\n| Column Name | Data Type | Constraints | Description & Null Handling Strategy |\n| :--- | :--- | :--- | : |\n| `product_key` | `VARCHAR(50)` | `PRIMARY KEY`, `NOT NULL` | **Standardized Key.** Generated via a deterministic hash of the source identifier (e.g., `SHA256(CONCAT(source_system, source_id))`). Ensures uniqueness across all ERPs. |\n| `product_name` | `VARCHAR(255)` | `NOT NULL` | **Standardized Name.** Mapped from source name fields. If source is NULL, defaults to `'UNKNOWN_PRODUCT'`. |\n| `source_system` | `VARCHAR(20)` | `NOT NULL` | **System Identifier.** Hardcoded value ('ERP_A', 'ERP_B', 'ERP_C') to distinguish origin. |\n| `source_id` | `VARCHAR(50)` | `NOT NULL` | **Raw Source ID.** Stores the original identifier (`prod_id`, `item_code`, or `sku`) cast to VARCHAR to maintain consistency. |\n| `load_timestamp` | `TIMESTAMP` | `NOT NULL` | **ETL Metadata.** Automatically set to `CURRENT_TIMESTAMP` upon insertion. |\n| `is_active` | `BOOLEAN` | `DEFAULT TRUE` | **Soft Delete Flag.** Defaults to TRUE; set to FALSE if source record is marked deleted. |\n\n---\n\n### ETL Mapping & Normalization Logic\n\nThe following logic applies during the extraction and transformation phase to ensure data integrity and validity:\n\n#### 1. Source Field Mapping\n| Source System | Source Field (Raw) | Source Type | Transformation Logic | Target Column |\n| :--- | :--- | :--- | :--- | :--- |\n| **ERP_A** | `prod_id` | `INT` | `CAST(prod_id AS VARCHAR)` | `source_id` |\n| | `name` | `VARCHAR` | `COALESCE(name, 'UNKNOWN_PRODUCT')` | `product_name` |\n| **ERP_B** | `item_code` | `VARCHAR` | `TRIM(item_code)` | `source_id` |\n| | `item_name` | `VARCHAR` | `COALESCE(item_name, 'UNKNOWN_PRODUCT')` | `product_name` |\n| **ERP_C** | `sku` | `INT` | `CAST(sku AS VARCHAR)` | `source_id` |\n| | `product_name` | `VARCHAR` | `COALESCE(product_name, 'UNKNOWN_PRODUCT')` | `product_name` |\n\n#### 2. Primary Key Generation (`product_key`)\nTo resolve inconsistent naming and ensure a unique surrogate key:\n*   **Logic:** `product_key = MD5(CONCAT(source_system, '-', source_id))`\n*   **Result:** A 32-character hexadecimal string (stored as `VARCHAR(50)`).\n*   **Guarantee:** Even if `prod_id` (101) in ERP_A and `item_code` ('101') in ERP_B exist, they will generate distinct keys due to the `source_system` prefix.\n\n#### 3. Null Handling & Validation Rules\n*   **Missing Names:** If the source name field is NULL or an empty string, the target `product_name` is populated with the literal string `'UNKNOWN_PRODUCT'`.\n*   **Missing IDs:** If the source ID field is NULL, the record is flagged for manual review in the staging area; however, if the pipeline must proceed, a placeholder `'NULL_SOURCE_ID'` is used for `source_id`, and the `product_key` is generated based on this placeholder.\n*   **Data Type Consistency:** All numeric source IDs are explicitly cast to `VARCHAR` before hashing to prevent data loss or collision during the join process.\n\n#### 4. SQL DDL Example (PostgreSQL Syntax)\n```sql\nCREATE TABLE DIM_PRODUCT_INVENTORY (\n    product_key VARCHAR(50) NOT NULL PRIMARY KEY,\n    product_name VARCHAR(255) NOT NULL,\n    source_system VARCHAR(20) NOT NULL,\n    source_id VARCHAR(50) NOT NULL,\n    load_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    is_active BOOLEAN DEFAULT TRUE\n);\n\n-- Index for performance on source system lookups\nCREATE INDEX IDX_PROD_SOURCE_SYS ON DIM_PRODUCT_INVENTORY(source_system);\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        4,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "Correctness (4): Core requirements met, but there is a critical inconsistency between the described hash algorithm (SHA256) and the implemented logic (MD5), compounded by the VARCHAR(50) limit which fits MD5 but not SHA256. Completeness (4): The schema covers the explicit target requirements well, but omits the 'last_modified' timestamp and CDC logic specified in the Additional Checks section. Best Practices (3): Using MD5 is outdated for hashing; SHA256 is preferred. Additionally, the design lacks SCD Type 2 attributes (start/end dates) and explicit CDC support expected in a professional DW architecture. Domain Accuracy (4): Terminology and data types are used correctly, and the mapping logic is sound. Clarity (5): The submission is exceptionally well-structured with clear tables, logic descriptions, and valid SQL DDL."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Provide or coordinate troubleshooting support for data warehouses.",
+      "task_type": "Data Quality Troubleshooting",
+      "user_prompt": "Analyze a failed incremental load job for the 'Sales_Orders' table. The job failed due to a data type mismatch between the source 'order_date' (VARCHAR) and target 'order_date' (DATE), and duplicate records were detected in the target. Write a SQL script to identify the problematic records, clean the data by converting the date format and removing duplicates based on 'order_id' and 'order_date', and then re-insert the cleaned data into the target table. Ensure the script handles cases where the date string is malformed.",
+      "reference_context": "Source Table: RAW_SALES (order_id INT, order_date VARCHAR, amount DECIMAL). Target Table: DW_SALES (order_id INT, order_date DATE, amount DECIMAL). Constraints: order_id must be unique. Malformed dates should be marked as NULL and excluded from the final insert.",
+      "evaluation_criteria": [
+        "Correctness: Does the SQL correctly identify and isolate records causing the failure?",
+        "Completeness: Are date conversions robust against malformed strings and duplicates removed effectively?",
+        "Best Practices: Does the solution prevent data loss while ensuring data integrity in the target table?"
+      ],
+      "student_answer": "```sql\n-- Step 1: Identify and Clean Data\n-- This CTE handles date conversion, marks malformed dates as NULL, and removes duplicates\nWITH Cleaned_Data AS (\n    SELECT \n        order_id,\n        -- Attempt to convert VARCHAR to DATE. \n        -- If conversion fails (malformed), COALESCE returns NULL.\n        -- Note: The specific date format string (e.g., 'YYYY-MM-DD') must match the source data.\n        -- Adjust 'YYYY-MM-DD' to match the actual source format if different.\n        CASE \n            WHEN TRY_CAST(order_date AS DATE) IS NOT NULL THEN TRY_CAST(order_date AS DATE)\n            ELSE NULL \n        END AS order_date,\n        amount\n    FROM RAW_SALES\n),\nRanked_Data AS (\n    SELECT \n        order_id,\n        order_date,\n        amount,\n        ROW_NUMBER() OVER (\n            PARTITION BY order_id, order_date \n            ORDER BY order_id -- Tie-breaker for duplicates\n        ) AS rn\n    FROM Cleaned_Data\n    WHERE order_date IS NOT NULL -- Exclude malformed dates as per requirement\n)\n-- Step 2: Insert Cleaned Data into Target\nINSERT INTO DW_SALES (order_id, order_date, amount)\nSELECT \n    order_id,\n    order_date,\n    amount\nFROM Ranked_Data\nWHERE rn = 1;\n```",
+      "score": 3.4,
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The script demonstrates strong clarity and readable SQL structure (Clarity: 5). However, it fails to explicitly identify or log problematic records as requested, silently dropping them instead (Correctness: 3). It treats the task as a bulk load rather than an incremental load, ignoring CDC timestamp requirements and using a standard INSERT which risks constraint violations on existing target data (Completeness: 3, Domain Accuracy: 3). Best practices are compromised by the lack of error logging and failure to handle potential NULLs in CDC fields (Best Practices: 3)."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Write new programs or modify existing programs to meet customer requirements, using current programming languages and technologies.",
+      "task_type": "CDC Logic Implementation",
+      "user_prompt": "Develop a Python script logic (pseudocode or SQL stored procedure) to implement a Change Data Capture (CDC) process for a 'Customer' table. The source system uses a 'last_updated' timestamp. The script must extract only new or modified records since the last successful load, handle timezone differences between source (UTC) and target (EST), and update the target table using an 'upsert' mechanism. Explicitly handle cases where 'last_updated' is NULL or the record has been deleted in the source.",
+      "reference_context": "Source Table: CUSTOMER_SRC (customer_id INT, name VARCHAR, last_updated TIMESTAMP). Target Table: DW_CUSTOMER (customer_id INT, name VARCHAR, last_updated TIMESTAMP, is_active BOOLEAN). Logic: If last_updated is NULL, treat as inactive. If record exists in source but not target, insert. If record exists in both but last_updated differs, update.",
+      "evaluation_criteria": [
+        "Correctness: Does the logic accurately capture only changed records using the timestamp?",
+        "Completeness: Are timezone conversions and NULL handling for timestamps explicitly implemented?",
+        "Best Practices: Is the upsert logic efficient and does it correctly handle soft deletes or missing records?"
+      ],
+      "student_answer": "```sql\n-- Stored Procedure: sp_CDC_Load_Customer\n-- Purpose: Extract, transform (timezone), and upsert Customer data from Source to Target\n-- Assumptions: \n--   1. A control table 'DW_Load_Control' exists with columns (Table_Name, Last_Successful_Load_Timestamp).\n--   2. Source 'last_updated' is in UTC. Target 'last_updated' is stored in EST.\n--   3. Source system uses soft deletes (NULL last_updated) or hard deletes (row missing).\n\nCREATE PROCEDURE sp_CDC_Load_Customer\nAS\nBEGIN\n    SET NOCOUNT ON;\n\n    DECLARE @LastLoadTime DATETIME2;\n    DECLARE @CurrentLoadTime DATETIME2 = SYSDATETIME();\n    DECLARE @SourceTZOffset INT = -5; -- EST is UTC-5 (Standard). Adjust for DST if using AT TIME ZONE.\n    \n    -- 1. Retrieve the last successful load timestamp from control table\n    SELECT @LastLoadTime = Last_Successful_Load_Timestamp \n    FROM DW_Load_Control \n    WHERE Table_Name = 'CUSTOMER_SRC';\n\n    -- If no previous load exists, set to a very old date to capture all\n    IF @LastLoadTime IS NULL\n        SET @LastLoadTime = '1900-01-01 00:00:00.0000000';\n\n    -- 2. Extract New and Modified Records\n    -- Logic: \n    --   - Include records where last_updated > @LastLoadTime\n    --   - Include records where last_updated IS NULL (Treat as inactive/deleted)\n    --   - Handle Timezone: Convert Source UTC to EST for the target column\n    --   - Note: 'last_updated' in source is UTC. We convert it to EST for the target.\n    \n    WITH CDC_Data AS (\n        SELECT \n            customer_id,\n            name,\n            last_updated AS Source_UTC_Time,\n            -- Convert UTC to EST. \n            -- Using DATEADD to shift UTC to EST (UTC - 5 hours). \n            -- For production, use SQL Server's AT TIME ZONE for DST awareness:\n            -- last_updated AT TIME ZONE 'UTC' AT TIME ZONE 'Eastern Standard Time'\n            DATEADD(HOUR, @SourceTZOffset, last_updated) AS Target_EST_Time,\n            CASE \n                WHEN last_updated IS NULL THEN 0 -- Inactive\n                ELSE 1 -- Active\n            END AS is_active\n        FROM CUSTOMER_SRC\n        WHERE last_updated > @LastLoadTime \n           OR last_updated IS NULL\n    )\n\n    -- 3. Upsert Logic (Merge)\n    MERGE DW_CUSTOMER AS Target\n    USING CDC_Data AS Source\n    ON Target.customer_id = Source.customer_id\n    WHEN MATCHED THEN\n        -- Update if the timestamp has changed or if the source record was marked inactive (NULL)\n        -- Note: If source last_updated is NULL, we update is_active to 0.\n        UPDATE SET \n            Target.name = Source.name,\n            Target.last_updated = Source.Target_EST_Time,\n            Target.is_active = Source.is_active\n    WHEN NOT MATCHED BY TARGET THEN\n        -- Insert new records\n        INSERT (customer_id, name, last_updated, is_active)\n        VALUES (Source.customer_id, Source.name, Source.Target_EST_Time, Source.is_active)\n    WHEN NOT MATCHED BY SOURCE THEN\n        -- Handle Deletions: If a record exists in Target but not in Source (deleted in source)\n        -- We assume the CDC process only sees active rows or explicitly NULL rows. \n        -- If a row is completely gone from Source and not in CDC_Data, we mark it inactive.\n        UPDATE SET \n            Target.is_active = 0,\n            Target.last_updated = @CurrentLoadTime -- Optional: Update timestamp to reflect change\n    ;\n\n    -- 4. Update Control Table\n    UPDATE DW_Load_Control\n    SET Last_Successful_Load_Timestamp = @CurrentLoadTime\n    WHERE Table_Name = 'CUSTOMER_SRC';\n\nEND;\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "Correctness (3): The timezone conversion logic uses a hardcoded offset (DATEADD) which ignores Daylight Saving Time, leading to incorrect data for half the year. Completeness (3): The script lacks transaction wrapping (BEGIN TRAN/COMMIT) and error handling (TRY/CATCH), risking data inconsistency if the load fails mid-process. Best Practices (3): Hardcoding timezone offsets is an anti-pattern; production code should use AT TIME ZONE or a timezone table. Domain Accuracy (4): Strong understanding of CDC patterns, MERGE syntax, and control tables, though the timezone implementation shows a minor gap in precision. Clarity (5): The code is well-structured, commented, and easy to follow."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Design, implement, or operate comprehensive data warehouse systems to balance optimization of data access with batch loading and resource utilization factors, according to customer requirements.",
+      "task_type": "Performance Optimization",
+      "user_prompt": "Optimize a batch loading process for a large 'Transaction_Log' table (100M rows) that is currently taking 4 hours to load. The current process performs a full table delete and insert. Propose a modified incremental loading strategy that reduces load time to under 30 minutes. Provide the SQL logic for the incremental load, including partitioning strategies and indexing recommendations. Ensure the solution handles concurrent access and maintains data consistency during the load.",
+      "reference_context": "Current State: Full refresh of Transaction_Log (txn_id, txn_date, amount, status). Target State: Incremental load based on txn_date. Constraints: Data must be consistent; no partial loads allowed. Partitioning key: txn_date. Indexing: txn_id and txn_date.",
+      "evaluation_criteria": [
+        "Correctness: Does the proposed strategy significantly reduce load time compared to full refresh?",
+        "Completeness: Are partitioning and indexing strategies clearly defined to support the incremental load?",
+        "Best Practices: Does the solution ensure data consistency and handle concurrency without locking issues?"
+      ],
+      "student_answer": "### Optimized Incremental Loading Strategy\n\n**1. Partitioning Strategy**\nImplement **Range Partitioning** on the `txn_date` column. This allows the database to isolate data by date, enabling the replacement of entire partitions rather than scanning the whole table.\n\n*   **Partition Key:** `txn_date`\n*   **Granularity:** Daily partitions (e.g., `P20231001`, `P20231002`).\n*   **Retention:** Maintain partitions for the last 90 days; archive older data to cold storage.\n\n**2. Indexing Recommendations**\n*   **Primary Key:** `txn_id` (Clustered Index or Unique Constraint).\n*   **Secondary Index:** `txn_date` (Non-Clustered) to optimize range scans for the incremental logic.\n*   **Optimization:** Drop non-essential indexes on the target table *before* the load and rebuild them *after* the load to minimize write overhead during the operation.\n\n**3. SQL Logic for Incremental Load**\nThe following logic uses a **Staging Table** approach to ensure atomicity. It loads new data into a temporary staging table, validates it, and then swaps the relevant partition or merges data, ensuring no partial loads are visible to concurrent users.\n\n```sql\n-- Step 1: Create Staging Table (Structure matches Transaction_Log)\n-- Note: In production, ensure this table is in the same tablespace as the target for speed.\nCREATE TABLE Transaction_Log_Staging (\n    txn_id      BIGINT PRIMARY KEY,\n    txn_date    DATE NOT NULL,\n    amount      DECIMAL(18, 2),\n    status      VARCHAR(20)\n)\nPARTITION BY RANGE (txn_date) (\n    PARTITION P20231001 VALUES LESS THAN ('2023-10-02'),\n    PARTITION P20231002 VALUES LESS THAN ('2023-10-03'),\n    -- Add dynamic partition creation logic as needed\n    PARTITION P_MAX VALUES LESS THAN (MAXVALUE)\n);\n\n-- Step 2: Load Data into Staging (Batch Insert)\n-- Assume :START_DATE and :END_DATE are parameters passed from the ETL job\nINSERT INTO Transaction_Log_Staging (txn_id, txn_date, amount, status)\nSELECT txn_id, txn_date, amount, status\nFROM Source_Transaction_System\nWHERE txn_date BETWEEN :START_DATE AND :END_DATE\n  AND txn_id NOT IN (SELECT txn_id FROM Transaction_Log WHERE txn_date BETWEEN :START_DATE AND :END_DATE);\n\n-- Step 3: Validate Data Integrity (Optional but Recommended)\n-- Ensure no duplicates exist in the staging table relative to the target\n-- If duplicates are found, abort the transaction to maintain consistency\nDO $$\nDECLARE\n    v_count INTEGER;\nBEGIN\n    SELECT COUNT(*) INTO v_count\n    FROM Transaction_Log_Staging s\n    JOIN Transaction_Log t ON s.txn_id = t.txn_id\n    WHERE t.txn_date BETWEEN :START_DATE AND :END_DATE;\n\n    IF v_count > 0 THEN\n        RAISE EXCEPTION 'Data consistency check failed: Duplicate txn_ids found in staging vs target.';\n    END IF;\nEND $$;\n\n-- Step 4: Atomic Load Execution (Merge Strategy)\n-- Option A: If using a DB that supports MERGE (e.g., Oracle, SQL Server, PostgreSQL 9.5+)\nMERGE INTO Transaction_Log t\nUSING Transaction_Log_Staging s\nON (t.txn_id = s.txn_id)\nWHEN NOT MATCHED THEN\n    INSERT (txn_id, txn_date, amount, status)\n    VALUES (s.txn_id, s.txn_date, s.amount, s.status)\nWHEN MATCHED THEN\n    UPDATE SET amount = s.amount, status = s.status;\n\n-- Option B: If using Partition Exchange (Fastest for massive daily loads)\n-- 1. Create a temporary partition for the specific date range\n-- 2. Move data from Staging to the new partition\n-- 3. Exchange the new partition with the target partition\n-- (Syntax varies by DB; Example for PostgreSQL/Oracle logic)\n-- ALTER TABLE Transaction_Log ATTACH PARTITION P_NewDate FOR VALUES FROM (:START_DATE) TO (:END_DATE);\n-- (This assumes the staging table was pre-partitioned correctly)\n\n-- Step 5: Cleanup\nTRUNCATE TABLE Transaction_Log_Staging;\n\n-- Step 6: Rebuild Indexes (If dropped in Step 2)\n-- CREATE INDEX idx_txn_date ON Transaction_Log (txn_date);\n```\n\n**4. Handling Concurrent Access & Consistency**\n*   **Transaction Isolation:** The entire process (Steps 2–5) runs within a single database transaction. If any step fails, the entire load is rolled back, ensuring no partial data is committed.\n*   **Locking:**\n    *   Use `SELECT ... FOR UPDATE` or specific partition locks if the DB does not support atomic partition exchange.\n    *   For high concurrency, perform the `INSERT` into the Staging table while the Target table is read-only for the specific date range, then perform the `MERGE` or `ATTACH` operation which acquires a brief exclusive lock on the specific partition.\n*   **Read Consistency:** Existing queries reading the `Transaction_Log` table will continue to see the pre-load data until the transaction commits. Once committed, they will see the new data immediately.\n\n**5. Performance Optimization Notes**\n*   **Disable Triggers:** Temporarily disable triggers on `Transaction_Log` during the load to reduce overhead.\n*   **Parallelism:** Enable parallel DML (Data Manipulation Language) for the `INSERT` and `MERGE` operations if the database supports it.\n*   **Statistics:** Update table statistics immediately after the load to ensure the query optimizer uses the new data distribution.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "The submission is well-structured and clear (Clarity: 5), demonstrating a good grasp of partitioning and staging concepts. However, Correctness (3) is compromised by a logical contradiction in the SQL (filtering existing IDs in staging while using MERGE for updates) and performance anti-patterns (using NOT IN on large tables). Completeness (3) and Domain Accuracy (3) are reduced because the solution ignores the 'Additional Checks' regarding last_modified timestamps and CDC robustness. Best Practices (3) are also impacted by the risky single-transaction approach for bulk loads and the NOT IN subquery."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Perform system analysis, data analysis or programming, using a variety of computer languages and procedures.",
+      "task_type": "Data Transformation and Aggregation",
+      "user_prompt": "Create a SQL view that aggregates daily sales data from a raw 'Sales_Detail' table into a summary 'Daily_Sales_Summary' table. The raw data contains null values in the 'quantity' and 'price' columns. The view must calculate total revenue (quantity * price) only for rows where both fields are not null, and handle cases where the product category is missing by categorizing them as 'Uncategorized'. The view must also support incremental updates by only processing records loaded in the last 24 hours.",
+      "reference_context": "Source Table: SALES_DETAIL (sale_id INT, product_id INT, quantity INT, price DECIMAL, category VARCHAR, sale_date DATE). Target Requirements: sale_date, total_revenue, total_quantity, category. Logic: Revenue = 0 if quantity or price is NULL. Category = 'Uncategorized' if NULL.",
+      "evaluation_criteria": [
+        "Correctness: Does the aggregation correctly calculate revenue and handle null values as specified?",
+        "Completeness: Is the incremental filtering logic (last 24 hours) correctly implemented?",
+        "Best Practices: Is the view efficient and does it maintain data integrity for the summary table?"
+      ],
+      "student_answer": "```sql\nCREATE OR REPLACE VIEW Daily_Sales_Summary AS\nSELECT \n    sale_date,\n    COALESCE(SUM(CASE WHEN quantity IS NOT NULL AND price IS NOT NULL THEN quantity * price ELSE 0 END), 0) AS total_revenue,\n    COALESCE(SUM(quantity), 0) AS total_quantity,\n    COALESCE(category, 'Uncategorized') AS category\nFROM \n    SALES_DETAIL\nWHERE \n    sale_date >= CURRENT_DATE - INTERVAL '1' DAY\nGROUP BY \n    sale_date, \n    COALESCE(category, 'Uncategorized');\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        2,
+        2,
+        2,
+        5
+      ],
+      "score": 2.8,
+      "grade_reason": "The student correctly implemented revenue calculation logic (handling NULLs) and category mapping. However, the solution fails on ETL-specific requirements: it filters by 'sale_date' instead of a load timestamp ('last_modified'), violating the 'records loaded in the last 24 hours' constraint and ignoring the 'Additional Checks' regarding CDC and deduplication. While the SQL syntax is clear and readable (Clarity 5), the domain accuracy regarding incremental loading is weak (Domain Accuracy 2), and best practices for ETL are not followed (Best Practices 2). Completeness is low due to missing deduplication and timestamp handling."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Create supporting documentation, such as metadata and diagrams of entity relationships, business processes, and process flow.",
+      "task_type": "Metadata Documentation Design",
+      "user_prompt": "Design a metadata framework for a new data mart integrating sales and inventory data. The source systems have inconsistent naming conventions (e.g., 'cust_id' vs 'customer_id') and data types (INT vs VARCHAR). Create a structured metadata specification that defines the business glossary, data lineage, and entity relationship logic. Explicitly document how the framework will handle null values and type casting during the mapping process to ensure data integrity.",
+      "reference_context": "Source Systems: ERP_SALES (CUST_ID INT, AMOUNT DECIMAL), CRM_INVENTORY (customer_id VARCHAR, stock_qty INT). Target: DW_SALES_INVENTORY. Business Rule: A customer is valid only if both systems have a record. Null values in stock_qty must default to 0, while null amounts must be flagged as 'UNKNOWN'.",
+      "evaluation_criteria": [
+        "Completeness: Does the metadata specification cover all source-to-target mappings including type conversions?",
+        "Accuracy: Are null handling strategies and deduplication rules clearly defined in the documentation?",
+        "Clarity: Is the entity relationship logic unambiguous and suitable for developer implementation?"
+      ],
+      "student_answer": "# Metadata Framework Specification: DW_SALES_INVENTORY\n\n## 1. Business Glossary\nStandardized definitions to resolve naming inconsistencies and ensure semantic alignment across source systems.\n\n| Business Term | Target Column Name | Source System(s) | Definition | Data Type |\n| :--- | :--- | :--- | :--- :--- |\n| **Customer Identifier** | `customer_id` | ERP_SALES (`CUST_ID`), CRM_INVENTORY (`customer_id`) | Unique alphanumeric or numeric identifier for a customer entity. | `VARCHAR(50)` |\n| **Sales Amount** | `sales_amount` | ERP_SALES (`AMOUNT`) | Total monetary value of a transaction. | `DECIMAL(18, 2)` |\n| **Inventory Quantity** | `stock_quantity` | CRM_INVENTORY (`stock_qty`) | Current physical count of items available for a specific customer. | `INT` |\n| **Data Quality Flag** | `amount_status` | Derived | Indicator for the validity of the sales amount. | `VARCHAR(20)` |\n| **Integration Status** | `integration_status` | Derived | Indicator of whether a customer record exists in both source systems. | `VARCHAR(20)` |\n\n---\n\n## 2. Data Lineage & Mapping Logic\nDetailed mapping rules defining the transformation from source to target, including type casting and null handling.\n\n### 2.1 Source-to-Target Mapping Table\n\n| Target Column | Source System | Source Column | Transformation Logic | Data Integrity Rule |\n| :--- | :--- | :--- | :--- | :--- |\n| `customer_id` | ERP_SALES | `CUST_ID` | `CAST(CUST_ID AS VARCHAR(50))` | Pad with leading zeros if length < 50. |\n| `customer_id` | CRM_INVENTORY | `customer_id` | `TRIM(customer_id)` | Remove whitespace; ensure uppercase. |\n| `sales_amount` | ERP_SALES | `AMOUNT` | `CAST(AMOUNT AS DECIMAL(18, 2))` | Preserve precision; round if necessary. |\n| `stock_quantity` | CRM_INVENTORY | `stock_qty` | `COALESCE(stock_qty, 0)` | **Null Handling:** Default to `0`. |\n| `amount_status` | Derived | `AMOUNT` | `CASE WHEN AMOUNT IS NULL THEN 'UNKNOWN' ELSE 'VALID' END` | **Null Handling:** Flag nulls explicitly. |\n| `integration_status` | Derived | `customer_id` | `CASE WHEN EXISTS(ERP) AND EXISTS(CRM) THEN 'ACTIVE' ELSE 'INCOMPLETE' END` | **Business Rule:** Valid only if both exist. |\n\n### 2.2 Type Casting Strategy\nTo resolve `INT` vs `VARCHAR` inconsistencies:\n1.  **Canonical Format:** All `customer_id` values are normalized to `VARCHAR(50)` in the target.\n2.  **ERP_SALES Conversion:** `CUST_ID` (INT) is cast to `VARCHAR` using standard string conversion functions.\n3.  **CRM_INVENTORY Conversion:** `customer_id` (VARCHAR) is trimmed and validated against a numeric pattern; if purely numeric, it is treated as equivalent to the ERP integer.\n4.  **Validation:** If a `customer_id` in CRM cannot be matched to an ERP `CUST_ID` after casting, the record is flagged as `INCOMPLETE`.\n\n---\n\n## 3. Entity Relationship Logic\n**Primary Key:** `customer_id` (Target)\n\n**Relationship Definition:**\n*   **Join Condition:** `ERP_SALES.CUST_ID` = `CAST(CRM_INVENTORY.customer_id AS INT)` (or vice versa, depending on performance optimization, but logically equivalent).\n*   **Filter Logic:**\n    *   **Inner Join:** Used to identify valid customers where records exist in **both** `ERP_SALES` and `CRM_INVENTORY`.\n    *   **Left/Right Join (Audit):** Used to generate the `integration_status` flag for records missing in one system.\n*   **Business Constraint:** A row is only considered a \"Valid Customer\" in the final dataset if `integration_status = 'ACTIVE'`.\n\n---\n\n## 4. Null Value & Data Integrity Protocols\n\n### 4.1 Null Handling Rules\n| Scenario | Source Field | Action | Target Value | Rationale |\n| :--- | :--- | :--- | :--- | :--- |\n| **Missing Stock** | `stock_qty` | Default | `0` | Ensures mathematical operations (e.g., total inventory) do not fail; represents \"no stock\" rather than \"unknown\". |\n| **Missing Sales** | `AMOUNT` | Flag | `'UNKNOWN'` | Preserves the record for analysis but explicitly marks the financial value as missing to prevent aggregation errors. |\n| **Missing Customer** | `customer_id` | Drop/Flag | `NULL` (Flagged) | If a customer ID is missing in one system, the record is marked `INCOMPLETE` and excluded from the \"Valid Customer\" view. |\n\n### 4.2 Data Integrity Checks\n1.  **Referential Integrity:** Ensure every `customer_id` in the target has a corresponding match in both source tables.\n2.  **Type Consistency:** Verify all `customer_id` entries are strictly `VARCHAR(50)` with no mixed data types.\n3.  **Domain Validation:** Ensure `sales_amount` is never negative unless business rules allow; ensure `stock_quantity` is non-negative (enforced by the `COALESCE(..., 0)` logic).\n4.  **Audit Trail:** Log all records where `amount_status = 'UNKNOWN'` or `integration_status = 'INCOMPLETE'` to a separate `DATA_QUALITY_LOG` table for remediation.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "Correctness (4): The submission addresses the core mapping, null handling, and type casting requirements effectively, though the ER Logic section contradicts the Glossary regarding data types (Target VARCHAR vs Join INT). Completeness (3): While explicit task requirements are met, the metadata framework lacks industry-standard components like CDC/Load strategy (referenced in Additional Checks) and governance/versioning. Best Practices (3): Padding IDs with leading zeros is a poor practice for identifiers, and the mapping table includes SQL-specific logic (EXISTS) rather than technology-agnostic metadata definitions. Domain Accuracy (3): Technical inconsistency between the defined Target Column Type (VARCHAR) and the Join Logic (CAST to INT) reduces domain precision. Clarity (5): The document is exceptionally well-structured, using clear tables and headers that make the specification easy to read and understand."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Create or implement metadata processes and frameworks.",
+      "task_type": "CDC Implementation Strategy",
+      "user_prompt": "Develop a SQL-based Change Data Capture (CDC) process to extract incremental updates from a PostgreSQL source to a Snowflake target. The source table 'ORDERS' uses a composite key (ORDER_ID, LINE_ITEM) and a 'UPDATED_AT' timestamp. The data contains duplicate entries for the same order line due to system glitches. Write the SQL logic to identify new, updated, and deleted records (using a soft-delete flag), handle timezone inconsistencies in the timestamp, and ensure the target table maintains a history of changes without duplicates.",
+      "reference_context": "Source Schema: ORDERS (ORDER_ID INT, LINE_ITEM INT, AMOUNT DECIMAL, UPDATED_AT TIMESTAMP WITH TIME ZONE, IS_DELETED BOOLEAN). Target Schema: DW_ORDERS_HISTORY (ORDER_ID INT, LINE_ITEM INT, AMOUNT DECIMAL, UPDATED_AT TIMESTAMP, BATCH_ID VARCHAR, CHANGE_TYPE VARCHAR). Constraints: Only process records where IS_DELETED is false or true (for deletion tracking).",
+      "evaluation_criteria": [
+        "Correctness: Does the SQL logic accurately distinguish between new, updated, and deleted records using CDC?",
+        "Robustness: Are duplicate records and null values in the composite key explicitly handled?",
+        "Efficiency: Is the solution optimized for incremental processing rather than full table scans?"
+      ],
+      "student_answer": "```sql\n-- Step 1: Create a Staging Table in Snowflake to hold raw source data\n-- This ensures we have a clean, deduplicated snapshot before processing changes\nCREATE OR REPLACE TABLE STG_ORDERS_RAW (\n    ORDER_ID INT,\n    LINE_ITEM INT,\n    AMOUNT DECIMAL,\n    UPDATED_AT TIMESTAMP_TZ,\n    IS_DELETED BOOLEAN,\n    BATCH_ID VARCHAR\n);\n\n-- Step 2: Load Data into Staging (Simulated Load Logic)\n-- In production, this is replaced by the COPY INTO command from S3/Stage\n-- Logic: Deduplicate based on composite key (ORDER_ID, LINE_ITEM) keeping the latest UPDATED_AT\nINSERT INTO STG_ORDERS_RAW (ORDER_ID, LINE_ITEM, AMOUNT, UPDATED_AT, IS_DELETED, BATCH_ID)\nSELECT \n    ORDER_ID,\n    LINE_ITEM,\n    AMOUNT,\n    -- Normalize timezone to UTC for consistent comparison\n    CONVERT_TIMEZONE('UTC', UPDATED_AT) AS UPDATED_AT,\n    IS_DELETED,\n    'BATCH_20231027_001' AS BATCH_ID\nFROM (\n    SELECT \n        ORDER_ID,\n        LINE_ITEM,\n        AMOUNT,\n        UPDATED_AT,\n        IS_DELETED,\n        ROW_NUMBER() OVER (\n            PARTITION BY ORDER_ID, LINE_ITEM \n            ORDER BY UPDATED_AT DESC\n        ) AS rn\n    FROM SOURCE_SCHEMA.ORDERS -- Assuming direct access or pre-loaded raw data\n)\nWHERE rn = 1;\n\n-- Step 3: Identify Changes (New, Updated, Deleted)\n-- We use a MERGE statement to handle the logic in a single pass against the History table\nMERGE INTO DW_ORDERS_HISTORY AS TARGET\nUSING (\n    SELECT \n        S.ORDER_ID,\n        S.LINE_ITEM,\n        S.AMOUNT,\n        S.UPDATED_AT,\n        S.IS_DELETED,\n        S.BATCH_ID,\n        -- Determine Change Type\n        CASE \n            WHEN T.ORDER_ID IS NULL AND S.IS_DELETED = FALSE THEN 'NEW'\n            WHEN T.ORDER_ID IS NOT NULL AND T.AMOUNT != S.AMOUNT THEN 'UPDATED'\n            WHEN T.ORDER_ID IS NOT NULL AND T.IS_DELETED = FALSE AND S.IS_DELETED = TRUE THEN 'DELETED'\n            WHEN T.ORDER_ID IS NOT NULL AND T.IS_DELETED = TRUE AND S.IS_DELETED = TRUE THEN 'UPDATED' -- Re-activation or metadata change\n            ELSE 'NO_CHANGE'\n        END AS CHANGE_TYPE\n    FROM STG_ORDERS_RAW S\n    LEFT JOIN DW_ORDERS_HISTORY T \n        ON S.ORDER_ID = T.ORDER_ID \n        AND S.LINE_ITEM = T.LINE_ITEM\n        AND T.BATCH_ID = 'BATCH_20231027_001' -- Only compare against the previous batch to avoid re-processing\n    WHERE S.IS_DELETED IS NOT NULL -- Ensure we process both active and soft-deleted records\n) AS SOURCE\nON TARGET.ORDER_ID = SOURCE.ORDER_ID \n   AND TARGET.LINE_ITEM = SOURCE.LINE_ITEM\n   AND TARGET.BATCH_ID = SOURCE.BATCH_ID\n   AND SOURCE.CHANGE_TYPE != 'NO_CHANGE'\nWHEN MATCHED THEN\n    UPDATE SET \n        TARGET.AMOUNT = SOURCE.AMOUNT,\n        TARGET.UPDATED_AT = SOURCE.UPDATED_AT,\n        TARGET.CHANGE_TYPE = SOURCE.CHANGE_TYPE\nWHEN NOT MATCHED BY TARGET AND SOURCE.CHANGE_TYPE IN ('NEW', 'DELETED') THEN\n    INSERT (ORDER_ID, LINE_ITEM, AMOUNT, UPDATED_AT, BATCH_ID, CHANGE_TYPE)\n    VALUES (SOURCE.ORDER_ID, SOURCE.LINE_ITEM, SOURCE.AMOUNT, SOURCE.UPDATED_AT, SOURCE.BATCH_ID, SOURCE.CHANGE_TYPE);\n\n-- Step 4: Cleanup Staging\nTRUNCATE TABLE STG_ORDERS_RAW;\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        2,
+        5
+      ],
+      "score": 2.8,
+      "grade_reason": "The solution is well-structured and readable (Clarity 5), with effective staging and deduplication logic. However, it fundamentally fails the 'maintains a history of changes' requirement by using MERGE to update rows instead of appending change records, which overwrites history (Correctness 2, Domain Accuracy 2). Best practices are compromised by hardcoding the Batch ID and using MERGE for history tracking (Best Practices 2). Completeness is adequate for CDC logic but lacks explicit NULL handling for timestamps as requested in the additional checks (Completeness 3)."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Review designs, codes, test plans, or documentation to ensure quality.",
+      "task_type": "ETL Code Review and Validation",
+      "user_prompt": "Review the following ETL transformation logic designed to aggregate daily sales data. Identify three critical flaws related to null handling, data type mismatches, and incorrect aggregation logic. Propose corrected SQL code that ensures accurate results even when source data contains nulls, negative amounts, or mismatched date formats. The logic must also handle late-arriving data by allowing updates to previous day's aggregates.",
+      "reference_context": "Flawed Logic: SELECT DATE(SALES_DATE) as day, SUM(AMOUNT) as total FROM RAW_SALES GROUP BY DATE(SALES_DATE). Issues: AMOUNT can be NULL, SALES_DATE is stored as VARCHAR in 'MM/DD/YYYY' format, and no mechanism exists to re-process past dates if new data arrives.",
+      "evaluation_criteria": [
+        "Identification: Are the specific flaws regarding nulls, types, and logic clearly identified?",
+        "Correction: Does the proposed SQL correctly cast data types, handle nulls (e.g., COALESCE), and support late-arriving data?",
+        "Quality: Is the revised logic robust enough for production use without manual intervention?"
+      ],
+      "student_answer": "```sql\nWITH Cleaned_Sales AS (\n    SELECT \n        -- Convert VARCHAR 'MM/DD/YYYY' to DATE and handle potential format errors\n        TRY_CAST(SALES_DATE AS DATE) AS SalesDate,\n        -- Ensure AMOUNT is numeric and treat NULLs as 0 for aggregation\n        COALESCE(CAST(AMOUNT AS DECIMAL(18, 2)), 0) AS Amount,\n        -- Flag records for late-arriving data handling (e.g., if a specific column indicates 'is_update')\n        IS_UPDATE_FLAG\n    FROM RAW_SALES\n    WHERE \n        -- Filter out records with invalid date formats or non-numeric amounts\n        TRY_CAST(SALES_DATE AS DATE) IS NOT NULL \n        AND TRY_CAST(AMOUNT AS DECIMAL(18, 2)) IS NOT NULL\n        -- Explicitly include negative amounts as valid business data\n        AND (CAST(AMOUNT AS DECIMAL(18, 2)) >= 0 OR IS_UPDATE_FLAG = 1)\n),\nDaily_Aggregates AS (\n    SELECT \n        SalesDate,\n        SUM(Amount) AS Total_Sales\n    FROM Cleaned_Sales\n    GROUP BY SalesDate\n)\n-- Final Output: Merges daily aggregates, ensuring late-arriving data updates previous days\nSELECT \n    SalesDate,\n    Total_Sales\nFROM Daily_Aggregates\nORDER BY SalesDate;\n```",
+      "score": 2.4,
+      "dimension_scores": [
+        2,
+        2,
+        2,
+        2,
+        4
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission fails to explicitly identify the three critical flaws as required by the task, providing only SQL. The SQL logic incorrectly filters out valid negative amounts and lacks CDC/deduplication logic (e.g., window functions) to handle late-arriving data updates, risking double-counting. It also ignores the 'last_modified' timestamp requirement for incremental loads. While the code is syntactically clear, it contains significant business logic and architectural errors."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Create plans, test files, and scripts for data warehouse testing, ranging from unit to integration testing.",
+      "task_type": "Integration Test Script Generation",
+      "user_prompt": "Create a comprehensive test plan and SQL scripts to validate an integration layer that merges customer data from two sources: 'HR_SYSTEM' and 'PAYROLL_SYSTEM'. The test must verify that the merged data correctly handles duplicate customer IDs, null values in critical fields (like email or phone), and data type mismatches (e.g., phone numbers stored as strings vs integers). Include specific test cases for incremental loads where a customer record is updated in one source but not the other.",
+      "reference_context": "Source A: HR_SYSTEM (EMP_ID INT, EMAIL VARCHAR, PHONE INT). Source B: PAYROLL_SYSTEM (EMP_ID INT, EMAIL VARCHAR, PHONE VARCHAR). Target: DW_EMPLOYEES. Business Rule: Email must be unique; if null, use 'UNKNOWN'. Phone must be normalized to VARCHAR. Test data must include 100 records with 10% nulls and 5% duplicates.",
+      "evaluation_criteria": [
+        "Coverage: Do the test scripts cover all edge cases including nulls, duplicates, and type mismatches?",
+        "Validation: Are the expected results clearly defined for both successful merges and conflict resolutions?",
+        "Incremental Logic: Does the test plan verify that incremental updates do not overwrite valid data from the other source?"
+      ],
+      "student_answer": "# Integration Layer Test Plan: HR_SYSTEM & PAYROLL_SYSTEM Merge\n\n## 1. Test Objectives\nValidate the `DW_EMPLOYEES` table to ensure accurate merging of `HR_SYSTEM` and `PAYROLL_SYSTEM` data, specifically verifying:\n- **Duplicate Handling**: Correct resolution of duplicate `EMP_ID` across sources.\n- **Null Handling**: Application of default values ('UNKNOWN') for null emails and proper normalization of null phones.\n- **Data Type Normalization**: Conversion of `PHONE` from INT (HR) to VARCHAR (Target) and handling of mixed formats.\n- **Incremental Logic**: Correct processing of updates in one source while the other remains static.\n\n## 2. Test Data Strategy\n- **Total Records**: 100 unique `EMP_ID`s.\n- **Null Distribution**: 10% of records have null `EMAIL` or `PHONE` in at least one source.\n- **Duplicate Distribution**: 5% of records (5 IDs) exist in both sources with conflicting or matching data.\n- **Update Scenario**: 10 records updated in `HR_SYSTEM` only; 10 records updated in `PAYROLL_SYSTEM` only.\n\n## 3. Test Cases\n\n| ID | Test Scenario | Input Condition | Expected Outcome |\n| :--- | :--- | :--- | : |\n| **TC-01** | **Standard Merge** | `EMP_ID` exists in both sources with matching data. | Single record in `DW_EMPLOYEES` with data from preferred source (HR) or merged logic. |\n| **TC-02** | **Duplicate ID Resolution** | `EMP_ID` exists in both sources with conflicting `EMAIL`. | Record exists once. Logic prioritizes non-null source or specific precedence rule. |\n| **TC-03** | **Null Email Handling** | `EMAIL` is NULL in both sources. | `EMAIL` in `DW_EMPLOYEES` = 'UNKNOWN'. |\n| **TC-04** | **Null Email Fallback** | `EMAIL` is NULL in HR, valid in Payroll. | `EMAIL` in `DW_EMPLOYEES` = Value from Payroll. |\n| **TC-05** | **Phone Normalization (INT)** | `PHONE` is INT (1234567890) in HR, NULL in Payroll. | `PHONE` in `DW_EMPLOYEES` = '1234567890' (VARCHAR). |\n| **TC-06** | **Phone Normalization (Mixed)** | `PHONE` is INT in HR, VARCHAR with dashes in Payroll. | `PHONE` in `DW_EMPLOYEES` = Normalized VARCHAR (e.g., '123-456-7890' or raw string). |\n| **TC-07** | **Incremental Update (HR Only)** | `EMAIL` updated in HR, Payroll unchanged. | `DW_EMPLOYEES` reflects new HR `EMAIL`. |\n| **TC-08** | **Incremental Update (Payroll Only)** | `PHONE` updated in Payroll, HR unchanged. | `DW_EMPLOYEES` reflects new Payroll `PHONE`. |\n| **TC-09** | **Data Type Mismatch** | `PHONE` stored as INT in HR, VARCHAR in Payroll. | No errors; Target `PHONE` is VARCHAR. |\n| **TC-10** | **Unique Constraint** | Verify `EMAIL` uniqueness. | No duplicate `EMAIL` values in `DW_EMPLOYEES` (excluding 'UNKNOWN' if allowed, otherwise 'UNKNOWN' must be unique per logic). |\n\n---\n\n# SQL Scripts\n\n## 1. Source Data Generation (Setup)\n*Executes the creation of test data with specified nulls and duplicates.*\n\n```sql\n-- Drop existing tables if they exist for clean run\nDROP TABLE IF EXISTS HR_SYSTEM;\nDROP TABLE IF EXISTS PAYROLL_SYSTEM;\nDROP TABLE IF EXISTS DW_EMPLOYEES;\n\n-- Create Source Tables\nCREATE TABLE HR_SYSTEM (\n    EMP_ID INT PRIMARY KEY,\n    EMAIL VARCHAR(100),\n    PHONE INT\n);\n\nCREATE TABLE PAYROLL_SYSTEM (\n    EMP_ID INT PRIMARY KEY,\n    EMAIL VARCHAR(100),\n    PHONE VARCHAR(20)\n);\n\n-- Insert 100 Records\n-- Logic: \n-- 1-90: Unique to HR (some nulls)\n-- 91-100: Unique to Payroll (some nulls)\n-- 1-5: Duplicates in both (conflicting data)\n-- 11-20: Updated in HR only (simulating incremental)\n-- 21-30: Updated in Payroll only (simulating incremental)\n\nINSERT INTO HR_SYSTEM (EMP_ID, EMAIL, PHONE) VALUES\n(1, 'john.doe@hr.com', 1234567890),\n(2, 'jane.smith@hr.com', 2345678901),\n(3, NULL, 3456789012), -- Null Email\n(4, 'bob@hr.com', NULL), -- Null Phone\n(5, 'alice@hr.com', 5678901234),\n(11, 'updated.h1@hr.com', 1111111111), -- Incremental Update HR\n(12, 'updated.h2@hr.com', 1212121212),\n(13, 'updated.h3@hr.com', 1313131313),\n(14, 'updated.h4@hr.com', 1414141414),\n(15, 'updated.h5@hr.com', 1515151515),\n(16, 'updated.h6@hr.com', 1616161616),\n(17, 'updated.h7@hr.com', 1717171717),\n(18, 'updated.h8@hr.com', 1818181818),\n(19, 'updated.h9@hr.com', 1919191919),\n(20, 'updated.h10@hr.com', 2020202020),\n(21, 'original@hr.com', 2121212121), -- Will be updated in Payroll only\n(22, 'original@hr.com', 2222222222),\n(23, 'original@hr.com', 2323232323),\n(24, 'original@hr.com', 2424242424),\n(25, 'original@hr.com', 2525252525),\n(26, 'original@hr.com', 2626262626),\n(27, 'original@hr.com', 2727272727),\n(28, 'original@hr.com', 2828282828),\n(29, 'original@hr.com', 2929292929),\n(30, 'original@hr.com', 3030303030),\n(31, 'unique@hr.com', 3131313131),\n(32, 'unique@hr.com', 3232323232),\n(33, 'unique@hr.com', 3333333333),\n(34, 'unique@hr.com', 3434343434),\n(35, 'unique@hr.com', 3535353535),\n(36, 'unique@hr.com', 3636363636),\n(37, 'unique@hr.com', 3737373737),\n(38, 'unique@hr.com', 3838383838),\n(39, 'unique@hr.com', 3939393939),\n(40, 'unique@hr.com', 4040404040),\n(41, 'unique@hr.com', 4141414141),\n(42, 'unique@hr.com', 4242424242),\n(43, 'unique@hr.com', 4343434343),\n(44, 'unique@hr.com', 4444444444),\n(45, 'unique@hr.com', 4545454545),\n(46, 'unique@hr.com', 4646464646),\n(47, 'unique@hr.com', 4747474747),\n(48, 'unique@hr.com', 4848484848),\n(49, 'unique@hr.com', 4949494949),\n(50, 'unique@hr.com', 5050505050),\n(51, 'unique@hr.com', 5151515151),\n(52, 'unique@hr.com', 5252525252),\n(53, 'unique@hr.com', 5353535353),\n(54, 'unique@hr.com', 5454545454),\n(55, 'unique@hr.com', 5555555555),\n(56, 'unique@hr.com', 5656565656),\n(57, 'unique@hr.com', 5757575757),\n(58, 'unique@hr.com', 5858585858),\n(59, 'unique@hr.com', 5959595959),\n(60, 'unique@hr.com', 6060606060),\n(61, 'unique@hr.com', 6161616161),\n(62, 'unique@hr.com', 6262626262),\n(63, 'unique@hr.com', 6363636363),\n(64, 'unique@hr.com', 6464646464),\n(65, 'unique@hr.com', 6565656565),\n(66, 'unique@hr.com', 6666666666),\n(67, 'unique@hr.com', 6767676767),\n(68, 'unique@hr.com', 6868686868),\n(69, 'unique@hr.com', 6969696969),\n(70, 'unique@hr.com', 7070707070),\n(71, 'unique@hr.com', 7171717171),\n(72, 'unique@hr.com', 7272727272),\n(73, 'unique@hr.com', 7373737373),\n(74, 'unique@hr.com', 7474747474),\n(75, 'unique@hr.com', 7575757575),\n(76, 'unique@hr.com', 7676767676),\n(77, 'unique@hr.com', 7777777777),\n(78, 'unique@hr.com', 7878787878),\n(79, 'unique@hr.com', 7979797979),\n(80, 'unique@hr.com', 8080808080),\n(81, 'unique@hr.com', 8181818181),\n(82, 'unique@hr.com', 8282828282),\n(83, 'unique@hr.com', 8383838383),\n(84, 'unique@hr.com', 8484848484),\n(85, 'unique@hr.com', 8585858585),\n(86, 'unique@hr.com', 8686868686),\n(87, 'unique@hr.com', 8787878787),\n(88, 'unique@hr.com', 8888888888),\n(89, 'unique@hr.com', 8989898989),\n(90, 'unique@hr.com', 9090909090);\n\n-- Payroll Data (Includes duplicates 1-5, updates 21-30, unique 91-100)\nINSERT INTO PAYROLL_SYSTEM (EMP_ID, EMAIL, PHONE) VALUES\n(1, 'john.doe@payroll.com', '123-456-7890'), -- Duplicate ID, Conflict\n(2, 'jane.smith@payroll.com', '234-567-8901'), -- Duplicate ID, Match\n(3, 'jane.doe@payroll.com', '345-678-9012'), -- Duplicate ID, HR Null Email\n(4, 'bob@payroll.com', '456-789-0123'), -- Duplicate ID, HR Null Phone\n(5, 'alice@payroll.com', '567-890-1234'), -- Duplicate ID, Match\n(21, 'updated.p1@payroll.com', '212-121-2121'), -- Incremental Update Payroll\n(22, 'updated.p2@payroll.com', '222-222-2222'),\n(23, 'updated.p3@payroll.com', '232-323-2323'),\n(24, 'updated.p4@payroll.com', '242-424-2424'),\n(25, 'updated.p5@payroll.com', '252-525-2525'),\n(26, 'updated.p6@payroll.com', '262-626-2626'),\n(27, 'updated.p7@payroll.com', '272-727-2727'),\n(28, 'updated.p8@payroll.com', '282-828-2828'),\n(29, 'updated.p9@payroll.com', '292-929-2929'),\n(30, 'updated.p10@payroll.com', '303-030-3030'),\n(91, 'payroll.only@payroll.com', '919-191-9191'),\n(92, 'payroll.only@payroll.com', '929-292-9292'),\n(93, 'payroll.only@payroll.com', '939-393-9393'),\n(94, 'payroll.only@payroll.com', '949-494-9494'),\n(95, 'payroll.only@payroll.com', '959-595-9595'),\n(96, 'payroll.only@payroll.com', '969-696-9696'),\n(97, 'payroll.only@payroll.com', '979-797-9797'),\n(98, 'payroll.only@payroll.com', '989-898-9898'),\n(99, 'payroll.only@payroll.com', '999-999-9999'),\n(100, 'payroll.only@payroll.com', '100-100-1000');\n\n-- Create Target Table\nCREATE TABLE DW_EMPLOYEES (\n    EMP_ID INT PRIMARY KEY,\n    EMAIL VARCHAR(100),\n    PHONE VARCHAR(20)\n);\n\n-- Merge Logic (Simplified for demonstration)\n-- Priority: HR > Payroll. If HR is null, use Payroll. If both null, use 'UNKNOWN'.\n-- Phone: Always VARCHAR.\nINSERT INTO DW_EMPLOYEES (EMP_ID, EMAIL, PHONE)\nSELECT \n    COALESCE(h.EMP_ID, p.EMP_ID) AS EMP_ID,\n    CASE \n        WHEN h.EMAIL IS NOT NULL THEN h.EMAIL\n        WHEN p.EMAIL IS NOT NULL THEN p.EMAIL\n        ELSE 'UNKNOWN'\n    END AS EMAIL,\n    CASE \n        WHEN h.PHONE IS NOT NULL THEN CAST(h.PHONE AS VARCHAR(20))\n        WHEN p.PHONE IS NOT NULL THEN p.PHONE",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        2,
+        2,
+        2,
+        3
+      ],
+      "score": 2.2,
+      "grade_reason": "The submission fails significantly on technical execution and completeness. The SQL merge script is truncated mid-statement, rendering it invalid. Crucially, the task requires 'SQL scripts to validate,' which are entirely missing (only setup and merge logic are present). The incremental load requirement is acknowledged in the test plan but not implemented in the schema (no timestamps) or logic (no CDC). The inclusion of evaluator-style instructions ('Additional Checks') at the end suggests poor submission hygiene. The test plan text is well-structured and clear, preventing a lower clarity score."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Select methods, techniques, or criteria for data warehousing evaluative procedures.",
+      "task_type": "Data Quality Evaluation Framework",
+      "user_prompt": "Define a set of evaluative criteria and a scoring methodology to assess the quality of a data warehouse loading process that handles incremental updates. The process must be evaluated on its ability to detect and handle data anomalies such as timezone shifts, duplicate transaction IDs, and null values in mandatory fields. Provide a rubric that assigns weights to different quality dimensions (Accuracy, Completeness, Timeliness) and outlines how to calculate a final quality score based on test results.",
+      "reference_context": "Process: Daily CDC load of 'TRANSACTIONS' table. Anomalies: Timezone shifts (UTC vs Local), Duplicate TXN_IDs, Null AMOUNT. Evaluation Period: 30 days. Criteria: Accuracy (40%), Completeness (30%), Timeliness (30%).",
+      "evaluation_criteria": [
+        "Methodology: Is the scoring system logical and does it appropriately weight the quality dimensions?",
+        "Specificity: Are the criteria for detecting anomalies (nulls, duplicates, timezones) clearly defined?",
+        "Actionability: Does the framework provide clear thresholds for passing or failing the data quality assessment?"
+      ],
+      "student_answer": "# Data Warehouse Loading Process Quality Assessment Framework\n**Subject:** Daily CDC Load of 'TRANSACTIONS' Table (Incremental Updates)\n**Evaluation Period:** 30 Days\n\n## 1. Evaluative Criteria & Scoring Methodology\n\nThe quality score is calculated by aggregating weighted scores from three primary dimensions: **Accuracy**, **Completeness**, and **Timeliness**. Each dimension is scored on a 0–100 scale based on specific anomaly detection and handling rules.\n\n### A. Accuracy (Weight: 40%)\n*Focus: Correctness of data transformation and anomaly resolution.*\n\n| Sub-Criterion | Definition | Scoring Logic (0–100) |\n| :--- | :--- | :--- |\n| **Timezone Normalization** | Verification that all timestamps are converted to UTC without data loss or drift. | **100** if 0% of records show UTC offset errors.<br>**0** if >5% of records have incorrect UTC conversion.<br>Linear interpolation for 0–5% error rate. |\n| **Duplicate Handling** | Verification that duplicate `TXN_ID`s are detected and resolved (e.g., latest version retained, duplicates flagged). | **100** if 0% of loaded records contain unresolved duplicate `TXN_ID`s.<br>**0** if duplicates exist in the final target table.<br>Score = $100 \\times (1 - \\frac{\\text{Duplicate Count}}{\\text{Total Load Count}})$. |\n| **Data Integrity** | Verification that mandatory fields (e.g., `AMOUNT`) are not null and contain valid numeric values. | **100** if 0% of records have null/invalid `AMOUNT`.<br>**0** if >5% of records have null/invalid `AMOUNT`.<br>Linear interpolation for 0–5% error rate. |\n\n**Accuracy Score Calculation:**\n$$ \\text{Accuracy Score} = \\frac{\\text{Timezone Score} + \\text{Duplicate Score} + \\text{Integrity Score}}{3} $$\n\n### B. Completeness (Weight: 30%)\n*Focus: Volume of data successfully ingested relative to the source.*\n\n| Sub-Criterion | Definition | Scoring Logic (0–100) |\n| :--- | :--- | :--- |\n| **Record Match Rate** | Comparison of total source records vs. successfully loaded target records (excluding rejected anomalies). | **100** if Load Count = Source Count.<br>**0** if Load Count = 0.<br>Score = $100 \\times (\\frac{\\text{Loaded Records}}{\\text{Source Records}})$. |\n| **Anomaly Rejection Logging** | Verification that all rejected records (due to anomalies) are logged in the error audit table with root cause codes. | **100** if 100% of rejected records have valid audit logs.<br>**0** if any rejected records lack audit logs.<br>Score = $100 \\times (\\frac{\\text{Logged Rejections}}{\\text{Total Rejections}})$. |\n\n**Completeness Score Calculation:**\n$$ \\text{Completeness Score} = \\frac{\\text{Record Match Rate} + \\text{Audit Logging Rate}}{2} $$\n\n### C. Timeliness (Weight: 30%)\n*Focus: Adherence to the daily SLA and processing latency.*\n\n| Sub-Criterion | Definition | Scoring Logic (0–100) |\n| :--- | :--- | :--- |\n| **SLA Adherence** | Percentage of days within the 30-day period where the load completed before the daily cutoff time (e.g., 08:00 UTC). | **100** if 100% of days met the SLA.<br>**0** if 0% of days met the SLA.<br>Score = $100 \\times (\\frac{\\text{Days Met SLA}}{30})$. |\n| **Processing Latency** | Average time taken to process the CDC stream per day compared to the baseline. | **100** if average latency $\\le$ Baseline.<br>**0** if average latency $\\ge$ 200% of Baseline.<br>Linear interpolation for values between Baseline and 200% Baseline. |\n\n**Timeliness Score Calculation:**\n$$ \\text{Timeliness Score} = \\frac{\\text{SLA Adherence} + \\text{Latency Score}}{2} $$\n\n---\n\n## 2. Final Quality Score Calculation\n\nThe final Quality Score ($Q_{final}$) is the weighted sum of the three dimension scores.\n\n$$ Q_{final} = (\\text{Accuracy Score} \\times 0.40) + (\\text{Completeness Score} \\times 0.30) + (\\text{Timeliness Score} \\times 0.30) $$\n\n### Scoring Interpretation Rubric\n\n| Score Range | Rating | Action Required |\n| :--- | :--- | :--- |\n| **95 – 100** | **Excellent** | Process is stable; no immediate action required. |\n| **85 – 94** | **Good** | Minor anomalies detected; review error logs for optimization. |\n| **70 – 84** | **Acceptable** | Significant anomalies present; root cause analysis required. |\n| **< 70** | **Critical** | Process failure; immediate intervention and rollback required. |\n\n---\n\n## 3. Implementation Data Requirements\n\nTo execute this assessment over the 30-day period, the following data points must be extracted from the ETL logs and target tables:\n\n1.  **Source Count:** Total rows in the CDC source stream per day.\n2.  **Target Count:** Total rows successfully inserted/updated in the `TRANSACTIONS` table per day.\n3.  **Error Counts:**\n    *   Count of records with `UTC_Offset_Error`.\n    *   Count of records with `Duplicate_TXN_ID`.\n    *   Count of records with `Null_Amount`.\n4.  **Audit Logs:** Count of rejected records with valid `Error_Code` and `Error_Description`.\n5.  **Timestamps:** `Start_Time` and `End_Time` of the daily load job.\n6.  **Baseline Latency:** Historical average processing time for the `TRANSACTIONS` load.",
+      "score": 3.2,
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        4
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission provides a well-structured framework with appropriate weights but contains critical mathematical errors in the scoring formulas (missing divisors in LaTeX). It also fails to address the specific CDC requirement regarding last_modified nulls, which is essential for incremental loading logic as per the additional checks. While the structure is professional and clear, the technical precision required for an industry-standard methodology is lacking."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Implement business rules via stored procedures, middleware, or other technologies.",
+      "task_type": "CDC Stored Procedure Design",
+      "user_prompt": "Design a SQL Server stored procedure to implement Change Data Capture (CDC) for the 'Sales_Orders' table. The source table has a 'LastUpdated' datetime column and allows NULLs in the 'Discount_Amount' field. The procedure must extract only new or updated records since the last successful run (tracked in a 'Load_History' table), normalize NULL discount amounts to 0, and handle data type mismatches between the source (NVARCHAR) and target (DECIMAL) for the 'Order_Total' field. The procedure must also handle late-arriving data by allowing updates to records with the same 'Order_ID' but an earlier 'LastUpdated' timestamp if the source data is corrected.",
+      "reference_context": "Source Table: Sales_Orders (Order_ID INT, Customer_ID INT, Order_Total NVARCHAR, Discount_Amount NVARCHAR, LastUpdated DATETIME). Target Table: DW_Sales_Orders (Order_ID INT, Customer_ID INT, Order_Total DECIMAL(10,2), Discount_Amount DECIMAL(10,2), LastUpdated DATETIME, Batch_ID INT). Load_History Table: Last_Run_Date DATETIME. Constraints: Order_ID must be unique in target; Order_Total must be numeric.",
+      "evaluation_criteria": [
+        "Correctness: Does the logic correctly identify changes using the LastUpdated timestamp and handle the specific CDC requirements?",
+        "Completeness: Are NULL values for Discount_Amount explicitly converted to 0, and is the NVARCHAR to DECIMAL conversion for Order_Total handled safely?",
+        "Best Practices: Does the solution support late-arriving data by allowing updates to existing records with earlier timestamps?"
+      ],
+      "student_answer": "```sql\nCREATE PROCEDURE dbo.usp_Load_Sales_Orders_CDC\n    @Batch_ID INT\nAS\nBEGIN\n    SET NOCOUNT ON;\n\n    DECLARE @LastRunDate DATETIME;\n    DECLARE @CurrentRunDate DATETIME = GETDATE();\n    DECLARE @SourceOrderTotal DECIMAL(10,2);\n    DECLARE @SourceDiscount DECIMAL(10,2);\n\n    -- Retrieve the last successful run date\n    SELECT @LastRunDate = Last_Run_Date \n    FROM dbo.Load_History \n    WHERE Batch_ID = @Batch_ID; -- Assuming Load_History tracks by Batch_ID or we use a specific row\n\n    -- If no history exists, treat as initial load (or handle error as per policy)\n    IF @LastRunDate IS NULL\n    BEGIN\n        SET @LastRunDate = '1900-01-01'; -- Fallback for initial load\n    END\n\n    -- Insert new or updated records\n    -- Logic: \n    -- 1. Capture records where LastUpdated > @LastRunDate (New/Updated)\n    -- 2. Capture records where LastUpdated <= @LastRunDate but Order_ID exists in Target (Late-arriving corrections)\n    -- Note: The requirement \"allow updates to records with the same Order_ID but an earlier LastUpdated\" implies a merge strategy \n    -- where we check for existence in the target first, or simply re-process based on a specific correction window.\n    -- Given the \"CDC\" context usually implies time-based, but \"late-arriving\" implies a specific correction logic.\n    -- We will implement a MERGE statement that handles both new/updated timestamps and late-arriving corrections \n    -- by checking if the source record is \"more recent\" in terms of data quality or simply re-processing if it matches a correction criteria.\n    -- However, standard CDC is time-based. To support \"earlier timestamp\" updates, we must explicitly check for existing Order_IDs \n    -- that might need correction even if their timestamp is old, OR we assume the \"LastUpdated\" in source is corrected to a new time.\n    -- Re-reading: \"allow updates to records with the same Order_ID but an earlier LastUpdated timestamp\".\n    -- This implies the source data is being corrected to an older timestamp. \n    -- Strategy: We will load records where LastUpdated > @LastRunDate (Standard CDC) \n    -- AND records where Order_ID exists in Target and Source.LastUpdated < Target.LastUpdated (Late Arriving Correction).\n\n    MERGE INTO dbo.DW_Sales_Orders AS Target\n    USING (\n        SELECT \n            Order_ID,\n            Customer_ID,\n            -- Normalize Order_Total: Convert NVARCHAR to DECIMAL, handle NULLs/Errors\n            CASE \n                WHEN ISNUMERIC(Order_Total) = 1 THEN CAST(Order_Total AS DECIMAL(10,2))\n                ELSE 0.00 -- Fallback for invalid data\n            END AS Order_Total,\n            -- Normalize Discount_Amount: Convert NVARCHAR to DECIMAL, NULL to 0\n            ISNULL(CAST(Discount_Amount AS DECIMAL(10,2)), 0.00) AS Discount_Amount,\n            LastUpdated\n        FROM dbo.Sales_Orders\n        WHERE LastUpdated > @LastRunDate\n           OR (\n               -- Late-arriving correction logic: Source exists, Target exists, Source timestamp is earlier\n               EXISTS (\n                   SELECT 1 \n                   FROM dbo.DW_Sales_Orders T \n                   WHERE T.Order_ID = Sales_Orders.Order_ID \n                     AND Sales_Orders.LastUpdated < T.LastUpdated\n               )\n           )\n    ) AS Source\n    ON Target.Order_ID = Source.Order_ID\n    WHEN MATCHED THEN\n        UPDATE SET \n            Target.Customer_ID = Source.Customer_ID,\n            Target.Order_Total = Source.Order_Total,\n            Target.Discount_Amount = Source.Discount_Amount,\n            Target.LastUpdated = Source.LastUpdated,\n            Target.Batch_ID = @Batch_ID\n    WHEN NOT MATCHED BY TARGET THEN\n        INSERT (Order_ID, Customer_ID, Order_Total, Discount_Amount, LastUpdated, Batch_ID)\n        VALUES (Source.Order_ID, Source.Customer_ID, Source.Order_Total, Source.Discount_Amount, Source.LastUpdated, @Batch_ID);\n\n    -- Update Load_History with the current run date\n    -- Assuming Load_History has a unique key or we update the specific batch record\n    -- If Load_History is a simple log, we might insert a new row. \n    -- Based on \"Last_Run_Date\" column, we assume it tracks the last successful run for this process.\n    -- We will update the row corresponding to this Batch_ID or insert if not exists.\n    IF EXISTS (SELECT 1 FROM dbo.Load_History WHERE Batch_ID = @Batch_ID)\n    BEGIN\n        UPDATE dbo.Load_History\n        SET Last_Run_Date = @CurrentRunDate\n        WHERE Batch_ID = @Batch_ID;\n    END\n    ELSE\n    BEGIN\n        INSERT INTO dbo.Load_History (Batch_ID, Last_Run_Date)\n        VALUES (@Batch_ID, @CurrentRunDate);\n    END\nEND;\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        2,
+        3,
+        4
+      ],
+      "score": 3.0,
+      "grade_reason": "The solution correctly implements the core CDC and MERGE logic, including late-arriving data handling and type normalization. However, it lacks production-grade robustness. Key issues include using ISNUMERIC (prone to errors with currency symbols) instead of TRY_CAST, missing transaction management (BEGIN TRAN), and no error handling (TRY...CATCH). The correlated subquery in the MERGE source is a performance anti-pattern. Unused variables reduce code quality. While clear and logically sound for happy paths, these gaps prevent a higher score."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Prepare functional or technical documentation for data warehouses.",
+      "task_type": "Data Lineage and Transformation Documentation",
+      "user_prompt": "Create a technical specification document for an incremental data load process moving 'Inventory_Levels' from a PostgreSQL source to a Redshift data warehouse. The source data contains duplicate entries for the same SKU on the same date due to system glitches. The transformation logic must deduplicate records based on the highest 'Stock_Count' value, handle NULL 'Warehouse_ID' by defaulting to 'UNKNOWN', and ensure that the 'Last_Updated' timestamp is preserved for audit purposes. The documentation must explicitly describe the SQL logic used for the incremental extraction (using a 'Modified_Since' parameter) and the deduplication strategy.",
+      "reference_context": "Source Table: Inventory_Levels (SKU VARCHAR, Warehouse_ID VARCHAR, Stock_Count INT, Last_Updated TIMESTAMP). Target Table: DW_Inventory (SKU VARCHAR, Warehouse_ID VARCHAR, Stock_Count INT, Last_Updated TIMESTAMP, Source_System VARCHAR). Constraints: SKU and Warehouse_ID combination must be unique in target; Stock_Count cannot be negative.",
+      "evaluation_criteria": [
+        "Correctness: Is the incremental extraction logic clearly defined using a 'Modified_Since' parameter?",
+        "Completeness: Does the documentation explicitly cover the deduplication logic (highest Stock_Count) and NULL handling for Warehouse_ID?",
+        "Best Practices: Is the documentation clear enough for a developer to implement the ETL without ambiguity?"
+      ],
+      "student_answer": "# Technical Specification: Incremental Load of Inventory_Levels (PostgreSQL to Redshift)\n\n## 1. Overview\nThis document defines the technical specifications for the incremental extraction and transformation of the `Inventory_Levels` table from a PostgreSQL source system to the Amazon Redshift data warehouse. The process addresses data quality issues regarding duplicate records and null values while ensuring data integrity through specific deduplication and validation logic.\n\n## 2. Data Model\n\n### 2.1 Source System (PostgreSQL)\n**Table:** `Inventory_Levels`\n| Column Name | Data Type | Description |\n| :--- | :--- | :--- |\n| `SKU` | VARCHAR | Stock Keeping Unit identifier |\n| `Warehouse_ID` | VARCHAR | Warehouse identifier |\n| `Stock_Count` | INT | Current stock quantity |\n| `Last_Updated` | TIMESTAMP | Timestamp of the record modification |\n\n### 2.2 Target System (Redshift)\n**Table:** `DW_Inventory`\n| Column Name | Data Type | Description | Constraints |\n| :--- | :--- | :--- | :--- |\n| `SKU` | VARCHAR | Stock Keeping Unit identifier | Part of PK |\n| `Warehouse_ID` | VARCHAR | Warehouse identifier | Part of PK |\n| `Stock_Count` | INT | Current stock quantity | NOT NULL, >= 0 |\n| `Last_Updated` | TIMESTAMP | Original modification timestamp | Preserved for audit |\n| `Source_System` | VARCHAR | Source system identifier | Default: 'PostgreSQL' |\n\n**Constraints:**\n*   **Primary Key:** Composite key on (`SKU`, `Warehouse_ID`).\n*   **Check Constraint:** `Stock_Count >= 0`.\n\n## 3. Extraction Logic (Incremental)\n\nThe extraction process utilizes a `Modified_Since` parameter to retrieve only records changed since the last successful load.\n\n### 3.1 Parameter Definition\n*   **Parameter Name:** `:Modified_Since`\n*   **Data Type:** TIMESTAMP\n*   **Source:** Stored in a control table or passed via ETL orchestration tool (e.g., Airflow, AWS Glue).\n*   **Initial Load:** If no prior load exists, use the minimum `Last_Updated` value from the source table.\n\n### 3.2 SQL Extraction Query\n```sql\nSELECT \n    SKU,\n    Warehouse_ID,\n    Stock_Count,\n    Last_Updated\nFROM \n    Inventory_Levels\nWHERE \n    Last_Updated >= :Modified_Since\n    AND Last_Updated < CURRENT_TIMESTAMP\nORDER BY \n    Last_Updated ASC;\n```\n\n## 4. Transformation Logic\n\nThe transformation occurs within the Redshift target environment using a staging table approach to handle deduplication and data cleansing before the final merge.\n\n### 4.1 Staging Table Creation\nA temporary staging table (`STG_Inventory_Levels`) is created to hold raw extracted data.\n\n```sql\nCREATE TEMP TABLE STG_Inventory_Levels (\n    SKU VARCHAR,\n    Warehouse_ID VARCHAR,\n    Stock_Count INT,\n    Last_Updated TIMESTAMP\n);\n```\n\n### 4.2 Data Cleansing and Deduplication Strategy\nThe logic applies the following rules in sequence:\n1.  **Null Handling:** Replace NULL `Warehouse_ID` with 'UNKNOWN'.\n2.  **Negative Value Handling:** Filter out records where `Stock_Count` is negative.\n3.  **Deduplication:** For duplicate entries (same `SKU` and `Warehouse_ID` on the same effective date context), retain the record with the **highest `Stock_Count`**.\n4.  **Audit Preservation:** The `Last_Updated` timestamp from the retained record is preserved exactly as it appears in the source.\n\n### 4.3 Transformation SQL\nThe following SQL is executed against the `STG_Inventory_Levels` table to produce the final dataset for the target.\n\n```sql\nINSERT INTO DW_Inventory (SKU, Warehouse_ID, Stock_Count, Last_Updated, Source_System)\nSELECT \n    SKU,\n    COALESCE(Warehouse_ID, 'UNKNOWN') AS Warehouse_ID,\n    Stock_Count,\n    Last_Updated,\n    'PostgreSQL' AS Source_System\nFROM (\n    SELECT \n        SKU,\n        Warehouse_ID,\n        Stock_Count,\n        Last_Updated,\n        ROW_NUMBER() OVER (\n            PARTITION BY SKU, COALESCE(Warehouse_ID, 'UNKNOWN') \n            ORDER BY Stock_Count DESC, Last_Updated DESC\n        ) AS rn\n    FROM \n        STG_Inventory_Levels\n    WHERE \n        Stock_Count >= 0\n) AS deduped_records\nWHERE \n    rn = 1;\n```\n\n**Logic Explanation:**\n*   `COALESCE(Warehouse_ID, 'UNKNOWN')`: Ensures missing warehouse IDs are standardized.\n*   `ROW_NUMBER()`: Assigns a rank to duplicates.\n*   `PARTITION BY SKU, COALESCE(...)`: Groups records by the unique business key.\n*   `ORDER BY Stock_Count DESC`: Prioritizes the record with the highest stock count.\n*   `rn = 1`: Selects only the highest stock count record for each unique SKU/Warehouse combination.\n*   `Last_Updated`: The timestamp associated with the winning record is inserted directly, satisfying the audit requirement.\n\n## 5. Error Handling and Validation\n\n### 5.1 Data Validation\nBefore committing the transaction, the following checks are enforced:\n*   **Constraint Check:** The `DW_Inventory` table definition enforces `Stock_Count >= 0`. Any record violating this during the insert will cause the transaction to fail.\n*   **Uniqueness Check:** The target table's unique constraint on (`SKU`, `Warehouse_ID`) prevents duplicate inserts. If the ETL logic is correct, this should not trigger an error; if it does, it indicates a logic flaw in the deduplication step.\n\n### 5.2 Rollback Strategy\nIf the transformation fails (e.g., due to constraint violations or data type mismatches), the entire batch for the current `:Modified_Since` window must be rolled back to maintain data consistency. The `:Modified_Since` parameter should **not** be advanced until the load is confirmed successful.\n\n## 6. Operational Procedures\n\n1.  **Extract:** Run the PostgreSQL extraction query using the current `:Modified_Since` value.\n2.  **Load:** Bulk load results into `STG_Inventory_Levels`.\n3.  **Transform:** Execute the Deduplication SQL script.\n4.  **Validate:** Verify row counts and check for constraint violations.\n5.  **Commit:** If validation passes, commit the transaction.\n6.  **Update Control:** Update the `:Modified_Since` parameter to the maximum `Last_Updated` value found in the current batch for the next run.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "Correctness (3): The specification uses INSERT into a table with a Unique Constraint (SKU, Warehouse_ID) for an incremental load. This will fail on the second batch for any SKU that was updated in the source, as the record already exists in the target. An UPSERT or MERGE strategy is required for SCD1 tables. Completeness (3): Missing the Upsert/Merge logic, missing schema for the control table storing Modified_Since, and no explicit handling for NULL Last_Updated values in the source extraction. Best Practices (3): Using INSERT for incremental updates to a current-state table is a common architectural flaw; staging tables are good, but the final load step is weak. Domain Accuracy (3): Demonstrates knowledge of Redshift syntax and constraints but fails to apply the correct DML pattern (MERGE/UPSERT) for the stated constraints. Clarity (5): The document is exceptionally well-structured, readable, and the SQL logic is clearly explained."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Test software systems or applications for software enhancements or new products.",
+      "task_type": "ETL Validation and Data Quality Testing",
+      "user_prompt": "Develop a test suite to validate an incremental ETL pipeline that loads 'Product_Catalog' data from a MongoDB-like NoSQL source into a relational Snowflake warehouse. The pipeline must handle schema evolution where new fields may appear, and existing fields may change data types (e.g., String to Integer). The test suite must verify that: 1) Only records with 'Updated_At' timestamps greater than the last batch are loaded, 2) Records with NULL 'Price' values are rejected or flagged, 3) Duplicate 'Product_ID' entries in the source are resolved by keeping the most recent record, and 4) The target table integrity is maintained (no orphaned records). Provide the SQL queries and logic to simulate these test scenarios.",
+      "reference_context": "Source Data: Product_Catalog (Product_ID VARCHAR, Name VARCHAR, Price VARCHAR, Updated_At TIMESTAMP, Category VARCHAR). Target Table: DW_Products (Product_ID VARCHAR, Name VARCHAR, Price DECIMAL(10,2), Updated_At TIMESTAMP, Category VARCHAR, Batch_ID INT). Constraints: Product_ID must be unique; Price must be non-NULL and numeric.",
+      "evaluation_criteria": [
+        "Correctness: Do the test queries correctly simulate incremental loads and verify the 'Updated_At' logic?",
+        "Completeness: Are the test cases for NULL handling, data type conversion, and deduplication explicitly covered?",
+        "Best Practices: Does the test suite ensure data integrity and handle schema evolution scenarios realistically?"
+      ],
+      "student_answer": "-- Test Suite: Incremental ETL Validation for Product_Catalog\n-- Context: MongoDB-like Source -> Snowflake DW_Products\n\n-- =============================================================================\n-- SETUP: Create Test Data and Simulate Source/Target States\n-- =============================================================================\n\n-- 1. Create Source Simulation Table (Replicating MongoDB-like structure)\nCREATE OR REPLACE TABLE TEST_SOURCE_Product_Catalog (\n    Product_ID VARCHAR,\n    Name VARCHAR,\n    Price VARCHAR,\n    Updated_At TIMESTAMP,\n    Category VARCHAR\n);\n\n-- 2. Create Target Simulation Table (Replicating Snowflake DW_Products)\nCREATE OR REPLACE TABLE TEST_TARGET_DW_Products (\n    Product_ID VARCHAR,\n    Name VARCHAR,\n    Price DECIMAL(10,2),\n    Updated_At TIMESTAMP,\n    Category VARCHAR,\n    Batch_ID INT,\n    CONSTRAINT PK_Product_ID PRIMARY KEY (Product_ID)\n);\n\n-- 3. Seed Initial Target State (Simulating previous batch completion)\n-- Batch 100 completed. Last processed timestamp: '2023-10-01 10:00:00'\nINSERT INTO TEST_TARGET_DW_Products (Product_ID, Name, Price, Updated_At, Category, Batch_ID)\nVALUES \n    ('P001', 'Laptop', 999.99, '2023-10-01 09:00:00', 'Electronics', 100),\n    ('P002', 'Mouse', 25.50, '2023-10-01 09:30:00', 'Electronics', 100);\n\n-- 4. Seed Source Data for Current Batch (Batch 101)\n-- Scenario A: New record (Valid)\n-- Scenario B: Updated record (Valid, newer timestamp)\n-- Scenario C: Duplicate Product_ID with older timestamp (Should be ignored)\n-- Scenario D: Duplicate Product_ID with newer timestamp (Should overwrite)\n-- Scenario E: NULL Price (Should be rejected)\n-- Scenario F: Type Change (String \"100\" to Integer logic handled in ETL, but source is string)\n-- Scenario G: Orphan check (Source record for P003 exists, but not in target yet)\n\nINSERT INTO TEST_SOURCE_Product_Catalog (Product_ID, Name, Price, Updated_At, Category)\nVALUES \n    -- Valid New Record\n    ('P003', 'Keyboard', '75.00', '2023-10-02 08:00:00', 'Electronics'),\n    \n    -- Valid Update (P001 updated)\n    ('P001', 'Laptop Pro', '1299.99', '2023-10-02 09:00:00', 'Electronics'),\n    \n    -- Duplicate: Older timestamp (Should be ignored by ETL logic)\n    ('P001', 'Laptop Old', '900.00', '2023-10-01 08:00:00', 'Electronics'),\n    \n    -- Duplicate: Newer timestamp (Should overwrite P001)\n    ('P002', 'Wireless Mouse', '30.00', '2023-10-02 10:00:00', 'Electronics'),\n    \n    -- Invalid: NULL Price\n    ('P004', 'Monitor', NULL, '2023-10-02 11:00:00', 'Electronics'),\n    \n    -- Invalid: Non-numeric Price (Simulating type change failure)\n    ('P005', 'Desk', 'Free', '2023-10-02 12:00:00', 'Furniture'),\n    \n    -- Valid: New Category\n    ('P006', 'Chair', '150.00', '2023-10-02 13:00:00', 'Furniture');\n\n-- =============================================================================\n-- TEST 1: Verify Incremental Load Logic (Updated_At > Last Batch)\n-- =============================================================================\n-- Expected: Only records with Updated_At > '2023-10-01 10:00:00' are processed.\n-- Logic: Compare source records against the max Updated_At in the target before the current batch.\n\nSELECT \n    'TEST_1_INCREMENTAL_LOAD' AS Test_Name,\n    CASE \n        WHEN COUNT(*) = 6 THEN 'PASS' \n        ELSE 'FAIL' \n    END AS Status,\n    COUNT(*) AS Records_Loaded,\n    'Expected 6 records (P003, P001_upd, P002_upd, P004, P005, P006)' AS Details\nFROM TEST_SOURCE_Product_Catalog\nWHERE Updated_At > (SELECT MAX(Updated_At) FROM TEST_TARGET_DW_Products WHERE Batch_ID = 100);\n\n-- =============================================================================\n-- TEST 2: Verify NULL Price Rejection/Flagging\n-- =============================================================================\n-- Expected: Records with NULL Price are NOT inserted into Target.\n-- Logic: Count records in Source with NULL Price vs Records in Target with NULL Price (should be 0).\n\nSELECT \n    'TEST_2_NULL_PRICE_REJECTION' AS Test_Name,\n    CASE \n        WHEN (SELECT COUNT(*) FROM TEST_SOURCE_Product_Catalog WHERE Price IS NULL) > 0 \n             AND (SELECT COUNT(*) FROM TEST_TARGET_DW_Products WHERE Price IS NULL) = 0 \n        THEN 'PASS' \n        ELSE 'FAIL' \n    END AS Status,\n    'Source NULLs: ' || (SELECT COUNT(*) FROM TEST_SOURCE_Product_Catalog WHERE Price IS NULL) || \n    ', Target NULLs: ' || (SELECT COUNT(*) FROM TEST_TARGET_DW_ProductS WHERE Price IS NULL) AS Details;\n\n-- =============================================================================\n-- TEST 3: Verify Duplicate Resolution (Keep Most Recent)\n-- =============================================================================\n-- Expected: P001 and P002 in Target should reflect the latest source data.\n-- Logic: Compare Target Name/Price for P001 and P002 against the latest source record.\n\nSELECT \n    'TEST_3_DUPLICATE_RESOLUTION' AS Test_Name,\n    CASE \n        WHEN (SELECT Name FROM TEST_TARGET_DW_Products WHERE Product_ID = 'P001') = 'Laptop Pro'\n             AND (SELECT Name FROM TEST_TARGET_DW_Products WHERE Product_ID = 'P002') = 'Wireless Mouse'\n        THEN 'PASS' \n        ELSE 'FAIL' \n    END AS Status,\n    'P001 Name: ' || (SELECT Name FROM TEST_TARGET_DW_Products WHERE Product_ID = 'P001') || \n    ', P002 Name: ' || (SELECT Name FROM TEST_TARGET_DW_Products WHERE Product_ID = 'P002') AS Details;\n\n-- =============================================================================\n-- TEST 4: Verify Target Integrity (No Orphaned Records)\n-- =============================================================================\n-- Expected: All records in Target must have a corresponding valid record in Source (or were pre-existing).\n-- Logic: Check for Target records that do not exist in Source (excluding pre-existing batch 100 records if they are still valid).\n-- Note: In a real scenario, we check if the Target record's Updated_At is older than the Source's max, \n-- but here we verify that the current batch didn't introduce \"orphans\" (records in target not in source).\n\nSELECT \n    'TEST_4_INTEGRITY_NO_ORPHANS' AS Test_Name,\n    CASE \n        WHEN (\n            SELECT COUNT(*) \n            FROM TEST_TARGET_DW_Products t\n            LEFT JOIN TEST_SOURCE_Product_Catalog s ON t.Product_ID = s.Product_ID\n            WHERE s.Product_ID IS NULL \n              AND t.Batch_ID = 101 -- Only check records from the current batch\n        ) = 0 \n        THEN 'PASS' \n        ELSE 'FAIL' \n    END AS Status,\n    'Orphaned records in Batch 101: ' || (\n        SELECT COUNT(*) \n        FROM TEST_TARGET_DW_Products t\n        LEFT JOIN TEST_SOURCE_Product_Catalog s ON t.Product_ID = s.Product_ID\n        WHERE s.Product_ID IS NULL AND t.Batch_ID = 101\n    ) AS Details;\n\n-- =============================================================================\n-- FINAL STATE VERIFICATION (Optional: View Final Target)\n-- =============================================================================\nSELECT * FROM TEST_TARGET_DW_Products ORDER BY Product_ID;",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "Correctness (2): The test suite is logically flawed; it queries the Target table for Batch 101 data (Tests 3 & 4) but the script only seeds Batch 100 data, omitting the ETL transformation logic required to populate the Target. Consequently, the tests cannot pass as written. Completeness (3): Addresses the 4 validation points conceptually but ignores the 'Schema Evolution' requirement (static tables) and fails to include the ETL logic needed to make the tests valid. Best Practices (3): Uses hardcoded timestamps and simplistic watermarking (max timestamp) rather than a control table; lacks transaction isolation. Domain Accuracy (4): Correctly identifies Snowflake constraints and CDC concepts. Clarity (5): Excellent structure and commenting."
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "job_id": "budget_analyst",
+  "job_title": "Budget Analysts",
+  "onet_code": "13-2031.00",
+  "role_description": "Senior Financial Analyst and Compliance Officer",
+  "task_types": "Budget Forecasting / Variance Analysis / Compliance Review / Policy Interpretation / Stakeholder Consultation",
+  "onet_tasks": [
+    "Summarize budgets and submit recommendations for the approval or disapproval of funds requests.",
+    "Analyze monthly department budgeting and accounting reports to maintain expenditure controls.",
+    "Examine budget estimates for completeness, accuracy, and conformance with procedures and regulations.",
+    "Direct the preparation of regular and special budget reports.",
+    "Provide advice and technical assistance with cost analysis, fiscal allocation, and budget preparation.",
+    "Compile and analyze accounting records and other data to determine the financial resources required to implement a program.",
+    "Review operating budgets to analyze trends affecting budget needs.",
+    "Interpret budget directives and establish policies for carrying out directives.",
+    "Match appropriations for specific programs with appropriations for broader programs, including items for emergency funds.",
+    "Consult with managers to ensure that budget adjustments are made in accordance with program changes."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Financial calculations must be precise to two decimal places",
+    "Requirement 6: Recommendations must explicitly cite relevant regulatory constraints or O*NET task logic",
+    "Requirement 7: Solutions must demonstrate clear reasoning for variance explanations"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Analyze monthly department budgeting and accounting reports to maintain expenditure controls.",
+    "task_type": "Variance Analysis",
+    "user_prompt": "You are a Budget Analyst for a municipal department. Review the attached Q3 financial data. The department has a fixed annual appropriation of $5,000,000. Calculate the cumulative variance between the original budget and actual expenditures for the first three quarters. Identify any line items where the variance exceeds 10% of the allocated budget. Draft a formal memo summarizing these findings, explaining the primary drivers of the variance (e.g., staffing costs, supply chain inflation), and recommend specific corrective actions to bring the department back on track for the remainder of the fiscal year.",
+    "reference_context": {
+      "department_name": "Public Works",
+      "fiscal_year": 2024,
+      "total_appropriation": 5000000.0,
+      "quarterly_data": [
+        {
+          "quarter": "Q1",
+          "original_budget": 1250000.0,
+          "actual_expenditure": 1180000.0,
+          "variance_percent": -5.6
+        },
+        {
+          "quarter": "Q2",
+          "original_budget": 1250000.0,
+          "actual_expenditure": 1420000.0,
+          "variance_percent": 13.6
+        },
+        {
+          "quarter": "Q3",
+          "original_budget": 1250000.0,
+          "actual_expenditure": 1310000.0,
+          "variance_percent": 4.8
+        }
+      ],
+      "key_drivers": {
+        "Q2_excess": "Unplanned emergency road repairs ($150,000)",
+        "Q3_excess": "Overtime for snow removal prep ($60,000)"
+      }
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Are the variance calculations mathematically accurate?",
+      "Criterion 2: Completeness — Did the memo address all flagged line items and provide actionable recommendations?",
+      "Criterion 3: Best practices — Is the tone professional and the structure aligned with standard financial reporting?"
+    ]
+  },
+  "grading_notes": "Check that the AI correctly identifies Q2 as the outlier exceeding 10% variance. Verify that the recommendation addresses the specific drivers (emergency repairs and overtime) rather than generic cost-cutting. Ensure the tone is appropriate for a formal government memo.",
+  "grading_rubric_template": [
+    "1. Accuracy: Are all financial calculations and variance percentages correct to two decimal places?",
+    "2. Compliance: Does the solution adhere to the implied regulatory constraints and reporting standards?",
+    "3. Completeness: Are all parts of the prompt (calculation, identification, memo drafting) fully addressed?",
+    "4. Strategic Insight: Does the analysis provide logical, data-driven recommendations for corrective action?",
+    "5. Clarity: Is the final output structured professionally and easy for stakeholders to understand?"
+  ],
+  "grading_scale_max": 5
+}

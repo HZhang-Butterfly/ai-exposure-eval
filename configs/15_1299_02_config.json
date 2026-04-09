@@ -1,0 +1,89 @@
+{
+  "job_id": "gis_tech",
+  "job_title": "Geographic Information Systems Technologists and Technicians",
+  "onet_code": "15-1299.02",
+  "role_description": "Senior GIS Specialist and Spatial Data Architect",
+  "task_types": "Spatial Data Analysis / Database Management & Integration / Cartographic Design / Geospatial Programming & Automation / Data Quality Assurance",
+  "onet_tasks": [
+    "Produce data layers, maps, tables, or reports, using spatial analysis procedures or Geographic Information Systems (GIS) technology, equipment, or systems.",
+    "Design or prepare graphic representations of Geographic Information Systems (GIS) data, using GIS hardware or software applications.",
+    "Maintain or modify existing Geographic Information Systems (GIS) databases.",
+    "Provide technical expertise in Geographic Information Systems (GIS) technology to clients or users.",
+    "Perform computer programming, data analysis, or software development for Geographic Information Systems (GIS) applications, including the maintenance of existing systems or research and development for future enhancements.",
+    "Enter data into Geographic Information Systems (GIS) databases, using techniques such as coordinate geometry, keyboard entry of tabular data, manual digitizing of maps, scanning or automatic conversion to vectors, or conversion of other sources of digital data.",
+    "Review existing or incoming data for currency, accuracy, usefulness, quality, or completeness of documentation.",
+    "Perform geospatial data building, modeling, or analysis, using advanced spatial analysis, data manipulation, or cartography software.",
+    "Design or coordinate the development of integrated Geographic Information Systems (GIS) spatial or non-spatial databases.",
+    "Perform integrated or computerized Geographic Information Systems (GIS) analyses to address scientific problems."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly handle coordinate reference system (CRS) transformations and projection issues",
+    "Requirement 6: Data entry and processing tasks must account for common geospatial data quality issues like topology errors or attribute mismatches"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Perform geospatial data building, modeling, or analysis, using advanced spatial analysis, data manipulation, or cartography software.",
+    "task_type": "Spatial Data Analysis",
+    "user_prompt": "You are a GIS Technician tasked with analyzing flood risk for a new development project. You have been provided with a shapefile of the proposed site boundaries and a raster DEM (Digital Elevation Model) of the region. Your goal is to identify all areas within the site boundary that have an elevation below 5 meters above sea level. Provide the Python code using the 'geopandas' and 'rasterio' libraries to perform this overlay analysis, ensuring the data is reprojected to a local projected coordinate system (EPSG:32610) before calculation. Output the final list of coordinates for the high-risk zones.",
+    "reference_context": {
+      "site_boundary_schema": {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -122.4194,
+                37.7749
+              ],
+              [
+                -122.4094,
+                37.7749
+              ],
+              [
+                -122.4094,
+                37.7649
+              ],
+              [
+                -122.4194,
+                37.7649
+              ],
+              [
+                -122.4194,
+                37.7749
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "site_id": "DEV-2024-001",
+          "current_crs": "EPSG:4326"
+        }
+      },
+      "dem_metadata": {
+        "source": "USGS NED",
+        "resolution": "10m",
+        "units": "meters",
+        "original_crs": "EPSG:4326"
+      }
+    },
+    "evaluation_criteria": [
+      "Correctness: Does the code successfully reproject data and perform the elevation threshold analysis?",
+      "Completeness: Are all steps from loading data to exporting results included?",
+      "Best practices: Is the code modular, commented, and using efficient spatial indexing?"
+    ]
+  },
+  "grading_notes": "Check that the AI correctly identifies the need for reprojection before area or distance calculations. Verify that the code handles potential CRS mismatches between the vector and raster data. Ensure the solution addresses the specific elevation threshold (5m) and does not hallucinate data values. Watch for incorrect handling of NoData values in the raster.",
+  "grading_rubric_template": [
+    "1. Spatial Accuracy: Does the solution correctly handle coordinate reference systems and projections?",
+    "2. Functional Correctness: Does the analysis logic produce the correct geospatial results?",
+    "3. Data Integrity: Are data quality issues (e.g., NoData, topology errors) properly managed?",
+    "4. Code Quality: Is the solution efficient, readable, and using appropriate libraries?",
+    "5. Completeness: Are all steps of the workflow documented and executable?"
+  ],
+  "grading_scale_max": 5
+}

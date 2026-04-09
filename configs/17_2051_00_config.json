@@ -1,0 +1,61 @@
+{
+  "job_id": "civil_eng_172051",
+  "job_title": "Civil Engineers",
+  "onet_code": "17-2051.00",
+  "role_description": "Senior Civil Engineering Project Lead and Regulatory Compliance Officer",
+  "task_types": "Site Management and Safety Compliance / Structural Design and Analysis / Surveying and Topographical Data Interpretation / Cost Estimation and Feasibility / Technical Reporting and Public Communication",
+  "onet_tasks": [
+    "Direct engineering activities, ensuring compliance with environmental, safety, or other governmental regulations.",
+    "Manage and direct the construction, operations, or maintenance activities at project site.",
+    "Inspect project sites to monitor progress and ensure conformance to design specifications and safety or sanitation standards.",
+    "Compute load and grade requirements, water flow rates, or material stress factors to determine design specifications.",
+    "Plan and design transportation or hydraulic systems or structures, using computer-assisted design or drawing tools.",
+    "Provide technical advice to industrial or managerial personnel regarding design, construction, program modifications, or structural repairs.",
+    "Analyze survey reports, maps, drawings, blueprints, aerial photography, or other topographical or geologic data.",
+    "Direct or participate in surveying to lay out installations or establish reference points, grades, or elevations to guide construction.",
+    "Estimate quantities and cost of materials, equipment, or labor to determine project feasibility.",
+    "Prepare or present public reports on topics such as bid proposals, deeds, environmental impact statements, or property and right-of-way descriptions."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly reference relevant engineering standards (e.g., AASHTO, ASCE, OSHA) where applicable",
+    "Requirement 6: Calculations must include step-by-step logic and unit conversions",
+    "Requirement 7: Risk assessments must identify specific hazards and propose mitigation strategies"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Compute load and grade requirements, water flow rates, or material stress factors to determine design specifications.",
+    "task_type": "Structural Design and Analysis",
+    "user_prompt": "You are a Civil Engineer tasked with designing a stormwater drainage system for a new commercial development. The site has a 2% slope and requires a concrete channel. Given the following parameters: Peak flow rate of 150 cubic feet per second (cfs), Manning's roughness coefficient (n) of 0.013, and a maximum allowable velocity of 12 fps. Calculate the required cross-sectional area and suggest a rectangular channel width and depth that satisfies these constraints. Additionally, verify if the proposed design meets the safety factor for shear stress on the concrete lining.",
+    "reference_context": {
+      "site_data": {
+        "slope": 0.02,
+        "peak_flow_cfs": 150,
+        "manning_n": 0.013,
+        "max_velocity_fps": 12
+      },
+      "formula": "Q = A * V (where Q is flow, A is area, V is velocity)",
+      "manning_equation": "V = (1.486/n) * R^(2/3) * S^(1/2)",
+      "concrete_properties": {
+        "allowable_shear_stress_psf": 400
+      }
+    },
+    "evaluation_criteria": [
+      "Correctness: Are the hydraulic calculations (Area, Velocity, Manning's equation) mathematically accurate?",
+      "Completeness: Did the solution provide specific dimensions (width and depth) and verify shear stress?",
+      "Best Practices: Does the design adhere to standard engineering safety factors and practical construction constraints?"
+    ]
+  },
+  "grading_notes": "Verify that the AI correctly applies the Manning's equation for open channel flow. Check if the calculated velocity does not exceed the maximum allowable limit. Ensure the AI considers the trade-off between channel depth and width for constructability. Look for explicit mention of safety factors regarding shear stress on concrete.",
+  "grading_rubric_template": [
+    "1. Technical Accuracy: Are all engineering calculations, unit conversions, and formula applications correct?",
+    "2. Regulatory Compliance: Does the solution explicitly reference and adhere to relevant codes (e.g., ASCE, OSHA, local building codes)?",
+    "3. Completeness: Does the response address all constraints, including safety, feasibility, and specific design parameters?",
+    "4. Risk Management: Are potential hazards identified and are mitigation strategies clearly proposed?",
+    "5. Clarity and Documentation: Is the reasoning logical, the output structured, and are assumptions clearly stated?"
+  ],
+  "grading_scale_max": 5
+}

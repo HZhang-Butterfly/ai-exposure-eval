@@ -1,0 +1,62 @@
+{
+  "job_id": "inv_fund_mgr",
+  "job_title": "Investment Fund Managers",
+  "onet_code": "11-3031.03",
+  "role_description": "Senior Investment Strategist and Portfolio Risk Analyst",
+  "task_types": "Portfolio Construction and Asset Allocation / Risk Management and Performance Monitoring / Strategic Policy Development / Investor Relations and Communication / Market Research and Valuation",
+  "onet_tasks": [
+    "Manage investment funds to maximize return on client investments.",
+    "Select specific investments or investment mixes for purchase by an investment fund.",
+    "Monitor financial or operational performance of individual investments to ensure portfolios meet risk goals.",
+    "Select or direct the execution of trades.",
+    "Develop or implement fund investment policies or strategies.",
+    "Perform or evaluate research, such as detailed company or industry analyses, to inform financial forecasting, decision making, or valuation.",
+    "Present investment information, such as product risks, fees, or fund performance statistics.",
+    "Develop, implement, or monitor security valuation policies.",
+    "Meet with investors to determine investment goals or to discuss investment strategies.",
+    "Attend investment briefings or consult financial media to stay abreast of relevant investment markets."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly reference modern financial regulations (e.g., SEC, MiFID II) where applicable",
+    "Requirement 6: Recommendations must include quantitative justification (e.g., Sharpe ratio, VaR, correlation analysis) rather than qualitative guesses",
+    "Requirement 7: All investor communication must adhere to fiduciary standards and clear disclosure of conflicts of interest"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Manage investment funds to maximize return on client investments.",
+    "task_type": "Portfolio Construction and Asset Allocation",
+    "user_prompt": "Given a client portfolio of $5M with a target annual return of 8% and a maximum drawdown tolerance of 12%, analyze the provided asset class performance data. Construct a new asset allocation strategy that rebalances the portfolio to meet these goals while minimizing correlation risk. Provide the specific percentage allocation for each asset class and justify the changes based on the provided market outlook.",
+    "reference_context": {
+      "current_portfolio": {
+        "US_Equities": 40,
+        "Intl_Equities": 20,
+        "Fixed_Income": 30,
+        "Alternatives": 10
+      },
+      "market_outlook": "US Equities expected to underperform due to valuation concerns; Fixed Income yields rising; Alternatives showing low correlation.",
+      "risk_metrics": {
+        "current_sharpe": 1.2,
+        "target_sharpe": 1.5,
+        "current_var_95": 14.5
+      }
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — does the proposed allocation mathematically meet the return and risk constraints?",
+      "Criterion 2: Completeness — did it address all asset classes and provide specific percentage changes?",
+      "Criterion 3: Best practices — is the strategy aligned with modern portfolio theory and current market conditions?"
+    ]
+  },
+  "grading_notes": "Check for logical consistency between the proposed allocation and the stated market outlook. Verify that the AI does not recommend high-risk assets without adequate hedging strategies. Ensure the response explicitly calculates or estimates the impact on the Sharpe ratio and Value at Risk (VaR). Watch for generic advice that lacks specific numerical targets.",
+  "grading_rubric_template": [
+    "1. Financial Accuracy: Are the calculations and projections logically sound and mathematically correct?",
+    "2. Strategic Alignment: Does the solution directly address the client's specific return and risk constraints?",
+    "3. Regulatory Compliance: Does the advice adhere to fiduciary duties and relevant financial regulations?",
+    "4. Data Utilization: Does the solution effectively leverage the provided market data and performance metrics?",
+    "5. Clarity and Justification: Is the reasoning clear, well-structured, and supported by quantitative evidence?"
+  ],
+  "grading_scale_max": 5
+}

@@ -1,0 +1,72 @@
+{
+  "job_id": "arch_civil_drafter",
+  "job_title": "Architectural and Civil Drafters",
+  "onet_code": "17-3011.00",
+  "role_description": "Senior Architectural and Civil Drafting Specialist and Technical Compliance Reviewer",
+  "task_types": "CAD Modeling and Drawing Production / Site Analysis and Topographical Mapping / Code Compliance and Regulatory Review / Interior Space Planning / Technical Documentation and Coordination",
+  "onet_tasks": [
+    "Produce drawings, using computer-assisted drafting systems (CAD) or drafting machines, or by hand, using compasses, dividers, protractors, triangles, and other drafting devices.",
+    "Draft plans and detailed drawings for structures, installations, and construction projects, such as highways, sewage disposal systems, and dikes, working from sketches or notes.",
+    "Coordinate structural, electrical, and mechanical designs and determine a method of presentation to graphically represent building plans.",
+    "Analyze building codes, by-laws, space and site requirements, and other technical documents and reports to determine their effect on architectural designs.",
+    "Draw maps, diagrams, and profiles, using cross-sections and surveys, to represent elevations, topographical contours, subsurface formations, and structures.",
+    "Lay out and plan interior room arrangements for commercial buildings, using computer-assisted drafting (CAD) equipment and software.",
+    "Supervise and train other technologists, technicians, and drafters.",
+    "Determine the order of work and method of presentation, such as orthographic or isometric drawing.",
+    "Finish and duplicate drawings and documentation packages according to required mediums and specifications for reproduction, using blueprinting, photography, or other duplicating methods.",
+    "Draw rough and detailed scale plans for foundations, buildings, and structures, based on preliminary concepts, sketches, engineering calculations, specification sheets, and other data."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly reference specific building code sections or civil engineering standards where applicable",
+    "Requirement 6: All geometric calculations and spatial relationships must be mathematically consistent",
+    "Requirement 7: Drafting specifications must adhere to industry-standard layering, line weights, and annotation conventions"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Draft plans and detailed drawings for structures, installations, and construction projects, such as highways, sewage disposal systems, and dikes, working from sketches or notes.",
+    "task_type": "Site Analysis and Topographical Mapping",
+    "user_prompt": "Given a set of survey coordinates and a rough sketch of a proposed sewage disposal system on a sloped site, generate a detailed technical drawing specification including cross-section profiles, elevation markers, and a list of required civil engineering materials. Ensure the design accounts for a 15-degree slope and adheres to local stormwater management codes.",
+    "reference_context": {
+      "survey_data": [
+        {
+          "x": 0,
+          "y": 0,
+          "elevation": 100
+        },
+        {
+          "x": 50,
+          "y": 0,
+          "elevation": 92
+        },
+        {
+          "x": 100,
+          "y": 0,
+          "elevation": 85
+        }
+      ],
+      "site_constraints": {
+        "max_slope": "20 degrees",
+        "min_pipe_depth": "1.5 meters",
+        "local_code": "Municipal Stormwater Ordinance 2023-4"
+      }
+    },
+    "evaluation_criteria": [
+      "Correctness: Are the cross-section profiles and elevation calculations mathematically accurate based on the provided survey data?",
+      "Completeness: Does the output include all required elements (profiles, markers, material list, code references)?",
+      "Best Practices: Are the drawing specifications formatted according to standard civil engineering drafting conventions?"
+    ]
+  },
+  "grading_notes": "Verify that the AI correctly interprets the slope from the elevation data. Check that the proposed pipe depth meets the minimum 1.5m requirement at the lowest point. Ensure the solution explicitly cites the relevant code section for stormwater management. Look for errors in layer naming or line weight descriptions which would indicate a lack of professional drafting knowledge.",
+  "grading_rubric_template": [
+    "1. Technical Accuracy: Are all geometric calculations, elevations, and spatial relationships mathematically correct?",
+    "2. Regulatory Compliance: Does the solution correctly apply relevant building codes, by-laws, and engineering standards?",
+    "3. Completeness: Are all components of the drawing package (plans, sections, details, specifications) fully addressed?",
+    "4. Professional Standards: Does the output adhere to industry-standard drafting conventions (layers, line weights, annotations)?",
+    "5. Clarity and Usability: Is the generated documentation clear, logically organized, and ready for production use?"
+  ],
+  "grading_scale_max": 5
+}

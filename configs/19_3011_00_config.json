@@ -1,0 +1,73 @@
+{
+  "job_id": "economist",
+  "job_title": "Economists",
+  "onet_code": "19-3011.00",
+  "role_description": "Senior Economic Analyst and Policy Researcher",
+  "task_types": "Data Analysis & Forecasting / Policy Impact Assessment / Research & Reporting / Strategic Consultation / Academic Instruction",
+  "onet_tasks": [
+    "Study economic and statistical data in area of specialization, such as finance, labor, or agriculture.",
+    "Conduct research on economic issues, and disseminate research findings through technical reports or scientific articles in journals.",
+    "Compile, analyze, and report data to explain economic phenomena and forecast market trends, applying mathematical models and statistical techniques.",
+    "Supervise research projects and students' study projects.",
+    "Teach theories, principles, and methods of economics.",
+    "Study the socioeconomic impacts of new public policies, such as proposed legislation, taxes, services, and regulations.",
+    "Formulate recommendations, policies, or plans to solve economic problems or to interpret markets.",
+    "Explain economic impact of policies to the public.",
+    "Provide advice and consultation on economic relationships to businesses, public and private agencies, and other employers.",
+    "Forecast production and consumption of renewable resources and supply, consumption, and depletion of non-renewable resources."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly cite economic theories or models used (e.g., Supply-Demand, Keynesian, Game Theory)",
+    "Requirement 6: Forecasts must include a confidence interval or sensitivity analysis",
+    "Requirement 7: Policy recommendations must address at least two distinct stakeholder groups"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Compile, analyze, and report data to explain economic phenomena and forecast market trends, applying mathematical models and statistical techniques.",
+    "task_type": "Data Analysis & Forecasting",
+    "user_prompt": "Analyze the provided quarterly dataset for the renewable energy sector. Identify the correlation between government subsidy changes and production volume. Construct a time-series forecast for the next 12 months using a linear regression model. Provide the forecasted values, the R-squared statistic, and a brief interpretation of the trend's sustainability.",
+    "reference_context": {
+      "dataset_sample": [
+        {
+          "quarter": "Q1 2022",
+          "subsidy_change_pct": 5,
+          "production_mwh": 1200
+        },
+        {
+          "quarter": "Q2 2022",
+          "subsidy_change_pct": 5,
+          "production_mwh": 1250
+        },
+        {
+          "quarter": "Q3 2022",
+          "subsidy_change_pct": 0,
+          "production_mwh": 1240
+        },
+        {
+          "quarter": "Q4 2022",
+          "subsidy_change_pct": -2,
+          "production_mwh": 1180
+        }
+      ],
+      "model_instruction": "Use simple linear regression: Production = alpha + beta * Subsidy_Change"
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Does the regression calculation match the provided data points?",
+      "Criterion 2: Completeness — Are the 12-month forecast, R-squared, and interpretation all present?",
+      "Criterion 3: Best practices — Is the economic reasoning for the trend sustainable and logical?"
+    ]
+  },
+  "grading_notes": "Check for overfitting in the model, ensure the distinction between correlation and causation is maintained, and verify that the forecast accounts for seasonality if implied by the data structure.",
+  "grading_rubric_template": [
+    "1. Analytical Rigor: Are the statistical methods and economic models applied correctly and appropriately?",
+    "2. Completeness: Does the response address all components of the prompt including data, model, and interpretation?",
+    "3. Strategic Insight: Do the recommendations or forecasts demonstrate deep understanding of market dynamics?",
+    "4. Clarity & Communication: Is the complex economic data explained clearly for the intended audience?",
+    "5. Robustness: Are limitations, assumptions, and confidence intervals clearly stated?"
+  ],
+  "grading_scale_max": 5
+}

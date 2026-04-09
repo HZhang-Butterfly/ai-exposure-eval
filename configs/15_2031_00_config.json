@@ -1,0 +1,71 @@
+{
+  "job_id": "or_analyst",
+  "job_title": "Operations Research Analysts",
+  "onet_code": "15-2031.00",
+  "role_description": "Senior Operations Research Scientist and Strategic Decision Support Lead",
+  "task_types": "Mathematical Modeling / Data Validation & Testing / Stakeholder Communication & Reporting / Problem Definition & Analysis / Solution Implementation & Optimization",
+  "onet_tasks": [
+    "Formulate mathematical or simulation models of problems, relating constants and variables, restrictions, alternatives, conflicting objectives, and their numerical parameters.",
+    "Perform validation and testing of models to ensure adequacy, and reformulate models, as necessary.",
+    "Collaborate with senior managers and decision makers to identify and solve a variety of problems and to clarify management objectives.",
+    "Present the results of mathematical modeling and data analysis to management or other end users.",
+    "Collaborate with others in the organization to ensure successful implementation of chosen problem solutions.",
+    "Analyze information obtained from management to conceptualize and define operational problems.",
+    "Study and analyze information about alternative courses of action to determine which plan will offer the best outcomes.",
+    "Prepare management reports defining and evaluating problems and recommending solutions.",
+    "Define data requirements, and gather and validate information, applying judgment and statistical tests.",
+    "Observe the current system in operation, and gather and analyze information about each of the component problems, using a variety of sources."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly define constraints and objective functions for any optimization problem",
+    "Requirement 6: Recommendations must be backed by quantitative analysis or logical deduction derived from provided data"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Formulate mathematical or simulation models of problems, relating constants and variables, restrictions, alternatives, conflicting objectives, and their numerical parameters.",
+    "task_type": "Mathematical Modeling",
+    "user_prompt": "You are an Operations Research Analyst for a logistics company. The company needs to optimize its delivery fleet to minimize fuel costs while meeting a strict 2-hour delivery window for 95% of orders. You are provided with a dataset of historical delivery routes, average speeds per zone, and fuel consumption rates. Formulate a linear programming model to solve this. Define the decision variables, objective function, and all necessary constraints (including capacity and time windows). Output the mathematical formulation in a structured format.",
+    "reference_context": {
+      "zones": [
+        "North",
+        "South",
+        "East",
+        "West"
+      ],
+      "avg_speed_kmh": {
+        "North": 45,
+        "South": 30,
+        "East": 55,
+        "West": 40
+      },
+      "fuel_rate_l_per_km": 0.15,
+      "max_delivery_time_hours": 2,
+      "target_service_level": 0.95,
+      "fleet_capacity_units": 1000,
+      "historical_demand": {
+        "North": 200,
+        "South": 150,
+        "East": 300,
+        "West": 250
+      }
+    },
+    "evaluation_criteria": [
+      "Correctness: Are the mathematical formulations (variables, objective, constraints) logically sound and mathematically valid?",
+      "Completeness: Does the model account for all constraints mentioned in the prompt (time windows, capacity, service level)?",
+      "Best Practices: Is the notation clear, standardized, and suitable for implementation in optimization software (e.g., Gurobi, CPLEX)?"
+    ]
+  },
+  "grading_notes": "Watch for common pitfalls: failing to linearize non-linear constraints, ignoring the service level requirement (95%), using incorrect units for time or distance, or proposing a solution that is theoretically optimal but practically infeasible due to unmodeled real-world constraints. Ensure the AI distinguishes between decision variables and parameters.",
+  "grading_rubric_template": [
+    "1. Mathematical Rigor: Is the formulation of variables, objective function, and constraints mathematically correct and consistent?",
+    "2. Problem Alignment: Does the solution directly address the specific operational constraints and business objectives provided?",
+    "3. Completeness: Are all aspects of the problem (e.g., time windows, capacity, service levels) fully modeled without omission?",
+    "4. Practicality: Is the proposed model solvable and interpretable for a decision-maker, avoiding unnecessary complexity?",
+    "5. Clarity: Is the output structured clearly with defined notation and logical flow?"
+  ],
+  "grading_scale_max": 5
+}

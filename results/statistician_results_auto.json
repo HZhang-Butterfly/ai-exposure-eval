@@ -1,0 +1,587 @@
+{
+  "meta": {
+    "job_title": "Statisticians",
+    "job_id": "statistician",
+    "onet_code": "15-2041.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 19,
+    "evaluated_tasks": 19,
+    "batches": 4,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 3.83,
+      "dimensions": {
+        "Correctness": 3.53,
+        "Completeness": 4.21,
+        "Best Practices": 3.53,
+        "Domain Accuracy": 3.47,
+        "Clarity": 4.42
+      },
+      "evaluated_tasks": 19,
+      "scale_max": 5
+    },
+    "total_time_seconds": 3490.11
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Prepare data for processing by organizing information, checking for inaccuracies, and adjusting and weighting the raw data.",
+      "task_type": "Data Cleaning & Preparation",
+      "user_prompt": "You are provided with a raw dataset of patient recovery times containing missing values, outliers, and inconsistent date formats. Perform the following: 1) Identify and describe the strategy for handling missing values based on the data distribution. 2) Detect outliers using the IQR method and decide whether to cap or remove them. 3) Apply a weighting factor to adjust for known sampling bias in the demographic data. 4) Output the cleaned dataset schema and a summary of transformations applied.",
+      "reference_context": "Raw data sample: [{\"id\": 1, \"time\": \"2023-01-15\", \"weight\": 1.2, \"status\": \"recovered\"}, {\"id\": 2, \"time\": null, \"weight\": 1.0, \"status\": \"pending\"}, {\"id\": 3, \"time\": \"2023-01-20\", \"weight\": 1.5, \"status\": \"recovered\"}]. Known bias: Patients over 60 were underrepresented by 20%.",
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the solution work?",
+        "Criterion 2: Completeness — did it handle all requirements?",
+        "Criterion 3: Best practices — is it production-ready?"
+      ],
+      "student_answer": "### 1. Missing Value Handling Strategy\n**Strategy:** Imputation via Median for Skewed Distributions.\nGiven the likely right-skewed nature of recovery time data, the median is preferred over the mean to minimize distortion from extreme values.\n- **Action:** For the `time` field (if treated as duration), calculate the median of non-null values and impute missing entries. If `time` represents a timestamp (as in the sample), missing dates will be imputed using the mode of the surrounding dates or a forward-fill approach based on admission sequence, depending on the specific column definition. For the `weight` field, if missing, impute using the median weight of the corresponding `status` group to preserve distributional integrity.\n\n### 2. Outlier Detection and Resolution\n**Method:** Interquartile Range (IQR).\n- **Calculation:** $IQR = Q3 - Q1$.\n- **Bounds:** Lower Bound = $Q1 - 1.5 \\times IQR$; Upper Bound = $Q3 + 1.5 \\times IQR$.\n- **Decision:** **Cap (Winsorize)** outliers rather than removing them.\n- **Rationale:** Removing outliers in clinical datasets risks discarding valid but extreme recovery cases (e.g., severe complications). Capping values at the upper and lower bounds preserves sample size and statistical power while reducing the influence of extreme skew on mean-based metrics.\n\n### 3. Sampling Bias Adjustment\n**Method:** Inverse Probability Weighting (IPW).\n- **Bias Factor:** Patients over 60 were underrepresented by 20% (actual representation = 80% of expected).\n- **Weight Calculation:** $Weight = \\frac{1}{0.80} = 1.25$.\n- **Action:** Assign a weight factor of **1.25** to all records where the patient age is > 60. All other records receive a weight of **1.0**. This ensures the demographic distribution in the analysis reflects the target population.\n\n### 4. Cleaned Dataset Schema and Transformation Summary\n\n**Cleaned Schema:**\n```json\n{\n  \"id\": \"Integer (Unique Identifier)\",\n  \"time\": \"Date (ISO 8601 Format: YYYY-MM-DD)\",\n  \"weight\": \"Float (Imputed if null, Winsorized if outlier)\",\n  \"status\": \"String (Categorical: 'recovered', 'pending', etc.)\",\n  \"age_group\": \"String (Derived: 'under_60', 'over_60')\",\n  \"sampling_weight\": \"Float (1.0 or 1.25)\"\n}\n```\n\n**Summary of Transformations Applied:**\n1.  **Date Standardization:** Converted all `time` entries to ISO 8601 format; imputed null timestamps using median/forward-fill logic.\n2.  **Imputation:** Replaced missing `weight` values with group-specific medians.\n3.  **Outlier Winsorization:** Applied IQR bounds to `weight` and `time` (if duration) to cap extreme values at $Q1 - 1.5IQR$ and $Q3 + 1.5IQR$.\n4.  **Bias Correction:** Calculated and applied a sampling weight of 1.25 to all patients aged > 60 to correct for the 20% underrepresentation.\n5.  **Data Type Enforcement:** Ensured strict typing for `id` (Integer), `time` (Date), and `status` (Categorical).",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        4,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "The submission demonstrates strong methodological understanding with appropriate use of IQR, Winsorizing, and IPW. However, the mathematical notation for the weighting factor is incorrect ($\\frac{0.80} = 1.25$), and the schema assumes an 'age' column not present in the provided sample data. The handling of the 'time' field remains ambiguous regarding duration vs. timestamp. These technical errors prevent a top score despite the clear structure and sound overall strategy."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Analyze and interpret statistical data to identify significant differences in relationships among sources of information.",
+      "task_type": "Statistical Analysis & Interpretation",
+      "user_prompt": "Given two independent datasets representing sales figures from Region A and Region B over the last quarter, determine if there is a statistically significant difference in the mean sales between the two regions. Assume the data is not normally distributed. 1) Select and justify the appropriate non-parametric test. 2) Perform the test and report the p-value. 3) Interpret the result in the context of business decision-making.",
+      "reference_context": "Region A Sales: [120, 135, 110, 145, 130, 125, 140, 150, 115, 135]. Region B Sales: [160, 155, 170, 165, 150, 175, 160, 180, 155, 170]. Assumption: Data is independent and ordinal/continuous.",
+      "evaluation_criteria": [
+        "Criterion 1: Method Selection — is the chosen test appropriate for non-normal data?",
+        "Criterion 2: Calculation Accuracy — are the test statistics and p-values correct?",
+        "Criterion 3: Interpretation — is the conclusion logically sound and contextually relevant?"
+      ],
+      "student_answer": "1) **Test Selection and Justification**: The Mann-Whitney U test (also known as the Wilcoxon Rank-Sum test) is the appropriate non-parametric test. It is selected because the assumption of normality is violated, the samples are independent, and the data is continuous/ordinal. This test compares the rank sums of the two groups to determine if one distribution is stochastically larger than the other without assuming a specific underlying distribution.\n\n2) **Test Execution and P-value**:\n   - **Region A Data**: [120, 135, 110, 145, 130, 125, 140, 150, 115, 135] (n₁ = 10)\n   - **Region B Data**: [160, 155, 170, 165, 150, 175, 160, 180, 155, 170] (n₂ = 10)\n   - **Combined Ranks**: All values in Region B are strictly greater than all values in Region A.\n     - Region A ranks: 1 through 10 (Sum = 55)\n     - Region B ranks: 11 through 20 (Sum = 155)\n   - **U Statistic Calculation**:\n     - $U_1 = n_1n_2 + \\frac{n_1(n_1+1)}{2} - R_1 = 100 + 55 - 55 = 100$\n     - $U_2 = n_1n_2 + \\frac{n_2(n_2+1)}{2} - R_2 = 100 + 55 - 155 = 0$\n     - $U = \\min(100, 0) = 0$\n   - **P-value**: With $U=0$ for sample sizes of 10 and 10, the probability of observing such a separation by chance is effectively zero.\n   - **Result**: $p < 0.0001$ (Exact two-tailed p-value $\\approx 1.95 \\times 10^{-6}$).\n\n3) **Business Interpretation**:\n   The p-value is significantly lower than the standard alpha level of 0.05. We reject the null hypothesis and conclude there is a statistically significant difference in sales performance between Region A and Region B. Specifically, Region B demonstrates consistently higher sales figures than Region A.\n   \n   **Decision Recommendation**: Management should investigate the operational factors driving Region B's superior performance (e.g., marketing strategies, pricing, or sales tactics) and consider replicating these successful practices in Region A to close the performance gap.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        4,
+        2,
+        3,
+        4
+      ],
+      "score": 3.0,
+      "grade_reason": "Correctness (2): The student failed to identify the tie at 150 between regions, falsely claiming strict separation, leading to an incorrect U statistic (0 vs 0.5). Completeness (4): All three required sections (test selection, execution, interpretation) are present. Best Practices (2): Failing to handle tied ranks is a significant methodological oversight in non-parametric testing. Domain Accuracy (3): Statistical terminology and test selection are correct, but the ranking calculation contains factual errors regarding the dataset. Clarity (4): The submission is well-structured and readable, despite the mathematical errors."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Determine whether statistical methods are appropriate, based on user needs or research questions of interest.",
+      "task_type": "Methodology Selection & Justification",
+      "user_prompt": "A client wants to predict customer churn based on usage frequency, tenure, and support ticket count. The target variable is binary (churned/not churned). 1) Evaluate if Linear Regression is appropriate for this problem and explain why or why not. 2) Propose the most suitable statistical method. 3) Justify your choice based on the nature of the dependent variable and the goal of prediction.",
+      "reference_context": "Research Question: Predict binary outcome (churn) from continuous and count predictors. Data characteristics: High correlation between tenure and support tickets.",
+      "evaluation_criteria": [
+        "Criterion 1: Theoretical Soundness — does the rejection of Linear Regression align with statistical theory?",
+        "Criterion 2: Method Appropriateness — is the proposed method (e.g., Logistic Regression) suitable for binary outcomes?",
+        "Criterion 3: Clarity — is the justification clear and concise?"
+      ],
+      "student_answer": "1) **Evaluation of Linear Regression**: Linear Regression is **not appropriate** for this problem. The dependent variable is binary (0/1), violating the assumption of a continuous, normally distributed error term. Furthermore, Linear Regression can produce predicted values outside the valid probability range of [0, 1], and it assumes a linear relationship between predictors and the outcome, which is inappropriate for modeling the probability of a binary event.\n\n2) **Proposed Method**: **Logistic Regression** (specifically, Binary Logistic Regression).\n\n3) **Justification**:\n*   **Nature of the Dependent Variable**: Logistic Regression is explicitly designed for binary outcomes. It models the log-odds of the probability of the event occurring (churn), ensuring all predicted probabilities remain strictly within the [0, 1] interval.\n*   **Goal of Prediction**: The objective is to estimate the probability of churn and classify customers. Logistic Regression provides a non-linear S-shaped (sigmoid) curve that accurately captures the relationship between predictors and the probability of the binary outcome.\n*   **Handling Correlation**: While the high correlation between tenure and support tickets indicates multicollinearity, this is a manageable issue in Logistic Regression through techniques such as Variance Inflation Factor (VIF) analysis, regularization (L1/L2), or feature selection, without invalidating the model's fundamental suitability for the binary target.",
+      "score": 4.8,
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is factually correct and clearly structured, earning 5s for Correctness, Completeness, Domain Accuracy, and Clarity. It correctly identifies the limitations of Linear Regression for binary data and proposes Logistic Regression with appropriate justification regarding probability bounds and log-odds. It also effectively addresses the context regarding multicollinearity. However, Best Practices is scored 4 because, while the method choice is industry-standard, a truly exceptional submission for a 'prediction' task would explicitly mention model validation (e.g., cross-validation) and performance metrics (e.g., AUC, F1-score) as part of the professional workflow to ensure the prediction goal is met, which is a minor but meaningful omission in a rigorous industry context."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Identify relationships and trends in data, as well as any factors that could affect the results of research.",
+      "task_type": "Trend Analysis & Confounding Factors",
+      "user_prompt": "Analyze the provided time-series data of website traffic and conversion rates. 1) Identify the primary trend in conversion rates over the 12-month period. 2) Detect any seasonality patterns. 3) Identify a potential confounding factor (e.g., a marketing campaign) that might explain a spike in traffic but not conversion. 4) Describe how you would control for this factor in a regression model.",
+      "reference_context": "Data: Monthly traffic (Jan-Dec): [10k, 12k, 11k, 15k, 14k, 13k, 25k, 24k, 22k, 20k, 19k, 18k]. Conversion rates: [2%, 2.1%, 2%, 2.2%, 2.1%, 2%, 1.5%, 1.4%, 1.6%, 1.8%, 1.9%, 2%]. Note: A major ad campaign ran in July.",
+      "evaluation_criteria": [
+        "Criterion 1: Trend Identification — is the trend correctly identified?",
+        "Criterion 2: Confounding Factor — is the ad campaign correctly identified as a confounder?",
+        "Criterion 3: Control Strategy — is the proposed regression control method valid?"
+      ],
+      "student_answer": "1) **Primary Trend**: Conversion rates exhibit a distinct downward trend from July through November, declining from 2.0% in June to a low of 1.4% in August, before gradually recovering to 2.0% by December. The overall 12-month trajectory shows stability in the first half (2.0–2.2%) followed by a significant dip in the second half.\n\n2) **Seasonality Patterns**: The data reveals a clear seasonal pattern where traffic peaks in the summer months (July–September) while conversion rates simultaneously reach their lowest points. Conversely, traffic is lower in the winter months (January–March), yet conversion rates remain stable or slightly elevated. This inverse relationship suggests a seasonal shift in user intent or acquisition quality during the summer period.\n\n3) **Potential Confounding Factor**: The major ad campaign launched in July acts as a confounding factor. It drove a substantial increase in traffic (from 13k in June to 25k in July) but coincided with a sharp drop in conversion rates (from 2.0% to 1.5%). This indicates the campaign likely attracted a high volume of low-intent or \"cold\" traffic that did not convert at the same rate as organic or returning visitors.\n\n4) **Regression Control Strategy**: To control for this factor, I would include a binary (dummy) variable in the regression model, coded as `1` for the months of July, August, and September (the campaign period) and `0` otherwise. The model would be specified as:\n$$ \\text{ConversionRate}_t = \\beta_0 + \\beta_1(\\text{Traffic}_t) + \\beta_2(\\text{Campaign}_t) + \\epsilon_t $$\nWhere $\\beta_2$ isolates the specific impact of the ad campaign on conversion rates, independent of the volume of traffic, allowing for an accurate estimation of the traffic-conversion relationship while accounting for the campaign's dilution effect.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        4
+      ],
+      "score": 3.4,
+      "grade_reason": "The submission correctly identifies the trend, seasonality, and confounding factor with strong logical reasoning. However, the regression model specification contains a significant notation error (using identical placeholders for all variables), which undermines Domain Accuracy and Best Practices. Additionally, Part 2 conflates campaign effects with natural seasonality, a minor conceptual gap. Completeness and Clarity are strong as all tasks are addressed with professional language."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Present statistical and nonstatistical results, using charts, bullets, and graphs, in meetings or conferences to audiences such as clients, peers, and students.",
+      "task_type": "Data Visualization & Reporting",
+      "user_prompt": "Create a detailed description for a visualization to present the distribution of income levels across three different education categories (High School, Bachelor's, Master's). 1) Select the best chart type for comparing distributions. 2) Provide a precise description of the chart including axis labels, title, legend, and color coding. 3) Write a 3-bullet summary of the key findings derived from this hypothetical distribution (e.g., median income differences).",
+      "reference_context": "Hypothetical Data: High School (Median: $45k, IQR: $30k-$60k), Bachelor's (Median: $70k, IQR: $55k-$90k), Master's (Median: $95k, IQR: $75k-$120k). Audience: Non-technical stakeholders.",
+      "evaluation_criteria": [
+        "Criterion 1: Chart Selection — is the chosen chart type (e.g., Boxplot) optimal for distribution comparison?",
+        "Criterion 2: Visualization Detail — are axis labels, titles, and legends described precisely?",
+        "Criterion 3: Communication — are the bullet points clear, accurate, and tailored to the audience?"
+      ],
+      "student_answer": "### Visualization Specification: Income Distribution by Education Level\n\n**1. Chart Type Selection**\nA **Grouped Box-and-Whisker Plot** (Box Plot) is the optimal choice for this analysis. It effectively displays the median, interquartile range (IQR), and potential outliers for each education category, allowing non-technical stakeholders to instantly compare central tendencies and the spread of income data across groups without being overwhelmed by individual data points.\n\n**2. Chart Description**\n*   **Title:** \"Median Income and Distribution by Education Level\"\n*   **X-Axis (Horizontal):** Labeled \"Education Category,\" featuring three distinct categories: \"High School,\" \"Bachelor's Degree,\" and \"Master's Degree.\"\n*   **Y-Axis (Vertical):** Labeled \"Annual Income (USD),\" with a linear scale ranging from $0 to $150,000 in increments of $25,000.\n*   **Visual Elements:**\n    *   Three box plots are displayed side-by-side, one for each education category.\n    *   **Color Coding:** A sequential color palette is used to indicate increasing income levels: \"High School\" is colored in light gray, \"Bachelor's Degree\" in medium blue, and \"Master's Degree\" in dark navy.\n    *   **Internal Markers:** A distinct horizontal line inside each box represents the median income ($45k, $70k, and $95k respectively). The box boundaries represent the IQR ($30k–$60k, $55k–$90k, and $75k–$120k).\n    *   **Whiskers:** Vertical lines extend from the boxes to indicate the full range of the data (excluding outliers).\n*   **Legend:** A simple title-based legend is unnecessary as the X-axis labels and color coding are self-explanatory; however, a small note below the chart clarifies that \"Boxes represent the middle 50% of earners, and the line inside represents the median.\"\n\n**3. Key Findings Summary**\n*   **Consistent Income Premium:** There is a clear, stepwise increase in median income as education level rises, with Bachelor's degree holders earning approximately 55% more than High School graduates, and Master's degree holders earning roughly 36% more than Bachelor's holders.\n*   **Narrowing Income Gaps:** The interquartile range (IQR) widens with higher education levels, indicating that while the average income increases, the variability in earnings among Master's degree holders is greater than among those with only a High School diploma.\n*   **Distinct Distribution Overlap:** The upper quartile of High School earners ($60k) falls below the median of Bachelor's earners ($70k), suggesting that a significant portion of the High School group earns less than the typical Bachelor's graduate, highlighting a structural income divide.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        4,
+        4
+      ],
+      "score": 4.2,
+      "grade_reason": "Correctness (4): Math and chart selection are accurate, but the second finding's title ('Narrowing Income Gaps') contradicts its text ('IQR widens'), creating a logical inconsistency. Completeness (5): All task requirements (chart type, description, 3 bullets) are fully addressed. Best Practices (4): Whisker definition ('full range... excluding outliers') is slightly imprecise compared to standard statistical software conventions (1.5*IQR fences). Domain Accuracy (4): Statistical concepts are used correctly, but the finding label misrepresents the data interpretation. Clarity (4): The contradiction between the bullet title and content reduces overall clarity for the stakeholder audience."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Report results of statistical analyses, including information in the form of graphs, charts, and tables.",
+      "task_type": "Data Visualization & Reporting",
+      "user_prompt": "You are provided with a dataset of quarterly sales figures for three product lines (A, B, C) over 5 years. The data contains seasonal spikes and a recent downward trend for Product B. Generate a comprehensive report that includes: 1) A time-series line chart showing all three products with a 4-point moving average overlay. 2) A bar chart comparing the mean sales of each product for the most recent year. 3) A table summarizing the year-over-year growth rate. Ensure all visualizations have precise axis labels, titles, and legends.",
+      "reference_context": "Data sample: [{\"quarter\": \"Q1 2019\", \"A\": 1200, \"B\": 800, \"C\": 1500}, {\"quarter\": \"Q2 2019\", \"A\": 1350, \"B\": 750, \"C\": 1600}, {\"quarter\": \"Q1 2023\", \"A\": 1400, \"B\": 600, \"C\": 1700}, {\"quarter\": \"Q2 2023\", \"A\": 1450, \"B\": 550, \"C\": 1750}]. Assumption: Data is complete for the provided quarters.",
+      "evaluation_criteria": [
+        "Criterion 1: Visualization Accuracy — Are the moving averages and trends correctly calculated and plotted?",
+        "Criterion 2: Clarity — Do titles, axis labels, and legends clearly describe the data?",
+        "Criterion 3: Insight — Does the report accurately reflect the downward trend in Product B?"
+      ],
+      "student_answer": "# Quarterly Sales Performance Report (2019–2023)\n\n## 1. Time-Series Analysis with Moving Average\n**Visualization Description:**\nA line chart displays quarterly sales for Products A, B, and C from Q1 2019 to Q2 2023.\n- **X-Axis:** Time (Quarters from Q1 2019 to Q2 2023).\n- **Y-Axis:** Sales Volume (Units).\n- **Series:**\n  - Product A (Blue Line)\n  - Product B (Red Line)\n  - Product C (Green Line)\n- **Overlay:** A dashed black line representing the 4-point moving average for each product to smooth seasonal fluctuations.\n- **Observation:** Product B exhibits a clear downward trajectory in the most recent quarters (2023), while Products A and C show steady growth. The moving average confirms the long-term trend for Product B is negative despite seasonal spikes.\n\n## 2. Mean Sales Comparison (Most Recent Year: 2023)\n**Visualization Description:**\nA vertical bar chart comparing the average quarterly sales for 2023.\n- **X-Axis:** Product Lines (A, B, C).\n- **Y-Axis:** Mean Quarterly Sales (Units).\n- **Data Points:**\n  - **Product A:** ~1,425 units (Average of Q1 & Q2 2023: 1400, 1450)\n  - **Product B:** ~575 units (Average of Q1 & Q2 2023: 600, 550)\n  - **Product C:** ~1,725 units (Average of Q1 & Q2 2023: 1700, 1750)\n- **Insight:** Product C remains the market leader, while Product B has the lowest mean performance, reflecting the identified downward trend.\n\n## 3. Year-Over-Year (YoY) Growth Rate Summary\n*Note: Growth rates calculated based on the available sample data comparing Q1/Q2 2023 to Q1/Q2 2019.*\n\n| Product Line | Q1 2019 Sales | Q1 2023 Sales | Q1 YoY Growth | Q2 2019 Sales | Q2 2023 Sales | Q2 YoY Growth | Avg. YoY Growth |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| **Product A** | 1,200 | 1,400 | +16.67% | 1,350 | 1,450 | +7.41% | **+12.04%** |\n| **Product B** | 800 | 600 | -25.00% | 750 | 550 | -26.67% | **-25.84%** |\n| **Product C** | 1,500 | 1,700 | +13.33% | 1,600 | 1,750 | +9.38% | **+11.36%** |\n\n### Executive Summary\n- **Product A:** Demonstrates consistent positive growth with an average YoY increase of 12.04%.\n- **Product B:** Shows a critical decline with an average YoY decrease of 25.84%. Immediate strategic intervention is recommended to address the downward trend.\n- **Product C:** Maintains strong performance with an average YoY increase of 11.36%, leading the portfolio in total volume.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        2,
+        2,
+        5
+      ],
+      "score": 3.0,
+      "grade_reason": "The submission is exceptionally clear and well-structured (5). However, it fails to generate the requested actual charts, providing only descriptions instead (3). While the math is accurate for the provided numbers, the 'Year-Over-Year' label is factually incorrect for a 2019-2023 comparison, constituting a significant domain error (2). Additionally, calculating a 4-point moving average on discontinuous data without imputation documentation violates statistical best practices (2). Completeness is adequate (3) as the table is present, but the visual components are missing."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Design research projects that apply valid scientific techniques, and use information obtained from baselines or historical data to structure uncompromised and efficient analyses.",
+      "task_type": "Experimental Design",
+      "user_prompt": "Design a randomized controlled trial to test the efficacy of a new fertilizer on crop yield. The baseline historical yield is 500kg/acre with a standard deviation of 50kg. You need to detect a 10% increase in yield with 90% power at a 5% significance level. 1) Calculate the required sample size per group. 2) Propose a randomization strategy to account for soil variability across the field. 3) Define the primary and secondary outcome measures.",
+      "reference_context": "Baseline data: Mean=500kg, SD=50kg. Target effect size: 10% (50kg). Assumptions: Normal distribution of yields, equal variance between groups, independent observations.",
+      "evaluation_criteria": [
+        "Criterion 1: Statistical Power — Is the sample size calculation correct based on the specified power and alpha?",
+        "Criterion 2: Randomization — Is the proposed strategy robust against confounding variables like soil type?",
+        "Criterion 3: Feasibility — Are the outcome measures clearly defined and measurable?"
+      ],
+      "student_answer": "### 1. Required Sample Size Calculation\n\n**Parameters:**\n*   Baseline Mean ($\\mu_0$): 500 kg/acre\n*   Standard Deviation ($\\sigma$): 50 kg/acre\n*   Target Mean ($\\mu_1$): 550 kg/acre (10% increase)\n*   Effect Size ($\\delta$): 50 kg/acre\n*   Standardized Effect Size ($d$): $\\frac{50}{50} = 1.0$\n*   Significance Level ($\\alpha$): 0.05 (two-tailed)\n*   Power ($1-\\beta$): 0.90\n\n**Formula:**\nFor a two-sample t-test with equal variance:\n$$n = \\frac{2\\sigma^2 (Z_{1-\\alpha/2} + Z_{1-\\beta})^2}{\\delta^2}$$\n\n**Values:**\n*   $Z_{1-\\alpha/2}$ (for $\\alpha=0.05$) $\\approx 1.96$\n*   $Z_{1-\\beta}$ (for Power=0.90) $\\approx 1.28$\n\n**Calculation:**\n$$n = \\frac{2(50^2) (1.96 + 1.28)^2}{50^2}$$\n$$n = 2 \\times (3.24)^2$$\n$$n = 2 \\times 10.4976 \\approx 20.995$$\n\n**Result:**\nRounding up to the nearest whole number to ensure sufficient power:\n**Required sample size per group: 21 plots.**\n**Total sample size: 42 plots.**\n\n---\n\n### 2. Randomization Strategy: Blocked Randomization with Stratification\n\nTo account for soil variability across the field, a **Stratified Randomized Block Design** is proposed:\n\n1.  **Stratification:** Divide the field into homogeneous strata based on soil texture, pH, and historical yield maps (e.g., using soil sampling grids or satellite imagery).\n2.  **Blocking:** Within each stratum, create blocks of size 2 (one plot for Control, one plot for Treatment) or size 4 (if multiple replicates are needed per stratum).\n3.  **Random Assignment:** Within each block, randomly assign the \"New Fertilizer\" and \"Standard Control\" treatments using a computer-generated random number sequence.\n4.  **Implementation:** Ensure that the physical distance between plots within a block is minimized to maximize local homogeneity, while blocks are separated to capture broader field gradients.\n\n---\n\n### 3. Outcome Measures\n\n**Primary Outcome Measure:**\n*   **Crop Yield:** The total dry biomass harvested per acre (kg/acre) at maturity. This is the direct metric for efficacy.\n\n**Secondary Outcome Measures:**\n*   **Crop Quality:** Average grain weight per unit (e.g., 1000-seed weight) or protein content percentage.\n*   **Economic Efficiency:** Net return per acre (calculated as [Yield $\\times$ Market Price] - [Cost of Fertilizer + Application Costs]).\n*   **Plant Health Metrics:** Visual disease incidence score or plant height at flowering stage.\n*   **Soil Nutrient Retention:** Post-harvest soil nitrogen and phosphorus levels to assess environmental impact.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission demonstrates strong statistical understanding with a robust blocking strategy for soil variability. However, a formatting error in the effect size formula reduces professionalism. The use of Z-values for sample size planning with small n is a standard approximation but technically less precise than t-distribution methods. Omission of blinding procedures and attrition handling prevents a score of 5."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Process large amounts of data for statistical modeling and graphic analysis, using computers.",
+      "task_type": "Statistical Modeling",
+      "user_prompt": "You are analyzing a dataset of 10,000 customer transactions to predict churn. The dataset has 20 features, including categorical variables (e.g., 'subscription_type') and continuous variables (e.g., 'monthly_spend'). 1) Select an appropriate machine learning algorithm for this binary classification problem. 2) Describe the feature engineering steps required for the categorical variables. 3) Outline a cross-validation strategy to prevent overfitting. 4) State assumptions regarding data distribution and missing values.",
+      "reference_context": "Data characteristics: Imbalanced classes (5% churn), mixed data types. Assumption: Missing values are Missing at Random (MAR). Justification: Use of Random Forest or Logistic Regression based on interpretability and handling of non-linear relationships.",
+      "evaluation_criteria": [
+        "Criterion 1: Model Selection — Is the chosen algorithm appropriate for the data size and class imbalance?",
+        "Criterion 2: Feature Engineering — Are categorical variables handled correctly (e.g., One-Hot Encoding)?",
+        "Criterion 3: Validation — Is the cross-validation strategy rigorous enough to ensure generalizability?"
+      ],
+      "student_answer": "### 1. Selected Machine Learning Algorithm\n**Random Forest Classifier** is selected as the primary algorithm. It is robust to non-linear relationships, handles mixed data types (categorical and continuous) effectively without extensive preprocessing, and provides intrinsic feature importance metrics. To address the class imbalance (5% churn rate), the algorithm will be configured with `class_weight='balanced'` or by utilizing the `scale_pos_weight` parameter during training.\n\n### 2. Feature Engineering for Categorical Variables\nFor the categorical variable 'subscription_type' and other similar features:\n*   **Label Encoding:** Applied to ordinal categorical variables where a natural order exists (e.g., 'basic', 'standard', 'premium').\n*   **One-Hot Encoding:** Applied to nominal categorical variables to prevent the model from inferring a false ordinal relationship.\n*   **Frequency Encoding:** For high-cardinality categorical variables, the target mean or frequency of the category will be used as a feature to reduce dimensionality while preserving predictive signal.\n*   **Interaction Features:** Creation of interaction terms between key categorical variables and continuous variables (e.g., 'subscription_type' × 'monthly_spend') to capture specific spending behaviors per subscription tier.\n\n### 3. Cross-Validation Strategy\nTo prevent overfitting and ensure generalizability on imbalanced data:\n*   **Method:** Stratified K-Fold Cross-Validation (K=5 or K=10).\n*   **Stratification:** The folds will be constructed to maintain the exact 5% churn ratio in both training and validation sets across all folds.\n*   **Validation Metric:** Model performance will be evaluated using the **Area Under the Precision-Recall Curve (AUPRC)** and **F1-Score**, rather than accuracy, to properly assess performance on the minority class.\n*   **Hyperparameter Tuning:** Nested cross-validation will be employed, where an inner loop tunes hyperparameters and an outer loop evaluates the model to provide an unbiased estimate of generalization error.\n\n### 4. Data Distribution and Missing Value Assumptions\n*   **Data Distribution:** No assumption of normality is made for the input features, as Random Forest is non-parametric. However, extreme outliers in continuous variables (e.g., 'monthly_spend') will be capped using Winsorization to prevent skewing the tree splits.\n*   **Missing Values:** Consistent with the provided context, missing values are assumed to be **Missing at Random (MAR)**.\n    *   **Continuous Variables:** Imputed using the median value (robust to outliers) or K-Nearest Neighbors (KNN) imputation if the correlation structure is strong.\n    *   **Categorical Variables:** Imputed using the mode or a specific \"Unknown\" category to preserve the information that a value was missing.\n    *   **Algorithm Handling:** Random Forest can natively handle missing values via surrogate splits; however, explicit imputation is preferred here to ensure consistency with the MAR assumption and to allow for transparent feature engineering.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is highly competent, addressing all four task requirements with strong industry-standard practices (Stratified K-Fold, AUPRC metrics, Nested CV, appropriate imputation). However, the mention of 'scale_pos_weight' for Random Forest is technically inaccurate as this parameter is specific to boosting algorithms (e.g., XGBoost), whereas Random Forest typically uses 'class_weight'. This minor technical inaccuracy prevents a perfect score in Correctness, Best Practices, and Domain Accuracy, though the overall solution remains robust and well-structured."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Adapt statistical methods to solve specific problems in many fields, such as economics, biology, and engineering.",
+      "task_type": "Method Adaptation",
+      "user_prompt": "An engineering team needs to analyze the failure times of a new component, but the data is heavily right-censored (many components are still functioning at the end of the test). Standard linear regression is inappropriate. 1) Identify the correct statistical method for censored data. 2) Explain how to interpret the hazard function in this context. 3) Propose a way to visualize the survival probability over time. 4) State assumptions regarding the underlying distribution of failure times.",
+      "reference_context": "Data: Time-to-failure records with a censoring indicator (0=failed, 1=censored). Assumption: Proportional hazards may hold. Justification: Use of Kaplan-Meier estimator or Cox Proportional Hazards model.",
+      "evaluation_criteria": [
+        "Criterion 1: Method Appropriateness — Is the selected method specifically designed for censored data?",
+        "Criterion 2: Interpretation — Is the explanation of the hazard function accurate?",
+        "Criterion 3: Visualization — Is the proposed survival curve plot described with correct axes and confidence intervals?"
+      ],
+      "student_answer": "1) **Statistical Method**: The appropriate method is **Survival Analysis**, specifically utilizing the **Kaplan-Meier estimator** for univariate analysis or the **Cox Proportional Hazards (Cox PH) model** for multivariate analysis when covariates are involved.\n\n2) **Interpretation of the Hazard Function**: The hazard function, $h(t)$, represents the instantaneous rate of failure at time $t$, given that the component has survived up to that time. In this context, it quantifies the immediate risk of the component failing at a specific moment, conditional on it having functioned without failure until that point. A value of $h(t) = 0.05$ implies that, for components still operating at time $t$, there is a 5% probability of failure occurring in the immediate next infinitesimal time interval.\n\n3) **Visualization**: The survival probability over time should be visualized using a **Kaplan-Meier Survival Curve**. This plot displays the estimated probability of survival ($S(t)$) on the y-axis against time ($t$) on the x-axis. Censored observations are typically marked with vertical tick marks on the curve to indicate the time points where data was censored without an observed failure.\n\n4) **Distribution Assumptions**:\n   *   **Non-parametric (Kaplan-Meier)**: No specific assumption is made regarding the underlying distribution of failure times; it relies solely on the observed data.\n   *   **Semi-parametric (Cox PH)**: Assumes the **Proportional Hazards** property, meaning the ratio of hazard rates between any two individuals remains constant over time. It does not assume a specific parametric form for the baseline hazard function $h_0(t)$.\n   *   **Parametric Alternatives**: If a parametric model (e.g., Weibull, Exponential) were chosen instead, specific distributional assumptions regarding the shape and scale of the failure times would be required.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        5,
+        4,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission is highly competent, addressing all four task requirements with professional structure and appropriate industry-standard methods (KM, Cox). Completeness, Best Practices, and Clarity are exceptional. However, Correctness and Domain Accuracy are scored 4 due to a technical imprecision in the hazard function interpretation: describing $h(t)$ as a 'probability' in an 'infinitesimal time interval' conflates rate with probability (probability in an infinitesimal interval is zero, whereas the rate is the limit of probability per unit time). This minor conceptual error prevents a perfect score."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Evaluate the statistical methods and procedures used to obtain data to ensure validity, applicability, efficiency, and accuracy.",
+      "task_type": "Method Evaluation & Validation",
+      "user_prompt": "A survey firm claims their new sampling method reduces bias compared to simple random sampling. They provide a dataset of 500 respondents with known population demographics. 1) Perform a Chi-Square Goodness of Fit test to compare the sample distribution against the known population distribution. 2) Calculate the relative bias for key demographic groups. 3) Evaluate the efficiency of the new method by comparing the variance of the estimates to a theoretical simple random sample. 4) Conclude on the validity of the new method.",
+      "reference_context": "Population: 40% Male, 60% Female. Sample: 45% Male, 55% Female. Assumption: The population parameters are known and fixed. Justification: Use of Chi-Square for categorical comparison and variance ratio for efficiency.",
+      "evaluation_criteria": [
+        "Criterion 1: Statistical Test — Is the Chi-Square test applied correctly with the right degrees of freedom?",
+        "Criterion 2: Bias Calculation — Are the relative bias metrics calculated accurately?",
+        "Criterion 3: Conclusion — Is the final evaluation of validity and efficiency logically sound based on the results?"
+      ],
+      "student_answer": "### Statistical Evaluation of New Sampling Method\n\n#### 1. Chi-Square Goodness of Fit Test\n**Hypotheses:**\n*   $H_0$: The sample distribution matches the population distribution.\n*   $H_1$: The sample distribution differs from the population distribution.\n\n**Data:**\n*   Total Sample ($n$) = 500\n*   Population Proportions: Male ($p_M$) = 0.40, Female ($p_F$) = 0.60\n*   Observed Counts ($O$): Male = 225, Female = 275\n*   Expected Counts ($E$):\n    *   Male: $500 \\times 0.40 = 200$\n    *   Female: $500 \\times 0.60 = 300$\n\n**Calculation:**\n$$ \\chi^2 = \\sum \\frac{(O_i - E_i)^2}{E_i} $$\n$$ \\chi^2 = \\frac{(225 - 200)^2}{200} + \\frac{(275 - 300)^2}{300} $$\n$$ \\chi^2 = \\frac{625}{200} + \\frac{625}{300} = 3.125 + 2.083 = 5.208 $$\n\n**Degrees of Freedom ($df$):** $k - 1 = 2 - 1 = 1$\n**Critical Value ($\\alpha = 0.05$):** 3.841\n**P-value:** 0.0225\n\n**Result:** Since $\\chi^2_{calc} (5.208) > \\chi^2_{crit} (3.841)$ and $p < 0.05$, we **reject the null hypothesis**. The sample distribution is statistically significantly different from the population distribution.\n\n#### 2. Relative Bias Calculation\nRelative Bias (RB) is calculated as $\\frac{\\hat{p} - p}{p}$, where $\\hat{p}$ is the sample proportion and $p$ is the population proportion.\n\n*   **Male:**\n    $$ RB_{Male} = \\frac{0.45 - 0.40}{0.40} = \\frac{0.05}{0.40} = +0.125 \\text{ (12.5\\%)} $$\n*   **Female:**\n    $$ RB_{Female} = \\frac{0.55 - 0.60}{0.60} = \\frac{-0.05}{0.60} \\approx -0.083 \\text{ (-8.3\\%)} $$\n\n#### 3. Efficiency Evaluation (Variance Comparison)\nAssuming the new method introduces systematic bias, we evaluate efficiency by comparing the variance of the estimator under the new method ($\\hat{V}_{new}$) to the theoretical variance of Simple Random Sampling ($\\hat{V}_{SRS}$).\n\n*   **Theoretical SRS Variance ($\\hat{V}_{SRS}$):**\n    $$ \\hat{V}_{SRS} = \\frac{p(1-p)}{n} $$\n    Using the population proportion $p=0.40$:\n    $$ \\hat{V}_{SRS} = \\frac{0.40 \\times 0.60}{500} = 0.00048 $$\n\n*   **Effective Variance under New Method ($\\hat{V}_{new}$):**\n    Since the sample proportions ($\\hat{p}$) deviate from the true population parameters ($p$), the mean squared error (MSE) includes both variance and squared bias.\n    $$ MSE = \\text{Variance} + \\text{Bias}^2 $$\n    Even if the sampling variance were identical to SRS, the presence of a 12.5% relative bias in the male category significantly inflates the MSE compared to an unbiased SRS estimator.\n    \n    If we strictly compare the observed variance of the proportion in the sample to the theoretical SRS variance:\n    The observed proportion is 0.45. The variance of this specific sample estimate is $\\frac{0.45 \\times 0.55}{500} = 0.000495$.\n    \n    **Variance Ratio (Efficiency):**\n    $$ \\text{Efficiency} = \\frac{\\hat{V}_{SRS}}{\\hat{V}_{new}} = \\frac{0.00048}{0.000495} \\approx 0.97 $$\n    \n    *Note:* While the variance is slightly lower (97% of SRS variance), this is negligible compared to the introduced bias. The Mean Squared Error is dominated by the bias term ($0.125^2 = 0.0156$), making the estimator far less efficient in terms of accuracy than SRS.\n\n#### 4. Conclusion on Validity\nThe claim that the new sampling method reduces bias is **invalid** based on this dataset.\n\n1.  **Statistical Significance:** The Chi-Square test confirms a significant deviation from the known population demographics ($p = 0.0225$).\n2.  **Magnitude of Bias:** The method exhibits a substantial relative bias of +12.5% for males and -8.3% for females.\n3.  **Efficiency Trade-off:** Any minor reduction in sampling variance is completely outweighed by the systematic bias introduced. An estimator with high bias is not considered efficient in the context of survey accuracy.\n\n**Final Determination:** The new method performs worse than Simple Random Sampling regarding representativeness and accuracy. The firm's claim is not supported by the provided data.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        4
+      ],
+      "score": 3.4,
+      "grade_reason": "Correctness (3): The Chi-Square formula display is missing the denominator ($E_i$), and the efficiency ratio interpretation contradicts the calculated values (claims variance is lower when the ratio indicates it is higher). Completeness (4): All four required sections are addressed. Best Practices (3): Professional reports should not contain broken mathematical notation, and efficiency analysis from a single sample lacks Design Effect discussion. Domain Accuracy (3): Confusion between sample variance and estimator variance, plus the ratio interpretation error. Clarity (4): The structure is logical and easy to follow despite the mathematical errors."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Report results of statistical analyses in peer-reviewed papers and technical manuals.",
+      "task_type": "Statistical Reporting & Visualization",
+      "user_prompt": "You are provided with a dataset of 500 patient recovery times (in days) with a known non-normal distribution due to a few extreme outliers. Perform the following: 1) Calculate the median, interquartile range (IQR), and robust standard deviation. 2) Generate a description of a boxplot visualization that effectively communicates the central tendency and spread while highlighting the outliers. 3) Write a concise paragraph suitable for a technical manual explaining why the median is preferred over the mean for this specific dataset, citing the impact of the outliers. 4) Propose a transformation (e.g., log) to normalize the data for a subsequent parametric test, justifying your choice.",
+      "reference_context": "Data summary: Mean=45.2, Median=32.0, Min=5, Q1=20, Q3=55, Max=210. Distribution is right-skewed. Outliers defined as values > Q3 + 1.5*IQR.",
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Are the median and IQR calculated accurately based on the provided summary statistics?",
+        "Criterion 2: Completeness — Does the response include the boxplot description, the justification paragraph, and the transformation proposal?",
+        "Criterion 3: Best practices — Is the justification for using the median grounded in the properties of skewed distributions?"
+      ],
+      "student_answer": "### 1. Descriptive Statistics\n*   **Median:** 32.0 days\n*   **Interquartile Range (IQR):** 35.0 days ($Q3 - Q1 = 55 - 20$)\n*   **Robust Standard Deviation:** 25.0 days (Calculated as $IQR / 1.349$)\n\n### 2. Boxplot Visualization Description\nThe visualization features a box extending from the first quartile (20) to the third quartile (55), with a distinct vertical line inside the box marking the median at 32.0. The upper whisker terminates at the highest non-outlier value (calculated as $Q3 + 1.5 \\times IQR = 107.5$), while the lower whisker extends to the minimum value of 5. Values exceeding 107.5 are plotted individually as open circles or asterisks to the right of the upper whisker, clearly isolating the extreme outliers (up to 210) and visually demonstrating the right-skewed nature of the distribution without distorting the scale of the central data.\n\n### 3. Technical Manual Explanation\nThe median is preferred over the mean for this dataset because the distribution is significantly right-skewed due to extreme outliers, with a maximum recovery time of 210 days compared to a median of 32.0. The mean (45.2) is artificially inflated by these extreme values, failing to represent the typical patient experience where the majority recover within 20 to 55 days. In contrast, the median is a robust measure of central tendency that remains unaffected by the magnitude of outliers, providing a more accurate and reliable indicator of the central recovery time for clinical decision-making.\n\n### 4. Data Transformation Proposal\nA **logarithmic transformation** (specifically $\\log_{10}$ or natural log) is recommended to normalize the data for subsequent parametric testing. This transformation is justified because the data exhibits positive skewness with a long right tail; applying a log function compresses the scale of large values more than small values, effectively reducing the influence of the extreme outliers and pulling the distribution closer to normality. This adjustment satisfies the normality assumption required for parametric tests such as the t-test or ANOVA while preserving the rank order of the data.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission addresses all four task requirements with clear structure and professional language (Completeness: 5, Clarity: 5). However, there is a calculation error in the Robust Standard Deviation ($35 / 1.349 \\approx 25.95$, not 25.0), impacting Correctness (4) and Domain Accuracy (4). Additionally, the boxplot description incorrectly states the whisker terminates at the fence value (107.5) rather than the highest data point within the fence, which cannot be derived from summary statistics alone. The choice of IQR-based SD over MAD is less ideal for skewed data, affecting Best Practices (4)."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Evaluate sources of information to determine any limitations, in terms of reliability or usability.",
+      "task_type": "Data Quality Assessment & Limitation Analysis",
+      "user_prompt": "You are reviewing a dataset collected from three different hospitals regarding surgical outcomes. Hospital A uses electronic records, Hospital B uses paper logs digitized manually, and Hospital C uses a legacy system with known data entry errors. The dataset contains 10,000 records with 15% missing values in the 'complication_rate' column, which is non-randomly distributed (higher in Hospital B). 1) Evaluate the reliability of the 'complication_rate' data across the three sources. 2) Propose a strategy to handle the missing values that accounts for the non-random nature of the missingness. 3) Identify two specific limitations this data poses for a meta-analysis and explain how they might bias the results.",
+      "reference_context": "Source A: 99% complete, high accuracy. Source B: 85% complete, high error rate in manual entry. Source C: 90% complete, systematic under-reporting of complications. Missingness in 'complication_rate' is 25% in Source B, 5% in A, 0% in C.",
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the analysis correctly identify the non-random nature of missing data (MNAR)?",
+        "Criterion 2: Completeness — Are both the handling strategy and the two limitations clearly articulated?",
+        "Criterion 3: Best practices — Is the proposed handling strategy (e.g., multiple imputation with auxiliary variables) theoretically sound for MNAR data?"
+      ],
+      "student_answer": "### 1. Evaluation of Reliability\nThe reliability of the 'complication_rate' data varies significantly by source, rendering direct aggregation invalid without rigorous adjustment:\n*   **Hospital A (Electronic Records):** High reliability. With 99% completeness and high accuracy, this source serves as the primary benchmark for data integrity.\n*   **Hospital B (Digitized Paper Logs):** Low reliability. Despite high accuracy in the few recorded entries, the 25% missingness rate is non-random (Missing Not At Random - MNAR), specifically correlated with higher complication rates. This introduces severe selection bias, as the recorded data likely underestimates the true complication burden for this hospital.\n*   **Hospital C (Legacy System):** Moderate reliability with systematic bias. While 90% complete with no missing values in the target column, the known systematic under-reporting of complications means the data is consistently inaccurate (biased downward), regardless of completeness.\n\n### 2. Strategy for Handling Missing Values\nGiven the non-random nature of the missingness (MNAR) in Hospital B, standard imputation methods (e.g., mean imputation or simple Multiple Imputation assuming MAR) will yield biased results. The recommended strategy is **Pattern-Mixture Modeling with Sensitivity Analysis**:\n1.  **Stratified Imputation:** Separate the analysis by hospital source. For Hospital B, do not impute based on the global mean. Instead, use a pattern-mixture model that assumes the missing values follow a distribution shifted relative to the observed values (e.g., assuming the missing complications are 1.5 to 2.0 times higher than the observed average, based on clinical plausibility or external benchmarks).\n2.  **Inverse Probability Weighting (IPW):** Calculate the probability of a record being missing based on available covariates (e.g., surgery type, patient severity) and weight the observed Hospital B records inversely to compensate for the missing high-risk cases.\n3.  **Sensitivity Analysis:** Explicitly model a range of scenarios (e.g., \"best-case\" vs. \"worst-case\" assumptions for the missing data in Hospital B) to demonstrate how the final meta-analytic estimate changes. If the conclusion holds across these scenarios, the results are robust; if not, the uncertainty must be reported.\n\n### 3. Limitations for Meta-Analysis and Potential Bias\n**Limitation 1: Heterogeneity in Data Collection Mechanisms (Systematic Measurement Error)**\n*   **Explanation:** The three hospitals utilize fundamentally different data generation processes (electronic, manual digitization, legacy systems), leading to distinct error structures (random missingness vs. systematic under-reporting).\n*   **Bias Impact:** This creates **information bias**. Aggregating these sources without source-specific adjustment will likely result in an **underestimation** of the overall complication rate. Hospital C's systematic under-reporting and Hospital B's missing high-risk cases will pull the pooled mean downward, masking the true clinical risk profile.\n\n**Limitation 2: Non-Comparability of Case Mix due to MNAR**\n*   **Explanation:** The missingness in Hospital B is correlated with the outcome itself (higher complications are more likely to be missing). This violates the assumption of exchangeability required for standard meta-analysis pooling.\n*   **Bias Impact:** This introduces **selection bias**. The effective sample size for Hospital B is not representative of its actual patient population. If the analysis treats Hospital B's data as equivalent to Hospital A's, the resulting pooled estimate will be skewed, potentially leading to incorrect clinical guidelines or resource allocation decisions that fail to account for the higher risk associated with the manual entry process.",
+      "score": 4.6,
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        4,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission correctly addresses all three task requirements with high clarity and structure (Correctness, Completeness, Clarity = 5). It accurately identifies MNAR and proposes Pattern-Mixture Modeling, which is the industry-standard approach for this scenario. However, the suggestion to use Inverse Probability Weighting (IPW) based solely on available covariates for MNAR data is technically imprecise, as standard IPW assumes MAR; handling MNAR typically requires explicit modeling of the missingness mechanism or selection models. This minor technical conflation prevents a perfect score in Domain Accuracy and Best Practices (4), though the overall quality is exceptional."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Develop and test experimental designs, sampling techniques, and analytical methods.",
+      "task_type": "Experimental Design & Sampling Strategy",
+      "user_prompt": "A pharmaceutical company wants to test a new drug's efficacy on a rare disease affecting 1 in 10,000 people. The total population is 5 million. You need to design a study with a target sample size of 200 participants. 1) Propose a sampling technique that is feasible and minimizes selection bias given the rarity of the disease. 2) Justify your choice of sampling method using statistical theory regarding efficiency and bias. 3) Outline the inclusion/exclusion criteria necessary to ensure the sample represents the target population without introducing confounding variables. 4) Describe the randomization procedure for assigning the 200 participants to treatment and control groups.",
+      "reference_context": "Population: 5,000,000. Disease prevalence: 0.01%. Target N: 200. Budget constraints limit travel to major urban centers only.",
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Is the proposed sampling method (e.g., stratified or cluster sampling) appropriate for rare diseases?",
+        "Criterion 2: Completeness — Does the response cover sampling technique, justification, criteria, and randomization?",
+        "Criterion 3: Best practices — Is the randomization procedure described in a way that ensures blinding and equal probability of assignment?"
+      ],
+      "student_answer": "### 1. Proposed Sampling Technique: Stratified Cluster Sampling with Targeted Recruitment\n\nGiven the extreme rarity of the disease (0.01%) and the constraint to major urban centers, a simple random sampling approach is infeasible, as it would require screening approximately 2 million individuals to identify 200 cases. Instead, the study should employ **Stratified Cluster Sampling** combined with **Targeted Recruitment** from specialized medical registries.\n\n*   **Stratification:** The population is stratified by geographic region (major urban centers only, per budget constraints) and by the presence of specialized clinics treating the rare disease.\n*   **Clustering:** Within these urban centers, clusters are defined as specialized tertiary care hospitals or rare disease referral centers.\n*   **Recruitment:** Rather than screening the general population, the study will actively recruit from existing patient registries, national rare disease databases, and specialist networks within these clusters to identify confirmed cases.\n\n### 2. Statistical Justification\n\n*   **Efficiency:** In rare disease studies, the probability of selecting a case via simple random sampling is $p = 0.0001$. To achieve a sample size of $n=200$, the required screening population would be $N_{screen} = 200 / 0.0001 = 2,000,000$. Stratified cluster sampling utilizing existing registries reduces the screening burden to near zero by sampling directly from the \"cases\" stratum, maximizing the yield per unit of cost and time.\n*   **Bias Minimization:** While convenience sampling of registry patients can introduce selection bias (e.g., over-representation of severe cases), using a **multi-center stratified design** across multiple major urban centers mitigates this. By ensuring representation from different referral centers, the sample better approximates the heterogeneity of the disease presentation across the urban population, reducing the risk of center-specific confounding.\n*   **Precision:** Stratification ensures that the sample size is proportional to the density of cases in each urban cluster, providing a more precise estimate of the treatment effect compared to unstratified approaches, which might result in zero cases in low-density clusters.\n\n### 3. Inclusion and Exclusion Criteria\n\nTo ensure internal validity and representativeness while controlling for confounders:\n\n**Inclusion Criteria:**\n*   **Diagnosis:** Confirmed diagnosis of the rare disease via gold-standard genetic or clinical criteria established by the study protocol.\n*   **Age:** 18–65 years (to minimize age-related physiological variability).\n*   **Disease Duration:** Diagnosed within the last 24 months (to ensure disease activity is consistent and not in a chronic, stable phase).\n*   **Location:** Residing within the designated major urban centers to facilitate follow-up and minimize travel-related dropout.\n*   **Consent:** Ability to provide written informed consent.\n\n**Exclusion Criteria:**\n*   **Comorbidities:** Presence of other severe chronic conditions (e.g., uncontrolled diabetes, severe renal failure) that could independently affect the primary outcome measure.\n*   **Concurrent Medications:** Use of other investigational drugs or specific immunosuppressants known to interact with the study drug within the last 30 days.\n*   **Pregnancy/Lactation:** To prevent teratogenic risks and physiological confounding.\n*   **Severe Disease Stage:** Patients in end-stage organ failure (if applicable) where the drug mechanism is unlikely to show efficacy, unless the study specifically targets palliative outcomes.\n*   **Non-Adherence Risk:** History of non-compliance with medical regimens or inability to attend scheduled visits.\n\n### 4. Randomization Procedure\n\nTo ensure unbiased allocation of the 200 participants:\n\n1.  **Stratified Randomization:** Prior to randomization, participants will be stratified by **Center** (the specific hospital/clinic) and **Disease Severity** (mild, moderate, severe) to ensure balanced distribution of these critical prognostic factors across treatment arms.\n2.  **Block Randomization:** Within each stratum, participants will be assigned using **Permuted Block Randomization** with a block size of 4 or 6. This guarantees that the number of participants in the treatment and control groups remains balanced throughout the enrollment period, preventing temporal bias.\n3.  **Allocation Concealment:** The randomization sequence will be generated by an independent statistician using a computerized random number generator. The assignment will be concealed using a centralized Interactive Web Response System (IWRS) or a sealed opaque envelope system, accessible only after the participant's eligibility is confirmed and baseline data collected.\n4.  **Blinding:** The study will be conducted as a **Double-Blind** trial. Both the participants and the treating physicians will be unaware of the assignment (Active Drug vs. Placebo/Standard of Care) until the database is locked for analysis.",
+      "score": 4.2,
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        3,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Correctness (4): The solution addresses all four task requirements with a practical approach, though the sampling terminology is imprecise. Completeness (5): All sections are fully detailed and cover the required components. Best Practices (4): Randomization and blinding follow industry standards (ICH-GCP), but the design lacks an analysis plan regarding imputation or outlier handling. Domain Accuracy (3): 'Stratified Cluster Sampling' is technically incorrect for purposive site selection based on budget; true cluster sampling requires random cluster selection, affecting inference validity. Clarity (5): The output is well-structured, professional, and easy to follow."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Plan data collection methods for specific projects, and determine the types and sizes of sample groups to be used.",
+      "task_type": "Sample Size Determination & Collection Planning",
+      "user_prompt": "You are planning a survey to estimate the proportion of adults in a city who support a new public transit policy. You require a 95% confidence level and a margin of error of no more than 3%. Preliminary data suggests the proportion is around 0.5. 1) Calculate the minimum required sample size assuming a simple random sample. 2) Adjust the sample size calculation to account for an expected 20% non-response rate. 3) Propose a data collection method (e.g., stratified random sampling by district) to ensure demographic representation, specifying the strata. 4) Describe the survey instrument design considerations to minimize response bias.",
+      "reference_context": "Confidence Level: 95% (Z=1.96). Margin of Error (E): 0.03. Estimated Proportion (p): 0.5. Non-response rate: 20%.",
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Is the sample size calculation mathematically accurate for both the initial and adjusted scenarios?",
+        "Criterion 2: Completeness — Does the response include the calculation, adjustment, stratification plan, and bias mitigation?",
+        "Criterion 3: Best practices — Are the stratification variables relevant to the demographic makeup of the city?"
+      ],
+      "student_answer": "1) **Minimum Required Sample Size (Simple Random Sample):**\nUsing the formula $n = \\frac{Z^2 \\cdot p(1-p)}{E^2}$:\n$n = \\frac{1.96^2 \\cdot 0.5(1-0.5)}{0.03^2} = \\frac{3.8416 \\cdot 0.25}{0.0009} \\approx 1067.11$\nRounding up, the minimum required sample size is **1,068**.\n\n2) **Adjusted Sample Size (Accounting for 20% Non-Response):**\nTo account for a 20% non-response rate, divide the initial sample size by $(1 - 0.20)$:\n$n_{adjusted} = \\frac{1068}{0.80} = 1335$\nThe adjusted target sample size is **1,335**.\n\n3) **Proposed Data Collection Method:**\n**Stratified Random Sampling** by city district.\n*   **Strata Definition:** The city is divided into $k$ strata based on administrative districts (e.g., North, South, East, West, Central).\n*   **Allocation:** Within each district, the sample size is allocated proportionally to the district's adult population size to ensure the final sample reflects the city's demographic distribution. This minimizes sampling error compared to simple random sampling, particularly if transit support varies significantly by neighborhood.\n\n4) **Survey Instrument Design Considerations:**\n*   **Neutral Wording:** Avoid leading or loaded language (e.g., use \"Do you support the new public transit policy?\" rather than \"Do you support the improved public transit policy?\").\n*   **Balanced Options:** Ensure response options cover the full spectrum of opinion (Strongly Disagree to Strongly Agree) without forcing a binary choice if nuance exists.\n*   **Order Effects:** Randomize the order of questions and, if applicable, the order of policy details to prevent priming effects.\n*   **Mode Consistency:** Use a consistent mode of administration (e.g., online or telephone) with clear, standardized instructions to reduce interviewer bias.\n*   **Pilot Testing:** Conduct a cognitive pre-test with a small, diverse group to identify ambiguous terms or confusing layout issues before full deployment.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        4
+      ],
+      "score": 4.2,
+      "grade_reason": "Correctness (4): Calculations are accurate, but the formula display in step 2 contains a notation error ($n_ = \frac{0.80}$). Completeness (4): All tasks are addressed, but the claim that district stratification ensures demographic representation is an assumption that lacks qualification or weighting strategy. Best Practices (4): Stratified sampling is standard, but demographic stratification or post-stratification weighting would be more rigorous for the stated goal. Domain Accuracy (5): Statistical terminology, Z-scores, and formulas are used correctly. Clarity (4): Structure is logical, but the formula typo slightly reduces readability."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Supervise and provide instructions for workers collecting and tabulating data.",
+      "task_type": "Data Collection Protocol & Supervision",
+      "user_prompt": "You are supervising a team of 10 data collectors tasked with gathering environmental sensor data from 50 remote locations. The data includes temperature, humidity, and air quality, with specific time-stamping requirements. 1) Develop a standard operating procedure (SOP) for data collection that addresses potential equipment calibration drift and time synchronization issues. 2) Define the quality control checks that collectors must perform before submitting data. 3) Create a tabulation template structure that ensures data integrity (e.g., data types, range checks). 4) Outline a training protocol to ensure all collectors understand the SOP and the importance of data accuracy.",
+      "reference_context": "Locations: 50 remote sites. Sensors: Temperature (-40 to 50C), Humidity (0-100%), Air Quality (0-500 AQI). Time sync requirement: +/- 1 second. Equipment: Portable handheld units.",
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Do the SOP and QC checks logically address the specific risks of remote data collection?",
+        "Criterion 2: Completeness — Are the SOP, QC checks, template structure, and training protocol all included?",
+        "Criterion 3: Best practices — Is the tabulation template designed to prevent common data entry errors (e.g., unit mismatches)?"
+      ],
+      "student_answer": "### 1. Standard Operating Procedure (SOP) for Environmental Data Collection\n\n**Objective:** Ensure accurate, synchronized, and calibrated data collection across 50 remote sites using portable handheld units.\n\n**A. Pre-Deployment Calibration & Time Synchronization**\n1.  **Time Synchronization:**\n    *   Upon arrival at the site, connect the handheld unit to a GPS-enabled device or cellular network.\n    *   Execute the \"Sync Time\" command.\n    *   Verify the timestamp against the GPS clock. The deviation must be $\\le$ 1 second. If $>1$ second, reset the unit and re-sync.\n    *   Log the sync status in the field logbook.\n2.  **Calibration Drift Mitigation:**\n    *   Perform a \"Zero/Span\" check using the built-in self-test function or a portable calibration kit (if available) before the first reading of the day.\n    *   **Temperature:** Verify against a certified reference thermometer within $\\pm 0.5^\\circ\\text{C}$.\n    *   **Humidity:** Verify against a calibrated hygrometer within $\\pm 2\\%$.\n    *   **Air Quality:** Verify against a reference gas monitor or zero-air canister.\n    *   **Drift Protocol:** If readings exceed tolerance, record the drift value, apply the correction factor in the field log, and flag the data for review. If the unit cannot be calibrated, replace the sensor module or the entire unit immediately.\n\n**B. Data Collection Protocol**\n1.  **Site Identification:** Scan the QR code or manually enter the unique Site ID (1–50) before taking any readings.\n2.  **Reading Sequence:**\n    *   Allow the sensor to stabilize for 30 seconds after placement.\n    *   Record three consecutive readings for each parameter (Temperature, Humidity, AQI).\n    *   The system automatically calculates the average; the collector must verify the average is within physical limits.\n3.  **Environmental Conditions:** Log ambient conditions (e.g., direct sunlight, rain, wind) that may affect sensor accuracy.\n4.  **Data Submission:** Upload data to the central server immediately upon completion of the site visit. Do not store data locally for more than 24 hours.\n\n---\n\n### 2. Quality Control (QC) Checks Prior to Submission\n\nCollectors must perform the following checks before finalizing the data packet for any site:\n\n1.  **Range Validation:**\n    *   Temperature: Must be between $-40^\\circ\\text{C}$ and $50^\\circ\\text{C}$.\n    *   Humidity: Must be between $0\\%$ and $100\\%$.\n    *   Air Quality: Must be between $0$ and $500$ AQI.\n    *   *Action:* If a value falls outside these ranges, the collector must re-measure. If the error persists, mark as \"Sensor Malfunction\" and request equipment replacement.\n2.  **Temporal Consistency:**\n    *   Verify the timestamp is within the valid collection window.\n    *   Ensure the time difference between consecutive readings at the same site does not exceed 5 minutes.\n3.  **Calibration Status:**\n    *   Confirm the \"Calibration Valid\" flag is active in the device metadata.\n    *   Ensure the time sync deviation is $\\le 1$ second.\n4.  **Completeness Check:**\n    *   Verify all 50 required fields (Site ID, Timestamp, Temp, Humidity, AQI, Calibration Code, Collector ID) are populated.\n    *   Confirm no null or \"N/A\" values exist for mandatory fields.\n5.  **Outlier Detection:**\n    *   Compare current readings with the previous day's data for the same site.\n    *   If a value deviates by $>20\\%$ from the historical mean, flag for manual review and re-measurement.\n\n---\n\n### 3. Data Tabulation Template Structure\n\nThe following schema ensures data integrity, type enforcement, and range validation.\n\n| Field Name | Data Type | Constraints/Validation Rules | Description |\n| :--- | :--- | :--- | :--- |\n| `site_id` | Integer | Range: 1–50; Unique | Unique identifier for the 50 remote locations. |\n| `collector_id` | String | Length: 4 chars (e.g., C001-C010) | ID of the data collector. |\n| `timestamp` | DateTime (ISO 8601) | Format: `YYYY-MM-DDTHH:MM:SSZ` | UTC time of measurement. |\n| `time_sync_dev` | Float | Range: $-1.0$ to $+1.0$ seconds | Deviation from GPS time. |\n| `temp_c` | Float | Range: $-40.0$ to $50.0$; Precision: 0.1 | Average temperature in Celsius. |\n| `humidity_pct` | Float | Range: $0.0$ to $100.0$; Precision: 0.1 | Average relative humidity percentage. |\n| `aqi_value` | Integer | Range: $0$ to $500$ | Average Air Quality Index. |\n| `calibration_status` | Enum | Values: `PASS`, `FAIL`, `DRIFT_CORRECTED` | Status of pre-deployment calibration. |\n| `calibration_drift` | Float | Range: $-5.0$ to $+5.0$ | Recorded drift value if correction applied. |\n| `ambient_condition` | String | Enum: `CLEAR`, `RAIN`, `SUN`, `WINDY` | Environmental context. |\n| `qc_flag` | Enum | Values: `CLEAN`, `REVIEW`, `REJECT` | Final QC status before submission. |\n| `notes` | Text | Max 255 chars | Optional field for anomalies. |\n\n**Validation Logic:**\n*   **Primary Key:** `site_id` + `timestamp` (Must be unique per site per collection cycle).\n*   **Referential Integrity:** `collector_id` must exist in the master staff list.\n*   **Type Enforcement:** All numeric fields must reject text inputs; `timestamp` must reject non-date formats.\n\n---\n\n### 4. Training Protocol for Data Collectors\n\n**Duration:** 2 Days (1 Day Classroom/Theory, 1 Day Field Simulation).\n\n**Phase 1: Theoretical Instruction (Day 1)**\n*   **Module A: Importance of Data Integrity:** Case studies on how calibration drift and time errors impact environmental modeling and policy decisions.\n*   **Module B: SOP Deep Dive:** Step-by-step walkthrough of the calibration, time sync, and reading protocols.\n*   **Module C: Equipment Handling:** Proper care of handheld units, battery management, and sensor protection in remote environments.\n*   **Module D: QC & Troubleshooting:** How to identify sensor malfunctions, interpret error codes, and execute the \"Drift Protocol.\"\n\n**Phase 2: Practical Simulation (Day 2)**\n*   **Station Rotation:** Collectors rotate through 3 mock stations simulating different environmental conditions (e.g., extreme cold, high humidity, sensor drift).\n*   **Calibration Challenge:** Intentional calibration errors introduced; collectors must identify and correct them using the SOP.\n*   **Time Sync Drill:** Test synchronization under simulated low-connectivity scenarios.\n*   **Data Entry Exercise:** Practice entering data into the tabulation template with intentional errors to test QC flagging.\n\n**Phase 3: Assessment & Certification**\n*   **Written Exam:** 20-question multiple-choice test on SOP rules, ranges, and QC thresholds. (Passing score: 90%).\n*   **Field Performance Review:** Supervisor observes a full site collection cycle.\n    *   *Pass Criteria:* 100% adherence to time sync, correct calibration execution, and zero QC flag errors.\n*   **Certification:** Only collectors who pass both assessments receive the \"Certified Data Collector\" badge and access credentials.\n\n**Phase 4: Ongoing Monitoring**\n*   **Weekly Spot Checks:** Random audits of 10% of submitted data by the lead statistician.\n*   **Refresher Training:** Mandatory 1-hour briefing at the start of each month to address recurring errors or equipment updates.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission is well-structured and clear (Clarity: 5), covering all four required sections with professional formatting. However, meaningful gaps prevent a perfect score. Correctness (4): The outlier detection logic relies on 'previous day' data, which fails for new sites or intermittent collection. Completeness (4): The SOP mandates 'immediate upload' in remote areas without a robust offline sync contingency plan. Best Practices (4): Data lineage is ambiguous; the template stores 'calibration_drift' but it is unclear if submitted values are raw or corrected, which is critical for audit trails. Domain Accuracy (4): There is a slight inconsistency between SOP calibration tolerances (e.g., Temp +/- 0.5C) and the template's generic drift range (-5.0 to +5.0), suggesting a lack of precision in schema design."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Examine theories, such as those of probability and inference, to discover mathematical bases for new or improved methods of obtaining and evaluating numerical data.",
+      "task_type": "Statistical Method Development",
+      "user_prompt": "You are designing a new method to estimate the variance of a population with a highly skewed distribution where standard parametric assumptions fail. Given a theoretical distribution with a known skewness of 2.5 and a sample size of 50, propose a modified variance estimator that incorporates higher-order moments. 1) Derive the mathematical formula for this estimator based on probability theory. 2) Justify why this method improves upon the standard sample variance in this specific context. 3) Outline a simulation study design to validate the estimator's bias and consistency compared to the standard method.",
+      "reference_context": "Theoretical parameters: Skewness = 2.5, Kurtosis = 8.0, Sample Size (n) = 50. Standard estimator: s^2 = sum((x_i - x_bar)^2) / (n-1). Constraint: The new method must reduce bias by at least 15% under these specific distributional conditions.",
+      "evaluation_criteria": [
+        "Criterion 1: Mathematical Rigor - Is the derived formula logically sound and correctly incorporates higher-order moments?",
+        "Criterion 2: Theoretical Justification - Does the explanation clearly link the method's performance to the specific skewness and sample size?",
+        "Criterion 3: Validation Design - Is the proposed simulation study robust enough to test bias and consistency?"
+      ],
+      "student_answer": "### 1. Mathematical Derivation of the Modified Variance Estimator\n\nTo address the bias introduced by high skewness ($\\gamma_1 = 2.5$) and excess kurtosis ($\\gamma_2 = 5.0$, given total kurtosis $\\kappa = 8.0$), we propose a **Skewness-Corrected Variance Estimator ($\\hat{\\sigma}^2_{SC}$)**. This estimator adjusts the standard sample variance by incorporating the third central moment to correct for the asymmetry-induced bias in the second moment estimation.\n\nLet $m_k = \\frac{1}{n} \\sum_{i=1}^n (x_i - \\bar{x})^k$ denote the $k$-th sample central moment. The standard unbiased estimator is $s^2 = \\frac{n}{n-1}m_2$.\n\nUnder a distribution with skewness $\\gamma_1$, the expected value of the standard sample variance $s^2$ deviates from the population variance $\\sigma^2$ due to the correlation between the sample mean and the sample variance. The bias term $B$ for the standard estimator in the presence of skewness is approximately:\n$$ E[s^2] \\approx \\sigma^2 \\left( 1 + \\frac{\\gamma_1^2}{n} \\right) $$\n*Note: This approximation assumes the standard $s^2$ overestimates variance in highly skewed distributions due to the influence of the tail on the squared deviations from the shifted mean.*\n\nTo correct this, we define the modified estimator $\\hat{\\sigma}^2_{SC}$ as:\n$$ \\hat{\\sigma}^2_{SC} = s^2 \\left( 1 - \\frac{\\hat{\\gamma}_1^2}{n} \\right) $$\nWhere $\\hat{\\gamma}_1 = \\frac{m_3}{m_2^{3/2}}$ is the sample skewness.\n\n**Refined Formula for Finite Sample Correction:**\nTo ensure the bias reduction meets the 15% constraint rigorously, we utilize the exact expectation expansion for the second moment under skewness:\n$$ \\hat{\\sigma}^2_{SC} = \\frac{n}{n-1} m_2 - \\frac{1}{n(n-1)} \\frac{m_3^2}{m_2} $$\nSubstituting the moments:\n$$ \\hat{\\sigma}^2_{SC} = \\frac{1}{n-1} \\sum_{i=1}^n (x_i - \\bar{x})^2 - \\frac{1}{n(n-1)} \\frac{\\left( \\sum_{i=1}^n (x_i - \\bar{x})^3 \\right)^2}{\\left( \\sum_{i=1}^n (x_i - \\bar{x})^2 \\right)^2} \\cdot \\left( \\sum_{i=1}^n (x_i - \\bar{x})^2 \\right) $$\nSimplifying to the operational form:\n$$ \\hat{\\sigma}^2_{SC} = s^2 \\left[ 1 - \\frac{1}{n} \\left( \\frac{m_3}{m_2^{3/2}} \\right)^2 \\right] = s^2 \\left( 1 - \\frac{\\hat{\\gamma}_1^2}{n} \\right) $$\n\n### 2. Justification of Improvement\n\nThe standard sample variance $s^2$ assumes symmetry or negligible higher-order moment influence. In a distribution with $\\gamma_1 = 2.5$ and $n=50$:\n1.  **Bias Mechanism**: High positive skewness causes the sample mean $\\bar{x}$ to be pulled toward the long right tail. Consequently, the squared deviations $(x_i - \\bar{x})^2$ are systematically inflated for the majority of data points (the left side) and deflated for the tail, but the net effect in skewed distributions often results in an overestimation of the true population variance when using the standard formula, or a specific directional bias depending on the exact distribution shape (e.g., Log-normal vs. Gamma).\n2.  **Magnitude of Correction**:\n    *   Standard Bias Factor $\\approx 1 + \\frac{2.5^2}{50} = 1 + \\frac{6.25}{50} = 1.125$.\n    *   This implies a ~12.5% overestimation bias using the standard method.\n    *   The proposed correction factor is $(1 - \\frac{6.25}{50}) = 0.875$.\n    *   Applying this correction reduces the estimator's value by approximately 12.5% relative to the biased standard estimator, effectively neutralizing the skewness-induced inflation.\n3.  **Constraint Satisfaction**: While the theoretical bias reduction is ~12.5%, the inclusion of the kurtosis term in the higher-order expansion (via the $m_3^2/m_2$ term) further refines the estimate. In the specific context of $\\kappa=8.0$, the interaction between skewness and kurtosis amplifies the bias. The proposed estimator, by explicitly subtracting the squared skewness component scaled by $1/n$, targets the dominant source of error. To strictly meet the >15% bias reduction, the estimator can be slightly augmented with a kurtosis adjustment term:\n    $$ \\hat{\\sigma}^2_{SC} = s^2 \\left( 1 - \\frac{\\hat{\\gamma}_1^2}{n} - \\frac{\\hat{\\gamma}_2}{n^2} \\right) $$\n    Given $\\hat{\\gamma}_2 = 5.0$ and $n=50$, the additional term is negligible ($0.002$), but the primary skewness correction is robust. The method improves upon $s^2$ by decoupling the variance estimate from the location shift caused by the asymmetric tail, providing a consistent estimator that converges to $\\sigma^2$ faster than $s^2$ in non-normal populations.\n\n### 3. Simulation Study Design\n\n**Objective**: Validate that $\\hat{\\sigma}^2_{SC}$ reduces bias by >15% compared to $s^2$ for a distribution with $\\gamma_1=2.5, \\kappa=8.0, n=50$.\n\n**Step 1: Data Generation**\n*   **Distribution**: Generate synthetic data from a Generalized Gamma or Pearson Type III distribution calibrated to match the theoretical parameters ($\\mu=0, \\sigma=1, \\gamma_1=2.5, \\kappa=8.0$).\n*   **Sample Size**: $n = 50$.\n*   **Replications**: $R = 100,000$ iterations to ensure high precision in bias estimation.\n\n**Step 2: Estimation**\nFor each iteration $r = 1, \\dots, R$:\n1.  Generate sample $X_r = \\{x_{r,1}, \\dots, x_{r,50}\\}$.\n2.  Calculate Standard Variance: $s^2_r = \\frac{1}{n-1}\\sum (x_{r,i} - \\bar{x}_r)^2$.\n3.  Calculate Sample Moments: $m_{2,r}, m_{3,r}$.\n4.  Calculate Sample Skewness: $\\hat{\\gamma}_{1,r} = m_{3,r} / m_{2,r}^{1.5}$.\n5.  Calculate Modified Variance: $\\hat{\\sigma}^2_{SC,r} = s^2_r (1 - \\hat{\\gamma}_{1,r}^2 / n)$.\n\n**Step 3: Bias and Consistency Metrics**\n*   **True Variance**: $\\sigma^2 = 1$ (by design).\n*   **Bias of Standard Estimator**: $Bias_{std} = \\frac{1}{R}\\sum s^2_r - 1$.\n*   **Bias of Modified Estimator**: $Bias_{mod} = \\frac{1}{R}\\sum \\hat{\\sigma}^2_{SC,r} - 1$.\n*   **Relative Bias Reduction**: $RB = \\frac{|Bias_{std}| - |Bias_{mod}|}{|Bias_{std}|} \\times 100\\%$.\n*   **Consistency Check**: Verify that as $n$ increases (e.g., $n=100, 200$), $Bias_{mod} \\to 0$ faster than $Bias_{std}$.\n\n**Step 4: Validation Criteria**\n*   **Primary Success**: $RB \\geq 15\\%$.\n*   **Secondary Success**: The Mean Squared Error (MSE) of $\\hat{\\sigma}^2_{SC}$ is lower than or equal to $s^2$ (balancing bias reduction against potential variance inflation from the correction term).\n*   **Confidence Interval**: Construct a 95% CI for the bias reduction percentage to ensure statistical significance.\n\n**Step 5: Reporting**\nReport the empirical bias, MSE, and the calculated Relative Bias Reduction. If $RB < 15\\%$, iterate by including the kurtosis correction term $\\frac{\\hat{\\gamma}_2}{n^2}$ in the formula.",
+      "score": 2.2,
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        1,
+        3
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission fails on fundamental statistical theory. The core premise that the standard sample variance s^2 is biased by skewness is incorrect (s^2 is unbiased for any distribution with finite variance). Arithmetic errors are present (1 + 6.25 != 1.125). Notation is inconsistent and often incorrect (e.g., s^2 = (n-1)/m_2). While the structure addresses all three task requirements (Derivation, Justification, Simulation), the content is statistically unsound, leading to low scores in Domain Accuracy and Correctness. The simulation design is well-structured but validates a flawed method."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Prepare and structure data warehouses for storing data.",
+      "task_type": "Data Warehousing Architecture",
+      "user_prompt": "Design a schema for a data warehouse intended to store longitudinal clinical trial data for a new pharmaceutical drug. The data includes patient demographics, time-series vital signs, and adverse event reports. 1) Propose a dimensional modeling approach (e.g., Star Schema) defining Fact and Dimension tables. 2) Specify the primary keys, foreign keys, and data types for each table. 3) Describe how to handle slowly changing dimensions (SCD) for patient demographics that change over the course of a multi-year trial. 4) Provide a SQL snippet to create the primary fact table.",
+      "reference_context": "Data entities: Patients (ID, Age, Gender, EnrollmentDate), VitalSigns (PatientID, Timestamp, HeartRate, BP), AdverseEvents (PatientID, EventDate, Severity). Requirement: The schema must support efficient querying of 'average heart rate per patient per month' and 'total adverse events per severity level per year'.",
+      "evaluation_criteria": [
+        "Criterion 1: Schema Integrity - Are relationships between tables correctly defined with appropriate keys?",
+        "Criterion 2: Query Efficiency - Does the design support the specified analytical queries without excessive joins?",
+        "Criterion 3: SCD Handling - Is the strategy for updating patient demographics clearly defined and appropriate for the use case?"
+      ],
+      "student_answer": "### 1. Dimensional Modeling Approach: Star Schema\n\nThe schema utilizes a **Star Schema** architecture to optimize read performance for analytical queries. The central **Fact** tables store quantitative measurements and event counts, while surrounding **Dimension** tables store descriptive attributes.\n\n**Core Tables:**\n*   **Fact_VitalSigns**: Stores time-series vital sign measurements.\n*   **Fact_AdverseEvents**: Stores records of adverse events.\n*   **Dim_Patient**: Stores patient demographics (SCD Type 2).\n*   **Dim_Date**: Stores calendar hierarchy (Year, Month, Day).\n*   **Dim_Severity**: Stores adverse event severity levels.\n\n---\n\n### 2. Table Definitions: Keys and Data Types\n\n#### **Fact_VitalSigns**\n*Stores individual vital sign readings.*\n| Column Name | Data Type | Constraint | Description |\n| :--- | :--- | :--- | :--- |\n| `vital_sign_id` | BIGINT | PRIMARY KEY | Surrogate key for the fact row. |\n| `patient_key` | INT | FOREIGN KEY | FK to `Dim_Patient(patient_key)`. |\n| `date_key` | INT | FOREIGN KEY | FK to `Dim_Date(date_key)`. |\n| `heart_rate` | INT | NOT NULL | Heart rate in beats per minute. |\n| `systolic_bp` | INT | NULLABLE | Systolic blood pressure. |\n| `diastolic_bp` | INT | NULLABLE | Diastolic blood pressure. |\n\n#### **Fact_AdverseEvents**\n*Stores adverse event occurrences.*\n| Column Name | Data Type | Constraint | Description |\n| :--- | :--- | :--- | :--- |\n| `event_id` | BIGINT | PRIMARY KEY | Surrogate key for the event. |\n| `patient_key` | INT | FOREIGN KEY | FK to `Dim_Patient(patient_key)`. |\n| `date_key` | INT | FOREIGN KEY | FK to `Dim_Date(date_key)`. |\n| `severity_key` | INT | FOREIGN KEY | FK to `Dim_Severity(severity_key)`. |\n| `event_count` | INT | DEFAULT 1 | Count of events (1 per row). |\n\n#### **Dim_Patient** (SCD Type 2)\n*Stores patient demographics with history tracking.*\n| Column Name | Data Type | Constraint | Description |\n| :--- | :--- | :--- | :--- |\n| `patient_key` | INT | PRIMARY KEY | Surrogate key (generated). |\n| `patient_id` | VARCHAR(50) | UNIQUE | Natural business key (e.g., \"PT-001\"). |\n| `age` | INT | NULLABLE | Age at time of record. |\n| `gender` | VARCHAR(10) | NULLABLE | Gender. |\n| `enrollment_date` | DATE | NULLABLE | Date of trial enrollment. |\n| `start_date` | DATE | NOT NULL | Effective start date of this record. |\n| `end_date` | DATE | NOT NULL | Effective end date (NULL if current). |\n| `is_current` | BOOLEAN | NOT NULL | Flag (1 for current, 0 for historical). |\n\n#### **Dim_Date**\n*Standard calendar dimension.*\n| Column Name | Data Type | Constraint | Description |\n| :--- | :--- | :--- | :--- |\n| `date_key` | INT | PRIMARY KEY | Surrogate key (YYYYMMDD). |\n| `full_date` | DATE | UNIQUE | Actual date. |\n| `year` | INT | NOT NULL | Year. |\n| `month` | INT | NOT NULL | Month (1-12). |\n| `month_name` | VARCHAR(10) | NULLABLE | Month name. |\n\n#### **Dim_Severity**\n*Lookup table for event severity.*\n| Column Name | Data Type | Constraint | Description |\n| :--- | :--- | :--- | :--- |\n| `severity_key` | INT | PRIMARY KEY | Surrogate key. |\n| `severity_name` | VARCHAR(50) | UNIQUE | e.g., \"Mild\", \"Moderate\", \"Severe\". |\n| `severity_code` | VARCHAR(10) | UNIQUE | Standardized code (e.g., CTCAE v5.0). |\n\n---\n\n### 3. Handling Slowly Changing Dimensions (SCD) for Patient Demographics\n\nTo handle changes in patient demographics (e.g., age progression, gender correction, or enrollment date updates) over a multi-year trial, **SCD Type 2** is implemented for `Dim_Patient`.\n\n*   **Mechanism**: When a demographic attribute changes for a patient, a new row is inserted into `Dim_Patient` with a new `patient_key` (surrogate key).\n*   **History Preservation**: The previous row is updated to set `end_date` to the day before the change and `is_current` to `0`.\n*   **Current Record**: The new row is inserted with `start_date` as the change date, `end_date` as `NULL` (or a far future date), and `is_current` as `1`.\n*   **Fact Linkage**: The `Fact_VitalSigns` and `Fact_AdverseEvents` tables reference the `patient_key` active at the time of the measurement. This ensures that historical queries (e.g., \"What was the patient's age during this specific visit?\") return the correct historical value, while current queries return the latest data.\n\n---\n\n### 4. SQL Snippet: Create Primary Fact Table\n\n```sql\nCREATE TABLE Fact_VitalSigns (\n    vital_sign_id BIGINT IDENTITY(1,1) PRIMARY KEY,\n    patient_key INT NOT NULL,\n    date_key INT NOT NULL,\n    heart_rate INT NOT NULL,\n    systolic_bp INT NULL,\n    diastolic_bp INT NULL,\n    CONSTRAINT fk_vital_patient FOREIGN KEY (patient_key) REFERENCES Dim_Patient(patient_key),\n    CONSTRAINT fk_vital_date FOREIGN KEY (date_key) REFERENCES Dim_Date(date_key)\n);\n\n-- Indexes for efficient aggregation queries\nCREATE INDEX IX_Vital_Patient_Date ON Fact_VitalSigns (patient_key, date_key);\nCREATE INDEX IX_Vital_HeartRate ON Fact_VitalSigns (heart_rate);\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission is exceptionally clear and structured (Clarity: 5), addressing all four task requirements (Completeness: 4). It correctly identifies Star Schema and SCD Type 2 for demographics, with appropriate domain references like CTCAE (Domain Accuracy: 4). However, the `Fact_AdverseEvents` table includes a redundant `event_count` column that conflicts with the transactional grain implied by the `event_id` primary key, and the SQL indexes a measure column (`heart_rate`) rather than foreign keys, which are minor but meaningful design flaws affecting Correctness and Best Practices (4)."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Develop software applications or programming for statistical modeling and graphic analysis.",
+      "task_type": "Statistical Software Development",
+      "user_prompt": "Write a Python function using the pandas and matplotlib libraries to perform a specific statistical analysis on a provided dataset. The function must: 1) Accept a DataFrame with columns 'time' (datetime) and 'value' (float). 2) Calculate a rolling mean with a window of 7 days and a rolling standard deviation. 3) Identify points where the value deviates by more than 2 standard deviations from the rolling mean. 4) Generate a plot showing the original data, the rolling mean, and the deviation thresholds. 5) Ensure the plot includes precise axis labels, a title, and a legend.",
+      "reference_context": "Input data format: pandas DataFrame. Assumptions: Data is sorted by time. Missing values in 'value' should be forward-filled before calculation. The function should return the modified DataFrame and the matplotlib figure object.",
+      "evaluation_criteria": [
+        "Criterion 1: Code Correctness - Does the code execute without errors and produce the correct statistical calculations?",
+        "Criterion 2: Visualization Standards - Are axis labels, titles, and legends described and implemented precisely as requested?",
+        "Criterion 3: Robustness - Does the code handle the specified assumptions (sorting, missing values) correctly?"
+      ],
+      "student_answer": "```python\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\ndef analyze_time_series(df):\n    # Forward-fill missing values in 'value'\n    df['value'] = df['value'].ffill()\n    \n    # Calculate rolling mean and standard deviation (window=7 days)\n    # Ensure 'time' is datetime for proper rolling window calculation\n    if not pd.api.types.is_datetime64_any_dtype(df['time']):\n        df['time'] = pd.to_datetime(df['time'])\n    \n    rolling_mean = df['value'].rolling(window='7D', min_periods=1).mean()\n    rolling_std = df['value'].rolling(window='7D', min_periods=1).std()\n    \n    # Calculate deviation thresholds (mean +/- 2*std)\n    upper_threshold = rolling_mean + 2 * rolling_std\n    lower_threshold = rolling_mean - 2 * rolling_std\n    \n    # Identify outliers (points deviating by more than 2 standard deviations)\n    df['is_outlier'] = (df['value'] > upper_threshold) | (df['value'] < lower_threshold)\n    \n    # Generate plot\n    fig, ax = plt.subplots(figsize=(10, 6))\n    \n    ax.plot(df['time'], df['value'], label='Original Data', color='blue', alpha=0.7)\n    ax.plot(df['time'], rolling_mean, label='Rolling Mean (7D)', color='green', linewidth=2)\n    ax.plot(df['time'], upper_threshold, label='Upper Threshold (+2σ)', color='red', linestyle='--', alpha=0.6)\n    ax.plot(df['time'], lower_threshold, label='Lower Threshold (-2σ)', color='red', linestyle='--', alpha=0.6)\n    \n    # Highlight outliers\n    outliers = df[df['is_outlier']]\n    if not outliers.empty:\n        ax.scatter(outliers['time'], outliers['value'], color='orange', zorder=5, label='Outliers (>2σ)', s=50)\n    \n    ax.set_xlabel('Time')\n    ax.set_ylabel('Value')\n    ax.set_title('Time Series Analysis: Rolling Mean and Deviation Thresholds')\n    ax.legend(loc='best')\n    ax.grid(True, linestyle=':', alpha=0.6)\n    \n    plt.tight_layout()\n    \n    return df, fig\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        3,
+        4
+      ],
+      "score": 3.0,
+      "grade_reason": "The solution contains a critical implementation error: `window='7D'` requires a DatetimeIndex, but the code converts the 'time' column without setting it as the index, causing a runtime error. Additionally, modifying the input DataFrame in-place is poor practice. Statistical logic is sound, and code readability is high, but the functional failure prevents a higher correctness score."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Apply sampling techniques, or use complete enumeration bases to determine and define groups to be surveyed.",
+      "task_type": "Sampling Strategy Design",
+      "user_prompt": "A national health organization needs to survey 2,000 households to estimate the prevalence of a rare disease. The population is stratified by region (North, South, East, West) and income level (Low, Medium, High). 1) Determine the optimal sampling strategy (e.g., Stratified Random Sampling, Cluster Sampling) and justify the choice based on the rarity of the disease and population heterogeneity. 2) Calculate the sample size for each stratum assuming proportional allocation, then adjust for a design effect of 1.5. 3) Define the inclusion and exclusion criteria for the survey groups. 4) Explain how to handle the potential for non-response bias in the final analysis.",
+      "reference_context": "Population size: 10,000,000. Disease prevalence estimate: 0.5%. Strata distribution: North (30%), South (30%), East (20%), West (20%). Income distribution is uniform across regions. Target margin of error: 3% at 95% confidence.",
+      "evaluation_criteria": [
+        "Criterion 1: Strategy Selection - Is the chosen sampling method theoretically justified for the specific constraints (rare disease, heterogeneity)?",
+        "Criterion 2: Calculation Accuracy - Are the sample sizes for each stratum calculated correctly including the design effect adjustment?",
+        "Criterion 3: Bias Mitigation - Is the plan for handling non-response bias practical and grounded in statistical best practices?"
+      ],
+      "student_answer": "### 1. Optimal Sampling Strategy\n**Strategy:** Stratified Random Sampling with Probability Proportional to Size (PPS) within regions, followed by Simple Random Sampling (SRS) within income strata.\n\n**Justification:**\n*   **Rarity of Disease:** With a prevalence of 0.5%, simple random sampling risks missing the disease entirely in small subgroups. Stratification ensures that every region and income level is represented, preventing the \"zero-event\" problem in specific cells.\n*   **Population Heterogeneity:** The population is explicitly stratified by region and income, which are likely correlated with disease prevalence (e.g., healthcare access, environmental factors). Stratified sampling reduces variance compared to cluster or simple random sampling by ensuring representation across these high-variance dimensions.\n*   **Efficiency:** This approach maximizes precision for the given sample size (2,000) by minimizing the standard error of the estimate, which is critical when detecting rare events.\n\n### 2. Sample Size Calculation and Allocation\n**Base Parameters:**\n*   Target Total Sample ($n_{target}$): 2,000\n*   Design Effect ($DEFF$): 1.5\n*   Strata Distribution (Region): North (30%), South (30%), East (20%), West (20%).\n*   Income Distribution: Uniform (Low, Medium, High = 33.33% each).\n*   Combined Strata: $4 \\text{ Regions} \\times 3 \\text{ Income Levels} = 12$ Strata.\n\n**Step A: Calculate Base Proportional Allocation**\nSince income is uniform across regions, the weight of each combined stratum is:\n$$ \\text{Weight} = \\text{Region Weight} \\times \\text{Income Weight} = \\text{Region Weight} \\times \\frac{1}{3} $$\n\n*   **North-Low, North-Med, North-High:** $0.30 \\times \\frac{1}{3} = 0.10$ each\n*   **South-Low, South-Med, South-High:** $0.30 \\times \\frac{1}{3} = 0.10$ each\n*   **East-Low, East-Med, East-High:** $0.20 \\times \\frac{1}{3} \\approx 0.0667$ each\n*   **West-Low, West-Med, West-High:** $0.20 \\times \\frac{1}{3} \\approx 0.0667$ each\n\n**Step B: Apply Design Effect**\nTo account for the design effect of 1.5, the effective sample size required to achieve the same precision as SRS is $n_{effective} = n_{target} / DEFF$. However, since the target is fixed at 2,000, we must inflate the allocation to ensure the *effective* sample meets the precision requirements, or simply distribute the 2,000 based on the design effect logic.\n\n*Correction for Task Interpretation:* The prompt asks to \"Calculate the sample size... then adjust for a design effect.\" This implies calculating the raw proportional size and then scaling the final allocation to account for the loss of efficiency.\n$$ n_{adjusted\\_total} = n_{target} \\times DEFF = 2,000 \\times 1.5 = 3,000 $$\n*(Note: If the organization strictly limits the budget to 2,000, the margin of error will increase. Assuming the instruction implies inflating the calculated allocation to maintain the 3% margin of error with the design effect, the target becomes 3,000. If the target is fixed at 2,000, the allocation remains proportional, but the precision is reduced. Based on standard statistical practice for \"adjusting for design effect,\" we calculate the required sample size to maintain precision.)*\n\n**Revised Calculation for Fixed Target (2,000) with Design Effect Adjustment:**\nIf the total sample is fixed at 2,000, the allocation remains proportional to the population strata. The \"adjustment\" is applied to the variance calculation, not the count, unless the goal is to determine the *required* sample size.\n*Interpretation:* The prompt asks to calculate the sample size *assuming proportional allocation*, *then* adjust. This usually means:\n1.  Calculate $n_{prop}$ based on 2,000.\n2.  Adjust the *required* sample size to 3,000 to maintain the 3% MoE.\n*Alternative Interpretation (Strict adherence to \"Survey 2,000\"):* Distribute 2,000 proportionally. The design effect is noted for the variance analysis.\n\n**Final Allocation (Distributing the fixed 2,000 proportionally):**\nSince the design effect applies to the variance, the allocation of the 2,000 households remains strictly proportional to the population strata to minimize cost and maintain representativeness.\n\n| Stratum | Region | Income | Population % | Allocation (2,000) |\n| :--- | :--- | :--- | :--- | :--- |\n| 1 | North | Low | 10.0% | 200 |\n| 2 | North | Medium | 10.0% | 200 |\n| 3 | North | High | 10.0% | 200 |\n| 4 | South | Low | 10.0% | 200 |\n| 5 | South | Medium | 10.0% | 200 |\n| 6 | South | High | 10.0% | 200 |\n| 7 | East | Low | 6.67% | 133 |\n| 8 | East | Medium | 6.67% | 133 |\n| 9 | East | High | 6.67% | 134 |\n| 10 | West | Low | 6.67% | 133 |\n| 11 | West | Medium | 6.67% | 133 |\n| 12 | West | High | 6.67% | 134 |\n| **Total** | | | **100%** | **2,000** |\n\n*Note on Design Effect:* To achieve the stated 3% margin of error with a DEFF of 1.5, the *effective* sample size must be 3,000. If the budget is capped at 2,000, the actual margin of error will be approximately $3\\% \\times \\sqrt{1.5} \\approx 3.67\\%$. If the requirement is to strictly maintain 3% MoE, the sample size must be increased to 3,000.\n\n### 3. Inclusion and Exclusion Criteria\n\n**Inclusion Criteria:**\n*   **Household Status:** Must be a private residential household (excluding group quarters like dormitories, nursing homes, or military barracks).\n*   **Geographic Location:** Must reside within the defined national boundaries of the four regions (North, South, East, West).\n*   **Timeframe:** Must have been the primary residence of the household for at least the last 6 months.\n*   **Demographics:** At least one member of the household must be present and available for interview during the survey window.\n\n**Exclusion Criteria:**\n*   **Non-Residential:** Temporary structures, commercial properties, or vacant units.\n*   **Institutional:** Households in long-term care facilities, prisons, or active military bases (unless specifically part of the regional census frame).\n*   **Language:** Households where no member speaks the primary language of the survey instrument (unless translation resources are unavailable, in which case they are excluded to ensure data quality).\n*   **Disease Status (Pre-screening):** If a pre-screening tool is used, households where a member has already been diagnosed and is under active clinical trial management (to avoid confounding with general prevalence estimates) may be excluded, though this depends on the specific definition of \"prevalence\" (point vs. period). *Standard practice: Include all to capture true prevalence.*\n\n### 4. Handling Non-Response Bias\n\nTo mitigate non-response bias in the final analysis:\n\n1.  **Weighting Adjustment (Post-Stratification):**\n    *   Calculate response rates for each of the 12 strata.\n    *   Compute non-response weights ($w_{nr}$) as the inverse of the response rate for each stratum: $w_{nr} = \\frac{1}{\\text{Response Rate}}$.\n    *   Apply these weights to the final estimates to align the sample distribution with the known population totals (North/South/East/West and Income levels).\n\n2.  **Non-Response Follow-up (NRFU):**\n    *   Conduct a targeted follow-up with a random subsample of initial non-respondents (e.g., 10-15% of non-respondents) to determine if they differ significantly from respondents regarding the disease status or key demographics.\n\n3.  **Sensitivity Analysis:**\n    *   Perform a \"worst-case\" and \"best-case\" scenario analysis. Assume all non-respondents in high-risk strata have the disease and all in low-risk strata do not. Report the range of possible prevalence estimates to quantify the potential bias.\n\n4.  **Imputation:**\n    *   If non-response is related to observed variables (e.g., income), use Multiple Imputation techniques to fill in missing data for non-respondents based on the characteristics of similar respondents, rather than simply dropping them.\n\n5.  **Documentation:**\n    *   Explicitly report the overall response rate and the response rates by stratum in the final report, alongside the weighted estimates, to ensure transparency regarding the potential for bias.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        3
+      ],
+      "score": 3.2,
+      "grade_reason": "The submission addresses all four task components, with a particularly strong section on non-response bias. However, the sampling strategy contains a technical error by suggesting PPS within regions for a stratified design (PPS is typically for cluster sampling), impacting Correctness and Domain Accuracy. The sample size calculation shows ambiguity between the fixed budget (2,000) and the required size for the design effect (3,000), presenting both without a definitive conclusion. Additionally, the inclusion of internal 'thinking' text (e.g., 'Correction for Task Interpretation') reduces professional clarity and Best Practices."
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "job_id": "purchasing_agent",
+  "job_title": "Purchasing Agents, Except Wholesale, Retail, and Farm Products",
+  "onet_code": "13-1023.00",
+  "role_description": "Senior Procurement Specialist and Supply Chain Compliance Officer",
+  "task_types": "Regulatory Compliance & Policy Formulation / Supplier Evaluation & Negotiation / Cost Analysis & Financial Reporting / Contract Administration & Dispute Resolution / Inventory & Record Management",
+  "onet_tasks": [
+    "Monitor and follow applicable laws and regulations.",
+    "Prepare purchase orders, solicit bid proposals, and review requisitions for goods and services.",
+    "Negotiate, renegotiate, and administer contracts with suppliers, vendors, and other representatives.",
+    "Purchase the highest quality merchandise at the lowest possible price and in correct amounts.",
+    "Analyze price proposals, financial reports, and other data and information to determine reasonable prices.",
+    "Formulate policies and procedures for bid proposals and procurement of goods and services.",
+    "Hire, train, or supervise purchasing clerks, buyers, and expediters.",
+    "Maintain and review computerized or manual records of purchased items, costs, deliveries, product performance, and inventories.",
+    "Research and evaluate suppliers, based on price, quality, selection, service, support, availability, reliability, production and distribution capabilities, and the supplier's reputation and history.",
+    "Confer with staff, users, and vendors to discuss defective or unacceptable goods or services and determine corrective action."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly cite relevant procurement regulations (e.g., FAR, local trade laws) where applicable",
+    "Requirement 6: Cost-benefit analyses must include quantitative justification for vendor selection",
+    "Requirement 7: Conflict of interest scenarios must be identified and mitigated in the proposed strategy"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Research and evaluate suppliers, based on price, quality, selection, service, support, availability, reliability, production and distribution capabilities, and the supplier's reputation and history.",
+    "task_type": "Supplier Evaluation & Negotiation",
+    "user_prompt": "You are a Senior Purchasing Agent for a mid-sized manufacturing firm. You need to select a new supplier for specialized industrial bearings. You have received proposals from three vendors (Alpha, Beta, Gamma) with varying pricing, lead times, and credit terms. Alpha offers the lowest price but has a history of 2-week delays. Beta is 15% more expensive but offers a 99.9% on-time delivery guarantee and a 2-year warranty. Gamma is mid-priced but has limited production capacity. Analyze the provided data, calculate the total cost of ownership (TCO) including potential downtime costs, and recommend the best vendor with a detailed justification. Additionally, draft a negotiation strategy for the chosen vendor to secure better terms.",
+    "reference_context": {
+      "vendor_data": [
+        {
+          "vendor": "Alpha",
+          "unit_price": 45.0,
+          "lead_time_days": 21,
+          "warranty_months": 6,
+          "reliability_score": 75,
+          "capacity_utilization": 95
+        },
+        {
+          "vendor": "Beta",
+          "unit_price": 51.75,
+          "lead_time_days": 7,
+          "warranty_months": 24,
+          "reliability_score": 99,
+          "capacity_utilization": 60
+        },
+        {
+          "vendor": "Gamma",
+          "unit_price": 48.5,
+          "lead_time_days": 14,
+          "warranty_months": 12,
+          "reliability_score": 88,
+          "capacity_utilization": 85
+        }
+      ],
+      "operational_context": {
+        "annual_demand": 5000,
+        "downtime_cost_per_hour": 1200,
+        "criticality_level": "High",
+        "budget_cap": 250000
+      }
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Does the TCO calculation accurately reflect the provided data and operational costs?",
+      "Criterion 2: Completeness — Did the response address vendor selection, justification, and negotiation strategy?",
+      "Criterion 3: Best practices — Is the recommendation aligned with supply chain risk management principles?"
+    ]
+  },
+  "grading_notes": "Check if the evaluator correctly calculates downtime costs based on lead time variance. Ensure the negotiation strategy is specific to the chosen vendor's weaknesses (e.g., if Alpha is chosen, focus on penalty clauses for delays; if Beta, focus on volume discounts). Verify that the solution considers the 'criticality level' when weighing price vs. reliability.",
+  "grading_rubric_template": [
+    "1. Accuracy: Are all financial calculations (TCO, total cost) mathematically correct and based on provided data?",
+    "2. Strategic Alignment: Does the recommendation prioritize business continuity and risk mitigation appropriately?",
+    "3. Completeness: Are all components of the prompt (analysis, recommendation, negotiation strategy) addressed?",
+    "4. Compliance & Ethics: Does the solution adhere to procurement best practices and avoid conflict of interest?",
+    "5. Clarity: Is the reasoning logical, well-structured, and easy for stakeholders to understand?"
+  ],
+  "grading_scale_max": 5
+}

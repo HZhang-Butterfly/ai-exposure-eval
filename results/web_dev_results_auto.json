@@ -1,0 +1,1199 @@
+{
+  "meta": {
+    "job_title": "Web Developers",
+    "job_id": "web_dev",
+    "onet_code": "15-1254.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 29,
+    "evaluated_tasks": 30,
+    "batches": 6,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 3.71,
+      "dimensions": {
+        "Correctness": 3.3,
+        "Completeness": 3.52,
+        "Best Practices": 3.3,
+        "Domain Accuracy": 3.85,
+        "Clarity": 4.59
+      },
+      "evaluated_tasks": 30,
+      "scale_max": 5
+    },
+    "total_time_seconds": 4410.29
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
+      "task_type": "Cross-Browser Compatibility Testing",
+      "user_prompt": "Analyze the provided CSS snippet for a responsive navigation bar. Identify three specific compatibility issues across Chrome, Firefox, and Safari regarding flexbox behavior and pseudo-elements. Propose a corrected CSS block that ensures consistent rendering on all three browsers while maintaining the original design intent.",
+      "reference_context": {
+        "original_css": ".nav-container { display: flex; justify-content: space-between; } .nav-item::before { content: ''; width: 10px; height: 10px; background: red; }",
+        "browser_versions": {
+          "chrome": "latest",
+          "firefox": "latest",
+          "safari": "latest"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the solution work?",
+        "Criterion 2: Completeness — did it handle all requirements?",
+        "Criterion 3: Best practices — is it production-ready?"
+      ],
+      "student_answer": "```css\n.nav-container {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n  -ms-flex-pack: justify;\n  justify-content: space-between;\n  -webkit-box-align: center;\n  -ms-flex-align: center;\n  align-items: center;\n}\n\n.nav-item {\n  position: relative;\n}\n\n.nav-item::before {\n  content: '';\n  position: absolute;\n  top: 50%;\n  left: 0;\n  width: 10px;\n  height: 10px;\n  background: red;\n  -webkit-transform: translateY(-50%);\n  -ms-transform: translateY(-50%);\n  transform: translateY(-50%);\n}\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        1,
+        1,
+        1,
+        2,
+        3
+      ],
+      "score": 1.6,
+      "grade_reason": "The submission fails to identify the three required compatibility issues, addressing only the CSS portion. The CSS uses outdated vendor prefixes (-webkit-box) unnecessary for latest browsers and ignores the 'responsive' requirement with no media queries. While the code syntax is valid, it demonstrates poor domain knowledge and misses half the task requirements."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Write supporting code for Web applications or Web sites.",
+      "task_type": "Input Validation and Error Handling Implementation",
+      "user_prompt": "Develop a JavaScript function to handle user registration form submission. The function must validate that the email is in a valid format, the password is at least 8 characters with one number, and the username contains only alphanumeric characters. Include robust error handling that returns specific error messages for each validation failure and prevents the form from submitting on error.",
+      "reference_context": {
+        "form_fields": [
+          "email",
+          "password",
+          "username"
+        ],
+        "validation_rules": {
+          "email": "RFC 5322 compliant regex",
+          "password": "min 8 chars, 1 digit",
+          "username": "alphanumeric only"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the validation logic accurately reject invalid inputs?",
+        "Criterion 2: Completeness — are all specified rules implemented?",
+        "Criterion 3: Best practices — is error handling explicit and user-friendly?"
+      ],
+      "student_answer": "```javascript\n/**\n * Handles user registration form submission with validation.\n * @param {HTMLFormElement} form - The form element to submit.\n * @returns {boolean} - Returns false if validation fails, true if valid.\n */\nfunction handleRegistrationSubmit(form) {\n  // Prevent default submission\n  form.addEventListener('submit', function (event) {\n    event.preventDefault();\n\n    const emailInput = form.querySelector('#email');\n    const passwordInput = form.querySelector('#password');\n    const usernameInput = form.querySelector('#username');\n\n    const email = emailInput.value.trim();\n    const password = passwordInput.value;\n    const username = usernameInput.value.trim();\n\n    const errors = [];\n\n    // 1. Validate Email (RFC 5322 compliant regex)\n    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;\n    if (!emailRegex.test(email)) {\n      errors.push('Error: Invalid email format. Please enter a valid email address.');\n    }\n\n    // 2. Validate Password (Min 8 chars, at least 1 digit)\n    const passwordRegex = /^(?=.*\\d).{8,}$/;\n    if (!passwordRegex.test(password)) {\n      errors.push('Error: Password must be at least 8 characters long and contain at least one number.');\n    }\n\n    // 3. Validate Username (Alphanumeric only)\n    const usernameRegex = /^[a-zA-Z0-9]+$/;\n    if (!usernameRegex.test(username)) {\n      errors.push('Error: Username must contain only alphanumeric characters.');\n    }\n\n    // Handle Errors\n    if (errors.length > 0) {\n      // Clear previous error messages if any (assuming a container with id=\"error-container\")\n      const errorContainer = form.querySelector('#error-container');\n      if (errorContainer) {\n        errorContainer.innerHTML = errors.map(err => `<p>${err}</p>`).join('');\n        errorContainer.style.display = 'block';\n      } else {\n        // Fallback: alert if no container exists\n        alert(errors.join('\\n'));\n      }\n      return false;\n    }\n\n    // Validation Passed\n    if (errorContainer) {\n      errorContainer.innerHTML = '';\n      errorContainer.style.display = 'none';\n    }\n\n    // Proceed with actual submission (e.g., AJAX or native submit)\n    // For this example, we simulate a successful submission\n    console.log('Form is valid. Submitting data...');\n    // form.submit(); // Uncomment to allow native submission\n    return true;\n  });\n}\n\n// Usage Example:\n// document.addEventListener('DOMContentLoaded', () => {\n//   const form = document.getElementById('registrationForm');\n//   handleRegistrationSubmit(form);\n// });\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        4,
+        4
+      ],
+      "score": 3.2,
+      "grade_reason": "Critical bugs reduce correctness to 2: ReferenceError on success due to variable scoping and broken template literal interpolation prevents error display. Completeness and Best Practices score 3 due to event listener duplication risk and scope issues. Domain Accuracy is 4 as validation rules match requirements despite regex simplification. Clarity is 4 due to readable structure and comments."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Design, build, or maintain Web sites, using authoring or scripting languages, content creation tools, management tools, and digital media.",
+      "task_type": "Responsive Layout Construction",
+      "user_prompt": "Create a responsive grid layout using CSS Grid and Flexbox that adapts to mobile, tablet, and desktop views. The layout must include a header, a main content area with a sidebar, and a footer. Ensure the layout collapses gracefully on mobile devices (stacking elements vertically) and handles window resizing without breaking the design. Include media queries for breakpoints at 768px and 1024px.",
+      "reference_context": {
+        "layout_structure": [
+          "header",
+          "main",
+          "sidebar",
+          "footer"
+        ],
+        "breakpoints": [
+          768,
+          1024
+        ],
+        "target_devices": [
+          "mobile",
+          "tablet",
+          "desktop"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the layout render correctly on all specified breakpoints?",
+        "Criterion 2: Completeness — are all layout elements present and styled?",
+        "Criterion 3: Best practices — is the code semantic and maintainable?"
+      ],
+      "student_answer": "```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Responsive Grid & Flexbox Layout</title>\n    <style>\n        /* Reset and Base Styles */\n        * {\n            box-sizing: border-box;\n            margin: 0;\n            padding: 0;\n        }\n\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            line-height: 1.6;\n            color: #333;\n            background-color: #f4f4f4;\n            display: flex;\n            flex-direction: column;\n            min-height: 100vh;\n        }\n\n        /* Layout Container using CSS Grid */\n        .container {\n            display: grid;\n            grid-template-areas:\n                \"header\"\n                \"main\"\n                \"footer\";\n            grid-template-rows: auto 1fr auto;\n            min-height: 100vh;\n            width: 100%;\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 1rem;\n            gap: 1rem;\n        }\n\n        /* Header */\n        header {\n            grid-area: header;\n            background-color: #2c3e50;\n            color: white;\n            padding: 1.5rem;\n            text-align: center;\n            border-radius: 8px;\n        }\n\n        /* Main Content Wrapper (Flexbox for Sidebar + Content) */\n        .main-wrapper {\n            grid-area: main;\n            display: flex;\n            gap: 1.5rem;\n            background-color: white;\n            padding: 1.5rem;\n            border-radius: 8px;\n            box-shadow: 0 2px 5px rgba(0,0,0,0.05);\n        }\n\n        /* Main Content Area */\n        main {\n            flex: 3;\n            min-width: 0; /* Prevents flex item overflow */\n        }\n\n        /* Sidebar */\n        aside {\n            flex: 1;\n            background-color: #ecf0f1;\n            padding: 1rem;\n            border-radius: 8px;\n            min-width: 200px;\n        }\n\n        /* Footer */\n        footer {\n            grid-area: footer;\n            background-color: #2c3e50;\n            color: white;\n            text-align: center;\n            padding: 1.5rem;\n            border-radius: 8px;\n        }\n\n        /* Responsive Breakpoints */\n\n        /* Tablet (768px and up) */\n        @media (min-width: 768px) {\n            .container {\n                grid-template-areas:\n                    \"header header\"\n                    \"main sidebar\"\n                    \"footer footer\";\n                grid-template-columns: 1fr 300px; /* Main takes remaining space, Sidebar fixed */\n                grid-template-rows: auto 1fr auto;\n            }\n\n            .main-wrapper {\n                display: grid; /* Switch to grid for tablet to align with container */\n                grid-template-columns: 1fr 300px;\n                grid-template-areas: \"content sidebar\";\n                gap: 1.5rem;\n            }\n\n            main {\n                grid-area: content;\n                flex: none;\n            }\n\n            aside {\n                grid-area: sidebar;\n                flex: none;\n            }\n        }\n\n        /* Desktop (1024px and up) */\n        @media (min-width: 1024px) {\n            .container {\n                max-width: 1400px;\n                padding: 2rem;\n            }\n\n            .main-wrapper {\n                grid-template-columns: 1fr 350px; /* Slightly wider sidebar */\n                padding: 2rem;\n            }\n        }\n\n        /* Mobile (Default, below 768px) */\n        @media (max-width: 767px) {\n            .container {\n                padding: 0.5rem;\n            }\n\n            .main-wrapper {\n                flex-direction: column; /* Stack vertically */\n                padding: 1rem;\n            }\n\n            main, aside {\n                width: 100%;\n                flex: 1 1 auto;\n            }\n        }\n    </style>\n</head>\n<body>\n\n    <div class=\"container\">\n        <header>\n            <h1>Responsive Layout</h1>\n            <p>Header Section</p>\n        </header>\n\n        <div class=\"main-wrapper\">\n            <main>\n                <h2>Main Content</h2>\n                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>\n                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n                <p>Resize the window to see the layout adapt from mobile (stacked) to tablet (sidebar on right) to desktop (wider sidebar).</p>\n            </main>\n\n            <aside>\n                <h3>Sidebar</h3>\n                <p>This is the sidebar area.</p>\n                <ul>\n                    <li>Link One</li>\n                    <li>Link Two</li>\n                    <li>Link Three</li>\n                </ul>\n            </aside>\n        </div>\n\n        <footer>\n            <p>&copy; 2023 Responsive Grid & Flexbox Demo</p>\n        </footer>\n    </div>\n\n</body>\n</html>\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        3,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The solution is functionally complete and syntactically accurate, meeting all explicit task requirements including breakpoints and layout structure (Correctness 5, Completeness 5, Domain Accuracy 5). The code is well-structured and commented (Clarity 5). However, it deviates from industry standards by using a Desktop-First approach for the inner layout (defaulting to row, overriding with max-width for mobile) rather than the preferred Mobile-First methodology. Additionally, switching the layout engine from Flexbox to Grid within the .main-wrapper across breakpoints introduces unnecessary architectural complexity (Best Practices 3)."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Select programming languages, design tools, or applications.",
+      "task_type": "API Integration and Data Fetching",
+      "user_prompt": "Write a Node.js script to fetch user data from a REST API endpoint. The script must handle HTTP errors (404, 500), implement a retry mechanism for transient failures, and validate the JSON response structure before processing. Include input validation to ensure the user ID provided is a valid integer before making the request.",
+      "reference_context": {
+        "api_endpoint": "https://api.example.com/users/{id}",
+        "retry_count": 3,
+        "response_schema": {
+          "id": "integer",
+          "name": "string",
+          "email": "string"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the script successfully fetch and process valid data?",
+        "Criterion 2: Completeness — are error handling and retry logic implemented?",
+        "Criterion 3: Best practices — is the code modular and secure?"
+      ],
+      "student_answer": "```javascript\nconst https = require('https');\nconst { URL } = require('url');\n\nconst API_ENDPOINT = 'https://api.example.com/users/{id}';\nconst RETRY_COUNT = 3;\nconst RETRY_DELAY_MS = 1000;\n\n// Input Validation\nfunction isValidUserId(userId) {\n  const num = Number(userId);\n  return Number.isInteger(num) && num > 0;\n}\n\n// Response Validation\nfunction validateResponse(data) {\n  if (typeof data !== 'object' || data === null) {\n    throw new Error('Invalid response structure: expected an object');\n  }\n  if (typeof data.id !== 'number' || !Number.isInteger(data.id)) {\n    throw new Error('Invalid response structure: \"id\" must be an integer');\n  }\n  if (typeof data.name !== 'string') {\n    throw new Error('Invalid response structure: \"name\" must be a string');\n  }\n  if (typeof data.email !== 'string') {\n    throw new Error('Invalid response structure: \"email\" must be a string');\n  }\n  return true;\n}\n\n// HTTP Request with Retry Logic\nfunction fetchUserData(userId) {\n  return new Promise((resolve, reject) => {\n    let attempts = 0;\n\n    const makeRequest = () => {\n      attempts++;\n      const url = API_ENDPOINT.replace('{id}', userId);\n      const parsedUrl = new URL(url);\n\n      const req = https.get(url, {\n        headers: {\n          'Accept': 'application/json'\n        }\n      }, (res) => {\n        let data = '';\n\n        res.on('data', chunk => data += chunk);\n        res.on('end', () => {\n          if (res.statusCode >= 500 || res.statusCode === 408 || res.statusCode === 429) {\n            // Transient error\n            if (attempts < RETRY_COUNT) {\n              console.log(`Transient error (${res.statusCode}). Retrying... (${attempts}/${RETRY_COUNT})`);\n              setTimeout(makeRequest, RETRY_DELAY_MS);\n              return;\n            } else {\n              reject(new Error(`Max retries exceeded. Final status: ${res.statusCode}`));\n              return;\n            }\n          }\n\n          if (res.statusCode !== 200) {\n            reject(new Error(`HTTP Error: ${res.statusCode}`));\n            return;\n          }\n\n          try {\n            const jsonData = JSON.parse(data);\n            validateResponse(jsonData);\n            resolve(jsonData);\n          } catch (err) {\n            reject(new Error(`Validation Error: ${err.message}`));\n          }\n        });\n      });\n\n      req.on('error', (err) => {\n        if (attempts < RETRY_COUNT) {\n          console.log(`Network error. Retrying... (${attempts}/${RETRY_COUNT})`);\n          setTimeout(makeRequest, RETRY_DELAY_MS);\n        } else {\n          reject(new Error(`Network Error: ${err.message}`));\n        }\n      });\n    };\n\n    makeRequest();\n  });\n}\n\n// Main Execution\nasync function main() {\n  const userId = process.argv[2];\n\n  if (!userId || !isValidUserId(userId)) {\n    console.error('Error: User ID must be a valid positive integer.');\n    console.error('Usage: node script.js <user_id>');\n    process.exit(1);\n  }\n\n  try {\n    const userData = await fetchUserData(userId);\n    console.log('User Data Retrieved Successfully:');\n    console.log(JSON.stringify(userData, null, 2));\n  } catch (error) {\n    console.error('Failed to fetch user data:', error.message);\n    process.exit(1);\n  }\n}\n\nmain();\n```",
+      "score": 0,
+      "dimension_scores": [],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Back up files from Web sites to local directories for instant recovery in case of problems.",
+      "task_type": "Automated Backup and Recovery Script",
+      "user_prompt": "Develop a Python script that automates the backup of a web application's static assets and database configuration files to a local directory. The script must verify the integrity of the backup by calculating checksums, handle file permission errors gracefully, and log the backup process with timestamps. Include a function to restore the backup from the local directory to the web root.",
+      "reference_context": {
+        "source_directories": [
+          "/var/www/html/assets",
+          "/var/www/html/config"
+        ],
+        "backup_directory": "/backups/web_app",
+        "log_file": "/var/log/backup.log"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the script successfully backup and restore files?",
+        "Criterion 2: Completeness — are integrity checks and logging implemented?",
+        "Criterion 3: Best practices — is error handling robust and logs informative?"
+      ],
+      "student_answer": "```python\nimport os\nimport shutil\nimport hashlib\nimport logging\nimport json\nimport sys\nfrom datetime import datetime\nfrom pathlib import Path\n\n# Configuration\nSOURCE_DIRECTORIES = [\"/var/www/html/assets\", \"/var/www/html/config\"]\nBACKUP_DIRECTORY = \"/backups/web_app\"\nLOG_FILE = \"/var/log/backup.log\"\nMANIFEST_FILE = \"backup_manifest.json\"\n\n# Setup Logging\ndef setup_logging(log_path):\n    os.makedirs(os.path.dirname(log_path), exist_ok=True)\n    logging.basicConfig(\n        level=logging.INFO,\n        format='%(asctime)s - %(levelname)s - %(message)s',\n        handlers=[\n            logging.FileHandler(log_path),\n            logging.StreamHandler(sys.stdout)\n        ]\n    )\n\ndef calculate_checksum(file_path):\n    \"\"\"Calculate SHA256 checksum of a file.\"\"\"\n    sha256_hash = hashlib.sha256()\n    try:\n        with open(file_path, \"rb\") as f:\n            for byte_block in iter(lambda: f.read(4096), b\"\"):\n                sha256_hash.update(byte_block)\n        return sha256_hash.hexdigest()\n    except PermissionError:\n        logging.error(f\"Permission denied while reading: {file_path}\")\n        return None\n    except FileNotFoundError:\n        logging.error(f\"File not found: {file_path}\")\n        return None\n\ndef backup_files():\n    \"\"\"Backup source directories to the backup directory with integrity verification.\"\"\"\n    timestamp = datetime.now().strftime(\"%Y%m%d_%H%M%S\")\n    backup_path = os.path.join(BACKUP_DIRECTORY, timestamp)\n    manifest = {\"timestamp\": timestamp, \"files\": []}\n    \n    os.makedirs(backup_path, exist_ok=True)\n    logging.info(f\"Starting backup to {backup_path}\")\n\n    for source_dir in SOURCE_DIRECTORIES:\n        if not os.path.exists(source_dir):\n            logging.warning(f\"Source directory does not exist: {source_dir}\")\n            continue\n        \n        try:\n            for root, _, files in os.walk(source_dir):\n                for file in files:\n                    src_path = os.path.join(root, file)\n                    rel_path = os.path.relpath(src_path, source_dir)\n                    dst_path = os.path.join(backup_path, rel_path)\n                    \n                    # Create destination directory\n                    os.makedirs(os.path.dirname(dst_path), exist_ok=True)\n                    \n                    try:\n                        # Copy file\n                        shutil.copy2(src_path, dst_path)\n                        \n                        # Calculate checksum\n                        checksum = calculate_checksum(src_path)\n                        if checksum:\n                            manifest[\"files\"].append({\n                                \"original_path\": src_path,\n                                \"backup_path\": dst_path,\n                                \"checksum\": checksum\n                            })\n                            logging.info(f\"Backed up: {src_path}\")\n                        else:\n                            logging.error(f\"Failed to calculate checksum for: {src_path}\")\n                            \n                    except PermissionError:\n                        logging.error(f\"Permission denied copying: {src_path}\")\n                    except Exception as e:\n                        logging.error(f\"Error backing up {src_path}: {e}\")\n        except PermissionError:\n            logging.error(f\"Permission denied accessing source directory: {source_dir}\")\n        except Exception as e:\n            logging.error(f\"Error processing directory {source_dir}: {e}\")\n\n    # Save manifest\n    manifest_path = os.path.join(backup_path, MANIFEST_FILE)\n    try:\n        with open(manifest_path, 'w') as f:\n            json.dump(manifest, f, indent=4)\n        logging.info(f\"Backup manifest saved to {manifest_path}\")\n    except PermissionError:\n        logging.error(f\"Permission denied saving manifest to {manifest_path}\")\n    except Exception as e:\n        logging.error(f\"Error saving manifest: {e}\")\n\n    logging.info(\"Backup process completed.\")\n    return backup_path\n\ndef verify_backup(backup_path):\n    \"\"\"Verify the integrity of a specific backup using the manifest.\"\"\"\n    manifest_path = os.path.join(backup_path, MANIFEST_FILE)\n    if not os.path.exists(manifest_path):\n        logging.error(f\"Manifest not found: {manifest_path}\")\n        return False\n\n    with open(manifest_path, 'r') as f:\n        manifest = json.load(f)\n\n    all_valid = True\n    for file_entry in manifest[\"files\"]:\n        dst_path = file_entry[\"backup_path\"]\n        expected_checksum = file_entry[\"checksum\"]\n        \n        if not os.path.exists(dst_path):\n            logging.error(f\"Missing file in backup: {dst_path}\")\n            all_valid = False\n            continue\n\n        actual_checksum = calculate_checksum(dst_path)\n        if actual_checksum != expected_checksum:\n            logging.error(f\"Checksum mismatch for: {dst_path}\")\n            all_valid = False\n        else:\n            logging.info(f\"Integrity verified: {dst_path}\")\n    \n    if all_valid:\n        logging.info(\"All backup files verified successfully.\")\n    else:\n        logging.error(\"Backup verification failed.\")\n    \n    return all_valid\n\ndef restore_backup(backup_path, restore_target=\"/var/www/html\"):\n    \"\"\"Restore files from a specific backup path to the web root.\"\"\"\n    if not os.path.exists(backup_path):\n        logging.error(f\"Backup path does not exist: {backup_path}\")\n        return False\n\n    manifest_path = os.path.join(backup_path, MANIFEST_FILE)\n    if not os.path.exists(manifest_path):\n        logging.error(f\"Manifest not found in backup: {manifest_path}\")\n        return False\n\n    with open(manifest_path, 'r') as f:\n        manifest = json.load(f)\n\n    os.makedirs(restore_target, exist_ok=True)\n    logging.info(f\"Starting restore to {restore_target}\")\n\n    for file_entry in manifest[\"files\"]:\n        src_path = file_entry[\"backup_path\"]\n        # Reconstruct relative path from original_path to determine destination\n        # Note: original_path in manifest is the full source path. \n        # We need to map it back to the restore target structure.\n        # Assuming the backup structure mirrors the source structure relative to the source root.\n        \n        # Extract relative path from the original source directory\n        # We need to know which source directory it came from to reconstruct the path correctly\n        # For simplicity, we assume the backup structure is flat or we reconstruct based on the manifest's backup_path\n        # The backup_path in manifest is like /backups/web_app/2023.../assets/file.txt\n        # We need to map this to /var/www/html/assets/file.txt\n        \n        # Strategy: Parse the backup_path to find the relative part after the timestamp folder\n        # This is fragile if the backup structure changes, but robust enough for this context.\n        # A better approach is to store relative paths in the manifest. \n        # Let's assume the manifest contains the relative path logic implicitly via the structure.\n        \n        # Let's extract the relative path from the backup_path by removing the base backup dir and timestamp\n        # This requires knowing the timestamp folder name. \n        # Alternative: Store 'relative_path' in the manifest during backup. \n        # Since we didn't, we will reconstruct based on the source directories list.\n        \n        # Find which source directory this file belongs to\n        rel_path = None\n        for src_dir in SOURCE_DIRECTORIES:\n            if src_path.endswith(os.path.join(src_dir, \"some_file\")): # This is not robust\n                pass\n        \n        # Robust reconstruction:\n        # The backup_path is: /backups/web_app/{timestamp}/{source_dir_name}/{relative_path}\n        # We need to find the {source_dir_name} part.\n        \n        # Let's assume the backup structure is: /backups/web_app/{timestamp}/{relative_path_from_root}\n        # Wait, the code above does: dst_path = os.path.join(backup_path, rel_path)\n        # where rel_path = os.path.relpath(src_path, source_dir)\n        # So the structure is: /backups/web_app/{timestamp}/{source_dir}/{file}\n        \n        # To restore, we need to map /backups/web_app/{timestamp}/{source_dir}/{file} \n        # back to /var/www/html/{source_dir}/{file}\n        \n        # Extract the source_dir name from the path\n        parts = src_path.split(os.sep)\n        # parts: ['', 'backups', 'web_app', 'timestamp', 'assets', 'file.txt']\n        # We need to find 'assets' or 'config'\n        \n        source_dir_name = None\n        for i, part in enumerate(parts):\n            if part in [os.path.basename(d) for d in SOURCE_DIRECTORIES]:\n                source_dir_name = part\n                rel_path_from_source = os.path.join(*parts[i+1:])\n                break\n        \n        if not source_dir_name:\n            logging.warning(f\"Could not determine source directory for: {src_path}\")\n            continue\n            \n        # Find the actual source directory path\n        actual_source_dir = None\n        for d in SOURCE_DIRECTORIES:\n            if os.path.basename(d) == source_dir_name:\n                actual_source_dir = d\n                break\n        \n        if not actual_source_dir:\n            logging.warning(f\"Source directory {source_dir_name} not found in config.\")\n            continue\n            \n        dest_path = os.path.join(restore_target, source_dir_name, rel_path_from_source)\n        \n        try:\n            os.makedirs(os.path.dirname(dest_path), exist_ok=True)\n            shutil.copy2(src_path, dest_path)\n            logging.info(f\"Restored: {dest_path}\")\n        except PermissionError:\n            logging.error(f\"Permission denied restoring: {dest_path}\")\n        except Exception as e:\n            logging.error(f\"Error restoring {dest_path}: {e}\")\n\n    logging.info(\"Restore process completed.\")\n    return True\n\ndef main():\n    setup_logging(LOG_FILE)\n    \n    if len(sys.argv) < 2:\n        print(\"Usage: python backup_script.py [backup|restore]\")\n        sys.exit(1)\n    \n    command = sys.argv[1]\n    \n    if command == \"backup\":\n        backup_path = backup_files()\n        if backup_path:\n            verify_backup(backup_path)\n    elif command == \"restore\":\n        if len(sys.argv) < 3:\n            print(\"Usage: python backup_script.py restore <backup_path>\")\n            sys.exit(1)\n        restore_path = sys.argv[2]\n        restore_backup(restore_path)\n    else:\n        print(f\"Unknown command: {command}\")\n        sys.exit(1)\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        2,
+        3,
+        4
+      ],
+      "score": 3.0,
+      "grade_reason": "Correctness (3): Core backup and restore logic functions for the provided context, but logging messages are empty due to missing variables in f-strings, significantly reducing utility. Restore logic is fragile (relies on path parsing). Completeness (3): All required functions (backup, verify, restore, log) are present, but implementation details like relative path storage in the manifest are missing. Best Practices (2): Significant professional oversight in logging (empty messages), unused `pathlib` import, and brittle path reconstruction logic. Domain Accuracy (3): Concepts like SHA256 checksums and permission handling are correct, but application is not robust. Clarity (4): Code is well-structured and readable, though comments acknowledge fragility. Note: Additional checks regarding CSS/JS were irrelevant to this Python task."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Develop databases that support Web applications and Web sites.",
+      "task_type": "Database Schema Design and Optimization",
+      "user_prompt": "Design a normalized SQL schema for a user authentication system supporting role-based access control. The schema must include tables for users, roles, permissions, and user-role assignments. Include error handling logic for transactional integrity during user registration and input validation rules for email and password fields. Ensure the design supports cross-database compatibility (MySQL, PostgreSQL, SQLite) by avoiding vendor-specific functions.",
+      "reference_context": {
+        "requirements": {
+          "user_fields": [
+            "id",
+            "email",
+            "password_hash",
+            "created_at"
+          ],
+          "role_fields": [
+            "id",
+            "role_name",
+            "description"
+          ],
+          "permission_fields": [
+            "id",
+            "permission_name",
+            "resource"
+          ],
+          "relationships": [
+            "user_to_role",
+            "role_to_permission"
+          ]
+        },
+        "constraints": {
+          "max_password_length": 128,
+          "email_format": "RFC 5322",
+          "transaction_isolation": "READ COMMITTED"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the schema support all required relationships and constraints?",
+        "Criterion 2: Completeness — Are input validation rules and transaction logic explicitly defined?",
+        "Criterion 3: Best practices — Is the design normalized and compatible across major SQL dialects?"
+      ],
+      "student_answer": "```sql\n-- Normalized SQL Schema for User Authentication with RBAC\n-- Compatible with MySQL, PostgreSQL, and SQLite\n\n-- 1. Users Table\nCREATE TABLE users (\n    id INTEGER PRIMARY KEY AUTOINCREMENT, -- SQLite uses INTEGER; MySQL/PostgreSQL handle AUTO_INCREMENT/GENERATED similarly\n    email VARCHAR(255) NOT NULL UNIQUE,\n    password_hash VARCHAR(128) NOT NULL,\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n    CONSTRAINT chk_email_format CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$') -- Basic RFC 5322 regex pattern (PostgreSQL/MySQL 8.0+); SQLite requires application-side validation as regex support varies\n);\n\n-- 2. Roles Table\nCREATE TABLE roles (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    role_name VARCHAR(50) NOT NULL UNIQUE,\n    description TEXT\n);\n\n-- 3. Permissions Table\nCREATE TABLE permissions (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    permission_name VARCHAR(50) NOT NULL UNIQUE,\n    resource VARCHAR(100) NOT NULL\n);\n\n-- 4. User-Role Assignment Table (Many-to-Many)\nCREATE TABLE user_roles (\n    user_id INTEGER NOT NULL,\n    role_id INTEGER NOT NULL,\n    PRIMARY KEY (user_id, role_id),\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,\n    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE\n);\n\n-- 5. Role-Permission Assignment Table (Many-to-Many)\nCREATE TABLE role_permissions (\n    role_id INTEGER NOT NULL,\n    permission_id INTEGER NOT NULL,\n    PRIMARY KEY (role_id, permission_id),\n    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,\n    FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE\n);\n\n-- Transactional Integrity Logic (Pseudo-code for Application Layer)\n-- Note: SQL dialects vary slightly in transaction syntax, but the logic remains consistent.\n-- The following is a conceptual representation of the transactional workflow:\n\n/*\nBEGIN TRANSACTION;\n\n-- Step 1: Validate Input (Application Layer)\n-- Ensure email matches RFC 5322 and password length <= 128 chars.\n-- Hash password using a secure algorithm (e.g., bcrypt, argon2).\n\n-- Step 2: Insert User\nINSERT INTO users (email, password_hash, created_at) \nVALUES (:email, :password_hash, CURRENT_TIMESTAMP);\n\n-- Step 3: Assign Roles (if provided)\nINSERT INTO user_roles (user_id, role_id) \nVALUES (LAST_INSERT_ID(), :role_id); -- Use appropriate DB function for last inserted ID\n\n-- Step 4: Commit\nCOMMIT;\n\n-- Error Handling\n-- If any step fails, ROLLBACK;\n-- Ensure transaction isolation level is set to READ COMMITTED at the session level.\n*/\n\n-- Input Validation Rules (Application Layer Enforcement)\n-- 1. Email: Must strictly follow RFC 5322 format.\n-- 2. Password: Must be hashed before storage; max length of the hash string must not exceed 128 characters.\n-- 3. Transaction: All operations must occur within a single transaction block to ensure atomicity.\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "Correctness (2): Fails cross-database constraint using SQLite AUTOINCREMENT and PG ~* regex. Completeness (3): Transaction logic is pseudo-code, not executable SQL. Best Practices (3): Normalization is good, but DB-level validation reduces portability. Domain Accuracy (4): RBAC model is accurate. Clarity (5): Well-structured and commented."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Perform Web site tests according to planned schedules, or after any Web site or product revision.",
+      "task_type": "Cross-Browser Compatibility Testing",
+      "user_prompt": "Analyze the provided CSS snippet for a responsive navigation bar. Identify three specific compatibility issues across Chrome, Firefox, and Safari regarding flexbox behavior and pseudo-elements. Propose a corrected CSS block that ensures consistent rendering on all three browsers while maintaining the original design intent. Include error handling for missing browser prefixes.",
+      "reference_context": {
+        "original_css": ".nav-container { display: flex; justify-content: space-between; } .nav-item::before { content: ''; width: 10px; height: 10px; background: red; }",
+        "browser_versions": {
+          "chrome": "latest",
+          "firefox": "latest",
+          "safari": "latest"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the solution resolve all identified compatibility issues?",
+        "Criterion 2: Completeness — Are all three browsers addressed with appropriate vendor prefixes?",
+        "Criterion 3: Best practices — Is the CSS production-ready with proper error handling?"
+      ],
+      "student_answer": "```css\n/* \n * Corrected CSS for Responsive Navigation Bar\n * Addresses Flexbox alignment quirks and Pseudo-element rendering across Chrome, Firefox, and Safari.\n * Includes vendor prefixes for legacy support (though not strictly needed for \"latest\" versions, \n * included here as per \"error handling for missing browser prefixes\" requirement for robustness).\n */\n\n.nav-container {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n  -ms-flex-pack: justify;\n  justify-content: space-between;\n  -webkit-box-align: center; /* Ensures vertical alignment consistency */\n  -ms-flex-align: center;\n  align-items: center;\n  /* Fallback for older browsers if flex is not supported */\n  min-height: 1px; \n}\n\n.nav-item {\n  position: relative; /* Required for pseudo-element positioning if absolute positioning is intended later */\n}\n\n.nav-item::before {\n  content: '';\n  display: block; /* Ensures pseudo-element behaves as a block element */\n  width: 10px;\n  height: 10px;\n  background: red;\n  /* \n   * Note: ::before is supported in all modern browsers. \n   * No specific prefixes are required for ::before in current versions of Chrome, Firefox, or Safari.\n   * The \"error handling\" here is implicit by omitting unnecessary prefixes that might break rendering in strict modes.\n   */\n}\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        2,
+        3,
+        3,
+        4
+      ],
+      "score": 2.8,
+      "grade_reason": "The submission fails to explicitly identify the three required compatibility issues as text, providing only CSS code, which significantly impacts Correctness and Completeness (Score 2). While the CSS is functional, the use of legacy -webkit-box prefixes for 'latest' browsers is unnecessary bloat, affecting Best Practices (Score 3). Domain accuracy is moderate as 'error handling' for CSS prefixes is misunderstood (Score 3). The code structure and comments are clear (Score 4)."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Analyze user needs to determine technical requirements.",
+      "task_type": "Technical Requirements Specification",
+      "user_prompt": "Create a technical requirements document for a real-time chat application. The document must analyze user needs for low-latency messaging, secure data transmission, and cross-platform accessibility. Include input validation rules for message content and error handling strategies for connection failures. Ensure the requirements address cross-browser compatibility for WebSocket implementations.",
+      "reference_context": {
+        "user_needs": {
+          "latency_requirement": "< 200ms",
+          "security_level": "end-to-end encryption",
+          "platforms": [
+            "web",
+            "mobile",
+            "desktop"
+          ]
+        },
+        "constraints": {
+          "max_message_length": 2000,
+          "supported_protocols": [
+            "WSS",
+            "HTTPS"
+          ]
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Do the requirements accurately reflect user needs?",
+        "Criterion 2: Completeness — Are all security and compatibility aspects covered?",
+        "Criterion 3: Best practices — Is the document structured for developer implementation?"
+      ],
+      "student_answer": "# Technical Requirements Document: Real-Time Chat Application\n\n## 1. Executive Summary\nThis document outlines the technical requirements for a real-time chat application designed to deliver low-latency messaging, robust security, and seamless cross-platform accessibility. The system prioritizes sub-200ms latency, end-to-end encryption (E2EE), and universal compatibility across web, mobile, and desktop environments.\n\n## 2. User Needs Analysis\n\n### 2.1 Low-Latency Messaging\n*   **Requirement:** The system must ensure message delivery from sender to receiver within **< 200ms** under standard network conditions (4G/5G/Wi-Fi).\n*   **Implementation Strategy:**\n    *   Utilize persistent WebSocket connections to eliminate TCP handshake overhead for subsequent messages.\n    *   Implement message queuing and prioritization at the edge to minimize processing delays.\n    *   Optimize payload serialization (e.g., using Protocol Buffers or compressed JSON) to reduce transmission size.\n\n### 2.2 Secure Data Transmission\n*   **Requirement:** All data in transit and at rest must be protected via **End-to-End Encryption (E2EE)**.\n*   **Implementation Strategy:**\n    *   **Transport Layer:** All communication must occur over **WSS** (WebSocket Secure) or **HTTPS**. TLS 1.3 is mandatory.\n    *   **Application Layer:** Messages must be encrypted client-side using asymmetric key exchange (e.g., X25519) before transmission. The server must never possess the private keys required to decrypt message content.\n    *   **Key Management:** Implement a secure key rotation policy and local key storage (e.g., Web Crypto API, Secure Enclave).\n\n### 2.3 Cross-Platform Accessibility\n*   **Requirement:** The application must provide a consistent user experience across **Web**, **Mobile** (iOS/Android), and **Desktop** (Windows/macOS/Linux).\n*   **Implementation Strategy:**\n    *   **Web:** Responsive design utilizing a unified codebase (e.g., React/Vue) with PWA capabilities.\n    *   **Mobile:** Native wrappers or cross-platform frameworks (e.g., React Native, Flutter) leveraging native WebSocket clients.\n    *   **Desktop:** Electron or Tauri-based containers wrapping the web application logic.\n    *   **State Synchronization:** Real-time state synchronization must be maintained across all active sessions to ensure message consistency.\n\n## 3. Input Validation Rules\n\nTo prevent injection attacks and ensure data integrity, all message content must undergo strict validation before processing or storage.\n\n| Parameter | Rule | Constraint |\n| :--- | :--- | :--- |\n| **Max Length** | Character count limit | **2000 characters** (UTF-8 encoded) |\n| **Allowed Characters** | Alphanumeric, standard punctuation, emojis | No control characters (except `\\n`, `\\t`) |\n| **Script Injection** | Disallow raw HTML/JS execution | All user input must be escaped/sanitized before rendering |\n| **File Attachments** | MIME type verification | Only allow safe types (e.g., `image/png`, `image/jpeg`, `application/pdf`) |\n| **URL Validation** | Format check | Must match standard URI regex patterns if present |\n\n*   **Failure Action:** If validation fails, the client must reject the input locally and display a user-friendly error message (e.g., \"Message exceeds 2000 character limit\"). The server must reject the request with a `400 Bad Request` status.\n\n## 4. Error Handling Strategies\n\n### 4.1 Connection Failures\n*   **Detection:** Implement heartbeat/ping-pong mechanisms every 30 seconds to detect dead connections.\n*   **Reconnection Logic:**\n    *   **Exponential Backoff:** Upon disconnection, retry intervals must follow an exponential backoff strategy (e.g., 1s, 2s, 4s, 8s) with a maximum cap of 60s.\n    *   **Jitter:** Add random jitter to retry intervals to prevent thundering herd problems.\n    *   **State Preservation:** The client must buffer outgoing messages locally (IndexedDB/LocalStorage) during disconnection and replay them upon reconnection.\n*   **User Feedback:** Display a \"Reconnecting...\" status indicator. If reconnection fails after 5 attempts, prompt the user to manually refresh or switch networks.\n\n### 4.2 Message Delivery Failures\n*   **Server-Side:** If a message cannot be delivered to a specific recipient (e.g., recipient offline), queue the message for delivery upon their next connection.\n*   **Client-Side:** If the server returns a `503 Service Unavailable`, display a \"Service temporarily unavailable\" toast notification.\n\n## 5. Cross-Browser WebSocket Compatibility\n\nTo ensure robust functionality across all major browsers, the following compatibility standards must be met:\n\n*   **Protocol Support:** Full support for **WSS** (Secure WebSockets) is mandatory.\n*   **Browser Matrix:**\n    *   **Desktop:** Chrome (latest 2 versions), Firefox (latest 2 versions), Safari (latest 2 versions), Edge (latest 2 versions).\n    *   **Mobile:** iOS Safari (latest 2 versions), Chrome for Android (latest 2 versions).\n*   **Fallback Mechanism:**\n    *   If native WebSocket support is unavailable (e.g., legacy browsers), the system must gracefully degrade to **Long Polling** over HTTPS as a temporary fallback, notifying the user of reduced performance.\n*   **Standard Compliance:** Implementation must adhere to RFC 6455.\n*   **Security Headers:** Ensure `Sec-WebSocket-Key` and `Sec-WebSocket-Accept` headers are correctly handled to prevent protocol downgrade attacks.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission correctly addresses all explicit task requirements with high domain accuracy and clarity. Error handling and security strategies are industry-standard. However, it specifies implementation technologies (e.g., React, Electron) within a requirements document, which is a minor best practice deviation as requirements should ideally be technology-agnostic. Additionally, it lacks scalability and availability metrics typical of a comprehensive technical requirements document for a chat system, preventing a perfect score on completeness."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Perform or direct Web site updates.",
+      "task_type": "Web Application Update and Migration",
+      "user_prompt": "Develop a migration plan to update a legacy jQuery-based website to a modern React framework. The plan must include steps for refactoring components, updating database interactions, and ensuring cross-browser compatibility for new JavaScript features. Include error handling for deprecated APIs and input validation for user data during the migration process.",
+      "reference_context": {
+        "legacy_system": {
+          "framework": "jQuery 1.12.4",
+          "database": "MySQL 5.7",
+          "target_browsers": [
+            "Chrome",
+            "Firefox",
+            "Safari",
+            "Edge"
+          ]
+        },
+        "target_system": {
+          "framework": "React 18",
+          "database": "PostgreSQL 14",
+          "deployment": "Docker containers"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Is the migration plan technically feasible?",
+        "Criterion 2: Completeness — Are all legacy components addressed?",
+        "Criterion 3: Best practices — Does the plan include robust error handling and validation?"
+      ],
+      "student_answer": "# Legacy jQuery to Modern React Migration Plan\n\n## 1. Pre-Migration Assessment & Strategy\n*   **Audit & Inventory**: Catalog all jQuery DOM manipulations, event handlers, and AJAX calls. Map legacy jQuery selectors to React component state and props.\n*   **Database Schema Analysis**: Analyze MySQL 5.7 schema for PostgreSQL 14 compatibility (e.g., data types, case sensitivity, JSONB usage).\n*   **Environment Setup**: Initialize a React 18 monorepo with TypeScript, ESLint, Prettier, and Docker Compose for local development.\n*   **Polyfill Strategy**: Define a `polyfill` strategy using `core-js` and `regenerator-runtime` to ensure compatibility with legacy browsers (specifically older Safari/Edge versions) while using modern ES6+ features.\n\n## 2. Database Migration (MySQL 5.7 → PostgreSQL 14)\n*   **Schema Conversion**:\n    *   Use `pgloader` or custom scripts to convert MySQL DDL to PostgreSQL DDL.\n    *   Migrate data using `pgloader` with error logging for type mismatches.\n    *   Adjust specific data types (e.g., `AUTO_INCREMENT` to `SERIAL`/`IDENTITY`, `JSON` to `JSONB`).\n*   **API Layer Refactoring**:\n    *   Replace legacy jQuery `$.ajax` calls with a centralized `fetch` or `axios` wrapper.\n    *   Implement a Node.js/Express or Next.js API layer to interact with PostgreSQL.\n    *   **Input Validation**: Integrate `Zod` or `Joi` for strict schema validation on all incoming user data before database insertion.\n    *   **Error Handling**: Implement a global error middleware to catch database exceptions (e.g., constraint violations) and return standardized JSON error responses.\n\n## 3. Component Refactoring Strategy (jQuery → React 18)\n*   **Incremental Migration (Strangler Fig Pattern)**:\n    *   Wrap the existing jQuery application in a React shell.\n    *   Migrate page-by-page or feature-by-feature, replacing jQuery DOM manipulation with React state-driven rendering.\n*   **Component Architecture**:\n    *   **State Management**: Replace jQuery global variables and `$.data` with React `useState`, `useReducer`, and Context API (or Zustand/Redux Toolkit for complex state).\n    *   **Lifecycle**: Convert jQuery `$(document).ready()` and event listeners to React `useEffect` hooks.\n    *   **DOM Access**: Eliminate direct DOM manipulation (`$('#id').val()`) in favor of controlled components and refs.\n*   **Legacy API Deprecation Handling**:\n    *   Create a `LegacyAdapter` utility to intercept calls to deprecated jQuery APIs (e.g., `.load()`, `.delegate()`) and log warnings while routing to modern React equivalents.\n    *   Implement a `try/catch` block around legacy API wrappers to gracefully degrade functionality if a specific legacy feature cannot be immediately replaced.\n\n## 4. Cross-Browser Compatibility & Modern JS Features\n*   **Transpilation**: Configure Babel with `@babel/preset-env` targeting the specific `target_browsers` list. Use `browserslist` to automatically determine necessary polyfills.\n*   **Feature Detection**: Use `core-js` to inject polyfills for modern features (e.g., `Promise`, `fetch`, `async/await`, `Array.prototype.flat`) only when required by the target browser list.\n*   **Testing**:\n    *   Set up Selenium or Playwright tests to run against Chrome, Firefox, Safari, and Edge.\n    *   Verify CSS Grid/Flexbox rendering and JavaScript execution across all target versions.\n\n## 5. Error Handling & Validation Implementation\n*   **Frontend Error Boundaries**: Implement React Error Boundaries to catch rendering errors and display fallback UI without crashing the entire application.\n*   **Network Error Handling**:\n    *   Implement retry logic with exponential backoff for failed API calls.\n    *   Display user-friendly toast notifications for specific error codes (e.g., 400 Bad Request, 500 Server Error).\n*   **Input Validation**:\n    *   Enforce client-side validation using React Hook Form + Zod before submission.\n    *   Ensure server-side validation mirrors client-side rules to prevent injection attacks.\n    *   Sanitize all user inputs to prevent XSS, especially when migrating from jQuery's `html()` usage.\n\n## 6. Deployment & CI/CD\n*   **Dockerization**:\n    *   Create a multi-stage `Dockerfile` for the React frontend (build stage + Nginx serving static assets).\n    *   Create a `Dockerfile` for the API layer (Node.js/Postgres).\n    *   Define `docker-compose.yml` to orchestrate the frontend, API, and PostgreSQL 14 containers.\n*   **CI/CD Pipeline**:\n    *   Configure GitHub Actions/GitLab CI to run linting, unit tests (Jest/React Testing Library), and integration tests on every push.\n    *   Automate database migration scripts during the deployment pipeline.\n*   **Rollback Strategy**: Maintain a parallel deployment of the legacy jQuery site to allow instant rollback if critical issues arise in the React environment.\n\n## 7. Testing & QA Phase\n*   **Unit Testing**: Achieve >80% code coverage for new React components and utility functions.\n*   **Integration Testing**: Test full user flows (Login, Data Entry, Submission) across all target browsers.\n*   **Performance Audit**: Run Lighthouse audits to ensure the new React build meets performance benchmarks (Core Web Vitals).\n\n## 8. Go-Live & Post-Migration\n*   **DNS Cutover**: Switch traffic to the new React environment.\n*   **Monitoring**: Enable Sentry or similar APM tools to track runtime errors and performance metrics.\n*   **Legacy Decommissioning**: After a 30-day stabilization period, archive the jQuery codebase and MySQL instance.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        5,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission demonstrates strong architectural planning with the Strangler Fig pattern and comprehensive CI/CD strategy (Best Practices: 5, Domain Accuracy: 5, Clarity: 5). However, there is a minor technical imprecision in the Docker section suggesting a single Dockerfile for both Node.js and Postgres, though Compose is mentioned separately (Correctness: 4). Additionally, while testing is mentioned, the plan lacks explicit steps for handling mobile viewport constraints and vendor prefixes in the implementation phase, which were highlighted in the additional checks (Completeness: 4)."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Maintain understanding of current Web technologies or programming practices through continuing education, reading, or participation in professional conferences, workshops, or groups.",
+      "task_type": "Technology Integration and Validation",
+      "user_prompt": "Design a proof-of-concept module integrating WebAssembly for image processing in a web application. The module must include input validation for image files, error handling for processing failures, and cross-browser compatibility testing for WebAssembly support. Provide a report on the integration challenges and solutions found across Chrome, Firefox, and Safari.",
+      "reference_context": {
+        "module_requirements": {
+          "supported_formats": [
+            "JPEG",
+            "PNG",
+            "WebP"
+          ],
+          "max_file_size": "10MB",
+          "processing_time": "< 2s"
+        },
+        "browser_support_matrix": {
+          "chrome": "full",
+          "firefox": "full",
+          "safari": "partial"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the module function correctly across all target browsers?",
+        "Criterion 2: Completeness — Are all file formats and size limits handled?",
+        "Criterion 3: Best practices — Is the integration secure and production-ready?"
+      ],
+      "student_answer": "# WebAssembly Image Processing Module: Proof-of-Concept Report\n\n## 1. Module Architecture Overview\nThe module utilizes a Rust-based WebAssembly (Wasm) core compiled to `.wasm` format, wrapped in a JavaScript/TypeScript interface. The architecture follows a strict pipeline: **Input Validation → File Loading → Wasm Execution → Output Rendering**.\n\n### Core Components\n- **`ImageProcessor.wasm`**: Compiled Rust binary handling pixel manipulation (grayscale, blur, resize) using the `image` crate.\n- **`WasmLoader.js`**: Handles asynchronous Wasm instantiation and memory management.\n- **`Validator.js`**: Enforces file type and size constraints before processing.\n- **`ErrorHandler.js`**: Centralized exception handling for Wasm runtime errors and browser-specific failures.\n\n---\n\n## 2. Implementation Details\n\n### A. Input Validation Logic\nThe module enforces strict constraints before any data is passed to the Wasm runtime.\n\n```javascript\n// validator.js\nconst SUPPORTED_MIMES = ['image/jpeg', 'image/png', 'image/webp'];\nconst MAX_SIZE_BYTES = 10 * 1024 * 1024; // 10MB\n\nexport function validateImage(file) {\n  if (!file) throw new Error('No file provided');\n  \n  if (!SUPPORTED_MIMES.includes(file.type)) {\n    throw new Error(`Unsupported format: ${file.type}. Supported: JPEG, PNG, WebP`);\n  }\n  \n  if (file.size > MAX_SIZE_BYTES) {\n    throw new Error(`File too large: ${file.size} bytes. Max: 10MB`);\n  }\n  \n  return true;\n}\n```\n\n### B. Error Handling & Fallback\nThe module implements a try-catch block around the Wasm instantiation and execution. If Wasm fails (e.g., Safari partial support or memory allocation failure), it gracefully falls back to a native Canvas API implementation.\n\n```javascript\n// processor.js\nimport { validateImage } from './validator.js';\nimport wasmModule from './ImageProcessor.wasm';\n\nexport async function processImage(file, operation) {\n  try {\n    validateImage(file);\n    \n    const buffer = await file.arrayBuffer();\n    const wasm = await wasmModule(); // Async instantiation\n    \n    // Execute Wasm function\n    const resultBuffer = wasm.process_image(buffer, operation);\n    \n    return new Blob([resultBuffer], { type: file.type });\n    \n  } catch (error) {\n    console.warn('Wasm processing failed, falling back to native Canvas:', error);\n    return await fallbackNativeProcessing(file, operation);\n  }\n}\n\nasync function fallbackNativeProcessing(file, operation) {\n  // Native Canvas implementation for unsupported environments\n  return new Promise((resolve, reject) => {\n    const img = new Image();\n    img.onload = () => {\n      const canvas = document.createElement('canvas');\n      canvas.width = img.width;\n      canvas.height = img.height;\n      const ctx = canvas.getContext('2d');\n      \n      // Apply operation via Canvas API\n      if (operation === 'grayscale') ctx.filter = 'grayscale(100%)';\n      // ... other operations\n      \n      ctx.drawImage(img, 0, 0);\n      canvas.toBlob(blob => resolve(blob), file.type);\n    };\n    img.onerror = reject;\n    img.src = URL.createObjectURL(file);\n  });\n}\n```\n\n---\n\n## 3. Cross-Browser Compatibility Report\n\n### Testing Environment\n- **Chrome (v120+)**: Full WebAssembly 2.0 support, SIMD enabled.\n- **Firefox (v120+)**: Full WebAssembly support, strict CSP handling.\n- **Safari (v16+)**: Partial support (requires specific headers, older SIMD limitations).\n\n### Integration Challenges & Solutions\n\n| Browser | Challenge | Solution Implemented |\n| :--- | :--- | :--- |\n| **Chrome** | **Performance Overhead**: Initial Wasm instantiation caused a 150ms UI freeze on large files. | **Solution**: Implemented `StreamingCompilation` and pre-compiled `.wasm` caching using `Service Workers`. |\n| **Firefox** | **CSP Restrictions**: Content Security Policy blocked `eval()` during Wasm instantiation. | **Solution**: Switched to `WebAssembly.instantiateStreaming()` with explicit `ArrayBuffer` handling to bypass `eval` requirements. |\n| **Safari** | **Partial SIMD Support**: The Rust `simd` crate caused runtime crashes on older Safari versions. | **Solution**: Compiled two Wasm binaries: one with SIMD optimizations (for Chrome/Firefox) and a scalar fallback (for Safari). The loader detects the browser and selects the correct binary. |\n| **All** | **Memory Limits**: 10MB images occasionally exceeded default Wasm memory limits (64MB). | **Solution**: Configured `initial_memory` and `maximum_memory` in the Rust `wasm-bindgen` configuration to dynamically allocate up to 256MB. |\n\n### Performance Metrics (Processing Time < 2s Target)\n\n| Format | Chrome (ms) | Firefox (ms) | Safari (ms) | Status |\n| :--- | :--- | :--- | :--- | :--- |\n| **JPEG (5MB)** | 450 | 480 | 620 | ✅ Pass |\n| **PNG (8MB)** | 520 | 550 | 710 | ✅ Pass |\n| **WebP (10MB)** | 490 | 510 | 680 | ✅ Pass |\n| **Fallback (Safari)** | N/A | N/A | 1800 | ✅ Pass (Native) |\n\n*Note: Safari processing times include the overhead of the fallback mechanism for complex operations not fully supported by the Wasm scalar build.*\n\n---\n\n## 4. Conclusion\nThe WebAssembly module successfully integrates high-performance image processing while maintaining robust error handling. The primary challenge was Safari's partial SIMD support, resolved via a dual-binary strategy. The fallback mechanism ensures 100% availability across all target browsers, meeting the <2s processing requirement for all supported formats up to 10MB.",
+      "score": 4.0,
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        4,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is well-structured and addresses the core requirements with a clear architecture and browser report. However, the code snippet contains a memory leak (missing revokeObjectURL), which impacts Best Practices. The Wasm import syntax is bundler-specific and slightly imprecise for a general PoC, affecting Domain Accuracy. Mobile viewport constraints mentioned in additional checks are not explicitly addressed, slightly impacting Completeness. Correctness is high but the memory leak is a functional gap. Clarity is excellent."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
+      "task_type": "Cross-Browser Compatibility Testing",
+      "user_prompt": "Analyze the provided CSS snippet for a responsive navigation bar. Identify three specific compatibility issues across Chrome, Firefox, and Safari regarding flexbox behavior and pseudo-elements. Propose a corrected CSS block that ensures consistent rendering on all three browsers while maintaining the original design intent.",
+      "reference_context": {
+        "original_css": ".nav-container { display: flex; justify-content: space-between; } .nav-item::before { content: ''; width: 10px; height: 10px; background: red; }",
+        "browser_versions": {
+          "chrome": "latest",
+          "firefox": "latest",
+          "safari": "latest"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the solution work?",
+        "Criterion 2: Completeness — did it handle all requirements?",
+        "Criterion 3: Best practices — is it production-ready?"
+      ],
+      "student_answer": "```css\n.nav-container {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n  -ms-flex-pack: justify;\n  justify-content: space-between;\n  -webkit-box-align: center;\n  -ms-flex-align: center;\n  align-items: center;\n}\n\n.nav-item {\n  position: relative;\n}\n\n.nav-item::before {\n  content: '';\n  width: 10px;\n  height: 10px;\n  background: red;\n  position: absolute;\n  top: 50%;\n  left: 100%;\n  margin-top: -5px;\n  margin-left: 5px;\n}\n```",
+      "score": 0,
+      "dimension_scores": [],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Confer with management or development teams to prioritize needs, resolve conflicts, develop content criteria, or choose solutions.",
+      "task_type": "E-commerce Strategy Integration",
+      "user_prompt": "Draft a technical implementation plan to integrate a new 'One-Click Checkout' feature into an existing e-commerce site. The plan must address cross-browser compatibility for the payment modal (specifically handling Safari's autofill quirks and Firefox's privacy mode restrictions) and include input validation logic for credit card numbers to ensure production readiness.",
+      "reference_context": {
+        "current_stack": "React, Stripe API, Node.js",
+        "target_features": [
+          "One-Click Checkout",
+          "Credit Card Validation"
+        ],
+        "constraints": "Must support Chrome, Firefox, Safari, and Edge without breaking existing checkout flows."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Strategic Alignment — does the plan resolve conflicts and meet business needs?",
+        "Criterion 2: Technical Depth — are cross-browser issues explicitly addressed?",
+        "Criterion 3: Security & Validation — is input validation robust?"
+      ],
+      "student_answer": "# Technical Implementation Plan: One-Click Checkout Integration\n\n## 1. Architecture Overview\n*   **Frontend:** React (Client-side logic, UI components, Stripe Elements).\n*   **Backend:** Node.js (API endpoints for tokenization, order creation, and session management).\n*   **Payment Processor:** Stripe (Payment Intents API, Payment Element).\n*   **Data Storage:** Existing database (User profiles, saved payment methods).\n\n## 2. Core Implementation Phases\n\n### Phase 1: Backend Infrastructure (Node.js)\n1.  **Payment Method Storage:**\n    *   Extend user schema to store `stripe_customer_id` and `default_payment_method_id`.\n    *   Implement endpoint `POST /api/payment-methods` to securely save new cards via Stripe API.\n2.  **One-Click Flow Endpoint:**\n    *   Create `POST /api/checkout/one-click`:\n        *   Accepts `order_id` and `payment_method_id`.\n        *   Validates order state (idempotency key required).\n        *   Calls `stripe.paymentIntents.confirm` with the stored payment method.\n        *   Returns `client_secret` for frontend confirmation.\n3.  **Security Hardening:**\n    *   Implement rate limiting on checkout endpoints.\n    *   Validate order totals server-side to prevent price manipulation.\n\n### Phase 2: Frontend Integration (React)\n1.  **Component Structure:**\n    *   Create `<OneClickCheckoutButton />` component.\n    *   Create `<PaymentModal />` wrapper for fallback flows.\n2.  **Stripe Elements Integration:**\n    *   Initialize `PaymentElement` for the modal.\n    *   Implement `handleOneClickSubmit` to trigger the backend `one-click` endpoint directly without re-entering card details.\n\n### Phase 3: Cross-Browser Compatibility Strategy\n\n#### A. Safari Autofill Handling\n*   **Challenge:** Safari aggressively autofills fields, often overwriting React state or causing focus issues with dynamic forms.\n*   **Solution:**\n    *   **Input Attributes:** Explicitly set `autocomplete=\"cc-number\"`, `autocomplete=\"cc-exp\"`, `autocomplete=\"cc-csc\"`, and `autocomplete=\"cc-name\"` on all input fields.\n    *   **Focus Management:** Disable React's automatic focus management on the modal mount. Instead, programmatically focus the first input only after the user explicitly clicks \"Pay\" or \"Continue\" to avoid Safari's \"smart\" autofill interference.\n    *   **State Sync:** Use `useEffect` to listen for `input` events on the payment element to ensure React state stays in sync with Safari's autofill injection.\n\n#### B. Firefox Privacy Mode Restrictions\n*   **Challenge:** Firefox blocks third-party cookies and local storage in strict privacy mode, breaking session persistence for the payment modal.\n*   **Solution:**\n    *   **Session Fallback:** Detect privacy mode via `navigator.cookieEnabled`. If disabled, switch the modal to \"Guest Mode\" logic, requiring explicit card entry rather than relying on stored session tokens.\n    *   **Storage Strategy:** Migrate critical session tokens from `localStorage` to `sessionStorage` or pass them via URL parameters (encrypted) for the modal session to ensure compatibility with strict cookie policies.\n    *   **Stripe.js:** Ensure `stripe.js` is loaded with `fetch` mode `cors` and `mode: 'no-cors'` fallbacks if necessary, though Stripe generally handles this via their CDN.\n\n### Phase 4: Credit Card Input Validation Logic\n*   **Client-Side Validation (Luhn Algorithm):**\n    *   Implement a utility function `validateCardNumber(number)` before submission.\n    *   Check length (13-19 digits) and Luhn checksum.\n    *   **Regex Pattern:** `^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9]{2})[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$`\n*   **Stripe Elements Validation:**\n    *   Rely on `Stripe Elements` built-in validation for format, expiry, and CVC.\n    *   Display real-time error messages using `element.mount()` error listeners.\n*   **Server-Side Validation:**\n    *   Re-validate the card token and amount on the Node.js backend before confirming the Payment Intent.\n\n## 3. Testing & Quality Assurance\n\n### Browser Matrix Testing\n*   **Chrome/Edge:** Verify standard autofill and privacy mode behavior.\n*   **Safari (iOS & macOS):**\n    *   Test autofill injection on page load.\n    *   Verify focus does not jump unexpectedly.\n    *   Test \"Save for later\" functionality.\n*   **Firefox:**\n    *   Test in \"Enhanced Tracking Protection\" (Strict) mode.\n    *   Verify modal loads without cookie errors.\n    *   Confirm fallback to manual entry works if session storage is blocked.\n\n### Validation Test Cases\n1.  **Valid Card:** 4111 1111 1111 1111 (Visa) -> Pass.\n2.  **Invalid Luhn:** 4111 1111 1111 1112 -> Fail with \"Invalid card number\".\n3.  **Expired Card:** Expiry < Current Month -> Fail with \"Card expired\".\n4.  **Short CVC:** 2 digits -> Fail with \"Invalid CVC\".\n5.  **Safari Autofill:** Trigger browser autofill -> Ensure fields populate and validation passes.\n6.  **Firefox Privacy:** Disable cookies -> Ensure modal gracefully degrades to manual entry.\n\n## 4. Rollout Strategy\n1.  **Feature Flag:** Enable `one_click_checkout` flag in the backend.\n2.  **Canary Release:** Deploy to 5% of traffic. Monitor error logs for Safari/Firefox specific exceptions.\n3.  **Full Rollout:** Enable for all users after 48 hours of stable metrics.\n4.  **Fallback:** If the one-click flow fails (e.g., network error), automatically redirect to the standard multi-step checkout flow.\n\n## 5. Monitoring & Observability\n*   **Metrics:** Track `one_click_success_rate`, `browser_type_distribution`, and `validation_error_rate`.\n*   **Alerts:** Set up alerts for high failure rates in Safari or Firefox specifically.\n*   **Logs:** Log specific error codes from Stripe (e.g., `card_declined`, `invalid_request_error`) to distinguish between user input errors and system failures.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "Correctness (3): Contains significant technical inaccuracies, specifically suggesting URL parameters for session tokens (security risk) and listening to native input events on Stripe's PaymentElement iframe (technically impossible). Completeness (4): Covers all major phases and requirements well, though mobile viewport constraints are only mentioned in testing, not implementation. Best Practices (3): The suggestion to pass tokens via URL parameters violates security best practices. Domain Accuracy (3): `navigator.cookieEnabled` is not a reliable method for detecting Firefox Privacy Mode/ITP, and iframe event handling is incorrect. Clarity (5): The document is exceptionally well-structured, professional, and easy to follow."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Communicate with network personnel or Web site hosting agencies to address hardware or software issues affecting Web sites.",
+      "task_type": "Production Environment Debugging",
+      "user_prompt": "Simulate a scenario where a web application fails to load on Safari due to a specific JavaScript polyfill conflict. Write a diagnostic script that validates the environment, checks for missing polyfills, and implements a fallback mechanism. Ensure the script includes error handling for network timeouts and validates all input parameters before execution.",
+      "reference_context": {
+        "error_log": "Uncaught ReferenceError: Promise is not defined",
+        "affected_browsers": [
+          "Safari 14",
+          "Safari 15"
+        ],
+        "environment": "Production Server (Node.js 16)"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Diagnostic Accuracy — does the script correctly identify the root cause?",
+        "Criterion 2: Error Handling — are network and runtime errors caught?",
+        "Criterion 3: Input Validation — are all inputs sanitized and checked?"
+      ],
+      "student_answer": "```javascript\n/**\n * Polyfill Diagnostic & Fallback Script\n * Target: Safari 14/15 (Node.js 16 Environment)\n * Issue: Uncaught ReferenceError: Promise is not defined\n */\n\n(function() {\n  'use strict';\n\n  // Configuration\n  const CONFIG = {\n    polyfillUrl: 'https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js',\n    timeoutMs: 5000,\n    requiredFeatures: ['Promise', 'fetch']\n  };\n\n  /**\n   * Validates input parameters strictly.\n   * @param {Object} options - Configuration overrides\n   * @returns {Object} Validated configuration\n   */\n  function validateInput(options) {\n    if (typeof options !== 'object' || options === null) {\n      throw new TypeError('Options must be a non-null object');\n    }\n\n    if (options.timeoutMs && typeof options.timeoutMs !== 'number') {\n      throw new TypeError('timeoutMs must be a number');\n    }\n\n    if (options.polyfillUrl && typeof options.polyfillUrl !== 'string') {\n      throw new TypeError('polyfillUrl must be a string');\n    }\n\n    return { ...CONFIG, ...options };\n  }\n\n  /**\n   * Checks if a specific feature is missing in the current environment.\n   * @param {string} featureName - The feature to check (e.g., 'Promise')\n   * @returns {boolean} True if missing, false otherwise.\n   */\n  function isFeatureMissing(featureName) {\n    if (typeof window === 'undefined') {\n      // Node.js environment check\n      return !global[featureName];\n    }\n    return typeof window[featureName] === 'undefined';\n  }\n\n  /**\n   * Loads a script with a timeout and error handling.\n   * @param {string} src - Script source URL\n   * @param {number} timeout - Timeout in milliseconds\n   * @returns {Promise<void>}\n   */\n  function loadScriptWithTimeout(src, timeout) {\n    return new Promise((resolve, reject) => {\n      const script = document.createElement('script');\n      script.src = src;\n      script.async = true;\n\n      const timeoutId = setTimeout(() => {\n        script.onerror = null;\n        script.onload = null;\n        reject(new Error(`Network timeout: Failed to load ${src} within ${timeout}ms`));\n      }, timeout);\n\n      script.onload = () => {\n        clearTimeout(timeoutId);\n        resolve();\n      };\n\n      script.onerror = () => {\n        clearTimeout(timeoutId);\n        reject(new Error(`Network error: Failed to load ${src}`));\n      };\n\n      document.head.appendChild(script);\n    });\n  }\n\n  /**\n   * Main diagnostic and fallback execution.\n   */\n  async function runDiagnostic() {\n    try {\n      // 1. Validate Environment & Input\n      const config = validateInput({});\n      \n      console.log('[Diagnostic] Starting environment check...');\n\n      // 2. Check for specific missing polyfills\n      const missingFeatures = config.requiredFeatures.filter(feature => isFeatureMissing(feature));\n\n      if (missingFeatures.length === 0) {\n        console.log('[Diagnostic] All required features are present. No action needed.');\n        return;\n      }\n\n      console.warn(`[Diagnostic] Missing features detected: ${missingFeatures.join(', ')}`);\n\n      // 3. Implement Fallback Mechanism\n      if (missingFeatures.includes('Promise')) {\n        console.log('[Fallback] Loading Promise polyfill...');\n        try {\n          await loadScriptWithTimeout(config.polyfillUrl, config.timeoutMs);\n          \n          // Verify load success\n          if (isFeatureMissing('Promise')) {\n            throw new Error('Polyfill loaded but Promise is still undefined. Fallback failed.');\n          }\n          \n          console.log('[Fallback] Promise polyfill successfully applied.');\n        } catch (err) {\n          console.error('[Fallback Error]', err.message);\n          // Final fallback: Disable async/await dependent features gracefully\n          console.warn('[Fallback] Disabling async operations due to polyfill failure.');\n          window.PROMISE_POLYFILL_FAILED = true;\n        }\n      }\n\n      // 4. Re-validate after load\n      const remainingMissing = config.requiredFeatures.filter(feature => isFeatureMissing(feature));\n      if (remainingMissing.length > 0) {\n        console.error(`[Diagnostic] Critical failure: ${remainingMissing.join(', ')} remain missing.`);\n      } else {\n        console.log('[Diagnostic] Environment validated and patched successfully.');\n      }\n\n    } catch (error) {\n      // Global Error Handler for the script itself\n      console.error('[Diagnostic Script Fatal Error]', error);\n      if (window.PROMISE_POLYFILL_FAILED) {\n        // Trigger a user-friendly UI fallback if available\n        if (document.getElementById('app-root')) {\n          document.getElementById('app-root').innerHTML = '<div style=\"color:red\">Application failed to initialize due to browser compatibility issues.</div>';\n        }\n      }\n    }\n  }\n\n  // Execute immediately if in browser context\n  if (typeof window !== 'undefined') {\n    // Ensure DOM is ready or run immediately if head is available\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', runDiagnostic);\n    } else {\n      runDiagnostic();\n    }\n  }\n\n  // Export for Node.js testing if needed\n  if (typeof module !== 'undefined' && module.exports) {\n    module.exports = { runDiagnostic, validateInput, isFeatureMissing };\n  }\n\n})();\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        4,
+        4
+      ],
+      "score": 3.6,
+      "grade_reason": "The submission demonstrates a solid understanding of polyfill diagnostics, environment checks, and fallback mechanisms. Input validation is present and robust. However, there is a critical syntax error in the error message template literals (using '$' instead of '${}'), which renders error logs unhelpful and reduces the utility of the error handling. This impacts Correctness and Best Practices. Completeness, Domain Accuracy, and Clarity are strong, with well-structured code and appropriate comments. The additional CSS-specific checks (vendor prefixes, flexbox) were not applicable to this JavaScript task."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Respond to user email inquiries, or set up automated systems to send responses.",
+      "task_type": "Automated Support System Development",
+      "user_prompt": "Design a serverless function that automatically responds to user inquiries about 'Login Issues'. The function must parse incoming JSON requests, validate the user's email format, and generate a response that includes browser-specific troubleshooting steps for Chrome and Firefox. The code must handle invalid JSON gracefully and log errors securely.",
+      "reference_context": {
+        "trigger_event": "User submits 'Login Failed' ticket",
+        "required_outputs": [
+          "Email validation",
+          "Browser-specific steps",
+          "Error logging"
+        ],
+        "security_requirements": "No PII in logs, strict input validation"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Functionality — does the automation work end-to-end?",
+        "Criterion 2: Cross-Browser Logic — are specific browser steps included?",
+        "Criterion 3: Robustness — is error handling and validation complete?"
+      ],
+      "student_answer": "```javascript\n// Serverless Function: Login Issue Responder\n// Runtime: Node.js 18+ (Compatible with AWS Lambda, Cloudflare Workers, etc.)\n\nconst EMAIL_REGEX = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n\n/**\n * Securely logs errors without exposing PII.\n * @param {string} message - The error message.\n * @param {object} context - Additional context (sanitized).\n */\nfunction logSecureError(message, context = {}) {\n  const sanitizedContext = {\n    timestamp: new Date().toISOString(),\n    requestId: context.requestId || 'unknown',\n    emailMasked: context.email ? context.email.replace(/(.{2}).+@(.+)/, '$1***@$2') : null,\n    errorType: context.errorType || 'Unknown'\n  };\n  \n  // In production, replace console.error with a secure logging service (e.g., CloudWatch, Datadog)\n  console.error(`[SECURITY_LOG] ${message}`, JSON.stringify(sanitizedContext));\n}\n\n/**\n * Validates email format.\n * @param {string} email - The email to validate.\n * @returns {boolean}\n */\nfunction isValidEmail(email) {\n  return typeof email === 'string' && EMAIL_REGEX.test(email);\n}\n\n/**\n * Generates browser-specific troubleshooting steps.\n * @returns {object}\n */\nfunction getTroubleshootingSteps() {\n  return {\n    chrome: [\n      \"Clear browser cache and cookies (Ctrl+Shift+Delete).\",\n      \"Disable browser extensions temporarily.\",\n      \"Ensure Chrome is updated to the latest version.\",\n      \"Try opening the login page in Incognito mode.\"\n    ],\n    firefox: [\n      \"Clear cache and cookies (Ctrl+Shift+Delete).\",\n      \"Disable 'Enhanced Tracking Protection' for the site temporarily.\",\n      \"Update Firefox to the latest version.\",\n      \"Try opening the login page in Private Window.\"\n    ]\n  };\n}\n\n/**\n * Main serverless handler.\n * @param {object} event - The incoming request event.\n * @param {object} context - The execution context.\n * @returns {object} - HTTP response.\n */\nexports.handler = async (event, context) => {\n  const requestId = context.awsRequestId || 'local-req';\n  \n  try {\n    // 1. Parse JSON\n    let body;\n    try {\n      body = JSON.parse(event.body || '{}');\n    } catch (parseError) {\n      logSecureError('Invalid JSON payload', { requestId, errorType: 'ParseError' });\n      return {\n        statusCode: 400,\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify({\n          success: false,\n          message: 'Invalid request format. Please ensure the body is valid JSON.',\n          requestId\n        })\n      };\n    }\n\n    // 2. Extract and Validate Email\n    const { email } = body;\n    \n    if (!email) {\n      logSecureError('Missing email field', { requestId });\n      return {\n        statusCode: 400,\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify({\n          success: false,\n          message: 'Email address is required.',\n          requestId\n        })\n      };\n    }\n\n    if (!isValidEmail(email)) {\n      logSecureError('Invalid email format', { requestId, emailMasked: email.replace(/(.{2}).+@(.+)/, '$1***@$2') });\n      return {\n        statusCode: 400,\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify({\n          success: false,\n          message: 'The provided email address format is invalid.',\n          requestId\n        })\n      };\n    }\n\n    // 3. Generate Response\n    const steps = getTroubleshootingSteps();\n    \n    return {\n      statusCode: 200,\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({\n        success: true,\n        message: 'Login issue detected. Please try the following steps:',\n        troubleshooting: steps,\n        requestId\n      })\n    };\n\n  } catch (error) {\n    // Fallback error handling\n    logSecureError('Unhandled server error', { \n      requestId, \n      errorType: error.name || 'Error',\n      errorStack: error.message // Only log message, not full stack in production logs if sensitive\n    });\n    \n    return {\n      statusCode: 500,\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({\n        success: false,\n        message: 'An internal error occurred while processing your request.',\n        requestId\n      })\n    };\n  }\n};\n```",
+      "score": 3.2,
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        4,
+        4
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Correctness (2): Critical syntax error in console.error template literal prevents execution; logic mismatch in email masking keys. Completeness (3): All functional requirements mapped, but implementation is flawed. Best Practices (3): Professional structure, but syntax errors and console usage violate standards. Domain Accuracy (4): Serverless patterns and security concepts applied correctly. Clarity (4): Code is well-structured and readable despite errors."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Collaborate with management or users to develop e-commerce strategies and to integrate these strategies with Web sites.",
+      "task_type": "Feature Integration & Validation",
+      "user_prompt": "Create a JavaScript module for a shopping cart that integrates with a third-party inventory API. The module must handle asynchronous data fetching, validate inventory counts, and ensure the UI updates correctly across Chrome, Firefox, and Safari. Include comprehensive error handling for API failures and input validation for user quantity selections.",
+      "reference_context": {
+        "api_endpoint": "https://api.inventory.com/v1/stock",
+        "ui_framework": "Vanilla JS",
+        "business_rule": "Quantity cannot exceed available stock"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Integration Success — does the module connect and update UI correctly?",
+        "Criterion 2: Cross-Browser Consistency — are rendering and logic consistent?",
+        "Criterion 3: Production Readiness — are errors and inputs handled safely?"
+      ],
+      "student_answer": "```javascript\n// shoppingCartModule.js\n\nconst InventoryAPI = {\n  endpoint: 'https://api.inventory.com/v1/stock',\n  \n  /**\n   * Fetches current stock levels for a specific product.\n   * @param {string} productId - The unique identifier for the product.\n   * @returns {Promise<{success: boolean, data: number|null, error: string|null}>}\n   */\n  async fetchStock(productId) {\n    if (!productId || typeof productId !== 'string') {\n      return { success: false, data: null, error: 'Invalid product ID format.' };\n    }\n\n    try {\n      const response = await fetch(`${this.endpoint}/${encodeURIComponent(productId)}`, {\n        method: 'GET',\n        headers: {\n          'Content-Type': 'application/json',\n          'Accept': 'application/json'\n        },\n        // Standard timeout to prevent hanging UI\n        signal: AbortSignal.timeout(5000) \n      });\n\n      if (!response.ok) {\n        const errorData = await response.json().catch(() => ({}));\n        throw new Error(errorData.message || `API Error: ${response.status}`);\n      }\n\n      const data = await response.json();\n      \n      // Validate response structure\n      if (typeof data.availableStock !== 'number' || data.availableStock < 0) {\n        throw new Error('Invalid inventory data format received.');\n      }\n\n      return { success: true, data: data.availableStock, error: null };\n\n    } catch (error) {\n      if (error.name === 'TimeoutError') {\n        return { success: false, data: null, error: 'Inventory service timeout. Please try again later.' };\n      }\n      return { success: false, data: null, error: `Inventory fetch failed: ${error.message}` };\n    }\n  }\n};\n\nconst ShoppingCart = {\n  /**\n   * Validates user input for quantity.\n   * @param {string|number} input - User input value.\n   * @returns {number|null} - Validated integer or null if invalid.\n   */\n  validateQuantityInput(input) {\n    const parsed = Number(input);\n    \n    if (isNaN(parsed)) return null;\n    if (!Number.isInteger(parsed)) return null;\n    if (parsed <= 0) return null;\n    \n    return parsed;\n  },\n\n  /**\n   * Adds items to the cart with inventory validation.\n   * @param {string} productId - Product ID.\n   * @param {string|number} userQuantity - User requested quantity.\n   * @param {object} uiCallbacks - Object containing UI update functions.\n   * @returns {Promise<{success: boolean, message: string, cartItem: object|null}>}\n   */\n  async addToCart(productId, userQuantity, uiCallbacks) {\n    // 1. Input Validation\n    const quantity = this.validateQuantityInput(userQuantity);\n    if (quantity === null) {\n      return { \n        success: false, \n        message: 'Invalid quantity. Please enter a positive integer.', \n        cartItem: null \n      };\n    }\n\n    // 2. UI Loading State\n    if (uiCallbacks && typeof uiCallbacks.onLoading === 'function') {\n      uiCallbacks.onLoading(true);\n    }\n\n    try {\n      // 3. Fetch Inventory\n      const stockResult = await InventoryAPI.fetchStock(productId);\n\n      if (!stockResult.success) {\n        throw new Error(stockResult.error);\n      }\n\n      const availableStock = stockResult.data;\n\n      // 4. Business Rule Validation: Quantity cannot exceed stock\n      if (quantity > availableStock) {\n        return { \n          success: false, \n          message: `Only ${availableStock} items available in stock.`, \n          cartItem: null \n        };\n      }\n\n      // 5. Success: Create Cart Item\n      const cartItem = {\n        productId,\n        quantity,\n        timestamp: new Date().toISOString()\n      };\n\n      // 6. UI Update\n      if (uiCallbacks && typeof uiCallbacks.onSuccess === 'function') {\n        uiCallbacks.onSuccess(cartItem);\n      }\n\n      return { \n        success: true, \n        message: 'Item added to cart successfully.', \n        cartItem \n      };\n\n    } catch (error) {\n      // 7. Error Handling\n      const errorMessage = error.message || 'An unexpected error occurred.';\n      \n      if (uiCallbacks && typeof uiCallbacks.onError === 'function') {\n        uiCallbacks.onError(errorMessage);\n      }\n\n      return { \n        success: false, \n        message: errorMessage, \n        cartItem: null \n      };\n    } finally {\n      // 8. Reset UI Loading State\n      if (uiCallbacks && typeof uiCallbacks.onLoading === 'function') {\n        uiCallbacks.onLoading(false);\n      }\n    }\n  }\n};\n\n// Export for module usage (ES6)\nexport { InventoryAPI, ShoppingCart };\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "Correctness (3): Contains a critical string interpolation bug ('Only $ items...') that prevents correct user feedback, and uses AbortSignal.timeout without polyfill checks for older Safari/Firefox versions. Completeness (4): Core logic and validation are present, but cross-browser compatibility for the timeout signal is not fully robust. Best Practices (4): Good use of async/await and separation of concerns, though the string bug suggests insufficient QA. Domain Accuracy (4): Business rules and API integration concepts are implemented correctly. Clarity (5): Code is well-structured, commented, and easy to read."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Document test plans, testing procedures, or test results.",
+      "task_type": "Test Plan Documentation",
+      "user_prompt": "Create a comprehensive test plan for a new e-commerce checkout page. The plan must include specific testing procedures for cross-browser compatibility (Chrome, Firefox, Safari) and device types (mobile, tablet, desktop). Include a section for documenting expected results versus actual results for critical user flows like form submission and payment gateway integration.",
+      "reference_context": {
+        "application_type": "E-commerce Checkout",
+        "critical_flows": [
+          "User Registration",
+          "Cart Addition",
+          "Payment Processing",
+          "Order Confirmation"
+        ],
+        "target_devices": [
+          "iOS Safari",
+          "Android Chrome",
+          "Desktop Firefox"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Completeness — Does the plan cover all critical flows and target devices?",
+        "Criterion 2: Clarity — Are the testing procedures specific and actionable?",
+        "Criterion 3: Documentation — Is there a clear structure for recording results?"
+      ],
+      "student_answer": "# E-Commerce Checkout Page: Comprehensive Test Plan\n\n## 1. Test Scope & Objectives\n**Objective:** Validate the functionality, usability, security, and compatibility of the new checkout page across all target devices and browsers. Ensure seamless execution of critical user flows: User Registration, Cart Addition, Payment Processing, and Order Confirmation.\n\n**Scope:**\n- **Functional Testing:** Form validation, logic, and data persistence.\n- **Compatibility Testing:** Cross-browser and cross-device rendering.\n- **Integration Testing:** Payment gateway connectivity and order confirmation.\n- **Security Testing:** Data encryption and input sanitization.\n\n---\n\n## 2. Cross-Browser & Device Compatibility Matrix\nThe following matrix defines the specific testing procedures for the target environment.\n\n### 2.1 Target Environments\n| Device Type | Browser | Version | OS | Testing Focus |\n| :--- | :--- | :--- | :--- | :--- |\n| **Desktop** | Firefox | Latest (ESR) | Windows 10/11 | Layout stability, CSS grid/flexbox rendering, keyboard navigation. |\n| **Mobile** | Chrome | Latest | Android 12+ | Touch targets, viewport scaling, mobile keyboard behavior, 3D Touch. |\n| **Mobile** | Safari | Latest | iOS 15+ | Autofill behavior, Apple Pay integration, scroll snapping, native alerts. |\n| **Tablet** | Safari/Chrome | Latest | iPadOS/Android | Landscape vs. Portrait orientation, split-screen multitasking. |\n\n### 2.2 Specific Testing Procedures\n\n#### A. Cross-Browser Compatibility (Chrome, Firefox, Safari)\n1.  **Layout & Rendering:**\n    *   Verify the checkout form aligns correctly without horizontal scrollbars on all three browsers.\n    *   Check font rendering and icon consistency (e.g., credit card icons).\n    *   Validate CSS animations (e.g., loading spinners, success checkmarks) play smoothly.\n2.  **Form Interaction:**\n    *   **Chrome:** Test autofill suggestions and password visibility toggles.\n    *   **Firefox:** Verify focus states and tab navigation order.\n    *   **Safari:** Test native iOS/OS keyboard behavior (e.g., numeric keypad for card numbers) and \"Sign in with Apple\" integration.\n3.  **JavaScript Execution:**\n    *   Ensure no console errors appear in the Developer Tools (F12) for all browsers.\n    *   Validate that dynamic price updates and tax calculations trigger correctly.\n\n#### B. Device Type Testing\n1.  **Mobile (iOS Safari & Android Chrome):**\n    *   **Touch Targets:** Verify all buttons (e.g., \"Place Order\") have a minimum touch area of 44x44px.\n    *   **Viewport:** Ensure the page does not zoom unexpectedly on input focus.\n    *   **Orientation:** Rotate device from portrait to landscape; verify the form remains usable and does not overflow.\n    *   **Network:** Test on 4G/5G and simulate slow network conditions (3G) for payment timeouts.\n2.  **Tablet:**\n    *   Verify responsive breakpoints transition smoothly between mobile and desktop views.\n    *   Test split-screen usage (e.g., checkout page alongside a browser tab) to ensure layout integrity.\n3.  **Desktop (Firefox):**\n    *   **Keyboard Navigation:** Ensure full tab-order navigation is possible without a mouse.\n    *   **Resolution:** Test at 1920x1080 and 1366x768 to check for layout shifts.\n\n---\n\n## 3. Critical User Flow Testing Procedures\n\n### 3.1 User Registration & Cart Addition\n*   **Procedure:**\n    1.  Navigate to checkout without an account.\n    2.  Attempt to register with valid and invalid data (e.g., existing email, weak password).\n    3.  Add items to the cart and proceed to checkout.\n    4.  Verify cart total updates immediately upon item addition.\n*   **Validation:**\n    *   Error messages appear inline for invalid inputs.\n    *   Session persists if the user navigates away and returns.\n\n### 3.2 Payment Processing\n*   **Procedure:**\n    1.  Enter valid credit card details (Test Card: 4242 4242 4242 4242).\n    2.  Enter valid CVV and Expiry.\n    3.  Click \"Pay Now.\"\n    4.  Simulate a declined transaction using a test card (e.g., 4000 0000 0000 0002).\n    5.  Test Apple Pay/Google Pay integration on mobile devices.\n*   **Validation:**\n    *   Payment gateway redirects correctly.\n    *   Decline messages are user-friendly and do not expose backend errors.\n    *   Card numbers are masked after submission.\n\n### 3.3 Order Confirmation\n*   **Procedure:**\n    1.  Complete a successful payment.\n    2.  Verify the \"Thank You\" page loads.\n    3.  Check for the Order ID and summary details.\n    4.  Verify the confirmation email is triggered.\n*   **Validation:**\n    *   Order ID is unique.\n    *   Email contains correct order details and receipt.\n    *   Inventory is decremented in the backend.\n\n---\n\n## 4. Expected vs. Actual Results Documentation Template\n\nUse the following structure to document test execution for critical flows. This ensures traceability and clear defect reporting.\n\n### 4.1 Test Case: Form Submission (Payment Processing)\n| Field | Description |\n| :--- | :--- |\n| **Test ID** | CHK-PAY-001 |\n| **Browser/Device** | iOS Safari (iPhone 14) |\n| **Pre-conditions** | User is logged in; Cart contains 1 item; Payment gateway is active. |\n| **Steps** | 1. Enter valid card details.<br>2. Click \"Place Order\".<br>3. Observe loading state. |\n| **Expected Result** | 1. Spinner displays for < 3 seconds.<br>2. Redirect to Order Confirmation page.<br>3. Success toast notification appears.<br>4. Order ID generated. |\n| **Actual Result** | *To be filled during execution* (e.g., \"Spinner displayed for 10s, then timeout error occurred.\") |\n| **Status** | Pass / Fail / Blocked |\n| **Defect ID** | *If failed, link to Jira/Issue Tracker ID* |\n| **Comments** | *Additional context (e.g., \"Reproduced on 3G network only.\")* |\n\n### 4.2 Test Case: Cross-Browser Layout (Desktop Firefox)\n| Field | Description |\n| :--- | :--- |\n| **Test ID** | CHK-LAY-005 |\n| **Browser/Device** | Firefox (Windows 11) |\n| **Pre-conditions** | Checkout page loaded. |\n| **Steps** | 1. Resize browser window to 1024px width.<br>2. Inspect the \"Billing Address\" section. |\n| **Expected Result** | 1. Form fields stack vertically.<br>2. No horizontal scroll.<br>3. Labels align correctly with inputs. |\n| **Actual Result** | *To be filled during execution* (e.g., \"Labels overlapped inputs at 1024px.\") |\n| **Status** | Pass / Fail / Blocked |\n| **Defect ID** | *If failed, link to Jira/Issue Tracker ID* |\n| **Comments** | *Additional context* |\n\n---\n\n## 5. Exit Criteria\nThe test plan is considered complete when:\n1.  All Critical and High-priority test cases have been executed.\n2.  100% of Critical flows (Registration, Payment, Confirmation) pass on all target devices.\n3.  No open defects with Severity 1 or 2 remain.\n4.  Cross-browser compatibility issues are resolved or accepted by stakeholders.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        5,
+        4,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "Correctness (4) and Domain Accuracy (4) are reduced due to a factual error: '3D Touch' is an Apple-specific feature and does not exist on Android Chrome. The rest of the plan is highly professional. Completeness (5) is strong, covering all required sections including the Expected vs Actual template and Exit Criteria. Best Practices (5) are evident in the structured matrix, traceability fields, and security considerations. Clarity (5) is excellent with clear headings and tables."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Establish appropriate server directory trees.",
+      "task_type": "Server Directory Architecture",
+      "user_prompt": "Design a server directory tree structure for a multi-tenant web application that serves static assets, dynamic content, and user uploads. The structure must support separate environments (development, staging, production) and include specific directories for cross-browser polyfills and error logs. Provide a shell script to initialize this structure with proper permissions.",
+      "reference_context": {
+        "application_architecture": "Multi-tenant SaaS",
+        "environments": [
+          "dev",
+          "staging",
+          "prod"
+        ],
+        "content_types": [
+          "static_assets",
+          "dynamic_api",
+          "user_uploads",
+          "polyfills"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Logical Organization — Is the directory structure intuitive and scalable?",
+        "Criterion 2: Security — Are permissions set correctly for sensitive directories?",
+        "Criterion 3: Automation — Does the script handle environment separation and error handling?"
+      ],
+      "student_answer": "```text\n/var/www/multi-tenant-saas/\n├── environments/\n│   ├── dev/\n│   │   ├── static/\n│   │   │   ├── css/\n│   │   │   ├── js/\n│   │   │   └── images/\n│   │   ├── polyfills/\n│   │   │   ├── es6/\n│   │   │   └── es5/\n│   │   ├── uploads/\n│   │   │   └── temp/\n│   │   ├── logs/\n│   │   │   ├── error.log\n│   │   │   └── access.log\n│   │   └── api/\n│   ├── staging/\n│   │   ├── static/\n│   │   │   ├── css/\n│   │   │   ├── js/\n│   │   │   └── images/\n│   │   ├── polyfills/\n│   │   │   ├── es6/\n│   │   │   └── es5/\n│   │   ├── uploads/\n│   │   │   └── temp/\n│   │   ├── logs/\n│   │   │   ├── error.log\n│   │   │   └── access.log\n│   │   └── api/\n│   └── prod/\n│       ├── static/\n│       │   ├── css/\n│       │   ├── js/\n│       │   └── images/\n│       ├── polyfills/\n│       │   ├── es6/\n│       │   └── es5/\n│       ├── uploads/\n│       │   └── temp/\n│       ├── logs/\n│       │   ├── error.log\n│       │   └── access.log\n│       └── api/\n└── shared/\n    └── config/\n        └── tenants.json\n\n#!/bin/bash\n# Script: init_multi_tenant_structure.sh\n# Purpose: Initialize directory structure and permissions for multi-tenant SaaS\n\nset -e\n\nBASE_DIR=\"/var/www/multi-tenant-saas\"\nENVIRONMENTS=(\"dev\" \"staging\" \"prod\")\nCONTENT_DIRS=(\"static\" \"polyfills\" \"uploads\" \"logs\" \"api\")\nPOLYFILL_DIRS=(\"es6\" \"es5\")\nUPLOAD_SUBDIR=\"temp\"\nLOG_FILES=(\"error.log\" \"access.log\")\n\n# Create base directory\nmkdir -p \"$BASE_DIR\"\n\n# Create environments and content directories\nfor env in \"${ENVIRONMENTS[@]}\"; do\n    echo \"Setting up environment: $env\"\n    \n    # Create main content directories\n    for dir in \"${CONTENT_DIRS[@]}\"; do\n        mkdir -p \"$BASE_DIR/environments/$env/$dir\"\n    done\n\n    # Create polyfill subdirectories\n    mkdir -p \"$BASE_DIR/environments/$env/polyfills\"\n    for polyfill in \"${POLYFILL_DIRS[@]}\"; do\n        mkdir -p \"$BASE_DIR/environments/$env/polyfills/$polyfill\"\n    done\n\n    # Create upload subdirectory\n    mkdir -p \"$BASE_DIR/environments/$env/uploads/$UPLOAD_SUBDIR\"\n\n    # Create log files\n    mkdir -p \"$BASE_DIR/environments/$env/logs\"\n    for log in \"${LOG_FILES[@]}\"; do\n        touch \"$BASE_DIR/environments/$env/logs/$log\"\n    done\ndone\n\n# Create shared configuration directory\nmkdir -p \"$BASE_DIR/shared/config\"\n\n# Set Permissions\n# Owner: root (or specific deploy user), Group: www-data\n# Static/Polyfills: Read-only for web server\n# Uploads: Write for web server\n# Logs: Write for web server\n\nWEB_USER=\"www-data\"\nWEB_GROUP=\"www-data\"\n\n# Set ownership for the entire tree\nchown -R root:\"$WEB_GROUP\" \"$BASE_DIR\"\n\n# Set permissions for Static and Polyfills (Read/Execute for group)\nfind \"$BASE_DIR/environments\" -type d \\( -name \"static\" -o -name \"polyfills\" \\) -exec chmod 755 {} \\;\nfind \"$BASE_DIR/environments\" -type f \\( -name \"*.css\" -o -name \"*.js\" -o -name \"*.png\" -o -name \"*.jpg\" \\) -exec chmod 644 {} \\; 2>/dev/null || true\n\n# Set permissions for Uploads (Read/Write/Execute for group)\nfind \"$BASE_DIR/environments\" -type d -name \"uploads\" -exec chmod 775 {} \\;\nfind \"$BASE_DIR/environments\" -type d -name \"temp\" -exec chmod 775 {} \\;\n\n# Set permissions for Logs (Read/Write/Execute for group)\nfind \"$BASE_DIR/environments\" -type d -name \"logs\" -exec chmod 775 {} \\;\nfind \"$BASE_DIR/environments\" -type f -name \"*.log\" -exec chmod 664 {} \\;\n\n# Set permissions for API and Config (Read/Write for group, restricted)\nfind \"$BASE_DIR/environments\" -type d -name \"api\" -exec chmod 750 {} \\;\nfind \"$BASE_DIR/shared\" -type d -exec chmod 750 {} \\;\n\necho \"Directory structure initialized successfully.\"\necho \"Ownership set to root:$WEB_GROUP\"\necho \"Permissions configured for web server access.\"\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        4,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "Correctness (4): Meets all explicit requirements for environments, polyfills, and logs. However, the multi-tenant file isolation is weak (shared uploads folder), which is a minor architectural gap for a SaaS context. Completeness (4): All requested directories and script logic are present. Best Practices (3): Log permissions (775) are too permissive for production security; ownership model (root:group) is less standard than user:group for web roots. Script includes dead code for non-existent static files. Domain Accuracy (4): Terminology and paths are standard. Clarity (5): Tree structure and script are exceptionally well-formatted and readable. Note: Frontend checks (vendor prefixes, flexbox) were irrelevant to this backend task."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Recommend and implement performance improvements.",
+      "task_type": "Performance Optimization",
+      "user_prompt": "Analyze the provided server load metrics and database query logs for a high-traffic news site. Recommend three specific performance improvements addressing server load, database performance, and bandwidth usage. Implement a code snippet for a caching strategy that includes error handling for cache misses and input validation for cache keys to ensure production readiness.",
+      "reference_context": {
+        "current_issues": [
+          "High CPU usage during peak hours",
+          "Slow database queries for article retrieval",
+          "Large image payloads causing bandwidth bottlenecks"
+        ],
+        "tech_stack": "Node.js, PostgreSQL, Nginx"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Impact — Do the recommendations directly address the identified bottlenecks?",
+        "Criterion 2: Robustness — Does the code include error handling and input validation?",
+        "Criterion 3: Efficiency — Is the caching strategy optimized for the specific workload?"
+      ],
+      "student_answer": "### Performance Improvement Recommendations\n\n1.  **Server Load (High CPU):** Implement **Nginx Reverse Proxy with Gzip/Brotli Compression** and **Static Asset Offloading**. Configure Nginx to serve static assets (CSS, JS, images) directly, bypassing Node.js entirely. Enable Brotli compression for text-based resources to reduce payload size and CPU overhead on the Node.js application during peak traffic.\n\n2.  **Database Performance (Slow Queries):** Introduce **Redis Caching for Article Retrieval** and **Query Optimization**. Create a caching layer in front of PostgreSQL for frequently accessed article data (e.g., \"Trending News\" or \"Latest Headlines\") with a short TTL (Time-To-Live). Simultaneously, add composite indexes on the `published_at` and `category` columns to accelerate sorting and filtering operations.\n\n3.  **Bandwidth Usage (Large Images):** Implement **Image Optimization and CDN Integration**. Configure Nginx to serve resized, WebP-optimized versions of images based on the client's `Accept` header. Offload all media storage to a Content Delivery Network (CDN) to distribute bandwidth load geographically and reduce origin server strain.\n\n---\n\n### Production-Ready Caching Strategy (Node.js)\n\nThis implementation uses `node-cache` for in-memory caching with robust input validation, TTL management, and error handling for cache misses and serialization failures.\n\n```javascript\nconst NodeCache = require('node-cache');\nconst { v4: uuidv4 } = require('uuid');\n\n// Initialize cache with default TTL of 300 seconds (5 minutes)\nconst articleCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });\n\n/**\n * Validates and sanitizes cache keys to prevent injection attacks\n * and ensure consistency.\n * @param {string} key - The raw cache key\n * @returns {string} - Sanitized and validated key\n * @throws {Error} - If key is invalid\n */\nfunction validateCacheKey(key) {\n  if (typeof key !== 'string') {\n    throw new Error('Cache key must be a string');\n  }\n  \n  const trimmedKey = key.trim();\n  \n  if (trimmedKey.length === 0) {\n    throw new Error('Cache key cannot be empty');\n  }\n  \n  if (trimmedKey.length > 255) {\n    throw new Error('Cache key exceeds maximum length of 255 characters');\n  }\n\n  // Regex to allow only alphanumeric, hyphens, underscores, and dots\n  if (!/^[a-zA-Z0-9._-]+$/.test(trimmedKey)) {\n    throw new Error('Cache key contains invalid characters');\n  }\n\n  return trimmedKey;\n}\n\n/**\n * Retrieves an article from cache or database.\n * Implements fallback logic for cache misses and handles errors gracefully.\n * @param {string} articleId - The unique identifier for the article\n * @param {Function} fetchFromDb - Async function to fetch data from PostgreSQL\n * @returns {Promise<Object>} - The article data\n */\nasync function getArticleWithCache(articleId, fetchFromDb) {\n  const cacheKey = `article:${articleId}`;\n\n  try {\n    // Validate input before accessing cache\n    const safeKey = validateCacheKey(cacheKey);\n    \n    // Attempt to retrieve from cache\n    const cachedData = articleCache.get(safeKey);\n    \n    if (cachedData) {\n      console.log(`Cache hit for article ${articleId}`);\n      return cachedData;\n    }\n\n    console.log(`Cache miss for article ${articleId}, fetching from DB...`);\n    \n    // Fetch from database\n    const articleData = await fetchFromDb(articleId);\n    \n    if (!articleData) {\n      throw new Error(`Article ${articleId} not found in database`);\n    }\n\n    // Store in cache\n    articleCache.set(safeKey, articleData);\n    \n    return articleData;\n\n  } catch (error) {\n    // Specific handling for cache misses vs system errors\n    if (error.message.includes('not found')) {\n      // Propagate 404 logic to the controller\n      throw error;\n    }\n    \n    // Log unexpected errors but do not crash the service\n    console.error(`Caching error for article ${articleId}:`, error.message);\n    \n    // Fallback: Attempt direct DB fetch if cache logic fails\n    try {\n      return await fetchFromDb(articleId);\n    } catch (dbError) {\n      console.error(`Database fallback failed:`, dbError.message);\n      throw new Error('Service temporarily unavailable');\n    }\n  }\n}\n\n// Example Usage Context\n// const fetchArticleFromDB = async (id) => { /* PostgreSQL query logic */ };\n// const article = await getArticleWithCache('news-123', fetchArticleFromDB);\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        3,
+        4
+      ],
+      "score": 3.0,
+      "grade_reason": "Recommendations are industry-standard, but the code snippet fails correctness due to a critical logical error: the cache key is hardcoded ('article:$') instead of using the input 'articleId', rendering the caching mechanism non-functional. Additionally, using in-memory 'node-cache' contradicts the high-traffic context and the text's own recommendation of Redis, representing a best practice gap. Input validation is present but applied to the wrong variable. Structure and clarity are otherwise strong."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Document technical factors such as server load, bandwidth, database performance, and browser and device types.",
+      "task_type": "Technical Factor Documentation",
+      "user_prompt": "Generate a technical report documenting the performance characteristics of a web application across different browser and device types. The report must include server load metrics, bandwidth consumption data, and database query performance. Explicitly detail any cross-browser compatibility issues found and how they were mitigated. Include a section on input validation strategies used to handle malformed data from different client devices.",
+      "reference_context": {
+        "application_scope": "Global SaaS Platform",
+        "metrics_to_track": [
+          "Server CPU/Memory",
+          "Bandwidth per request",
+          "Database latency",
+          "Browser rendering time"
+        ],
+        "known_issues": [
+          "Safari memory leak",
+          "Firefox layout shift"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Accuracy — Are the technical factors documented with precise data?",
+        "Criterion 2: Cross-Browser Focus — Are compatibility issues clearly identified and resolved?",
+        "Criterion 3: Production Readiness — Does the documentation reflect robust input validation and error handling?"
+      ],
+      "student_answer": "# Technical Performance & Compatibility Report: Global SaaS Platform\n\n**Date:** October 26, 2023\n**Version:** 1.0\n**Scope:** Global SaaS Platform (Web Application)\n\n---\n\n## 1. Executive Summary\nThis report details the performance characteristics of the Global SaaS Platform across diverse browser and device environments. Testing focused on server load, bandwidth efficiency, database latency, and client-side rendering. Critical cross-browser anomalies were identified and resolved, and input validation strategies were refined to ensure data integrity across heterogeneous client devices.\n\n## 2. Server Load Metrics\nServer infrastructure was monitored under simulated global load (10k concurrent users) across peak and off-peak hours.\n\n| Metric | Average | Peak | Threshold | Status |\n| :--- | :--- | :--- | :--- | :--- |\n| **CPU Utilization** | 42% | 68% | 80% | ✅ Optimal |\n| **Memory Usage** | 5.2 GB | 7.8 GB | 10 GB | ✅ Optimal |\n| **Request Throughput** | 1,200 req/s | 2,400 req/s | 3,000 req/s | ✅ Optimal |\n| **Response Time (p95)** | 180ms | 320ms | 500ms | ✅ Optimal |\n\n**Observation:** Server load remains stable with auto-scaling groups triggering effectively at 70% CPU utilization. No bottlenecks were observed in the application layer during high-concurrency scenarios.\n\n## 3. Bandwidth Consumption Analysis\nBandwidth efficiency was measured per request type to optimize data transfer for mobile and low-bandwidth regions.\n\n*   **Average Payload Size:** 145 KB (compressed)\n*   **Peak Payload Size:** 420 KB (during bulk data exports)\n*   **Optimization Strategies Applied:**\n    *   **Gzip/Brotli Compression:** Enabled for all JSON and HTML responses, reducing average payload by 68%.\n    *   **Image Optimization:** WebP format served with fallbacks; lazy loading implemented for above-the-fold content.\n    *   **CDN Utilization:** Static assets served via edge caching, reducing origin server bandwidth by 85%.\n\n**Device-Specific Variance:**\n*   **Mobile (4G):** Average transfer time reduced to 1.2s.\n*   **Desktop (Fiber):** Average transfer time reduced to 0.4s.\n\n## 4. Database Query Performance\nDatabase latency was tracked to ensure sub-second response times for critical user actions.\n\n| Query Type | Avg Latency | p99 Latency | Index Status |\n| :--- | :--- | :--- | :--- |\n| **User Authentication** | 12ms | 28ms | ✅ Optimized |\n| **Dashboard Data Fetch** | 45ms | 95ms | ✅ Optimized |\n| **Complex Report Gen** | 210ms | 450ms | ⚠️ Monitored |\n| **Write Operations** | 18ms | 35ms | ✅ Optimized |\n\n**Findings:**\n*   Complex report generation queries showed higher variance during peak hours.\n*   **Mitigation:** Implemented query result caching (Redis) for report data with a 5-minute TTL, reducing database load by 40%.\n\n## 5. Cross-Browser Compatibility Issues & Mitigations\nTesting revealed specific rendering and memory management issues on legacy and non-Chromium browsers.\n\n### 5.1 Safari Memory Leak\n*   **Issue:** On iOS Safari and macOS Safari, long-running sessions resulted in a gradual memory increase, eventually causing tab crashes after 4+ hours of inactivity.\n*   **Root Cause:** Event listeners attached to the DOM were not being garbage collected due to circular references in the state management library.\n*   **Mitigation:**\n    *   Refactored state management to use `WeakMap` for non-critical references.\n    *   Implemented explicit cleanup routines in `useEffect` hooks to remove event listeners on unmount.\n    *   Added a session timeout mechanism to force a soft-reload of the application state every 3 hours.\n\n### 5.2 Firefox Layout Shift\n*   **Issue:** Firefox exhibited significant Cumulative Layout Shift (CLS) when rendering dynamic tables with variable row heights.\n*   **Root Cause:** Firefox's rendering engine calculated table column widths differently than Chromium-based browsers when `width: auto` was used on nested flex containers.\n*   **Mitigation:**\n    *   Enforced explicit `min-width` and `table-layout: fixed` CSS properties for all data grids.\n    *   Introduced a CSS Grid fallback for complex layouts to ensure consistent column sizing across engines.\n    *   Added `content-visibility: auto` to non-visible rows to improve initial paint performance.\n\n## 6. Input Validation Strategies\nTo handle malformed data from diverse client devices (including older mobile browsers and IoT interfaces), a defense-in-depth validation approach was adopted.\n\n### 6.1 Client-Side Validation (Frontend)\n*   **HTML5 Constraints:** Utilized native attributes (`required`, `type=\"email\"`, `pattern`) for immediate feedback and basic type checking.\n*   **JavaScript Sanitization:** Implemented a schema validation library (e.g., Zod/Yup) to enforce strict data types before API submission.\n*   **UX Feedback:** Real-time error messaging to guide users in correcting malformed inputs (e.g., phone number formatting).\n\n### 6.2 Server-Side Validation (Backend)\n*   **Strict Schema Enforcement:** All incoming JSON payloads are validated against a strict schema. Any deviation results in a `400 Bad Request` response.\n*   **Sanitization:** SQL injection and XSS vectors are neutralized using parameterized queries and output encoding.\n*   **Rate Limiting:** Implemented per-IP and per-user rate limiting to prevent abuse from automated scripts or compromised devices.\n\n### 6.3 Handling Malformed Data\n*   **Graceful Degradation:** If a client sends a partially malformed payload, the server returns a structured error object detailing the specific field and expected format, rather than a generic 500 error.\n*   **Fallback Parsing:** For legacy devices sending non-standard JSON structures, a middleware layer attempts to parse and normalize the data before passing it to the core business logic.\n\n## 7. Conclusion\nThe Global SaaS Platform demonstrates robust performance across the tested matrix of devices and browsers. Server resources are efficiently utilized, and database latency remains within acceptable SLAs. The identified Safari memory leak and Firefox layout shift have been successfully mitigated through targeted code refactoring and CSS standardization. The multi-layered input validation strategy ensures data integrity regardless of client-side capabilities.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is professionally structured and technically accurate (Domain Accuracy: 5, Clarity: 5). However, it misses one explicitly requested metric from the context ('Browser rendering time'), which impacts Correctness and Completeness (4). Additionally, while best practices are generally followed, the use of generic examples ('e.g., Zod/Yup') instead of specific implementation details and the lack of explicit mention of viewport constraints or vendor prefixes (per Additional Checks) prevent a perfect score on Best Practices (4). The technical concepts regarding memory leaks, CLS, and validation are accurate."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Develop or implement procedures for ongoing Web site revision.",
+      "task_type": "Revision Procedure Implementation",
+      "user_prompt": "Develop a standard operating procedure (SOP) for ongoing website revisions. The SOP must include a workflow for testing changes across Chrome, Firefox, and Safari before deployment. It must also define a process for handling errors during revision, including rollback procedures and input validation checks for configuration changes. Provide a sample checklist for the revision team.",
+      "reference_context": {
+        "revision_frequency": "Weekly",
+        "deployment_target": "Production",
+        "critical_components": [
+          "User Interface",
+          "API Endpoints",
+          "Database Schema"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Process Flow — Is the revision workflow logical and complete?",
+        "Criterion 2: Quality Assurance — Does the SOP enforce cross-browser testing?",
+        "Criterion 3: Safety — Are error handling and rollback procedures clearly defined?"
+      ],
+      "student_answer": "# Standard Operating Procedure: Website Revision Management\n\n**Document ID:** SOP-WEB-REV-001\n**Version:** 1.0\n**Frequency:** Weekly\n**Deployment Target:** Production\n**Scope:** User Interface, API Endpoints, Database Schema\n\n---\n\n## 1. Objective\nTo establish a standardized, repeatable process for weekly website revisions, ensuring high availability, cross-browser compatibility, and data integrity while minimizing downtime and risk during deployment.\n\n## 2. Pre-Revision Phase: Input Validation & Configuration\nBefore any code or configuration changes are initiated, the following validation checks must be performed to prevent configuration drift and errors.\n\n### 2.1 Configuration Input Validation\nAll configuration changes (e.g., environment variables, feature flags, database connection strings) must undergo the following checks:\n*   **Schema Validation:** All configuration files must be validated against the defined JSON/YAML schema prior to commit.\n*   **Environment Parity:** Verify that staging environment configurations match production structure (excluding secrets).\n*   **Dependency Check:** Run `npm audit` (or equivalent) to ensure no critical vulnerabilities exist in updated dependencies.\n*   **Syntax Verification:** Automated linting must pass with zero errors for all modified files.\n\n### 2.2 Change Request Approval\n*   A Change Request (CR) ticket must be created detailing the scope (UI, API, or DB).\n*   Approval from the Technical Lead is required before the build pipeline is triggered.\n\n---\n\n## 3. Testing Workflow: Cross-Browser Compatibility\nAll revisions must pass a rigorous testing protocol across the three target browsers before the deployment pipeline is authorized.\n\n### 3.1 Automated Browser Testing\n*   **Tooling:** Utilize Selenium WebDriver or Cypress with a headless browser matrix.\n*   **Execution:**\n    1.  **Chrome (Latest):** Run full regression suite.\n    2.  **Firefox (Latest ESR):** Run full regression suite.\n    3.  **Safari (Latest):** Run full regression suite.\n*   **Criteria:** 100% pass rate required for all functional tests. Any visual regression detected via pixel-diffing tools must be reviewed.\n\n### 3.2 Manual Verification (Staging)\n*   **UI Consistency:** Manual QA team must verify layout, typography, and interactive elements on Chrome, Firefox, and Safari using real devices (if available) or device emulators.\n*   **API Endpoint Testing:** Verify API responses and latency across all browsers using Postman/Newman collections.\n*   **Database Schema:** Execute migration scripts in a staging DB clone; verify data integrity and backward compatibility.\n\n---\n\n## 4. Deployment Procedure\nOnce testing is complete and approved:\n\n1.  **Backup:** Create a full snapshot of the Production Database and current application artifacts.\n2.  **Deployment:** Execute the deployment pipeline to the Production environment.\n3.  **Post-Deploy Smoke Test:**\n    *   Verify homepage loads on all three browsers.\n    *   Confirm critical API endpoints return `200 OK`.\n    *   Check database connection health.\n\n---\n\n## 5. Error Handling & Rollback Procedures\nIf an error is detected during deployment or immediately post-deployment:\n\n### 5.1 Error Classification\n*   **Critical:** Site down, data loss, or security breach.\n*   **Major:** Core functionality broken (e.g., login failure, API 500 errors).\n*   **Minor:** UI glitches, non-critical bugs.\n\n### 5.2 Rollback Protocol (Critical/Major)\n1.  **Immediate Halt:** Stop the deployment pipeline if active.\n2.  **Database Rollback:** Restore the database to the pre-deployment snapshot.\n3.  **Artifact Reversion:** Revert the application container/image to the previous stable version tag.\n4.  **Verification:** Confirm the site is fully operational on Chrome, Firefox, and Safari.\n5.  **Incident Report:** Document the root cause and timeline within 24 hours.\n\n### 5.3 Minor Error Handling\n*   If the error is isolated and non-critical, deploy a hotfix patch in the next scheduled cycle rather than rolling back the entire build.\n\n---\n\n## 6. Revision Team Checklist\n*To be completed by the Revision Lead prior to deployment.*\n\n| ID | Task Category | Action Item | Status (Pass/Fail) |\n| :--- | :--- | :--- | :--- |\n| **1.0** | **Pre-Validation** | | |\n| 1.1 | Config | Input validation passed for all config files. | [ ] |\n| 1.2 | Security | Dependency audit cleared (no critical vulns). | [ ] |\n| 1.3 | Approval | Change Request (CR) approved by Tech Lead. | [ ] |\n| **2.0** | **Testing** | | |\n| 2.1 | Chrome | Automated & Manual tests passed on Chrome. | [ ] |\n| 2.2 | Firefox | Automated & Manual tests passed on Firefox. | [ ] |\n| 2.3 | Safari | Automated & Manual tests passed on Safari. | [ ] |\n| 2.4 | API | All API endpoints verified for response integrity. | [ ] |\n| 2.5 | DB | Schema migration tested on staging clone. | [ ] |\n| **3.0** | **Deployment** | | |\n| 3.1 | Backup | Production DB and App Artifacts backed up. | [ ] |\n| 3.2 | Deploy | Deployment executed successfully. | [ ] |\n| 3.3 | Smoke | Post-deploy smoke test passed on all 3 browsers. | [ ] |\n| **4.0** | **Contingency** | | |\n| 4.1 | Rollback Plan | Rollback script verified and ready. | [ ] |\n| 4.2 | Comms | Stakeholders notified of deployment window. | [ ] |\n\n**Sign-off:** ____________________ (Revision Lead)\n**Date:** ____________________",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission is a professionally structured SOP with clear workflows, error handling, and a comprehensive checklist. However, it receives a 4 on Correctness, Completeness, Best Practices, and Domain Accuracy because it fails to explicitly address the 'Additional Checks' constraints regarding mobile viewport testing and specific web standards (vendor prefixes, flexbox) within the testing workflow. While the SOP structure is excellent (Clarity 5), the omission of explicit mobile responsiveness criteria in the checklist and testing phase represents a meaningful gap for a modern website revision SOP."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Research, document, rate, or select alternatives for Web architecture or technologies.",
+      "task_type": "Technology Selection and Architecture Documentation",
+      "user_prompt": "A startup needs to choose between a monolithic Node.js architecture and a serverless microservices approach for a new e-commerce platform expected to handle 100k concurrent users. Based on the provided requirements, research and document a comparative analysis of both architectures. Select the best alternative, justifying the choice based on scalability, cost, and maintenance. Include a sequence diagram description for the selected architecture's checkout flow.",
+      "reference_context": {
+        "requirements": {
+          "concurrent_users": 100000,
+          "budget_constraint": "low initial CAPEX",
+          "team_size": 5,
+          "critical_features": [
+            "real-time inventory",
+            "secure payments",
+            "dynamic pricing"
+          ]
+        },
+        "alternatives": [
+          "Monolithic Node.js with PostgreSQL",
+          "Serverless AWS Lambda with DynamoDB"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Is the selected architecture logically sound for the stated requirements?",
+        "Criterion 2: Completeness — Does the response include a comparative analysis, a final selection with justification, and a sequence diagram description?",
+        "Criterion 3: Best practices — Are scalability and cost considerations explicitly addressed in the justification?"
+      ],
+      "student_answer": "# Architectural Comparative Analysis: E-Commerce Platform\n\n## 1. Comparative Analysis\n\n### Option A: Monolithic Node.js with PostgreSQL\n*   **Architecture:** Single codebase where all services (user, inventory, payment, pricing) run in one process or tightly coupled container.\n*   **Scalability:** Limited to vertical scaling (upgrading server size) or horizontal scaling of the entire monolith. Handling 100k concurrent users requires significant over-provisioning of resources to handle peak loads across all modules, leading to resource contention.\n*   **Cost:** High initial CAPEX for robust infrastructure (load balancers, multiple app servers, managed DB). Operational costs remain high due to always-on servers, even during low traffic.\n*   **Maintenance:** High complexity for a 5-person team. A change in \"dynamic pricing\" risks breaking \"secure payments.\" Debugging distributed issues is difficult. Database locking can become a bottleneck under high concurrency.\n\n### Option B: Serverless AWS Lambda with DynamoDB\n*   **Architecture:** Discrete functions (Lambda) triggered by events, communicating via API Gateway. Data stored in DynamoDB.\n*   **Scalability:** Native auto-scaling. AWS automatically provisions thousands of concurrent Lambda instances to handle 100k users instantly. No capacity planning required.\n*   **Cost:** Pay-per-execution model. Zero cost when idle. Ideal for \"low initial CAPEX\" as no servers are purchased upfront. Costs scale linearly with traffic.\n*   **Maintenance:** Low coupling allows the 5-person team to deploy features independently. DynamoDB handles high write throughput for inventory and pricing better than relational DBs under heavy load.\n\n## 2. Recommendation\n\n**Selected Architecture:** **Serverless AWS Lambda with DynamoDB**\n\n### Justification\n1.  **Scalability:** The requirement for **100k concurrent users** is the primary driver. Serverless architectures offer instant, infinite scaling, whereas a monolith would require complex load balancing and likely suffer from database connection pool exhaustion.\n2.  **Cost:** The **low initial CAPEX** constraint is best met by serverless. There is no need to provision expensive infrastructure for a startup; costs are incurred only when code runs.\n3.  **Maintenance:** A **5-person team** cannot effectively manage the operational overhead of a monolith handling massive concurrency. Serverless abstracts infrastructure management, allowing the team to focus on business logic (real-time inventory, dynamic pricing) rather than server patching and scaling.\n\n## 3. Checkout Flow Sequence Diagram Description\n\n**Context:** User initiates checkout. The system uses AWS Lambda functions triggered by API Gateway, with DynamoDB for state and inventory, and a secure payment service (e.g., Stripe) integration.\n\n**Actors:**\n*   **User** (Client)\n*   **API Gateway** (Entry Point)\n*   **Checkout Service** (Lambda)\n*   **Inventory Service** (Lambda)\n*   **Pricing Service** (Lambda)\n*   **Payment Service** (Lambda)\n*   **DynamoDB** (Data Store)\n*   **Payment Gateway** (External)\n\n**Sequence:**\n\n1.  **User** sends `POST /checkout` request to **API Gateway**.\n2.  **API Gateway** triggers **Checkout Service** (Lambda).\n3.  **Checkout Service** calls **Pricing Service** (Lambda) to calculate final price with dynamic discounts.\n4.  **Pricing Service** queries **DynamoDB** for user-specific coupons and current pricing rules.\n5.  **Pricing Service** returns calculated total to **Checkout Service**.\n6.  **Checkout Service** calls **Inventory Service** (Lambda) to reserve items.\n7.  **Inventory Service** performs a conditional write in **DynamoDB** (check stock > 0, decrement stock).\n    *   *If stock unavailable:* Return error to **Checkout Service**.\n    *   *If stock available:* Return success.\n8.  **Checkout Service** calls **Payment Service** (Lambda) with the total amount.\n9.  **Payment Service** securely communicates with the external **Payment Gateway** to process the transaction.\n10. **Payment Gateway** returns success/failure to **Payment Service**.\n11. **Payment Service** updates **DynamoDB** order status to \"Paid\" (or \"Failed\").\n12. **Payment Service** returns result to **Checkout Service**.\n13. **Checkout Service** sends final confirmation response to **API Gateway**.\n14. **API Gateway** returns HTTP 200 OK to **User**.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        4,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission is well-structured and addresses all requirements clearly (Clarity: 5). It correctly identifies trade-offs and selects an architecture fitting the low CAPEX constraint (Correctness: 4). Terminology is accurate, though the cost analysis for 100k concurrent users is optimistic regarding serverless pricing (Domain Accuracy: 4). Completeness is high, covering all sections (Completeness: 4). However, the proposed synchronous Lambda chain for high concurrency lacks resilience patterns like message queuing, which is a notable gap for industry-standard architecture at this scale (Best Practices: 3)."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Develop system interaction or sequence diagrams.",
+      "task_type": "System Interaction Design",
+      "user_prompt": "Design a sequence diagram for a 'Password Reset' feature in a banking application. The system must validate the user's identity via email, generate a time-limited token, and update the database. Ensure the diagram covers the user, the frontend, the API gateway, the authentication service, and the database. Include error handling paths for invalid tokens and expired sessions.",
+      "reference_context": {
+        "actors": [
+          "User",
+          "Frontend",
+          "API Gateway",
+          "Auth Service",
+          "Database"
+        ],
+        "flow_steps": [
+          "Request reset",
+          "Send email",
+          "User clicks link",
+          "Validate token",
+          "Update password"
+        ],
+        "error_conditions": [
+          "Invalid token",
+          "Token expired",
+          "Database connection failure"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the sequence diagram accurately reflect the logical flow of the password reset process?",
+        "Criterion 2: Completeness — Are all specified actors and error handling paths included in the diagram?",
+        "Criterion 3: Best practices — Is the interaction between services clear and does it follow standard security patterns for token validation?"
+      ],
+      "student_answer": "```mermaid\nsequenceDiagram\n    participant User\n    participant Frontend\n    participant APIGateway\n    participant AuthSvc\n    participant DB\n\n    Note over User, DB: Phase 1: Request Password Reset\n    User->>Frontend: Enter Email\n    Frontend->>APIGateway: POST /reset-request {email}\n    APIGateway->>AuthSvc: Validate Request\n    AuthSvc->>DB: Check Email Exists\n    DB-->>AuthSvc: User Found\n    AuthSvc->>AuthSvc: Generate Time-Limited Token\n    AuthSvc->>DB: Save Token (ExpireAt)\n    AuthSvc-->>APIGateway: Token Generated\n    APIGateway-->>Frontend: 200 OK\n    Frontend-->>User: \"Reset link sent to email\"\n    User->>Frontend: (User receives email)\n\n    Note over User, DB: Phase 2: Reset Password\n    User->>Frontend: Click Reset Link (with token)\n    Frontend->>APIGateway: POST /reset-password {token, newPassword}\n    APIGateway->>AuthSvc: Validate Token\n    AuthSvc->>DB: Fetch Token & Check Expiry\n    DB-->>AuthSvc: Token Data\n\n    alt Token Valid & Not Expired\n        AuthSvc->>DB: Update Password Hash\n        DB-->>AuthSvc: Success\n        AuthSvc-->>APIGateway: 200 OK\n        APIGateway-->>Frontend: 200 OK\n        Frontend-->>User: \"Password updated successfully\"\n    else Token Expired\n        AuthSvc-->>APIGateway: 401 Unauthorized (Token Expired)\n        APIGateway-->>Frontend: 401 Error\n        Frontend-->>User: \"Link expired. Please request a new one.\"\n    else Invalid Token\n        AuthSvc-->>APIGateway: 400 Bad Request (Invalid Token)\n        APIGateway-->>Frontend: 400 Error\n        Frontend-->>User: \"Invalid reset link.\"\n    end\n\n    Note over User, DB: Phase 3: Error Handling - Database Failure\n    alt Database Connection Failure (during update)\n        AuthSvc->>DB: Update Password Hash\n        DB--xAuthSvc: Connection Error\n        AuthSvc-->>APIGateway: 500 Internal Server Error\n        APIGateway-->>Frontend: 500 Error\n        Frontend-->>User: \"Service temporarily unavailable. Try again later.\"\n    end\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The sequence diagram accurately models the requested flow, actors, and error conditions using correct Mermaid syntax and HTTP semantics. It correctly handles token validation, expiry, and database failure scenarios. However, for a banking application, the explicit interaction with an Email Service is omitted (abstracted as a note), and password complexity validation is not explicitly shown. These minor omissions prevent a perfect score on Completeness and Best Practices, though the solution is otherwise professional and clear."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Design and implement Web site security measures, such as firewalls and message encryption.",
+      "task_type": "Security Implementation and Code Review",
+      "user_prompt": "Review the following Node.js Express endpoint code for a user registration API. Identify three critical security vulnerabilities related to input validation, SQL injection, and password storage. Provide a corrected version of the code that implements proper input validation, parameterized queries, and secure password hashing using bcrypt. Ensure the code includes error handling for production readiness.",
+      "reference_context": {
+        "vulnerable_code": "app.post('/register', (req, res) => { const { username, password } = req.body; db.query(`INSERT INTO users VALUES ('${username}', '${password}')`); res.send('Registered'); });",
+        "security_requirements": [
+          "Prevent SQL injection",
+          "Hash passwords",
+          "Validate input types"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the corrected code successfully mitigate the identified vulnerabilities?",
+        "Criterion 2: Completeness — Are input validation, parameterized queries, and bcrypt hashing all implemented?",
+        "Criterion 3: Best practices — Does the code include robust error handling and input validation for production use?"
+      ],
+      "student_answer": "```javascript\nconst express = require('express');\nconst bcrypt = require('bcrypt');\nconst { Pool } = require('pg'); // Assuming PostgreSQL, adjust for your DB driver\nconst { body, validationResult } = require('express-validator');\n\nconst app = express();\nconst db = new Pool({ /* database config */ });\n\napp.use(express.json());\n\n// Input validation middleware\napp.post('/register', \n  [\n    body('username')\n      .trim()\n      .notEmpty().withMessage('Username is required')\n      .isLength({ min: 3, max: 30 }).withMessage('Username must be between 3 and 30 characters')\n      .matches(/^[a-zA-Z0-9_]+$/).withMessage('Username can only contain letters, numbers, and underscores'),\n    body('password')\n      .notEmpty().withMessage('Password is required')\n      .isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')\n      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)/).withMessage('Password must contain uppercase, lowercase, and a number')\n  ],\n  async (req, res) => {\n    // Check for validation errors\n    const errors = validationResult(req);\n    if (!errors.isEmpty()) {\n      return res.status(400).json({ errors: errors.array() });\n    }\n\n    const { username, password } = req.body;\n\n    try {\n      // Hash the password before storing\n      const saltRounds = 10;\n      const hashedPassword = await bcrypt.hash(password, saltRounds);\n\n      // Use parameterized query to prevent SQL injection\n      const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username';\n      const values = [username, hashedPassword];\n      \n      const result = await db.query(query, values);\n      \n      res.status(201).json({ \n        message: 'User registered successfully', \n        user: { id: result.rows[0].id, username: result.rows[0].username } \n      });\n    } catch (error) {\n      // Log error internally (do not expose stack trace in production)\n      console.error('Registration error:', error);\n      \n      // Handle specific database errors (e.g., duplicate username)\n      if (error.code === '23505') { // PostgreSQL unique violation code\n        return res.status(409).json({ error: 'Username already exists' });\n      }\n\n      // Generic server error for other issues\n      res.status(500).json({ error: 'Internal server error' });\n    }\n  }\n);\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        5,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The code correctly implements all technical security requirements: input validation via express-validator, SQL injection prevention via parameterized queries, and secure password hashing with bcrypt. Error handling is robust with specific status codes and no stack trace leakage. However, the submission fails to explicitly list the three identified vulnerabilities in text as requested by the task instructions, relying instead on code comments to imply the fixes. This omission prevents a perfect score on Correctness and Completeness, though the code quality itself is industry-standard (Best Practices, Domain Accuracy, Clarity)."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Incorporate technical considerations into Web site design plans, such as budgets, equipment, performance requirements, and legal issues including accessibility and privacy.",
+      "task_type": "Accessibility and Performance Optimization Plan",
+      "user_prompt": "Create a technical design plan for a public government website that must comply with WCAG 2.1 AA standards and load within 2 seconds on 3G networks. The current site uses heavy images and lacks ARIA labels. Propose a strategy to optimize images, implement lazy loading, and add necessary ARIA attributes to the navigation and main content areas. Include a budget estimate for the required tools and a timeline for implementation.",
+      "reference_context": {
+        "current_state": "Heavy images, no ARIA labels, slow load times",
+        "target_metrics": {
+          "load_time": "2s on 3G",
+          "accessibility": "WCAG 2.1 AA"
+        },
+        "constraints": {
+          "budget": "$5,000",
+          "timeline": "4 weeks"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Are the proposed technical solutions (image optimization, lazy loading, ARIA) effective for the stated goals?",
+        "Criterion 2: Completeness — Does the plan cover accessibility, performance, budget, and timeline?",
+        "Criterion 3: Best practices — Is the plan realistic and does it address legal compliance (WCAG) and privacy considerations?"
+      ],
+      "student_answer": "# Technical Design Plan: Government Website Optimization & Accessibility Upgrade\n\n## 1. Executive Summary\nThis plan outlines the strategy to transform the current government website from a non-compliant, slow-loading state to a WCAG 2.1 AA compliant, high-performance platform. The solution prioritizes image optimization, progressive loading techniques, and semantic ARIA implementation to ensure accessibility for all citizens while meeting strict 3G network performance targets within a $5,000 budget and 4-week timeline.\n\n## 2. Technical Strategy\n\n### 2.1 Image Optimization Strategy\nTo reduce payload size and ensure fast rendering on 3G networks:\n*   **Format Conversion:** Convert all raster images to **WebP** or **AVIF** formats, falling back to optimized JPEG/PNG for legacy browser support.\n*   **Responsive Sizing:** Implement `srcset` and `sizes` attributes to serve appropriately sized images based on device viewport, preventing mobile users from downloading desktop-sized assets.\n*   **Compression:** Apply lossless compression for icons/logos and perceptual lossy compression (quality 75-80%) for hero images and content photos using tools like `sharp` or `imagemin`.\n*   **Dimensions:** Explicitly define `width` and `height` attributes in HTML to prevent Cumulative Layout Shift (CLS), a critical CLS metric for Core Web Vitals.\n\n### 2.2 Lazy Loading Implementation\n*   **Native Implementation:** Utilize the native HTML `loading=\"lazy\"` attribute for all below-the-fold images and iframes.\n*   **Intersection Observer API:** For complex media or non-native elements, implement a lightweight Intersection Observer script to trigger image loading only when elements enter the viewport.\n*   **Critical Path:** Ensure \"Above the Fold\" content (header, hero, primary navigation) is preloaded using `<link rel=\"preload\">` to guarantee the 2-second First Contentful Paint (FCP).\n\n### 2.3 Accessibility (WCAG 2.1 AA) & ARIA Implementation\n*   **Navigation:**\n    *   Add `aria-label` to the main navigation container (e.g., `aria-label=\"Main navigation\"`).\n    *   Implement `aria-current=\"page\"` on the active navigation link.\n    *   Ensure focus management is logical and visible via CSS `:focus-visible`.\n*   **Main Content:**\n    *   Wrap the primary content in `<main role=\"main\" aria-label=\"Main content\">`.\n    *   Add `aria-expanded` to all collapsible accordions and dropdown menus.\n    *   Ensure all form inputs have associated `<label>` elements or `aria-labelledby`/`aria-describedby` attributes.\n*   **Screen Reader Support:**\n    *   Add `alt` text to all informative images.\n    *   Use `aria-hidden=\"true\"` for decorative images.\n    *   Implement skip links (`<a href=\"#main-content\" class=\"skip-link\">`) at the top of the page.\n\n## 3. Tooling & Budget Estimate\n**Total Budget Cap:** $5,000\n\n| Category | Item/Tool | Cost Estimate | Notes |\n| :--- | :--- | :--- | :--- |\n| **Development** | Senior Frontend Developer (4 weeks) | $3,200 | Core implementation of optimization and ARIA. |\n| **Testing Tools** | axe-core Pro / WAVE Enterprise | $800 | Automated and manual accessibility auditing. |\n| **Performance** | Lighthouse CI / WebPageTest | $0 | Open-source tools for performance monitoring. |\n| **Image Processing** | ImageOptim / Squoosh Pro License | $200 | Batch processing and compression utilities. |\n| **Contingency** | Buffer for unforeseen CMS adjustments | $800 | Covers edge cases or CMS plugin conflicts. |\n| **Total** | | **$5,000** | |\n\n*Note: All selected tools are either open-source or have low-cost enterprise licenses to fit the budget constraints.*\n\n## 4. Implementation Timeline (4 Weeks)\n\n### Week 1: Audit & Asset Preparation\n*   **Day 1-2:** Conduct full accessibility audit (manual + automated) and performance baseline measurement.\n*   **Day 3-5:** Optimize all existing image assets (conversion to WebP, resizing, compression).\n*   **Deliverable:** Asset library ready for deployment; detailed audit report.\n\n### Week 2: Core Architecture & Performance\n*   **Day 1-3:** Refactor HTML structure to include semantic tags (`<main>`, `<nav>`, `<header>`) and implement `loading=\"lazy\"`.\n*   **Day 4-5:** Configure CDN caching policies and implement critical CSS inlining.\n*   **Deliverable:** Staging site with 2s load time target met on 3G simulation.\n\n### Week 3: Accessibility & ARIA Integration\n*   **Day 1-3:** Implement ARIA labels, roles, and states for navigation, forms, and dynamic content.\n*   **Day 4-5:** Conduct internal screen reader testing (NVDA, VoiceOver) and keyboard navigation verification.\n*   **Deliverable:** WCAG 2.1 AA compliant codebase.\n\n### Week 4: QA, Deployment & Handover\n*   **Day 1-2:** Final regression testing (cross-browser, cross-device).\n*   **Day 3:** Production deployment.\n*   **Day 4-5:** Post-launch monitoring and documentation handover (maintenance guide).\n*   **Deliverable:** Live site, performance report, and accessibility conformance report.\n\n## 5. Success Metrics\n*   **Performance:** Lighthouse Performance Score > 90; Time to Interactive (TTI) < 2s on 3G.\n*   **Accessibility:** 0 Critical or Major WCAG 2.1 AA violations; 100% pass rate on automated axe-core scans.\n*   **User Experience:** Zero Cumulative Layout Shift (CLS) during page load.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is technically accurate and well-structured, addressing all constraints including WCAG 2.1 AA, performance targets, budget, and timeline (Correctness 5, Clarity 5). However, the budget allocation for a Senior Developer is unrealistically low for industry standards, indicating a minor gap in professional judgment (Best Practices 4, Domain Accuracy 4). Additionally, while ARIA labels are covered, specific form error identification strategies (WCAG 3.3.1) and detailed 3G throttling configurations are omitted, slightly reducing Completeness (4)."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
+      "task_type": "Cross-Browser Compatibility Testing",
+      "user_prompt": "Analyze the provided CSS snippet for a responsive navigation bar. Identify three specific compatibility issues across Chrome, Firefox, and Safari regarding flexbox behavior and pseudo-elements. Propose a corrected CSS block that ensures consistent rendering on all three browsers while maintaining the original design intent.",
+      "reference_context": {
+        "original_css": ".nav-container { display: flex; justify-content: space-between; } .nav-item::before { content: ''; width: 10px; height: 10px; background: red; }",
+        "browser_versions": {
+          "chrome": "latest",
+          "firefox": "latest",
+          "safari": "latest"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the solution work?",
+        "Criterion 2: Completeness — did it handle all requirements?",
+        "Criterion 3: Best practices — is it production-ready?"
+      ],
+      "student_answer": "```css\n.nav-container {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n  -webkit-justify-content: space-between;\n  -ms-flex-pack: justify;\n  justify-content: space-between;\n}\n\n.nav-item::before {\n  content: '';\n  width: 10px;\n  height: 10px;\n  background: red;\n  display: inline-block;\n  vertical-align: middle;\n}\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        2,
+        2,
+        2,
+        3
+      ],
+      "score": 2.2,
+      "grade_reason": "The submission fails to address the primary requirement of identifying three specific compatibility issues, providing only the CSS code. The CSS itself uses deprecated vendor prefixes (-webkit-box, -ms-flexbox) that are unnecessary for latest browsers, indicating outdated domain knowledge and poor best practices. While the code is syntactically valid and readable, the response is incomplete regarding the analytical portion of the task."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
+      "task_type": "JavaScript Feature Detection and Fallback",
+      "user_prompt": "Review the provided JavaScript function intended to handle file uploads using the Fetch API. Identify potential failures in older browsers (e.g., Internet Explorer 11) and legacy mobile browsers. Rewrite the function to include robust error handling, input validation for file types and size, and a fallback mechanism using XMLHttpRequest for unsupported environments.",
+      "reference_context": {
+        "original_js": "async function uploadFile(file) { const formData = new FormData(); formData.append('file', file); const response = await fetch('/upload', { method: 'POST', body: formData }); return response.json(); }",
+        "target_environments": [
+          "Chrome 120",
+          "Firefox 120",
+          "Safari 17",
+          "IE 11"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the solution work?",
+        "Criterion 2: Completeness — did it handle all requirements?",
+        "Criterion 3: Best practices — is it production-ready?"
+      ],
+      "student_answer": "```javascript\n/**\n * Robust file upload function with IE11 fallback, validation, and error handling.\n * @param {File} file - The file object to upload.\n * @param {string} uploadUrl - The endpoint URL.\n * @param {Object} options - Configuration options (maxSize, allowedTypes).\n * @returns {Promise<any>} - The JSON response from the server.\n */\nfunction uploadFile(file, uploadUrl = '/upload', options = {}) {\n  const {\n    maxSize = 10 * 1024 * 1024, // Default 10MB\n    allowedTypes = ['image/*', 'application/pdf', 'text/plain'] // Default types\n  } = options;\n\n  // 1. Input Validation\n  if (!file) {\n    return Promise.reject(new Error('No file provided.'));\n  }\n\n  if (file.size > maxSize) {\n    return Promise.reject(new Error(`File size exceeds limit of ${maxSize / 1024 / 1024}MB.`));\n  }\n\n  const fileType = file.type || file.name.split('.').pop();\n  const isTypeAllowed = allowedTypes.some(type => {\n    if (type.includes('*')) {\n      const baseType = type.split('/')[0];\n      return fileType.startsWith(baseType);\n    }\n    return fileType === type || file.type === type;\n  });\n\n  if (!isTypeAllowed) {\n    return Promise.reject(new Error('File type is not allowed.'));\n  }\n\n  // 2. Feature Detection for Fetch and FormData\n  const supportsFetch = typeof window !== 'undefined' && window.fetch && window.FormData;\n\n  if (!supportsFetch) {\n    // 3. Fallback for Legacy Browsers (e.g., IE11) using XMLHttpRequest\n    return new Promise((resolve, reject) => {\n      const xhr = new window.XMLHttpRequest();\n      const formData = new window.FormData();\n      formData.append('file', file);\n\n      xhr.open('POST', uploadUrl, true);\n\n      // Handle progress (optional but recommended)\n      xhr.upload.onprogress = (event) => {\n        if (event.lengthComputable) {\n          const percentComplete = (event.loaded / event.total) * 100;\n          console.log(`Upload progress: ${percentComplete.toFixed(2)}%`);\n        }\n      };\n\n      xhr.onload = () => {\n        if (xhr.status >= 200 && xhr.status < 300) {\n          try {\n            resolve(JSON.parse(xhr.responseText));\n          } catch (e) {\n            reject(new Error('Invalid JSON response from server.'));\n          }\n        } else {\n          reject(new Error(`Upload failed with status: ${xhr.status} ${xhr.statusText}`));\n        }\n      };\n\n      xhr.onerror = () => {\n        reject(new Error('Network error occurred during upload.'));\n      };\n\n      xhr.ontimeout = () => {\n        reject(new Error('Upload timed out.'));\n      };\n\n      xhr.send(formData);\n    });\n  }\n\n  // 4. Modern Implementation using Fetch API\n  return new Promise((resolve, reject) => {\n    const formData = new window.FormData();\n    formData.append('file', file);\n\n    fetch(uploadUrl, {\n      method: 'POST',\n      body: formData\n    })\n      .then(response => {\n        if (!response.ok) {\n          throw new Error(`Server responded with status: ${response.status}`);\n        }\n        return response.json();\n      })\n      .then(data => resolve(data))\n      .catch(error => {\n        // Distinguish between network errors and parse errors\n        if (error instanceof TypeError && error.message === 'Failed to fetch') {\n          reject(new Error('Network error: Unable to reach server.'));\n        } else {\n          reject(error);\n        }\n      });\n  });\n}\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        4,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "Correctness (4): The core upload logic and fallback are sound, but the file type validation logic is flawed (mixing MIME types and extensions can cause false negatives). Completeness (4): Covers all functional requirements including validation and fallback, though production-ready code would typically include CSRF token handling. Best Practices (3): Wrapping native fetch in a new Promise is an anti-pattern; async/await would be preferred even with IE11 support via transpilation. Domain Accuracy (4): Demonstrates strong understanding of XHR vs Fetch and browser feature detection. Clarity (5): Code is well-structured, commented, and easy to follow."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
+      "task_type": "HTML5 Semantic Structure and Accessibility Audit",
+      "user_prompt": "Examine the provided HTML snippet for a product listing page. Identify three accessibility and semantic structure issues that may cause rendering inconsistencies or screen reader failures across different browsers. Refactor the code to use proper ARIA roles, semantic tags, and ensure input validation attributes are correctly applied for production readiness.",
+      "reference_context": {
+        "original_html": "<div class='product-list'><div class='item'><img src='prod.jpg'><h3>Product Name</h3><button>Buy</button></div></div>",
+        "accessibility_standards": "WCAG 2.1 AA"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the solution work?",
+        "Criterion 2: Completeness — did it handle all requirements?",
+        "Criterion 3: Best practices — is it production-ready?"
+      ],
+      "student_answer": "```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Product Listing</title>\n</head>\n<body>\n    <main>\n        <section aria-labelledby=\"products-heading\">\n            <h1 id=\"products-heading\">Our Products</h1>\n            <ul class=\"product-list\" role=\"list\">\n                <li class=\"item\">\n                    <article>\n                        <img src=\"prod.jpg\" alt=\"Product Name\" loading=\"lazy\">\n                        <h3>Product Name</h3>\n                        <button type=\"button\" aria-label=\"Add Product Name to cart\">Buy</button>\n                    </article>\n                </li>\n            </ul>\n        </section>\n    </main>\n</body>\n</html>\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        4,
+        4,
+        4
+      ],
+      "score": 3.6,
+      "grade_reason": "The student provided a semantically correct HTML refactor with proper ARIA attributes and viewport settings, demonstrating strong domain knowledge. However, the submission failed to explicitly identify the three accessibility issues from the original snippet as required by the task instructions. Additionally, the requirement to ensure input validation attributes were applied was not addressed, as no input fields were added or validated for production readiness. While the code quality is high, the incomplete response to the prompt requirements reduces Correctness and Completeness scores."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
+      "task_type": "API Integration and Error Handling",
+      "user_prompt": "Analyze the provided Node.js Express route handler for a user registration endpoint. Identify security vulnerabilities and potential cross-browser data submission issues. Implement comprehensive input validation, error handling for network failures, and ensure the response headers are set correctly to prevent cross-origin issues in all major browsers.",
+      "reference_context": {
+        "original_code": "app.post('/register', (req, res) => { const { email, password } = req.body; // save to DB res.send('Registered'); });",
+        "security_requirements": [
+          "Input Sanitization",
+          "HTTPS Enforcement",
+          "CORS Configuration"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the solution work?",
+        "Criterion 2: Completeness — did it handle all requirements?",
+        "Criterion 3: Best practices — is it production-ready?"
+      ],
+      "student_answer": "```javascript\nconst express = require('express');\nconst { body, validationResult } = require('express-validator');\nconst cors = require('cors');\nconst crypto = require('crypto');\nconst app = express();\n\n// Middleware: CORS Configuration\n// Ensures cross-browser compatibility and security by restricting origins\napp.use(cors({\n  origin: (origin, callback) => {\n    // Allow only trusted origins in production; allow null for local testing if needed\n    const allowedOrigins = ['https://yourtrusteddomain.com'];\n    if (!origin || allowedOrigins.includes(origin)) {\n      callback(null, true);\n    } else {\n      callback(new Error('Not allowed by CORS'));\n    }\n  },\n  methods: ['POST'],\n  allowedHeaders: ['Content-Type', 'Authorization'],\n  credentials: true,\n  optionsSuccessStatus: 200\n}));\n\n// Middleware: Body Parser with JSON limit to prevent DoS\napp.use(express.json({ limit: '10kb' }));\n\n// Middleware: HTTPS Enforcement (Redirect HTTP to HTTPS)\n// Note: This should ideally be handled by the reverse proxy (Nginx/Apache), \n// but included here for completeness in the app logic.\napp.use((req, res, next) => {\n  if (req.headers['x-forwarded-proto'] !== 'https') {\n    return res.redirect(`https://${req.get('Host')}${req.url}`);\n  }\n  next();\n});\n\n// Input Validation Rules\nconst registerValidation = [\n  body('email')\n    .trim()\n    .isEmail()\n    .normalizeEmail()\n    .withMessage('Please provide a valid email address.')\n    .isLength({ max: 254 })\n    .withMessage('Email address is too long.'),\n  \n  body('password')\n    .trim()\n    .isLength({ min: 8, max: 128 })\n    .withMessage('Password must be between 8 and 128 characters.')\n    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]/)\n    .withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.')\n];\n\n// Route Handler\napp.post('/register', registerValidation, async (req, res) => {\n  // 1. Validate Input\n  const errors = validationResult(req);\n  if (!errors.isEmpty()) {\n    return res.status(400).json({ \n      success: false, \n      errors: errors.array().map(err => ({ field: err.path, message: err.msg })) \n    });\n  }\n\n  const { email, password } = req.body;\n\n  try {\n    // 2. Input Sanitization (Already handled by express-validator, but ensure DB safety)\n    // In a real scenario, use parameterized queries or an ORM like Sequelize/TypeORM\n    // Simulating DB save with error handling\n    if (!email || !password) {\n      throw new Error('Missing required fields');\n    }\n\n    // Simulate hashing password (Use bcrypt in production)\n    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');\n\n    // Simulate DB Insert\n    // await db.query('INSERT INTO users (email, password) VALUES (?, ?)', [email, hashedPassword]);\n\n    // 3. Success Response\n    res.status(201).json({ \n      success: true, \n      message: 'User registered successfully',\n      headers: {\n        'X-Content-Type-Options': 'nosniff',\n        'X-Frame-Options': 'DENY',\n        'X-XSS-Protection': '1; mode=block'\n      }\n    });\n\n  } catch (error) {\n    // 4. Network/Server Error Handling\n    console.error('Registration error:', error);\n    \n    // Generic error response to avoid leaking internal details\n    res.status(500).json({ \n      success: false, \n      message: 'An unexpected error occurred. Please try again later.' \n    });\n  }\n});\n\nmodule.exports = app;\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        2,
+        5
+      ],
+      "score": 2.8,
+      "grade_reason": "Correctness (2): Critical security flaws (SHA256 for passwords) and functional error (security headers placed in JSON body instead of HTTP headers). Completeness (3): All sections addressed but implementations are flawed. Best Practices (2): SHA256 is insecure for passwords; Helmet middleware preferred. Domain Accuracy (2): Confuses HTTP headers with JSON payload. Clarity (5): Code is well-structured and readable."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
+      "task_type": "Responsive Layout Debugging",
+      "user_prompt": "Debug the provided CSS Grid layout for a dashboard interface. Identify three specific rendering issues that occur on mobile devices (Safari iOS) versus desktop browsers (Chrome, Firefox). Provide a corrected CSS solution that includes media queries, proper fallbacks for older browsers, and ensures the layout remains functional with input validation for dynamic content.",
+      "reference_context": {
+        "original_css": ".dashboard { display: grid; grid-template-columns: 1fr 2fr; } .widget { background: #f0f0f0; }",
+        "device_breakpoints": [
+          "Mobile (375px)",
+          "Tablet (768px)",
+          "Desktop (1920px)"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — does the solution work?",
+        "Criterion 2: Completeness — did it handle all requirements?",
+        "Criterion 3: Best practices — is it production-ready?"
+      ],
+      "student_answer": "```css\n/* Base Reset & Variables */\n:root {\n  --grid-gap: 16px;\n  --widget-bg: #f0f0f0;\n  --widget-padding: 1rem;\n  --font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif;\n}\n\n/* Fallback for older browsers (IE11 and below) */\n@supports not (display: grid) {\n  .dashboard {\n    display: flex;\n    flex-wrap: wrap;\n  }\n  .dashboard > .widget {\n    width: 100%;\n    box-sizing: border-box;\n  }\n}\n\n/* Main Dashboard Container */\n.dashboard {\n  display: grid;\n  /* Fallback for Safari iOS < 10.3 which had issues with 1fr in specific contexts */\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  grid-template-rows: auto;\n  gap: var(--grid-gap);\n  padding: var(--grid-gap);\n  background: #fff;\n  font-family: var(--font-family);\n  box-sizing: border-box;\n  min-height: 100vh;\n}\n\n/* Widget Styling */\n.widget {\n  background: var(--widget-bg);\n  padding: var(--widget-padding);\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.05);\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: column;\n  /* Ensure content doesn't overflow on small screens */\n  min-width: 0; \n}\n\n/* Input Validation Styling */\n.widget input, .widget textarea {\n  width: 100%;\n  padding: 8px;\n  margin-top: 8px;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  box-sizing: border-box;\n  font-size: 1rem;\n}\n\n.widget input:invalid, .widget textarea:invalid {\n  border-color: #ff4d4d;\n  background-color: #fff0f0;\n}\n\n.widget input:valid, .widget textarea:valid {\n  border-color: #4caf50;\n}\n\n/* Responsive Breakpoints */\n\n/* Mobile (375px and below) - Fixes: Stacked layout, touch-friendly inputs, prevents horizontal scroll */\n@media (max-width: 480px) {\n  .dashboard {\n    /* Force single column to prevent Safari iOS wrapping issues */\n    grid-template-columns: 1fr;\n    gap: 12px;\n    padding: 12px;\n  }\n\n  .widget {\n    /* Ensure inputs don't cause overflow */\n    width: 100%;\n    min-width: 0;\n  }\n\n  /* iOS Specific Fix: Prevents zoom on input focus if viewport is small */\n  input, textarea {\n    font-size: 16px; /* Prevents iOS auto-zoom */\n  }\n}\n\n/* Tablet (768px) - Fixes: 2-column layout, balanced spacing */\n@media (min-width: 481px) and (max-width: 1024px) {\n  .dashboard {\n    grid-template-columns: repeat(2, 1fr);\n    gap: 16px;\n  }\n}\n\n/* Desktop (1025px and above) - Fixes: 3-column layout, optimal spacing */\n@media (min-width: 1025px) {\n  .dashboard {\n    /* Original intent: 1fr 2fr was too rigid; switched to responsive grid */\n    grid-template-columns: repeat(3, 1fr);\n    gap: 24px;\n    max-width: 1400px;\n    margin: 0 auto;\n  }\n  \n  /* If specific widget needs 2x width, use grid-column */\n  .widget.span-2 {\n    grid-column: span 2;\n  }\n}\n\n/* Safari iOS Specific Fixes (using -webkit prefixes where necessary) */\n@supports (-webkit-appearance: none) {\n  .dashboard {\n    /* Ensures grid tracks render correctly on older iOS Safari */\n    -webkit-grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  }\n}\n```",
+      "score": 0,
+      "dimension_scores": [],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Install and configure hypertext transfer protocol (HTTP) servers and associated operating systems.",
+      "task_type": "HTTP Server Configuration and Security Hardening",
+      "user_prompt": "You are tasked with configuring a production-ready Nginx server for a new web application. The application requires HTTPS, gzip compression, and strict security headers. Provide a complete Nginx configuration file that: 1) Listens on port 443 with SSL enabled (assume certificates are at /etc/nginx/ssl/), 2) Implements gzip compression for text-based content, 3) Adds security headers including X-Frame-Options, X-Content-Type-Options, and Content-Security-Policy, 4) Includes error handling for 404 and 500 errors with custom pages, and 5) Validates that the configuration syntax is correct. Ensure the solution addresses cross-platform compatibility by using directives supported on both Linux and macOS systems.",
+      "reference_context": {
+        "server_ip": "203.0.113.10",
+        "domain": "example-app.com",
+        "ssl_cert_path": "/etc/nginx/ssl/cert.pem",
+        "ssl_key_path": "/etc/nginx/ssl/key.pem",
+        "custom_error_pages": {
+          "404": "/var/www/html/errors/404.html",
+          "500": "/var/www/html/errors/500.html"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — The Nginx configuration must be syntactically valid and functionally correct for enabling HTTPS, compression, and security headers.",
+        "Criterion 2: Completeness — All specified requirements (SSL, gzip, security headers, error pages, cross-platform compatibility) must be addressed in the configuration.",
+        "Criterion 3: Best practices — The solution must include proper error handling, input validation for paths, and follow industry standards for production readiness."
+      ],
+      "student_answer": "```nginx\nserver {\n    listen 443 ssl http2;\n    listen [::]:443 ssl http2;\n    server_name example-app.com;\n\n    # SSL Configuration\n    ssl_certificate /etc/nginx/ssl/cert.pem;\n    ssl_certificate_key /etc/nginx/ssl/key.pem;\n    \n    # Recommended SSL settings for production\n    ssl_protocols TLSv1.2 TLSv1.3;\n    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;\n    ssl_prefer_server_ciphers off;\n    ssl_session_cache shared:SSL:10m;\n    ssl_session_timeout 1d;\n    ssl_session_tickets off;\n\n    # Gzip Compression\n    gzip on;\n    gzip_vary on;\n    gzip_proxied any;\n    gzip_comp_level 6;\n    gzip_min_length 1000;\n    gzip_types text/plain text/css text/xml application/json application/javascript application/xml application/xml+rss text/javascript application/x-javascript;\n\n    # Security Headers\n    add_header X-Frame-Options \"SAMEORIGIN\" always;\n    add_header X-Content-Type-Options \"nosniff\" always;\n    add_header X-XSS-Protection \"1; mode=block\" always;\n    add_header Referrer-Policy \"strict-origin-when-cross-origin\" always;\n    add_header Content-Security-Policy \"default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; frame-ancestors 'self';\" always;\n\n    # Root and Index\n    root /var/www/html;\n    index index.html index.htm;\n\n    # Error Handling\n    error_page 404 /errors/404.html;\n    error_page 500 502 503 504 /errors/500.html;\n\n    location = /errors/404.html {\n        internal;\n        root /var/www/html;\n    }\n\n    location = /errors/500.html {\n        internal;\n        root /var/www/html;\n    }\n\n    # Main location block\n    location / {\n        try_files $uri $uri/ =404;\n    }\n\n    # Static assets optimization\n    location ~* \\.(jpg|jpeg|png|gif|ico|css|js)$ {\n        expires 30d;\n        add_header Cache-Control \"public, immutable\";\n    }\n}\n```\n\n**Validation Command:**\nTo verify the configuration syntax is correct on both Linux and macOS:\n```bash\nnginx -t\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The configuration is syntactically valid and well-structured (Clarity: 5, Domain Accuracy: 4). However, it contains a critical functional gap: using `add_header` in the static asset `location` block overrides the server-level security headers, meaning X-Frame-Options and CSP will not be sent for CSS/JS/Images (Correctness: 3, Completeness: 3). Additionally, the Content-Security-Policy includes `'unsafe-eval'` and `'unsafe-inline'`, which is a significant security anti-pattern for production (Best Practices: 3). Minor legacy directives like `application/x-javascript` in gzip types slightly impact Domain Accuracy."
+    }
+  ]
+}

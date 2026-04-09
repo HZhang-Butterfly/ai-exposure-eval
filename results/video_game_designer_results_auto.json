@@ -1,0 +1,882 @@
+{
+  "meta": {
+    "job_title": "Video Game Designers",
+    "job_id": "video_game_designer",
+    "onet_code": "15-1255.01",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 24,
+    "evaluated_tasks": 24,
+    "batches": 5,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 4.33,
+      "dimensions": {
+        "Correctness": 4.33,
+        "Completeness": 4.25,
+        "Best Practices": 3.75,
+        "Domain Accuracy": 4.38,
+        "Clarity": 4.96
+      },
+      "evaluated_tasks": 24,
+      "scale_max": 5
+    },
+    "total_time_seconds": 4412.84
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Devise missions, challenges, or puzzles to be encountered in game play.",
+      "task_type": "Gameplay Mechanics Design",
+      "user_prompt": "Design a 15-minute side-mission for a sci-fi RPG set in a derelict space station. The mission must introduce a new 'gravity manipulation' mechanic without using a tutorial. Provide the mission flow, key puzzle logic, and success/failure conditions.",
+      "reference_context": {
+        "game_genre": "Sci-Fi Action RPG",
+        "player_level": "Mid-game (Level 15)",
+        "available_tools": [
+          "Gravity Boots",
+          "Magnetic Grapple",
+          "Energy Shield"
+        ],
+        "environment": "Zero-G Sector 4"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the mission logic hold up under the proposed mechanics?",
+        "Criterion 2: Completeness — Are all mission phases (intro, puzzle, resolution) defined?",
+        "Criterion 3: Best practices — Is the design clear enough for engineers to implement?"
+      ],
+      "student_answer": "# Mission Title: The Inertial Anchor\n**Location:** Sector 4, Derelict Station *Aethelgard*\n**Duration:** 15 Minutes\n**Objective:** Retrieve the \"Inertial Core\" from the central reactor chamber to stabilize the station's failing gravity well.\n\n---\n\n### 1. Mission Flow\n\n**Phase 1: The Drift (0:00 – 3:00)**\n*   **Context:** The player enters Sector 4, a vast, debris-filled corridor where gravity is fluctuating wildly.\n*   **Action:** The player must traverse a 50-meter gap. Standard movement fails; the player is pushed by residual magnetic fields.\n*   **Discovery:** The player finds a damaged console displaying a schematic of a \"Gravity Anchor.\" Interacting with it reveals a new UI icon: a swirling vortex symbol (the Gravity Manipulation tool).\n*   **First Interaction:** The player must aim the new tool at a floating debris field blocking the path. Holding the trigger creates a localized gravity well, pulling the debris together into a temporary bridge. The player runs across before the debris scatters.\n\n**Phase 2: The Vertical Ascent (3:00 – 8:00)**\n*   **Context:** The path leads to a vertical shaft with no handholds. The player's Gravity Boots are ineffective here due to the lack of a surface.\n*   **Puzzle Logic:** The player encounters three \"Gravity Nodes\" (floating spheres) and a \"Massive Core\" (a heavy, stationary reactor part).\n*   **Mechanic Application:** The player must use the Gravity Manipulation tool to *reverse* the polarity of the nodes.\n    *   *Step A:* Aim at Node 1 to create a repulsive field, pushing it upward to hit a pressure plate.\n    *   *Step B:* Aim at Node 2 to create an attractive field, pulling it down to connect a circuit.\n    *   *Step C:* Use the tool on the Massive Core to \"lift\" it into a specific alcove, creating a new platform.\n*   **Combat Integration:** A \"Drifter\" enemy (a floating drone) attacks. The player must use the gravity tool to pin the enemy against a wall (attracting it) or fling it into a hazard (repelling it) to defeat it without using standard weapons.\n\n**Phase 3: The Core Retrieval (8:00 – 12:00)**\n*   **Context:** The player reaches the Reactor Chamber. The Inertial Core is floating in the center, protected by a rotating energy shield.\n*   **The Challenge:** The shield rotates too fast to pass through. The player cannot reach the core directly.\n*   **Mechanic Climax:** The player must locate two \"Counter-Weight\" spheres on opposite sides of the room.\n    *   Use the Gravity Tool to pull both spheres simultaneously toward the center.\n    *   The combined mass disrupts the shield's rotation, causing it to stall.\n    *   The player dashes through the gap, grabs the Core, and the station's gravity stabilizes.\n\n**Phase 4: The Escape (12:00 – 15:00)**\n*   **Context:** Gravity returns to normal (1G) in the immediate area, but the rest of the station is still unstable.\n*   **Action:** The player must navigate back to the extraction point. The environment now behaves normally, but the player can still use the Gravity Tool to solve a final quick-time puzzle: pulling a falling debris beam to block a collapsing door, allowing safe passage.\n*   **Completion:** The player hands over the Core. A cutscene shows the station's lights flickering back to life.\n\n---\n\n### 2. Key Puzzle Logic: \"Mass & Polarity\"\n\nThe Gravity Manipulation mechanic relies on two variables: **Distance** and **Polarity**.\n\n*   **Attract (Blue):** Pulls objects toward the player or a specific point.\n    *   *Use Case:* Creating bridges from debris, pulling enemies into hazards, lifting heavy objects to create platforms.\n*   **Repel (Red):** Pushes objects away from the player or a specific point.\n    *   *Use Case:* Pushing floating nodes onto pressure plates, creating distance from enemies, clearing narrow corridors of obstacles.\n*   **The \"Anchor\" Constraint:** Objects can only be manipulated if they are within 15 meters and not currently locked by a magnetic field. The player must use the **Magnetic Grapple** to temporarily disable a lock before using the Gravity Tool.\n\n**Puzzle Example (The Vertical Ascent):**\n1.  **Problem:** A heavy door is stuck open, blocking the path, but a pressure plate is too far away to reach.\n2.  **Solution:**\n    *   Use **Repel** on the door to push it slightly, creating a gap.\n    *   Use **Attract** on a floating crate to pull it onto the pressure plate.\n    *   The door closes, sealing the room, but the player is now on the other side.\n    *   *Twist:* The player must use **Repel** on the crate again to push it back off the plate to reopen the door for the next section.\n\n---\n\n### 3. Success & Failure Conditions\n\n**Success Conditions:**\n*   **Primary:** Retrieve the Inertial Core and return it to the central console.\n*   **Secondary:** Stabilize the station's gravity well (indicated by the UI turning from red to green).\n*   **Reward:** Unlock of the \"Gravity Shift\" passive ability (allows double-jumping in zero-G) and 500 Credits.\n\n**Failure Conditions:**\n*   **Time Limit:** The mission has a hard 15-minute timer. If the timer expires, the station's core collapses, and the mission resets.\n*   **Critical Damage:** If the player's Health drops to 0, the mission fails, and the player is ejected to the nearest safe zone (Sector 3) with the mission reset.\n*   **Core Loss:** If the player drops the Inertial Core into a waste chute or leaves it behind during the escape sequence, the mission fails immediately.\n\n**Optional Failure (Soft Fail):**\n*   If the player fails to defeat the Drifter enemy using the Gravity Tool and relies solely on weapons, the mission completes, but the player receives a \"Inefficient\" rating, reducing the credit reward by 50%.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission correctly addresses all task requirements, including the 15-minute limit and the 'no tutorial' constraint via environmental discovery (Correctness: 5). However, there is a notable inconsistency between the Phase 2 mission flow (Gravity Nodes/Core) and the Section 2 Puzzle Example (Door/Crate), which reduces Completeness (4). Best Practices are strong with professional structure and a nuanced 'Soft Fail' mechanic, though the dependency on the Magnetic Grapple to enable the new Gravity mechanic slightly dilutes the focus on the new tool (4). Domain terminology is accurate and consistent with the provided context (5), and the output is highly structured and easy to read (5)."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Balance and adjust gameplay experiences to ensure the critical and commercial success of the product.",
+      "task_type": "Game Economy Balancing",
+      "user_prompt": "Analyze the provided loot drop rates and currency sink mechanics for a new MMORPG expansion. Propose specific numerical adjustments to the 'Raid Boss' drop table and 'Daily Quest' rewards to reduce inflation while maintaining a 15% increase in player retention for the first 30 days post-launch.",
+      "reference_context": {
+        "game_genre": "MMORPG",
+        "current_inflation_rate": "High (Gold per hour > 5000)",
+        "target_retention_increase": "15%",
+        "player_economy_segment": "Whales and Mid-Tier Players",
+        "current_currency_sink": "Repair costs only"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Economic Viability — Do the proposed changes logically reduce inflation without breaking the economy?",
+        "Criterion 2: Retention Strategy — Is the link between the changes and the 15% retention goal clearly justified?",
+        "Criterion 3: Implementation Clarity — Are the specific numerical values provided for engineering handoff?"
+      ],
+      "student_answer": "### Economic Adjustment Proposal: Expansion \"Echoes of Aethelgard\"\n\n#### 1. Raid Boss Drop Table Adjustments\n**Objective:** Reduce gold generation velocity by 35% while increasing perceived value through exclusivity to drive engagement.\n\n*   **Gold Drop Reduction:**\n    *   **Current:** 500–800 Gold per boss kill.\n    *   **New:** 250–350 Gold per boss kill.\n    *   **Rationale:** Directly caps the \"Gold per Hour\" metric from raiding, addressing the >5000 G/hr inflation baseline.\n\n*   **Itemization Shift (The \"Sink\" Mechanic):**\n    *   **Remove:** Direct Gold drops from rare/epic loot tables.\n    *   **Introduce:** \"Aethelgard Runes\" (Bind on Pickup) with a 15% drop rate.\n    *   **Mechanic:** Runes are required to craft \"Expansion-Specific\" gear. These Runes can be sold on the Auction House for Gold, but the *gear* crafted from them has a 10% chance to be \"Soulbound\" upon crafting, forcing players to spend gold on materials rather than selling the final item.\n    *   **Sink Implementation:** Introduce a new \"Rune Refinement\" NPC service costing 5,000 Gold per refinement, with a 20% failure rate that destroys the Rune. This creates a high-volume, high-risk currency sink for mid-tier players.\n\n*   **Retention Driver:**\n    *   **Weekly Raid Cap:** Implement a \"Loot Lockout\" that resets every 7 days, but introduce a \"Heroic Bonus\" where the 3rd and 4th weekly clear yields a 50% chance for a \"Prestige Token\" (non-tradable, used for cosmetic titles). This encourages consistent daily/weekly logins to maximize token accumulation, driving the 15% retention target.\n\n#### 2. Daily Quest Reward Overhaul\n**Objective:** Shift rewards from liquid currency to time-gated progression items, reducing immediate market flooding.\n\n*   **Gold Reward Adjustment:**\n    *   **Current:** 150 Gold per quest.\n    *   **New:** 50 Gold per quest + 1 \"Expansion Currency\" (e.g., \"Starlight Shards\").\n    *   **Rationale:** Reduces daily liquid gold injection by 66%, slowing inflation while maintaining a baseline income for casuals.\n\n*   **New Reward Structure:**\n    *   **Starlight Shards:** Earned daily (max 5 per day).\n    *   **Usage:** Shards can be exchanged at a vendor for:\n        1.  **Consumables:** Potions/Flasks (100% sink, no resale).\n        2.  **Upgrade Materials:** Bind-on-Pickup items required for end-game gear upgrades.\n        3.  **Cosmetic Slots:** Limited-time mounts or pets (high perceived value, no economic impact).\n    *   **Market Control:** Shards cannot be traded on the Auction House, preventing whales from buying daily quest completion.\n\n*   **Retention Driver (The \"Streak\" Mechanic):**\n    *   **Daily Streak Bonus:** Completing 5 consecutive daily quests grants a \"Streak Multiplier\" (1.5x Starlight Shards) for the next 24 hours.\n    *   **Weekly Bonus:** Completing all 7 daily quests unlocks a \"Weekly Vault\" containing a guaranteed \"Rare Upgrade Material\" (non-tradable).\n    *   **Impact:** This creates a \"fear of missing out\" (FOMO) loop, compelling players to log in daily to maintain streaks, directly targeting the 15% retention increase.\n\n#### 3. Macro-Economic Impact Summary\n*   **Inflation Control:** By removing direct gold from high-yield activities (Raids) and capping daily gold, the \"Gold per Hour\" metric is projected to drop from >5000 to ~2,800 within 14 days.\n*   **Whale/Mid-Tier Balance:** Whales will spend gold on the new \"Rune Refinement\" service and \"Upgrade Materials\" to maintain competitive edge, while Mid-Tier players are incentivized to grind daily quests for non-tradable progression, reducing their reliance on the Auction House.\n*   **Retention Projection:** The combination of the \"Streak Multiplier\" and \"Prestige Token\" system creates a psychological hook that increases daily active users (DAU) by an estimated 16.2% in the first 30 days, exceeding the 15% target.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission demonstrates strong domain accuracy and clarity with precise numerical adjustments and professional terminology (Scores 5). It addresses all task requirements with specific numbers (Correctness 4). However, the 'Rune Refinement' destruction mechanic presents a significant retention risk that lacks mitigation strategies, preventing a perfect score on Best Practices and Completeness (Scores 4). Additionally, the retention projection is speculative without supporting data modeling."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Create core game features, including storylines, role-play mechanics, and character biographies for a new video game or game franchise.",
+      "task_type": "Narrative & Character Design",
+      "user_prompt": "Develop a character biography and a 3-act role-play arc for a 'Reluctant Warlord' NPC in a fantasy setting. The design must include specific dialogue trees that react to the player's previous moral choices (Good/Evil/Neutral) and explain how this character influences the game's ending state.",
+      "reference_context": {
+        "game_genre": "Fantasy Action RPG",
+        "setting": "Kingdom of Aethelgard",
+        "player_choice_system": "Karma Meter (0-100)",
+        "narrative_goal": "Subvert the 'Hero's Journey' trope"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Narrative Consistency — Does the character arc logically follow the established setting and lore?",
+        "Criterion 2: Player Agency — Are the dialogue branches distinct and meaningful based on the Karma Meter?",
+        "Criterion 3: Structural Integrity — Is the 3-act structure clearly defined with specific triggers?"
+      ],
+      "student_answer": "# Character Profile: General Kaelen Thorne\n**Title:** The Reluctant Warlord of the Iron Marches\n**Archetype:** The Burdened Protector\n**Visuals:** A towering figure in battered, non-gilded plate armor, missing a gauntlet revealing a scarred, rune-etched arm. He carries a massive, blunt warhammer that looks more like a tool of demolition than a weapon of war. His expression is perpetually weary, eyes scanning the horizon for threats rather than glory.\n\n**Biography:**\nKaelen was once the Kingdom of Aethelgard's most celebrated tactician, known for his \"Scorched Earth\" strategy that saved the capital from the Northern Horde a decade ago. However, the victory came at the cost of his own village, which he ordered burned to deny the enemy resources. Haunted by the screams of his neighbors, he retreated to the Iron Marches, a desolate border region, to serve as a warden rather than a commander.\n\nWhen the \"Eternal Winter\" begins to consume the kingdom, the High Council, desperate and arrogant, forces Kaelen back into the field. He refuses to lead an army of conscripts; instead, he demands the player (the Hero) act as his \"Conscience,\" a role he never asked for. Kaelen believes the Hero's Journey is a lie; he knows that saving the world often requires making the world worse, a truth he has lived for years. He is not a mentor, but a mirror reflecting the player's own capacity for cruelty.\n\n---\n\n# 3-Act Role-Play Arc\n\n## Act I: The Unwilling Commander\n**Context:** The player recruits Kaelen to break the siege of the capital. Kaelen refuses to fight unless the player agrees to his \"Pragmatic Code.\"\n**Core Conflict:** Kaelen demands the player choose between saving a village of refugees or securing a strategic bridge.\n**Narrative Goal:** Establish that Kaelen is not a traditional hero. He will not lecture the player on morality; he will simply state the cost of their choice.\n\n**Key Interaction:**\n*   **Player Action:** The player attempts to save the village.\n*   **Kaelen's Reaction:** \"You save them. The bridge falls. The enemy floods the capital. You are a savior of the few, and a butcher of the many. Do not look at me with that pity. I have seen this movie before. It ends in blood.\"\n\n## Act II: The Siege of Broken Oaths\n**Context:** The war has turned. The enemy is using dark magic that requires a massive sacrifice to counter. The High Council demands a \"Holy Purge\" of a neutral city to stop the magic.\n**Core Conflict:** Kaelen offers the player a choice: Lead the purge (Evil) or sabotage the purge and risk the war (Good/Neutral), or find a third, desperate path (True Neutral).\n**Narrative Goal:** Subvert the trope where the Hero always finds a \"third way.\" Kaelen forces the player to admit that sometimes, the \"third way\" is just a slower death.\n\n**Key Interaction:**\n*   **Player Action:** The player tries to negotiate a peace treaty.\n*   **Kaelen's Reaction:** \"Peace? With *them*? You think words stop the frost? I have negotiated with monsters, Hero. They only respect the weight of a blade. If you insist on diplomacy, I will stand behind you, but I will not hold your hand. When the arrows fly, I will not catch them for you.\"\n\n## Act III: The Warlord's Burden\n**Context:** The final battle approaches. The enemy leader is a corrupted former ally. The only way to win is to use the \"Sun-Forge,\" an ancient weapon that will burn the land for a century to save it for one day.\n**Core Conflict:** Kaelen reveals he has been planning to use the Sun-Forge regardless of the player. He challenges the player to stop him or join him.\n**Narrative Goal:** The climax is not a battle of strength, but a battle of ideology. Kaelen forces the player to decide if they are willing to be the villain to save the world.\n\n**Key Interaction:**\n*   **Player Action:** The player tries to disarm Kaelen.\n*   **Kaelen's Reaction:** \"You think you can stop me? I am the Warlord you feared. I am the shadow you tried to avoid. If you want to stop me, you must kill the only man who knows how to win. Go ahead. Strike me down. But know that when the sun rises, the world will be ash, and you will be the one who killed the only hope we had.\"\n\n---\n\n# Dialogue Trees: Moral Choice Reactivity\n\nThe following dialogue options appear during Act II and Act III. Kaelen's responses shift based on the player's **Karma Meter (0-100)**.\n\n### Scenario: The Player is asked to execute a surrendering enemy commander.\n\n#### **High Karma (75-100): The Idealist**\n*   **Player Choice:** \"No. We cannot kill a surrendering man. It makes us no better than them.\"\n*   **Kaelen's Response:** \"Idealism is a luxury for those who have never seen their children die in the snow. You think mercy is a virtue? It is a weakness. I will not stop you, but I will not follow you. When the enemy returns to finish the job, do not come to me for help. I have already prepared the defenses for the inevitable slaughter.\"\n*   **Gameplay Effect:** Kaelen refuses to lead the final charge. The player must fight the final boss alone, with a 20% damage penalty due to lack of tactical support.\n\n#### **Low Karma (0-24): The Ruthless**\n*   **Player Choice:** \"Kill him. Mercy is for the weak. We need to send a message.\"\n*   **Kaelen's Response:** \"Finally, a mind that understands the cost of war. You have the stomach for it. I was beginning to think you were just another naive child playing at being a hero. Very well. Let us burn the rest of the world to ash if that is what it takes. I will lead the vanguard, but know this: once we start, there is no turning back. You are no longer a hero; you are a butcher.\"\n*   **Gameplay Effect:** Kaelen becomes an unstoppable ally, dealing massive damage, but the \"Mercy\" questline is permanently locked. The ending will be \"The Iron Tyrant.\"\n\n#### **Neutral Karma (25-74): The Pragmatist**\n*   **Player Choice:** \"I don't like it, but if it saves the kingdom, I'll do it. Just make it quick.\"\n*   **Kaelen's Response:** \"That is the only answer that matters. Not 'good' or 'evil,' but 'necessary.' You have the right to be tired, but not to hesitate. I respect that. We will do what must be done, and then we will carry the weight of it together. Come, the sun is setting, and we have work to do.\"\n*   **Gameplay Effect:** Kaelen fights alongside the player with balanced stats. The ending will be \"The Scars of Victory.\"\n\n---\n\n# Influence on Game Ending State\n\nKaelen Thorne does not simply \"die\" or \"live.\" His presence dictates the *nature* of the kingdom's future. The ending is determined by the final interaction with him and the player's final Karma score.\n\n### Ending A: The Hollow Victory (High Karma + Kaelen Dies)\n*   **Condition:** Player refuses to use the Sun-Forge, Kaelen sacrifices himself to hold the line, Player saves the world but loses Kaelen.\n*   **Outcome:** The kingdom is saved, but the land is scarred. The people remember the Hero as a savior, but the military is decimated. Kaelen's legacy is a monument to \"The Man Who Refused to Fight.\"\n*   **Narrative Twist:** The player realizes that by refusing to be a Warlord, they have doomed the next generation to a weaker defense. The \"Hero's Journey\" is subverted: the hero saved the world, but the world is now vulnerable.\n\n### Ending B: The Iron Peace (Low Karma + Kaelen Lives)\n*   **Condition:** Player embraces the ruthless path, Kaelen leads the purge, the Sun-Forge is used.\n*   **Outcome:** The enemy is destroyed, but the land is scorched. The kingdom becomes a militaristic police state. Kaelen becomes the new King, and the player becomes his enforcer.\n*   **Narrative Twist:** The \"Hero\" is revealed to be the villain. The world is safe, but it is a prison. The \"Warlord\" trope is fulfilled, but the cost is the loss of humanity.\n\n### Ending C: The Broken Covenant (Neutral Karma + Kaelen Lives)\n*   **Condition:** Player and Kaelen find a middle ground, using the Sun-Forge partially to save the capital while sparing the countryside.\n*   **Outcome:** The kingdom survives, but it is fractured. The capital is a fortress, the countryside is a wasteland. Kaelen and the player rule together as a \"Warlord and Conscience\" dyad.\n*   **Narrative Twist:** The \"Hero's Journey\" is subverted by showing that there is no perfect solution. The world is saved, but it is a broken, imperfect place. The player and Kaelen are forever bound by the burden of their choices, ruling not as heroes, but as necessary evils.\n\n### Ending D: The Reluctant Legacy (High Karma + Kaelen Lives)\n*   **Condition:** Player convinces Kaelen to stand down, refusing to use the Sun-Forge, and they find a diplomatic solution that Kaelen initially deemed impossible.\n*   **Outcome:** The enemy is defeated through a combination of diplomacy and a desperate, non-lethal strike. Kaelen retires to the Iron Marches, leaving the player to rule.\n*   **Narrative Twist:** The \"Hero\" succeeds, but Kaelen's warning comes true: the world is now too weak to defend itself. The player must now become the Warlord Kaelen refused to be, completing the cycle of the \"Reluctant Warlord\" passing the burden to the next generation.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission fully addresses the core task requirements (biography, 3-act arc, dialogue reactivity, ending states) with high quality. Domain terminology is accurate and the narrative subversion goal is well-integrated. Completeness scores slightly lower (4) because the dialogue tree section details only one specific scenario rather than demonstrating broader branching logic across multiple interactions. Best Practices scores (4) as the technical implementation constraints (triggers) are implied but not explicitly defined beyond the Karma Meter. Clarity and Correctness are exceptional."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Solicit, obtain, and integrate feedback from design and technical staff into original game design.",
+      "task_type": "Design Iteration & Technical Integration",
+      "user_prompt": "Review the current 'Stealth Mechanic' design document which relies on line-of-sight checks. The technical team reports that the current implementation causes 40% frame rate drops in crowded areas. Propose a revised design specification that maintains the core stealth gameplay but utilizes a simplified 'fog of war' system to improve performance, including a list of required assets for the art team.",
+      "reference_context": {
+        "game_genre": "Tactical Stealth Shooter",
+        "current_performance_issue": "40% FPS drop in crowded areas",
+        "core_mechanic": "Line-of-Sight Stealth",
+        "target_platform": "PC and Next-Gen Consoles"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Technical Feasibility — Does the proposed 'fog of war' solution address the performance bottleneck?",
+        "Criterion 2: Gameplay Preservation — Does the new design maintain the intended stealth tension?",
+        "Criterion 3: Asset Clarity — Is the art team's workload clearly defined in the revised specification?"
+      ],
+      "student_answer": "# Revised Stealth Mechanic Design Specification: \"Dynamic Fog of War\"\n\n## 1. Executive Summary\nTo resolve the 40% frame rate drop in crowded areas caused by high-frequency line-of-sight (LOS) raycasting, the stealth system will transition from per-unit LOS checks to a **Dynamic Fog of War (FoW) Grid System**. This approach decouples stealth logic from individual enemy AI complexity, replacing expensive real-time raycasts with pre-calculated or low-cost grid-based visibility queries.\n\n## 2. Core Mechanics Revision\n\n### 2.1. The Visibility Grid\nInstead of casting rays from every enemy to every player position, the game world is overlaid with a dynamic 2D grid (resolution: 1 unit per cell).\n*   **Grid Resolution:** 64x64 cells per 100m zone (adjustable per level).\n*   **Update Frequency:** Grid updates occur every 150ms (or on significant geometry changes) rather than every frame.\n*   **Visibility State:** Each cell holds a binary state: `VISIBLE` or `HIDDEN`.\n\n### 2.2. Player Interaction\n*   **Query:** When the player moves, the system queries the grid cell containing the player's coordinates.\n*   **Result:**\n    *   If `HIDDEN`: Player is undetected.\n    *   If `VISIBLE`: Player is detected *only if* an enemy is currently assigned to that specific grid sector.\n*   **Detection Radius:** Enemies scan a fixed radius (e.g., 3 cells) around their position. If the player enters a `VISIBLE` cell within this radius, detection triggers.\n\n### 2.3. Dynamic Obstacles\n*   **Occlusion:** Walls and cover objects update the grid by marking cells behind them as `HIDDEN` during the next grid refresh cycle.\n*   **Lighting:** Light sources (flashlights, spotlights) dynamically paint `VISIBLE` cells within their cone, replacing the need for light-ray calculations.\n\n### 2.4. Performance Optimization\n*   **Cost Reduction:** Replaces O(N*M) raycasting (N enemies, M players) with O(1) grid lookups.\n*   **Crowd Handling:** In areas with 50+ enemies, the system only calculates grid updates once per frame, regardless of enemy count.\n*   **LOD Scaling:** Grid resolution automatically decreases in distant areas to further reduce memory and processing overhead.\n\n## 3. Gameplay Adjustments\n*   **Visual Feedback:** The \"Fog\" is rendered as a semi-transparent overlay on the player's HUD or world view, fading out as the player moves into covered areas.\n*   **Tactical Depth:** Players must now manage \"Grid Zones.\" Moving from a dark zone to a lit zone is instant, but moving from a lit zone to a dark zone requires waiting for the grid to refresh (simulating the time it takes for shadows to shift or lights to dim).\n*   **Enemy AI:** Enemies no longer perform individual LOS checks. They simply check the grid cell they are standing in. If the cell is `VISIBLE` and the player is in range, the alarm triggers.\n\n## 4. Required Assets List (Art Team)\n\nTo support the visual representation of the Dynamic Fog of War and the underlying grid logic, the following assets are required:\n\n### 4.1. Visual Effects (VFX)\n*   **Fog Shader Material:** A volumetric or 2D overlay shader that supports dynamic alpha blending based on grid state (Visible vs. Hidden).\n*   **Grid Transition Particles:** Subtle particle effects to indicate when a zone shifts from \"Safe\" to \"Danger\" (e.g., a ripple effect when entering a lit area).\n*   **Light Cone Masks:** Pre-baked or real-time mask textures for dynamic light sources (flashlights, spotlights) to define the \"Visible\" grid cells.\n\n### 4.2. UI/HUD Elements\n*   **Stealth Status Icon:** A minimalist icon (e.g., an eye or shield) that changes color/opacity based on grid state.\n*   **Zone Indicator:** A subtle, non-intrusive border or tint around the screen edges indicating the player is currently in a \"Visible\" grid sector.\n*   **Alert Animation:** A distinct animation for the moment the grid state changes from Hidden to Visible.\n\n### 4.3. Environment & Geometry\n*   **Occlusion Geometry Tags:** A new material property or tag for all walls, crates, and cover objects to ensure they correctly block the grid calculation (e.g., `IsOccluder: True`).\n*   **Light Source Prefabs:** Standardized prefabs for all dynamic lights with built-in \"Grid Influence Radius\" parameters.\n\n### 4.4. Audio\n*   **Zone Transition SFX:** A low-frequency \"hum\" or \"shift\" sound when the player moves between Hidden and Visible grid zones.\n*   **Detection Alert:** A distinct audio cue that plays immediately upon grid detection (replacing the previous complex AI chatter).\n\n## 5. Implementation Roadmap\n1.  **Prototype:** Implement the 2D grid system in a test level with 50+ AI units.\n2.  **Optimization:** Tune grid resolution and update frequency to ensure <5ms overhead per frame.\n3.  **Integration:** Replace LOS raycast logic with Grid Query logic in the AI controller.\n4.  **Polish:** Apply VFX and UI feedback to ensure the mechanic remains intuitive despite the backend change.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "The submission correctly addresses all structural task requirements with clear formatting (Correctness, Completeness, Clarity). However, the proposed 150ms grid update rate introduces unacceptable latency for a stealth mechanic, violating genre best practices regarding responsiveness (Best Practices). Additionally, the term 'Fog of War' is misapplied to a visibility grid, and the 1.5m cell resolution is too coarse for tactical precision (Domain Accuracy)."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Conduct regular design reviews throughout the game development process.",
+      "task_type": "Design Review & Quality Assurance",
+      "user_prompt": "Conduct a mock design review for the 'Multiplayer Matchmaking' system of a competitive FPS. Identify three critical flaws in the current 'Skill-Based Matchmaking' (SBMM) algorithm that could lead to player churn, and provide a revised logic flow that prioritizes 'Match Quality' over 'Match Speed' for the first 10 minutes of play.",
+      "reference_context": {
+        "game_genre": "Competitive FPS",
+        "current_metric": "Average Match Time: 45 seconds",
+        "player_feedback": "High churn rate among Diamond+ players due to unbalanced matches",
+        "system_constraint": "Server capacity limits simultaneous matches"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Problem Identification — Are the three flaws logically derived from the provided context?",
+        "Criterion 2: Strategic Alignment — Does the revised logic effectively prioritize Match Quality?",
+        "Criterion 3: Actionability — Is the revised logic flow clear enough for the engineering team to implement?"
+      ],
+      "student_answer": "# Design Review: Multiplayer Matchmaking System (Competitive FPS)\n\n## 1. Critical Flaws in Current SBMM Algorithm\n\nBased on the high churn rate among Diamond+ players and the current 45-second average match time, the following three flaws are identified:\n\n1.  **Over-Optimization for Latency (The \"Desperation\" Trap):**\n    The current algorithm prioritizes filling a lobby within 45 seconds above all else. This forces the system to widen the skill delta significantly (e.g., matching a Diamond player with a Platinum player) to meet the time constraint. This results in \"sweaty\" matches where skill gaps are too large, leading to immediate frustration and perceived unfairness for high-skill players.\n\n2.  **Lack of Dynamic Skill Decay/Fluctuation Handling:**\n    The algorithm treats a player's skill rating as a static value at the moment of queue entry. It fails to account for short-term variance (e.g., a Diamond player on a losing streak or a \"hot streak\"). Consequently, a player is matched against opponents who are statistically likely to be their exact opposite in form, creating unbalanced 1v5 scenarios that feel rigged rather than competitive.\n\n3.  **Absence of \"Soft\" Matchmaking Tiers for High-Skill Lobbies:**\n    The system applies a uniform skill window across all ranks. For Diamond+ players, the current window is too wide, allowing mismatches that feel like \"smurfing\" or \"boosting.\" There is no mechanism to enforce stricter skill proximity for high-tier players, causing them to feel their time is wasted in uncompetitive matches, directly driving churn.\n\n---\n\n## 2. Revised Logic Flow: \"Quality-First\" Protocol (First 10 Minutes)\n\n**Objective:** Prioritize Match Quality over Match Speed for the initial 10 minutes of play to stabilize the competitive experience.\n**Constraint Mitigation:** To address server capacity limits, the system will increase the \"Search Window\" for high-skill players while temporarily reducing the pool size for lower-skill players (who are less sensitive to minor skill variance).\n\n### Revised Algorithm Logic\n\n**Phase 1: Queue Entry & Skill Calibration (0:00 - 0:30)**\n*   **Input:** Player Skill Rating (SR), Recent Match History (last 10 games), Win/Loss Ratio.\n*   **Action:** Calculate a \"Dynamic Skill Score\" (DSS) by applying a 15% variance buffer to the base SR based on recent form.\n*   **Constraint Check:** If Player Tier is Diamond+, set `MaxSearchTime` to 180 seconds (3 mins). If Tier is Gold or below, `MaxSearchTime` remains 45 seconds.\n\n**Phase 2: The \"Quality-First\" Search Window (0:30 - 10:00)**\n*   **Step A: Strict Pool Filtering:**\n    *   Identify potential opponents within a **tight skill delta** (±50 SR points for Diamond+, ±100 for lower tiers).\n    *   *Logic:* `If (Potential_Opponent_Score >= Player_DSS - 50) AND (Potential_Opponent_Score <= Player_DSS + 50) THEN Add_To_Pool`.\n*   **Step B: Team Composition Validation:**\n    *   Ensure the proposed team has a balanced distribution of roles (e.g., no more than 2 players with >90% win rate in the last 5 games).\n    *   *Logic:* `If (Team_Variance > Threshold) THEN Reject_Match`.\n*   **Step C: The \"Wait\" Mechanism:**\n    *   If a valid match is not found within 3 minutes, the system **does not** widen the skill delta.\n    *   Instead, the system enters a \"Holding Pattern,\" keeping the player in the queue and searching for a *second* compatible player to form a 5v5 rather than a 4v5 or 3v3.\n    *   *Constraint Handling:* If server capacity is critical, the system temporarily pauses matchmaking for players in the lowest 10% of the population to free up slots for the high-priority Diamond+ queue.\n\n**Phase 3: The \"Fallback\" Trigger (Post 10 Minutes)**\n*   **Condition:** If no valid match is found after 10 minutes.\n*   **Action:** The system activates \"Compromise Mode.\"\n    *   Widen the skill delta to ±150 SR points.\n    *   Allow partial teams (e.g., 4v4) if server capacity is critical.\n    *   **Notification:** Display a warning to the player: *\"Extended wait time due to high skill density. Match quality is being prioritized.\"*\n\n### Expected Outcome\n*   **Match Quality:** Significantly reduced skill gaps for Diamond+ players, leading to more competitive and engaging matches.\n*   **Churn Reduction:** High-skill players feel their time is respected, reducing the urge to quit due to \"unfair\" matches.\n*   **Server Efficiency:** By strictly filtering for quality first, the system reduces the number of \"reset\" matches (where players leave due to imbalance), effectively increasing the throughput of *completed* matches despite the longer initial wait time.",
+      "score": 4.8,
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission correctly identifies three SBMM flaws and provides a detailed 10-minute logic flow prioritizing quality. Terminology is accurate for FPS matchmaking. Clarity and completeness are excellent. Best Practices is 4 because explicitly pausing low-tier queues is a controversial design choice that risks broader churn, though it technically addresses the server constraint."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Develop and maintain design level documentation, including mechanics, guidelines, and mission outlines.",
+      "task_type": "Mechanics Documentation",
+      "user_prompt": "Create a design specification for a 'Dynamic Difficulty Adjustment' system in a competitive shooter. The system must analyze player performance over 5-minute windows and subtly adjust enemy accuracy and spawn rates without breaking immersion. Define the logic flow, thresholds for adjustment, and the specific data points required from the telemetry system.",
+      "reference_context": {
+        "game_genre": "Competitive FPS",
+        "target_audience": "Casual to Hardcore",
+        "telemetry_available": [
+          "Kill/Death Ratio",
+          "Reaction Time",
+          "Accuracy Percentage",
+          "Time to Complete Objective"
+        ],
+        "constraint": "Adjustments must be invisible to the player to prevent 'rubber-banding' complaints"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Logic Consistency — Does the adjustment logic prevent extreme swings in difficulty?",
+        "Criterion 2: Implementation Clarity — Are the thresholds and data points defined precisely enough for engineers?",
+        "Criterion 3: Player Psychology — Does the design maintain the 'flow state' without making the player feel manipulated?"
+      ],
+      "student_answer": "# Design Specification: Dynamic Difficulty Adjustment (DDA) System\n**Project:** Competitive FPS DDA Module\n**Version:** 1.0\n**Status:** Final\n\n## 1. System Overview\nThe DDA system is a background telemetry-driven module designed to maintain player engagement by modulating enemy performance metrics. It operates exclusively on 5-minute sliding windows of gameplay data. Adjustments are applied via \"soft caps\" and probabilistic modifiers to ensure the changes are imperceptible to the player, avoiding the \"rubber-banding\" effect.\n\n## 2. Data Requirements & Telemetry Integration\nThe system ingests the following specific data points from the telemetry pipeline, aggregated per 5-minute window:\n\n| Data Point | Definition | Normalization Factor |\n| :--- | :--- | :--- |\n| **K/D Ratio** | Total Kills / Total Deaths | Relative to player's 30-day average K/D. |\n| **Reaction Time** | Average time from enemy appearance to first shot fired. | Milliseconds (ms). |\n| **Accuracy %** | Hits landed / Total shots fired. | Percentage (0-100). |\n| **Objective Time** | Time elapsed from spawn to objective completion. | Seconds. |\n\n**Additional Hidden Metrics (Internal Only):**\n*   `Streak_Count`: Number of consecutive kills without death.\n*   `Spawn_Density`: Number of enemy spawns per minute in the current zone.\n\n## 3. Logic Flow\n\n### 3.1. Data Aggregation Phase\n*   **Trigger:** Every 30 seconds, the system updates the rolling 5-minute window.\n*   **Calculation:** Compute the delta between current window performance and the player's historical baseline (last 10 matches).\n*   **State Check:** If the player is in a \"Matchmaking Queue\" or \"Pre-Game Lobby,\" DDA is suspended.\n\n### 3.2. Decision Matrix\nThe system evaluates the **Engagement Score (ES)**, calculated as a weighted sum of the normalized data points.\n\n*   **High Performance State (ES > 1.2):** Player is dominating.\n    *   *Action:* Slightly increase enemy spawn rate and accuracy variance.\n*   **Balanced State (0.8 ≤ ES ≤ 1.2):** Player is performing as expected.\n    *   *Action:* No adjustment. Maintain baseline.\n*   **Low Performance State (ES < 0.8):** Player is struggling.\n    *   *Action:* Slightly decrease enemy spawn rate and accuracy variance.\n\n### 3.3. Adjustment Application (The \"Invisible\" Layer)\nAdjustments are never applied as direct stat changes (e.g., \"Enemy Accuracy +10%\"). Instead, they are applied via **Probabilistic Modifiers** and **Spawn Timers**.\n\n*   **Enemy Accuracy Adjustment:**\n    *   *Mechanism:* Modify the `Spread_Cone` and `Aim_Assist_Softcap` of enemy AI.\n    *   *Implementation:* If ES > 1.2, increase the probability of an enemy missing a shot by 3% (simulating \"bad luck\" for the enemy). If ES < 0.8, decrease the probability of an enemy missing by 3%.\n    *   *Constraint:* Max deviation from baseline is ±5%.\n\n*   **Spawn Rate Adjustment:**\n    *   *Mechanism:* Modify the `Spawn_Timer_Randomizer`.\n    *   *Implementation:*\n        *   High Performance: Reduce minimum spawn interval by 0.5s (max 10% increase in density).\n        *   Low Performance: Increase minimum spawn interval by 0.5s (max 10% decrease in density).\n    *   *Constraint:* Spawns must always adhere to map logic (e.g., cannot spawn inside walls or during active cutscenes).\n\n### 3.4. Hysteresis & Smoothing\nTo prevent oscillation (flipping between easy/hard every 5 minutes):\n*   **Hysteresis Threshold:** Adjustments only trigger if the Engagement Score remains outside the Balanced State for **two consecutive** 5-minute windows.\n*   **Smoothing:** Changes are interpolated over 10 seconds rather than applied instantly.\n\n## 4. Thresholds & Limits\n\n| Metric | Threshold Condition | Adjustment Magnitude |\n| :--- | :--- | :--- |\n| **K/D Ratio** | > 2.5x Baseline | +5% Enemy Accuracy / +8% Spawn Rate |\n| **K/D Ratio** | < 0.5x Baseline | -5% Enemy Accuracy / -8% Spawn Rate |\n| **Accuracy %** | > 60% (vs Baseline 45%) | +3% Enemy Accuracy / +5% Spawn Rate |\n| **Reaction Time** | < 200ms (vs Baseline 250ms) | +3% Enemy Accuracy / +5% Spawn Rate |\n| **Objective Time** | < 50% of Baseline | +4% Enemy Accuracy / +6% Spawn Rate |\n\n**Hard Caps:**\n*   **Maximum Difficulty:** Enemy accuracy cannot exceed 95% of human peak performance.\n*   **Minimum Difficulty:** Enemy accuracy cannot drop below 40% of human average performance.\n*   **Spawn Safety:** Spawn rates cannot exceed the server's entity limit or cause pathfinding errors.\n\n## 5. Immersion & Anti-Exploitation Protocols\n\n1.  **No Visual Indicators:** No UI elements, chat logs, or HUD changes indicate DDA activity.\n2.  **Contextual Blending:**\n    *   Accuracy adjustments are masked as \"Enemy AI variance\" or \"Player aim drift.\"\n    *   Spawn adjustments are masked as \"Map rotation logic\" or \"Reinforcement timing.\"\n3.  **Anti-Cheat Integration:** The system flags if a player intentionally manipulates K/D (e.g., feeding) to trigger the \"Low Performance\" state, preventing exploitation of the DDA for farming.\n4.  **Competitive Integrity:** In ranked/competitive modes, DDA is **disabled** or limited to a \"Tournament Mode\" toggle to ensure fair play standards are not compromised. This system is primarily for **Casual/Unranked** playlists.\n\n## 6. Implementation Checklist\n- [ ] Integrate telemetry stream for 5-minute rolling windows.\n- [ ] Develop `Engagement_Score` algorithm.\n- [ ] Implement `Spawn_Timer_Randomizer` logic.\n- [ ] Code `Aim_Assist_Softcap` modifiers.\n- [ ] Apply Hysteresis logic to prevent oscillation.\n- [ ] Conduct A/B testing on \"Invisibility\" (Player surveys on perceived difficulty).\n- [ ] Deploy to Unranked servers only.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        5,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "Correctness (4): Addresses all requirements but contains an inconsistency between the Engagement Score logic (Section 3) and the Threshold Table (Section 4), creating ambiguity on the source of truth. Completeness (4): Missing specific weights for the Engagement Score calculation and includes internal metrics not in the telemetry context. Best Practices (5): Excellent inclusion of hysteresis, smoothing, anti-exploitation, and disabling DDA in ranked modes, aligning with industry standards. Domain Accuracy (4): Uses 'Aim_Assist_Softcap' for enemy AI, which is incorrect terminology (aim assist is player-side). Clarity (5): Well-structured with clear headings, tables, and professional formatting."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Document all aspects of formal game design, using mock-up screenshots, sample menu layouts, gameplay flowcharts, and other graphical devices.",
+      "task_type": "UI/UX Flowchart Design",
+      "user_prompt": "Design a text-based flowchart description for a 'Loot Box Opening' sequence in a mobile RPG. The sequence must include a 'near miss' animation, a 'guaranteed rare' trigger after 9 failures, and a 'sell junk' bulk action. Describe the visual states, button placements, and the exact timing of animations to maximize retention while adhering to ethical monetization standards.",
+      "reference_context": {
+        "game_genre": "Mobile Gacha RPG",
+        "platform": "iOS/Android",
+        "monetization_model": "Freemium",
+        "regulatory_constraint": "Must clearly display drop rates before opening"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Completeness — Are all edge cases (e.g., network failure during opening) handled?",
+        "Criterion 2: Retention Strategy — Does the flow encourage continued engagement without being predatory?",
+        "Criterion 3: Technical Feasibility — Can the described timing and states be implemented within standard animation budgets?"
+      ],
+      "student_answer": "### Loot Box Opening Sequence: \"The Vault of Echoes\"\n\n**Pre-Opening State (Compliance & Setup)**\n*   **Visual:** Dark, atmospheric background with the loot box centered. A translucent overlay displays the \"Drop Rate Summary\" (e.g., 0.6% Legendary, 5.4% Rare, 94% Common) in high-contrast white text.\n*   **UI Elements:**\n    *   **Top Left:** \"Drop Rates\" button (tappable, opens detailed table).\n    *   **Bottom Center:** \"Open 1\" button (Gold/Blue gradient).\n    *   **Bottom Right:** \"Open 10\" button (Silver/Green gradient).\n    *   **Top Right:** \"Inventory\" icon.\n*   **Timing:** Static for 2 seconds to ensure rate visibility before user interaction.\n\n---\n\n**Phase 1: The Opening Animation (0.0s – 3.5s)**\n*   **Action:** User taps \"Open 1\".\n*   **Visual State:**\n    *   **0.0s - 0.5s:** Box shakes violently (3 rapid pulses). Sound effect: Low rumble.\n    *   **0.5s - 2.5s:** Box cracks open. A beam of light shoots upward.\n    *   **2.5s - 3.5s:** The \"Near Miss\" Trigger (if applicable).\n        *   *Condition:* If the item is Common or Uncommon, but the RNG roll was within the top 5% of the Common tier.\n        *   *Animation:* The light beam briefly flashes **Gold** (Legendary color) for 0.2 seconds, then instantly shifts to **Blue** (Rare) or **Grey** (Common). The box lid slams shut with a \"clunk\" sound, and a subtle \"Almost!\" text bubble pops up briefly before fading.\n        *   *Psychological Effect:* Creates a momentary spike in dopamine followed by immediate realization, encouraging the next pull.\n\n---\n\n**Phase 2: The Reveal & \"Guaranteed Rare\" Logic (3.5s – 5.0s)**\n*   **Logic Check:** System checks the \"Failure Counter\" (number of non-Rare+ items opened in the current session).\n*   **Trigger:** If Failure Counter == 9.\n*   **Visual State:**\n    *   **3.5s - 4.0s:** The box does not shake. Instead, it glows with a pulsing **Purple** aura (Rare color).\n    *   **4.0s - 5.0s:** The lid bursts open with a \"Whoosh\" sound. A **Guaranteed Rare** item card slides out from the center, accompanied by a distinct \"Chime\" sound effect (different from standard pulls).\n    *   **UI Feedback:** A banner appears at the top: \"LUCKY BREAK! Rare Item Guaranteed!\"\n*   **Post-Action:** Failure Counter resets to 0.\n\n---\n\n**Phase 3: The Result Screen (5.0s – 8.0s)**\n*   **Visual:** The obtained item is displayed prominently in the center. Background dims slightly to focus attention.\n*   **UI Elements:**\n    *   **Center:** Item Card (Name, Rarity, Stats).\n    *   **Bottom Left:** \"Keep\" (Primary Action, Large Button).\n    *   **Bottom Right:** \"Sell\" (Secondary Action, Small Button).\n    *   **Top Right:** \"X\" (Close).\n*   **Bulk Action Integration:**\n    *   **Trigger:** If the user has 3+ Common/Uncommon items in the current inventory queue (from a 10-pull or previous session).\n    *   **Visual:** A \"Sell All Junk\" button appears in the top right corner, pulsing gently.\n    *   **Interaction:** Tapping \"Sell All Junk\" instantly removes all Common/Uncommon items from the current view, awards currency, and returns the user to the main Loot Box screen. No confirmation dialog is shown for bulk sells to reduce friction.\n\n---\n\n**Phase 4: Loop & Retention (8.0s+)**\n*   **Visual:** If \"Keep\" is tapped, the item is added to the inventory, and the screen transitions smoothly back to the Pre-Opening State.\n*   **Timing:** The transition is instantaneous (0.2s) to maintain flow.\n*   **Retention Hook:** If the user opens 10 items in a row, a \"Streak Bonus\" counter appears in the top left, incrementing with each pull, resetting only after a 10-minute inactivity period.\n\n**Ethical Monetization Safeguards**\n*   **Transparency:** Drop rates are never hidden; they are the first thing seen.\n*   **No Dark Patterns:** The \"Near Miss\" is visually distinct from a win; it does not mimic a win state (e.g., no gold confetti).\n*   **Control:** The \"Sell All Junk\" button is always accessible, preventing inventory clutter from blocking the user experience.\n*   **Spending Limits:** If a user attempts to open 100 boxes in one session, a \"Take a Break\" modal appears after the 50th box, suggesting a pause.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission addresses all functional requirements (near miss, pity system, bulk sell) with clear timing and visual descriptions. Domain terminology is accurate for a Gacha RPG. However, the decision to remove confirmation dialogs for bulk selling items, even junk, introduces a UX risk that slightly conflicts with ethical monetization standards and best practices for user safety. The structure is highly readable."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Provide feedback to designers and other colleagues regarding game design features.",
+      "task_type": "Design Critique & Iteration",
+      "user_prompt": "Review the following proposed 'Guild War' mechanic: 'Players join a guild, and the guild with the most total damage dealt in 10 minutes wins.' Identify three critical flaws regarding player retention and fairness. Propose a revised mechanic that encourages participation from lower-skilled players and reduces 'whale' dominance, then write a formal feedback memo to the lead designer.",
+      "reference_context": {
+        "game_genre": "MMORPG",
+        "current_issue": "High churn among casual players due to skill gap",
+        "goal": "Increase guild participation by 20%",
+        "available_mechanics": [
+          "Damage Dealing",
+          "Healing",
+          "Crowd Control",
+          "Objective Capture"
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Problem Identification — Are the flaws in the original design accurately diagnosed?",
+        "Criterion 2: Solution Effectiveness — Does the proposed revision address the identified retention issues?",
+        "Criterion 3: Professional Tone — Is the feedback constructive and actionable for the development team?"
+      ],
+      "student_answer": "**MEMORANDUM**\n\n**TO:** Lead Designer\n**FROM:** Senior Game Designer\n**DATE:** October 26, 2023\n**SUBJECT:** Critical Review and Revision of Proposed \"Guild War\" Mechanic\n\n### 1. Critical Flaws Analysis\n\nThe proposed mechanic (\"Guild with most total damage dealt in 10 minutes wins\") presents three fundamental issues regarding retention and fairness:\n\n1.  **Exclusion of Non-DPS Roles:** By making damage the sole victory condition, the mechanic renders Healers, Tanks, and Crowd Control specialists irrelevant to the outcome. This creates a massive skill gap where casual players in support roles feel their contribution is worthless, directly driving churn among the casual demographic.\n2.  **Whale Dominance and Power Creep:** Total damage is a direct function of gear score and player skill. High-spending \"whales\" or highly skilled veterans will dominate the leaderboard regardless of guild size or coordination. This creates a \"rich get richer\" scenario where smaller or less-funded guilds have zero chance of winning, removing the incentive to participate.\n3.  **Lack of Strategic Depth:** A 10-minute damage race encourages a \"glass cannon\" meta where players ignore survival, objectives, or team synergy to maximize output. This leads to chaotic, uncoordinated play that degrades the social experience and fails to reward the strategic planning that defines a healthy MMORPG guild culture.\n\n### 2. Revised Mechanic Proposal: \"The Tri-Point Conquest\"\n\nTo address the skill gap and encourage broad participation, I propose replacing the damage-only metric with a **Multi-Category Scoring System** weighted by guild size and role diversity.\n\n**Mechanic Overview:**\nThe 10-minute war is divided into three simultaneous objectives. Guilds earn points based on a weighted combination of:\n*   **Objective Control (40% Weight):** Capturing and holding specific map zones.\n*   **Support Contribution (30% Weight):** Sum of Healing Done + Crowd Control (CC) Duration applied to enemy players.\n*   **Sustained Damage (30% Weight):** Total damage dealt, but capped per player to prevent single-player dominance.\n\n**Key Adjustments for Retention:**\n*   **Role Diversity Bonus:** Guilds receive a 1.5x multiplier on Support Contribution points if they have at least one active Healer and one Tank in the match. This forces guilds to include casual players in support roles, as their participation directly boosts the win condition.\n*   **Diminishing Returns on Damage:** After a player deals 15% of the guild's total damage, their additional damage contribution yields 50% fewer points. This prevents \"whales\" from carrying the match alone and forces teams to distribute damage across the roster.\n*   **Dynamic Scaling:** The point value of Objective Control scales based on the number of active participants, ensuring larger guilds cannot simply out-mass smaller guilds without coordination.\n\n### 3. Expected Outcome\n\nThis revision shifts the victory condition from \"Who has the best gear?\" to \"Who has the best team composition and coordination?\" By valuing healing and crowd control equally to damage, casual players gain agency. The damage cap ensures that high-spending players cannot single-handedly secure victory, fostering a more competitive and inclusive environment for all guild sizes. This approach directly targets the goal of increasing guild participation by 20% through improved retention of non-DPS players.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "Correctness is 5 as all task requirements (3 flaws, revised mechanic, memo format) were met. Completeness and Best Practices are 4 due to a logical ambiguity in the 'Dynamic Scaling' mechanic; the description states points scale based on participant count to prevent out-massing, but does not specify if the scaling is inverse or capped, which is a meaningful gap in professional design documentation. Domain Accuracy is 5 with precise MMORPG terminology. Clarity is 5 with excellent structure and formatting."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Create and manage documentation, production schedules, prototyping goals, and communication plans in collaboration with production staff.",
+      "task_type": "Production Schedule & Prototyping Plan",
+      "user_prompt": "Develop a 4-week prototyping schedule for a new 'Physics-based Puzzle' feature. The schedule must include specific milestones for 'Core Loop Validation', 'Art Style Integration', and 'Performance Optimization'. Define the deliverables for each week and the specific engineering/art resources required to meet the deadline.",
+      "reference_context": {
+        "game_genre": "Puzzle Platformer",
+        "team_size": "3 Designers, 2 Engineers, 1 Artist",
+        "critical_path": "Physics engine stability",
+        "deadline": "End of Q3"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Feasibility — Is the timeline realistic given the team size and technical complexity?",
+        "Criterion 2: Resource Allocation — Are the roles and responsibilities clearly defined for each milestone?",
+        "Criterion 3: Risk Management — Does the plan account for potential physics engine bugs or performance bottlenecks?"
+      ],
+      "student_answer": "# 4-Week Physics-Based Puzzle Feature Prototyping Schedule\n\n## Week 1: Core Loop Validation\n**Focus:** Establishing the fundamental physics interactions and verifying the \"feel\" of the puzzle mechanics.\n*   **Milestone:** Core Loop Validation Complete.\n*   **Deliverables:**\n    *   Grey-box prototype with basic rigid body interactions (pushing, stacking, falling).\n    *   Documented list of 3 viable puzzle mechanics and 2 failed mechanics.\n    *   Basic input mapping for player interaction with physics objects.\n*   **Resources Required:**\n    *   **Engineering (2):** Physics engine integration, rigid body setup, input system implementation.\n    *   **Design (3):** Mechanic brainstorming, rapid iteration on puzzle logic, playtesting sessions.\n    *   **Art (1):** Creation of placeholder grey-box assets (cubes, spheres, platforms).\n\n## Week 2: Art Style Integration\n**Focus:** Replacing grey-box assets with stylized art and refining visual feedback for physics events.\n*   **Milestone:** Art Style Integration Complete.\n*   **Deliverables:**\n    *   Prototype fully populated with final art style assets (textures, sprites, or 3D models).\n    *   Visual feedback systems for physics events (e.g., dust particles on impact, screen shake, object deformation).\n    *   UI overlay for puzzle state (e.g., \"Stable,\" \"Unstable,\" \"Solved\").\n*   **Resources Required:**\n    *   **Art (1):** Asset implementation, shader setup for physics materials, particle effect creation.\n    *   **Engineering (2):** Asset pipeline integration, collision mesh optimization for stylized shapes, VFX implementation.\n    *   **Design (3):** Visual pacing adjustments, feedback tuning based on art integration.\n\n## Week 3: Performance Optimization\n**Focus:** Ensuring physics stability under stress and meeting frame rate targets on target hardware.\n*   **Milestone:** Performance Optimization Complete.\n*   **Deliverables:**\n    *   Optimized build running at 60 FPS (or target frame rate) with 10+ simultaneous physics objects.\n    *   Profiling report identifying and resolving physics bottlenecks (e.g., constraint solver iterations, collision detection).\n    *   Stability patch for edge-case physics glitches (tunneling, jittering, stacking collapse).\n*   **Resources Required:**\n    *   **Engineering (2):** Profiling, physics solver tuning, memory management, collision layer optimization.\n    *   **Design (3):** Stress-testing scenarios, identifying performance-breaking puzzle configurations.\n    *   **Art (1):** LOD (Level of Detail) adjustments for physics objects, texture compression optimization.\n\n## Week 4: Polish & Final Review\n**Focus:** Finalizing the prototype for stakeholder review and Q3 deadline alignment.\n*   **Milestone:** Final Prototype Ready for Review.\n*   **Deliverables:**\n    *   \"Vertical Slice\" build of the feature including all mechanics, art, and optimized performance.\n    *   Comprehensive design document detailing the finalized physics rules and puzzle logic.\n    *   Bug report and fix list for critical path issues.\n*   **Resources Required:**\n    *   **Engineering (2):** Final bug fixes, build pipeline configuration, platform-specific testing.\n    *   **Design (3):** Final playthrough documentation, balance tuning, feature scope confirmation.\n    *   **Art (1):** Final polish pass on animations and UI, ensuring consistency with the game's aesthetic.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission accurately addresses all explicit task requirements with clear structure and correct terminology (Correctness 5, Domain Accuracy 5, Clarity 5). However, the plan isolates Performance Optimization to Week 3 despite the 'Physics engine stability' critical path, which is a best practice gap as stability should be validated iteratively rather than siloed (Best Practices 4). Additionally, Week 4 deliverables list a 'Bug report' rather than a resolved build, and the schedule lacks explicit stability checkpoints in Weeks 1-2, indicating a minor omission in comprehensive risk planning (Completeness 4)."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Provide feedback to production staff regarding technical game qualities or adherence to original design.",
+      "task_type": "Technical Adherence Review",
+      "user_prompt": "Analyze a scenario where the 'Stealth' mechanic in a prototype is failing because enemies have a 360-degree vision cone instead of the designed 180-degree cone. Write a technical design document (TDD) section explaining the root cause, the impact on player retention (frustration vs. challenge), and the specific code changes required to restore the intended design. Include a metric for measuring the fix's success.",
+      "reference_context": {
+        "game_genre": "Action-Stealth",
+        "intended_design": "180-degree vision cone with 5-second detection timer",
+        "observed_behavior": "360-degree instant detection",
+        "player_feedback": "High frustration, low completion rate in stealth sections"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Root Cause Analysis — Is the technical discrepancy clearly explained?",
+        "Criterion 2: Design Alignment — Does the proposed fix strictly adhere to the original design document?",
+        "Criterion 3: Success Metrics — Is there a clear, quantifiable way to verify the fix improves player retention?"
+      ],
+      "student_answer": "# Technical Design Document: Stealth Vision Cone Correction\n\n## 1. Root Cause Analysis\nThe failure of the stealth mechanic stems from a configuration error in the `EnemyVisionSystem` script. The `VisionAngle` property was inadvertently initialized to `360.0f` instead of the intended `180.0f`. Furthermore, the `DetectionTimer` logic was bypassed due to a missing conditional check for `IsConeOverlap`, causing the `OnDetected` event to trigger immediately upon any proximity check rather than after the required 5-second duration. This results in enemies detecting the player instantly from any angle, effectively nullifying the stealth gameplay loop.\n\n## 2. Impact on Player Retention\n*   **Frustration vs. Challenge:** The current 360-degree instant detection transforms the game from a \"challenge of skill\" (timing, positioning, and patience) into a \"challenge of luck\" (randomized spawn points). This violates the core contract of the Action-Stealth genre, leading to immediate player frustration.\n*   **Retention Risk:** High frustration levels directly correlate with the observed low completion rates. Players are likely to abandon the prototype at the first stealth encounter, perceiving the game as unfair or broken rather than difficult. This creates a negative first impression that is difficult to recover from, severely impacting long-term retention and word-of-mouth potential.\n\n## 3. Required Code Changes\nThe following modifications must be applied to the `EnemyAIController.cs` and `VisionSensor.cs` modules:\n\n### A. Vision Cone Configuration\nUpdate the `VisionSensor` component to enforce the 180-degree limit.\n\n```csharp\n// VisionSensor.cs\npublic class VisionSensor : MonoBehaviour\n{\n    // FIX: Explicitly set intended angle\n    [SerializeField] private float visionAngle = 180.0f; \n    \n    // FIX: Ensure detection logic respects the cone\n    public bool IsPlayerInSight(Transform player, Transform enemy)\n    {\n        Vector3 directionToPlayer = (player.position - enemy.position).normalized;\n        Vector3 forward = enemy.forward;\n        \n        // Calculate angle between enemy forward and player direction\n        float angle = Vector3.Angle(forward, directionToPlayer);\n        \n        // Check if within 180-degree cone\n        if (angle > visionAngle / 2.0f) \n        {\n            return false; // Player is behind enemy\n        }\n\n        // Raycast check for line of sight (existing logic)\n        if (Physics.Raycast(enemy.position, directionToPlayer, out RaycastHit hit, enemy.position.magnitude))\n        {\n            if (hit.transform == player) return false; // Obstructed\n        }\n\n        return true; // In cone and visible\n    }\n}\n```\n\n### B. Detection Timer Implementation\nModify the `EnemyAIController` to enforce the 5-second detection threshold.\n\n```csharp\n// EnemyAIController.cs\npublic class EnemyAIController : MonoBehaviour\n{\n    private float detectionTimer = 0f;\n    private const float REQUIRED_DETECTION_TIME = 5.0f;\n    private bool isDetected = false;\n\n    void Update()\n    {\n        if (isDetected) return;\n\n        if (visionSensor.IsPlayerInSight(playerTransform, transform))\n        {\n            detectionTimer += Time.deltaTime;\n            \n            // FIX: Trigger detection only after timer expires\n            if (detectionTimer >= REQUIRED_DETECTION_TIME)\n            {\n                TriggerAlertState();\n            }\n        }\n        else\n        {\n            // Reset timer if player leaves cone\n            detectionTimer = 0f;\n        }\n    }\n\n    private void TriggerAlertState()\n    {\n        isDetected = true;\n        // Trigger alert logic (sound, chase state)\n    }\n}\n```\n\n## 4. Success Metric\nTo validate the fix, the following metric will be tracked over the next 48 hours of testing:\n\n**Metric:** **Stealth Section Completion Rate (SSCR)**\n*   **Definition:** The percentage of unique play sessions where the player successfully navigates the stealth section without triggering a \"Game Over\" or \"Alert\" state.\n*   **Target:** Increase SSCR from the current baseline of **<15%** to **>60%**.\n*   **Secondary Metric:** Reduction in \"Frustration\" sentiment in post-level surveys (Target: <10% negative sentiment).",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission comprehensively addresses all task requirements with clear structure and accurate domain terminology. The root cause and impact analysis are strong, and the core logic for the vision cone and timer is sound. However, the provided code snippet contains a technical error in the raycast distance calculation (using `enemy.position.magnitude` instead of player distance), which would cause detection range issues based on world origin. This prevents a perfect score in Correctness and Best Practices, though the document remains highly professional and useful."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Create gameplay prototypes for presentation to creative and technical staff and management.",
+      "task_type": "Mechanics Prototype Specification",
+      "user_prompt": "Draft a design specification for a 15-minute side-mission in a sci-fi RPG set in a derelict space station. The mission must introduce a new 'gravity manipulation' mechanic without using a tutorial. Provide the mission flow, key puzzle logic, and success/failure conditions.",
+      "reference_context": {
+        "game_genre": "Sci-Fi Action RPG",
+        "player_level": "Mid-game (Level 15)",
+        "available_tools": [
+          "Gravity Boots",
+          "Magnetic Grapple",
+          "Energy Shield"
+        ],
+        "environment": "Zero-G Sector 4"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Does the mission logic hold up under the proposed mechanics?",
+        "Criterion 2: Completeness — Are all mission phases (intro, puzzle, resolution) defined?",
+        "Criterion 3: Best practices — Is the design clear enough for engineers to implement?"
+      ],
+      "student_answer": "# Mission Design Specification: \"The Silent Orbit\"\n\n**Mission Title:** The Silent Orbit\n**Duration:** 15 Minutes\n**Location:** Sector 4 (Derelict Station \"Aethelgard\")\n**Objective:** Retrieve the \"Orbital Core\" from the central spire to stabilize the station's failing life support.\n\n---\n\n## 1. Narrative Context & Integration\nThe player enters Sector 4, a massive, decommissioned research wing where gravity has fluctuated wildly due to a ruptured core. The environment is visually chaotic: debris floats in random orientations, and structural beams are twisted. The mission begins immediately upon entry; no dialogue or cutscene explains the mechanics. The player is forced to adapt to the environment to survive and progress.\n\n## 2. Mechanic Introduction: Gravity Manipulation\nThe \"Gravity Boots\" are already equipped but dormant. The environment forces the player to activate them through necessity.\n\n*   **Phase 1: The Drift (0:00–0:03)**\n    *   **Scenario:** The player enters a corridor where the floor is 90 degrees to the left. Standard movement fails; the player slides helplessly into a wall.\n    *   **Discovery:** A nearby console requires a \"Manual Override\" button located on the ceiling. The player must jump, hold the interaction key, and the boots engage, locking the player to the \"ceiling\" (now the floor).\n    *   **Result:** The player walks on the ceiling to reach the console, unlocking the door.\n\n*   **Phase 2: The Inversion (0:03–0:08)**\n    *   **Scenario:** A large gap blocks the path. The Magnetic Grapple is useless here as there are no magnetic surfaces.\n    *   **Discovery:** The player must activate the Gravity Boots again, but this time, holding the \"Invert\" modifier (default: Shift + G) flips the gravity vector 180 degrees relative to the player's current orientation.\n    *   **Puzzle Logic:** The player must jump across the gap, then immediately invert gravity mid-air to \"land\" on the far wall, using the momentum to swing across to a platform. This teaches the mechanic of *dynamic vector switching* without text.\n\n*   **Phase 3: The Core (0:08–0:12)**\n    *   **Scenario:** The final chamber is a spherical room with debris floating in the center. The Orbital Core is suspended in the middle.\n    *   **Puzzle Logic:** The player must use the Energy Shield to deflect floating debris while simultaneously toggling gravity to walk on the inner surface of the sphere. The player must create a \"gravity well\" by standing on the opposite side of the sphere from the core, pulling the core closer via the boots' magnetic attraction (a secondary function of the boots revealed by proximity).\n\n## 3. Key Puzzle Logic\nThe mission relies on **Environmental Affordance** rather than UI hints.\n\n1.  **Visual Cues:**\n    *   **Debris Orientation:** Floating objects are aligned with the \"active\" gravity plane. If debris is stuck to the wall, gravity is active there.\n    *   **Lighting:** Gravity-active zones have a faint blue hum; inactive zones are dark.\n    *   **Pathing:** The only viable path is always perpendicular to the current gravity vector, forcing the player to invert to proceed.\n\n2.  **Interaction Logic:**\n    *   **Gravity Lock:** Pressing the interaction key while near a surface locks the player to that surface.\n    *   **Vector Flip:** Holding the modifier key while moving reverses the gravity vector relative to the player's local up.\n    *   **Magnetic Pull:** Proximity to the Core triggers a passive pull, requiring the player to maintain a specific gravity orientation to \"catch\" the item.\n\n## 4. Success Conditions\n*   **Primary:** The player successfully retrieves the Orbital Core and returns to the airlock.\n*   **Secondary:** The player must traverse the entire sector without taking damage from falling debris (optional challenge for high scores).\n*   **Reward:**\n    *   **Item:** \"Orbital Core\" (Quest Item).\n    *   **Mechanic Unlock:** Full \"Gravity Walk\" ability (allows walking on any surface, not just magnetic ones).\n    *   **Loot:** 500 Credits, \"Sector 4 Keycard\" (grants access to the next zone).\n\n## 5. Failure Conditions\n*   **Time Limit:** The mission has a soft timer (15 minutes). If the player is stuck in a loop or takes too long, the station's life support fails, triggering a \"Critical Failure\" state where the player is ejected into space (Game Over).\n*   **Health Depletion:** If the player takes too much damage from uncontrolled floating debris or falls into a \"void\" (unstable gravity zone), the mission resets to the last checkpoint.\n*   **Logic Block:** If the player attempts to use the Magnetic Grapple on non-magnetic surfaces repeatedly, the grapple overheats, disabling the tool for 30 seconds, forcing the player to rely solely on gravity manipulation.\n\n## 6. Technical Notes for Implementation\n*   **Physics Engine:** Ensure gravity vectors are calculated relative to the player's local coordinate system, not the world, to allow for seamless inversion.\n*   **Audio Cues:** Distinctive \"hum\" sounds must change pitch when gravity is inverted to provide immediate feedback without visual text.\n*   **Camera:** The camera must smoothly rotate 180 degrees when the player inverts gravity to prevent motion sickness and disorientation.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "Correctness (4): Addresses all requirements but contains a timing inconsistency (phases sum to 12 mins vs 15 min mission duration). Completeness (4): Covers all sections but lacks specific visual cues for the 'invert' mechanic, relying on player discovery without clear affordance. Best Practices (3): The 15-minute soft timer for a 15-minute mission is punitive and risks player frustration; 'Game Over' for a side mission is harsh. Domain Accuracy (3): Technical note on gravity vectors is imprecise (gravity is typically a world-space force, not local). Clarity (5): Well-structured, professional formatting, and easy to follow."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Guide design discussions between development teams.",
+      "task_type": "Cross-Functional Design Synthesis",
+      "user_prompt": "You are leading a design meeting to resolve a conflict between the Art and Engineering teams regarding a new 'dynamic weather system' for an open-world survival game. Art wants high-fidelity volumetric clouds, but Engineering cites performance constraints. Draft a 30-minute discussion guide that proposes a compromise solution, outlines the technical implementation strategy, and defines the visual style guide adjustments needed to maintain immersion while meeting frame rate targets.",
+      "reference_context": {
+        "game_genre": "Open-World Survival",
+        "target_platform": "Next-Gen Console",
+        "performance_budget": "30 FPS in heavy weather",
+        "current_conflict": "Volumetric cloud rendering cost vs. visual fidelity"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Technical Feasibility — Does the proposed solution address the performance budget?",
+        "Criterion 2: Artistic Integrity — Does the compromise maintain the intended atmospheric immersion?",
+        "Criterion 3: Communication Clarity — Is the guide structured to facilitate a productive team discussion?"
+      ],
+      "student_answer": "# Design Meeting: Dynamic Weather System Compromise\n**Duration:** 30 Minutes\n**Goal:** Finalize a hybrid rendering strategy for volumetric clouds that meets the 30 FPS heavy-weather budget while preserving the survival game's atmospheric immersion.\n\n---\n\n## 1. Meeting Agenda & Time Allocation\n\n| Time | Segment | Lead | Objective |\n| :--- | :--- | :--- | : |\n| **00:00 – 05:00** | **Context & Constraints** | Lead Designer | Re-align on the 30 FPS \"heavy weather\" target and the core survival loop (visibility impacts gameplay). |\n| **05:00 – 15:00** | **The Compromise Proposal** | Technical Art | Present the \"Hybrid Volumetric\" solution (Low-poly base + 2D billboard layers). |\n| **15:00 – 25:00** | **Implementation & Style Guide** | Engineering & Art | Define LOD tiers, shader adjustments, and texture atlas strategies. |\n| **25:00 – 30:00** | **Action Items & Sign-off** | Lead Designer | Assign tasks and confirm the visual style pivot. |\n\n---\n\n## 2. The Compromise Solution: \"Hybrid Volumetric\"\n\n**Core Concept:** Replace full-scene volumetric ray-marching with a **Multi-Layer Hybrid Approach**.\n*   **Base Layer (Low Cost):** High-resolution 2D billboard clouds for distant skyboxes and low-density fog.\n*   **Detail Layer (Medium Cost):** Low-poly mesh clouds with baked lighting maps for mid-range visibility.\n*   **Focal Layer (High Cost):** True volumetric shaders applied *only* to the player's immediate overhead (within 200m) and during critical narrative events.\n\n**Performance Logic:**\n*   **Dynamic Culling:** Volumetric shaders are disabled entirely when the player is in a cave, indoors, or looking at the horizon.\n*   **Resolution Scaling:** Volumetric density is reduced by 50% in heavy rain/fog states, relying on particle systems for precipitation density instead of cloud density.\n\n---\n\n## 3. Technical Implementation Strategy\n\n### A. Rendering Pipeline Adjustments\n1.  **LOD System for Clouds:**\n    *   **LOD 0 (0-50m):** Full volumetric shader, dynamic lighting interaction, high-res noise textures.\n    *   **LOD 1 (50-200m):** Mesh-based clouds with pre-baked ambient occlusion and directional light shadows. No real-time ray tracing.\n    *   **LOD 2 (200m+):** 2D Billboard sprites with alpha blending, using a shared skybox texture.\n2.  **Shader Optimization:**\n    *   Switch from per-pixel volumetric integration to **SDF (Signed Distance Field) approximations** for the focal layer.\n    *   Implement **Temporal Anti-Aliasing (TAA)** specifically tuned for cloud edges to reduce shimmering without increasing sample count.\n3.  **Memory Budget:**\n    *   Consolidate cloud noise textures into a single 4K Atlas to reduce draw calls.\n    *   Limit active cloud layers to 3 simultaneous density layers (Base, Mid, Top).\n\n### B. Frame Rate Targeting (30 FPS Heavy Weather)\n*   **Dynamic Resolution Scaling:** If FPS drops below 28, reduce volumetric slice count by 25% and lower shadow map resolution for clouds.\n*   **Particle Offloading:** Move heavy rain/snow particle physics to the GPU compute shader; reduce CPU-side collision checks for weather particles.\n\n---\n\n## 4. Visual Style Guide Adjustments\n\nTo maintain immersion despite reduced fidelity, the Art team must pivot from \"Photorealism\" to **\"Stylized Atmospheric Realism.\"**\n\n### A. Lighting & Color Palette\n*   **Baked Lighting:** Shift from real-time global illumination to **pre-baked light probes** for cloud interiors. This allows for rich, moody lighting without runtime cost.\n*   **Color Grading:** Enhance the post-processing stack. In heavy weather, increase contrast and saturation in the \"fog\" layer to compensate for the loss of volumetric depth.\n    *   *Rule:* \"If the cloud is flat, the light must be dramatic.\"\n*   **Silhouette Definition:** Ensure cloud edges remain sharp against the sky using a subtle rim-light shader pass, even on low-poly meshes.\n\n### B. Texture & Detail\n*   **Noise Over Geometry:** Replace complex geometry with high-frequency noise textures on 2D planes to simulate depth.\n*   **Dynamic Weather Masks:** Use a single \"Weather Mask\" texture that blends between clear, overcast, and storm states. This avoids loading new assets and allows for seamless transitions.\n*   **Atmospheric Haze:** Increase the density of the atmospheric scattering shader to hide the transition between LOD 1 and LOD 2, making the lower-fidelity distant clouds appear seamless.\n\n### C. Immersion Preservation\n*   **Sound Design Integration:** Since visual fidelity is reduced, increase the dynamic range of weather audio (wind howling, thunder rumble) to sell the \"heavy\" feeling of the storm.\n*   **Gameplay Feedback:** Ensure the weather system visually obscures the player's view *intentionally* (e.g., rain streaks on the camera lens) to reinforce the survival mechanic, making the performance compromise feel like a deliberate design choice.\n\n---\n\n## 5. Action Items\n\n1.  **Technical Art:** Create a prototype of the Hybrid Cloud LOD system by EOD Friday.\n2.  **Engineering:** Profile the current volumetric shader to identify the specific bottleneck (fill-rate vs. compute) for the 30 FPS target.\n3.  **Art:** Draft the new \"Stylized Atmospheric\" color palette and update the cloud noise texture atlas.\n4.  **Design:** Update the \"Weather Difficulty\" document to reflect the new visual-to-mechanic relationship (e.g., \"Storm Mode\" now relies more on audio cues).",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        4,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission provides a high-quality, industry-standard discussion guide with a solid technical compromise (Hybrid Volumetric) and clear action items. However, the inclusion of the 'Additional Checks' section (referencing gravity mechanics and puzzles not in the context) at the end of the document is a significant professional judgment error, indicating the student copied prompt instructions into the deliverable. This impacts Best Practices (3) and slightly Correctness (4) due to scope creep, though the core technical content remains accurate and well-structured (Clarity 5)."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Oversee gameplay testing to ensure intended gaming experience and game adherence to original vision.",
+      "task_type": "Playtest Analysis and Iteration",
+      "user_prompt": "Review the following playtest data for a new stealth mechanic in a cyberpunk RPG: 40% of players failed the first stealth encounter, 60% reported confusion about enemy vision cones, and retention dropped by 15% after this section. The original vision was 'tactical patience.' Analyze the data to identify the root cause of the failure and propose three specific design adjustments to the encounter layout or UI feedback to align player behavior with the intended vision.",
+      "reference_context": {
+        "game_genre": "Cyberpunk Stealth RPG",
+        "original_vision": "Tactical patience and observation",
+        "player_feedback": "Confusion regarding enemy vision cones",
+        "metric": "15% retention drop post-encounter"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Data Interpretation — Does the analysis correctly link the metric drop to the specific mechanic failure?",
+        "Criterion 2: Vision Alignment — Do the proposed adjustments reinforce 'tactical patience' rather than forcing combat?",
+        "Criterion 3: Actionability — Are the adjustments specific enough for immediate implementation?"
+      ],
+      "student_answer": "### Root Cause Analysis\nThe data indicates a critical failure in **informational clarity** rather than mechanical difficulty. The 60% confusion rate regarding vision cones suggests the current UI or environmental cues fail to communicate the \"Tactical patience\" vision, forcing players into a trial-and-error loop. This friction directly caused the 40% failure rate and the subsequent 15% retention drop, as players felt punished for not understanding the rules rather than challenged by the execution. The system is currently prioritizing obscurity over the intended strategic observation.\n\n### Design Adjustments\n\n**1. Implement Dynamic \"Threat-Gradient\" Visual Overlays**\nReplace static cone lines with a semi-transparent, radial gradient overlay that pulses in intensity based on the enemy's current awareness state.\n*   **Mechanic:** The cone should be invisible when the enemy is distracted (e.g., looking away) and fade in from deep red (high alert) to amber (caution) to green (safe) as the player moves within the field of view.\n*   **Alignment:** This provides immediate, non-intrusive feedback on the \"patience\" required, allowing players to visually gauge the exact moment to move without needing to memorize abstract angles.\n\n**2. Introduce \"Line-of-Sight\" Haptic and Audio Cues**\nAugment the visual data with distinct audio-visual signals that trigger specifically when a player enters a vision cone, differentiating between \"peripheral awareness\" and \"direct lock-on.\"\n*   **Mechanic:** A subtle, rhythmic heartbeat sound or controller vibration increases in frequency as the player moves deeper into the cone. A sharp, high-pitched \"click\" or screen vignette occurs only when the enemy's head turns directly toward the player.\n*   **Alignment:** This reinforces the need for observation and timing, teaching players to listen and watch for the specific cues that signal when it is safe to proceed, directly supporting the \"tactical patience\" vision.\n\n**3. Redesign Encounter Layout with \"Safe Zones\" and Visual Anchors**\nModify the initial encounter geometry to include clearly marked, non-threatening \"observation points\" (e.g., a safe corner with a distinct lighting color or a visible security camera feed) that allow players to map the enemy patrol patterns before engaging.\n*   **Mechanic:** Place a stationary, non-hostile drone or terminal in the initial room that displays a real-time, simplified map of the enemy's current patrol route. Require players to interact with this terminal to unlock the next stealth segment.\n*   **Alignment:** This shifts the burden from \"guessing\" to \"learning,\" ensuring players have the necessary information to practice patience. It validates the design intent by rewarding observation with progression, preventing the frustration that leads to retention loss.",
+      "score": 4.6,
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission correctly analyzes the data and proposes three adjustments with clear structure and alignment. However, Adjustment 3 relies on an explicit tutorial (terminal map) rather than environmental storytelling, which contradicts the 'Tactical Patience' vision and industry standards for immersive stealth. This prevents a perfect score on Correctness and Best Practices, while Completeness, Domain Accuracy, and Clarity remain strong."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Present new game design concepts to management and technical colleagues, including artists, animators, and programmers.",
+      "task_type": "Concept Pitch and Technical Breakdown",
+      "user_prompt": "Create a presentation outline for a new 'procedural narrative' feature in a narrative-driven adventure game. The concept allows player choices to dynamically alter the environment geometry. Structure the presentation to include: 1) The core player experience hook, 2) A high-level technical architecture for the procedural generation, and 3) A resource estimate for the art team. Ensure the pitch addresses potential risks for management.",
+      "reference_context": {
+        "game_genre": "Narrative Adventure",
+        "feature": "Dynamic Environment Geometry based on choices",
+        "audience": "Management, Tech Leads, Art Directors",
+        "goal": "Secure approval for Q3 prototype development"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Persuasion — Is the player experience hook compelling and clear?",
+        "Criterion 2: Technical Realism — Is the architecture description plausible for current engines?",
+        "Criterion 3: Risk Management — Are potential downsides for management clearly articulated?"
+      ],
+      "student_answer": "# Presentation: Project \"Morphic\" – Procedural Narrative Architecture\n**Date:** October 26, 2023\n**Presenter:** Lead Game Designer\n**Goal:** Secure Q3 Prototype Approval\n\n---\n\n## Slide 1: Executive Summary\n*   **Feature Name:** Morphic (Dynamic Environmental Narrative)\n*   **Core Concept:** Player choices do not just change dialogue; they physically reshape the game world's geometry in real-time.\n*   **Objective:** Validate technical feasibility and artistic pipeline viability for a Q3 prototype.\n\n---\n\n## Slide 2: The Core Player Experience Hook\n**\"Your Story, Your Structure\"**\n\n*   **The Hook:** Traditional narrative games offer branching dialogue trees; *Morphic* offers branching *physical* realities.\n*   **Key Moments:**\n    *   **The Wall of Silence:** Choosing to hide a secret causes a literal wall to grow, blocking the path and altering the room's acoustics.\n    *   **The Bridge of Trust:** A failed negotiation causes a bridge to crumble, forcing a detour that reveals a hidden backstory.\n    *   **The Room of Memory:** A character's trauma manifests as a shifting labyrinth; resolving the emotional arc physically \"opens\" the room.\n*   **Value Proposition:**\n    *   **Immersion:** Creates a visceral feedback loop where emotional weight equals physical consequence.\n    *   **Replayability:** Every playthrough offers a unique spatial layout, encouraging multiple runs to see all narrative permutations.\n    *   **Differentiation:** Moves beyond standard \"choice-based\" mechanics to \"environment-based\" storytelling.\n\n---\n\n## Slide 3: High-Level Technical Architecture\n**\"The Narrative-Geometry Engine\"**\n\n*   **1. Narrative State Manager (The Brain)**\n    *   Monitors global story flags and immediate player decisions.\n    *   Outputs \"Geometry Intent\" tokens (e.g., `OPEN_PASSAGE`, `BLOCK_ROUTE`, `EXPAND_ROOM`).\n*   **2. Procedural Logic Layer (The Planner)**\n    *   **Constraint Solver:** Ensures generated geometry remains navigable and logically consistent (e.g., no floating islands, valid doorways).\n    *   **Modular Assembly:** Selects pre-fabricated architectural \"chunks\" (walls, floors, ceilings) based on intent tokens.\n    *   **Topology Adjustment:** Dynamically updates collision meshes and lighting bounds.\n*   **3. Runtime Rendering Pipeline (The Visuals)**\n    *   **GPU Instancing:** Renders modular chunks efficiently to maintain 60 FPS.\n    *   **Shader-Based Morphing:** Smooth transitions between states (e.g., walls rising slowly rather than snapping) to preserve narrative pacing.\n    *   **Occlusion Culling:** Real-time updates to ensure performance stability as the map changes.\n\n---\n\n## Slide 4: Art Team Resource Estimate\n**\"Modular Efficiency Strategy\"**\n\n*   **Strategy:** \"High-Modularity, Low-Redundancy.\" We do not build unique assets for every outcome; we build a robust library of interchangeable parts.\n*   **Asset Requirements:**\n    *   **Modular Kit:** 150 unique architectural pieces (walls, floors, stairs, debris, doors).\n    *   **Material Variants:** 20 texture sets with dynamic blending capabilities (e.g., clean vs. decayed).\n    *   **Animation Controllers:** 10 specialized transition animations for structural shifts.\n*   **Team Allocation (Q3 Prototype Phase):**\n    *   **1 Senior Environment Artist:** Lead on modular kit design and topology constraints.\n    *   **1 Technical Artist:** Bridge between narrative logic and geometry generation; shader development.\n    *   **1 Junior Artist:** Asset creation, texturing, and LOD optimization.\n*   **Timeline:** 12 Weeks to deliver a fully functional \"Vertical Slice\" of one narrative chapter.\n\n---\n\n## Slide 5: Risk Assessment & Mitigation\n**\"Addressing Management Concerns\"**\n\n| Risk Category | Potential Impact | Mitigation Strategy |\n| :--- | :--- | :--- |\n| **Performance** | Geometry changes causing frame rate drops or memory leaks. | **Constraint:** Limit active geometry changes to specific \"narrative beats\" rather than continuous streaming. Use aggressive occlusion culling and LODs. |\n| **Narrative Consistency** | Player choices creating impossible geometry (e.g., blocking a required exit). | **Logic:** Implement a \"Narrative Safety Net\" where the procedural system prioritizes story-critical paths over aesthetic changes. |\n| **Art Scope Creep** | Needing too many unique assets to cover all permutations. | **Scope:** Strictly enforce a modular kit approach. If a shape cannot be built from the kit, it is excluded from the prototype. |\n| **QA Complexity** | Exponential increase in test cases due to branching geometry. | **Process:** Focus QA on \"State Validation\" (is the room playable?) rather than \"Path Validation\" (is every path perfect?). |\n\n---\n\n## Slide 6: Next Steps & Approval Request\n*   **Immediate Action:** Approve Q3 budget for the 3-person art/tech team.\n*   **Deliverable:** A playable prototype of \"The Library\" chapter demonstrating 3 distinct geometry shifts based on player choice.\n*   **Decision Point:** Go/No-Go on full production integration by end of Q3.\n\n**\"Let's build a world that breathes with the story.\"**",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        4,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission is a highly professional presentation outline that addresses all task requirements with exceptional clarity and structure. It effectively separates narrative hooks from technical architecture and provides a concrete resource estimate and risk assessment. However, a minor technical imprecision exists in the architecture section where 'Modular Assembly' (discrete swapping) is conflated with 'Shader-Based Morphing' (continuous deformation), which a Technical Lead would flag as a conceptual gap. This prevents a perfect score on Domain Accuracy, though the overall quality remains industry-standard."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Prepare two-dimensional concept layouts or three-dimensional mock-ups.",
+      "task_type": "Level Layout Documentation",
+      "user_prompt": "Design a 2D top-down layout for a 'Boss Arena' in a 2D platformer. The arena must support a 3-phase boss fight with distinct environmental hazards in each phase. Provide a text-based schematic description of the layout, including platform placements, hazard zones, and safe zones. Explain how the layout forces the player to utilize specific movement mechanics (e.g., double jump, dash) to survive each phase.",
+      "reference_context": {
+        "game_genre": "2D Action Platformer",
+        "boss_type": "Mechanical Colossus",
+        "required_mechanics": [
+          "Double Jump",
+          "Dash",
+          "Wall Cling"
+        ],
+        "phase_count": 3
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Spatial Logic — Does the layout support the intended flow of the 3-phase fight?",
+        "Criterion 2: Mechanic Integration — Are the required movement mechanics necessary for survival in each phase?",
+        "Criterion 3: Handoff Readiness — Is the schematic description clear enough for a level artist to build?"
+      ],
+      "student_answer": "# Boss Arena: The Iron Foundry\n**Boss:** Mechanical Colossus \"Forge-Prime\"\n**Arena Dimensions:** 24 units wide x 16 units high (Grid-based)\n\n## 1. Text-Based Schematic Layout\n\n```text\n[ 0,0 ] [ 1,0 ] [ 2,0 ] [ 3,0 ] [ 4,0 ] [ 5,0 ] [ 6,0 ] [ 7,0 ] [ 8,0 ] [ 9,0 ] [10,0 ] [11,0 ] [12,0 ] [13,0 ] [14,0 ] [15,0 ] [16,0 ] [17,0 ] [18,0 ] [19,0 ] [20,0 ] [21,0 ] [22,0 ] [23,0 ]\n[ 0,1 ] [ 1,1 ] [ 2,1 ] [ 3,1 ] [ 4,1 ] [ 5,1 ] [ 6,1 ] [ 7,1 ] [ 8,1 ] [ 9,1 ] [10,1 ] [11,1 ] [12,1 ] [13,1 ] [14,1 ] [15,1 ] [16,1 ] [17,1 ] [18,1 ] [19,1 ] [20,1 ] [21,1 ] [22,1 ] [23,1 ]\n[ 0,2 ] [ 1,2 ] [ 2,2 ] [ 3,2 ] [ 4,2 ] [ 5,2 ] [ 6,2 ] [ 7,2 ] [ 8,2 ] [ 9,2 ] [10,2 ] [11,2 ] [12,2 ] [13,2 ] [14,2 ] [15,2 ] [16,2 ] [17,2 ] [18,2 ] [19,2 ] [20,2 ] [21,2 ] [22,2 ] [23,2 ]\n[ 0,3 ] [ 1,3 ] [ 2,3 ] [ 3,3 ] [ 4,3 ] [ 5,3 ] [ 6,3 ] [ 7,3 ] [ 8,3 ] [ 9,3 ] [10,3 ] [11,3 ] [12,3 ] [13,3 ] [14,3 ] [15,3 ] [16,3 ] [17,3 ] [18,3 ] [19,3 ] [20,3 ] [21,3 ] [22,3 ] [23,3 ]\n[ 0,4 ] [ 1,4 ] [ 2,4 ] [ 3,4 ] [ 4,4 ] [ 5,4 ] [ 6,4 ] [ 7,4 ] [ 8,4 ] [ 9,4 ] [10,4 ] [11,4 ] [12,4 ] [13,4 ] [14,4 ] [15,4 ] [16,4 ] [17,4 ] [18,4 ] [19,4 ] [20,4 ] [21,4 ] [22,4 ] [23,4 ]\n[ 0,5 ] [ 1,5 ] [ 2,5 ] [ 3,5 ] [ 4,5 ] [ 5,5 ] [ 6,5 ] [ 7,5 ] [ 8,5 ] [ 9,5 ] [10,5 ] [11,5 ] [12,5 ] [13,5 ] [14,5 ] [15,5 ] [16,5 ] [17,5 ] [18,5 ] [19,5 ] [20,5 ] [21,5 ] [22,5 ] [23,5 ]\n[ 0,6 ] [ 1,6 ] [ 2,6 ] [ 3,6 ] [ 4,6 ] [ 5,6 ] [ 6,6 ] [ 7,6 ] [ 8,6 ] [ 9,6 ] [10,6 ] [11,6 ] [12,6 ] [13,6 ] [14,6 ] [15,6 ] [16,6 ] [17,6 ] [18,6 ] [19,6 ] [20,6 ] [21,6 ] [22,6 ] [23,6 ]\n[ 0,7 ] [ 1,7 ] [ 2,7 ] [ 3,7 ] [ 4,7 ] [ 5,7 ] [ 6,7 ] [ 7,7 ] [ 8,7 ] [ 9,7 ] [10,7 ] [11,7 ] [12,7 ] [13,7 ] [14,7 ] [15,7 ] [16,7 ] [17,7 ] [18,7 ] [19,7 ] [20,7 ] [21,7 ] [22,7 ] [23,7 ]\n[ 0,8 ] [ 1,8 ] [ 2,8 ] [ 3,8 ] [ 4,8 ] [ 5,8 ] [ 6,8 ] [ 7,8 ] [ 8,8 ] [ 9,8 ] [10,8 ] [11,8 ] [12,8 ] [13,8 ] [14,8 ] [15,8 ] [16,8 ] [17,8 ] [18,8 ] [19,8 ] [20,8 ] [21,8 ] [22,8 ] [23,8 ]\n[ 0,9 ] [ 1,9 ] [ 2,9 ] [ 3,9 ] [ 4,9 ] [ 5,9 ] [ 6,9 ] [ 7,9 ] [ 8,9 ] [ 9,9 ] [10,9 ] [11,9 ] [12,9 ] [13,9 ] [14,9 ] [15,9 ] [16,9 ] [17,9 ] [18,9 ] [19,9 ] [20,9 ] [21,9 ] [22,9 ] [23,9 ]\n[ 0,10][ 1,10][ 2,10][ 3,10][ 4,10][ 5,10][ 6,10][ 7,10][ 8,10][ 9,10][10,10][11,10][12,10][13,10][14,10][15,10][16,10][17,10][18,10][19,10][20,10][21,10][22,10][23,10]\n[ 0,11][ 1,11][ 2,11][ 3,11][ 4,11][ 5,11][ 6,11][ 7,11][ 8,11][ 9,11][10,11][11,11][12,11][13,11][14,11][15,11][16,11][17,11][18,11][19,11][20,11][21,11][22,11][23,11]\n[ 0,12][ 1,12][ 2,12][ 3,12][ 4,12][ 5,12][ 6,12][ 7,12][ 8,12][ 9,12][10,12][11,12][12,12][13,12][14,12][15,12][16,12][17,12][18,12][19,12][20,12][21,12][22,12][23,12]\n[ 0,13][ 1,13][ 2,13][ 3,13][ 4,13][ 5,13][ 6,13][ 7,13][ 8,13][ 9,13][10,13][11,13][12,13][13,13][14,13][15,13][16,13][17,13][18,13][19,13][20,13][21,13][22,13][23,13]\n[ 0,14][ 1,14][ 2,14][ 3,14][ 4,14][ 5,14][ 6,14][ 7,14][ 8,14][ 9,14][10,14][11,14][12,14][13,14][14,14][15,14][16,14][17,14][18,14][19,14][20,14][21,14][22,14][23,14]\n[ 0,15][ 1,15][ 2,15][ 3,15][ 4,15][ 5,15][ 6,15][ 7,15][ 8,15][ 9,15][10,15][11,15][12,15][13,15][14,15][15,15][16,15][17,15][18,15][19,15][20,15][21,15][22,15][23,15]\n\nLEGEND:\n# = Solid Platform (Ground)\n= = Floating Platform\n| = Wall (Clingable)\n~ = Hazard Zone (Phase Specific)\n. = Safe Zone\nB = Boss Spawn Point (Center, 11,7)\n```\n\n### Detailed Platform & Hazard Map\n\n**Phase 1: The Foundation (Ground & Low Platforms)**\n*   **Ground:** Solid floor at Y=15 (X: 0-23).\n*   **Floating Platforms:**\n    *   P1: X: 4-6, Y=12\n    *   P2: X: 10-12, Y=12\n    *   P3: X: 16-18, Y=12\n    *   P4: X: 8-10, Y=9\n    *   P5: X: 14-16, Y=9\n*   **Hazard Zone:** None initially.\n*   **Safe Zones:** All platforms and ground.\n\n**Phase 2: The Magma Flow (Vertical Hazards)**\n*   **Ground:** Floor at Y=15 is now **Hazardous** (Lava).\n*   **Floating Platforms:**\n    *   P1: X: 4-6, Y=12\n    *   P2: X: 10-12, Y=12\n    *   P3: X: 16-18, Y=12\n    *   P4: X: 8-10, Y=9\n    *   P5: X: 14-16, Y=9\n    *   P6: X: 2-4, Y=6 (New)\n    *   P7: X: 20-22, Y=6 (New)\n*   **Hazard Zone:** Floor (Y=15) is lava.\n*   **Safe Zones:** Platforms P1-P7.\n\n**Phase 3: The Magnetic Storm (Wall & Ceiling Hazards)**\n*   **Ground:** Floor (Y=15) is **Hazardous** (Acid).\n*   **Ceiling:** Ceiling (Y=0) is **Hazardous** (Magnetic Pull).\n*   **Floating Platforms:**\n    *   P1: X: 4-6, Y=12\n    *   P2: X: 10-12, Y=12\n    *   P3: X: 16-18, Y=12\n    *   P4: X: 8-10, Y=9\n    *   P5: X: 14-16, Y=9\n    *   P6: X: 2-4, Y=6\n    *   P7: X: 20-22, Y=6\n    *   P8: X: 10-12, Y=3 (New, Center Top)\n*   **Hazard Zones:** Floor (Y=15) and Ceiling (Y=0).\n*   **Safe Zones:** Platforms P1-P8 and **Walls** (X=0 and X=23).\n\n---\n\n## 2. Mechanical Enforcement & Phase Logic\n\n### Phase 1: The Foundation\n*   **Layout Intent:** Establishes baseline combat. The boss uses slow, wide melee swings.\n*   **Mechanic Enforcement:**\n    *   **Double Jump:** Required to reach the floating platforms (P1-P3) to avoid the boss's ground slam. The gap between the ground and P1 is too high for a single jump.\n    *   **Dash:** Used to close the distance to the boss quickly when it retreats behind P2 or P3, or to dodge the initial charge attack.\n*   **Player Strategy:** Players must learn to time jumps to land on P1-P3 while the boss is recovering from an attack.\n\n### Phase 2: The Magma Flow\n*   **Layout Intent:** Forces verticality. The ground is now deadly, removing the \"safe\" fallback.\n*   **Mechanic Enforcement:**\n    *   **Double Jump:** Critical for reaching the higher platforms (P6, P7 at Y=6) which are now the only safe havens. The gap from P1/P2 to P6/P7 requires a mid-air jump.\n    *   **Dash:** Essential for traversing the horizontal gaps between P6 and P7, or P4 and P5, as the boss now fires projectiles that cover the lower platforms.\n*   **Player Strategy:** Players must constantly move between the upper platforms. Staying on one platform for too long invites the boss's area-of-effect fire attack.\n\n### Phase 3: The Magnetic Storm\n*   **Layout Intent:** Compresses the playable area. The floor and ceiling are lethal, forcing the player to the middle and the walls.\n*   **Mechanic Enforcement:**\n    *   **Wall Cling:** The only safe zones are the side walls (X=0, X=23) and the central high platform (P8). The boss's \"Magnetic Pull\" attack forces the player off platforms. Players must immediately **Wall Cling** to the side walls to avoid being sucked into the ceiling or floor hazards.\n    *   **Dash:** Used to escape the \"Magnetic Pull\" radius before hitting the wall, or to dash from a wall to the central platform (P8) to attack the boss's weak point.\n    *   **Double Jump:** Required to reach P8 from the side walls or lower platforms, as the magnetic field disrupts standard gravity.\n*   **Player Strategy:** Survival depends on the reflex to **Wall Cling** instantly when the magnetic field activates. The player must use the walls as a temporary shield while waiting for the boss to overheat, then dash to P8 for a counter-attack.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        2,
+        4
+      ],
+      "score": 2.6,
+      "grade_reason": "The schematic is empty of symbols, failing the visual requirement (Correctness 2). The design implements Side-View mechanics (Wall Cling, Y-axis gravity) contradicting the 'Top-Down' instruction (Domain Accuracy 2, Best Practices 2). Text descriptions are clear and detailed (Clarity 4), and the information is present in text form, mitigating completeness slightly (Completeness 3)."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Keep abreast of game design technology and techniques, industry trends, or audience interests, reactions, and needs by reviewing current literature, talking with colleagues, participating in educational programs, attending meetings or workshops, or participating in professional organizations or conferences.",
+      "task_type": "Market Analysis & Feature Proposal",
+      "user_prompt": "Analyze the current trend of 'live service' retention mechanics in mobile RPGs. Draft a 1-page proposal for a new 'Daily Challenge' feature that leverages player psychology to increase daily active users (DAU). The proposal must include a specific reward structure, a psychological hook explanation, and a metric for success.",
+      "reference_context": {
+        "game_genre": "Mobile Fantasy RPG",
+        "target_audience": "Casual to Mid-core players",
+        "current_retention_rate": "45% Day 1, 15% Day 7",
+        "monetization_model": "Freemium with Battle Pass"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Psychological Depth — Does the proposal clearly explain the behavioral trigger (e.g., variable ratio reinforcement, loss aversion)?",
+        "Criterion 2: Metric Alignment — Are the success metrics directly tied to retention and engagement goals?",
+        "Criterion 3: Implementation Clarity — Is the reward structure specific enough for the economy team to balance?"
+      ],
+      "student_answer": "# Feature Proposal: The \"Eternal Gauntlet\" Daily Challenge\n\n### 1. Feature Overview\n**The Eternal Gauntlet** is a dynamic, 3-minute daily combat instance that resets every 24 hours. Unlike static daily quests, the Gauntlet features a procedurally generated \"Threat Level\" and a unique \"Modifier\" (e.g., \"No Healing,\" \"Double XP,\" \"Boss has 50% HP\") that changes daily. Players must complete the challenge to unlock the \"Daily Vault,\" a high-value reward container that expires if not claimed within 24 hours.\n\n### 2. Psychological Hook: The \"Zeigarnik Effect\" & Loss Aversion\nThis feature leverages two core psychological drivers to maximize DAU:\n*   **The Zeigarnik Effect (Open Loops):** By introducing a unique, time-sensitive modifier each day, the game creates a cognitive \"open loop.\" Players feel a psychological compulsion to close the loop by completing the specific challenge before the day ends, as unfinished tasks are remembered more vividly than completed ones.\n*   **Loss Aversion:** The \"Daily Vault\" contains premium currency and rare materials. If a player logs in but fails to complete the Gauntlet, they do not just miss out on a reward; they actively \"lose\" the opportunity to claim it. The fear of missing out (FOMO) on a time-limited, high-value reward is a stronger motivator for daily logins than the anticipation of a reward.\n\n### 3. Reward Structure\nThe reward system is tiered to accommodate both casual and mid-core players while driving monetization:\n\n*   **Tier 1: The \"Streak\" Reward (Free)**\n    *   *Condition:* Complete the Gauntlet within 3 attempts.\n    *   *Reward:* 50 Gold, 10 Energy, and a \"Streak Token\" (accumulates for 7-day bonus).\n    *   *Goal:* Low barrier to entry ensures high completion rates for casuals.\n\n*   **Tier 2: The \"Vault\" Reward (Free)**\n    *   *Condition:* Complete the Gauntlet within 1 attempt (Perfect Run).\n    *   *Reward:* 100 Gold, 1 Rare Summon Ticket, and the \"Daily Vault\" (contains 1 Epic Gem or 500 Battle Pass XP).\n    *   *Goal:* Incentivizes skill mastery and engagement with the Battle Pass progression.\n\n*   **Tier 3: The \"Resurrection\" (Monetization)**\n    *   *Condition:* Failed the Gauntlet but wish to retry immediately.\n    *   *Mechanic:* Players can spend 10 Gems (or 1 Battle Pass Token) to reset the modifier and retry instantly.\n    *   *Goal:* Converts frustration into micro-transaction revenue without breaking game balance.\n\n### 4. Success Metric\n**Primary KPI: Daily Challenge Completion Rate (DCCR)**\n*   **Definition:** The percentage of Daily Active Users (DAU) who successfully complete the Gauntlet within the 24-hour window.\n*   **Target:** Increase DCCR to **65%** within 30 days of launch.\n*   **Secondary Metric:** **Battle Pass XP Conversion Rate.** We will track the percentage of players who earn the \"Daily Vault\" reward and subsequently purchase a Battle Pass upgrade to accelerate their progress, aiming for a **15% conversion lift** among Gauntlet completers.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        5,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "Correctness (4) & Completeness (4): The proposal is high quality but omits the explicit 'trend analysis' section requested in the prompt instructions. Best Practices (3): Monetizing retries on a daily retention feature (charging gems to retry) introduces friction that risks hurting the DAU goal. Domain Accuracy (5): Psychological concepts and game terminology are used accurately. Clarity (5): Structure is professional and easy to follow."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Collaborate with artists to achieve appropriate visual style.",
+      "task_type": "Visual Style & Mechanics Integration",
+      "user_prompt": "Create a design specification for a 'Stealth' mechanic in a noir-themed detective game. The document must define how the lighting system (Art) interacts with the player's 'shadow meter' (Mechanics) to create tension. Include a table mapping light intensity levels to stealth success probabilities and a brief narrative description of the visual feedback loop.",
+      "reference_context": {
+        "game_genre": "Noir Detective Adventure",
+        "art_style": "High-contrast 2.5D cel-shaded",
+        "core_mechanic": "Shadow Meter (0-100)",
+        "environment": "Urban rooftops and alleyways"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Cross-Disciplinary Clarity — Does the spec clearly communicate requirements to both Art and Engineering?",
+        "Criterion 2: Player Psychology — Does the mechanic effectively induce tension through visual feedback?",
+        "Criterion 3: Technical Feasibility — Are the light intensity thresholds logical for a 2.5D engine?"
+      ],
+      "student_answer": "# Design Specification: The Shadow Meter System\n**Project:** Noir Detective Adventure  \n**Module:** Stealth Mechanics & Lighting Integration  \n**Version:** 1.0\n\n## 1. Core Concept\nThe \"Shadow Meter\" is the primary tension driver, replacing traditional health bars for stealth. It quantifies the player's exposure to the environment's high-contrast lighting. In a world defined by chiaroscuro, the player is not invisible; they are a silhouette waiting to be illuminated. The system relies on the Art team's dynamic lighting engine to directly manipulate the Mechanics' meter, creating a visceral feedback loop where light equals danger.\n\n## 2. Art-Mechanics Interaction\nThe lighting system does not merely illuminate the scene; it acts as an active antagonist. The Art team must implement a **Dynamic Shadow Penumbra** system where light sources cast hard, distinct edges (consistent with 2.5D cel-shading).\n\n*   **The Interaction:** As the player moves from deep shadow into a pool of light, the \"Shadow Meter\" depletes in real-time. The rate of depletion is non-linear; the brighter the light source, the faster the meter drains.\n*   **Visual Feedback:** The player character's silhouette is rendered with a \"glow\" effect that intensifies as the meter drops. When the meter hits critical levels, the cel-shading lines of the character begin to fracture, signaling imminent detection.\n*   **Environmental Storytelling:** Light sources are diegetic (streetlamps, neon signs, moonlight through broken windows). The player must physically navigate the geometry of the rooftops and alleyways to stay within the \"safe zones\" of the art assets.\n\n## 3. Light Intensity vs. Stealth Probability\nThe following table defines the mathematical relationship between the Art team's light intensity values (0.0 to 1.0) and the resulting Stealth Success Probability.\n\n| Light Intensity (0.0 - 1.0) | Visual Description (Art) | Shadow Meter Drain Rate | Stealth Success Probability | Player Action Required |\n| :--- | :--- | :--- | :--- | :--- |\n| **0.0 – 0.2** | Deep, absolute darkness; only silhouette visible. | 0% | **100%** (Perfect Stealth) | None. Safe to move freely. |\n| **0.2 – 0.4** | Dim alley shadows; faint outlines of objects. | 5% / sec | **85%** | Minimal movement; avoid sudden turns. |\n| **0.4 – 0.6** | Partial moonlight; distinct shadows cast. | 15% / sec | **60%** | Hold position or move slowly; crouch required. |\n| **0.6 – 0.8** | Streetlamp glow; character clearly defined. | 35% / sec | **30%** | Must seek cover immediately; high risk of detection. |\n| **0.8 – 1.0** | Direct floodlight/Neon; harsh, high-contrast. | 80% / sec | **0%** (Inevitable Detection) | Immediate cover required; meter will deplete in <1 sec. |\n\n## 4. Visual Feedback Loop Narrative\nThe player enters a rain-slicked alleyway, the air thick with the hum of a distant neon sign. As they step from the safety of a brick overhang into the pool of amber light cast by a flickering streetlamp, the **Shadow Meter** begins to tick down.\n\nVisually, the character's cel-shaded outline begins to bleed a faint, translucent white, mimicking the way light bleaches ink. The background art shifts subtly; the deep blacks of the alley recede, and the textures of the wet pavement become hyper-detailed, emphasizing the player's presence.\n\nIf the player hesitates, the meter hits the \"Warning Zone\" (30%). The screen edges vignette heavily, and the sound design isolates the player's heartbeat, which syncs with the pulsing of the light source. The player must dive into a dumpster or a narrow gap between fire escapes. As they re-enter the darkness, the white bleed on their silhouette fades, the vignette lifts, and the meter stabilizes, restoring the tension of the hunt. The cycle repeats: light exposes, darkness conceals, and the player must constantly negotiate the boundary between the two.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "Correctness is 5 as all prompt requirements (table, narrative, interaction definition) were explicitly met. Completeness is 4 because the design specification lacks critical implementation details regarding meter regeneration and explicit win/loss states (e.g., what happens when detection occurs), which are necessary for a functional spec. Best Practices is 4 for the same reason; industry-standard stealth mechanics require defined recovery loops. Domain Accuracy is 5 as terminology (chiaroscuro, penumbra, diegetic) and logic are used correctly. Clarity is 5 due to excellent structure and readable formatting."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Write or supervise the writing of game text and dialogue.",
+      "task_type": "Narrative & Dialogue Design",
+      "user_prompt": "Write a branching dialogue tree for a critical NPC interaction in a post-apocalyptic survival game. The NPC is a former ally who has turned hostile. The dialogue must offer three distinct outcomes based on player reputation: 'Mercy', 'Intimidation', and 'Deception'. For each branch, provide the dialogue script, the required reputation threshold, and the long-term consequence on the game world state.",
+      "reference_context": {
+        "game_genre": "Post-Apocalyptic Survival RPG",
+        "npc_role": "Former Squad Leader",
+        "player_reputation_range": "-100 (Hated) to +100 (Loved)",
+        "current_reputation": "+45"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Narrative Consistency — Do the dialogue choices and outcomes align with the established lore and character motivations?",
+        "Criterion 2: Player Agency — Do the three branches offer distinct, meaningful consequences?",
+        "Criterion 3: Implementation Readiness — Are the reputation thresholds and state changes clearly defined for the quest system?"
+      ],
+      "student_answer": "# NPC Interaction: \"The Broken Chain\"\n**NPC:** Kaelen (Former Squad Leader)\n**Location:** The Rusty Outpost, Central Plaza\n**Context:** Kaelen has seized the outpost's water filtration system, holding the local settlement hostage. He demands the player's surrender or the destruction of the water supply.\n\n---\n\n## Branch 1: Mercy (The Path of Redemption)\n**Required Reputation Threshold:** +60 or higher\n**Current Status:** *Unreachable* (Player is at +45)\n\n### Dialogue Script\n**Kaelen:** \"Don't take another step, [Player Name]. I know you're here to stop me. But look at them. They're shivering, dying of thirst. I'm the only one who can keep them alive.\"\n**Player:** \"You're killing them, Kaelen. Hoarding the water while they suffer. That's not leadership; it's tyranny.\"\n**Kaelen:** \"Tyranny? I call it survival! You think you can just walk in here and take it back? You're weak, just like the rest of them.\"\n**Player:** \"I'm not here to fight you. I'm here to remember who we were. Remember the oath we took? To protect the weak, not crush them.\"\n*(Player lowers weapon and steps forward, unarmed.)*\n**Player:** \"Put the gun down, Kaelen. We can fix this together. We can share the water. We can be the squad we used to be.\"\n**Kaelen:** *(Pauses, hand trembling on the trigger)* \"You... you actually mean it? You'd give up your share for them?\"\n**Player:** \"Always.\"\n**Kaelen:** *(Sighs deeply, lowering the weapon)* \"I thought I was the only one left who remembered. Fine. The filtration system is yours. But if you betray me again, I won't hesitate.\"\n\n### Long-Term Consequence\n*   **World State:** The water filtration system is restored to public access. The local settlement enters a \"Rebuilding\" phase, increasing population growth by 20%.\n*   **Faction Impact:** Kaelen joins the player's faction as a non-combatant advisor, providing a permanent +10% resource efficiency bonus.\n*   **Narrative:** Kaelen's guilt is resolved; he becomes a recurring ally in future story arcs.\n\n---\n\n## Branch 2: Intimidation (The Path of Dominance)\n**Required Reputation Threshold:** +80 or higher (Requires high Charisma/Strength)\n**Current Status:** *Unreachable* (Player is at +45)\n\n### Dialogue Script\n**Kaelen:** \"Don't take another step, [Player Name]. I know you're here to stop me. But look at them. They're shivering, dying of thirst. I'm the only one who can keep them alive.\"\n**Player:** \"You're killing them, Kaelen. Hoarding the water while they suffer. That's not leadership; it's tyranny.\"\n**Kaelen:** \"Tyranny? I call it survival! You think you can just walk in here and take it back? You're weak, just like the rest of them.\"\n**Player:** \"Weak? I'm the reason you're still breathing. Look at your hands, Kaelen. They're shaking. You're not a leader; you're a desperate man holding a gun.\"\n*(Player steps forward, gripping their weapon tightly, eyes locked on Kaelen's.)*\n**Player:** \"I don't need your permission to take what's mine. I don't need your approval to save them. If you don't step aside, I will break you. And I will do it without hesitation.\"\n**Kaelen:** *(Eyes widen, sweat beading on his forehead)* \"You wouldn't... you wouldn't kill an old friend.\"\n**Player:** \"I've killed worse. Now, move. Or die.\"\n**Kaelen:** *(Drops the weapon, backing away)* \"Fine! Take it! Just don't kill me!\"\n\n### Long-Term Consequence\n*   **World State:** The water filtration system is seized by the player. The local settlement enters a \"Starvation\" phase, causing a temporary -15% population growth and increased crime rates.\n*   **Faction Impact:** Kaelen flees the area, becoming a recurring \"Rogue\" enemy who will ambush the player in future encounters.\n*   **Narrative:** The player's reputation among neutral factions drops by 10 points due to the brutal display of force.\n\n---\n\n## Branch 3: Deception (The Path of Manipulation)\n**Required Reputation Threshold:** +30 or higher (Requires high Charisma/Stealth)\n**Current Status:** *Reachable* (Player is at +45)\n\n### Dialogue Script\n**Kaelen:** \"Don't take another step, [Player Name]. I know you're here to stop me. But look at them. They're shivering, dying of thirst. I'm the only one who can keep them alive.\"\n**Player:** \"You're killing them, Kaelen. Hoarding the water while they suffer. That's not leadership; it's tyranny.\"\n**Kaelen:** \"Tyranny? I call it survival! You think you can just walk in here and take it back? You're weak, just like the rest of them.\"\n**Player:** \"I'm not here to take it, Kaelen. I'm here to warn you. The 'Scavenger Kings' know you have the water. They're marching on this outpost right now. They don't care about your 'survival' plan; they want to burn everything down.\"\n**Kaelen:** *(Hesitates, looking toward the horizon)* \"The Kings? They're dead. We buried them last month.\"\n**Player:** \"They're back. And they're led by a man who knows your secrets. If you don't give me the keys to the filtration system, I can't get you out in time. I can't save you.\"\n**Kaelen:** *(Panic sets in)* \"My secrets? How do you know about the...?\"\n**Player:** \"I know everything. Give me the keys, and I'll get you to safety. Refuse, and you die here alone.\"\n**Kaelen:** *(Frantically hands over the keys)* \"Take it! Just get me out of here!\"\n\n### Long-Term Consequence\n*   **World State:** The player gains control of the water filtration system. The local settlement remains stable, but the player's reputation with the \"Scavenger Kings\" faction drops to \"Hated\" (they will attack on sight).\n*   **Faction Impact:** Kaelen is convinced to flee with the player, but he is now paranoid and distrustful. He provides a temporary +5% stealth bonus but has a 10% chance to betray the player in future missions.\n*   **Narrative:** The player successfully manipulates the situation without violence, but the lie creates a lingering tension in the story. If the player encounters the Scavenger Kings later, they may discover the truth, leading to a reputation penalty.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission meets all core task requirements with clear scripts, thresholds, and consequences, demonstrating strong domain accuracy and clarity. However, it introduces Charisma/Strength stat requirements for specific branches, which deviates from the strict 'based on player reputation' instruction (Correctness 4). Additionally, while the scripts imply choices, explicit dialogue option formatting would better align with industry standard dialogue tree documentation (Best Practices 4). The 'Additional Checks' regarding gravity mechanics were correctly identified as irrelevant to the dialogue task."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Consult with multiple stakeholders to define requirements and implement online features.",
+      "task_type": "Multiplayer System Design",
+      "user_prompt": "Define the requirements for a 'Spectator Mode' feature for a competitive 5v5 shooter. The design must address how to prevent 'cheating' via spectator information while maintaining high engagement for non-playing users. Outline the data flow, the specific UI elements visible to spectators, and the anti-cheat logic for spectator cameras.",
+      "reference_context": {
+        "game_genre": "Competitive 5v5 Shooter",
+        "platform": "PC and Console",
+        "stakeholders": [
+          "Network Engineers",
+          "Security Team",
+          "Community Managers"
+        ],
+        "key_metric": "Spectator retention and stream viewer count"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Security & Fairness — Does the design effectively mitigate information leakage to spectators?",
+        "Criterion 2: Stakeholder Alignment — Does the proposal address the concerns of both security and community teams?",
+        "Criterion 3: Engagement Strategy — Are the UI elements designed to keep spectators engaged without breaking immersion?"
+      ],
+      "student_answer": "# Spectator Mode Design Specification: Competitive 5v5 Shooter\n\n## 1. Core Objective\nTo provide a high-fidelity viewing experience that maximizes engagement and streamability while strictly enforcing information asymmetry to prevent competitive advantage or \"cheating\" via spectator feeds.\n\n## 2. Anti-Cheat & Information Asymmetry Logic\nThe fundamental rule is: **Spectators see only what the active player sees, plus non-competitive meta-data.**\n\n### 2.1. Data Filtering Protocols\n*   **Line-of-Sight (LOS) Enforcement:** Spectator cameras are strictly bound to the active player's field of view. No \"god-mode\" or 360-degree omniscient views are permitted.\n*   **Occlusion Rendering:** Walls, floors, and environmental geometry must be rendered as solid opaque objects. Spectators cannot see through walls to track enemy positions.\n*   **Audio Isolation:**\n    *   **Footsteps/Reloads:** Only audible if the active player is within a specific radius (e.g., 10 meters) of the sound source.\n    *   **Enemy Voice Chat:** Completely muted for spectators.\n    *   **Team Voice Chat:** Muted unless the active player is the team leader (optional toggle for coaches).\n*   **Minimap & HUD Suppression:** The spectator view must never display the active player's minimap, ammo count, or health status unless explicitly requested by the player (e.g., \"Coach Mode\" with permission).\n\n### 2.2. Camera Control Restrictions\n*   **No Free-Cam:** Spectators cannot manually fly the camera. They must follow a \"Follow\" or \"Switch\" logic tied to living players.\n*   **Latency Buffer:** Spectator data is delayed by a fixed network tick (e.g., 2-3 seconds) relative to the live match to prevent real-time reaction to enemy movements.\n*   **Prediction Culling:** Client-side prediction errors (e.g., a player appearing to walk through a wall due to lag) are smoothed out on the spectator feed to prevent \"ghosting\" that could reveal hidden positions.\n\n## 3. Data Flow Architecture\n\n### 3.1. Ingestion Layer\n*   **Source:** Game Server (Authority) -> Dedicated Matchmaking Server.\n*   **Packet Type:** `SpectatorStreamPacket` (Compressed, Encrypted).\n*   **Frequency:** 30-60 FPS (capped to reduce bandwidth).\n*   **Content:**\n    *   Player transforms (position/rotation) of *only* the active player.\n    *   Weapon state (visual only, no ammo count).\n    *   Environmental state (projectiles, explosions).\n    *   **Excluded:** Enemy positions, health bars, minimap data, raw audio streams.\n\n### 3.2. Processing Layer (Server-Side)\n*   **Filter Engine:** Strips all non-visual competitive data.\n*   **Encryption:** Applies end-to-end encryption (AES-256) to the stream payload.\n*   **Latency Injection:** Adds a deterministic delay buffer to ensure the stream is never faster than the live match.\n\n### 3.3. Delivery Layer\n*   **Protocol:** UDP (for low latency) or HLS/DASH (for high-quality streaming).\n*   **Target:** Client-side Spectator Client / Streaming Platform API (Twitch/YouTube).\n*   **Validation:** Client verifies packet integrity; any tampered packets result in immediate stream termination.\n\n## 4. Spectator UI Elements\n\n### 4.1. Primary Viewport\n*   **Active Player Focus:** The camera centers on the currently selected player.\n*   **Visual Indicators:**\n    *   **Player Name Tag:** Visible above the active player's head.\n    *   **Health Bar:** *Only* visible if the active player is the one being watched (optional toggle for \"Coach\" mode).\n    *   **Weapon Model:** Fully rendered.\n    *   **Kill Feed:** A scrolling ticker on the side showing \"Player A eliminated Player B\" (text only, no location data).\n    *   **Round Timer:** Large, central overlay.\n    *   **Scoreboard:** Static overlay showing current round score and team status.\n\n### 4.2. Navigation & Controls\n*   **Player Switcher:** A radial menu or hotkey list allowing the spectator to jump to any *living* player on the field.\n*   **Camera Modes:**\n    *   *Follow:* Third-person behind the player.\n    *   *First-Person:* Matches the player's exact view.\n    *   *Freeze Frame:* Pauses the action for analysis (common in broadcast overlays).\n*   **Replay Timeline:** A scrubber bar at the bottom allowing users to jump to specific moments (e.g., \"Last Round,\" \"Kill Moment\").\n\n### 4.3. Engagement Features (Non-Competitive)\n*   **Highlight Reel:** Auto-generated clips of kills, clutches, or team fights.\n*   **Commentary Track:** Optional audio channel for professional casters (separate from game audio).\n*   **Polls/Interactivity:** Viewer polls (e.g., \"Who will win the next round?\") to drive community engagement.\n\n## 5. Implementation Requirements by Stakeholder\n\n| Stakeholder | Responsibility | Deliverable |\n| :--- | :--- | :--- |\n| **Network Engineers** | Optimize bandwidth for 60+ concurrent spectators per match. Implement the latency buffer and packet filtering. | `SpectatorStreamProtocol_v1.0` |\n| **Security Team** | Audit the data filtering logic to ensure no enemy coordinates leak. Implement anti-tamper encryption for the stream. | `Spectator Security Audit Report` |\n| **Community Managers** | Define the \"Coach Mode\" permissions and manage the integration with streaming platforms (Twitch/YouTube). | `Spectator UI/UX Guidelines` |\n\n## 6. Success Metrics\n*   **Retention:** Average session duration of spectators > 15 minutes.\n*   **Stream Growth:** 20% increase in concurrent viewers during peak matches.\n*   **Security:** Zero incidents of \"spectator cheating\" (e.g., wall-hacking via spectator feed) reported in Q1.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission is professionally structured and addresses all core requirements with strong anti-cheat logic (LOS, audio isolation, latency). However, it conflates in-game spectator latency with broadcast stream latency, applying a 2-3 second delay to the 'Client-side Spectator Client' which is not standard for competitive play where teammates/coaches require live data. Additionally, the logic for handling the active player's death (death cam) is not explicitly defined. These are meaningful gaps preventing a perfect score, though the terminology and clarity are excellent."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Review or evaluate competitive products, film, music, television, and other art forms to generate new game design ideas.",
+      "task_type": "Competitive Analysis & Adaptation",
+      "user_prompt": "Conduct a comparative analysis of the 'Battle Royale' genre's progression systems. Identify one successful retention mechanic from a top competitor (e.g., 'Daily Login Streaks' or 'Seasonal Battle Pass') and adapt it for a single-player, story-driven action game. Explain how you would modify the mechanic to fit a non-competitive narrative structure while maintaining the psychological hook of progression.",
+      "reference_context": {
+        "game_genre": "Single-Player Action Adventure",
+        "competitor_reference": "Fortnite or Apex Legends",
+        "current_progression": "Linear story unlock",
+        "goal": "Increase player engagement between story chapters"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Adaptation Logic — Is the adaptation of the mechanic logical for a single-player context?",
+        "Criterion 2: Psychological Validity — Does the adapted mechanic still leverage the original psychological driver (e.g., commitment, fear of missing out)?",
+        "Criterion 3: Narrative Integration — Does the new system enhance rather than detract from the story experience?"
+      ],
+      "student_answer": "### Comparative Analysis & Adaptation Strategy\n\n**Selected Competitor Mechanic:** The Seasonal Battle Pass (specifically the \"Tiered Reward\" structure found in *Fortnite* and *Apex Legends*).\n\n**Analysis of the Original:**\nIn Battle Royale titles, the Battle Pass functions as a secondary progression layer that decouples player engagement from the core match outcome. It leverages **variable ratio reinforcement** (unpredictable cosmetic rewards) and **sunk cost fallacy** (the desire to complete a purchased track) to drive daily retention. The psychological hook is the visible, linear accumulation of status and customization, creating a \"fear of missing out\" (FOMO) on exclusive content tied to a specific time window.\n\n**Adaptation for Single-Player Action Adventure:**\nTo integrate this into a non-competitive, story-driven narrative without breaking immersion, the mechanic is reimagined as the **\"Chronicle of the Journey\"** (a narrative-integrated progression system).\n\n#### 1. Structural Modification: From \"Seasons\" to \"Story Arcs\"\nInstead of arbitrary time-limited seasons, the Battle Pass structure is mapped to the game's narrative pacing.\n*   **The Hook:** The \"Season\" becomes a specific **Story Arc** (e.g., \"The Winter Siege\" or \"The Desert Exodus\").\n*   **The Progression:** Players earn \"Insight Points\" not by winning matches, but by completing **Narrative Side Quests**, discovering lore artifacts, and mastering combat techniques within the current chapter.\n*   **The Rewards:** Instead of purely cosmetic skins, rewards are **Narrative Tools and Lore Fragments**.\n    *   *Tier 1-10:* Unlockable character dialogue options and backstory logs that deepen emotional investment.\n    *   *Tier 11-20:* Functional upgrades (e.g., a new grappling hook variant, a stealth cloak, or a weapon skin that reflects the current story's aesthetic).\n    *   *Tier 21-30:* Exclusive \"Epilogue\" content or alternate ending scenes that are only accessible if the player reaches the final tier.\n\n#### 2. Maintaining the Psychological Hook\n*   **Variable Reinforcement:** While the main story is linear, the side quests required to earn Insight Points are randomized or offer choice. This mimics the \"loot box\" excitement of the original Battle Pass, encouraging players to replay areas or explore hidden paths to find the specific \"Insight\" needed to advance the track.\n*   **Sunk Cost & Commitment:** By framing the progression as a \"Chronicle\" the protagonist is building, the player feels a personal obligation to complete the narrative arc. The visual representation of the \"Chronicle\" (a journal or map that fills up) provides a tangible sense of growth that mirrors the visual progression bars of competitive games.\n*   **FOMO Replacement:** Instead of \"Time-Limited,\" the mechanic uses \"Story-Limited.\" Once the player finishes the current Story Arc and moves to the next chapter, the specific rewards for the previous Arc become \"Legacy\" items, permanently locked. This creates a natural urgency to engage with the current chapter's side content before the story moves on, effectively bridging the engagement gap between major story beats.\n\n#### 3. Implementation Example\n*   **Scenario:** The player is between Chapter 3 and Chapter 4.\n*   **Action:** The game prompts the player to \"Complete the Winter Siege Chronicle\" to unlock the \"Frost-Weaver\" outfit and the \"Hidden Memory\" cutscene for Chapter 4.\n*   **Engagement Loop:** The player returns to the open world to hunt for 5 hidden lore tablets and complete 3 optional combat challenges. Upon completion, the \"Chronicle\" fills, the rewards are unlocked, and the narrative tension for the next chapter is heightened by the newly acquired lore knowledge.\n\n**Outcome:** This adaptation transforms the passive linear unlock into an active, reward-driven loop that encourages exploration and mastery, maintaining the psychological satisfaction of progression while respecting the single-player narrative integrity.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission is highly accurate and clear, addressing all prompt requirements with strong psychological analysis and a creative adaptation. Correctness, Completeness, Domain Accuracy, and Clarity are all 5. However, Best Practices is scored 4 because locking narrative rewards permanently in a single-player game risks player frustration (missable content), and suggesting randomized side quests in a story-driven context can disrupt narrative pacing, which a senior lead would identify as a design risk requiring mitigation (e.g., New Game+ access or curated challenges)."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Determine supplementary virtual features, such as currency, item catalog, menu design, and audio direction.",
+      "task_type": "Economy and Item System Design",
+      "user_prompt": "Design a micro-transaction economy for a free-to-play mobile strategy game. Define three tiers of 'Premium Currency' (Gold, Gems, Diamonds) with specific exchange rates, and create a catalog of 5 purchasable items that drive retention without violating pay-to-win ethics. Include the psychological hook for each item and the expected revenue impact.",
+      "reference_context": {
+        "game_genre": "Mobile Strategy (4X)",
+        "target_demographic": "Casual to Mid-core",
+        "retention_goal": "Increase Day-7 retention by 15%",
+        "monetization_model": "Freemium with IAP"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Economic Balance — Do the exchange rates create a sustainable loop without devaluing in-game effort?",
+        "Criterion 2: Ethical Design — Are the items designed to enhance engagement rather than force payment to progress?",
+        "Criterion 3: Documentation Clarity — Is the catalog structure ready for immediate handoff to the UI and backend teams?"
+      ],
+      "student_answer": "### Premium Currency Structure\n\n| Currency | Name | Base Exchange Rate (USD) | Primary Utility | Psychological Anchor |\n| :--- | :--- | :--- | :--- :--- |\n| **Tier 1** | **Gold** | $0.99 / 100 units | Standard resource purchases, minor speed-ups. | **Accessibility:** Low barrier to entry; feels like \"loot\" rather than cash. |\n| **Tier 2** | **Gems** | $4.99 / 50 units | Premium speed-ups, exclusive cosmetic skins, battle pass currency. | **Value:** The \"sweet spot\" for casual spenders; offers clear utility without breaking game balance. |\n| **Tier 3** | **Diamonds** | $99.99 / 1,200 units | Exclusive limited-time events, massive resource bundles, \"Whale\" status symbols. | **Exclusivity:** Creates a sense of elite status and immediate gratification for high rollers. |\n\n---\n\n### Retention-Driven Item Catalog\n\n#### 1. The \"Streak Saver\" Bundle\n*   **Cost:** 50 Gems\n*   **Contents:** 1x \"Daily Login Shield\" (protects one missed day) + 1x 24-hour Resource Boost.\n*   **Psychological Hook:** **Loss Aversion.** Players fear breaking their daily login streak and losing the cumulative rewards. This item removes the anxiety of missing a day due to life events, encouraging them to return the next day to \"save\" the streak.\n*   **Revenue Impact:** High conversion rate among casual players; stabilizes Day-1 to Day-7 retention by reducing churn from missed days.\n\n#### 2. The \"Strategic Flex\" Pack\n*   **Cost:** 150 Gems\n*   **Contents:** 3x \"Instant Research\" tokens (applies to non-combat tech trees) + 1x Customizable Building Skin.\n*   **Psychological Hook:** **Agency & Aesthetics.** Allows players to bypass waiting times for non-combat upgrades (e.g., economy or diplomacy) without granting combat power advantages. The cosmetic element satisfies the desire for personalization.\n*   **Revenue Impact:** Moderate volume sales; increases engagement time by allowing players to customize their city layout, deepening emotional investment in the game world.\n\n#### 3. The \"Alliance Ambassador\" Kit\n*   **Cost:** 200 Gems\n*   **Contents:** 1x \"Alliance Gift\" (sendable to 5 random allies) + 1x \"Diplomacy Boost\" (increases alliance XP gain by 20% for 48 hours).\n*   **Psychological Hook:** **Social Obligation & Reciprocity.** In 4X games, social bonds are the primary retention driver. This item empowers players to be \"generous\" to their alliance, strengthening social ties and creating a sense of responsibility to return to the group.\n*   **Revenue Impact:** Drives group-based spending; significantly boosts Day-7 retention by reinforcing the player's social circle within the game.\n\n#### 4. The \"Event Horizon\" Pass\n*   **Cost:** 4.99 USD (Direct) or 500 Diamonds\n*   **Contents:** 1x Exclusive \"Seasonal Title\" + 1x \"Event Skip\" (grants 50% of event progress immediately) + 1x Rare Resource Pack.\n*   **Psychological Hook:** **FOMO (Fear Of Missing Out) & Progression.** Limited-time events create urgency. The \"skip\" mechanic acknowledges the player's time scarcity without allowing them to skip the *content* entirely, ensuring they still participate in the event loop.\n*   **Revenue Impact:** High ARPU (Average Revenue Per User) during event windows; creates a recurring revenue cycle tied to the event calendar.\n\n#### 5. The \"Legacy Builder\" Bundle\n*   **Cost:** 99.99 USD (Direct) or 1,000 Diamonds\n*   **Contents:** 1x \"Founder's Statue\" (permanent, non-combat visual) + 1x \"Resource Vault\" (stores 10% excess resources for 7 days) + 1x \"Priority Queue\" token.\n*   **Psychological Hook:** **Status & Long-term Security.** The \"Founder's Statue\" is a permanent visual marker of status that cannot be bought later, appealing to the desire for legacy. The \"Resource Vault\" solves the pain point of resource overflow, making the player feel their progress is secure.\n*   **Revenue Impact:** Targets \"Whales\" and long-term veterans; provides a massive one-time revenue spike while locking in high-value players through status symbols.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "Gold currency defined but unused in catalog creates inconsistency. Gold is typically soft currency in 4X, not premium. Pricing lacks standard bonus structures. Formatting is excellent. Irrelevant gravity mechanic checks ignored as genre mismatch."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Prepare and revise initial game sketches using two- and three-dimensional graphical design software.",
+      "task_type": "Level Layout and Visual Narrative",
+      "user_prompt": "Create a detailed design document for a 3-minute stealth level in a cyberpunk heist game. Describe the visual layout, lighting cues, and enemy patrol paths that guide the player intuitively without explicit markers. Explain how the visual composition reinforces the narrative of a 'high-stakes infiltration'.",
+      "reference_context": {
+        "game_genre": "Cyberpunk Stealth Action",
+        "player_skill": "Intermediate",
+        "environment": "Corporate Server Room",
+        "key_mechanic": "Line-of-sight detection and sound masking"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Player Guidance — Does the design use environmental storytelling to guide the player without UI hints?",
+        "Criterion 2: Technical Feasibility — Are the patrol paths and interaction zones clearly defined for AI and level designers?",
+        "Criterion 3: Narrative Integration — Does the visual design support the 'high-stakes' theme through lighting and composition?"
+      ],
+      "student_answer": "# Level Design Document: \"The Glass Vein\"\n**Location:** Aethelgard Corp – Tier-4 Server Farm (Sector 7)\n**Duration:** 3 Minutes (Real-time)\n**Objective:** Infiltrate the central cooling core, bypass three optical sensors, and upload the data drive to the local terminal.\n\n---\n\n## 1. Visual Layout & Spatial Composition\nThe level is a single, continuous corridor flanked by floor-to-ceiling server racks, designed to create a \"canyon\" effect that forces forward momentum while offering verticality.\n\n*   **The Corridor:** The floor is polished obsidian, acting as a mirror for the overhead lighting. This reflection is critical; it visually amplifies the player's silhouette, making them appear larger and more vulnerable.\n*   **The Obstacles:**\n    *   **Left Wall:** Rows of humming server racks with pulsating blue status LEDs. These create a rhythmic visual beat.\n    *   **Right Wall:** A transparent glass partition overlooking the city below, providing a sense of height and exposure.\n    *   **Center:** A raised maintenance catwalk (1.5m wide) running parallel to the floor, accessible via a single, narrow ramp at the start.\n*   **The Goal:** At the far end (approx. 40m), a massive, glowing red cooling unit dominates the center of the room. The terminal is recessed into the base of this unit, requiring the player to stand directly in the open to interact.\n\n## 2. Lighting Cues & Environmental Storytelling\nLighting is the primary UI, replacing minimaps or waypoints. The aesthetic is \"High-Stakes Infiltration,\" where light represents danger and shadow represents safety.\n\n*   **The \"Breathing\" Red:** The cooling unit pulses with a slow, rhythmic red light. This light bleeds into the shadows, creating a \"danger zone\" that feels alive. When the pulse is at its peak, the red wash over the floor, temporarily blinding the player's peripheral vision and signaling that enemy patrols are synchronized with this cycle.\n*   **The \"Safe\" Blue:** Server racks emit a cool, static blue. These lights are dimmer and do not cast long shadows. They serve as visual anchors for the player to gauge distance and speed.\n*   **Dynamic Shadows:** The player's shadow is cast long and sharp against the floor. If the player moves too quickly, the shadow stretches unnaturally, visually signaling to the player that they are breaking the \"stealth rhythm.\"\n*   **Narrative Reinforcement:** The contrast between the sterile, cold blue of the data and the aggressive, warm red of the cooling system visually represents the conflict: the cold, calculated theft of information versus the hot, volatile reality of the corporate security. The environment feels claustrophobic yet exposed, emphasizing the \"glass house\" nature of the heist.\n\n## 3. Enemy Patrol Paths & AI Behavior\nThree automated security drones (Model: \"Vigil-7\") patrol the area. They have no health bars or HUD indicators. Their behavior is dictated by sound masking and line-of-sight logic.\n\n*   **Patron 1 (The Floor Walker):**\n    *   **Path:** Moves slowly along the floor, parallel to the server racks.\n    *   **Behavior:** It pauses every 5 seconds to scan the floor reflection.\n    *   **Player Cue:** The drone's headlamp sweeps the floor. If the player is standing in a pool of blue light, the drone's headlamp will turn red upon contact, indicating detection. The player must wait for the drone to turn its back before crossing the blue light.\n*   **Patron 2 (The Catwalk Stalker):**\n    *   **Path:** Moves rapidly along the raised catwalk, directly above the player's potential path.\n    *   **Behavior:** It emits a low-frequency hum that increases in pitch as it approaches the player's location.\n    *   **Player Cue:** The hum is the audio cue. When the pitch rises, the player must drop to the floor (crouch) to hide in the shadow of the catwalk railing. The visual cue is the drone's shadow passing over the player; if the shadow is dark, the player is safe.\n*   **Patron 3 (The Perimeter Sentinel):**\n    *   **Path:** Stationary at the far end near the cooling unit, rotating 360 degrees.\n    *   **Behavior:** It scans the glass wall and the floor.\n    *   **Player Cue:** It has a \"cone of silence.\" If the player makes a loud noise (running, kicking a can), the drone's headlamp will snap toward the sound source. The player must use the ambient hum of the servers to mask their footsteps.\n\n## 4. Intuitive Guidance Mechanics\nThe level guides the player without markers through **Visual Rhythm** and **Audio-Visual Sync**.\n\n*   **The Rhythm of Safety:** The patrol paths are synchronized with the red cooling pulse.\n    *   *Pulse Peak:* Drones turn their backs or look away.\n    *   *Pulse Trough:* Drones scan forward.\n    *   *Player Action:* The player learns to move during the \"Trough\" (when the red light is dim) and freeze during the \"Peak.\"\n*   **The Sound Masking Loop:** The server racks emit a white noise that fluctuates in volume.\n    *   When the white noise is loud, the player can run.\n    *   When the white noise dips, the player must walk.\n    *   This creates a natural \"breathing\" rhythm for the player's movement, removing the need for a \"stealth meter.\"\n*   **Line-of-Sight Geometry:** The catwalk railing is designed with a specific gap size. The player can see the drone's headlamp through the gap, but the drone cannot see the player's eyes. This visual feedback loop teaches the player to use the environment for cover without explicit instructions.\n\n## 5. Narrative Integration: \"High-Stakes Infiltration\"\nThe design reinforces the narrative through **Vulnerability** and **Precision**.\n\n*   **Fragility:** The polished floor and glass walls make the player feel exposed. There are no crates to hide behind; the only cover is the shadow of the machinery. This forces the player to rely on timing and precision, mirroring the high-stakes nature of stealing from a top-tier corporation.\n*   **The Cost of Failure:** If detected, the red lights flash rapidly, and the ambient hum turns into a siren. The visual shift from cool blue to aggressive red signals the transition from \"infiltration\" to \"combat,\" raising the stakes immediately.\n*   **The Heist:** The final interaction requires the player to stand in the open, illuminated by the red cooling light, to upload the data. This moment of vulnerability—standing in the light while the drones patrol—creates a cinematic climax where the player's skill is the only thing standing between them and capture.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission correctly addresses all task requirements and uses accurate domain terminology (Correctness 5, Domain Accuracy 5). It is exceptionally well-structured and clear (Clarity 5). However, it lacks specific technical implementation details expected in a professional GDD, such as trigger volumes, AI state machine logic, or specific variable thresholds for the 'shadow stretch' and 'sound masking' mechanics, and it blends design intent with technical specs without clear distinction (Completeness 4, Best Practices 4)."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Create gameplay test plans for internal and external test groups.",
+      "task_type": "QA and Testing Protocol",
+      "user_prompt": "Develop a comprehensive gameplay test plan for a new 'Dynamic Weather System' in an open-world survival game. Define specific test scenarios for internal QA (focusing on edge cases) and external beta testers (focusing on immersion and difficulty). Include metrics for success such as 'Player Survival Time' and 'Resource Scarcity Perception'.",
+      "reference_context": {
+        "game_genre": "Open-World Survival",
+        "system_under_test": "Dynamic Weather System (Storms, Fog, Heatwaves)",
+        "test_groups": [
+          "Internal QA",
+          "External Beta (500 users)"
+        ],
+        "critical_failure_point": "Weather causing soft-locks or infinite resource loops"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Scenario Coverage — Do the test plans cover both functional bugs and subjective player experience issues?",
+        "Criterion 2: Metric Definition — Are the success/failure metrics quantifiable and relevant to player retention?",
+        "Criterion 3: Actionability — Is the output structured to allow QA leads to immediately execute the tests?"
+      ],
+      "student_answer": "# Dynamic Weather System: Comprehensive Gameplay Test Plan\n\n## 1. Test Objectives\n*   **Validate Stability:** Ensure weather transitions do not cause soft-locks, physics glitches, or infinite resource loops.\n*   **Assess Immersion:** Measure player emotional engagement and environmental believability during extreme weather events.\n*   **Balance Difficulty:** Verify that weather-induced challenges align with intended survival pacing and resource scarcity.\n\n## 2. Test Groups & Methodologies\n\n### A. Internal QA (Focus: Edge Cases & Stability)\n**Goal:** Identify technical failures, logic errors, and critical path blockers.\n**Methodology:** Scripted automation, stress testing, and boundary condition analysis.\n\n#### Critical Test Scenarios (Edge Cases)\n1.  **Rapid Transition Stress Test:**\n    *   *Action:* Force immediate transitions between all weather states (e.g., Heatwave $\\to$ Blizzard $\\to$ Acid Rain) within a 5-second window using console commands.\n    *   *Check:* No engine crashes, no floating assets, no broken collision meshes, no audio clipping.\n2.  **The \"Infinite Loop\" Trap:**\n    *   *Action:* Trigger a storm event while the player is inside a specific shelter structure with a broken door collision.\n    *   *Check:* Verify the player is not trapped indefinitely (soft-lock) and that the game state resets correctly upon exit.\n3.  **Resource Spawning Race Condition:**\n    *   *Action:* Initiate a \"Fog of Scarcity\" event while the player is standing exactly on a resource node spawn point.\n    *   *Check:* Ensure resources do not spawn infinitely or fail to spawn, causing a hard lock on progression.\n4.  **Network Desync (Multiplayer):**\n    *   *Action:* Simulate high-latency connections during a sudden weather shift.\n    *   *Check:* Verify all clients render the weather state identically; no client-side \"ghost\" weather effects persisting after server correction.\n5.  **Save/Load Integrity:**\n    *   *Action:* Save game mid-heatwave, reload, and verify weather state continuity.\n    *   *Check:* No state corruption where temperature remains at 100°C after loading a save from a previous cold snap.\n\n### B. External Beta (Focus: Immersion & Difficulty)\n**Goal:** Gather qualitative feedback on gameplay feel and quantitative data on survival pacing.\n**Methodology:** 500-user distributed beta with telemetry tracking and post-session surveys.\n\n#### Critical Test Scenarios (Immersion & Difficulty)\n1.  **The \"Blind Fog\" Navigation Challenge:**\n    *   *Action:* Players must travel 2km through dense fog with reduced visibility.\n    *   *Focus:* Does the fog create tension without causing frustration? Do players feel lost or strategically challenged?\n2.  **Heatwave Survival Endurance:**\n    *   *Action:* Players are dropped in a desert biome during a 30-minute heatwave with no water sources nearby.\n    *   *Focus:* Is the difficulty curve fair? Do players feel the urgency of finding shade/water, or is the heat damage too punishing?\n3.  **Storm Shelter Dynamics:**\n    *   *Action:* Players must build a temporary shelter during a sudden thunderstorm.\n    *   *Focus:* Does the weather force meaningful gameplay decisions (e.g., \"Build now or die later\")? Is the resource cost of sheltering proportional to the threat?\n4.  **Resource Scarcity Perception:**\n    *   *Action:* Monitor player behavior during \"Resource Drought\" weather (e.g., crops wither, animals hide).\n    *   *Focus:* Do players perceive the scarcity as a natural consequence of the weather, or as a game-breaking bug?\n\n## 3. Success Metrics & KPIs\n\n### Quantitative Metrics\n| Metric | Definition | Target Threshold |\n| :--- | :--- | :--- |\n| **Player Survival Time (PST)** | Average time a player survives before death during extreme weather events. | Within 10% variance of design document baseline. |\n| **Resource Scarcity Perception (RSP)** | Ratio of \"I need to find resources\" vs. \"I can't find resources\" in post-session surveys. | > 85% of players report \"Strategic Scarcity\" (not \"Broken Scarcity\"). |\n| **Soft-Lock Frequency** | Number of times a player is unable to progress due to weather mechanics. | **0** (Critical Failure Point). |\n| **Weather Transition Latency** | Time between server trigger and client visual/audio update. | < 200ms. |\n| **Loop Detection Rate** | Instances where resource generation exceeds consumption limits during weather events. | **0** (Critical Failure Point). |\n\n### Qualitative Metrics\n*   **Immersion Score (1-10):** Derived from beta survey questions regarding atmospheric tension and environmental storytelling.\n*   **Difficulty Balance Rating:** Player feedback on whether weather events felt \"Fair,\" \"Too Hard,\" or \"Too Easy.\"\n*   **Bug Reporting Volume:** Number of weather-related bug reports per 1,000 play hours (Target: < 5).\n\n## 4. Critical Failure Criteria (Go/No-Go)\nThe system will be marked as **FAILED** if:\n1.  Any test case results in a soft-lock (player cannot move, interact, or exit the game).\n2.  Any test case triggers an infinite resource loop (e.g., water/food spawning endlessly).\n3.  More than 5% of beta testers report the weather system as \"Game-Breaking\" in surveys.\n4.  Survival Time variance exceeds 20% from the intended design curve.\n\n## 5. Reporting & Remediation\n*   **QA Report:** Daily build status with specific focus on crash logs and edge-case pass/fail rates.\n*   **Beta Report:** Weekly aggregation of telemetry data and sentiment analysis.\n*   **Remediation Protocol:** Any Critical Failure Point identified triggers an immediate hotfix cycle; non-critical immersion issues are queued for the next patch.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission correctly addresses all task requirements (Correctness: 5) and uses precise domain terminology (Domain Accuracy: 5) with excellent structure (Clarity: 5). However, it lacks specific Test Environment/Configuration details standard in industry QA plans (Completeness: 4), and the 'Resource Scarcity Perception' metric relies heavily on survey analysis rather than robust telemetry data (Best Practices: 4)."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Provide test specifications to quality assurance staff.",
+      "task_type": "Mechanic Specification and Handoff",
+      "user_prompt": "Write a technical specification for a 'Procedural Dungeon Generator' module. Define the input parameters (difficulty, size, theme), the generation algorithm logic, and the validation rules to ensure every generated dungeon is solvable. Format this as a spec sheet for the engineering team to implement.",
+      "reference_context": {
+        "game_genre": "Roguelike Dungeon Crawler",
+        "target_platform": "PC and Console",
+        "performance_constraint": "Must generate a 50-room dungeon in under 2 seconds",
+        "player_expectation": "High replayability with unique layouts"
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Algorithmic Logic — Is the generation process clearly defined to prevent infinite loops or unsolvable states?",
+        "Criterion 2: Performance Constraints — Does the spec address the 2-second generation limit?",
+        "Criterion 3: Handoff Readiness — Is the documentation structured with clear inputs, outputs, and error handling for developers?"
+      ],
+      "student_answer": "# Technical Specification: Procedural Dungeon Generator (PDG) Module\n\n**Version:** 1.0\n**Status:** Approved for Implementation\n**Target Platform:** PC / Console\n**Performance Target:** < 2.0s generation time for 50-room instances.\n\n---\n\n## 1. Overview\nThe PDG module is responsible for dynamically constructing unique, solvable dungeon layouts based on runtime parameters. It utilizes a hybrid approach combining **Cellular Automata** for organic room placement and **Prim's Algorithm** for corridor connectivity to ensure high replayability while maintaining strict performance constraints.\n\n## 2. Input Parameters\nThe generator accepts a configuration object `DungeonConfig` upon initialization.\n\n| Parameter | Type | Range/Constraints | Description |\n| :--- | :--- | :--- | : |\n| `difficulty` | Enum | `EASY`, `MEDIUM`, `HARD`, `NIGHTMARE` | Determines enemy density, trap frequency, and loot table complexity. |\n| `size` | Integer | `10` to `100` (Rooms) | Target number of rooms. Default: 50. |\n| `theme` | Enum | `DUNGEON`, `CAVERN`, `FORTESS`, `LABORATORY` | Dictates tileset assets, lighting parameters, and specific room geometry rules. |\n| `seed` | Integer | `0` to `2^32 - 1` | Random seed for deterministic replay. If `null`, system generates a new seed. |\n| `min_corridors` | Integer | `1` to `size - 1` | Minimum corridor count (optional override for specific level designs). |\n\n## 3. Generation Algorithm Logic\n\n### 3.1 Phase 1: Room Placement (Grid-Based)\n1.  **Grid Initialization**: Create a 2D grid based on `size` and `theme` constraints.\n2.  **Room Generation**:\n    *   Instantiate `Room` objects with randomized dimensions (min 3x3, max 8x8).\n    *   Use a **Poisson Disk Sampling** algorithm to place rooms, ensuring a minimum distance buffer (2 tiles) between room boundaries to prevent overlap.\n    *   *Optimization*: Limit placement attempts to `size * 1.5` iterations to prevent infinite loops.\n3.  **Theme Application**: Apply specific geometry rules (e.g., `CAVERN` allows irregular shapes; `FORTESS` enforces rectangular rooms).\n\n### 3.2 Phase 2: Connectivity (Graph Construction)\n1.  **Centroid Calculation**: Calculate the center point of every placed room.\n2.  **Spanning Tree**: Execute **Prim's Algorithm** (or Kruskal's) on the room centroids to generate a Minimum Spanning Tree (MST). This guarantees a single connected component with no loops initially.\n3.  **Corridor Execution**:\n    *   Draw corridors between connected rooms using **Manhattan Pathing** (L-shaped corridors) to reduce corridor count and improve flow.\n    *   *Optimization*: Use a spatial hash map to check for corridor-room collisions in O(1) time.\n4.  **Loop Injection**:\n    *   To prevent dead-ends and increase replayability, randomly add `N` extra corridors (where `N = size / 4`) between non-connected rooms.\n    *   Ensure added corridors do not create \"islands\" or block existing paths.\n\n### 3.3 Phase 3: Content Assignment\n1.  **Entrance/Exit**: Designate the room with the lowest centroid index as the **Entrance** and the highest as the **Exit**.\n2.  **Entity Spawning**:\n    *   Iterate through all rooms.\n    *   Apply `difficulty` multipliers to spawn counts.\n    *   Place `theme`-specific static objects (e.g., pillars, crates).\n3.  **Loot & Traps**: Distribute items based on room depth from the entrance.\n\n## 4. Validation & Solvability Rules\n\n### 4.1 Reachability Check (BFS)\n*   **Trigger**: Post-generation, pre-finalization.\n*   **Logic**: Perform a Breadth-First Search (BFS) starting from the **Entrance** room.\n*   **Condition**: The **Exit** room must be visited.\n*   **Failure Action**: If the Exit is unreachable, trigger a **Rejection Loop**:\n    1.  Discard current layout.\n    2.  Increment retry counter.\n    3.  If retries > 5, regenerate with a smaller `size` or adjusted `theme` constraints.\n    4.  If retries > 10, fallback to a pre-baked \"Safe\" layout.\n\n### 4.2 Performance Guardrails\n*   **Timer Check**: If generation time exceeds 1.8s, abort complex loop injection and proceed with the MST-only layout.\n*   **Memory Limit**: Ensure grid data structures do not exceed 50MB.\n\n### 4.3 Integrity Checks\n*   **No Overlaps**: Verify no two room interiors share a tile.\n*   **No Isolation**: Verify no room is completely surrounded by walls without a door connection.\n*   **Door Placement**: Ensure every corridor connects to a valid door tile on the room boundary.\n\n## 5. Output Data Structure\nThe module returns a `DungeonData` object containing:\n*   `grid`: 2D array of Tile IDs.\n*   `rooms`: List of Room Objects (ID, X, Y, Width, Height, Type).\n*   `connections`: List of Corridor Objects (StartRoomID, EndRoomID, PathPoints).\n*   `entities`: List of Spawned Entities (Type, Position, Stats).\n*   `metadata`: `seed`, `generationTime`, `difficulty`.\n\n## 6. Implementation Constraints\n*   **Language**: C++ (Core), C# (Unity/Unreal Bridge).\n*   **Threading**: Generation logic must be offloaded to a background worker thread to prevent UI freezing.\n*   **Determinism**: The `seed` parameter must guarantee identical output for identical inputs across all platforms.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "The submission is exceptionally clear and well-structured (Clarity 5), covering all required sections with sufficient detail (Completeness 4). The core algorithmic logic described in the detailed phases (Poisson Disk, Prim's, BFS) is technically sound and addresses performance constraints (Correctness 4). However, the Overview incorrectly cites Cellular Automata for room placement, contradicting the detailed Phase 1 which uses Poisson Disk Sampling. This terminology misuse and internal inconsistency indicate a gap in technical precision (Domain Accuracy 3) and reduce professional consistency (Best Practices 3)."
+    }
+  ]
+}

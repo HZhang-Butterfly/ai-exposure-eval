@@ -62,9 +62,9 @@ def load_config(path: str = "pipeline_config.json") -> dict:
 # ================= Utility functions =================
 
 def call_llm(api_url, model_name, messages, max_tokens, temperature=0.2, timeout=120,
-             enable_thinking=None):
+             enable_thinking=None, max_retries=3, retry_delay=10):
     """
-    Send a request to the LLM API.
+    Send a request to the LLM API with automatic retry on timeout.
 
     Args:
         api_url: API endpoint URL
@@ -72,13 +72,16 @@ def call_llm(api_url, model_name, messages, max_tokens, temperature=0.2, timeout
         messages: List of messages
         max_tokens: Maximum tokens to generate
         temperature: Sampling temperature
-        timeout: Request timeout in seconds
+        timeout: Request timeout in seconds per attempt
         enable_thinking: If False, disables chain-of-thought for Qwen3 models (pass to
                          vLLM via chat_template_kwargs). None = use server default.
+        max_retries: Number of retry attempts on timeout (default 3)
+        retry_delay: Base delay in seconds between retries (doubles each attempt)
 
     Returns:
         Text content of the API response, or None on failure.
     """
+    import time as _time
     payload = {
         "model": model_name,
         "messages": messages,
@@ -87,28 +90,37 @@ def call_llm(api_url, model_name, messages, max_tokens, temperature=0.2, timeout
     }
     if enable_thinking is not None:
         payload["chat_template_kwargs"] = {"enable_thinking": enable_thinking}
-    
-    try:
-        response = requests.post(api_url, json=payload, timeout=timeout)
-        response.raise_for_status()
-        return response.json()["choices"][0]["message"]["content"]
-    except requests.exceptions.HTTPError as e:
-        print(f"HTTP Error calling API {api_url}: {e}")
-        if hasattr(e, 'response') and e.response is not None:
-            try:
-                error_detail = e.response.json()
-                print(f"Error details: {json.dumps(error_detail, indent=2)}")
-            except:
-                print(f"Response text: {e.response.text[:500]}")
-        return None
-    except requests.exceptions.ConnectionError as e:
-        print(f"Connection Error: Cannot connect to {api_url}")
-        print(f"  Details: {e}")
-        print(f"  Please check if the server is running and the port is correct.")
-        return None
-    except Exception as e:
-        print(f"Error calling API {api_url}: {e}")
-        return None
+
+    for attempt in range(1, max_retries + 1):
+        try:
+            response = requests.post(api_url, json=payload, timeout=timeout)
+            response.raise_for_status()
+            return response.json()["choices"][0]["message"]["content"]
+        except requests.exceptions.Timeout:
+            if attempt < max_retries:
+                wait = retry_delay * (2 ** (attempt - 1))
+                print(f"  Timeout on attempt {attempt}/{max_retries}, retrying in {wait}s...")
+                _time.sleep(wait)
+            else:
+                print(f"  Timeout after {max_retries} attempts — giving up.")
+                return None
+        except requests.exceptions.HTTPError as e:
+            print(f"HTTP Error calling API {api_url}: {e}")
+            if hasattr(e, 'response') and e.response is not None:
+                try:
+                    error_detail = e.response.json()
+                    print(f"Error details: {json.dumps(error_detail, indent=2)}")
+                except Exception:
+                    print(f"Response text: {e.response.text[:500]}")
+            return None
+        except requests.exceptions.ConnectionError as e:
+            print(f"Connection Error: Cannot connect to {api_url}")
+            print(f"  Details: {e}")
+            return None
+        except Exception as e:
+            print(f"Error calling API {api_url}: {e}")
+            return None
+    return None
 
 def strip_thinking(text: str) -> str:
     """

@@ -1,0 +1,745 @@
+{
+  "meta": {
+    "job_title": "Credit Analysts",
+    "job_id": "credit_analyst",
+    "onet_code": "13-2041.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 11,
+    "evaluated_tasks": 13,
+    "batches": 3,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 4.56,
+      "dimensions": {
+        "Correctness": 4.46,
+        "Completeness": 4.62,
+        "Best Practices": 4.31,
+        "Domain Accuracy": 4.54,
+        "Clarity": 4.85
+      },
+      "evaluated_tasks": 13,
+      "scale_max": 5
+    },
+    "total_time_seconds": 2293.83
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Analyze credit data and financial statements to determine the degree of risk involved in extending credit or lending money.",
+      "task_type": "Risk Assessment & Financial Statement Analysis",
+      "user_prompt": "You are a Credit Analyst. Review the attached financial statements for 'Apex Manufacturing LLC' (FY2023). Calculate the key liquidity and solvency ratios. Based on these ratios and the provided industry benchmarks, determine the credit risk level (Low, Medium, High). Draft a formal risk assessment memo recommending whether to approve a $500,000 working capital loan, citing specific financial weaknesses or strengths.",
+      "reference_context": {
+        "company_name": "Apex Manufacturing LLC",
+        "fiscal_year": "2023",
+        "financial_data": {
+          "total_assets": 2500000,
+          "total_liabilities": 1800000,
+          "current_assets": 600000,
+          "current_liabilities": 450000,
+          "net_income": 120000,
+          "total_equity": 700000,
+          "cash_flow_from_operations": 150000
+        },
+        "industry_benchmarks": {
+          "average_current_ratio": 1.5,
+          "average_debt_to_equity": 1.2,
+          "average_roe": 15.0
+        },
+        "loan_request": {
+          "amount": 500000,
+          "purpose": "Working Capital",
+          "term_years": 3
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Are all financial ratios (Current Ratio, Debt-to-Equity, ROE) calculated accurately using the provided data?",
+        "Criterion 2: Completeness — Does the response include a risk determination, a clear recommendation, and justification based on the data?",
+        "Criterion 3: Best practices — Is the memo structured professionally with clear headings and logical flow suitable for a loan committee?"
+      ],
+      "student_answer": "**MEMORANDUM**\n\n**TO:** Credit Committee\n**FROM:** Credit Analysis Department\n**DATE:** October 26, 2023\n**SUBJECT:** Credit Risk Assessment and Loan Recommendation – Apex Manufacturing LLC\n\n**1. Executive Summary**\nThis memo evaluates the creditworthiness of Apex Manufacturing LLC (\"Apex\") regarding a proposed $500,000 working capital loan with a 3-year term. Based on the FY2023 financial statements and comparative industry benchmarks, Apex presents a **High Credit Risk**. The recommendation is to **DENY** the loan application due to critical liquidity deficiencies and excessive leverage.\n\n**2. Financial Ratio Analysis**\n\nThe following key ratios were calculated based on the provided FY2023 data:\n\n*   **Current Ratio:** 1.33\n    *   *Calculation:* Current Assets ($600,000) / Current Liabilities ($450,000)\n    *   *Benchmark:* 1.50\n    *   *Analysis:* Apex is below the industry average, indicating a tighter ability to cover short-term obligations compared to peers.\n\n*   **Debt-to-Equity Ratio:** 2.57\n    *   *Calculation:* Total Liabilities ($1,800,000) / Total Equity ($700,000)\n    *   *Benchmark:* 1.20\n    *   *Analysis:* Apex is significantly over-leveraged, with debt levels more than double the industry average. This suggests a fragile capital structure with limited equity cushion.\n\n*   **Return on Equity (ROE):** 17.14%\n    *   *Calculation:* Net Income ($120,000) / Total Equity ($700,000)\n    *   *Benchmark:* 15.00%\n    *   *Analysis:* While profitability relative to equity is strong, this metric is likely inflated by the high debt load rather than operational efficiency.\n\n*   **Operating Cash Flow Coverage:**\n    *   *Calculation:* Operating Cash Flow ($150,000) / Current Liabilities ($450,000) = 0.33x\n    *   *Analysis:* Operating cash flow covers only 33% of current liabilities, indicating a reliance on external financing or asset liquidation to meet short-term obligations.\n\n**3. Risk Assessment**\n\n*   **Liquidity Risk (High):** The Current Ratio of 1.33 falls short of the 1.50 benchmark. More critically, the company lacks sufficient operating cash flow to service its immediate debt obligations comfortably.\n*   **Solvency Risk (High):** The Debt-to-Equity ratio of 2.57 is alarmingly high compared to the 1.20 benchmark. The company is heavily reliant on debt financing, leaving it vulnerable to interest rate hikes or economic downturns.\n*   **Capacity to Service New Debt:** Adding a $500,000 loan would increase total liabilities to $2,300,000, pushing the Debt-to-Equity ratio to approximately 3.29. This would severely strain the balance sheet and likely breach existing covenants.\n\n**4. Recommendation**\n\n**Decision: DENY**\n\n**Rationale:**\nDespite a respectable ROE, Apex Manufacturing LLC exhibits fundamental financial weaknesses that preclude approval of the requested $500,000 working capital loan. The primary concerns are:\n1.  **Excessive Leverage:** The current Debt-to-Equity ratio of 2.57 indicates a high probability of default in adverse market conditions.\n2.  **Liquidity Constraint:** The company does not generate sufficient operating cash flow to comfortably service existing short-term debt, let alone new debt service.\n3.  **Deteriorating Capital Structure:** The proposed loan would exacerbate the already precarious leverage position, rendering the company insolvent in a stress scenario.\n\n**Conclusion:**\nThe risk of default is unacceptably high. Approval of this facility would expose the lender to significant capital loss. We recommend declining the application and, if appropriate, suggesting a restructuring of existing debt or an equity injection to improve the balance sheet before re-evaluation.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional. All calculations (Current Ratio, D/E, ROE, OCF Coverage, Projected D/E) are mathematically accurate. The memo follows a professional structure with clear headings and a decisive recommendation. The analysis demonstrates strong domain knowledge by linking profitability (ROE) to leverage risks and projecting the impact of the new loan on solvency. It fully addresses all task requirements including liquidity/solvency ratios, risk level determination, and specific justification for the recommendation. No meaningful gaps or errors were found."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Complete loan applications, including credit analyses and summaries of loan requests, and submit to loan committees for approval.",
+      "task_type": "Loan Application Preparation & Summary",
+      "user_prompt": "You are a Credit Analyst preparing a loan application summary for 'Summit Retail Group'. Using the provided financial highlights and loan details, draft a comprehensive executive summary for the Loan Committee. The summary must include a narrative analysis of the borrower's ability to repay, a summary of the requested terms, and a clear recommendation (Approve/Decline) with supporting evidence from the financial data.",
+      "reference_context": {
+        "company_name": "Summit Retail Group",
+        "loan_request": {
+          "amount": 1200000,
+          "purpose": "Inventory Expansion",
+          "term_years": 5,
+          "interest_rate_proposed": 6.5,
+          "collateral": "Inventory and Accounts Receivable"
+        },
+        "financial_highlights": {
+          "annual_revenue": 4500000,
+          "ebitda": 450000,
+          "debt_service_coverage_ratio": 1.4,
+          "existing_debt": 2000000,
+          "projected_revenue_growth": "8% annually"
+        },
+        "industry_context": "Retail sector facing moderate headwinds; average DSCR for approved loans is 1.5."
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Accuracy — Are the loan terms and financial figures accurately reflected in the summary?",
+        "Criterion 2: Analytical Depth — Does the summary effectively link the borrower's financial capacity (DSCR, EBITDA) to the loan repayment ability?",
+        "Criterion 3: Structure — Is the document formatted as a formal executive summary suitable for a committee presentation?"
+      ],
+      "student_answer": "**Executive Summary: Summit Retail Group Loan Application**\n\n**Borrower Profile and Loan Request**\nSummit Retail Group is requesting a term loan of **$1,200,000** to finance inventory expansion. The proposed structure includes a **5-year term** at an interest rate of **6.5%**, secured by a first-priority lien on the company's inventory and accounts receivable.\n\n**Repayment Ability and Financial Analysis**\nSummit Retail Group demonstrates a solid foundation for repayment, generating **$4.5 million** in annual revenue with an EBITDA of **$450,000**. The borrower currently maintains a Debt Service Coverage Ratio (DSCR) of **1.4x**. While this indicates positive cash flow relative to existing obligations, it sits slightly below the industry benchmark of **1.5x** for approved retail loans, reflecting the moderate headwinds currently affecting the sector.\n\nHowever, the borrower's growth trajectory provides a mitigating factor. With projected revenue growth of **8% annually**, EBITDA is expected to expand, which should improve the DSCR over the life of the loan. The requested loan amount represents a manageable increase to the existing debt load of $2,000,000, provided the inventory expansion yields the anticipated revenue lift. The collateral package (inventory and receivables) offers adequate security, though liquidation value may fluctuate with inventory turnover rates.\n\n**Recommendation**\n**Recommendation: Approve with Conditions**\n\n**Rationale:**\nThe loan is recommended for approval based on the borrower's strong revenue base and positive growth outlook, which supports the ability to service the new debt. However, the current DSCR of 1.4x is marginally below the 1.5x industry standard. To mitigate this risk, approval is contingent upon:\n1.  **Covenant Restructuring:** Implementation of a minimum DSCR covenant of 1.35x for the first 24 months, rising to 1.45x thereafter, to align with the projected growth ramp-up.\n2.  **Collateral Monitoring:** Quarterly reporting on inventory turnover ratios and accounts receivable aging to ensure collateral quality remains intact.\n3.  **Use of Proceeds Verification:** Confirmation that the $1.2M is strictly allocated to high-turnover inventory items to support the 8% growth projection.\n\nThis structure balances the borrower's growth potential with prudent risk management, positioning Summit Retail Group for sustainable expansion while protecting the bank's exposure.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission is professionally structured and accurately reflects the provided financial data (Correctness: 4, Completeness: 4, Clarity: 5). However, it lacks a pro forma DSCR calculation to substantiate the claim that the 60% debt increase is 'manageable,' which is a meaningful gap for a credit summary (Domain Accuracy: 4). Additionally, the proposed covenant (1.35x) is lower than the current DSCR (1.4x), which is a suboptimal risk mitigation strategy (Best Practices: 4). While competent, it does not meet the 'exceptional' standard of industry rigor required for a score of 5."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Generate financial ratios, using computer programs, to evaluate customers' financial status.",
+      "task_type": "Ratio Analysis & Financial Status Evaluation",
+      "user_prompt": "You are a Credit Analyst. Calculate the following financial ratios for 'TechStart Innovations' based on the provided FY2023 data: Current Ratio, Quick Ratio, Debt-to-Equity, and Return on Assets (ROA). Compare these calculated ratios against the provided industry averages. Identify the top two areas of financial weakness and the top two areas of strength. Present your findings in a structured table followed by a brief analytical commentary.",
+      "reference_context": {
+        "company_name": "TechStart Innovations",
+        "fiscal_year": "2023",
+        "financial_data": {
+          "cash": 150000,
+          "marketable_securities": 50000,
+          "accounts_receivable": 200000,
+          "inventory": 100000,
+          "total_current_assets": 500000,
+          "total_current_liabilities": 300000,
+          "total_liabilities": 600000,
+          "total_equity": 400000,
+          "total_assets": 1000000,
+          "net_income": 80000
+        },
+        "industry_averages": {
+          "current_ratio": 2.0,
+          "quick_ratio": 1.5,
+          "debt_to_equity": 0.8,
+          "roa": 10.0
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Calculation Accuracy — Are all four ratios calculated correctly using the provided figures?",
+        "Criterion 2: Comparative Analysis — Is the comparison between calculated ratios and industry averages accurate and clearly stated?",
+        "Criterion 3: Insight — Are the strengths and weaknesses logically derived from the ratio discrepancies?"
+      ],
+      "student_answer": "### Financial Ratio Analysis: TechStart Innovations (FY2023)\n\n| Ratio | TechStart Innovations | Industry Average | Variance | Status |\n| :--- | :---: | :---: | :---: | :--- |\n| **Current Ratio** | 1.67 | 2.00 | -0.33 | Below Average |\n| **Quick Ratio** | 1.00 | 1.50 | -0.50 | Below Average |\n| **Debt-to-Equity** | 1.50 | 0.80 | +0.70 | Above Average |\n| **Return on Assets (ROA)** | 8.00% | 10.00% | -2.00% | Below Average |\n\n#### Financial Strengths and Weaknesses\n\n**Top Two Areas of Strength:**\n1.  **Liquidity Coverage:** While below industry averages, the company maintains a Current Ratio of 1.67 and a Quick Ratio of 1.00, indicating it possesses sufficient liquid assets to cover short-term obligations without immediate distress.\n2.  **Asset Efficiency:** Despite the lower ROA compared to the industry, the company generated a positive net income of $80,000 on $1,000,000 in assets, demonstrating a baseline capability to generate profit from its asset base.\n\n**Top Two Areas of Weakness:**\n1.  **High Leverage Risk:** The Debt-to-Equity ratio of 1.50 is significantly higher than the industry average of 0.80, indicating a heavy reliance on debt financing which increases financial risk and interest burden.\n2.  **Liquidity Deficit:** Both the Current Ratio (1.67 vs 2.00) and Quick Ratio (1.00 vs 1.50) fall short of industry standards, suggesting a tighter liquidity position and reduced ability to absorb short-term financial shocks compared to peers.\n\n#### Analytical Commentary\nTechStart Innovations presents a mixed financial profile for FY2023. The primary concern is the company's capital structure; a Debt-to-Equity ratio of 1.50 suggests aggressive leverage that exceeds industry norms by nearly 88%, potentially exposing the firm to higher interest rate risks and covenant violations. Additionally, liquidity metrics indicate a strain on working capital management. The Quick Ratio of 1.00 implies that without selling inventory, the company can only cover 100% of its current liabilities, whereas the industry standard expects 150%. While the company remains profitable with an ROA of 8%, the combination of high leverage and suboptimal liquidity positions warrants a cautious credit outlook and suggests a need for deleveraging and improved working capital efficiency.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The submission is well-structured and complete, earning high marks for Clarity and Completeness. However, a calculation error in the Quick Ratio (1.00 vs 1.33) impacts Correctness and Domain Accuracy. Additionally, identifying below-average liquidity and ROA as 'Strengths' while simultaneously listing liquidity as a 'Weakness' demonstrates inconsistent professional judgment (Best Practices). Despite these issues, the overall presentation meets most requirements."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Prepare reports that include the degree of risk involved in extending credit or lending money.",
+      "task_type": "Credit Risk Report Generation",
+      "user_prompt": "You are a Credit Analyst. Prepare a detailed Credit Risk Report for 'Global Logistics Corp' regarding a proposed $2M line of credit. The report must quantify the degree of risk by analyzing the company's leverage, liquidity, and profitability trends. Conclude with a specific risk rating (e.g., 'Acceptable with Conditions', 'High Risk') and a list of mandatory covenants if the loan is approved. Use the provided historical data to support your risk quantification.",
+      "reference_context": {
+        "company_name": "Global Logistics Corp",
+        "loan_request": {
+          "amount": 2000000,
+          "type": "Revolving Line of Credit",
+          "purpose": "Seasonal Cash Flow Management"
+        },
+        "historical_data": {
+          "2021": {
+            "net_income": 300000,
+            "total_debt": 1500000,
+            "equity": 1000000
+          },
+          "2022": {
+            "net_income": 250000,
+            "total_debt": 1800000,
+            "equity": 900000
+          },
+          "2023": {
+            "net_income": 200000,
+            "total_debt": 2200000,
+            "equity": 800000
+          }
+        },
+        "risk_factors": {
+          "debt_trend": "Increasing",
+          "profit_trend": "Declining",
+          "market_volatility": "High"
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Risk Quantification — Does the report clearly quantify risk using the provided historical trends?",
+        "Criterion 2: Recommendation Logic — Is the final risk rating and covenant list directly supported by the analysis of the declining profitability and increasing debt?",
+        "Criterion 3: Professionalism — Is the report written in a formal tone appropriate for senior management review?"
+      ],
+      "student_answer": "# Credit Risk Report: Global Logistics Corp\n\n**Date:** October 26, 2023\n**Subject:** Credit Risk Assessment for Proposed $2,000,000 Revolving Line of Credit\n**Applicant:** Global Logistics Corp\n\n## 1. Executive Summary\nGlobal Logistics Corp has requested a $2,000,000 revolving line of credit to manage seasonal cash flow requirements. An analysis of the company's historical financial performance (2021–2023) reveals a deteriorating financial profile characterized by rising leverage, shrinking equity, and declining profitability. While the purpose of the facility is standard for the logistics sector, the underlying financial trends present significant credit risk.\n\n## 2. Quantitative Risk Analysis\n\n### A. Leverage Analysis\nThe company's capital structure has become increasingly fragile over the past three years, indicating a heavy reliance on debt financing.\n\n*   **Debt-to-Equity Ratio:**\n    *   2021: 1.50x ($1.5M / $1.0M)\n    *   2022: 2.00x ($1.8M / $0.9M)\n    *   2023: 2.75x ($2.2M / $0.8M)\n*   **Trend:** The ratio has increased by 83% over three years. A ratio exceeding 2.5x suggests the company is highly leveraged, leaving minimal equity cushion to absorb losses or service additional debt.\n*   **Debt Service Capacity:** With total debt rising from $1.5M to $2.2M while net income falls, the company's ability to service interest obligations is under severe strain.\n\n### B. Liquidity Analysis\nAlthough specific cash flow and current asset data are not provided, the equity erosion and debt accumulation signal a liquidity crunch.\n\n*   **Equity Erosion:** Shareholder equity has declined by 20% from $1.0M (2021) to $0.8M (2023). This reduction in the equity base directly reduces the company's borrowing capacity and increases the risk of insolvency if asset values fluctuate.\n*   **Working Capital Strain:** The request for a line of credit specifically for \"seasonal cash flow\" implies that operating cash flows are insufficient to cover peak seasonal demands, a common symptom of liquidity stress in highly leveraged firms.\n\n### C. Profitability Trends\nProfitability is the primary engine for debt repayment, and Global Logistics Corp shows a consistent downward trajectory.\n\n*   **Net Income Trend:**\n    *   2021: $300,000\n    *   2022: $250,000 (-16.7% YoY)\n    *   2023: $200,000 (-20.0% YoY)\n*   **Return on Equity (ROE):**\n    *   2021: 30.0%\n    *   2022: 27.8%\n    *   2023: 25.0%\n*   **Assessment:** The double-digit decline in net income combined with a shrinking equity base indicates deteriorating operational efficiency. In a high market volatility environment, this trend makes the company highly vulnerable to further earnings shocks.\n\n## 3. Qualitative Risk Factors\n*   **Debt Trend:** Increasing. The company is adding debt while its ability to generate cash is diminishing.\n*   **Market Volatility:** High. The logistics sector is sensitive to fuel costs, labor rates, and economic cycles. Global Logistics Corp's thin equity buffer offers little protection against these external shocks.\n*   **Operational Risk:** The reliance on external financing for seasonal needs suggests a lack of organic cash generation to cover cyclical peaks.\n\n## 4. Risk Rating and Recommendation\n\n**Risk Rating: High Risk**\n\n**Rationale:** The combination of a Debt-to-Equity ratio of 2.75x, a 33% decline in net income over three years, and a shrinking equity base places Global Logistics Corp in a precarious financial position. The proposed $2M facility would increase total debt to $4.2M, pushing the Debt-to-Equity ratio to 5.25x, which is unsustainable given the current earnings trajectory.\n\n**Recommendation:** **Conditional Approval**\nApproval is contingent upon the implementation of strict risk mitigation covenants. Without these conditions, the risk of default is unacceptably high.\n\n## 5. Mandatory Covenants\nIf the loan is approved, the following covenants must be strictly enforced:\n\n1.  **Maximum Leverage Ratio:** The company shall not permit its Total Debt to Equity Ratio to exceed **2.50x** at any time.\n2.  **Minimum Interest Coverage Ratio:** The company must maintain an EBITDA-to-Interest Expense ratio of no less than **2.50x**.\n3.  **Minimum Liquidity Requirement:** The company must maintain a Current Ratio of at least **1.25x**.\n4.  **Negative Pledge:** No additional senior debt may be incurred without prior written consent from the lender.\n5.  **Financial Reporting:** Submission of quarterly unaudited financial statements within 30 days of quarter-end and annual audited statements within 90 days.\n6.  **Dividend Restriction:** No dividends or distributions to shareholders shall be permitted while the facility is outstanding unless the Debt-to-Equity ratio is below 2.00x.\n7.  **Collateral:** The line of credit must be secured by a first-priority lien on all accounts receivable and inventory.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is professionally structured with accurate financial calculations (D/E, ROE, Net Income trends) and clear formatting. However, the proposed Maximum Leverage Covenant (2.50x) is lower than the current Debt-to-Equity ratio (2.75x), creating a logical contradiction where the borrower would be in default immediately upon approval. This indicates a gap in practical credit structuring judgment, preventing a perfect score on Correctness, Best Practices, and Domain Accuracy, though the analysis of trends and risk factors remains strong."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Analyze financial data, such as income growth, quality of management, and market share to determine expected profitability of loans.",
+      "task_type": "Profitability & Loan Viability Analysis",
+      "user_prompt": "You are a Credit Analyst. Analyze the potential profitability and viability of a loan to 'Coastal Hospitality Inc.' based on the provided data regarding income growth, management stability, and market position. Calculate the projected Debt Service Coverage Ratio (DSCR) assuming a 5% annual revenue growth. Determine if the loan is profitable for the bank given the projected cash flows and recommend a final decision.",
+      "reference_context": {
+        "company_name": "Coastal Hospitality Inc.",
+        "loan_request": {
+          "amount": 750000,
+          "annual_interest_rate": 5.5,
+          "term_years": 4,
+          "repayment_schedule": "Equal annual principal and interest payments"
+        },
+        "financial_projections": {
+          "current_annual_revenue": 2000000,
+          "current_operating_expenses": 1600000,
+          "projected_revenue_growth_rate": 5.0,
+          "management_stability_score": "High (No turnover in 5 years)",
+          "market_share_trend": "Stable"
+        },
+        "bank_requirements": {
+          "minimum_dscr": 1.25
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Projection Accuracy — Are the revenue and expense projections calculated correctly based on the 5% growth rate?",
+        "Criterion 2: DSCR Calculation — Is the Debt Service Coverage Ratio calculated accurately and compared against the bank's minimum requirement?",
+        "Criterion 3: Decision Justification — Is the final recommendation (Approve/Decline) logically derived from the DSCR result and qualitative factors like management stability?"
+      ],
+      "student_answer": "**Credit Analysis Report: Coastal Hospitality Inc.**\n\n**1. Loan Structure & Debt Service Calculation**\n*   **Principal Amount:** $750,000\n*   **Interest Rate:** 5.5% (Annual)\n*   **Term:** 4 Years\n*   **Repayment Structure:** Equal annual principal and interest payments (Amortizing Loan)\n\nUsing the standard amortization formula for an equal annual payment loan:\n$$A = P \\times \\frac{r(1+r)^n}{(1+r)^n - 1}$$\nWhere:\n*   $P = 750,000$\n*   $r = 0.055$\n*   $n = 4$\n\n**Annual Debt Service Payment:** $213,646.28\n\n**2. Financial Projections & EBITDA Analysis**\n*Assumption: Operating expenses remain constant in absolute terms as no growth rate is provided for expenses, while revenue grows at 5% annually.*\n\n*   **Year 1:**\n    *   Revenue: $2,000,000 \\times 1.05 = \\$2,100,000$\n    *   Operating Expenses: $1,600,000$\n    *   EBITDA (Net Operating Income): $\\$500,000$\n    *   **DSCR (Year 1):** $500,000 / 213,646.28 = \\mathbf{2.34}$\n\n*   **Year 2:**\n    *   Revenue: $2,100,000 \\times 1.05 = \\$2,205,000$\n    *   Operating Expenses: $1,600,000$\n    *   EBITDA: $\\$605,000$\n    *   **DSCR (Year 2):** $605,000 / 213,646.28 = \\mathbf{2.83}$\n\n*   **Year 3:**\n    *   Revenue: $2,205,000 \\times 1.05 = \\$2,315,250$\n    *   Operating Expenses: $1,600,000$\n    *   EBITDA: $\\$715,250$\n    *   **DSCR (Year 3):** $715,250 / 213,646.28 = \\mathbf{3.35}$\n\n*   **Year 4:**\n    *   Revenue: $2,315,250 \\times 1.05 = \\$2,431,012.50$\n    *   Operating Expenses: $1,600,000$\n    *   EBITDA: $\\$831,012.50$\n    *   **DSCR (Year 4):** $831,012.50 / 213,646.28 = \\mathbf{3.89}$\n\n**3. Risk & Viability Assessment**\n*   **Debt Service Coverage Ratio (DSCR):** The projected DSCR ranges from **2.34 to 3.89** over the loan term. This significantly exceeds the bank's minimum requirement of **1.25**, indicating strong capacity to service debt.\n*   **Management Stability:** A \"High\" stability score with no turnover in 5 years suggests consistent operational execution and strategic continuity.\n*   **Market Position:** A \"Stable\" market share trend combined with 5% revenue growth indicates a healthy competitive position in the hospitality sector.\n*   **Profitability for Bank:** The loan generates consistent interest income ($5.5\\%$) with a very low probability of default given the robust cash flow coverage.\n\n**4. Final Recommendation**\n**APPROVE**\n\nCoastal Hospitality Inc. presents a low-risk credit profile with exceptional debt service coverage. The projected cash flows comfortably support the loan obligations, and the management team demonstrates the stability required to execute the growth strategy. The loan is highly profitable for the bank relative to the risk exposure.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "Correctness (4): The amortization payment calculation contains a minor numerical error ($213,646 vs ~$213,979), though it does not impact the credit decision. Completeness (4): Addresses all task requirements, though profitability assessment is qualitative due to missing cost of funds data. Best Practices (4): Assumption of constant operating expenses is noted but slightly aggressive for hospitality; EBITDA/NOI terminology is slightly conflated. Domain Accuracy (4): Concepts are used correctly, but the calculation error affects precision. Clarity (5): Report is exceptionally well-structured, professional, and easy to follow."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Compare liquidity, profitability, and credit histories of establishments being evaluated with those of similar establishments in the same industries and geographic locations.",
+      "task_type": "Comparative Credit Risk Analysis",
+      "user_prompt": "You are a Senior Credit Analyst. Review the financial profile of 'Summit Retail Group' and compare it against the provided industry benchmarks for similar retail establishments in the same geographic region. Calculate the Current Ratio, Debt-to-Equity Ratio, and Return on Equity (ROE). Based on the variance between Summit's metrics and the industry averages, draft a comparative analysis memo recommending whether to approve a $750,000 line of credit. Explicitly highlight areas where Summit underperforms the industry standard.",
+      "reference_context": {
+        "company_name": "Summit Retail Group",
+        "fiscal_year": "2023",
+        "financial_data": {
+          "total_assets": 4200000,
+          "total_liabilities": 2940000,
+          "current_assets": 850000,
+          "current_liabilities": 600000,
+          "net_income": 180000,
+          "total_equity": 1260000,
+          "cash_flow_from_operations": 220000
+        },
+        "industry_benchmarks": {
+          "average_current_ratio": 1.8,
+          "average_debt_to_equity": 1.5,
+          "average_roe": 12.0
+        },
+        "loan_request": {
+          "amount": 750000,
+          "purpose": "Inventory Expansion",
+          "term_years": 5
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Accuracy - Are the Current Ratio, Debt-to-Equity, and ROE calculated correctly using the provided figures?",
+        "Criterion 2: Comparative Analysis - Does the response clearly quantify the variance between the company's ratios and industry benchmarks?",
+        "Criterion 3: Recommendation Logic - Is the credit decision (approve/deny) directly supported by the identified financial weaknesses relative to the industry?"
+      ],
+      "student_answer": "**MEMORANDUM**\n\n**TO:** Credit Committee\n**FROM:** Senior Credit Analyst\n**DATE:** October 26, 2023\n**SUBJECT:** Credit Analysis and Recommendation – Summit Retail Group ($750,000 Line of Credit)\n\n### 1. Executive Summary\nThis memo evaluates the financial viability of Summit Retail Group (\"Summit\") regarding a requested $750,000 line of credit for inventory expansion. While Summit demonstrates positive operational cash flow, its capital structure and liquidity metrics significantly underperform established industry benchmarks. The requested credit facility would materially increase leverage, exacerbating existing solvency risks. Consequently, approval of the full $750,000 request is not recommended in its current form.\n\n### 2. Financial Ratio Analysis\nThe following table compares Summit's 2023 fiscal year performance against regional industry averages:\n\n| Metric | Formula | Summit Retail Group | Industry Benchmark | Variance |\n| :--- | :--- | :--- | :--- | :--- |\n| **Current Ratio** | Current Assets / Current Liabilities | **1.42** | 1.80 | **-0.38** |\n| **Debt-to-Equity** | Total Liabilities / Total Equity | **2.33** | 1.50 | **+0.83** |\n| **Return on Equity (ROE)** | Net Income / Total Equity | **14.29%** | 12.00% | **+2.29%** |\n\n### 3. Comparative Analysis and Risk Assessment\n\n**Liquidity Deficit (Current Ratio)**\nSummit's Current Ratio of 1.42 falls short of the industry standard of 1.80. This indicates a tighter liquidity position, suggesting that Summit has fewer liquid assets available to cover short-term obligations compared to peers. A ratio below 1.5 often signals potential difficulty in meeting immediate liabilities without external financing or asset liquidation.\n\n**Excessive Leverage (Debt-to-Equity)**\nThe most critical area of underperformance is the Debt-to-Equity ratio. Summit's ratio of 2.33 is significantly higher than the industry average of 1.50. This indicates that Summit is heavily reliant on debt financing to fund its operations, with liabilities comprising 70% of its capital structure compared to the industry norm of roughly 60%. This high leverage increases the company's fixed interest obligations and reduces its financial flexibility.\n\n**Profitability (ROE)**\nSummit's ROE of 14.29% exceeds the industry average of 12.00%. While this suggests efficient use of equity capital to generate profit, this metric must be viewed with caution given the high leverage. The elevated ROE is likely an artifact of the high debt load rather than superior operational efficiency, as the denominator (Equity) is suppressed by the high liability levels.\n\n### 4. Recommendation\n\n**Decision: Conditional Denial / Restructured Offer**\n\nBased on the analysis, the request for a $750,000 line of credit should **not be approved** in its current capacity.\n\n**Rationale:**\n1.  **Solvency Risk:** Approving an additional $750,000 in debt would further inflate the Debt-to-Equity ratio, pushing Summit well beyond acceptable risk thresholds for the retail sector.\n2.  **Liquidity Strain:** The existing Current Ratio of 1.42 provides insufficient cushion to absorb the additional debt service requirements associated with a $750,000 facility.\n3.  **Purpose Mismatch:** While the purpose (Inventory Expansion) is valid, the company's current capital structure cannot support the additional leverage required to fund this expansion sustainably.\n\n**Proposed Alternative:**\nIf the relationship is to be maintained, we recommend:\n*   Reducing the credit line to **$250,000** to mitigate immediate leverage impact.\n*   Requiring a **personal guarantee** from major shareholders to offset the high corporate leverage.\n*   Mandating a **covenant** maintaining a minimum Current Ratio of 1.50 and a maximum Debt-to-Equity ratio of 2.00.\n*   Requiring a detailed cash flow projection demonstrating that the inventory expansion will generate sufficient incremental cash flow to service the new debt within 12 months.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional and meets all task requirements with industry-standard precision. All three required ratios (Current, D/E, ROE) are calculated correctly with accurate rounding. The memo structure is professional, including an executive summary, comparative table, and risk assessment. The student correctly identified underperformance in liquidity and leverage while providing nuanced insight into the ROE (attributing it to leverage rather than operational efficiency). The recommendation is specific and actionable (conditional denial with covenants) rather than generic. No meaningful gaps exist relative to the provided constraints."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Evaluate customer records and recommend payment plans, based on earnings, savings data, payment history, and purchase activity.",
+      "task_type": "Delinquency Resolution & Payment Plan Structuring",
+      "user_prompt": "You are a Credit Analyst handling a delinquent account for 'TechStart Solutions'. The account is 90 days past due with an outstanding balance of $45,000. Review the customer's provided earnings ($8,000/month), savings ($15,000), and payment history. Calculate their Debt Service Coverage Ratio (DSCR) assuming a proposed repayment plan. Based on this analysis, draft a formal recommendation for a specific payment plan structure (e.g., lump sum, installment schedule) that maximizes recovery probability while remaining feasible for the client.",
+      "reference_context": {
+        "company_name": "TechStart Solutions",
+        "outstanding_balance": 45000,
+        "days_past_due": 90,
+        "customer_financials": {
+          "monthly_earnings": 8000,
+          "total_savings": 15000,
+          "existing_debt_payments": 2500,
+          "payment_history_score": "Moderate Risk"
+        },
+        "proposed_plan_options": [
+          {
+            "type": "Lump Sum",
+            "amount": 15000,
+            "timeline_months": 1
+          },
+          {
+            "type": "Installment",
+            "monthly_payment": 1500,
+            "duration_months": 30
+          }
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Financial Logic - Is the DSCR or similar feasibility metric calculated correctly based on earnings and proposed payments?",
+        "Criterion 2: Plan Feasibility - Is the recommended payment plan mathematically sustainable given the customer's savings and monthly earnings?",
+        "Criterion 3: Professional Tone - Is the recommendation structured as a formal internal memo suitable for a collections manager?"
+      ],
+      "student_answer": "**Credit Analysis & Recommendation: TechStart Solutions**\n\n**1. Financial Assessment & DSCR Calculation**\n\n*   **Current Financial Position:**\n    *   Monthly Net Income: $8,000\n    *   Existing Debt Obligations: $2,500\n    *   Available Cash Flow (Pre-Plan): $5,500\n    *   Liquid Assets (Savings): $15,000\n\n*   **Proposed Plan Analysis (Installment Option):**\n    *   Proposed Monthly Payment: $1,500\n    *   Total Monthly Debt Service (Existing + New): $2,500 + $1,500 = $4,000\n    *   **Debt Service Coverage Ratio (DSCR):**\n        $$DSCR = \\frac{\\text{Monthly Net Income}}{\\text{Total Monthly Debt Service}} = \\frac{8,000}{4,000} = 2.0$$\n\n*   **Risk Evaluation:**\n    *   A DSCR of 2.0 indicates the client generates twice the income required to service the debt, suggesting strong repayment capacity under the installment structure.\n    *   However, the \"Moderate Risk\" payment history and 90-day delinquency indicate a cash flow management issue rather than an inability to pay.\n    *   The Lump Sum option ($15,000) would exhaust 100% of liquid savings, leaving the client with zero emergency buffer, significantly increasing the risk of immediate re-default.\n\n**2. Formal Recommendation**\n\n**Recommended Strategy:** **Structured Installment Plan with Immediate Partial Payment**\n\nWhile the pure installment option yields a healthy DSCR of 2.0, the client's history of delinquency requires a \"skin in the game\" approach to demonstrate commitment and reduce the principal exposure immediately.\n\n**Proposed Payment Structure:**\n1.  **Immediate Down Payment:** $5,000 (Paid within 7 days of agreement).\n    *   *Rationale:* Reduces the outstanding balance to $40,000 and utilizes a portion of savings without depleting the emergency fund entirely.\n2.  **Repayment Schedule:** 24 Monthly Installments of $1,666.67.\n    *   *Rationale:* This adjusts the monthly obligation slightly higher than the base $1,500 option to clear the debt faster (24 months vs. 30 months), reducing total interest exposure and risk duration.\n    *   *Revised DSCR Check:*\n        *   New Total Debt Service: $2,500 (Existing) + $1,667 (New) = $4,167\n        *   Revised DSCR: $8,000 / $4,167 ≈ **1.92**\n    *   *Feasibility:* A DSCR of 1.92 remains well above the 1.25 safety threshold, ensuring the client retains sufficient cash flow for living expenses while maintaining a manageable debt load.\n\n**Conclusion:**\nThis hybrid approach balances the client's liquidity constraints with the need for immediate risk mitigation. It avoids the total depletion of savings associated with the lump sum while accelerating repayment compared to the standard 30-month plan, thereby maximizing the probability of full recovery.",
+      "score": 4.6,
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission demonstrates excellent domain accuracy and correctness, with precise DSCR calculations for both the provided installment option and the recommended hybrid plan. The structure is professional and highly clear. However, the payment history analysis is limited to the provided 'Moderate Risk' label without deeper inference, slightly reducing completeness. Additionally, while the recommendation is financially sound, it unilaterally modifies standard product terms (24 months vs 30, higher payment) without explicitly addressing the procedural requirement for approval or system constraints, representing a minor best practice gap in a strict corporate environment."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Contact customers to collect payments on delinquent accounts.",
+      "task_type": "Collection Strategy & Account Prioritization",
+      "user_prompt": "You are a Credit Analyst tasked with prioritizing a portfolio of delinquent accounts for immediate collection action. Review the attached list of 5 accounts with varying balances, days past due, and collateral values. Calculate the 'Recovery Potential Score' for each account (defined as: Collateral Value / Outstanding Balance). Rank the accounts from highest to lowest priority for collection efforts. Draft a brief strategy memo outlining the top 3 accounts to contact this week and the specific approach for each based on their financial health.",
+      "reference_context": {
+        "portfolio_data": [
+          {
+            "account_id": "ACC-001",
+            "outstanding_balance": 12000,
+            "days_past_due": 45,
+            "collateral_value": 15000
+          },
+          {
+            "account_id": "ACC-002",
+            "outstanding_balance": 50000,
+            "days_past_due": 120,
+            "collateral_value": 20000
+          },
+          {
+            "account_id": "ACC-003",
+            "outstanding_balance": 8000,
+            "days_past_due": 30,
+            "collateral_value": 9500
+          },
+          {
+            "account_id": "ACC-004",
+            "outstanding_balance": 25000,
+            "days_past_due": 90,
+            "collateral_value": 28000
+          },
+          {
+            "account_id": "ACC-005",
+            "outstanding_balance": 15000,
+            "days_past_due": 60,
+            "collateral_value": 5000
+          }
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Calculation Accuracy - Are the Recovery Potential Scores calculated correctly for all 5 accounts?",
+        "Criterion 2: Prioritization Logic - Is the ranking based strictly on the calculated scores and days past due?",
+        "Criterion 3: Actionable Strategy - Does the memo provide specific, differentiated collection approaches for the top 3 accounts?"
+      ],
+      "student_answer": "**MEMORANDUM**\n\n**TO:** Collections Management Team\n**FROM:** Credit Analysis Department\n**DATE:** October 26, 2023\n**SUBJECT:** Prioritization of Delinquent Accounts & Immediate Action Strategy\n\n### 1. Portfolio Analysis: Recovery Potential Score (RPS)\n\nThe Recovery Potential Score (RPS) is calculated as `Collateral Value / Outstanding Balance`. A score > 1.0 indicates full collateral coverage, while a score < 1.0 indicates a deficiency.\n\n| Account ID | Outstanding Balance | Collateral Value | Days Past Due | **Recovery Potential Score (RPS)** |\n| :--- | :--- | :--- | :--- | :--- |\n| **ACC-004** | $25,000 | $28,000 | 90 | **1.12** |\n| **ACC-001** | $12,000 | $15,000 | 45 | **1.25** |\n| **ACC-003** | $8,000 | $9,500 | 30 | **1.19** |\n| **ACC-002** | $50,000 | $20,000 | 120 | **0.40** |\n| **ACC-005** | $15,000 | $5,000 | 60 | **0.33** |\n\n*Note: While ACC-001 has the highest RPS (1.25), ACC-004 presents the highest absolute recoverable value ($28,000) with significant collateral coverage. ACC-003 is highly secure but low volume. ACC-002 and ACC-005 are under-collateralized.*\n\n### 2. Priority Ranking for Collection Efforts\n\nBased on a composite view of RPS, absolute collateral value, and delinquency severity, the priority ranking is as follows:\n\n1.  **ACC-004** (High Value, Fully Secured, Critical Delinquency)\n2.  **ACC-001** (High Security, Moderate Delinquency)\n3.  **ACC-003** (High Security, Low Delinquency)\n4.  **ACC-002** (Low Security, Critical Delinquency)\n5.  **ACC-005** (Low Security, Moderate Delinquency)\n\n### 3. Immediate Action Strategy: Top 3 Accounts\n\nThe following accounts require immediate contact this week.\n\n#### **Priority 1: ACC-004**\n*   **Status:** $25,000 Balance | 90 Days Past Due | RPS: 1.12\n*   **Financial Health:** Strong collateral coverage ($28k vs $25k debt). The primary risk is the extended delinquency period (90 days), suggesting a potential cash flow crisis or willful non-payment.\n*   **Strategy:** **Aggressive Negotiation & Asset Preservation.**\n    *   **Approach:** Contact immediately via phone and certified mail. Emphasize the strong collateral position to leverage a payment plan.\n    *   **Tactic:** Offer a structured settlement to clear the balance before the 90-day mark triggers stricter legal protocols. Explicitly warn that failure to pay will result in immediate repossession proceedings to protect the lender's interest, despite the collateral value.\n\n#### **Priority 2: ACC-001**\n*   **Status:** $12,000 Balance | 45 Days Past Due | RPS: 1.25\n*   **Financial Health:** Excellent collateral coverage ($15k vs $12k debt). Delinquency is moderate (45 days).\n*   **Strategy:** **Relationship Retention & Payment Resolution.**\n    *   **Approach:** Contact via phone to understand the cause of the delay. The high RPS suggests the borrower has assets to liquidate if necessary.\n    *   **Tactic:** Focus on avoiding the escalation to legal action. Propose a short-term forbearance or immediate lump-sum payment to bring the account current. Highlight the risk to their credit rating and the asset if payment is not made within 7 days.\n\n#### **Priority 3: ACC-003**\n*   **Status:** $8,000 Balance | 30 Days Past Due | RPS: 1.19\n*   **Financial Health:** Fully secured ($9.5k vs $8k debt). Lowest delinquency level in the portfolio.\n*   **Strategy:** **Soft Collection & Convenience.**\n    *   **Approach:** Contact via email or automated voice message followed by a call. The low balance and high security suggest this may be an administrative oversight or temporary liquidity issue.\n    *   **Tactic:** Keep the tone professional and non-confrontational. Provide easy payment links and offer assistance with setting up automatic payments to prevent future delinquency. The goal is to resolve this quickly with minimal resource expenditure.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        4
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission demonstrates exceptional domain accuracy and professional judgment, correctly calculating RPS and prioritizing accounts based on a composite view of risk and recoverability rather than a single metric. All task requirements (calculation, ranking, memo, strategy) are fully addressed with accurate data. The only minor gap is in Clarity: the table in Section 1 is not sorted by the 'Recovery Potential Score' column despite the header implying it, which creates a slight presentation inconsistency, though the ranking list clarifies the intent. The 'Additional Checks' in the prompt appear to be template artifacts (referencing Apex Manufacturing/Current Ratio) not applicable to the provided data, so the student correctly followed the primary task instructions."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Review individual or commercial customer files to identify and select delinquent accounts for collection.",
+      "task_type": "Portfolio Risk Screening & Selection",
+      "user_prompt": "You are a Credit Analyst reviewing a commercial loan portfolio of 10 clients. Your goal is to identify accounts that meet the criteria for immediate escalation to the legal collection department. The criteria are: (1) Days Past Due > 60, AND (2) Debt-to-Asset Ratio > 0.75. Review the provided data for all 10 clients, calculate the Debt-to-Asset Ratio for each, and list the specific accounts that meet both criteria. Draft a summary report listing the selected accounts and the calculated ratios that triggered the selection.",
+      "reference_context": {
+        "portfolio_clients": [
+          {
+            "client_id": "C01",
+            "days_past_due": 30,
+            "total_liabilities": 100000,
+            "total_assets": 500000
+          },
+          {
+            "client_id": "C02",
+            "days_past_due": 90,
+            "total_liabilities": 400000,
+            "total_assets": 500000
+          },
+          {
+            "client_id": "C03",
+            "days_past_due": 45,
+            "total_liabilities": 200000,
+            "total_assets": 400000
+          },
+          {
+            "client_id": "C04",
+            "days_past_due": 120,
+            "total_liabilities": 300000,
+            "total_assets": 350000
+          },
+          {
+            "client_id": "C05",
+            "days_past_due": 20,
+            "total_liabilities": 50000,
+            "total_assets": 200000
+          },
+          {
+            "client_id": "C06",
+            "days_past_due": 75,
+            "total_liabilities": 150000,
+            "total_assets": 200000
+          },
+          {
+            "client_id": "C07",
+            "days_past_due": 60,
+            "total_liabilities": 80000,
+            "total_assets": 100000
+          },
+          {
+            "client_id": "C08",
+            "days_past_due": 100,
+            "total_liabilities": 250000,
+            "total_assets": 300000
+          },
+          {
+            "client_id": "C09",
+            "days_past_due": 15,
+            "total_liabilities": 60000,
+            "total_assets": 300000
+          },
+          {
+            "client_id": "C10",
+            "days_past_due": 85,
+            "total_liabilities": 120000,
+            "total_assets": 150000
+          }
+        ]
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Calculation Accuracy - Are the Debt-to-Asset ratios calculated correctly for all 10 clients?",
+        "Criterion 2: Criteria Application - Are the correct accounts selected based on the intersection of both conditions (DPD > 60 AND D/A > 0.75)?",
+        "Criterion 3: Reporting Clarity - Is the final list of selected accounts clearly presented with their supporting metrics?"
+      ],
+      "student_answer": "# Credit Portfolio Escalation Report: Legal Collection Review\n\n**Date:** October 26, 2023\n**Subject:** Accounts Meeting Immediate Legal Escalation Criteria\n**Criteria Applied:**\n1. Days Past Due (DPD) > 60\n2. Debt-to-Asset Ratio > 0.75\n\n## Executive Summary\nOut of 10 reviewed clients, **4 accounts** meet both criteria for immediate escalation to the legal collection department. These accounts exhibit significant delinquency combined with high leverage, indicating elevated credit risk.\n\n## Detailed Analysis of Selected Accounts\n\nThe following accounts were selected based on the calculated Debt-to-Asset Ratio (Total Liabilities / Total Assets) and Days Past Due status:\n\n| Client ID | Days Past Due | Total Liabilities | Total Assets | Calculated D/A Ratio | Status |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| **C02** | 90 | $400,000 | $500,000 | **0.80** | **ESCALATE** |\n| **C04** | 120 | $300,000 | $350,000 | **0.86** | **ESCALATE** |\n| **C06** | 75 | $150,000 | $200,000 | **0.75** | **ESCALATE** |\n| **C08** | 100 | $250,000 | $300,000 | **0.83** | **ESCALATE** |\n\n*Note on C06: The calculated ratio is exactly 0.75. Per standard credit risk protocols where \"greater than\" is the strict threshold, this account is included here as the prompt implies a threshold check. However, strictly mathematically, 0.75 is not > 0.75. If the strict inequality is enforced, C06 would be excluded. Given the context of \"immediate escalation\" for high-risk accounts, C06 is included in this report as a borderline case requiring legal review, but please verify if the internal policy requires strictly > 0.75 or ≥ 0.75.*\n\n**Correction for Strict Adherence:**\nRe-evaluating strictly against \"Ratio > 0.75\":\n- C02: 0.80 (> 0.75) -> **Pass**\n- C04: 0.857 (> 0.75) -> **Pass**\n- C06: 0.75 (Not > 0.75) -> **Fail**\n- C08: 0.833 (> 0.75) -> **Pass**\n- C10: 0.80 (> 0.75) AND DPD 85 (> 60) -> **Pass** (Missed in initial quick scan)\n\n**Revised Final List of Escalated Accounts:**\n\n1.  **Client C02**\n    *   Days Past Due: 90\n    *   Debt-to-Asset Ratio: 0.80\n2.  **Client C04**\n    *   Days Past Due: 120\n    *   Debt-to-Asset Ratio: 0.86\n3.  **Client C08**\n    *   Days Past Due: 100\n    *   Debt-to-Asset Ratio: 0.83\n4.  **Client C10**\n    *   Days Past Due: 85\n    *   Debt-to-Asset Ratio: 0.80\n\n*(Note: Client C06 was excluded from the final list as its ratio is exactly 0.75, failing the strict \"> 0.75\" condition.)*\n\n## Final Recommendation\nThe following **4 accounts** are recommended for immediate transfer to the Legal Collection Department:\n*   **C02**\n*   **C04**\n*   **C08**\n*   **C10**\n\nAll other clients (C01, C03, C05, C07, C09) fail to meet one or both criteria and should remain in standard collection or monitoring queues.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        5,
+        4
+      ],
+      "score": 4.0,
+      "grade_reason": "Correctness (4): Final recommendation is accurate, but the initial table contradicts the final exclusion of C06 (marked ESCALATE then excluded). Completeness (4): Task required calculating ratios for each client, but only selected clients' ratios were displayed. Best Practices (3): Report includes internal correction notes ('Correction for Strict Adherence'), which is unprofessional for a final submission. Domain Accuracy (5): Financial ratios and credit risk terminology are used correctly. Clarity (4): Structure is logical, though internal notes add unnecessary clutter."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Consult with customers to resolve complaints and verify financial and credit transactions.",
+      "task_type": "Financial Dispute Resolution & Verification",
+      "user_prompt": "You are a Credit Analyst receiving a formal complaint from 'Global Imports Inc.' regarding a credit limit reduction. The customer claims their financial statements were misinterpreted. Review the provided financial data for Global Imports and the bank's internal calculation of their Credit Utilization Ratio. Verify the calculation, identify any discrepancies in the data provided by the customer versus the bank's records, and draft a response letter to the customer explaining the reduction decision with clear, step-by-step mathematical evidence.",
+      "reference_context": {
+        "company_name": "Global Imports Inc.",
+        "customer_claim": "Our liquidity has improved; the reduction is unjustified.",
+        "bank_records": {
+          "total_credit_limit": 200000,
+          "current_outstanding_balance": 180000,
+          "reported_current_assets": 150000,
+          "reported_current_liabilities": 100000
+        },
+        "customer_submitted_data": {
+          "total_credit_limit": 200000,
+          "current_outstanding_balance": 120000,
+          "reported_current_assets": 250000,
+          "reported_current_liabilities": 100000
+        },
+        "policy_threshold": {
+          "max_utilization_ratio": 0.7,
+          "min_current_ratio": 1.2
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Data Verification - Does the response correctly identify the discrepancy between bank records and customer submitted data?",
+        "Criterion 2: Calculation Accuracy - Are the Credit Utilization Ratio and Current Ratio calculated correctly for both datasets?",
+        "Criterion 3: Resolution Logic - Is the explanation of the credit limit reduction logically sound and backed by the specific policy thresholds provided?"
+      ],
+      "student_answer": "Global Imports Inc.\n[Address Line 1]\n[Address Line 2]\n[City, State, Zip Code]\n\n**Date:** October 26, 2023\n**Reference:** CR-2023-8942\n**Subject:** Response to Complaint Regarding Credit Limit Reduction\n\nDear Management Team,\n\nWe acknowledge receipt of your correspondence dated [Date] regarding the recent adjustment to your credit facility. We have conducted a comprehensive review of your submitted financial data against our internal records and the bank's credit risk policies.\n\nWhile we appreciate your assertion that your liquidity has improved, our decision to reduce the credit limit was based on a discrepancy between the data you submitted and the verified data held in our system, as well as the resulting impact on your Credit Utilization Ratio.\n\nThe following analysis details the mathematical verification and the specific discrepancies identified:\n\n### 1. Data Discrepancy Verification\n\nA comparison of the figures provided in your submission versus our internal records reveals significant variances in your reported liquidity positions:\n\n| Metric | Bank Internal Records | Customer Submitted Data | Variance |\n| :--- | :--- | :--- | :--- |\n| **Current Outstanding Balance** | $180,000 | $120,000 | **$60,000 (Understated)** |\n| **Reported Current Assets** | $150,000 | $250,000 | **$100,000 (Overstated)** |\n| **Reported Current Liabilities** | $100,000 | $100,000 | $0 |\n\n**Analysis:**\nOur records indicate a current outstanding balance of **$180,000**, whereas your submission reflects **$120,000**. This $60,000 difference is the primary driver of the risk assessment. Additionally, while your submission suggests a stronger asset base ($250,000 vs. $150,000), the bank's verified asset position remains at $150,000.\n\n### 2. Credit Utilization Ratio Calculation\n\nThe bank's policy mandates a maximum Credit Utilization Ratio of **70% (0.7)**. This ratio is calculated as:\n$$ \\text{Credit Utilization Ratio} = \\frac{\\text{Current Outstanding Balance}}{\\text{Total Credit Limit}} $$\n\n**A. Calculation Based on Bank Records (Verified):**\n$$ \\text{Ratio} = \\frac{\\$180,000}{\\$200,000} = 0.90 \\text{ (or 90\\%)} $$\n*Status:* **Exceeds Policy Threshold (0.90 > 0.70)**\n\n**B. Calculation Based on Customer Submitted Data (Unverified):**\n$$ \\text{Ratio} = \\frac{\\$120,000}{\\$200,000} = 0.60 \\text{ (or 60\\%)} $$\n*Status:* Compliant with Policy Threshold (0.60 < 0.70)\n\n**Conclusion on Utilization:**\nBased on the verified internal records, your utilization stands at **90%**, which significantly exceeds the 70% policy limit. This high utilization indicates a strain on available liquidity and increased default risk, necessitating a reduction in the credit limit to align with risk management standards.\n\n### 3. Current Ratio Assessment\n\nThe bank also monitors the Current Ratio (Current Assets / Current Liabilities) with a minimum threshold of **1.2**.\n\n**A. Calculation Based on Bank Records (Verified):**\n$$ \\text{Current Ratio} = \\frac{\\$150,000}{\\$100,000} = 1.5 $$\n*Status:* Compliant with Policy Threshold (1.5 > 1.2)\n\n**B. Calculation Based on Customer Submitted Data (Unverified):**\n$$ \\text{Current Ratio} = \\frac{\\$250,000}{\\$100,000} = 2.5 $$\n*Status:* Compliant with Policy Threshold (2.5 > 1.2)\n\n*Note: While your submitted data suggests a stronger Current Ratio, the decision to reduce the limit is primarily driven by the verified Credit Utilization Ratio of 90%.*\n\n### Final Decision\n\nThe credit limit reduction was executed to mitigate the risk associated with a 90% utilization rate as per our verified records. The reduction is not a reflection of your submitted financial statements but rather a corrective measure based on the actual outstanding balance of $180,000.\n\nTo restore your credit facility to a higher limit, we require the following:\n1.  **Reconciliation:** A formal explanation and supporting documentation for the $60,000 discrepancy in the outstanding balance.\n2.  **Payment:** Reduction of the outstanding balance to below $140,000 (70% utilization) to meet the policy threshold.\n\nWe are committed to working with Global Imports Inc. to resolve these discrepancies. Please contact your dedicated relationship manager to discuss the reconciliation of the outstanding balance.\n\nSincerely,\n\n**Credit Analysis Department**\n[Bank Name]\n[Contact Information]",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional. It correctly verifies all calculations (Utilization and Current Ratio) using the provided data, accurately identifies the discrepancies between bank and customer records, and drafts a professional, industry-standard response letter. The logic is sound, the tone is appropriate, and all task requirements are fully met. The use of LaTeX formatting for math is acceptable in this digital context and does not detract from clarity."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Analyze credit data and financial statements to determine the degree of risk involved in extending credit or lending money.",
+      "task_type": "Risk Assessment & Financial Statement Analysis",
+      "user_prompt": "You are a Credit Analyst. Review the attached financial statements for 'Apex Manufacturing LLC' (FY2023). Calculate the key liquidity and solvency ratios. Based on these ratios and the provided industry benchmarks, determine the credit risk level (Low, Medium, High). Draft a formal risk assessment memo recommending whether to approve a $500,000 working capital loan, citing specific financial weaknesses or strengths.",
+      "reference_context": {
+        "company_name": "Apex Manufacturing LLC",
+        "fiscal_year": "2023",
+        "financial_data": {
+          "total_assets": 2500000,
+          "total_liabilities": 1800000,
+          "current_assets": 600000,
+          "current_liabilities": 450000,
+          "net_income": 120000,
+          "total_equity": 700000,
+          "cash_flow_from_operations": 150000
+        },
+        "industry_benchmarks": {
+          "average_current_ratio": 1.5,
+          "average_debt_to_equity": 1.2,
+          "average_roe": 15.0
+        },
+        "loan_request": {
+          "amount": 500000,
+          "purpose": "Working Capital",
+          "term_years": 3
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Are all financial ratios calculated accurately using the provided data?",
+        "Criterion 2: Completeness — Does the response include a risk determination, a clear recommendation, and justification based on the data?",
+        "Criterion 3: Best practices — Is the memo structured professionally with clear headings and logical flow suitable for a loan committee?"
+      ],
+      "student_answer": "**MEMORANDUM**\n\n**TO:** Credit Committee\n**FROM:** Credit Analysis Department\n**DATE:** October 26, 2023\n**SUBJECT:** Credit Risk Assessment and Loan Recommendation – Apex Manufacturing LLC\n\n**1. Executive Summary**\nThis memo outlines the credit risk assessment for Apex Manufacturing LLC regarding a requested $500,000 working capital loan with a 3-year term. Based on a review of FY2023 financial statements and comparative industry benchmarks, Apex Manufacturing LLC presents a **High Credit Risk** profile. The recommendation is to **DENY** the loan application due to significant liquidity constraints and excessive leverage.\n\n**2. Financial Ratio Analysis**\n\nThe following key ratios were calculated based on FY2023 data and compared against industry benchmarks:\n\n| Ratio | Formula | Apex Manufacturing (FY2023) | Industry Benchmark | Variance |\n| :--- | :--- | :--- | :--- | :--- |\n| **Current Ratio** | Current Assets / Current Liabilities | **1.33** | 1.50 | -11.3% |\n| **Debt-to-Equity** | Total Liabilities / Total Equity | **2.57** | 1.20 | +114% |\n| **Return on Equity (ROE)** | Net Income / Total Equity | **17.14%** | 15.00% | +14.3% |\n\n**3. Risk Assessment**\n\n*   **Liquidity Risk (High):** Apex Manufacturing's Current Ratio of 1.33 falls below the industry average of 1.50. This indicates a reduced margin of safety in meeting short-term obligations. With only $600,000 in current assets against $450,000 in current liabilities, the company has limited buffer to absorb operational shocks or unexpected cash flow disruptions.\n*   **Solvency Risk (Critical):** The Debt-to-Equity ratio of 2.57 is more than double the industry benchmark of 1.20. This indicates a highly leveraged capital structure where liabilities significantly outweigh equity. The company is heavily reliant on debt financing, increasing the probability of default in the event of earnings volatility.\n*   **Profitability (Moderate):** While the ROE of 17.14% exceeds the industry average, this metric is likely inflated by the excessive debt load rather than operational efficiency. High leverage amplifies returns in good times but magnifies losses in downturns.\n\n**4. Loan Specifics and Capacity Analysis**\n\nThe requested $500,000 working capital loan would further strain the company's already thin liquidity position.\n*   **Post-Loan Liquidity:** Assuming the loan proceeds are held as cash (current asset), the Current Ratio would improve to approximately 1.78 ($1,100,000 / $450,000). However, this is a temporary accounting improvement.\n*   **Debt Service Capacity:** The addition of $500,000 in new debt would increase Total Liabilities to $2,300,000, pushing the Debt-to-Equity ratio to approximately 3.29. This level of leverage is unsustainable for a manufacturing entity in the current economic climate.\n*   **Cash Flow Coverage:** Operating cash flow of $150,000 is insufficient to comfortably service the principal and interest on a $500,000 loan over a 3-year term without further eroding working capital reserves.\n\n**5. Conclusion and Recommendation**\n\nApex Manufacturing LLC exhibits a **High Credit Risk** profile characterized by critical solvency issues and sub-par liquidity. The company's capital structure is dangerously leveraged, and the proposed loan would exacerbate these weaknesses rather than resolve them.\n\n**Recommendation:** **DENY** the $500,000 working capital loan request.\n\n**Rationale:**\n1.  **Excessive Leverage:** The Debt-to-Equity ratio of 2.57 indicates a high probability of insolvency if earnings decline.\n2.  **Liquidity Deficit:** The Current Ratio of 1.33 suggests an inability to comfortably cover short-term obligations without external financing.\n3.  **Insufficient Cash Flow:** Operating cash flow does not support the debt service requirements of the proposed loan amount.\n\n**Alternative Action:**\nIf the company requires financing, a significantly smaller facility (e.g., $100,000) secured by specific assets or a requirement for an equity injection to reduce the Debt-to-Equity ratio below 1.50 prior to approval should be considered. However, under current conditions, the risk is unacceptable.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is professionally structured and addresses all task requirements with strong qualitative analysis. However, a significant arithmetic error exists in the pro forma liquidity analysis: the student states $1,100,000 / $450,000 equals 1.78, when it is actually 2.44. While this does not alter the final recommendation (which is correctly driven by the high Debt-to-Equity ratio), it impacts Correctness, Domain Accuracy, and Best Practices scores. The base ratio calculations and risk assessment are accurate, and the memo format is excellent."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Analyze credit data and financial statements to determine the degree of risk involved in extending credit or lending money.",
+      "task_type": "Risk Assessment & Financial Statement Analysis",
+      "user_prompt": "You are a Credit Analyst. Review the attached financial statements for 'Apex Manufacturing LLC' (FY2023). Calculate the key liquidity and solvency ratios. Based on these ratios and the provided industry benchmarks, determine the credit risk level (Low, Medium, High). Draft a formal risk assessment memo recommending whether to approve a $500,000 working capital loan, citing specific financial weaknesses or strengths.",
+      "reference_context": {
+        "company_name": "Apex Manufacturing LLC",
+        "fiscal_year": "2023",
+        "financial_data": {
+          "total_assets": 2500000,
+          "total_liabilities": 1800000,
+          "current_assets": 600000,
+          "current_liabilities": 450000,
+          "net_income": 120000,
+          "total_equity": 700000,
+          "cash_flow_from_operations": 150000
+        },
+        "industry_benchmarks": {
+          "average_current_ratio": 1.5,
+          "average_debt_to_equity": 1.2,
+          "average_roe": 15.0
+        },
+        "loan_request": {
+          "amount": 500000,
+          "purpose": "Working Capital",
+          "term_years": 3
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Are all financial ratios calculated accurately using the provided data?",
+        "Criterion 2: Completeness — Does the response include a risk determination, a clear recommendation, and justification based on the data?",
+        "Criterion 3: Best practices — Is the memo structured professionally with clear headings and logical flow suitable for a loan committee?"
+      ],
+      "student_answer": "**MEMORANDUM**\n\n**TO:** Credit Committee\n**FROM:** Credit Analysis Department\n**DATE:** October 26, 2023\n**SUBJECT:** Credit Risk Assessment and Loan Recommendation – Apex Manufacturing LLC\n\n**1. Executive Summary**\nThis memo evaluates the creditworthiness of Apex Manufacturing LLC (\"Apex\") regarding a proposed $500,000 working capital loan with a 3-year term. Based on the FY2023 financial statements and comparative industry benchmarks, Apex presents a **High** credit risk profile. The recommendation is to **decline** the loan application due to critical liquidity deficiencies and excessive leverage.\n\n**2. Financial Ratio Analysis**\n\nThe following key ratios were calculated based on FY2023 data:\n\n*   **Current Ratio:** 1.33\n    *   *Calculation:* Current Assets ($600,000) / Current Liabilities ($450,000)\n    *   *Benchmark:* 1.50\n    *   *Analysis:* Apex falls short of the industry average, indicating a reduced margin of safety for meeting short-term obligations.\n\n*   **Debt-to-Equity Ratio:** 2.57\n    *   *Calculation:* Total Liabilities ($1,800,000) / Total Equity ($700,000)\n    *   *Benchmark:* 1.20\n    *   *Analysis:* This ratio is more than double the industry average, signaling severe over-leverage and a fragile capital structure.\n\n*   **Return on Equity (ROE):** 17.14%\n    *   *Calculation:* Net Income ($120,000) / Total Equity ($700,000)\n    *   *Benchmark:* 15.00%\n    *   *Analysis:* While profitability relative to equity is strong, this is likely a result of the high leverage rather than operational efficiency.\n\n*   **Cash Flow Coverage:**\n    *   Operating Cash Flow ($150,000) is insufficient to cover the proposed new debt service on a $500,000 loan over three years without significant strain, especially given the existing high debt load.\n\n**3. Risk Assessment**\n\n*   **Liquidity Risk (High):** The Current Ratio of 1.33 indicates that Apex has limited liquid assets to cover immediate liabilities. A decline in sales or an unexpected expense could trigger a liquidity crisis.\n*   **Solvency Risk (High):** The Debt-to-Equity ratio of 2.57 is the primary concern. The company is heavily reliant on debt financing. Adding $500,000 in new debt would further erode the equity cushion and increase the probability of default.\n*   **Operational Risk (Medium):** While Net Income and ROE are positive, the company's ability to service additional debt is compromised by its aggressive capital structure.\n\n**4. Recommendation**\n\n**Decision: DECLINE**\n\n**Rationale:**\nThe proposed $500,000 working capital loan is not recommended for the following specific reasons:\n\n1.  **Excessive Leverage:** Apex's Debt-to-Equity ratio (2.57) is critically high compared to the industry benchmark (1.20). The company is already over-leveraged, and additional debt would likely breach covenants or render the capital structure unsustainable.\n2.  **Inadequate Liquidity:** The Current Ratio (1.33) is below the industry standard (1.50). The company lacks the necessary liquid buffer to absorb the additional debt service obligations while maintaining operational stability.\n3.  **Insufficient Cash Flow Buffer:** With Operating Cash Flow at $150,000, the company has limited capacity to service a $500,000 loan principal and interest over a 3-year term without jeopardizing working capital needs.\n\n**Conclusion:**\nApex Manufacturing LLC does not currently meet the credit standards required for a $500,000 working capital facility. The high solvency risk and marginal liquidity position present an unacceptable probability of default. We recommend declining this application until the company can demonstrate a reduction in leverage and an improvement in current liquidity ratios.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional. All financial calculations (Current Ratio, D/E, ROE) are mathematically accurate and correctly compared to benchmarks. The memo follows professional credit analysis standards with a clear structure (Executive Summary, Analysis, Risk, Recommendation). The recommendation to decline is logically derived from the high leverage and liquidity constraints, specifically tying the $500k loan amount to the operating cash flow limitations. No meaningful gaps exist in the analysis or presentation given the provided data constraints."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Analyze credit data and financial statements to determine the degree of risk involved in extending credit or lending money.",
+      "task_type": "Risk Assessment & Financial Statement Analysis",
+      "user_prompt": "You are a Credit Analyst. Review the attached financial statements for 'Apex Manufacturing LLC' (FY2023). Calculate the key liquidity and solvency ratios. Based on these ratios and the provided industry benchmarks, determine the credit risk level (Low, Medium, High). Draft a formal risk assessment memo recommending whether to approve a $500,000 working capital loan, citing specific financial weaknesses or strengths.",
+      "reference_context": {
+        "company_name": "Apex Manufacturing LLC",
+        "fiscal_year": "2023",
+        "financial_data": {
+          "total_assets": 2500000,
+          "total_liabilities": 1800000,
+          "current_assets": 600000,
+          "current_liabilities": 450000,
+          "net_income": 120000,
+          "total_equity": 700000,
+          "cash_flow_from_operations": 150000
+        },
+        "industry_benchmarks": {
+          "average_current_ratio": 1.5,
+          "average_debt_to_equity": 1.2,
+          "average_roe": 15.0
+        },
+        "loan_request": {
+          "amount": 500000,
+          "purpose": "Working Capital",
+          "term_years": 3
+        }
+      },
+      "evaluation_criteria": [
+        "Criterion 1: Correctness — Are all financial ratios calculated accurately using the provided data?",
+        "Criterion 2: Completeness — Does the response include a risk determination, a clear recommendation, and justification based on the data?",
+        "Criterion 3: Best practices — Is the memo structured professionally with clear headings and logical flow suitable for a loan committee?"
+      ],
+      "student_answer": "**MEMORANDUM**\n\n**TO:** Credit Committee\n**FROM:** Credit Analysis Department\n**DATE:** October 26, 2023\n**SUBJECT:** Credit Risk Assessment and Loan Recommendation – Apex Manufacturing LLC\n\n**1. Executive Summary**\nThis memo evaluates the creditworthiness of Apex Manufacturing LLC (FY2023) in relation to a proposed $500,000 working capital loan with a 3-year term. Based on a quantitative analysis of liquidity, solvency, and profitability metrics against industry benchmarks, the company presents a **High Credit Risk** profile. Consequently, the recommendation is to **DENY** the loan request.\n\n**2. Financial Ratio Analysis**\n\n*   **Liquidity Analysis**\n    *   **Current Ratio:** 1.33 ($600,000 / $450,000)\n    *   **Benchmark:** 1.50\n    *   **Assessment:** Apex Manufacturing's current ratio is 11.3% below the industry average. This indicates a tighter liquidity position than peers, suggesting limited immediate capacity to cover short-term obligations without external financing.\n\n*   **Solvency Analysis**\n    *   **Debt-to-Equity Ratio:** 2.57 ($1,800,000 / $700,000)\n    *   **Benchmark:** 1.20\n    *   **Assessment:** The company is significantly over-leveraged. Its debt-to-equity ratio is more than double the industry average, indicating a heavy reliance on debt financing and a fragile capital structure with minimal equity cushion to absorb losses.\n\n*   **Profitability Analysis**\n    *   **Return on Equity (ROE):** 17.14% ($120,000 / $700,000)\n    *   **Benchmark:** 15.0%\n    *   **Assessment:** While the ROE exceeds the industry average, this is likely a result of the high leverage (financial engineering) rather than operational efficiency. The absolute net income ($120,000) is insufficient to comfortably service a new $500,000 debt obligation over three years, especially given the weak cash flow from operations ($150,000).\n\n**3. Risk Determination**\n\n**Credit Risk Level: HIGH**\n\nThe primary drivers for this rating are:\n1.  **Excessive Leverage:** A Debt-to-Equity ratio of 2.57 creates a high probability of default in the event of an economic downturn or revenue contraction.\n2.  **Liquidity Constraint:** The Current Ratio of 1.33 leaves little margin of safety for operational fluctuations.\n3.  **Debt Service Capacity:** The proposed loan amount ($500,000) would increase total liabilities to $2,300,000, pushing the Debt-to-Equity ratio to approximately 3.29, which is unsustainable.\n\n**4. Recommendation**\n\n**Decision: DENY**\n\nThe request for a $500,000 working capital loan should be rejected. Approving this facility would exacerbate the company's already precarious solvency position and expose the lender to significant default risk. The company's current cash flow from operations ($150,000) is inadequate to support the additional debt service requirements of a $500,000 loan over a 3-year term.\n\n**5. Mitigation Strategy (Alternative)**\nIf the company requires capital, a restructuring of existing debt or an equity injection is required before any new lending facility can be considered. The company must first reduce its leverage to align closer to the industry average (Debt-to-Equity < 1.5) and improve its current ratio above 1.5.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is an exceptional credit memo that meets all task requirements with industry-standard precision. All financial ratios (Current, D/E, ROE) are calculated correctly and compared accurately against the provided benchmarks. The student demonstrates strong domain expertise by performing a pro-forma analysis to show how the new loan would exacerbate the Debt-to-Equity ratio, a critical step often missed in weaker submissions. The memo follows professional formatting conventions, maintains an objective and decisive tone, and provides a clear recommendation supported by specific financial weaknesses (leverage, liquidity) and strengths (ROE). No calculation errors, omissions, or clarity issues were found."
+    }
+  ]
+}

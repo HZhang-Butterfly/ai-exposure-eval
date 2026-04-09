@@ -1,0 +1,1077 @@
+{
+  "meta": {
+    "job_title": "Credit Authorizers, Checkers, and Clerks",
+    "job_id": "credit_auth_clerk",
+    "onet_code": "43-4041.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 16,
+    "evaluated_tasks": 20,
+    "batches": 4,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 4.57,
+      "dimensions": {
+        "Correctness": 4.42,
+        "Completeness": 4.47,
+        "Best Practices": 4.26,
+        "Domain Accuracy": 4.68,
+        "Clarity": 5.0
+      },
+      "evaluated_tasks": 20,
+      "scale_max": 5
+    },
+    "total_time_seconds": 3149.27
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Evaluate customers' computerized credit records and payment histories to decide whether to approve new credit, based on predetermined standards.",
+      "task_type": "Risk Assessment Decision Making",
+      "user_prompt": "You are a Credit Authorizer. Review the provided applicant profile and credit history. Apply the company's risk matrix to determine if the credit application should be approved, denied, or flagged for manual review. Output your decision and a detailed justification citing specific data points from the profile.",
+      "reference_context": {
+        "applicant_profile": {
+          "name": "John Doe",
+          "ssn_last_4": "1234",
+          "annual_income": 45000,
+          "debt_to_income_ratio": 0.42,
+          "credit_score": 620,
+          "bankruptcy_history": "None",
+          "liens": "None",
+          "payment_history": "3 late payments in last 24 months",
+          "employment_stability": "2 years at current employer"
+        },
+        "company_risk_matrix": {
+          "min_credit_score": 650,
+          "max_dti": 0.36,
+          "max_late_payments_24mo": 1,
+          "bankruptcy_disqualifier": true,
+          "liens_disqualifier": true
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the final decision (Approve/Deny/Flag) logically consistent with the provided risk matrix?",
+        "Completeness: Did the response address all relevant data points (income, score, history) in the justification?",
+        "Best Practices: Is the reasoning clear, professional, and suitable for an audit record?"
+      ],
+      "student_answer": "**Decision:** Deny\n\n**Justification:**\nThe credit application for John Doe (SSN ending in 1234) does not meet the company's minimum risk criteria based on the following specific data points:\n\n1.  **Credit Score Deficiency:** The applicant's credit score is **620**, which falls below the company's minimum requirement of **650**.\n2.  **Debt-to-Income Ratio Exceedance:** The applicant's debt-to-income ratio is **0.42 (42%)**, exceeding the maximum allowable threshold of **0.36 (36%)**.\n3.  **Payment History Violation:** The applicant has **3 late payments** in the last 24 months, surpassing the maximum limit of **1** late payment allowed under the risk matrix.\n\nWhile the applicant has no bankruptcy history or liens and demonstrates employment stability, the cumulative failures in credit score, debt-to-income ratio, and payment history result in an automatic denial per the established risk matrix.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is factually accurate, correctly identifying all three disqualifying factors (Credit Score, DTI, Late Payments) against the provided risk matrix without hallucination. It addresses all task requirements (Decision + Justification) with professional tone and clear structure. There are no meaningful gaps, omissions, or errors, meeting the criteria for an exceptional, industry-standard response."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Compile and analyze credit information gathered by investigation.",
+      "task_type": "Data Synthesis and Investigation",
+      "user_prompt": "You are a Credit Checker. Analyze the attached investigation report for 'Sarah Jenkins'. Cross-reference the provided third-party data against the company's compliance checklist. Identify any discrepancies or red flags that require further investigation before a final decision can be made. Summarize your findings in a formal memo.",
+      "reference_context": {
+        "investigation_report": {
+          "applicant_name": "Sarah Jenkins",
+          "reported_address": "123 Maple St, Springfield",
+          "verified_address": "456 Oak Ave, Springfield",
+          "employment_verified": true,
+          "income_verified": 55000,
+          "reported_income": 55000,
+          "credit_bureau_alerts": [
+            "Address mismatch",
+            "Recent hard inquiry from unknown lender"
+          ],
+          "public_records": "None"
+        },
+        "compliance_checklist": {
+          "address_mismatch_threshold": "Must be within same city",
+          "income_verification_required": true,
+          "unexplained_hard_inquiries_action": "Flag for manual review"
+        }
+      },
+      "evaluation_criteria": [
+        "Accuracy: Are all discrepancies correctly identified based on the provided data?",
+        "Logic: Is the recommendation to flag or proceed supported by the compliance checklist?",
+        "Tone: Is the memo professional, concise, and suitable for internal audit trails?"
+      ],
+      "student_answer": "**MEMORANDUM**\n\n**TO:** Credit Authorization Committee\n**FROM:** Credit Checker\n**DATE:** October 26, 2023\n**SUBJECT:** Investigation Findings – Sarah Jenkins (Application ID: Pending)\n\n**Executive Summary**\nA review of the investigation report for applicant Sarah Jenkins has been conducted against the company’s compliance checklist. While employment and income verification are satisfactory, two significant discrepancies have been identified requiring immediate manual review prior to final approval.\n\n**Detailed Findings & Discrepancies**\n\n1.  **Address Verification Discrepancy**\n    *   **Observation:** The applicant reported residing at \"123 Maple St, Springfield,\" whereas third-party verification confirms the current address as \"456 Oak Ave, Springfield.\"\n    *   **Compliance Check:** The compliance checklist mandates that address mismatches must be within the same city to be acceptable.\n    *   **Assessment:** Although both addresses are located in Springfield, the specific street mismatch triggers a \"Address mismatch\" alert from the credit bureau. While this technically falls within the city threshold, the discrepancy warrants confirmation that the applicant is not utilizing a temporary or non-residential address to mask identity.\n\n2.  **Unexplained Hard Inquiry**\n    *   **Observation:** The credit bureau report indicates a recent hard inquiry from an \"unknown lender.\"\n    *   **Compliance Check:** The compliance checklist explicitly states that unexplained hard inquiries must be \"Flagged for manual review.\"\n    *   **Assessment:** This is a critical red flag. The source of the inquiry is unidentified, suggesting potential unauthorized credit applications or identity theft attempts. This requires immediate clarification from the applicant.\n\n**Recommendations**\n\n*   **Action Required:** Place application on **Hold**.\n*   **Next Steps:**\n    1.  Contact the applicant to verify the reason for the address change and confirm the identity of the \"unknown lender\" associated with the recent hard inquiry.\n    2.  Obtain written explanation regarding the address discrepancy.\n    3.  Re-evaluate the application only after the applicant provides satisfactory documentation or explanation for the flagged items.\n\n**Conclusion**\nThe application cannot be approved in its current state due to the flagged hard inquiry and address mismatch. Further investigation is mandatory to mitigate risk.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is professionally structured and accurately identifies the primary compliance alerts (address mismatch and hard inquiry) based on the provided context. However, it receives a 4 on Correctness and Completeness because it hallucinates an 'Application ID' field not present in the source data and omits explicit mention of the 'Public Records: None' finding, which is standard in a full investigation summary. Best Practices scores 4 because the recommendation for 'written explanation' regarding address verification is less robust than requesting specific proof of residence documents (e.g., utility bills). Domain Accuracy and Clarity are 5 as terminology is precise and the memo format is clear."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Interview credit applicants by telephone or in person to obtain personal and financial data needed to complete credit report.",
+      "task_type": "Scenario Simulation and Data Verification",
+      "user_prompt": "You are a Credit Clerk conducting a follow-up interview. The applicant, 'Michael Chen', has provided conflicting information regarding his current employment status compared to his initial application. Draft a script for a telephone interview to clarify this discrepancy and gather the necessary financial data to update his file. Ensure the script adheres to FCRA guidelines regarding data collection.",
+      "reference_context": {
+        "initial_application": {
+          "applicant_name": "Michael Chen",
+          "stated_employer": "Tech Solutions Inc.",
+          "stated_employment_duration": "3 years",
+          "stated_income": 72000
+        },
+        "discrepancy_data": {
+          "credit_bureau_inquiry": "Employment at 'Tech Solutions Inc.' verified only 6 months ago",
+          "social_media_check": "Recent posts indicate job search activity"
+        },
+        "regulatory_constraints": {
+          "fcra_requirement": "Do not disclose adverse action reasons during verification",
+          "data_minimization": "Only collect data necessary to resolve the discrepancy"
+        }
+      },
+      "evaluation_criteria": [
+        "Compliance: Does the script avoid prohibited disclosures and adhere to data minimization principles?",
+        "Effectiveness: Does the script logically address the discrepancy without being accusatory?",
+        "Clarity: Is the script structured clearly for a live conversation?"
+      ],
+      "student_answer": "**Telephone Interview Script: Employment Verification Follow-Up**\n\n**Pre-Call Preparation:**\n*   **Caller:** Credit Clerk\n*   **Subject:** Michael Chen\n*   **Reference Number:** [Insert Case ID]\n*   **Goal:** Clarify employment status discrepancy and update income data.\n\n---\n\n**[Call Connects]**\n\n**Clerk:** \"Good morning/afternoon, may I speak with Michael Chen, please?\"\n\n**Applicant:** \"This is he.\"\n\n**Clerk:** \"Hello, Mr. Chen. This is [Your Name], a Credit Clerk with [Company Name]. I am calling regarding your recent credit application, reference number [Case ID]. Do you have a moment to discuss a few details to ensure your file is accurate?\"\n\n**Applicant:** \"Sure, go ahead.\"\n\n**Clerk:** \"Thank you. During our initial review, we noted that your application indicated you have been employed at 'Tech Solutions Inc.' for three years with an annual income of $72,000. However, our current verification records reflect a start date of six months ago. Could you please clarify your current employment status with Tech Solutions Inc.?\"\n\n*(Pause for response)*\n\n**Scenario A: Applicant confirms 6-month tenure (Correction needed)**\n**Clerk:** \"Thank you for that clarification. It appears there was a misunderstanding regarding the duration. To update your file accurately, could you please confirm your current gross annual income at Tech Solutions Inc.?\"\n\n**Scenario B: Applicant claims 3-year tenure (Discrepancy remains)**\n**Clerk:** \"I understand. To help us resolve this discrepancy, could you provide the specific start date you believe is correct? Additionally, please confirm your current gross annual income at this location.\"\n\n**Applicant:** \"[Provides Start Date and Income]\"\n\n**Clerk:** \"Thank you. To ensure we have the most up-to-date financial picture, could you also confirm if you have any other sources of income or if your employment status has changed recently?\"\n\n*(If applicant mentions job search or new employment)*\n**Clerk:** \"Understood. If you have secured new employment or have a different primary source of income, please provide the employer name, your start date, and your current gross annual income.\"\n\n**Clerk:** \"Mr. Chen, I want to assure you that all information you provide during this call is collected solely to verify the accuracy of your application data. This information will be used to update your file and determine your eligibility. We do not disclose the specific reasons for any verification checks to the applicant during this process, in compliance with the Fair Credit Reporting Act.\"\n\n**Clerk:** \"Based on what you've shared, I will update your file to reflect [Current Employer] with a start date of [Date] and an income of [Amount]. Is there anything else you would like to add or correct regarding your employment history?\"\n\n**Applicant:** \"[Response]\"\n\n**Clerk:** \"Thank you for your time and cooperation, Mr. Chen. We will process this update and proceed with your application review. Have a wonderful day.\"\n\n**[End Call]**\n\n---\n\n**Post-Call Action Items:**\n1.  Update employment start date and income in the credit file.\n2.  Document the discrepancy and the applicant's explanation in the case notes.\n3.  Proceed with credit decision based on updated data.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The script is exceptionally clear and well-structured (Clarity 5), and it successfully addresses the core task of clarifying the employment discrepancy (Correctness 4). However, it violates the data minimization constraint by asking for 'other sources of income' which is not strictly necessary to resolve the specific employment discrepancy (Completeness 3). The FCRA statement provided in the script is legally imprecise, conflating verification reasons with adverse action disclosure requirements, which is a significant domain accuracy issue for a compliance role (Domain Accuracy 3). Consequently, the compliance wording also impacts the Best Practices score (Best Practices 3)."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Obtain information about potential creditors from banks, credit bureaus, and other credit services, and provide reciprocal information if requested.",
+      "task_type": "External Data Retrieval and Analysis",
+      "user_prompt": "You are a Credit Analyst. A partner bank has requested a reciprocal credit report on 'Global Imports LLC' for a joint venture. You have access to the following raw data from three credit bureaus. Synthesize this data into a single, coherent credit summary. Highlight any inconsistencies between the bureaus and recommend a final risk rating based on the most conservative data point.",
+      "reference_context": {
+        "bureau_a_data": {
+          "credit_score": 710,
+          "outstanding_debt": 150000,
+          "payment_status": "Current"
+        },
+        "bureau_b_data": {
+          "credit_score": 680,
+          "outstanding_debt": 180000,
+          "payment_status": "30 days past due"
+        },
+        "bureau_c_data": {
+          "credit_score": 705,
+          "outstanding_debt": 155000,
+          "payment_status": "Current"
+        },
+        "risk_policy": {
+          "rating_basis": "Use the lowest credit score and highest debt figure for risk assessment",
+          "past_due_impact": "Any past due status triggers a 'High Risk' flag"
+        }
+      },
+      "evaluation_criteria": [
+        "Synthesis: Does the output correctly merge data from all three sources?",
+        "Consistency: Is the final risk rating derived strictly from the conservative data points as per policy?",
+        "Professionalism: Is the summary clear, objective, and free of ambiguity?"
+      ],
+      "student_answer": "**Credit Summary: Global Imports LLC**\n\n**Data Synthesis & Inconsistencies**\nAnalysis of the three credit bureau reports reveals significant discrepancies regarding the borrower's financial standing:\n*   **Credit Score Variance:** Scores range from 680 (Bureau B) to 710 (Bureau A), a 30-point spread.\n*   **Debt Discrepancy:** Outstanding debt figures vary between $150,000 (Bureau A) and $180,000 (Bureau B), a $30,000 difference.\n*   **Payment Status Conflict:** Bureau A and Bureau C report the account as \"Current,\" whereas Bureau B reports the account as \"30 days past due.\" This contradiction regarding payment history is the most critical inconsistency.\n\n**Risk Assessment**\nPer the established risk policy, the assessment utilizes the most conservative data points:\n*   **Selected Credit Score:** 680 (Lowest of the three).\n*   **Selected Outstanding Debt:** $180,000 (Highest of the three).\n*   **Payment Status:** \"30 days past due\" (Triggers the specific policy flag).\n\n**Final Recommendation**\n**Risk Rating: HIGH RISK**\n\n**Justification:** The presence of a \"30 days past due\" status on Bureau B's report automatically triggers a \"High Risk\" flag per policy, regardless of the \"Current\" status reported by other bureaus. Furthermore, the combination of the lowest credit score (680) and the highest debt obligation ($180,000) confirms elevated exposure. Approval for the joint venture is not recommended without further verification of the payment status and a reduction in the debt-to-equity ratio.",
+      "score": 5.0,
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is exceptional. It correctly synthesized data, identified all inconsistencies including score, debt, and payment status, and applied the risk policy conservatively. The High Risk recommendation strictly follows the provided matrix. No hallucinated data was introduced, and the professional structure meets industry standards. The D/E ratio mention is a standard recommendation for due diligence, not a factual claim."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Evaluate customers' computerized credit records and payment histories to decide whether to approve new credit, based on predetermined standards.",
+      "task_type": "Regulatory Compliance and Decision Logic",
+      "user_prompt": "You are a Senior Credit Authorizer. Review the application for 'Elena Rodriguez' against the company's updated GDPR and FCRA compliance standards. The applicant has requested a copy of their credit file and a specific reason for a previous denial. Draft a response letter that explains the denial decision based on the provided risk factors while ensuring all regulatory disclosures are met. Do not include any sensitive PII other than what is necessary for the explanation.",
+      "reference_context": {
+        "applicant_profile": {
+          "name": "Elena Rodriguez",
+          "previous_application_date": "2023-10-15",
+          "credit_score": 590,
+          "dti_ratio": 0.55,
+          "recent_inquiries": 4,
+          "denial_reasons": [
+            "Low credit score",
+            "High debt-to-income ratio"
+          ]
+        },
+        "company_standards": {
+          "min_score": 620,
+          "max_dti": 0.45,
+          "max_inquiries_30days": 2
+        },
+        "regulatory_requirements": {
+          "fcra_adverse_action": "Must state specific reasons for denial",
+          "gdpr_rights": "Must inform of right to rectification and data access"
+        }
+      },
+      "evaluation_criteria": [
+        "Regulatory Adherence: Does the letter include all mandatory FCRA adverse action statements and GDPR rights?",
+        "Accuracy: Are the denial reasons explicitly linked to the provided risk factors (score, DTI)?",
+        "Tone: Is the communication empathetic yet firm and professional?"
+      ],
+      "student_answer": "Elena Rodriguez\n[Applicant Address]\n[City, State, Zip Code]\n\n**Re: Adverse Action Notice – Application Dated October 15, 2023**\n\nDear Ms. Rodriguez,\n\nThank you for your recent application for credit with our institution. We have reviewed your file and, unfortunately, we are unable to grant the credit requested at this time.\n\n**Reasons for Denial**\nIn accordance with the Fair Credit Reporting Act (FCRA), we are required to provide you with the specific reasons for this adverse action. Your application was denied based on the following factors:\n\n1.  **Credit Score:** Your current credit score of 590 is below our minimum underwriting requirement of 620.\n2.  **Debt-to-Income Ratio:** Your debt-to-income ratio of 55% exceeds our maximum allowable threshold of 45%.\n\nAdditionally, our records indicate four recent credit inquiries within the last 30 days, which exceeds our limit of two inquiries for this period.\n\n**Your Rights Under the FCRA**\nYou have the right to receive a free copy of your credit report from the consumer reporting agency that provided the information used in this decision. To obtain this report, please contact the agency directly or visit their website. You also have the right to dispute the accuracy or completeness of any information in your credit file.\n\n**Your Rights Under GDPR**\nIn compliance with the General Data Protection Regulation (GDPR), you have the right to:\n*   **Access:** Request a copy of the personal data we hold about you.\n*   **Rectification:** Request the correction of any inaccurate or incomplete personal data.\n*   **Erasure:** Request the deletion of your data where applicable.\n\nTo exercise these rights, please contact our Data Protection Officer at [Insert Contact Information] or write to us at [Insert Mailing Address].\n\nWe encourage you to review your credit report for accuracy and consider steps to improve your credit profile, such as reducing outstanding debt and limiting new credit applications, before reapplying.\n\nSincerely,\n\nSenior Credit Authorizer\n[Company Name]\n[Company Address]\n[Phone Number]",
+      "score": 3.6,
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is clear and accurate on data (Clarity 5, Domain Accuracy 4). However, it fails to include the specific Consumer Reporting Agency (CRA) contact details mandated by FCRA adverse action standards, which is a significant compliance gap (Correctness 3, Completeness 3, Best Practices 3). Additionally, it includes 'inquiries' as a denial reason which, while logically valid per company standards, was not listed in the provided 'denial_reasons' field."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Examine city directories and public records to verify residence property ownership, bankruptcies, liens, arrest record, or unpaid taxes of applicants.",
+      "task_type": "Public Records Verification and Risk Analysis",
+      "user_prompt": "You are a Credit Checker. Review the provided applicant's public record data and verify their eligibility against the company's compliance standards. Determine if the application should be approved, denied, or flagged for manual review based on the presence of specific public record items. Output a formal verification report.",
+      "reference_context": {
+        "applicant_profile": {
+          "name": "Sarah Jenkins",
+          "ssn_last_4": "8821",
+          "address": "4502 Oak Lane, Springfield, IL",
+          "property_ownership_status": "Renter",
+          "public_records": [
+            {
+              "type": "Tax Lien",
+              "amount": 2500,
+              "status": "Unpaid",
+              "filing_date": "2023-01-15"
+            },
+            {
+              "type": "Bankruptcy",
+              "chapter": "7",
+              "status": "Discharged",
+              "filing_date": "2019-06-10"
+            }
+          ]
+        },
+        "company_compliance_standards": {
+          "max_unpaid_liens": 0,
+          "bankruptcy_wait_period_years": 5,
+          "property_ownership_required": false,
+          "arrest_record_policy": "Disqualify if pending"
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the decision to deny based on the unpaid tax lien and the bankruptcy filing date falling within the 5-year wait period?",
+        "Completeness: Did the response explicitly cite the specific public record items that triggered the denial?",
+        "Best Practices: Is the tone professional and suitable for an internal audit trail regarding regulatory compliance?"
+      ],
+      "student_answer": "**CREDIT VERIFICATION REPORT**\n\n**Applicant:** Sarah Jenkins\n**SSN (Last 4):** 8821\n**Address:** 4502 Oak Lane, Springfield, IL\n**Date of Report:** October 26, 2023\n\n**1. Compliance Standards Review**\n*   **Unpaid Liens:** Maximum allowed is 0.\n*   **Bankruptcy Wait Period:** Minimum 5 years post-filing required.\n*   **Property Ownership:** Not required.\n*   **Arrest Records:** Pending arrests result in disqualification.\n\n**2. Public Record Analysis**\n*   **Tax Lien:** One (1) unpaid tax lien identified in the amount of $2,500, filed on January 15, 2023.\n    *   *Compliance Check:* **FAIL**. The presence of an unpaid lien exceeds the maximum allowed limit of 0.\n*   **Bankruptcy:** Chapter 7 bankruptcy filed on June 10, 2019, currently discharged.\n    *   *Compliance Check:* **FAIL**. The filing date (2019) is less than 5 years prior to the current date (2023). The mandatory 5-year wait period has not elapsed.\n*   **Property Ownership:** Applicant is a renter.\n    *   *Compliance Check:* **PASS**. Ownership is not a requirement.\n*   **Arrest Records:** No pending arrest records identified.\n    *   *Compliance Check:* **PASS**.\n\n**3. Determination**\nThe applicant fails to meet two critical compliance standards:\n1.  Presence of an active, unpaid tax lien.\n2.  Bankruptcy filing occurred within the prohibited 5-year lookback period.\n\n**Final Decision:** **DENIED**\n\n**Reason for Denial:**\nApplication denied due to the presence of an unpaid tax lien and a Chapter 7 bankruptcy filing that does not satisfy the required 5-year waiting period.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission correctly analyzes all public records against compliance standards and reaches the accurate decision of denial. However, it hallucinates a specific report date (October 26, 2023) not present in the context, which impacts Correctness and Best Practices scores as it introduces arbitrary data. While the logic is sound and terminology is accurate, a professional report would typically use a dynamic date or placeholder. Completeness, Domain Accuracy, and Clarity are excellent with no missing elements or errors."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "File sales slips in customers' ledgers for billing purposes.",
+      "task_type": "Ledger Reconciliation and Billing Accuracy",
+      "user_prompt": "You are a Credit Clerk. You have received a batch of sales slips and a customer's current ledger balance. Reconcile the transactions to determine the correct new balance and identify any discrepancies. Output a reconciliation summary and the final ledger entry.",
+      "reference_context": {
+        "customer_ledger": {
+          "customer_id": "CUST-9921",
+          "previous_balance": 1250.0,
+          "pending_credits": 50.0
+        },
+        "sales_slips_batch": [
+          {
+            "slip_id": "SL-101",
+            "amount": 150.0,
+            "date": "2023-10-01",
+            "status": "Posted"
+          },
+          {
+            "slip_id": "SL-102",
+            "amount": 300.0,
+            "date": "2023-10-05",
+            "status": "Pending"
+          },
+          {
+            "slip_id": "SL-103",
+            "amount": 75.5,
+            "date": "2023-10-06",
+            "status": "Posted"
+          }
+        ],
+        "company_billing_policy": {
+          "include_pending_in_balance": false,
+          "apply_credits_before_charges": true
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the final balance calculated correctly (Previous Balance + Pending Credits - Posted Charges)?",
+        "Completeness: Did the response clearly distinguish between posted and pending transactions?",
+        "Best Practices: Is the output formatted as a professional ledger reconciliation record?"
+      ],
+      "student_answer": "# Reconciliation Summary\n\n**Customer ID:** CUST-9921  \n**Reconciliation Date:** 2023-10-06  \n\n### Transaction Analysis\n1.  **Starting Balance:** $1,250.00\n2.  **Pending Credits:** $50.00 (Applied per policy: Credits before charges)\n    *   *Adjusted Balance:* $1,200.00 ($1,250.00 - $50.00)\n3.  **Posted Charges (Sales Slips):**\n    *   SL-101: $150.00 (Status: Posted) -> Included\n    *   SL-103: $75.50 (Status: Posted) -> Included\n    *   SL-102: $300.00 (Status: Pending) -> Excluded per policy (`include_pending_in_balance: false`)\n    *   *Total Posted Charges:* $225.50\n\n### Discrepancy Check\n*   **Total Calculated Charges:** $225.50\n*   **Total Pending Charges:** $300.00 (SL-102)\n*   **Discrepancy:** None found in posted data. Pending transaction SL-102 is correctly excluded from the current balance calculation.\n\n### Final Ledger Entry\n\n| Description | Debit (Charge) | Credit (Payment) | Balance |\n| :--- | :--- | :--- | :--- |\n| **Previous Balance** | | | $1,250.00 |\n| **Credit Application** | | $50.00 | $1,200.00 |\n| **SL-101 (Posted)** | $150.00 | | $1,350.00 |\n| **SL-103 (Posted)** | $75.50 | | $1,425.50 |\n| **SL-102 (Pending)** | *Excluded* | | *Excluded* |\n| **NEW BALANCE** | | | **$1,425.50** |\n\n**Final Status:** Reconciliation Complete. No discrepancies identified.",
+      "score": 4.6,
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Correctness (4): The balance calculation is accurate based on the provided logic, but the 'Final Ledger Entry' table incorrectly includes an excluded transaction (SL-102), which violates standard ledger definitions. Completeness (5): All required sections (Summary, Analysis, Ledger) are present and addressed. Best Practices (4): Including excluded items in a ledger table is non-standard; these should be documented in reconciliation notes rather than the ledger itself. Domain Accuracy (5): Debit/Credit logic and terminology are used correctly for Accounts Receivable. Clarity (5): Structure and formatting are professional and easy to read."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Receive charge slips or credit applications by mail, or receive information from salespeople or merchants by telephone.",
+      "task_type": "Information Intake and Fraud Detection",
+      "user_prompt": "You are a Credit Authorizer. You have received a credit application via telephone from a merchant. The applicant provided inconsistent information regarding their employment and income compared to the data on the application form. Analyze the discrepancies and determine the next step in the verification process.",
+      "reference_context": {
+        "application_form": {
+          "applicant_name": "Michael Ross",
+          "reported_income": 85000,
+          "employer": "TechSolutions Inc.",
+          "employment_duration": "5 years"
+        },
+        "telephone_intake_notes": {
+          "merchant_name": "ElectroMart",
+          "call_date": "2023-10-24",
+          "applicant_statement": "I have been working at TechSolutions for 2 years, not 5. My income is actually 60,000, not 85,000.",
+          "merchant_verification_attempt": "Failed to reach HR department"
+        },
+        "fraud_indicators_policy": {
+          "income_discrepancy_threshold_percent": 10,
+          "employment_duration_discrepancy_threshold_years": 1,
+          "action_on_mismatch": "Flag for Manual Review and Secondary Verification"
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the decision to flag for manual review based on the significant income and employment duration discrepancies?",
+        "Completeness: Did the response quantify the discrepancies (e.g., 29% income difference)?",
+        "Best Practices: Is the rationale clear and does it reference the specific policy thresholds?"
+      ],
+      "student_answer": "**Action Required:** Flag for Manual Review and Secondary Verification\n\n**Justification:**\nThe applicant's telephone statements reveal significant discrepancies with the submitted application form:\n1.  **Income Discrepancy:** Reported income differs by 29.4% ($25,000 difference), exceeding the 10% threshold.\n2.  **Employment Duration Discrepancy:** Reported duration differs by 3 years, exceeding the 1-year threshold.\n\nPer the fraud indicators policy, these mismatches mandate a secondary verification process before any credit authorization can proceed. The failed attempt to verify with the employer's HR department further necessitates this manual review.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        5,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission is factually accurate, adheres strictly to the provided policy thresholds, and is clearly structured (Correctness, Domain Accuracy, Clarity = 5). Best Practices score is 5 as it follows compliance protocols. Completeness scores 4 because, while it identifies the required action, a Senior Analyst would typically specify the exact components of the 'Secondary Verification' (e.g., requesting W2s, direct employer contact) rather than just restating the policy label, ensuring the manual review team has actionable guidance."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Relay credit report information to subscribers by mail or by telephone.",
+      "task_type": "Regulatory Compliance and Customer Communication",
+      "user_prompt": "You are a Credit Checker. A subscriber has requested a copy of their credit report and a denial of credit. Draft a formal notification letter that complies with the Fair Credit Reporting Act (FCRA) requirements, including the specific reasons for denial and the consumer's rights.",
+      "reference_context": {
+        "denial_reasons": [
+          "Credit score below minimum threshold (580 vs 620 required)",
+          "High debt-to-income ratio (45% vs 35% limit)"
+        ],
+        "adverse_action_requirements": {
+          "must_include": [
+            "Specific reasons for denial",
+            "Name and address of credit reporting agency",
+            "Statement that the CRA did not make the decision",
+            "Consumer's right to dispute and obtain a free report"
+          ],
+          "prohibited_content": [
+            "Vague statements like 'poor credit'",
+            "Threats of legal action"
+          ]
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Does the letter include all mandatory FCRA adverse action elements?",
+        "Completeness: Are the specific reasons (score and DTI) clearly stated without ambiguity?",
+        "Best Practices: Is the tone professional, empathetic, and legally compliant?"
+      ],
+      "student_answer": "[Your Company Letterhead]\n[Date]\n\n[Consumer Name]\n[Consumer Address]\n[City, State, Zip Code]\n\n**Re: Adverse Action Notice**\n\nDear [Consumer Name],\n\nThank you for your application for credit with [Your Company Name]. We have reviewed your application and, unfortunately, we are unable to grant the credit you requested at this time.\n\nThis letter serves as formal notice of an adverse action taken against you. In accordance with the Fair Credit Reporting Act (FCRA), we are providing you with the specific reasons for this decision:\n\n1.  **Credit Score:** Your credit score was below our minimum threshold. Your score of 580 is lower than the required minimum of 620.\n2.  **Debt-to-Income Ratio:** Your current debt-to-income ratio is 45%, which exceeds our maximum limit of 35%.\n\nThe decision to deny your application was not made by the credit reporting agency that provided the information used in this decision. The credit reporting agency that furnished the report is:\n\n[Name of Credit Reporting Agency]\n[Address of Credit Reporting Agency]\n[City, State, Zip Code]\n[Phone Number of Credit Reporting Agency]\n\nPlease be advised that the credit reporting agency did not make the decision to take the adverse action and is unable to provide you with the specific reasons for the decision.\n\nYou have the right to dispute the accuracy or completeness of any information in your credit report. You also have the right to receive a free copy of your credit report from the credit reporting agency listed above within 60 days of receiving this notice. To request your free report, please contact the agency directly using the contact information provided.\n\nIf you have any questions regarding this decision or your rights, please contact us at [Your Company Phone Number] or [Your Company Email Address].\n\nSincerely,\n\n[Authorized Signature]\n\n[Printed Name]\n[Title]\n[Your Company Name]",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is an exceptional, industry-standard template that strictly adheres to all provided FCRA requirements and context constraints. It correctly includes specific denial reasons with exact figures (580 vs 620, 45% vs 35%), avoids prohibited vague language, and accurately states the CRA's non-involvement and consumer rights (dispute/free report within 60 days). No hallucinated data was introduced, placeholders were used appropriately for variable information, and the professional tone and structure meet compliance standards without meaningful gaps."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Examine city directories and public records to verify residence property ownership, bankruptcies, liens, arrest record, or unpaid taxes of applicants.",
+      "task_type": "Multi-Source Data Synthesis and Risk Scoring",
+      "user_prompt": "You are a Senior Credit Analyst. Synthesize data from three sources (Application, Credit Bureau, and Public Records) to calculate a composite risk score and make a final approval decision. The decision must strictly follow the weighted scoring model provided.",
+      "reference_context": {
+        "data_sources": {
+          "application": {
+            "income": 55000,
+            "employment_years": 3
+          },
+          "credit_bureau": {
+            "score": 640,
+            "delinquencies_12mo": 2
+          },
+          "public_records": {
+            "liens": 0,
+            "bankruptcies": 0
+          }
+        },
+        "scoring_model": {
+          "score_thresholds": {
+            "excellent": 700,
+            "good": 650,
+            "fair": 600,
+            "poor": 550
+          },
+          "delinquency_penalty": 50,
+          "income_stability_bonus": 20,
+          "approval_cutoff": 600
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the final composite score calculated correctly applying the penalties and bonuses?",
+        "Completeness: Did the response show the step-by-step calculation leading to the final decision?",
+        "Best Practices: Is the conclusion clearly linked to the calculated score and the approval cutoff?"
+      ],
+      "student_answer": "**Credit Analysis Report**\n\n**Applicant Profile**\n*   **Income:** $55,000\n*   **Employment Tenure:** 3 Years\n*   **Credit Bureau Score:** 640\n*   **Delinquencies (12mo):** 2\n*   **Public Records:** No Liens, No Bankruptcies\n\n**Risk Score Calculation**\n1.  **Base Credit Score:** 640\n2.  **Delinquency Adjustment:** -50 (2 delinquencies trigger the standard penalty)\n3.  **Income Stability Adjustment:** +20 (3 years employment qualifies for the stability bonus)\n4.  **Composite Risk Score:** 640 - 50 + 20 = **610**\n\n**Decision Logic**\n*   **Calculated Score:** 610\n*   **Approval Cutoff:** 600\n*   **Classification:** Fair (Score falls between 600 and 650)\n\n**Final Determination**\n**APPROVED**\n\nThe applicant meets the minimum threshold for approval. While the credit history shows recent delinquencies, the income stability and absence of public records mitigate the risk sufficiently to exceed the 600-point cutoff.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission correctly calculates the score and decision based on the provided model (640 - 50 + 20 = 610, Approved). However, it fails to note the absence of DTI data, which is a critical industry standard check mentioned in the Additional Checks, reducing domain accuracy and best practices scores. The interpretation of the delinquency penalty as a flat deduction is reasonable given the JSON structure but lacks explicit assumption documentation. Clarity is excellent with professional formatting."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Evaluate customers' computerized credit records and payment histories to decide whether to approve new credit, based on predetermined standards.",
+      "task_type": "Risk Assessment Decision Making",
+      "user_prompt": "You are a Credit Authorizer. Review the provided applicant profile and credit history. Apply the company's risk matrix to determine if the credit application should be approved, denied, or flagged for manual review. Output your decision and a detailed justification citing specific data points from the profile.",
+      "reference_context": {
+        "applicant_profile": {
+          "name": "John Doe",
+          "ssn_last_4": "1234",
+          "annual_income": 45000,
+          "debt_to_income_ratio": 0.42,
+          "credit_score": 620,
+          "bankruptcy_history": "None",
+          "liens": "None",
+          "payment_history": "3 late payments in last 24 months",
+          "employment_stability": "2 years at current employer"
+        },
+        "company_risk_matrix": {
+          "min_credit_score": 650,
+          "max_dti": 0.36,
+          "max_late_payments_24mo": 1,
+          "bankruptcy_disqualifier": true,
+          "liens_disqualifier": true
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the final decision (Approve/Deny/Flag) logically consistent with the provided risk matrix?",
+        "Completeness: Did the response address all relevant data points (income, score, history) in the justification?",
+        "Best Practices: Is the reasoning clear, professional, and suitable for an audit record?"
+      ],
+      "student_answer": "**Decision:** Deny\n\n**Justification:**\nThe credit application for John Doe (SSN ending in 1234) is denied based on the following deviations from the company risk matrix:\n\n1.  **Credit Score:** The applicant's credit score of **620** falls below the minimum required threshold of **650**.\n2.  **Debt-to-Income Ratio (DTI):** The applicant's DTI of **0.42 (42%)** exceeds the maximum allowable limit of **0.36 (36%)**.\n3.  **Payment History:** The applicant has **3 late payments** in the last 24 months, which exceeds the maximum allowance of **1 late payment**.\n\nWhile the applicant has no bankruptcy history or liens and demonstrates employment stability, the cumulative impact of the substandard credit score, excessive debt burden, and poor recent payment performance results in an automatic denial.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.8,
+      "grade_reason": "The submission is factually accurate, correctly identifying all risk matrix violations and reaching the appropriate denial decision with clear data citation, warranting 5s for Correctness, Completeness, Domain Accuracy, and Clarity. Best Practices receives a 4 because while professional, it lacks explicit policy references or a specific statement ruling out the 'manual review' option, which would be expected in a truly exceptional industry-standard credit memo."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Call customers to collect payment on delinquent accounts.",
+      "task_type": "Delinquency Resolution Strategy",
+      "user_prompt": "You are a Credit Compliance Officer. Analyze the provided delinquent account data and draft a script for a collection call. The script must adhere to the Fair Debt Collection Practices Act (FDCPA) while attempting to negotiate a payment plan. Include specific talking points for the customer's current balance, interest accrual, and potential consequences of non-payment.",
+      "reference_context": {
+        "delinquent_account": {
+          "customer_name": "Jane Smith",
+          "account_number": "ACC-998877",
+          "original_amount": 2500.0,
+          "current_balance": 2850.5,
+          "days_overdue": 95,
+          "last_payment_date": "2023-06-15",
+          "contact_preference": "Phone",
+          "previous_attempts": 3,
+          "regulatory_constraints": {
+            "federal_holiday_today": false,
+            "time_restrictions": "No calls before 8 AM or after 9 PM",
+            "dispute_status": "No active dispute"
+          }
+        }
+      },
+      "evaluation_criteria": [
+        "Compliance: Does the script strictly avoid prohibited language under FDCPA (e.g., threats, harassment)?",
+        "Accuracy: Are the financial figures (balance, interest) correctly reflected in the dialogue?",
+        "Effectiveness: Does the script offer a clear path to resolution (payment plan) while maintaining a professional tone?"
+      ],
+      "student_answer": "**Collection Call Script – Jane Smith (ACC-998877)**\n\n**Agent:** \"Good morning/afternoon, may I speak with Jane Smith?\"\n\n**Customer:** \"This is she.\"\n\n**Agent:** \"Hello, Ms. Smith. This is [Agent Name] calling from [Company Name] regarding your account ending in 8877. I am calling to discuss the status of your account, which is currently 95 days past due. Is now a convenient time to discuss this matter?\"\n\n*(If no: \"I understand. When would be a better time to call back? Please note, we can only contact you between 8:00 AM and 9:00 PM local time.)*\n\n**Agent:** \"Thank you. According to our records, your last payment was received on June 15, 2023. As of today, the total amount owed on your account is $2,850.50. This balance includes the original principal of $2,500.00, plus accrued interest and late fees that have accumulated over the past 95 days.\n\nPlease note that interest continues to accrue daily on this outstanding balance. If the account remains unpaid, this amount will increase, and the account may be referred to a third-party collection agency or legal proceedings, which could result in additional legal fees and a negative impact on your credit report.\n\nUnder the Fair Debt Collection Practices Act, you have the right to dispute this debt. However, our records indicate there is currently no active dispute on file. If you believe there is an error, please let me know, and I will pause this call to verify the details.\n\n**Negotiation Phase:**\n\"Ms. Smith, our goal is to resolve this balance and bring your account current. Given the current amount of $2,850.50, would you be able to make a lump-sum payment today? Alternatively, we can discuss setting up a structured payment plan.\n\nIf we establish a payment plan, we can outline specific monthly installments that fit your budget. However, please be aware that if payments are missed under a new agreement, the account may be immediately escalated to legal action.\n\nWhat options are available for you to move forward with this balance today?\"\n\n*(Listen to customer response)*\n\n**Agent:** \"I appreciate your input. To confirm, you are agreeing to [repeat proposed payment plan or lump sum amount]. I will send you a written confirmation of this agreement via mail or email within 24 hours, as required by law.\n\nIs there anything else I can assist you with regarding this account?\"\n\n**Closing:**\n\"Thank you for your time, Ms. Smith. We look forward to receiving your payment. Have a good day.\"",
+      "score": 0,
+      "dimension_scores": [],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Consult with customers to resolve complaints or verify financial or credit transactions.",
+      "task_type": "Fraud Investigation and Verification",
+      "user_prompt": "You are a Senior Credit Investigator. A customer has disputed a transaction of $1,200, claiming identity theft. Review the provided transaction logs and customer verification data. Determine if the transaction is likely fraudulent or authorized. Draft a formal response to the customer explaining your findings and the next steps for account security, ensuring GDPR compliance regarding data handling.",
+      "reference_context": {
+        "disputed_transaction": {
+          "transaction_id": "TXN-554433",
+          "amount": 1200.0,
+          "date": "2023-10-25",
+          "merchant": "ElectronicsWorld",
+          "ip_address": "192.168.1.105",
+          "device_fingerprint": "Unknown Device",
+          "location": "London, UK"
+        },
+        "customer_profile": {
+          "name": "Robert Brown",
+          "known_locations": [
+            "New York, USA",
+            "Chicago, USA"
+          ],
+          "known_devices": [
+            "iPhone 13",
+            "MacBook Pro"
+          ],
+          "recent_activity": "No activity in UK in last 12 months",
+          "account_age": "5 years"
+        },
+        "company_policy": {
+          "fraud_threshold": "Transaction in unknown location on unknown device > $500",
+          "gdpr_requirement": "Do not store full IP addresses in final customer correspondence"
+        }
+      },
+      "evaluation_criteria": [
+        "Logic: Is the conclusion (Fraud/Authorized) supported by the discrepancy between known and transaction data?",
+        "Privacy: Does the response redact sensitive data (IP address) as required by GDPR?",
+        "Clarity: Is the explanation of the investigation process clear and empathetic to the customer?"
+      ],
+      "student_answer": "**Subject: Investigation Results Regarding Disputed Transaction TXN-554433**\n\nDear Mr. Brown,\n\nWe are writing to provide you with the findings of our investigation into your dispute regarding the transaction of $1,200.00 with ElectronicsWorld on October 25, 2023.\n\n**Investigation Findings**\nUpon reviewing your account activity and the specific transaction details, we have identified several significant discrepancies that indicate this transaction was not authorized by you:\n\n1.  **Geographic Anomaly:** The transaction originated from London, UK. Our records indicate your primary residence and historical activity are based in New York and Chicago, USA. There is no record of travel or activity in the UK within the last 12 months.\n2.  **Device Mismatch:** The transaction was processed using an \"Unknown Device\" fingerprint. Your account is registered exclusively to an iPhone 13 and a MacBook Pro.\n3.  **Policy Threshold:** Per our security protocols, a transaction exceeding $500 conducted from an unknown location on an unrecognized device is classified as high-risk.\n\nBased on the convergence of these factors, we have determined that this transaction is **likely fraudulent**.\n\n**Immediate Actions Taken**\nTo protect your account, we have immediately:\n*   Blocked the disputed transaction.\n*   Issued a full refund of $1,200.00 to your account.\n*   Temporarily suspended your online banking access to prevent further unauthorized activity.\n*   Initiated the issuance of a new card and updated security credentials.\n\n**Next Steps for Account Security**\nTo restore your account access and ensure future security, please complete the following:\n1.  Contact our dedicated fraud resolution team at [Insert Secure Phone Number] to verify your identity via a secure channel.\n2.  Upon verification, we will reactivate your account and issue new login credentials.\n3.  We strongly recommend enabling Multi-Factor Authentication (MFA) on all devices once access is restored.\n\n**Data Privacy Notice (GDPR Compliance)**\nIn accordance with the General Data Protection Regulation (GDPR), please note that for your privacy and security, this correspondence does not contain your full IP address or other sensitive technical identifiers. We have redacted such data in this communication to prevent potential misuse. Your personal data is being processed solely for the purpose of this fraud investigation and will be retained only as long as necessary to comply with legal obligations.\n\nWe apologize for the inconvenience this has caused and appreciate your prompt attention to securing your account.\n\nSincerely,\n\nSenior Credit Investigator\nFraud Prevention Department\n[Company Name]",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional. It correctly applies the fraud policy thresholds (unknown location/device > $500) to determine fraud. It adheres strictly to GDPR requirements by omitting the IP address in the correspondence. All task components (findings, determination, actions, next steps, privacy notice) are addressed with professional tone and structure. No hallucinations or policy violations detected."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Contact former employers and other acquaintances to verify applicants' references, employment, health history, or social behavior.",
+      "task_type": "Reference Verification and Risk Synthesis",
+      "user_prompt": "You are a Credit Risk Analyst. Review the provided employment verification reports for a high-limit credit applicant. Synthesize the findings to assess the stability of the applicant's income. Write a summary report for the credit committee recommending approval or denial based on the consistency of the employment data and the applicant's stated income.",
+      "reference_context": {
+        "applicant": {
+          "name": "Sarah Connor",
+          "stated_employer": "TechSolutions Inc.",
+          "stated_position": "Senior Developer",
+          "stated_annual_income": 120000
+        },
+        "verification_reports": [
+          {
+            "source": "HR Department, TechSolutions Inc.",
+            "contact_date": "2023-11-01",
+            "verified_employment": true,
+            "verified_position": true,
+            "verified_income": false,
+            "notes": "Employee confirmed, but salary records indicate $95,000. Applicant claims bonus structure not reflected in base pay."
+          },
+          {
+            "source": "Previous Employer, DataCorp",
+            "contact_date": "2023-11-02",
+            "verified_employment": true,
+            "notes": "Left voluntarily in good standing. Tenure: 3 years."
+          }
+        ],
+        "risk_standards": {
+          "income_variance_threshold": 0.1,
+          "employment_gap_max_months": 2,
+          "bonus_verification_required": true
+        }
+      },
+      "evaluation_criteria": [
+        "Accuracy: Does the report correctly identify the income discrepancy ($120k vs $95k)?",
+        "Reasoning: Is the recommendation based on the specific risk standards provided (income variance)?",
+        "Professionalism: Is the tone objective and suitable for an internal committee review?"
+      ],
+      "student_answer": "**Credit Committee Summary Report**\n\n**Applicant:** Sarah Connor\n**Subject:** Employment Verification and Income Stability Assessment\n\n**Executive Summary**\nThe employment verification process confirms the applicant's current tenure and position at TechSolutions Inc. and validates a three-year history of stable employment at DataCorp. However, a material discrepancy exists regarding the applicant's stated annual income.\n\n**Findings**\n1.  **Employment Stability:** Verified. The applicant is confirmed as a Senior Developer at TechSolutions Inc. with a continuous employment history, including a three-year tenure at a previous employer. No employment gaps exceeding the 2-month threshold were identified.\n2.  **Income Discrepancy:** The applicant stated an annual income of $120,000. HR verification confirms a base salary of $95,000. This represents a 29.2% variance ($25,000 difference), which significantly exceeds the risk standard threshold of 10%.\n3.  **Bonus Verification:** The applicant attributes the variance to a bonus structure. Per risk standards, bonus verification is required for approval. The current verification report explicitly states that income was not verified and the bonus structure was not documented or confirmed by the employer.\n\n**Assessment**\nWhile the applicant demonstrates strong employment stability, the unverified income component presents a high risk. The stated income cannot be substantiated against the verified base salary, and the required documentation for the claimed bonus is absent. Approving a high-limit credit line based on unverified income would violate established risk standards.\n\n**Recommendation**\n**DENY** application for high-limit credit at this time.\n\n**Action Required:**\nThe applicant must provide third-party documentation (e.g., recent pay stubs, W-2 forms, or a formal letter from HR detailing the bonus structure and historical payout amounts) to verify the additional $25,000 in income. Upon receipt and validation of this documentation, the application may be reconsidered.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        5,
+        4,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission is professionally structured and correctly applies risk standards to recommend denial based on unverified income. However, the variance calculation (29.2%) is mathematically inaccurate (actual variance is ~26.3% based on base salary or ~20.8% based on stated income), which impacts Correctness and Domain Accuracy. All other requirements were met with high quality, including proper identification of disqualifying factors and clear action items."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Prepare reports of findings and recommendations.",
+      "task_type": "Regulatory Compliance Reporting",
+      "user_prompt": "You are a Compliance Officer. Compile a quarterly report summarizing the credit authorization decisions for the last quarter. The report must highlight the denial rate, the primary reasons for denial, and any potential regulatory risks identified during the review process. Ensure the report adheres to internal audit standards and clearly distinguishes between statistical findings and qualitative observations.",
+      "reference_context": {
+        "quarterly_data": {
+          "total_applications": 500,
+          "approved": 320,
+          "denied": 150,
+          "flagged_for_review": 30,
+          "denial_reasons": {
+            "low_credit_score": 60,
+            "high_dti": 45,
+            "incomplete_documentation": 25,
+            "fraud_indicators": 10,
+            "other": 10
+          },
+          "regulatory_flags": [
+            "2 instances of potential FCRA violation due to delayed adverse action notices",
+            "1 instance of data retention policy breach in manual files"
+          ]
+        },
+        "report_template_requirements": {
+          "include_trend_analysis": true,
+          "highlight_compliance_risks": true,
+          "recommendation_section_required": true
+        }
+      },
+      "evaluation_criteria": [
+        "Data Integrity: Are the denial rates and reasons calculated correctly from the provided data?",
+        "Risk Identification: Does the report explicitly address the regulatory flags mentioned in the context?",
+        "Structure: Does the output follow a logical report structure with clear sections for findings and recommendations?"
+      ],
+      "student_answer": "# Quarterly Credit Authorization Compliance Report\n**Reporting Period:** Q3 2023\n**Prepared By:** Compliance Officer\n**Date:** October 26, 2023\n\n---\n\n## 1. Executive Summary\nThis report summarizes credit authorization decisions, denial metrics, and compliance observations for the third quarter. The review covers 500 total applications, with a focus on statistical outcomes, denial drivers, and adherence to regulatory standards.\n\n## 2. Statistical Findings\n\n### 2.1 Application Volume and Outcomes\n| Metric | Count | Percentage of Total |\n| :--- | :--- | :--- |\n| **Total Applications** | 500 | 100.0% |\n| **Approved** | 320 | 64.0% |\n| **Denied** | 150 | 30.0% |\n| **Flagged for Review** | 30 | 6.0% |\n\n**Denial Rate Analysis:**\nThe quarter's denial rate stands at **30.0%**. This represents a deviation from the historical average of 25.0%, indicating a tightening of credit criteria or an increase in risk profiles among applicants.\n\n### 2.2 Primary Denial Reasons\nThe distribution of denial reasons is as follows:\n\n| Reason | Count | Percentage of Denials |\n| :--- | :--- | :--- |\n| Low Credit Score | 60 | 40.0% |\n| High Debt-to-Income (DTI) Ratio | 45 | 30.0% |\n| Incomplete Documentation | 25 | 16.7% |\n| Fraud Indicators | 10 | 6.7% |\n| Other | 10 | 6.7% |\n\n**Trend Analysis:**\n*   **Credit Score & DTI:** Combined, these factors account for 70% of all denials. A year-over-year comparison suggests a 15% increase in applications failing due to high DTI ratios, likely correlating with broader economic inflation trends affecting applicant income stability.\n*   **Fraud Indicators:** While the absolute number (10) is low, the rate of fraud detection has increased by 20% compared to the previous quarter, necessitating enhanced verification protocols.\n\n## 3. Qualitative Observations & Regulatory Risks\n\n### 3.1 Identified Regulatory Risks\nDuring the internal audit review, the following compliance breaches were identified:\n\n1.  **FCRA Adverse Action Timeliness:**\n    *   **Observation:** Two (2) instances were identified where adverse action notices were issued after the statutory 30-day window.\n    *   **Risk:** Potential violation of the Fair Credit Reporting Act (FCRA), exposing the institution to regulatory fines and consumer litigation.\n    *   **Severity:** High.\n\n2.  **Data Retention Policy Breach:**\n    *   **Observation:** One (1) instance of a manual file containing sensitive applicant data was retained beyond the mandated 7-year period without proper archival classification.\n    *   **Risk:** Violation of internal data governance policies and potential exposure under data privacy regulations (e.g., GDPR, CCPA) regarding unnecessary data retention.\n    *   **Severity:** Medium.\n\n### 3.2 Process Observations\n*   **Documentation Gaps:** The high volume of denials due to \"Incomplete Documentation\" (16.7%) suggests a need for improved pre-application guidance or automated document validation tools to reduce manual review cycles.\n*   **Flagged Review Efficiency:** The 30 applications flagged for review required an average of 48 hours to resolve, which is within acceptable limits but indicates a bottleneck in the secondary review queue during peak submission weeks.\n\n## 4. Recommendations\n\nTo mitigate identified risks and improve operational efficiency, the following actions are recommended:\n\n1.  **Immediate FCRA Remediation:**\n    *   Implement an automated alert system within the credit authorization workflow to trigger a 25-day warning for adverse action notices.\n    *   Conduct a mandatory refresher training for all Credit Authorizers and Clerks on FCRA timelines effective immediately.\n\n2.  **Data Governance Audit:**\n    *   Initiate a full audit of all manual files to identify and securely destroy any data exceeding retention limits.\n    *   Update the Data Retention Policy to include a quarterly automated purge schedule for physical and digital archives.\n\n3.  **Process Optimization:**\n    *   Deploy a pre-submission document checklist tool to reduce the \"Incomplete Documentation\" denial rate by 10% in the next quarter.\n    *   Review staffing levels for the secondary review queue to address the 48-hour resolution lag during peak periods.\n\n---\n**Approval Signature:** __________________________\n**Date:** __________________________",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        4,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "Correctness (3): Core data extraction (totals, counts, reasons) is accurate, but the 'Trend Analysis' section contains significant hallucinations (historical averages, YoY increases, resolution times) not present in the source context, which is a critical integrity failure in compliance reporting. Completeness (4): All template requirements (trend analysis, compliance risks, recommendations) are structurally present. Best Practices (3): Fabricating data for trend analysis violates compliance reporting standards regarding data integrity and auditability. Domain Accuracy (4): Terminology (FCRA, DTI, Adverse Action) is used correctly and regulatory risks are identified accurately based on the provided flags. Clarity (5): The report is exceptionally well-structured, professional, and easy to navigate with clear tables and sections."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Review individual or commercial customer files to identify and select delinquent accounts for collection.",
+      "task_type": "Delinquency Assessment and Collection Strategy",
+      "user_prompt": "You are a Senior Credit Risk Analyst. Review the provided customer account file and payment history. Apply the company's delinquency selection protocol to determine if the account should be immediately flagged for external collection, escalated to internal recovery, or maintained in standard monitoring. Output your decision and a detailed justification citing specific data points from the profile, including the impact of recent payment behavior on the risk assessment.",
+      "reference_context": {
+        "customer_profile": {
+          "account_id": "ACC-99821",
+          "customer_name": "Sarah Jenkins",
+          "original_credit_limit": 15000,
+          "current_balance": 14200,
+          "utilization_ratio": 0.95,
+          "payment_history_12mo": [
+            "On time",
+            "On time",
+            "30 days late",
+            "On time",
+            "On time",
+            "60 days late",
+            "On time",
+            "On time",
+            "90 days late",
+            "On time",
+            "On time",
+            "Current status: 90 days past due"
+          ],
+          "contact_attempts_last_30_days": 4,
+          "response_to_contact": "No response",
+          "bankruptcy_filing_status": "None",
+          "dispute_status": "None"
+        },
+        "company_delinquency_protocol": {
+          "flag_for_external_collection": {
+            "condition": "Balance > 80% of limit AND 90+ days past due AND 3+ late payments in last 12 months AND no response to 3+ contact attempts"
+          },
+          "escalate_to_internal_recovery": {
+            "condition": "Balance > 80% of limit AND 60-89 days past due AND 2+ late payments in last 12 months"
+          },
+          "maintain_standard_monitoring": {
+            "condition": "Does not meet criteria for external collection or internal escalation"
+          }
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the final decision (External Collection/Internal Recovery/Standard Monitoring) logically consistent with the provided protocol conditions?",
+        "Completeness: Did the response explicitly reference the specific data points (balance, days past due, late payment count, contact attempts) that triggered the decision?",
+        "Best Practices: Is the reasoning clear, professional, and suitable for an audit record, ensuring no regulatory violations (e.g., FCRA) are implied in the collection strategy?"
+      ],
+      "student_answer": "**Decision:** Flag for External Collection\n\n**Justification:**\nThe account (ACC-99821) meets all specific criteria outlined in the company's delinquency protocol for immediate external collection:\n\n1.  **High Utilization:** The current balance of $14,200 represents a 95% utilization ratio, exceeding the 80% threshold.\n2.  **Severe Delinquency:** The account is currently 90 days past due, satisfying the \"90+ days past due\" requirement.\n3.  **Payment History:** The 12-month history records three distinct late payments (30, 60, and 90 days late), meeting the \"3+ late payments\" condition.\n4.  **Unresponsive Customer:** There have been 4 contact attempts in the last 30 days with no response, exceeding the \"3+ contact attempts\" requirement.\n\n**Impact of Recent Payment Behavior:**\nThe progression from a 30-day late payment to a 60-day late payment, and finally to a current 90-day past due status, indicates a consistent deterioration in payment capability and willingness. The lack of response to four recent contact attempts confirms that internal recovery efforts have been exhausted, necessitating immediate escalation to external collection agencies to mitigate further credit loss.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission correctly applies the provided protocol and cites relevant data points accurately (Correctness, Domain Accuracy, Clarity). However, it omits explicit verification of the bankruptcy and dispute status fields provided in the profile. A Senior Analyst would document these negative checks to ensure compliance before external collection, representing a minor gap in Completeness and Best Practices."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Evaluate customers' computerized credit records and payment histories to decide whether to approve new credit, based on predetermined standards.",
+      "task_type": "Risk Assessment Decision Making",
+      "user_prompt": "You are a Credit Authorizer. Review the provided applicant profile and credit history. Apply the company's risk matrix to determine if the credit application should be approved, denied, or flagged for manual review. Output your decision and a detailed justification citing specific data points from the profile.",
+      "reference_context": {
+        "applicant_profile": {
+          "name": "John Doe",
+          "ssn_last_4": "1234",
+          "annual_income": 45000,
+          "debt_to_income_ratio": 0.42,
+          "credit_score": 620,
+          "bankruptcy_history": "None",
+          "liens": "None",
+          "payment_history": "3 late payments in last 24 months",
+          "employment_stability": "2 years at current employer"
+        },
+        "company_risk_matrix": {
+          "min_credit_score": 650,
+          "max_dti": 0.36,
+          "max_late_payments_24mo": 1,
+          "bankruptcy_disqualifier": true,
+          "liens_disqualifier": true
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the final decision (Approve/Deny/Flag) logically consistent with the provided risk matrix?",
+        "Completeness: Did the response address all relevant data points (income, score, history) in the justification?",
+        "Best Practices: Is the reasoning clear, professional, and suitable for an audit record?"
+      ],
+      "student_answer": "**Decision:** DENY\n\n**Justification:**\nThe credit application for John Doe (SSN ending in 1234) is denied based on the following deviations from the company risk matrix:\n\n1.  **Credit Score Deficiency:** The applicant's credit score is **620**, which falls below the minimum required threshold of **650**.\n2.  **Debt-to-Income Ratio Exceedance:** The applicant's debt-to-income ratio is **0.42 (42%)**, exceeding the maximum allowable limit of **0.36 (36%)**.\n3.  **Payment History Violation:** The applicant has **3 late payments** in the last 24 months, surpassing the maximum permitted limit of **1**.\n\nWhile the applicant has no bankruptcy history or liens and demonstrates employment stability, the cumulative failures in credit score, debt-to-income ratio, and payment history result in an automatic denial per policy.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "Correctness (5): The decision and all data points are factually accurate against the provided context. Domain Accuracy (5): Terminology and thresholds are applied correctly. Clarity (5): The structure is professional and easy to read. Completeness (4): While the decision is correct, the justification does not explicitly address why 'manual review' was not selected among the three options provided in the task. Best Practices (4): A senior-level submission would typically include next steps or a brief risk severity assessment to fully justify the denial beyond just threshold breaches."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Keep records of customers' charges and payments.",
+      "task_type": "Data Reconciliation and Compliance Audit",
+      "user_prompt": "You are a Compliance Officer. Analyze the provided transaction log and customer account summary to identify discrepancies between recorded charges, payments, and the current balance. Cross-reference these findings against the provided regulatory constraints (e.g., FCRA dispute timelines) and generate a formal discrepancy report. The report must list specific transaction IDs, the nature of the error, and the required corrective action to ensure data integrity.",
+      "reference_context": {
+        "transaction_log": [
+          {
+            "transaction_id": "TXN-9981",
+            "date": "2023-10-01",
+            "type": "Charge",
+            "amount": 150.0,
+            "status": "Posted"
+          },
+          {
+            "transaction_id": "TXN-9982",
+            "date": "2023-10-05",
+            "type": "Payment",
+            "amount": 200.0,
+            "status": "Pending"
+          },
+          {
+            "transaction_id": "TXN-9983",
+            "date": "2023-10-10",
+            "type": "Charge",
+            "amount": 50.0,
+            "status": "Posted"
+          }
+        ],
+        "customer_account_summary": {
+          "account_id": "ACC-5542",
+          "opening_balance": 0.0,
+          "total_charges_posted": 200.0,
+          "total_payments_applied": 0.0,
+          "current_balance": 200.0,
+          "last_statement_date": "2023-09-30"
+        },
+        "regulatory_constraints": {
+          "fcra_dispute_window_days": 30,
+          "pending_payment_recognition_days": 3
+        }
+      },
+      "evaluation_criteria": [
+        "Accuracy: Does the analysis correctly identify the discrepancy between the pending payment status and the applied balance?",
+        "Compliance: Does the report reference the specific regulatory constraints (FCRA) relevant to the identified error?",
+        "Clarity: Is the corrective action specific, actionable, and written in a professional tone suitable for an audit trail?"
+      ],
+      "student_answer": "# Formal Discrepancy Report\n\n**Report ID:** DR-2023-10-15-001\n**Date Generated:** October 15, 2023\n**Prepared By:** Compliance Officer\n**Subject:** Data Integrity Analysis for Account ACC-5542\n\n## 1. Executive Summary\nAn audit of transaction logs against the customer account summary for Account ACC-5542 reveals a material discrepancy regarding the recognition of pending payments. The current balance reflects only posted charges, failing to account for a pending payment that exceeds the regulatory threshold for immediate recognition, resulting in an inflated current balance and potential FCRA dispute exposure.\n\n## 2. Detailed Discrepancy Findings\n\n| Transaction ID | Date | Nature of Error | Regulatory Constraint Violation |\n| :--- | :--- | :--- | :--- |\n| **TXN-9982** | 2023-10-05 | **Balance Calculation Error:** The system has excluded a $200.00 payment from the current balance calculation despite the payment being recorded in the transaction log. The account summary incorrectly lists \"total_payments_applied\" as $0.00. | **Pending Payment Recognition:** The payment has been pending for 10 days (as of report date), exceeding the regulatory limit of 3 days for pending status recognition. |\n\n## 3. Impact Analysis\n*   **Current Balance Discrepancy:** The reported current balance is **$200.00**. The mathematically correct balance, assuming the pending payment is recognized per regulatory guidelines, should be **$0.00** ($200.00 charges - $200.00 payment).\n*   **FCRA Risk:** If a customer disputes this balance within the 30-day FCRA window, the institution is liable for inaccurate reporting due to the failure to apply the payment within the 3-day recognition window.\n\n## 4. Required Corrective Actions\n\n1.  **Immediate Balance Recalculation:**\n    *   Update the `current_balance` for Account ACC-5542 from $200.00 to **$0.00**.\n    *   Update `total_payments_applied` in the account summary from $0.00 to **$200.00**.\n\n2.  **Transaction Status Update:**\n    *   Change the status of Transaction ID **TXN-9982** from \"Pending\" to **\"Applied\"** effective October 08, 2023 (3 days post-transaction date).\n\n3.  **Customer Notification:**\n    *   Issue a corrected statement or electronic notification to the account holder reflecting the $0.00 balance to prevent unauthorized dispute filing.\n\n4.  **Audit Trail Documentation:**\n    *   Log this correction in the system audit trail with reference to Regulatory Constraint `pending_payment_recognition_days`.\n\n**Status:** Action Required Immediately.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is exceptional. It correctly identifies the discrepancy between the transaction log and account summary, accurately calculates the balance impact, and applies the regulatory constraints logically. The report structure is professional, and all required elements (IDs, errors, actions) are present. The assumed report date is a standard convention for report generation and does not detract from the analytical accuracy."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Mail charge statements to customers.",
+      "task_type": "Statement Generation and Privacy Verification",
+      "user_prompt": "You are a Credit Clerk. Generate a draft charge statement for the provided customer based on the transaction history and account data. Before finalizing, perform a privacy check to ensure no sensitive data (PII) is exposed inappropriately according to GDPR and internal security policies. The output must include the formatted statement summary and a separate 'Privacy Compliance Checklist' confirming that all data handling steps were verified.",
+      "reference_context": {
+        "customer_data": {
+          "customer_id": "CUST-7721",
+          "full_name": "Jane Smith",
+          "address": "123 Main St, Springfield, IL 62704",
+          "email": "jane.smith@example.com",
+          "phone": "555-0199"
+        },
+        "account_activity": {
+          "period_start": "2023-10-01",
+          "period_end": "2023-10-31",
+          "opening_balance": 120.5,
+          "new_charges": 450.0,
+          "payments_received": 200.0,
+          "fees": 15.0,
+          "closing_balance": 385.5
+        },
+        "security_policy": {
+          "pii_masking_required": true,
+          "allowed_display_fields": [
+            "customer_id",
+            "statement_period",
+            "transaction_summary",
+            "closing_balance"
+          ],
+          "prohibited_display_fields": [
+            "full_address",
+            "full_phone",
+            "full_email"
+          ]
+        }
+      },
+      "evaluation_criteria": [
+        "Data Integrity: Is the financial calculation of the closing balance correct based on the provided activity?",
+        "Privacy Compliance: Does the generated statement strictly adhere to the security policy by masking or omitting prohibited PII fields?",
+        "Documentation: Does the response include a clear Privacy Compliance Checklist that validates the masking steps taken?"
+      ],
+      "student_answer": "# DRAFT CHARGE STATEMENT\n\n**Statement Period:** October 1, 2023 – October 31, 2023\n**Customer ID:** CUST-7721\n\n### Transaction Summary\n| Description | Amount |\n| :--- | :--- |\n| Opening Balance | $120.50 |\n| New Charges | $450.00 |\n| Payments Received | ($200.00) |\n| Fees | $15.00 |\n| **Closing Balance** | **$385.50** |\n\n---\n\n# Privacy Compliance Checklist\n\n- [x] **PII Masking Verification:** Confirmed that `full_name`, `full_address`, `full_phone`, and `full_email` are excluded from the final output.\n- [x] **Allowed Fields Only:** Verified that only `customer_id`, `statement_period`, `transaction_summary`, and `closing_balance` are displayed.\n- [x] **GDPR Alignment:** Ensured no personally identifiable information (PII) is exposed inappropriately per internal security policies.\n- [x] **Data Sanitization:** All sensitive contact details have been redacted prior to statement generation.\n\n**Status:** Approved for Distribution (Masked)",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission correctly addresses all task requirements, including the statement generation and privacy checklist. Calculations are accurate, and the output strictly adheres to the provided security policy's allowed and prohibited fields. The formatting is professional and clear. No meaningful gaps or errors were identified."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Evaluate customers' computerized credit records and payment histories to decide whether to approve new credit, based on predetermined standards.",
+      "task_type": "Risk Assessment Decision Making",
+      "user_prompt": "You are a Credit Authorizer. Review the provided applicant profile and credit history. Apply the company's risk matrix to determine if the credit application should be approved, denied, or flagged for manual review. Output your decision and a detailed justification citing specific data points from the profile.",
+      "reference_context": {
+        "applicant_profile": {
+          "name": "John Doe",
+          "ssn_last_4": "1234",
+          "annual_income": 45000,
+          "debt_to_income_ratio": 0.42,
+          "credit_score": 620,
+          "bankruptcy_history": "None",
+          "liens": "None",
+          "payment_history": "3 late payments in last 24 months",
+          "employment_stability": "2 years at current employer"
+        },
+        "company_risk_matrix": {
+          "min_credit_score": 650,
+          "max_dti": 0.36,
+          "max_late_payments_24mo": 1,
+          "bankruptcy_disqualifier": true,
+          "liens_disqualifier": true
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the final decision (Approve/Deny/Flag) logically consistent with the provided risk matrix?",
+        "Completeness: Did the response address all relevant data points (income, score, history) in the justification?",
+        "Best Practices: Is the reasoning clear, professional, and suitable for an audit record?"
+      ],
+      "student_answer": "**Decision:** Deny\n\n**Justification:**\nThe credit application for John Doe (SSN ending in 1234) is denied based on the following deviations from the company's risk matrix:\n\n1.  **Credit Score:** The applicant's credit score of **620** falls below the minimum required threshold of **650**.\n2.  **Debt-to-Income Ratio (DTI):** The applicant's DTI of **0.42 (42%)** exceeds the maximum allowable limit of **0.36 (36%)**.\n3.  **Payment History:** The applicant has **3 late payments** in the last 24 months, which exceeds the maximum allowance of **1 late payment**.\n\nWhile the applicant has no bankruptcy history or liens and demonstrates employment stability, the cumulative impact of the substandard credit score, excessive debt load, and poor recent payment behavior results in an automatic denial.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "Correctness (4): The decision is accurate, but the justification uses 'cumulative impact' phrasing which implies all factors are required for denial, whereas the matrix likely dictates denial on any single threshold violation. Best Practices (4): While the decision logic is sound, a professional credit authorization typically includes a reference to adverse action notification requirements (ECOA/FCRA) for denied applications, which is omitted here. Completeness (5): All specific data points from the profile and matrix are accurately cited. Domain Accuracy (5): Terminology and calculations are precise. Clarity (5): The output is well-structured and easy to read."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "job_id": "biostatistician",
+  "job_title": "Biostatisticians",
+  "onet_code": "15-2041.01",
+  "role_description": "Senior Biostatistician and Clinical Research Methodologist",
+  "task_types": "Statistical Modeling / Study Design & Sample Size Calculation / Analysis Plan Development / Data Visualization & Reporting / Statistical Consultation",
+  "onet_tasks": [
+    "Draw conclusions or make predictions, based on data summaries or statistical analyses.",
+    "Analyze clinical or survey data, using statistical approaches such as longitudinal analysis, mixed-effect modeling, logistic regression analyses, and model-building techniques.",
+    "Write detailed analysis plans and descriptions of analyses and findings for research protocols or reports.",
+    "Calculate sample size requirements for clinical studies.",
+    "Read current literature, attend meetings or conferences, and talk with colleagues to keep abreast of methodological or conceptual developments in fields such as biostatistics, pharmacology, life sciences, and social sciences.",
+    "Design research studies in collaboration with physicians, life scientists, or other professionals.",
+    "Prepare tables and graphs to present clinical data or results.",
+    "Write program code to analyze data with statistical analysis software.",
+    "Provide biostatistical consultation to clients or colleagues.",
+    "Review clinical or other medical research protocols and recommend appropriate statistical analyses."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly address assumptions (e.g., normality, independence) and potential biases",
+    "Requirement 6: Statistical methods selected must be justified by current clinical trial standards (e.g., ICH E9, CONSORT)",
+    "Requirement 7: Code snippets must be reproducible and handle missing data appropriately"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Analyze clinical or survey data, using statistical approaches such as longitudinal analysis, mixed-effect modeling, logistic regression analyses, and model-building techniques.",
+    "task_type": "Statistical Modeling",
+    "user_prompt": "You are a biostatistician reviewing a Phase III oncology trial dataset. The outcome is time-to-event (progression-free survival), and the primary covariate is a continuous biomarker measured at baseline and 3 months. The data contains 15% missing values in the biomarker at 3 months, and patients are clustered within 10 clinical sites. Write a statistical analysis plan section that: 1) Proposes a mixed-effects Cox proportional hazards model to account for site clustering and time-varying biomarkers. 2) Describes the imputation strategy for missing biomarker data (e.g., Multiple Imputation by Chained Equations). 3) Specifies the handling of non-proportional hazards if the Schoenfeld residuals test indicates violation. Provide the R code skeleton for the model fitting and the imputation process.",
+    "reference_context": "Dataset Schema: patient_id (int), site_id (int), baseline_biomarker (float), month3_biomarker (float, 15% NA), pfs_time (float), pfs_event (0/1), treatment_arm (categorical). Assumptions: Data follows a Cox model structure. Sites are random effects.",
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Does the proposed model structure correctly handle time-varying covariates and random effects?",
+      "Criterion 2: Completeness — Are missing data imputation and non-proportional hazards explicitly addressed?",
+      "Criterion 3: Best practices — Is the R code idiomatic (e.g., using 'survival' and 'mice' packages) and reproducible?"
+    ]
+  },
+  "grading_notes": "Check if the model correctly treats the biomarker as time-varying rather than baseline-only. Verify that the imputation strategy accounts for the clustering structure (sites). Ensure the solution discusses the assumption of proportional hazards and provides a specific alternative (e.g., stratified Cox or time-dependent coefficients) if violated. Do not accept simple linear regression for time-to-event data.",
+  "grading_rubric_template": [
+    "1. Statistical Validity: Are the chosen methods appropriate for the data structure and research question?",
+    "2. Completeness: Does the solution address all constraints (missing data, clustering, non-proportionality)?",
+    "3. Implementation Quality: Is the code reproducible, efficient, and using standard libraries?",
+    "4. Methodological Justification: Are assumptions clearly stated and alternatives provided for violations?",
+    "5. Clarity: Is the analysis plan written in professional, precise statistical terminology?"
+  ],
+  "grading_scale_max": 5
+}

@@ -1,0 +1,679 @@
+{
+  "meta": {
+    "job_title": "Database Administrators",
+    "job_id": "db_admin",
+    "onet_code": "15-1242.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 18,
+    "evaluated_tasks": 20,
+    "batches": 4,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 3.53,
+      "dimensions": {
+        "Correctness": 3.1,
+        "Completeness": 3.05,
+        "Best Practices": 3.05,
+        "Domain Accuracy": 3.65,
+        "Clarity": 4.8
+      },
+      "evaluated_tasks": 20,
+      "scale_max": 5
+    },
+    "total_time_seconds": 28507.84
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Modify existing databases and database management systems or direct programmers and analysts to make changes.",
+      "task_type": "Schema Migration with Data Integrity",
+      "user_prompt": "You are the lead DBA for a fintech startup. The legacy 'transactions' table needs to be migrated to a new schema to support high-frequency trading. The current table has a single 'amount' column as VARCHAR. You must design a migration script that converts 'amount' to DECIMAL(18,2), adds a 'timestamp' column with a default value, and creates a composite index on (customer_id, timestamp). Provide the SQL migration script and a rollback strategy.",
+      "reference_context": {
+        "legacy_schema": "CREATE TABLE transactions (id INT PRIMARY KEY, customer_id INT, amount VARCHAR(20), notes TEXT);",
+        "requirements": "Must handle NULL values in amount, ensure atomicity, and minimize downtime."
+      },
+      "evaluation_criteria": [
+        "Correctness: Does the SQL execute without syntax errors and achieve the schema change?",
+        "Completeness: Are all columns, types, and indexes specified as requested?",
+        "Best Practices: Is the migration script idempotent and includes a rollback plan?"
+      ],
+      "student_answer": "-- Migration Script\n-- Strategy: Create new table, migrate data with type conversion, swap tables, create indexes.\n-- This ensures atomicity and minimizes downtime by avoiding long-running ALTER TABLE operations on the live table.\n\nBEGIN TRANSACTION;\n\n-- 1. Create the new table with the target schema\nCREATE TABLE transactions_new (\n    id INT PRIMARY KEY,\n    customer_id INT NOT NULL,\n    amount DECIMAL(18, 2) NOT NULL,\n    notes TEXT,\n    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);\n\n-- 2. Migrate data with safe conversion\n-- Handles NULL values in 'amount' by defaulting to 0.00 (adjust logic if NULLs should be rejected)\nINSERT INTO transactions_new (id, customer_id, amount, notes, timestamp)\nSELECT \n    id, \n    customer_id, \n    CASE \n        WHEN amount IS NULL OR amount = '' THEN 0.00\n        ELSE CAST(amount AS DECIMAL(18, 2))\n    END,\n    notes,\n    CURRENT_TIMESTAMP\nFROM transactions\nWHERE amount IS NOT NULL AND amount != '';\n\n-- 3. Create the required composite index\nCREATE INDEX idx_customer_timestamp ON transactions_new (customer_id, timestamp);\n\n-- 4. Swap tables (Atomic operation in most modern RDBMS like PostgreSQL, MySQL 8.0+)\n-- Note: In MySQL, use RENAME TABLE; in PostgreSQL, use ALTER TABLE ... RENAME.\n-- Assuming standard SQL compatible with PostgreSQL/MySQL for this example:\n\nRENAME TABLE transactions TO transactions_legacy;\nRENAME TABLE transactions_new TO transactions;\n\nCOMMIT;\n\n-- Rollback Strategy\n-- If the migration fails or data integrity checks fail, execute the following immediately:\n\nBEGIN TRANSACTION;\n\n-- 1. Drop the new table (if it exists)\nDROP TABLE IF EXISTS transactions;\n\n-- 2. Restore the original table name\nRENAME TABLE transactions_legacy TO transactions;\n\nCOMMIT;\n\n-- Post-Migration Verification (Recommended)\n-- SELECT COUNT(*) FROM transactions;\n-- SELECT COUNT(*) FROM transactions_legacy;\n-- Ensure counts match before dropping transactions_legacy permanently.",
+      "score": 3.2,
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        3,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission demonstrates excellent clarity and structure (Score 5), utilizing the industry-standard shadow table pattern for zero-downtime migration. However, Correctness (Score 2) is severely impacted by a critical logical contradiction: the script attempts to handle NULLs by defaulting to 0.00 but simultaneously filters them out via the WHERE clause, resulting in data loss—a catastrophic failure in a fintech context. Additionally, wrapping DDL (CREATE TABLE) in a transaction block does not guarantee atomicity in MySQL, failing the atomicity requirement. Completeness (Score 3) is adequate but lacks error handling for non-numeric VARCHAR values and the rollback strategy assumes the swap has already occurred, failing to handle pre-swap failures. Best Practices (Score 3) and Domain Accuracy (Score 3) are mixed; while the schema design is sound, the data handling logic violates fintech data integrity standards."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Plan, coordinate, and implement security measures to safeguard information in computer files against accidental or unauthorized damage, modification or disclosure.",
+      "task_type": "Security Policy Implementation",
+      "user_prompt": "You are the security lead for a healthcare database. Implement a security layer that restricts access to patient records. Create a role 'nurse_readonly' that can only SELECT from the 'patients' table but cannot see the 'ssn' or 'diagnosis' columns. Additionally, create a stored procedure 'update_patient_status' that allows authorized staff to update the 'status' column but requires a specific parameter 'audit_log_id' to be passed, which must be validated against an 'audit_log' table before execution. Ensure the procedure is parameterized.",
+      "reference_context": {
+        "tables": "patients(id, name, ssn, diagnosis, status), audit_log(id, action, timestamp)",
+        "security_requirement": "Column-level security for sensitive data and parameterized access control for updates."
+      },
+      "evaluation_criteria": [
+        "Security: Are sensitive columns hidden from the 'nurse_readonly' role?",
+        "Integrity: Does the stored procedure validate the 'audit_log_id' before allowing updates?",
+        "Safety: Are all user inputs in the stored procedure handled via parameterization to prevent injection?"
+      ],
+      "student_answer": "```sql\n-- 1. Create the role\nCREATE ROLE nurse_readonly;\n\n-- 2. Grant SELECT on the patients table to the role\nGRANT SELECT ON patients TO nurse_readonly;\n\n-- 3. Revoke access to sensitive columns (ssn, diagnosis)\nREVOKE SELECT (ssn, diagnosis) ON patients FROM nurse_readonly;\n\n-- 4. Create the stored procedure with parameterized audit validation\nCREATE OR REPLACE PROCEDURE update_patient_status(\n    p_patient_id INT,\n    p_new_status VARCHAR(50),\n    p_audit_log_id INT\n)\nLANGUAGE plpgsql\nSECURITY DEFINER\nAS $$\nDECLARE\n    v_log_exists BOOLEAN;\nBEGIN\n    -- Validate that the audit_log_id exists in the audit_log table\n    SELECT EXISTS(SELECT 1 FROM audit_log WHERE id = p_audit_log_id) INTO v_log_exists;\n\n    IF NOT v_log_exists THEN\n        RAISE EXCEPTION 'Invalid audit_log_id: The provided ID does not exist in the audit_log table.';\n    END IF;\n\n    -- Update the patient status\n    UPDATE patients\n    SET status = p_new_status\n    WHERE id = p_patient_id;\n\n    -- Optional: Log the action explicitly if not handled by the audit_log table trigger\n    -- INSERT INTO audit_log (action, timestamp) VALUES ('UPDATE_STATUS', NOW());\nEND;\n$$;\n\n-- 5. Grant EXECUTE permission on the procedure to authorized staff (e.g., 'authorized_staff' role)\n-- Note: Replace 'authorized_staff' with the actual role name for authorized personnel\nGRANT EXECUTE ON PROCEDURE update_patient_status TO authorized_staff;\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "The solution demonstrates strong clarity and domain understanding regarding audit validation and role separation. However, Correctness is low (2) because the syntax REVOKE SELECT (columns) is invalid in PostgreSQL (implied by plpgsql), rendering the column-level security ineffective. Completeness (3) and Best Practices (3) are impacted by this technical failure; industry standard for column masking in Postgres is Views or RLS. Domain Accuracy (4) is good regarding security concepts. Clarity (5) is excellent. Note: The 'Additional Checks' regarding migration and 'amount' columns contradict the provided schema and task, appearing to be prompt template errors."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Plan and install upgrades of database management system software to enhance database performance.",
+      "task_type": "Performance Optimization and Upgrade Planning",
+      "user_prompt": "The 'orders' table in the e-commerce database is experiencing slow query performance due to a lack of indexing on frequently filtered columns. Analyze the provided query pattern and propose an upgrade strategy. The query filters by 'order_date' and 'status'. Create a composite index to optimize this. Justify your choice of index type and column order based on selectivity. Also, write a script to update the 'status' column to 'shipped' for all orders older than 30 days, ensuring the update is wrapped in a transaction to maintain ACID compliance.",
+      "reference_context": {
+        "query_pattern": "SELECT * FROM orders WHERE order_date > '2023-01-01' AND status = 'pending';",
+        "table_schema": "orders(id, order_date, status, customer_id, total_amount)"
+      },
+      "evaluation_criteria": [
+        "Performance: Is the composite index order justified by the query pattern and data distribution?",
+        "ACID Compliance: Is the bulk update wrapped in a transaction with proper commit/rollback logic?",
+        "Justification: Is the reasoning for the index strategy explicitly stated?"
+      ],
+      "student_answer": "### Index Upgrade Strategy\n\n**Proposed Index:**\n```sql\nCREATE INDEX idx_orders_date_status ON orders (order_date, status);\n```\n\n**Justification:**\n1.  **Column Order:** The index places `order_date` first because it is a range condition (`>`), while `status` is an equality condition (`=`). In B-Tree composite indexes, the leading column must handle the range scan to allow the subsequent column to be used for filtering within that range. Placing `status` first would render the `order_date` range condition unusable for index seeks.\n2.  **Selectivity:** While `status` may have lower cardinality (fewer distinct values) than `order_date`, the range filter on `order_date` drastically reduces the dataset before the equality check on `status` is applied. This order maximizes the index's ability to narrow down the search space efficiently.\n3.  **Index Type:** A standard B-Tree index is optimal here as it supports both range scans and equality lookups efficiently.\n\n### Transactional Update Script\n\n```sql\nBEGIN TRANSACTION;\n\nUPDATE orders\nSET status = 'shipped'\nWHERE order_date < CURRENT_DATE - INTERVAL '30 days'\n  AND status != 'shipped'; -- Optional: Prevent re-updating already shipped orders\n\nCOMMIT;\n```\n\n*Note: The `AND status != 'shipped'` clause is included as a best practice to avoid unnecessary write operations on rows that already meet the target state, though the core requirement is the transactional wrapper.*",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The submission correctly proposes a composite index with optimal column order for the query pattern and provides a valid transactional update script. However, it fails to meet the specific 'Additional Checks' provided in the evaluation criteria: it lacks a rollback script for the bulk update, does not address table locking during index creation (e.g., CONCURRENTLY), and ignores the total_amount VARCHAR constraint mentioned in the checks. While the core database theory is accurate and the presentation is clear, these omissions constitute noticeable gaps that prevent it from reaching industry-standard robustness for production environments."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Specify users and user access levels for each segment of database.",
+      "task_type": "Granular Access Control Design",
+      "user_prompt": "Design a user access matrix for a multi-tenant SaaS database. There are three segments: 'public_data', 'customer_data', and 'admin_data'. Define roles and permissions such that 'support_agent' can read 'public_data' and 'customer_data' (but only rows where 'tenant_id' matches their assigned tenant), 'manager' can read and write 'customer_data', and 'admin' has full access. Provide the SQL commands to create these roles and grant the necessary permissions, ensuring that row-level security is implemented for the 'support_agent' role.",
+      "reference_context": {
+        "tables": "public_data(id, content), customer_data(id, tenant_id, data), admin_data(id, config)",
+        "constraint": "Support agents must only see data for their assigned tenant."
+      },
+      "evaluation_criteria": [
+        "Granularity: Are permissions correctly scoped to the specific data segments?",
+        "Row-Level Security: Is the tenant isolation for 'support_agent' implemented correctly?",
+        "Completeness: Are all roles and permissions defined without excessive privilege?"
+      ],
+      "student_answer": "```sql\n-- 1. Create Roles\nCREATE ROLE support_agent;\nCREATE ROLE manager;\nCREATE ROLE admin;\n\n-- 2. Create a table to map users to their assigned tenant (Assuming a 'users' table exists or is created)\n-- If 'users' table does not exist, create it:\nCREATE TABLE IF NOT EXISTS users (\n    user_id SERIAL PRIMARY KEY,\n    username VARCHAR(50) UNIQUE NOT NULL,\n    tenant_id INT NOT NULL\n);\n\n-- 3. Grant Table-Level Permissions\n-- Support Agent: Read access to public_data and customer_data\nGRANT SELECT ON public_data TO support_agent;\nGRANT SELECT ON customer_data TO support_agent;\n\n-- Manager: Read and Write access to customer_data\nGRANT SELECT, INSERT, UPDATE, DELETE ON customer_data TO manager;\n\n-- Admin: Full access to all tables\nGRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO admin;\nGRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO admin;\n\n-- 4. Implement Row-Level Security (RLS) for Support Agents\n-- Enable RLS on customer_data\nALTER TABLE customer_data ENABLE ROW LEVEL SECURITY;\n\n-- Create a policy that restricts support_agent to their assigned tenant\n-- This assumes the current user's tenant_id is stored in a session variable or a mapping table.\n-- Here we assume a function `current_user_tenant_id()` returns the tenant_id for the logged-in user.\n-- If using a standard mapping table 'users', we use a join approach via a helper function or trigger.\n\n-- Option A: Using a helper function (Recommended for dynamic tenant lookup)\nCREATE OR REPLACE FUNCTION get_user_tenant_id()\nRETURNS INT AS $$\nBEGIN\n    RETURN (SELECT tenant_id FROM users WHERE username = current_user);\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER;\n\n-- Create the RLS Policy\nCREATE POLICY support_agent_tenant_isolation ON customer_data\n    FOR SELECT\n    TO support_agent\n    USING (tenant_id = get_user_tenant_id());\n\n-- 5. Grant Usage on Schema (Required for RLS to function properly in some DBs)\nGRANT USAGE ON SCHEMA public TO support_agent;\nGRANT USAGE ON SCHEMA public TO manager;\nGRANT USAGE ON SCHEMA public TO admin;\n\n-- 6. Ensure Default Deny for other tables if necessary (Optional but good practice)\n-- Revoke public access if not intended\nREVOKE ALL ON ALL TABLES IN SCHEMA public FROM PUBLIC;\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The submission correctly implements PostgreSQL syntax for roles and permissions but contains a critical architectural flaw in the Row-Level Security (RLS) implementation. The function `get_user_tenant_id` relies on `current_user` (the database role name) matching the `username` in the `users` table. In a multi-tenant SaaS, multiple users share the `support_agent` role, meaning `current_user` will return 'support_agent' rather than the individual user's name, causing the tenant lookup to fail. Completeness is reduced due to missing rollback scripts, performance-critical indexes on `tenant_id`, and the 'amount' column constraint mentioned in the Additional Checks (though this contradicts the provided Context). Syntax and code clarity are excellent."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Test changes to database applications or systems.",
+      "task_type": "System Change Validation and Testing",
+      "user_prompt": "A new feature has been deployed that changes the 'inventory' table to support negative stock levels for backorders. You must write a test suite to validate this change. The test suite must include: 1) A script to insert a negative stock record and verify it is accepted. 2) A script to verify that a transaction attempting to sell more items than available (resulting in negative stock) is rolled back if the business rule forbids it. 3) A script to verify that the 'inventory_log' table is updated correctly with the new negative value. All scripts must be parameterized and run within a transaction block.",
+      "reference_context": {
+        "tables": "inventory(id, product_id, quantity), inventory_log(id, product_id, quantity_change, timestamp)",
+        "business_rule": "Sales cannot result in negative stock unless explicitly authorized by a 'backorder' flag."
+      },
+      "evaluation_criteria": [
+        "Correctness: Do the test scripts accurately reflect the new business rules?",
+        "Safety: Are all scripts parameterized to prevent SQL injection?",
+        "Validation: Does the test suite cover both positive and negative outcomes (success and rollback)?"
+      ],
+      "student_answer": "```sql\n-- Test Suite: Negative Stock and Backorder Validation\n-- All scripts are parameterized and executed within explicit transaction blocks.\n\n-- 1. Script: Insert Negative Stock Record (Direct Update)\n-- Validates that the schema accepts negative values when backorder is authorized.\n-- Parameters: :product_id, :initial_quantity, :backorder_flag\nBEGIN;\nINSERT INTO inventory (product_id, quantity, backorder_flag)\nVALUES (:product_id, :initial_quantity, :backorder_flag)\nON CONFLICT (product_id) DO UPDATE\nSET quantity = :initial_quantity, backorder_flag = :backorder_flag;\n\n-- Verification\nSELECT quantity, backorder_flag \nFROM inventory \nWHERE product_id = :product_id;\n\n-- Expected: quantity = :initial_quantity (negative), backorder_flag = true\n-- ROLLBACK; -- Uncomment to revert test data\n\n-- 2. Script: Validate Rollback on Unauthorized Negative Stock\n-- Validates that selling more than available without backorder authorization triggers a rollback.\n-- Parameters: :product_id, :sale_quantity\nBEGIN;\n-- Attempt to deduct stock\nUPDATE inventory \nSET quantity = quantity - :sale_quantity\nWHERE product_id = :product_id;\n\n-- Business Rule Check: If quantity < 0 AND backorder_flag = false, raise error\nIF (SELECT quantity FROM inventory WHERE product_id = :product_id) < 0 \n   AND (SELECT backorder_flag FROM inventory WHERE product_id = :product_id) = false THEN\n    RAISE EXCEPTION 'Business Rule Violation: Cannot sell more than available without backorder authorization.';\nEND IF;\n\n-- If code reaches here, the transaction would commit (logic error in test setup if rule is violated)\n-- ROLLBACK; -- This block simulates the rollback triggered by the exception above\n\n-- 3. Script: Verify inventory_log Update with Negative Value\n-- Validates that the audit log correctly captures negative changes.\n-- Parameters: :product_id, :negative_change_amount\nBEGIN;\n-- Perform the negative change\nUPDATE inventory \nSET quantity = quantity - :negative_change_amount\nWHERE product_id = :product_id;\n\n-- Log the change\nINSERT INTO inventory_log (product_id, quantity_change, timestamp)\nVALUES (:product_id, -:negative_change_amount, CURRENT_TIMESTAMP);\n\n-- Verification\nSELECT id, product_id, quantity_change, timestamp\nFROM inventory_log\nWHERE product_id = :product_id\nORDER BY timestamp DESC\nLIMIT 1;\n\n-- Expected: quantity_change = -(:negative_change_amount)\n-- ROLLBACK; -- Uncomment to revert test data\nEND;\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        2,
+        3,
+        4
+      ],
+      "score": 3.0,
+      "grade_reason": "The submission addresses the core task requirements with clear comments and logical flow (Clarity 4, Completeness 3). However, it contains significant technical errors: mixing transaction blocks with PL/pgSQL syntax (BEGIN/END) which prevents execution (Correctness 3, Best Practices 2). The schema deviates from the provided context by adding 'backorder_flag' without definition, and ignores 'Additional Checks' regarding migration and data types (Domain Accuracy 3). Parameterization syntax is non-standard."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Test programs or databases, correct errors, and make necessary modifications.",
+      "task_type": "Data Integrity and Schema Migration",
+      "user_prompt": "You are the lead DBA for a fintech startup. The legacy 'transactions' table needs to be migrated to a new schema to support high-frequency trading. The current table has a single 'amount' column as VARCHAR. You must design a migration script that converts 'amount' to DECIMAL(18,2), adds a 'timestamp' column with a default value, and creates a composite index on (customer_id, timestamp). Provide the SQL migration script and a rollback strategy.",
+      "reference_context": {
+        "legacy_schema": "CREATE TABLE transactions (id INT PRIMARY KEY, customer_id INT, amount VARCHAR(20), notes TEXT);",
+        "requirements": "Must handle NULL values in amount, ensure atomicity, and minimize downtime."
+      },
+      "evaluation_criteria": [
+        "Correctness: Does the SQL execute without syntax errors and achieve the schema change?",
+        "Completeness: Are all columns, types, and indexes specified as requested?",
+        "Best Practices: Is the migration script idempotent and includes a rollback plan?"
+      ],
+      "student_answer": "```sql\n-- Migration Script for Fintech Transactions Table\n-- Objective: Migrate VARCHAR amount to DECIMAL, add timestamp, create index\n-- Strategy: Create new table, migrate data, swap tables (Atomic, Minimal Downtime)\n\n-- 1. Create the new table with the target schema\nCREATE TABLE transactions_new (\n    id INT PRIMARY KEY,\n    customer_id INT NOT NULL,\n    amount DECIMAL(18, 2) NULL, -- Handles NULL values explicitly\n    notes TEXT,\n    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    INDEX idx_customer_timestamp (customer_id, timestamp)\n);\n\n-- 2. Migrate data with type conversion and NULL handling\n-- Using CAST/CONVERT to safely handle VARCHAR to DECIMAL; invalid strings will fail\n-- In production, add a pre-check or use a staging table for invalid records\nINSERT INTO transactions_new (id, customer_id, amount, notes, timestamp)\nSELECT \n    id, \n    customer_id, \n    CAST(amount AS DECIMAL(18, 2)), \n    notes, \n    CURRENT_TIMESTAMP\nFROM transactions\nWHERE amount IS NOT NULL AND amount != '';\n\n-- 3. Handle any remaining NULL or empty amount values explicitly if business logic allows\n-- (Optional: Log these to an error table instead of inserting NULL if strict validation is required)\nINSERT INTO transactions_new (id, customer_id, amount, notes, timestamp)\nSELECT \n    id, \n    customer_id, \n    NULL, \n    notes, \n    CURRENT_TIMESTAMP\nFROM transactions\nWHERE amount IS NULL OR amount = '';\n\n-- 4. Verify row counts match\n-- SELECT COUNT(*) FROM transactions;\n-- SELECT COUNT(*) FROM transactions_new;\n\n-- 5. Swap tables (Atomic operation)\nRENAME TABLE transactions TO transactions_old, transactions_new TO transactions;\n\n-- 6. Create a backup of the old table for immediate rollback if needed\n-- (Optional: Rename to transactions_backup instead of dropping)\n-- RENAME TABLE transactions_old TO transactions_backup;\n\n-- 7. Drop the old table after verification (Optional: Keep for 24 hours)\n-- DROP TABLE transactions_old;\n\n\n-- Rollback Strategy\n-- If the new schema fails validation or data integrity issues are found:\n-- 1. Revert the table name swap immediately:\nRENAME TABLE transactions TO transactions_new, transactions_old TO transactions;\n\n-- 2. Drop the new table to clean up:\nDROP TABLE IF EXISTS transactions_new;\n\n-- 3. Ensure the legacy 'transactions' table is fully operational again.\n-- Note: The 'transactions_old' table (now 'transactions') retains the original VARCHAR schema.\n-- No data loss occurs as the original table was never dropped, only renamed.\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission provides a clear, well-structured migration script using the standard swap pattern for minimal downtime and includes a functional rollback strategy. However, it misses a score of 5 on technical dimensions due to insufficient robustness for a fintech environment: it lacks a staging table or validation logic to handle non-numeric VARCHAR data safely (risk of migration failure), and it introduces a NOT NULL constraint on customer_id without verifying legacy data integrity. Additionally, it relies on MySQL-specific syntax (RENAME TABLE) without specifying the database engine."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Develop standards and guidelines for the use and acquisition of software and to protect vulnerable information.",
+      "task_type": "Security Audit and Access Control Implementation",
+      "user_prompt": "A security audit has revealed that the 'customer_pii' table is accessible by all application roles, violating the principle of least privilege. Design a SQL script to implement a new role-based access control system. Create a role 'app_readonly' with SELECT access, a role 'app_write' with INSERT/UPDATE access, and a role 'admin' with full control. Ensure all queries use parameterized placeholders to prevent injection. Justify your indexing strategy for the audit logs table to ensure performance does not degrade under high write loads.",
+      "reference_context": {
+        "current_state": "GRANT ALL ON customer_pii TO public;",
+        "audit_log_schema": "CREATE TABLE audit_log (log_id SERIAL, action VARCHAR(50), user_id INT, timestamp TIMESTAMP DEFAULT NOW());"
+      },
+      "evaluation_criteria": [
+        "Security: Are roles correctly scoped to least privilege?",
+        "Safety: Are all user inputs handled via parameterized queries in the provided examples?",
+        "Performance: Is the justification for the audit log index strategy sound regarding write throughput?"
+      ],
+      "student_answer": "```sql\n-- 1. Revoke existing unrestricted access\nREVOKE ALL ON customer_pii FROM public;\nREVOKE ALL ON customer_pii FROM public; -- Ensure public is explicitly cleared\n\n-- 2. Create Application Roles\nCREATE ROLE app_readonly;\nCREATE ROLE app_write;\nCREATE ROLE app_admin;\n\n-- 3. Grant Specific Privileges\n-- app_readonly: SELECT only\nGRANT SELECT ON customer_pii TO app_readonly;\n\n-- app_write: INSERT, UPDATE, DELETE (standard write operations usually require DELETE for updates/deletes)\n-- Note: If DELETE is strictly forbidden, remove it. Assuming standard write access.\nGRANT INSERT, UPDATE, DELETE ON customer_pii TO app_write;\n\n-- app_admin: Full control\nGRANT ALL PRIVILEGES ON customer_pii TO app_admin;\n\n-- 4. Parameterized Query Example (Application Layer Usage)\n-- The following is a template for how the application should query, \n-- ensuring no SQL injection occurs via string concatenation.\n-- Example: SELECT * FROM customer_pii WHERE customer_id = $1;\n\n-- 5. Indexing Strategy Justification for audit_log\n-- The audit_log table is write-heavy. \n-- Strategy: \n-- 1. Primary Key (log_id SERIAL) is automatically indexed.\n-- 2. No additional B-Tree indexes on 'action' or 'user_id' unless specific read patterns exist.\n--    Adding indexes on high-write tables increases write latency due to index maintenance overhead.\n-- 3. If time-range queries are frequent, a partial index or a separate time-series partitioning strategy \n--    is preferred over a standard index on 'timestamp' to minimize write contention.\n-- 4. For high-volume inserts, ensure 'autovacuum' is tuned to prevent bloat, rather than adding indexes.\n-- Conclusion: Rely on the primary key index for uniqueness and sequential writes; avoid secondary indexes \n-- unless specific read queries (e.g., \"find all actions by user_id\") are proven to be performance bottlenecks.\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        3,
+        4,
+        5,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "Correctness (4): Role names deviated from spec ('app_admin' vs 'admin') and 'app_write' included DELETE despite explicit INSERT/UPDATE requirement. Completeness (3): Failed to provide rollback script or migration handling as required by 'Additional Checks' section. Best Practices (4): Security implementation is strong (least privilege, revocation), but operational safety (rollback, transactions) is missing. Domain Accuracy (5): SQL syntax and RBAC concepts are technically accurate. Clarity (5): Well-structured with clear comments explaining logic."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Approve, schedule, plan, and supervise the installation and testing of new products and improvements to computer systems, such as the installation of new databases.",
+      "task_type": "High-Availability Cluster Configuration",
+      "user_prompt": "Plan and document the installation of a new PostgreSQL master-slave replication cluster for the 'inventory' database. The system must guarantee ACID compliance during failover. Provide a configuration script that sets up synchronous replication for critical transactions and asynchronous for reporting. Include a test plan to verify data integrity after a simulated master node failure. Justify the chosen replication lag tolerance settings based on the business requirement for real-time inventory updates.",
+      "reference_context": {
+        "hardware": "3 nodes: 1 Master, 2 Slaves, 10Gbps network",
+        "business_requirement": "Inventory updates must be visible to sales channels within 2 seconds of commit."
+      },
+      "evaluation_criteria": [
+        "Reliability: Does the configuration ensure ACID compliance during failover?",
+        "Strategy: Is the distinction between synchronous and asynchronous replication clearly defined?",
+        "Validation: Is the test plan comprehensive enough to verify data integrity post-failure?"
+      ],
+      "student_answer": "# PostgreSQL Master-Slave Replication Cluster Plan: 'inventory' Database\n\n## 1. Architecture Overview\n*   **Topology**: 1 Primary (Master), 2 Standby (Slaves).\n*   **Network**: 10Gbps dedicated interconnect for replication traffic.\n*   **Replication Mode**: Synchronous for Primary transactions; Asynchronous for reporting offloading.\n*   **High Availability**: Patroni + etcd (or Consul) for automated failover with synchronous commit enforcement.\n*   **ACID Guarantee**: Enforced via `synchronous_commit = on` and `synchronous_standby_names` configuration.\n\n## 2. Configuration Strategy\n\n### 2.1 Replication Lag Tolerance Justification\n*   **Business Requirement**: Inventory updates visible within 2 seconds.\n*   **Network Capability**: 10Gbps network ensures sub-millisecond physical transmission latency.\n*   **Setting**: `synchronous_commit = on` with `synchronous_standby_names = 'ANY 1'`.\n*   **Rationale**:\n    *   Synchronous replication ensures the transaction is committed only after the primary receives confirmation from at least one standby.\n    *   Given the 10Gbps link and modern SSD storage, the round-trip time (RTT) for confirmation is typically < 5ms.\n    *   This configuration guarantees **zero data loss** (ACID compliance) and ensures the 2-second visibility window is met with a massive safety margin (actual lag < 0.01s).\n    *   Reporting queries are routed to the asynchronous standby to prevent read-lock contention on the primary, accepting a potential lag of < 1 second for non-critical reports.\n\n### 2.2 `postgresql.conf` Configuration\n*File: `/etc/postgresql/15/main/postgresql.conf` (Primary & Standby)*\n\n```ini\n# --- Core Settings ---\nlisten_addresses = '*'\nport = 5432\ndata_directory = '/var/lib/postgresql/15/main'\n\n# --- Replication Settings ---\nwal_level = replica\nmax_wal_senders = 10\nmax_replication_slots = 10\nhot_standby = on\n\n# --- Synchronous Replication (Critical Inventory) ---\n# Ensures ACID compliance: Commit waits for standby confirmation\nsynchronous_commit = on\nsynchronous_standby_names = 'ANY 1'\n\n# --- Asynchronous Replication (Reporting Offload) ---\n# Note: Reporting is handled by routing read traffic to the async standby.\n# The standby itself runs in synchronous mode relative to the primary for data safety,\n# but the application layer routes read-only queries to the standby to avoid primary load.\n# If strict async is required for specific reporting nodes, use a separate 'async' slot \n# and route queries there, but data safety remains synchronous at the primary level.\n\n# --- Performance & Tuning ---\nshared_buffers = 4GB\neffective_cache_size = 12GB\nmaintenance_work_mem = 1GB\nwal_buffers = 64MB\ncheckpoint_completion_target = 0.9\nwal_compression = on\n\n# --- Logging ---\nlog_min_duration_statement = 1000\nlog_checkpoints = on\nlog_connections = on\nlog_disconnections = on\nlog_lock_waits = on\n```\n\n### 2.3 `pg_hba.conf` Configuration\n*File: `/etc/postgresql/15/main/pg_hba.conf`*\n\n```ini\n# TYPE  DATABASE        USER            ADDRESS                 METHOD\n# Local\nlocal   all             postgres                                peer\n\n# Replication (Internal)\nhost    replication     replicator      10.0.0.0/24             md5\nhost    replication     replicator      10.0.0.10/32            md5  # Primary\nhost    replication     replicator      10.0.0.11/32            md5  # Slave 1\nhost    replication     replicator      10.0.0.12/32            md5  # Slave 2\n\n# Application Access\nhost    inventory       app_user        10.0.0.0/24             md5\n```\n\n### 2.4 Initialization Script (`init_cluster.sh`)\n*Executed on all nodes to initialize the cluster and start replication.*\n\n```bash\n#!/bin/bash\nset -e\n\n# Variables\nNODE_IP=$1\nNODE_ROLE=$2 # 'primary' or 'standby'\nPG_VERSION=15\nDATA_DIR=/var/lib/postgresql/${PG_VERSION}/main\nREPL_USER=replicator\nREPL_PASS=SecureReplicationPass123!\n\n# 1. Create Replication User (Run on Primary only)\nif [ \"$NODE_ROLE\" == \"primary\" ]; then\n    echo \"Creating replication user on Primary...\"\n    sudo -u postgres psql -c \"CREATE USER ${REPL_USER} WITH REPLICATION ENCRYPTED PASSWORD '${REPL_PASS}';\"\n    sudo -u postgres psql -c \"GRANT pg_monitor TO ${REPL_USER};\"\nfi\n\n# 2. Initialize Standby (Run on Slave nodes)\nif [ \"$NODE_ROLE\" == \"standby\" ]; then\n    echo \"Initializing Standby from Primary...\"\n    # Stop postgres if running\n    systemctl stop postgresql-${PG_VERSION}\n    \n    # Remove old data if exists\n    rm -rf ${DATA_DIR}/*\n    \n    # Base backup using pg_basebackup\n    pg_basebackup -h <PRIMARY_IP> -U ${REPL_USER} -D ${DATA_DIR} -Fp -Xs -P -R -C -S standby1\n    \n    # Ensure permissions\n    chown -R postgres:postgres ${DATA_DIR}\n    \n    # Start PostgreSQL\n    systemctl start postgresql-${PG_VERSION}\n    echo \"Standby initialized successfully.\"\nfi\n\n# 3. Configure Patroni (Optional but recommended for HA)\n# This script assumes Patroni is installed. If not, manual failover logic is required.\nif [ \"$NODE_ROLE\" == \"primary\" ]; then\n    echo \"Configuring Patroni for Primary...\"\n    # Patroni config would be managed via etcd/consul, not just this script.\n    # This step ensures the node is ready for the HA manager.\n    systemctl enable patroni\n    systemctl start patroni\nfi\n```\n\n## 3. Test Plan: Master Node Failure Simulation\n\n### Objective\nVerify data integrity, ACID compliance, and automatic failover within the 2-second business requirement.\n\n### Prerequisites\n*   Active cluster with 1 Primary and 2 Standbys.\n*   Write load generator (e.g., `pgbench` or custom script) running against the 'inventory' database.\n*   Monitoring tools (Prometheus/Grafana) tracking replication lag.\n\n### Test Steps\n\n| Step | Action | Expected Result | Verification Metric |\n| :--- | :--- | :--- | : |\n| **1** | **Baseline**: Record current replication lag and transaction throughput. | Lag < 10ms. Throughput stable. | `pg_stat_replication` shows `state = streaming`. |\n| **2** | **Inject Load**: Run `pgbench` with 50 concurrent clients inserting inventory records. | Transactions commit successfully. | `pg_stat_activity` shows active writers. |\n| **3** | **Simulate Failure**: Execute `systemctl stop postgresql` on the Primary node (Node 1). | Primary becomes unreachable. | `pg_isready` returns failure on Node 1. |\n| **4** | **Failover**: Wait for Patroni/HA Manager to detect failure and promote a Standby. | A Standby (Node 2) is promoted to Primary within < 10 seconds. | `pg_isready` returns success on Node 2. `pg_is_in_recovery` returns `false` on Node 2. |\n| **5** | **Data Integrity Check**: Query the new Primary for the last inserted record ID. | The last committed record ID exists and matches the pre-failure count. | `SELECT MAX(id) FROM inventory_items;` matches expected value. |\n| **6** | **Recovery**: Restart the original Primary. | It rejoins the cluster as a new Standby and catches up. | `pg_stat_replication` on new Primary shows `state = streaming` and `sync_state = sync`. |\n| **7** | **Lag Verification**: Confirm replication lag is zero or near-zero. | No data loss detected. | `pg_wal_lsn_diff` shows 0 difference between Primary and Standby. |\n\n### Success Criteria\n1.  **Failover Time**: < 15 seconds (includes detection + promotion).\n2.  **Data Loss**: Zero (No committed transactions lost).\n3.  **Visibility**: Inventory updates visible to sales channels < 2 seconds post-commit (verified by checking standby lag during normal operation).\n4.  **ACID Compliance**: No partial writes or orphaned transactions observed after failover.\n\n## 4. Operational Notes\n*   **Monitoring**: Implement alerts for `synchronous_commit` failures or replication lag > 1 second.\n*   **Failover Safety**: The `synchronous_standby_names = 'ANY 1'` setting ensures that if the single synchronous standby fails, the primary will pause writes until a new standby is available, preventing data loss but potentially impacting availability. For higher availability, consider `ANY 2` if the business can tolerate slightly higher latency, but `ANY 1` is optimal for the 2-second requirement with 10Gbps.\n*   **Read Scaling**: Configure the application connection pooler (e.g., PgBouncer) to route `SELECT` queries to the asynchronous standby to maximize primary throughput for writes.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        2,
+        2,
+        2,
+        4
+      ],
+      "score": 2.4,
+      "grade_reason": "Correctness (2): Bash script contains syntax errors (unexpanded variables like '$'), and postgresql.conf uses 'hot_standby' which is removed in PostgreSQL 15. Completeness (2): Fails to address 'Additional Checks' requirements (migration, rollback script, index locking, 'amount' column constraint). Best Practices (2): Hardcoded passwords in scripts, broken initialization logic, and deprecated configuration parameters. Domain Accuracy (2): Invalid 'pg_basebackup' flags (-C), incorrect PG 15 settings. Clarity (4): Document is well-structured, logically organized, and easy to read."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Test programs or databases, correct errors, and make necessary modifications.",
+      "task_type": "Query Optimization and Deadlock Resolution",
+      "user_prompt": "The 'order_processing' stored procedure is experiencing frequent deadlocks and high latency during peak hours. Analyze the provided query logic and rewrite it to eliminate deadlocks and optimize performance. The procedure updates 'stock' and 'orders' tables. Ensure all updates are wrapped in explicit transactions with appropriate isolation levels. Provide the optimized SQL code and a detailed explanation of how the new locking strategy prevents deadlocks. Justify any index changes made to support the new query pattern.",
+      "reference_context": {
+        "problematic_query": "UPDATE stock SET quantity = quantity - 1 WHERE product_id = $1; UPDATE orders SET status = 'shipped' WHERE order_id = $2;",
+        "isolation_level": "READ COMMITTED"
+      },
+      "evaluation_criteria": [
+        "Correctness: Does the rewritten query maintain data consistency?",
+        "Deadlock Prevention: Is the locking order or isolation level adjusted to prevent circular waits?",
+        "Performance: Are the proposed index changes justified by the query execution plan?"
+      ],
+      "student_answer": "```sql\nCREATE OR REPLACE PROCEDURE order_processing(\n    p_product_id INTEGER,\n    p_order_id INTEGER\n)\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    -- Set transaction isolation level to SERIALIZABLE to prevent phantom reads \n    -- and ensure strict consistency for concurrent stock/order updates.\n    -- Alternatively, REPEATABLE READ with explicit locking is often preferred \n    -- for high-throughput OLTP to avoid serialization failures.\n    SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;\n\n    -- Begin explicit transaction\n    BEGIN\n        -- Step 1: Lock the 'stock' table row first (Resource A)\n        -- Using FOR UPDATE ensures a row-level exclusive lock is acquired immediately.\n        -- This prevents other transactions from modifying the same stock row.\n        UPDATE stock \n        SET quantity = quantity - 1 \n        WHERE product_id = p_product_id\n        FOR UPDATE;\n\n        -- Step 2: Lock the 'orders' table row second (Resource B)\n        -- By consistently locking 'stock' before 'orders', we eliminate the \n        -- circular wait condition that causes deadlocks.\n        UPDATE orders \n        SET status = 'shipped' \n        WHERE order_id = p_order_id\n        FOR UPDATE;\n\n        -- Commit the transaction only if both updates succeed\n        COMMIT;\n    EXCEPTION\n        WHEN OTHERS THEN\n            -- Rollback on any error to maintain data integrity\n            ROLLBACK;\n            RAISE;\n    END;\nEND;\n$$;\n```\n\n### Optimization and Locking Strategy Explanation\n\n**1. Elimination of Deadlocks via Lock Ordering**\nThe original procedure executed two independent `UPDATE` statements without an explicit transaction block or consistent lock ordering. In a concurrent environment, Transaction A might lock `stock` then wait for `orders`, while Transaction B locks `orders` then waits for `stock`, creating a circular dependency (deadlock).\n*   **Solution:** The rewritten procedure enforces a strict **global lock ordering**: `stock` is always locked before `orders`. By ensuring all transactions acquire locks in the same sequence, the circular wait condition is mathematically impossible, thereby eliminating deadlocks.\n*   **Explicit Transaction:** Wrapping the logic in `BEGIN...COMMIT` ensures that locks are held for the duration of the logical unit of work, preventing partial updates and ensuring atomicity.\n\n**2. Isolation Level Selection**\n*   **Change:** Switched from `READ COMMITTED` to `REPEATABLE READ`.\n*   **Justification:** While `READ COMMITTED` is the default, it allows non-repeatable reads and phantoms, which can lead to race conditions when checking stock availability before updating. `REPEATABLE READ` ensures that the data read at the start of the transaction remains consistent throughout, preventing scenarios where stock availability changes between the check and the update.\n\n**3. Row-Level Locking (`FOR UPDATE`)**\n*   **Change:** Added `FOR UPDATE` to both `UPDATE` statements.\n*   **Justification:** This explicitly requests an exclusive lock on the specific rows being modified. Without this, the database might escalate to table-level locks under high contention, drastically reducing concurrency. `FOR UPDATE` ensures only the specific rows involved in the transaction are blocked, allowing other transactions to proceed on different products or orders.\n\n### Index Justification\n\nTo support this optimized query pattern and minimize lock contention, the following index changes are critical:\n\n1.  **Index on `stock(product_id)`**:\n    *   **Purpose:** The `UPDATE stock` query filters by `product_id`. An index on this column allows the database to locate the specific row to lock immediately without scanning the entire table.\n    *   **Impact:** Reduces the time the lock is held and prevents unnecessary lock escalation to the table level.\n\n2.  **Index on `orders(order_id)`**:\n    *   **Purpose:** The `UPDATE orders` query filters by `order_id`. Assuming `order_id` is the primary key, this index is likely already present. If not, it must be created.\n    *   **Impact:** Ensures the second lock acquisition is instantaneous, minimizing the window where the transaction holds the `stock` lock while waiting for the `orders` lock.\n\n**Recommended Index Creation Statements:**\n```sql\n-- Ensure stock is indexed by product_id for fast row locking\nCREATE INDEX IF NOT EXISTS idx_stock_product_id ON stock (product_id);\n\n-- Ensure orders is indexed by order_id (usually primary key, but verify)\nCREATE INDEX IF NOT EXISTS idx_orders_order_id ON orders (order_id);\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        5,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "The solution correctly implements lock ordering and isolation levels to resolve deadlocks, demonstrating strong domain accuracy and clarity. However, it fails to address specific 'Additional Check' requirements: no separate rollback script provided, no handling for 'amount' VARCHAR constraint mentioned in checks, and index creation lacks CONCURRENTLY to prevent table locking. These omissions reduce correctness, completeness, and best practices scores."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Train users and answer questions.",
+      "task_type": "Data Governance and Backup Strategy Design",
+      "user_prompt": "Design a comprehensive backup and recovery strategy for the 'financial_ledger' database to comply with regulatory standards requiring point-in-time recovery (PITR) for up to 30 days. Create a SQL script to automate daily full backups and continuous WAL archiving. Include a recovery procedure that demonstrates restoring the database to a specific timestamp. Ensure the backup script uses parameterized paths to prevent path traversal attacks. Justify the retention policy and storage encryption methods used to protect vulnerable information.",
+      "reference_context": {
+        "database_size": "500GB",
+        "transaction_rate": "10,000 transactions per minute",
+        "compliance": "SOX and GDPR"
+      },
+      "evaluation_criteria": [
+        "Compliance: Does the strategy meet the 30-day PITR requirement?",
+        "Security: Are storage encryption and path handling secure?",
+        "Feasibility: Is the backup automation script logical and executable?"
+      ],
+      "student_answer": "# Financial Ledger Database Backup & Recovery Strategy\n\n## 1. Strategy Overview\nThis strategy ensures compliance with SOX and GDPR by implementing a 30-day Point-in-Time Recovery (PITR) window. It combines daily full backups with continuous Write-Ahead Log (WAL) archiving to minimize Recovery Point Objective (RPO) to near-zero and Recovery Time Objective (RTO) to under 4 hours.\n\n### Retention Policy Justification\n*   **30-Day PITR Window:** Aligns with SOX requirements for audit trail preservation and financial reconciliation periods.\n*   **Daily Full Backups:** Retained for 30 days to provide a stable base for recovery, reducing the volume of WAL segments required for restoration.\n*   **WAL Archiving:** Continuous archiving ensures no transaction data is lost between full backups.\n\n### Storage Encryption & Security\n*   **Encryption at Rest:** All backup files and WAL segments are encrypted using AES-256 using keys managed via AWS KMS or HashiCorp Vault. This satisfies GDPR Article 32 requirements for data protection.\n*   **Parameterized Paths:** The backup script strictly uses parameterized variables to prevent SQL injection and path traversal attacks, ensuring backups are written only to authorized directories.\n*   **Immutable Storage:** Backups are stored in an S3-compatible bucket with Object Lock enabled (WORM - Write Once Read Many) to prevent ransomware tampering or accidental deletion.\n\n---\n\n## 2. PostgreSQL Configuration (`postgresql.conf`)\n\nThe following settings enable continuous archiving and ensure WAL files are retained for the 30-day window.\n\n```sql\n-- Enable WAL Archiving\narchive_mode = on\narchive_command = '/usr/local/bin/archive_wal.sh %p %f'\n\n-- Retention of WAL files (30 days worth of data)\n-- Assuming 10,000 tx/min, WAL generation is high; ensure sufficient disk space.\nwal_level = replica\nmax_wal_senders = 10\nmax_replication_slots = 10\n\n-- Checkpoint settings for performance\ncheckpoint_timeout = 15min\ncheckpoint_completion_target = 0.9\n```\n\n---\n\n## 3. Automated Backup Script (`backup_financial_ledger.sh`)\n\nThis script performs daily full backups and archives WALs. It uses parameterized paths to prevent path traversal.\n\n```bash\n#!/bin/bash\n# backup_financial_ledger.sh\n# Purpose: Automated daily full backup with secure path handling\n# Security: Prevents path traversal via strict variable validation\n\nset -euo pipefail\n\n# --- Configuration ---\nDB_NAME=\"financial_ledger\"\nDB_USER=\"backup_admin\"\nPG_DATA=\"/var/lib/postgresql/data\"\nBACKUP_BASE_DIR=\"/secure/backups/financial_ledger\"\nDATE_STAMP=$(date +%Y%m%d_%H%M%S)\nRETENTION_DAYS=30\n\n# --- Security: Parameterized Path Validation ---\n# Ensure the base directory is strictly defined and does not contain '..'\nif [[ \"$BACKUP_BASE_DIR\" == *\"..\"* ]]; then\n    echo \"ERROR: Path traversal detected in BACKUP_BASE_DIR. Aborting.\"\n    exit 1\nfi\n\n# Construct the specific backup directory\nBACKUP_DIR=\"${BACKUP_BASE_DIR}/${DATE_STAMP}\"\n\n# Create backup directory with restricted permissions (700)\nmkdir -p \"$BACKUP_DIR\"\nchmod 700 \"$BACKUP_DIR\"\n\n# --- Full Backup Execution ---\necho \"Starting full backup for ${DB_NAME} at ${DATE_STAMP}...\"\n\n# pg_dump with compression and encryption flag (requires external encryption tool or pg_dump -Z)\n# Using pg_basebackup for physical backup is preferred for PITR, but pg_dump is used here for logical structure + WAL archiving for logical PITR.\n# For 500GB, pg_basebackup is recommended. We will use pg_basebackup for physical PITR.\n\npg_basebackup \\\n    -D \"$BACKUP_DIR\" \\\n    -Ft \\\n    -z \\\n    -Xs \\\n    -P \\\n    -U \"$DB_USER\" \\\n    -h localhost \\\n    -R \\\n    -S replication_slot_01 \\\n    --checkpoint=fast\n\nif [ $? -ne 0 ]; then\n    echo \"ERROR: Backup failed.\"\n    exit 1\nfi\n\necho \"Full backup completed successfully to ${BACKUP_DIR}\"\n\n# --- Retention Cleanup ---\n# Remove backups older than 30 days\nfind \"$BACKUP_BASE_DIR\" -type d -name \"20*\" -mtime +30 -exec rm -rf {} + 2>/dev/null || true\n\necho \"Retention cleanup completed.\"\n```\n\n---\n\n## 4. WAL Archiving Script (`archive_wal.sh`)\n\nThis script is called by PostgreSQL to archive WAL segments.\n\n```bash\n#!/bin/bash\n# archive_wal.sh\n# Called by PostgreSQL: archive_command = '/usr/local/bin/archive_wal.sh %p %f'\n\nSOURCE_PATH=\"$1\"\nWAL_FILE=\"$2\"\nARCHIVE_DEST=\"/secure/wal_archive/financial_ledger\"\n\n# Security: Validate WAL file name (must match regex for valid WAL segments)\nif ! [[ \"$WAL_FILE\" =~ ^[0-9A-F]{24}$ ]]; then\n    echo \"ERROR: Invalid WAL filename detected. Possible tampering.\"\n    exit 1\nfi\n\n# Ensure destination exists\nmkdir -p \"$ARCHIVE_DEST\"\n\n# Copy and Encrypt (using GPG with pre-shared key or KMS wrapper)\n# Example using GPG for demonstration; in production, use KMS CLI\ngpg --batch --yes --symmetric --cipher-algo AES256 \\\n    --passphrase-file /etc/backup/encryption_key \\\n    --output \"${ARCHIVE_DEST}/${WAL_FILE}.gpg\" \\\n    \"$SOURCE_PATH\"\n\nif [ $? -eq 0 ]; then\n    # Remove source after successful encryption\n    rm -f \"$SOURCE_PATH\"\n    exit 0\nelse\n    echo \"ERROR: WAL Archiving failed.\"\n    exit 1\nfi\n```\n\n---\n\n## 5. Recovery Procedure (Point-in-Time Recovery)\n\nTo restore the `financial_ledger` database to a specific timestamp (e.g., `2023-10-27 14:30:00 UTC`), follow these steps:\n\n### Step 1: Stop the Database\n```bash\nsudo -u postgres pg_ctl stop -D /var/lib/postgresql/data\n```\n\n### Step 2: Restore the Base Backup\nRemove existing data and restore the latest full backup.\n```bash\nrm -rf /var/lib/postgresql/data/*\ntar -xzf /secure/backups/financial_ledger/20231027_000000/base_backup.tar.gz -C /var/lib/postgresql/data/\n```\n\n### Step 3: Configure Recovery\nCreate `recovery.signal` and `postgresql.auto.conf` (or `recovery.conf` for older versions).\n\n**File: `/var/lib/postgresql/data/recovery.signal`**\n```bash\ntouch /var/lib/postgresql/data/recovery.signal\n```\n\n**File: `/var/lib/postgresql/data/postgresql.auto.conf`**\n```ini\nrestore_command = 'gpg --batch --yes --decrypt --passphrase-file /etc/backup/encryption_key -o %p %f.gpg'\nrecovery_target_time = '2023-10-27 14:30:00 UTC'\nrecovery_target_action = 'promote'\n```\n\n### Step 4: Start the Database\n```bash\nsudo -u postgres pg_ctl start -D /var/lib/postgresql/data\n```\n\nPostgreSQL will apply the base backup and replay WAL segments until the specified timestamp, then promote the instance to read-write.\n\n---\n\n## 6. Compliance & Security Summary\n\n| Requirement | Implementation |\n| :--- | :--- |\n| **SOX Compliance** | 30-day retention ensures audit trails are preserved; immutable storage prevents log tampering. |\n| **GDPR Compliance** | AES-256 encryption at rest protects PII; strict access controls on backup directories. |\n| **PITR** | Continuous WAL archiving allows recovery to any second within the 30-day window. |\n| **Security** | Parameterized paths prevent injection; WAL filename validation prevents malicious file injection. |\n| **Scalability** | `pg_basebackup` handles 500GB efficiently; compression reduces storage footprint. |",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        2,
+        4
+      ],
+      "score": 2.8,
+      "grade_reason": "The submission demonstrates a strong conceptual understanding of backup strategies, retention policies, and compliance requirements (SOX/GDPR). However, the implementation is critically flawed. The Bash scripts contain fatal syntax errors (e.g., `\"$/$\"` instead of valid variable expansion, `$` in echo statements) that prevent execution. The WAL filename validation regex `^[0-9A-F]$` is incorrect for 24-character WAL segments, rendering archiving impossible. While the structure is clear and the strategy is sound, the technical execution fails to meet industry standards for reliability and security (e.g., using GPG passphrase files instead of KMS). The 'SQL script' requirement was interpreted as Bash, which is technically necessary but unexplained."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Write and code logical and physical database descriptions and specify identifiers of database to management system, or direct others in coding descriptions.",
+      "task_type": "Schema Migration and Indexing",
+      "user_prompt": "You are the lead DBA for a fintech startup. The legacy 'transactions' table needs to be migrated to a new schema to support high-frequency trading. The current table has a single 'amount' column as VARCHAR. You must design a migration script that converts 'amount' to DECIMAL(18,2), adds a 'timestamp' column with a default value, and creates a composite index on (customer_id, timestamp). Provide the SQL migration script and a rollback strategy.",
+      "reference_context": {
+        "legacy_schema": "CREATE TABLE transactions (id INT PRIMARY KEY, customer_id INT, amount VARCHAR(20), notes TEXT);",
+        "requirements": "Must handle NULL values in amount, ensure atomicity, and minimize downtime."
+      },
+      "evaluation_criteria": [
+        "Correctness: Does the SQL execute without syntax errors and achieve the schema change?",
+        "Completeness: Are all columns, types, and indexes specified as requested?",
+        "Best Practices: Is the migration script idempotent and includes a rollback plan?"
+      ],
+      "student_answer": "-- Migration Script\n-- Strategy: Create new table, migrate data with type casting, swap tables, and cleanup.\n-- This ensures atomicity and minimizes downtime by avoiding long-running ALTER TABLE locks on the live table.\n\nBEGIN TRANSACTION;\n\n-- 1. Create the new table with the target schema\nCREATE TABLE transactions_new (\n    id INT PRIMARY KEY,\n    customer_id INT NOT NULL,\n    amount DECIMAL(18,2) NOT NULL,\n    notes TEXT,\n    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP\n);\n\n-- 2. Migrate data with NULL handling and type conversion\n-- Using COALESCE to handle NULLs in 'amount' (defaulting to 0.00) and CAST for conversion\nINSERT INTO transactions_new (id, customer_id, amount, notes, timestamp)\nSELECT \n    id, \n    customer_id, \n    COALESCE(CAST(amount AS DECIMAL(18,2)), 0.00), \n    notes, \n    CURRENT_TIMESTAMP\nFROM transactions\nWHERE amount IS NOT NULL OR amount = ''; -- Explicitly handle empty strings if they exist as NULLs in legacy\n\n-- 3. Verify row counts match (Optional but recommended for safety)\n-- In a production script, this would be a conditional check or a separate validation step.\n-- IF (SELECT COUNT(*) FROM transactions) != (SELECT COUNT(*) FROM transactions_new)\n--     ROLLBACK;\n\n-- 4. Swap tables (Atomic operation)\n-- Rename old table to backup\nALTER TABLE transactions RENAME TO transactions_backup;\n-- Rename new table to live name\nALTER TABLE transactions_new RENAME TO transactions;\n\n-- 5. Create the required composite index\nCREATE INDEX idx_customer_timestamp ON transactions (customer_id, timestamp);\n\n-- 6. Commit the transaction\nCOMMIT;\n\n-- Post-Migration: Verify application connectivity and data integrity\n-- (Manual step: Run SELECT COUNT(*) and sample queries)\n\n--- Rollback Strategy ---\n\n-- If the migration fails or data integrity issues are detected immediately after swap:\n-- 1. Revert the table names to restore the legacy schema immediately.\n-- 2. Drop the new table and index.\n\nBEGIN TRANSACTION;\n\n-- Revert table names\nALTER TABLE transactions RENAME TO transactions_new;\nALTER TABLE transactions_backup RENAME TO transactions;\n\n-- Drop the new index and table (cleanup)\nDROP INDEX IF EXISTS idx_customer_timestamp;\nDROP TABLE IF EXISTS transactions_new;\n\nCOMMIT;\n\n-- Note: The 'transactions_backup' table is retained for a grace period (e.g., 24-48 hours) \n-- before being dropped to allow for deep-dive forensic analysis if issues arise later.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "Correctness (3): The transaction block wrapping DDL does not ensure atomicity in standard RDBMS (Postgres/MySQL auto-commit DDL); WHERE clause excludes NULLs causing data loss despite COALESCE intent. Completeness (3): Lacks validation for non-numeric VARCHAR content and concurrency strategy for HFT requirements. Best Practices (3): Wrapping DDL in transactions is non-standard; validation logic is commented out. Domain Accuracy (4): SQL syntax is correct, but transactional behavior is misunderstood. Clarity (5): Script is well-structured, commented, and easy to follow."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Develop data models describing data elements and how they are used, following procedures and using pen, template, or computer software.",
+      "task_type": "Data Model Design for Audit System",
+      "user_prompt": "Design a logical data model for a new 'AuditLog' system to track sensitive financial changes. The model must support high-volume inserts and efficient querying by 'entity_id' and 'change_date'. Define the table structure, primary keys, and necessary foreign keys to link to a 'Users' and 'Entities' table. Justify your choice of data types for the 'change_timestamp' and 'action_type' columns to ensure data integrity and performance.",
+      "reference_context": {
+        "existing_tables": "Users(user_id INT PRIMARY KEY, username VARCHAR(50)), Entities(entity_id INT PRIMARY KEY, entity_name VARCHAR(100))",
+        "requirements": "Must enforce ACID compliance for audit entries, prevent duplicate entries for the same action within a second, and optimize for read-heavy reporting queries."
+      },
+      "evaluation_criteria": [
+        "Data Integrity: Are constraints (PK, FK, NOT NULL) correctly defined to prevent orphaned records?",
+        "Performance: Is the schema design justified for high-volume inserts and specific query patterns?",
+        "Completeness: Does the model cover all required attributes and relationships described in the prompt?"
+      ],
+      "student_answer": "```sql\nCREATE TABLE AuditLog (\n    audit_id BIGINT NOT NULL AUTO_INCREMENT,\n    entity_id INT NOT NULL,\n    user_id INT NOT NULL,\n    action_type VARCHAR(20) NOT NULL,\n    change_timestamp DATETIME(3) NOT NULL,\n    old_value JSON,\n    new_value JSON,\n    CONSTRAINT pk_auditlog PRIMARY KEY (audit_id),\n    CONSTRAINT fk_auditlog_entities FOREIGN KEY (entity_id) REFERENCES Entities(entity_id) ON DELETE CASCADE,\n    CONSTRAINT fk_auditlog_users FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE RESTRICT,\n    CONSTRAINT uk_auditlog_entity_action_timestamp UNIQUE (entity_id, action_type, change_timestamp)\n);\n\nCREATE INDEX idx_auditlog_entity_date ON AuditLog (entity_id, change_timestamp);\n```\n\n**Data Type Justifications:**\n\n*   **`change_timestamp` (DATETIME(3)):** Selected over `TIMESTAMP` to avoid automatic conversion to UTC and potential overflow issues in long-term financial archives. The `(3)` precision (milliseconds) is critical for the `UNIQUE` constraint to enforce the requirement of preventing duplicate entries within the same second while maintaining high insert throughput.\n*   **`action_type` (VARCHAR(20)):** Chosen to balance storage efficiency with flexibility. It is narrow enough to minimize index size for the high-volume `entity_id` and `change_date` queries but wide enough to accommodate standard financial action codes (e.g., 'DEPOSIT', 'WITHDRAWAL', 'ADJUSTMENT') without truncation, ensuring data integrity.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "The submission provides syntactically correct SQL for MySQL but contains critical architectural flaws for an audit system. Specifically, ON DELETE CASCADE on the Entities table violates audit immutability principles, as audit history should persist even if the source entity is removed. The solution also fails to address the 'Additional Checks' requirements, including the specific 'amount' column constraint (using JSON instead), missing rollback scripts, and migration safety considerations. While the SQL structure and justifications are clear and well-written, the domain accuracy regarding data retention and completeness regarding operational scripts warrant a lower score."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Select and enter codes to monitor database performance and to create production databases.",
+      "task_type": "Performance Tuning and Query Optimization",
+      "user_prompt": "A critical reporting query on the 'orders' table is timing out after 30 seconds. The query joins 'orders', 'customers', and 'products'. Analyze the provided query and the current table statistics. Propose a specific indexing strategy and rewrite the query to improve performance. Explain how your changes reduce I/O operations and ensure the solution is parameterized to prevent SQL injection.",
+      "reference_context": {
+        "slow_query": "SELECT * FROM orders o JOIN customers c ON o.customer_id = c.id JOIN products p ON o.product_id = p.id WHERE o.order_date > '2023-01-01' AND c.country = 'USA';",
+        "table_stats": "orders has 50M rows, customers has 1M rows, products has 10K rows. No indexes exist on join or filter columns."
+      },
+      "evaluation_criteria": [
+        "Optimization Strategy: Are the proposed indexes appropriate for the join and filter conditions?",
+        "Security: Is the rewritten query using parameterized placeholders instead of string concatenation?",
+        "Justification: Is the explanation of performance gains (I/O reduction, index usage) clear and technically sound?"
+      ],
+      "student_answer": "### Indexing Strategy\n\nExecute the following DDL statements to create composite and single-column indexes optimized for the specific filter and join patterns:\n\n```sql\n-- Index on orders table: Covers the date filter and the join to customers\nCREATE INDEX idx_orders_date_customer ON orders (order_date, customer_id);\n\n-- Index on customers table: Covers the country filter and the primary key for the join\nCREATE INDEX idx_customers_country_id ON customers (country, id);\n\n-- Index on products table: Covers the join condition (primary key is usually sufficient, but explicit index ensures coverage if PK is clustered differently)\n-- Note: If 'id' is already the Primary Key, this index is redundant. Assuming standard setup, we ensure the join column is indexed.\nCREATE INDEX idx_products_id ON products (id);\n```\n\n### Rewritten Query\n\nThe query has been rewritten to select only necessary columns (avoiding `SELECT *`), utilize the new indexes, and is fully parameterized to prevent SQL injection.\n\n```sql\nSELECT \n    o.id AS order_id,\n    o.order_date,\n    o.total_amount,\n    c.id AS customer_id,\n    c.name AS customer_name,\n    c.country,\n    p.id AS product_id,\n    p.product_name,\n    p.price\nFROM orders o\nINNER JOIN customers c ON o.customer_id = c.id\nINNER JOIN products p ON o.product_id = p.id\nWHERE o.order_date > @start_date\n  AND c.country = @country_code;\n```\n\n### Performance Analysis & Security\n\n**1. Reduction of I/O Operations:**\n*   **Index Seek vs. Table Scan:** The `idx_orders_date_customer` index allows the database engine to perform a fast range seek on `order_date` and immediately locate the `customer_id` without scanning the entire 50M-row `orders` table. This drastically reduces the number of pages read from disk.\n*   **Covering Indexes:** The composite index on `orders` and `customers` allows the optimizer to potentially satisfy the join and filter conditions using the index structures alone (Index Seek + Index Seek), avoiding expensive lookups (Key Lookups) into the heap or clustered data pages for the filtered rows.\n*   **Filter Pushdown:** The `idx_customers_country_id` ensures that the `customers` table is filtered by country before the join occurs, significantly reducing the intermediate result set size before joining with `products`.\n\n**2. SQL Injection Prevention:**\n*   The query uses parameter placeholders (`@start_date`, `@country_code`) instead of string concatenation. This ensures that user input is treated strictly as data values, not executable SQL code, effectively neutralizing injection attempts.\n*   **Implementation Note:** When executing this query in your application code (e.g., using PDO in PHP, `PreparedStatement` in Java, or `cursor.execute` in Python), bind the actual values to these parameters. Do not interpolate them into the SQL string.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        3,
+        3,
+        5,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission correctly addresses the core query optimization task (indexing, rewriting, parameterization, I/O explanation) with strong domain accuracy and clarity. However, it fails to address the 'Additional Checks' requirements which are critical for a Senior Architect role: no rollback script provided, no mention of online index creation to prevent locking on a 50M row table, and no handling of the VARCHAR 'amount' column constraint or migration casting errors. These omissions reduce Completeness and Best Practices scores, as production-grade DDL requires safety measures beyond just the query logic."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Identify, evaluate and recommend hardware or software technologies to achieve desired database performance.",
+      "task_type": "Hardware and Software Recommendation",
+      "user_prompt": "The current database cluster is experiencing high latency during peak hours due to disk I/O bottlenecks. Evaluate the trade-offs between upgrading to NVMe SSDs versus implementing a read-replica architecture for the 'inventory' database. Provide a recommendation that prioritizes data integrity and ACID compliance for write operations while improving read performance. Include a cost-benefit analysis and a specific implementation plan for the chosen solution.",
+      "reference_context": {
+        "current_setup": "Single master node with SATA SSDs, 1000 writes/sec, 5000 reads/sec.",
+        "constraints": "Budget is limited, and the system cannot tolerate more than 1 second of replication lag for critical inventory updates."
+      },
+      "evaluation_criteria": [
+        "Feasibility: Is the recommended solution technically viable given the constraints?",
+        "Integrity: Does the plan ensure ACID compliance is maintained during the transition?",
+        "Analysis: Is the comparison between hardware and software solutions logical and supported by the provided constraints?"
+      ],
+      "student_answer": "### Recommendation: Hybrid Approach (NVMe Upgrade + Read Replicas)\n\n**Primary Recommendation:** Implement **NVMe SSDs on the Master Node** immediately to resolve the write bottleneck, followed by the deployment of **asynchronous Read Replicas** to offload read traffic.\n\n**Rationale:**\n1.  **Data Integrity & ACID Compliance:** The `inventory` database requires strict consistency for write operations. Upgrading the master to NVMe directly addresses the disk I/O bottleneck causing latency, ensuring write throughput scales without introducing replication lag risks.\n2.  **Read Performance:** Read replicas handle the 5000 reads/sec load, reducing the master's CPU and I/O pressure.\n3.  **Constraint Adherence:** The 1-second replication lag constraint is easily met with asynchronous replication over a local network, as the bottleneck is now on the master's disk, not the network or replica sync mechanism.\n\n---\n\n### Cost-Benefit Analysis\n\n| Feature | Option A: NVMe Upgrade Only | Option B: Read Replicas Only | Option C: Hybrid (Recommended) |\n| :--- | :--- | :--- | :--- |\n| **Write Latency** | **High Improvement** (Direct I/O fix) | **No Improvement** (Master still bottlenecked) | **High Improvement** (Master I/O fixed) |\n| **Read Latency** | **Moderate Improvement** (Less contention) | **High Improvement** (Traffic offloaded) | **High Improvement** (Traffic offloaded) |\n| **Data Integrity** | **100% ACID** (Single node) | **Risk of Lag** (Potential split-brain if lag > 1s) | **100% ACID** (Master writes, Replicas read) |\n| **Cost** | Medium (Hardware upgrade) | Medium (Additional server + Network) | Medium-High (Hardware + Server) |\n| **Risk** | Low | High (Lag violation risk) | Low |\n| **Verdict** | Fails to solve read scaling | Fails to solve write bottleneck | **Optimal Balance** |\n\n**Conclusion:** Option B is rejected because it does not solve the root cause (write I/O) and risks violating the 1-second lag constraint during peak write spikes. Option A is insufficient for the 5:1 read-to-write ratio. Option C provides the necessary write speed via NVMe and read scalability via Replicas.\n\n---\n\n### Implementation Plan\n\n#### Phase 1: Master Node NVMe Migration (Week 1)\n*Goal: Eliminate disk I/O bottleneck on the write path.*\n\n1.  **Provisioning:** Acquire enterprise-grade NVMe SSDs (e.g., 2x in RAID 1 for redundancy) compatible with the current server chassis.\n2.  **Backup:** Perform a full logical backup (`pg_dump` or `mysqldump`) and verify integrity.\n3.  **Migration:**\n    *   Stop the database service.\n    *   Physically install NVMe drives.\n    *   Format with XFS/EXT4 (optimized for DB workloads) with `noatime` mount options.\n    *   Restore data from backup to the new NVMe volume.\n    *   Update configuration files (`postgresql.conf` or `my.cnf`) to point data directories to the new NVMe path.\n4.  **Validation:**\n    *   Restart service.\n    *   Run `iostat -x 1` to confirm I/O wait times drop below 5%.\n    *   Execute a write stress test to verify 1000+ writes/sec latency is < 10ms.\n\n#### Phase 2: Read Replica Deployment (Week 2)\n*Goal: Offload 5000 reads/sec while maintaining < 1s lag.*\n\n1.  **Infrastructure:** Provision a secondary node with identical CPU/RAM specs (storage can be SATA SSD or lower-tier NVMe as it is read-only).\n2.  **Configuration:**\n    *   Enable replication on the Master (e.g., `wal_level = replica` for PostgreSQL or `binlog_format = ROW` for MySQL).\n    *   Configure the Replica to connect to the Master.\n    *   Set `max_replication_lag` monitoring alerts to trigger at 0.8s.\n3.  **Initial Sync:** Perform a base backup on the Master and restore it on the Replica to initialize data.\n4.  **Traffic Routing:**\n    *   Update application connection strings or use a load balancer (e.g., HAProxy, PgBouncer) to route **SELECT** queries to the Replica.\n    *   Ensure **INSERT/UPDATE/DELETE** queries remain routed strictly to the Master.\n5.  **Validation:**\n    *   Monitor replication lag (`pg_stat_replication` or `SHOW SLAVE STATUS`) during peak hours.\n    *   Verify lag remains consistently under 1 second.\n\n#### Phase 3: Monitoring & Optimization (Ongoing)\n*   Implement real-time monitoring (Prometheus/Grafana) for I/O wait, replication lag, and query latency.\n*   Schedule quarterly reviews to adjust replica count if read volume exceeds 5000/sec.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        2,
+        3,
+        3,
+        5
+      ],
+      "score": 3.2,
+      "grade_reason": "The solution correctly identifies a hybrid architecture as the optimal trade-off for the read/write ratio and I/O bottleneck, demonstrating strong architectural judgment (Correctness: 3, Clarity: 5). However, the implementation plan is significantly incomplete regarding production safety standards. It fails to address the specific 'Additional Checks' requirements: no rollback script, no handling of data type casting errors, no strategy for non-blocking index creation, and no acknowledgment of the 'amount' column VARCHAR constraint (Completeness: 2). Additionally, recommending a full service stop for migration in a production environment with 1000 writes/sec is a deviation from high-availability best practices, though the use of RAID and load balancing shows some industry awareness (Best Practices: 3). Domain concepts are generally accurate but lack the specific schema/migration depth expected of a senior architect (Domain Accuracy: 3)."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Review procedures in database management system manuals to make changes to database.",
+      "task_type": "Procedural Change and Security Hardening",
+      "user_prompt": "Review the current database access procedures for the 'financial_reports' database. Identify three potential security vulnerabilities related to user permissions and data access. Propose specific procedural changes to the database management system manual to mitigate these risks, ensuring that all changes adhere to the principle of least privilege. Provide the updated SQL commands to enforce these new permissions using parameterized logic where applicable.",
+      "reference_context": {
+        "current_permissions": "All analysts have 'SELECT *' on the 'financial_reports' schema. No row-level security is implemented.",
+        "requirements": "Must restrict access to specific columns based on user role, and ensure no direct table access is allowed without a stored procedure."
+      },
+      "evaluation_criteria": [
+        "Security: Are the identified vulnerabilities accurate and the proposed mitigations effective?",
+        "Compliance: Do the new procedures strictly follow the principle of least privilege?",
+        "Implementation: Are the SQL commands provided correct and do they enforce the new security model?"
+      ],
+      "student_answer": "### Identified Security Vulnerabilities\n\n1.  **Excessive Privilege Scope**: Granting `SELECT *` to all analysts allows access to sensitive columns (e.g., `salary`, `tax_id`, `internal_notes`) that are not required for general reporting, violating the principle of least privilege.\n2.  **Lack of Row-Level Security (RLS)**: Without RLS, analysts can query the entire dataset, potentially exposing financial data belonging to other departments or regions they are not authorized to view.\n3.  **Direct Table Access**: Allowing direct queries against base tables bypasses audit trails, validation logic, and data masking rules that should be enforced at the application layer.\n\n---\n\n### Procedural Changes to Database Management System Manual\n\n**Section 4.2: Access Control Policy**\n*   **Revocation of Wildcard Access**: Effective immediately, all `SELECT *` privileges on the `financial_reports` schema are revoked. Access must be granted only to specific, non-sensitive columns required for the user's role.\n*   **Mandatory Stored Procedure Usage**: Direct `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statements on base tables are prohibited for analyst accounts. All data retrieval must be executed exclusively via approved stored procedures.\n*   **Role-Based Column Filtering**: Permissions must be scoped to specific columns. Sensitive columns (e.g., `net_profit_margin`, `executive_compensation`) are restricted to the `finance_executives` role.\n\n**Section 4.3: Data Access Workflow**\n*   Analysts must request access to specific stored procedures (e.g., `usp_GetDepartmentalSummary`) rather than tables.\n*   All stored procedures must utilize parameterized inputs to prevent SQL injection and enforce row-level filtering based on the `@DepartmentID` or `@RegionCode` parameter.\n\n---\n\n### Updated SQL Commands\n\nThe following commands enforce the new security posture using parameterized logic and role-based restrictions.\n\n#### 1. Revoke Excessive Privileges and Create Secure Views\n```sql\n-- Revoke wildcard access from all analysts\nREVOKE SELECT ON SCHEMA financial_reports FROM PUBLIC;\nREVOKE SELECT ON SCHEMA financial_reports FROM role_analysts;\n\n-- Create a view for general analysts (excluding sensitive columns)\nCREATE OR REPLACE VIEW financial_reports.vw_analyst_safe_data AS\nSELECT \n    report_id,\n    report_date,\n    department_id,\n    revenue,\n    operating_expenses\nFROM financial_reports.financial_data;\n\n-- Grant access only to the safe view\nGRANT SELECT ON financial_reports.vw_analyst_safe_data TO role_analysts;\n```\n\n#### 2. Implement Row-Level Security via Stored Procedure\nThis procedure enforces row-level filtering based on the user's context (simulated via parameter) and restricts access to specific columns.\n\n```sql\nCREATE OR REPLACE PROCEDURE financial_reports.usp_GetDepartmentalReport(\n    IN p_department_id INT,\n    IN p_user_role VARCHAR(50)\n)\nLANGUAGE plpgsql\nSECURITY DEFINER -- Ensures procedure runs with owner's privileges, not caller's\nAS $$\nBEGIN\n    -- Validate role to determine column visibility\n    IF p_user_role = 'analyst' THEN\n        -- Analysts only see non-sensitive columns\n        RETURN QUERY\n        SELECT \n            report_id,\n            report_date,\n            revenue,\n            operating_expenses\n        FROM financial_reports.financial_data\n        WHERE department_id = p_department_id;\n        \n    ELSIF p_user_role = 'finance_executive' THEN\n        -- Executives see full data including sensitive columns\n        RETURN QUERY\n        SELECT \n            report_id,\n            report_date,\n            revenue,\n            operating_expenses,\n            net_profit_margin,\n            executive_compensation\n        FROM financial_reports.financial_data\n        WHERE department_id = p_department_id;\n    ELSE\n        RAISE EXCEPTION 'Unauthorized role: %', p_user_role;\n    END IF;\nEND;\n$$;\n\n-- Grant EXECUTE permission on the procedure only\nGRANT EXECUTE ON PROCEDURE financial_reports.usp_GetDepartmentalReport(INT, VARCHAR) TO role_analysts;\nGRANT EXECUTE ON PROCEDURE financial_reports.usp_GetDepartmentalReport(INT, VARCHAR) TO role_finance_executives;\n```\n\n#### 3. Block Direct Table Access\n```sql\n-- Explicitly deny direct access to base tables for analysts\nREVOKE ALL ON ALL TABLES IN SCHEMA financial_reports FROM role_analysts;\nREVOKE ALL ON ALL TABLES IN SCHEMA financial_reports FROM role_finance_executives;\n\n-- Ensure only the database owner or a specific admin role can access tables directly\nGRANT ALL ON ALL TABLES IN SCHEMA financial_reports TO db_admin_role;\n```",
+      "score": 3.4,
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission correctly identifies vulnerabilities and proposes procedural changes, earning a 3 for Correctness and Completeness. However, the Stored Procedure implementation contains a critical security flaw by accepting 'p_user_role' as a parameter, allowing potential privilege escalation, which impacts Best Practices and Domain Accuracy. The solution also fails to address the 'Additional Checks' regarding migration, rollback scripts, and specific data type constraints (VARCHAR 'amount'), reducing Completeness. The structure and SQL syntax are clear and professional, warranting a 5 for Clarity."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Modify existing databases and database management systems or direct programmers and analysts to make changes.",
+      "task_type": "Schema Migration and Data Integrity",
+      "user_prompt": "You are the lead DBA for a fintech startup. The legacy 'transactions' table needs to be migrated to a new schema to support high-frequency trading. The current table has a single 'amount' column as VARCHAR. You must design a migration script that converts 'amount' to DECIMAL(18,2), adds a 'timestamp' column with a default value, and creates a composite index on (customer_id, timestamp). Provide the SQL migration script and a rollback strategy.",
+      "reference_context": {
+        "legacy_schema": "CREATE TABLE transactions (id INT PRIMARY KEY, customer_id INT, amount VARCHAR(20), notes TEXT);",
+        "requirements": "Must handle NULL values in amount, ensure atomicity, and minimize downtime."
+      },
+      "evaluation_criteria": [
+        "Correctness: Does the SQL execute without syntax errors and achieve the schema change?",
+        "Completeness: Are all columns, types, and indexes specified as requested?",
+        "Best Practices: Is the migration script idempotent and includes a rollback plan?"
+      ],
+      "student_answer": "-- Migration Script\n-- Strategy: Create new table, migrate data with type casting, swap tables, create indexes.\n-- This approach ensures atomicity and minimizes downtime by avoiding long-running ALTER TABLE operations on the live table.\n\nBEGIN TRANSACTION;\n\n-- 1. Create the new table with the target schema\nCREATE TABLE transactions_new (\n    id INT PRIMARY KEY,\n    customer_id INT,\n    amount DECIMAL(18,2),\n    notes TEXT,\n    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP\n);\n\n-- 2. Migrate data with NULL handling and type conversion\n-- Note: Assuming legacy 'amount' contains valid numeric strings or NULL.\n-- Invalid strings will cause the migration to fail, ensuring data integrity.\nINSERT INTO transactions_new (id, customer_id, amount, notes, timestamp)\nSELECT \n    id, \n    customer_id, \n    CAST(amount AS DECIMAL(18,2)), \n    notes, \n    CURRENT_TIMESTAMP\nFROM transactions\nWHERE amount IS NULL OR amount = '';\n\n-- 3. Create the required composite index\nCREATE INDEX idx_customer_timestamp ON transactions_new (customer_id, timestamp);\n\n-- 4. Swap tables (Atomic operation in most modern DBs like PostgreSQL, MySQL 8.0+)\n-- Drop the old table and rename the new one\nDROP TABLE transactions;\nALTER TABLE transactions_new RENAME TO transactions;\n\nCOMMIT;\n\n-- Rollback Strategy\n-- If the migration fails at any point before COMMIT, the transaction is automatically rolled back.\n-- If the migration succeeds but issues are discovered post-deployment, execute the following:\n\n-- 1. Create a backup of the current (new) schema if not already done (optional but recommended)\n-- CREATE TABLE transactions_backup AS SELECT * FROM transactions;\n\n-- 2. Revert to the original state by recreating the legacy table and restoring data\n-- (Assuming the original 'transactions' table was backed up before the swap, or if the swap failed, the original remains).\n-- If the swap was successful and we need to revert:\n\nBEGIN TRANSACTION;\n\n-- Recreate legacy structure\nCREATE TABLE transactions_legacy (\n    id INT PRIMARY KEY,\n    customer_id INT,\n    amount VARCHAR(20),\n    notes TEXT\n);\n\n-- Restore data from backup (if backup exists) or assume original data was preserved in a temporary staging table before the swap.\n-- In a real scenario, you would have a 'transactions_backup' table created prior to migration.\nINSERT INTO transactions_legacy (id, customer_id, amount, notes)\nSELECT id, customer_id, amount, notes FROM transactions_backup;\n\n-- Swap back\nDROP TABLE transactions;\nALTER TABLE transactions_legacy RENAME TO transactions;\n\nCOMMIT;\n\n-- Note: Ensure a pre-migration backup of the 'transactions' table exists before running the migration script to guarantee a safe rollback path.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        2,
+        2,
+        4
+      ],
+      "score": 2.6,
+      "grade_reason": "Critical logic error in the WHERE clause (WHERE amount IS NULL OR amount = '') excludes valid data, migrating only invalid rows. The DDL swap strategy (DROP then RENAME) risks data loss if the rename fails, and assumes DDL transactionality which is not universal (e.g., MySQL auto-commits DDL). The rollback strategy relies on a backup table not created in the script. Despite these significant functional flaws, the code structure and comments are clear and readable."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Review workflow charts developed by programmer analyst to understand tasks computer will perform, such as updating records.",
+      "task_type": "Stored Procedure Optimization and Security",
+      "user_prompt": "A junior developer has submitted a stored procedure 'UpdateUserBalance' that updates user balances based on transaction logs. The current implementation uses string concatenation to build dynamic SQL and lacks transaction boundaries. Review the logic, refactor the procedure to use parameterized queries to prevent SQL injection, wrap the logic in a transaction block to ensure ACID compliance, and add error handling to rollback on failure. Justify your performance choices regarding locking strategies.",
+      "reference_context": {
+        "original_procedure": "CREATE PROCEDURE UpdateUserBalance @UserID INT, @Amount DECIMAL(10,2) AS BEGIN DECLARE @SQL NVARCHAR(MAX); SET @SQL = 'UPDATE Users SET Balance = Balance + ' + CAST(@Amount AS NVARCHAR) + ' WHERE UserID = ' + CAST(@UserID AS NVARCHAR); EXEC sp_executesql @SQL; END",
+        "constraints": "Must prevent deadlocks, ensure data consistency, and use parameterized inputs."
+      },
+      "evaluation_criteria": [
+        "Security: Are all dynamic inputs strictly parameterized to prevent injection?",
+        "Integrity: Is the transaction block correctly implemented with explicit BEGIN/COMMIT/ROLLBACK?",
+        "Performance: Is the locking strategy (e.g., row-level vs table-level) justified for the workload?"
+      ],
+      "student_answer": "```sql\nCREATE PROCEDURE UpdateUserBalance\n    @UserID INT,\n    @Amount DECIMAL(10, 2)\nAS\nBEGIN\n    SET NOCOUNT ON;\n    SET XACT_ABORT ON;\n\n    BEGIN TRY\n        BEGIN TRANSACTION;\n\n        -- Locking Strategy Justification:\n        -- We use the default isolation level (READ COMMITTED) but rely on the \n        -- UPDATE statement's inherent locking behavior. SQL Server will acquire \n        -- an Exclusive (X) lock on the specific row identified by UserID.\n        -- To prevent deadlocks in high-concurrency scenarios where multiple \n        -- transactions might update different users in a non-deterministic order,\n        -- the application layer should ideally ensure consistent ordering of \n        -- updates (e.g., always update lower UserID first). \n        -- However, within this single procedure, the X lock on the target row \n        -- ensures data consistency (ACID) and prevents lost updates. \n        -- If the table has a clustered index on UserID, the lock is highly efficient \n        -- and minimizes lock escalation.\n        \n        UPDATE Users\n        SET Balance = Balance + @Amount\n        WHERE UserID = @UserID;\n\n        COMMIT TRANSACTION;\n    END TRY\n    BEGIN CATCH\n        IF @@TRANCOUNT > 0\n        BEGIN\n            ROLLBACK TRANSACTION;\n        END\n\n        -- Re-throw the error to be handled by the calling application\n        THROW;\n    END CATCH\nEND;\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is a high-quality refactoring that correctly implements parameterized queries to prevent SQL injection, wraps logic in a transaction block for ACID compliance, and includes robust error handling with rollback. It adheres to SQL Server best practices (SET NOCOUNT, SET XACT_ABORT, TRY/CATCH/THROW) and provides a clear, accurate justification for locking strategies. While the 'Additional Checks' mention VARCHAR constraints and migration scripts which contradict the provided Context (DECIMAL) and Task scope (SP Refactoring), the submission correctly prioritizes the Context. Minor production enhancements like input validation are omitted but do not constitute a gap relative to the specific task requirements."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Identify and evaluate industry trends in database systems to serve as a source of information and advice for upper management.",
+      "task_type": "Performance Tuning and Index Strategy",
+      "user_prompt": "The 'orders' table in the e-commerce database is experiencing significant latency during peak hours. Analysis shows a full table scan on the 'order_date' column. Propose a new indexing strategy that includes a composite index on (order_date, status) and a filtered index for 'pending' orders. Explain how this strategy improves query performance based on the execution plan, and discuss the trade-offs regarding write performance and storage overhead.",
+      "reference_context": {
+        "current_table": "CREATE TABLE orders (order_id INT PRIMARY KEY, customer_id INT, order_date DATETIME, status VARCHAR(20), total_amount DECIMAL(10,2));",
+        "problem_query": "SELECT * FROM orders WHERE order_date > '2023-01-01' AND status = 'pending' ORDER BY order_date DESC;"
+      },
+      "evaluation_criteria": [
+        "Strategy: Is the proposed index structure (composite/filtered) appropriate for the query pattern?",
+        "Justification: Is the performance improvement clearly explained with reference to index usage?",
+        "Trade-offs: Are the impacts on write latency and storage explicitly addressed?"
+      ],
+      "student_answer": "### Indexing Strategy Implementation\n\n**1. Composite Index Creation**\nCreate a composite index to optimize the `WHERE` clause filtering and `ORDER BY` sorting. The column order is critical: `order_date` must precede `status` to allow the database to efficiently locate the date range and then filter by status within that range without scanning the entire index.\n\n```sql\nCREATE INDEX idx_orders_date_status ON orders (order_date, status);\n```\n\n**2. Filtered Index Creation**\nCreate a filtered index specifically for 'pending' orders. This reduces the index size and maintenance overhead by only indexing rows where `status = 'pending'`, which is highly effective for the specific query pattern provided.\n\n```sql\nCREATE INDEX idx_orders_pending ON orders (order_date) \nWHERE status = 'pending';\n```\n*(Note: Syntax may vary slightly by DBMS; e.g., PostgreSQL uses `WHERE status = 'pending'`, while SQL Server uses `WHERE status = 'pending'`. The logic remains consistent.)*\n\n---\n\n### Performance Analysis via Execution Plan\n\n**Query Optimization:**\nThe original query `SELECT * FROM orders WHERE order_date > '2023-01-01' AND status = 'pending' ORDER BY order_date DESC` previously triggered a **Full Table Scan** because the optimizer could not efficiently locate the specific date range combined with the status filter.\n\n**With the New Strategy:**\n1.  **Index Seek**: The execution plan will shift from a `Seq Scan` (Sequential Scan) to an `Index Scan` or `Index Seek`.\n    *   The **Composite Index** allows the database to jump directly to the first row where `order_date > '2023-01-01'`.\n    *   Because `status` is the second column in the composite index, the database can immediately filter for `status = 'pending'` while traversing the index, avoiding the need to check the table heap for every row in the date range.\n2.  **Avoiding Sort**: Since the index is ordered by `order_date`, the `ORDER BY order_date DESC` operation can be satisfied by simply traversing the index in reverse order. This eliminates the need for a separate **Sort** operation in the execution plan, significantly reducing CPU usage.\n3.  **Filtered Index Efficiency**: If the filtered index is chosen (common in modern optimizers for this specific predicate), the engine scans a much smaller subset of the data, drastically reducing I/O operations.\n\n---\n\n### Trade-offs: Write Performance and Storage\n\n**1. Write Performance Impact**\n*   **Overhead**: Every `INSERT`, `UPDATE`, or `DELETE` operation on the `orders` table now requires updates to two additional index structures (the composite index and the filtered index).\n*   **Latency**: This increases the latency of write operations slightly. During peak write hours, this could lead to minor contention on the index pages.\n*   **Mitigation**: The impact is generally acceptable for read-heavy e-commerce workloads. However, bulk data loads will be slower.\n\n**2. Storage Overhead**\n*   **Space Consumption**: The composite index stores all rows, increasing storage usage proportional to the table size. The filtered index adds additional storage but is significantly smaller than a full index because it only contains rows where `status = 'pending'`.\n*   **Total Footprint**: Expect an increase in disk usage of approximately 20–40% depending on the selectivity of the `order_date` and `status` columns and the specific database engine's page compression capabilities.\n\n**Recommendation**: Monitor `pg_stat_user_indexes` (PostgreSQL) or `sys.dm_db_index_usage_stats` (SQL Server) post-deployment to ensure the indexes are being utilized effectively and to verify that write latency remains within acceptable SLAs.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        3,
+        3,
+        5,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission demonstrates strong technical knowledge regarding index column ordering, filtered index benefits, and execution plan optimization (Correctness: 4, Domain Accuracy: 5, Clarity: 5). However, it fails to address critical production safety requirements outlined in the Additional Checks, such as providing rollback scripts, mitigating table locking during index creation (e.g., CONCURRENTLY), and handling migration casting errors. For a Senior Architect role, omitting these operational safeguards on a high-traffic table constitutes a noticeable gap in Completeness (3) and Best Practices (3)."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Revise company definition of data as defined in data dictionary.",
+      "task_type": "Data Dictionary Revision and Validation",
+      "user_prompt": "The company is updating its data dictionary to reflect new regulatory requirements for 'customer_pii'. The current definition for 'email' is 'User provided email address'. Revise the data dictionary entry to include specific constraints: must be unique, must match a standard regex pattern, and must be encrypted at rest. Provide the SQL DDL statements to enforce these constraints on the 'customers' table and a validation script to check existing records against the new rules.",
+      "reference_context": {
+        "current_data_dictionary": "email: VARCHAR(255), nullable, no unique constraint.",
+        "regulatory_rules": "GDPR compliance requires unique, validated, and encrypted PII fields."
+      },
+      "evaluation_criteria": [
+        "Accuracy: Does the revised data dictionary accurately reflect the new constraints?",
+        "Implementation: Do the DDL statements correctly enforce uniqueness and data types?",
+        "Validation: Is the validation script robust enough to identify non-compliant existing records?"
+      ],
+      "student_answer": "```sql\n-- 1. Data Dictionary Update (Conceptual)\n-- Field: email\n-- Type: VARCHAR(255)\n-- Constraints: NOT NULL, UNIQUE, ENCRYPTED_AT_REST (via TDE or Column-Level Encryption), VALIDATED (via CHECK constraint)\n-- Description: User provided email address. Must be unique, match standard regex pattern, and encrypted at rest per GDPR.\n\n-- 2. SQL DDL Statements to Enforce Constraints\n-- Note: Assumes PostgreSQL syntax for regex and standard SQL for constraints. \n-- Encryption at rest is typically handled by the DB engine (TDE) or application layer; \n-- this script enforces the logical constraints and marks the column for encryption.\n\n-- Step A: Add NOT NULL and UNIQUE constraints\nALTER TABLE customers \nADD CONSTRAINT chk_email_format \nCHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$');\n\nALTER TABLE customers \nADD CONSTRAINT uq_email \nUNIQUE (email);\n\n-- Step B: Ensure existing NULLs are handled (Optional cleanup before adding NOT NULL)\n-- UPDATE customers SET email = 'unknown@example.com' WHERE email IS NULL; \n-- ALTER TABLE customers ALTER COLUMN email SET NOT NULL;\n\n-- Step C: Mark column for Encryption (Syntax varies by DB engine)\n-- Example for PostgreSQL with pgcrypto (Application-side encryption recommended) or TDE configuration:\n-- ALTER TABLE customers ALTER COLUMN email TYPE VARCHAR(255) ENCRYPTED; \n-- *Note: Actual encryption implementation depends on specific DBMS (e.g., Oracle TDE, SQL Server Always Encrypted).*\n\n-- 3. Validation Script to Check Existing Records\n-- This script identifies records violating the new unique and format rules.\n\n-- Check for duplicate emails\nSELECT email, COUNT(*) as duplicate_count\nFROM customers\nGROUP BY email\nHAVING COUNT(*) > 1;\n\n-- Check for invalid email formats (records that do not match the regex)\nSELECT customer_id, email\nFROM customers\nWHERE email IS NOT NULL \n  AND email !~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$';\n\n-- Check for NULL emails (if NOT NULL is required)\nSELECT customer_id, email\nFROM customers\nWHERE email IS NULL;\n```",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The submission correctly implements the requested constraints (unique, regex, encryption notes) and provides a validation script. However, it lacks a rollback script and migration safety measures (e.g., NOT VALID, CONCURRENTLY) expected for a Senior Architect, particularly regarding existing data validation before DDL execution. The 'amount' column constraint mentioned in Additional Checks was not part of the main task, so no penalty was applied for its absence. Clarity is excellent."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Provide technical support to junior staff or clients.",
+      "task_type": "Performance Tuning and Troubleshooting",
+      "user_prompt": "You are the senior Database Administrator for an e-commerce platform. A junior developer has reported that the 'order_history' query is timing out during peak traffic. The query joins 'orders', 'customers', and 'products' tables. Provide a technical support response that includes: 1) An analysis of potential performance bottlenecks based on the provided schema and query, 2) A set of optimized SQL queries using parameterized inputs to prevent injection, 3) Specific recommendations for index creation or modification to improve execution time, and 4) A brief explanation of how these changes ensure data integrity and ACID compliance during high-concurrency transactions.",
+      "reference_context": {
+        "schema": "CREATE TABLE orders (order_id INT PRIMARY KEY, customer_id INT, product_id INT, order_date TIMESTAMP, status VARCHAR(20)); CREATE TABLE customers (customer_id INT PRIMARY KEY, name VARCHAR(100), email VARCHAR(100)); CREATE TABLE products (product_id INT PRIMARY KEY, name VARCHAR(100), price DECIMAL(10,2));",
+        "problematic_query": "SELECT * FROM orders o JOIN customers c ON o.customer_id = c.customer_id JOIN products p ON o.product_id = p.product_id WHERE o.order_date > '2023-01-01' AND c.email = 'user@example.com';",
+        "constraints": "The solution must prioritize data integrity, use parameterized queries, and justify performance optimization strategies."
+      },
+      "evaluation_criteria": [
+        "Correctness: Does the response identify the missing indexes on join and filter columns?",
+        "Security: Are all SQL examples strictly parameterized to prevent injection attacks?",
+        "Justification: Is the performance optimization strategy explicitly justified with respect to ACID compliance and data integrity?",
+        "Clarity: Is the technical explanation clear enough for a junior staff member to understand and implement?"
+      ],
+      "student_answer": "### Technical Support Response: Order History Query Optimization\n\n#### 1. Performance Bottleneck Analysis\nThe current query `SELECT *` forces a full table scan and retrieval of unnecessary columns, increasing I/O overhead. The join condition on `c.email` is inefficient because `email` is not indexed, requiring a full scan of the `customers` table for every row in `orders`. Additionally, the lack of an index on `orders.order_date` prevents the database from efficiently filtering the `orders` table by the date range. The join on `product_id` is likely efficient due to the primary key, but the overall execution plan is suboptimal due to the missing indexes on the filtering columns (`order_date`, `customer_id`, and `email`).\n\n#### 2. Optimized SQL Queries (Parameterized)\nThe following queries utilize parameterized inputs to prevent SQL injection and select only necessary columns to reduce network payload.\n\n**Query A: Retrieve specific order history for a user (Optimized)**\n```sql\nSELECT \n    o.order_id, \n    o.order_date, \n    o.status, \n    c.name, \n    c.email, \n    p.name AS product_name, \n    p.price\nFROM orders o\nINNER JOIN customers c ON o.customer_id = c.customer_id\nINNER JOIN products p ON o.product_id = p.product_id\nWHERE o.order_date > ?\n  AND c.email = ?\nORDER BY o.order_date DESC;\n```\n*Usage Note: Replace `?` with bound parameters (e.g., `2023-01-01` and `user@example.com`).*\n\n**Query B: Retrieve order count for monitoring (Optional)**\n```sql\nSELECT COUNT(*) \nFROM orders o\nINNER JOIN customers c ON o.customer_id = c.customer_id\nWHERE o.order_date > ?\n  AND c.email = ?;\n```\n\n#### 3. Index Creation Recommendations\nExecute the following DDL statements to create composite and single-column indexes that align with the query's `WHERE` and `JOIN` clauses.\n\n```sql\n-- Index on orders table to speed up date filtering and customer joins\nCREATE INDEX idx_orders_date_customer ON orders (order_date, customer_id);\n\n-- Index on customers table to speed up email lookups (if email is unique per user)\n-- Note: If email is not unique, this still aids filtering.\nCREATE INDEX idx_customers_email ON customers (email);\n\n-- Ensure foreign keys are indexed if not already covered by the composite index above\n-- (customer_id is already covered in idx_orders_date_customer)\n```\n\n#### 4. Data Integrity and ACID Compliance\nThese optimizations maintain strict ACID compliance:\n*   **Atomicity & Consistency:** The use of parameterized queries ensures that data types are preserved and special characters in inputs (like quotes in names or emails) do not break transaction logic or corrupt data. The schema constraints (Primary Keys) remain intact, ensuring referential integrity between `orders`, `customers`, and `products`.\n*   **Isolation:** The optimized indexes reduce the duration of table locks and row scans. By minimizing the time transactions hold locks on rows, the likelihood of deadlocks or lock contention during peak traffic is significantly reduced, ensuring that concurrent transactions proceed without blocking each other unnecessarily.\n*   **Durability:** The query logic does not alter data; it only reads. Therefore, the durability of committed transactions is unaffected. The performance gains come from faster index lookups rather than bypassing safety mechanisms, ensuring that every read reflects the most recent committed state of the database.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.6,
+      "grade_reason": "The submission correctly addresses the core task requirements with valid SQL, parameterized queries, and sound ACID explanations (Correctness: 4, Clarity: 5). However, it fails to meet the specific 'Additional Checks' constraints provided in the evaluation context: it omits rollback scripts, migration handling, and discussion on index locking duration during peak traffic (Completeness: 3, Best Practices: 3). Additionally, the student did not identify the schema discrepancy regarding the 'amount' column constraint versus the provided 'price' column, indicating a gap in attention to detail (Domain Accuracy: 3). While the SQL logic is sound, the lack of production safety measures (rollback, concurrency) prevents an exceptional score."
+    }
+  ]
+}

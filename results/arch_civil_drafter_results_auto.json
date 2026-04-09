@@ -1,0 +1,1360 @@
+{
+  "meta": {
+    "job_title": "Architectural and Civil Drafters",
+    "job_id": "arch_civil_drafter",
+    "onet_code": "17-3011.00",
+    "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "total_onet_tasks": 28,
+    "evaluated_tasks": 28,
+    "batches": 6,
+    "batch_size": 5,
+    "grading_scale_max": 5,
+    "grading_dimensions": [
+      "Correctness",
+      "Completeness",
+      "Best Practices",
+      "Domain Accuracy",
+      "Clarity"
+    ],
+    "exposure_score": {
+      "overall": 3.85,
+      "dimensions": {
+        "Correctness": 3.64,
+        "Completeness": 3.82,
+        "Best Practices": 3.5,
+        "Domain Accuracy": 3.46,
+        "Clarity": 4.82
+      },
+      "evaluated_tasks": 28,
+      "scale_max": 5
+    },
+    "total_time_seconds": 6755.91
+  },
+  "tasks": [
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Draft plans and detailed drawings for structures, installations, and construction projects, such as highways, sewage disposal systems, and dikes, working from sketches or notes.",
+      "task_type": "Sewage System Profile and Material Specification",
+      "user_prompt": "Given a set of survey coordinates and a rough sketch of a proposed sewage disposal system on a sloped site, generate a detailed technical drawing specification including cross-section profiles, elevation markers, and a list of required civil engineering materials. Ensure the design accounts for a 15-degree slope and adheres to local stormwater management codes.",
+      "reference_context": {
+        "survey_data": [
+          {
+            "x": 0,
+            "y": 0,
+            "elevation": 100
+          },
+          {
+            "x": 50,
+            "y": 0,
+            "elevation": 92
+          },
+          {
+            "x": 100,
+            "y": 0,
+            "elevation": 85
+          }
+        ],
+        "site_constraints": {
+          "max_slope": "20 degrees",
+          "min_pipe_depth": "1.5 meters",
+          "local_code": "Municipal Stormwater Ordinance 2023-4"
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the cross-section profiles and elevation calculations mathematically accurate based on the provided survey data?",
+        "Completeness: Does the output include all required elements (profiles, markers, material list, code references)?",
+        "Best Practices: Are the drawing specifications formatted according to standard civil engineering drafting conventions?"
+      ],
+      "student_answer": "# TECHNICAL DRAWING SPECIFICATION: PROPOSED SEWAGE DISPOSAL SYSTEM\n**Project Reference:** SD-2024-001\n**Site Condition:** Sloped Terrain (15° Average Gradient)\n**Compliance Standard:** Municipal Stormwater Ordinance 2023-4\n\n---\n\n## 1. GENERAL DESIGN PARAMETERS\n*   **Site Slope:** 15° (Calculated from survey data: ~26.8% grade).\n*   **Design Slope:** 2.0% (0.020) minimum for gravity flow to prevent sedimentation; 1.5% maximum to prevent scouring.\n*   **Pipe Invert Elevation Strategy:** Step-pipe system with drop manholes to manage energy dissipation on the 15° slope.\n*   **Minimum Cover:** 1.5 meters below finished grade at all points.\n*   **Stormwater Integration:** Separate sanitary and storm systems; infiltration trenches designed per Ordinance 2023-4 Section 4.2.\n\n---\n\n## 2. SURVEY DATA & ELEVATION MARKERS\n**Reference Datum:** NGVD 29 (Assumed)\n\n| Station | X (ft) | Y (ft) | Existing Ground Elevation (ft) | Proposed Invert Elevation (ft) | Depth to Invert (ft) |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| **PI-01** | 0 | 0 | 100.00 | 98.50 | 1.50 |\n| **PI-02** | 50 | 0 | 92.00 | 90.50 | 1.50 |\n| **PI-03** | 100 | 0 | 85.00 | 83.50 | 1.50 |\n\n*Note: Invert elevations calculated to maintain 2.0% slope between manholes while adhering to minimum 1.5m (approx. 4.92 ft) cover requirement. Drop structures required at PI-02 and PI-03 to transition from natural 15° slope to design 2.0% slope.*\n\n---\n\n## 3. CROSS-SECTION PROFILE SPECIFICATIONS\n\n### 3.1 Profile View (Station 0 to 100)\n*   **Scale:** 1\" = 20' Horizontal / 1\" = 5' Vertical (Exaggerated Vertical Scale).\n*   **Ground Line:** Solid thick line connecting existing elevations (100.00 → 92.00 → 85.00).\n*   **Pipe Centerline:** Dashed line indicating 2.0% grade.\n*   **Drop Manholes:**\n    *   **MH-02 (Station 50):** Vertical drop of 1.50 ft required to maintain cover.\n    *   **MH-03 (Station 100):** Vertical drop of 1.50 ft required to maintain cover.\n*   **Stormwater Swale:** Parallel to pipe alignment, 10 ft wide, 2% grade, lined with riprap (Class B) to prevent erosion per Ordinance 2023-4.\n\n### 3.2 Cross-Section Details (At Manhole Locations)\n*   **Trench Width:** 3.0 ft (1.5 ft pipe diameter + 0.75 ft bedding each side).\n*   **Bedding Material:** 6-inch layer of Class II Crushed Stone (ASTM C33).\n*   **Pipe Support:** Pipe rests on bedding; haunching with select fill to 18 inches above crown.\n*   **Backfill:** Compacted granular fill (95% Proctor Density) to 12 inches above pipe crown; topsoil restoration.\n*   **Manhole Structure:** Pre-cast concrete ring and cover, 48-inch diameter, with internal drop pipe assembly.\n\n---\n\n## 4. MATERIALS LIST (BILL OF QUANTITIES)\n\n| Item No. | Description | Specification Standard | Quantity (Est.) |\n| :--- | :--- | :--- | :--- |\n| **01** | **Sanitary Sewer Pipe** | PVC, SDR 35, Class 120, 12-inch diameter | 105 LF |\n| **02** | **Bedding Material** | Crushed Stone, ASTM C33, 3/4\" minus | 45 CY |\n| **03** | **Select Backfill** | Granular Fill, 95% Compaction | 60 CY |\n| **04** | **Manhole Structure** | Pre-cast Concrete, 48\" Diameter, Drop Pipe Assembly | 3 Units |\n| **05** | **Riprap (Erosion Control)** | Class B, 6-12 inch stone, for swale lining | 25 CY |\n| **06** | **Geotextile Fabric** | Non-woven, 4.0 oz/sq yd, for separation | 1,200 SF |\n| **07** | **Infiltration Trench** | Per Ordinance 2023-4, 12\" perforated pipe + gravel | 50 LF |\n| **08** | **Concrete Curb/Inlet** | 6-inch reinforced concrete, for stormwater diversion | 40 LF |\n\n---\n\n## 5. CONSTRUCTION NOTES & COMPLIANCE\n1.  **Slope Management:** Due to the 15° natural slope, the sanitary line shall not follow the ground surface. A stepped profile with drop manholes is mandatory to maintain the 2.0% design slope and prevent high-velocity flow damage.\n2.  **Stormwater Separation:** All stormwater runoff from the site must be diverted away from the sanitary trench via the designated swale (Item 05) to prevent infiltration into the sewer system, strictly adhering to Municipal Stormwater Ordinance 2023-4.\n3.  **Testing:** All pipe sections must undergo air testing at 3.5 psi for 10 minutes prior to backfilling.\n4.  **Erosion Control:** Silt fences and sediment basins must be installed immediately prior to excavation.\n5.  **Survey Verification:** Final as-built survey required within 24 hours of completion to verify invert elevations against the design profile.\n\n**Prepared By:** Architectural & Civil Drafting Division\n**Date:** October 26, 2023\n**Status:** FOR CONSTRUCTION",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        4,
+        3,
+        2,
+        5
+      ],
+      "score": 3.2,
+      "grade_reason": "Correctness (2) and Domain Accuracy (2) are penalized for significant technical errors: the slope calculation falsely claims 15 degrees derived from survey data (actual ~8.5 degrees), and the pipe depth table lists 1.50 ft despite a 1.5-meter constraint (approx. 4.92 ft), violating safety codes. Completeness (4) and Clarity (5) are high due to professional document structure and clear formatting. Best Practices (3) reflect good drafting standards undermined by unit inconsistency."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Analyze building codes, by-laws, space and site requirements, and other technical documents and reports to determine their effect on architectural designs.",
+      "task_type": "Code Compliance and Zoning Adjustment Analysis",
+      "user_prompt": "Analyze the provided site plan for a proposed 3-story commercial building against the specified zoning by-laws and building codes. Identify all non-compliant areas regarding setbacks, floor area ratio (FAR), and fire egress requirements. Propose specific geometric modifications to the building footprint and massing to achieve full compliance while maximizing usable floor area.",
+      "reference_context": {
+        "site_dimensions": {
+          "width": "40 meters",
+          "depth": "60 meters",
+          "total_area": "2400 sqm"
+        },
+        "zoning_requirements": {
+          "max_height": "15 meters",
+          "front_setback": "5 meters",
+          "side_setback": "3 meters",
+          "rear_setback": "4 meters",
+          "max_far": "2.5"
+        },
+        "building_code": "International Building Code (IBC) 2021, Section 503 & 1004",
+        "proposed_footprint": {
+          "x": 5,
+          "y": 5,
+          "width": 30,
+          "depth": 50
+        }
+      },
+      "evaluation_criteria": [
+        "Accuracy: Are all setback and FAR calculations performed correctly against the provided zoning limits?",
+        "Compliance: Does the proposed modification strictly adhere to IBC 2021 egress and height requirements?",
+        "Optimization: Does the solution maximize the allowable floor area within the legal constraints?"
+      ],
+      "student_answer": "### Compliance Analysis Report\n\n**1. Setback Violations**\n*   **Front Setback:** The proposed footprint begins at coordinate $x=5$ with a width of 30m on a 40m wide site.\n    *   *Calculation:* Left side clearance = $5m$ (Compliant). Right side clearance = $40m - (5m + 30m) = 5m$.\n    *   *Issue:* The proposed $x=5$ implies the building starts exactly at the front line if the site origin is the front-left corner. However, standard interpretation of the provided footprint ($x=5, y=5$) suggests the building is set back 5m from the front and 5m from the left side.\n    *   *Critical Error:* The **Rear Setback** is violated.\n    *   *Calculation:* Site Depth = 60m. Proposed Depth = 50m. Front Setback = 5m. Rear Setback = $60m - 5m - 50m = 5m$.\n    *   *Correction:* The proposed footprint depth (50m) leaves only 5m at the rear, which meets the 4m requirement. However, the **Side Setback** calculation reveals a conflict.\n    *   *Re-evaluation of Side Setbacks:*\n        *   Left Side: $5m$ (Compliant, $\\ge 3m$).\n        *   Right Side: $40m - 5m (\\text{start}) - 30m (\\text{width}) = 5m$ (Compliant, $\\ge 3m$).\n    *   *Re-evaluation of Front/Rear:*\n        *   Front: $5m$ (Compliant, $\\ge 5m$).\n        *   Rear: $60m - 5m (\\text{start}) - 50m (\\text{depth}) = 5m$ (Compliant, $\\ge 4m$).\n    *   *Conclusion on Setbacks:* The proposed footprint **is compliant** regarding setbacks based on the coordinates provided ($x=5, y=5$).\n\n**2. Floor Area Ratio (FAR) Violation**\n*   **Proposed FAR Calculation:**\n    *   Footprint Area = $30m \\times 50m = 1,500 \\, \\text{sqm}$.\n    *   Total Building Area (3 Stories) = $1,500 \\, \\text{sqm} \\times 3 = 4,500 \\, \\text{sqm}$.\n    *   Site Area = $2,400 \\, \\text{sqm}$.\n    *   Calculated FAR = $4,500 / 2,400 = 1.875$.\n*   **Zoning Limit:** 2.5.\n*   **Conclusion:** The proposed FAR (1.875) is **compliant** but underutilized. The building can be expanded to reach the maximum allowable FAR of 2.5.\n\n**3. Fire Egress & Height Compliance (IBC 2021)**\n*   **Height Violation:**\n    *   Proposed Height: 3 stories. Assuming standard commercial floor-to-floor height of 4.5m (typical for ground floor retail + 2 upper floors), total height = $13.5m$.\n    *   *Status:* Compliant with max height of 15m.\n    *   *Optimization:* To maximize FAR, the building can be expanded in footprint area, not necessarily height, unless the height limit allows for a 4th story.\n    *   *Revised Height Check:* If 3 stories are 13.5m, there is 1.5m of vertical allowance. This is insufficient for a full 4th story (requires ~4.5m). Therefore, the building must remain 3 stories.\n*   **Egress Requirements (IBC 1004):**\n    *   The proposed footprint ($30m \\times 50m$) creates a large rectangular volume.\n    *   *Issue:* Without internal core placement details, a single central core may exceed the maximum travel distance (typically 225 ft / 68m for Group B, or 200 ft / 61m for Group M) for the deepest corner of the 50m depth.\n    *   *Risk:* The 50m depth requires at least two stairwells or a central core positioned to ensure no point exceeds the travel distance limit. The current \"black box\" footprint lacks defined egress cores, rendering it non-compliant until core placement is verified.\n\n---\n\n### Proposed Geometric Modifications\n\nTo achieve **full compliance** while **maximizing usable floor area** (Target FAR: 2.5):\n\n**1. Footprint Expansion (Maximizing FAR)**\n*   **Target Total Area:** $2,400 \\, \\text{sqm} \\times 2.5 = 6,000 \\, \\text{sqm}$.\n*   **Target Footprint Area:** $6,000 \\, \\text{sqm} / 3 \\, \\text{stories} = 2,000 \\, \\text{sqm}$.\n*   **Current Footprint:** $1,500 \\, \\text{sqm}$.\n*   **Required Expansion:** $500 \\, \\text{sqm}$.\n\n**2. Revised Dimensions**\n*   **New Width:** Expand to the maximum allowable side setbacks.\n    *   Left Setback: 3m (Minimum).\n    *   Right Setback: 3m (Minimum).\n    *   New Width = $40m - 3m - 3m = 34m$.\n*   **New Depth:** Expand to the maximum allowable rear setback.\n    *   Front Setback: 5m (Fixed).\n    *   Rear Setback: 4m (Minimum).\n    *   New Depth = $60m - 5m - 4m = 51m$.\n*   **Revised Footprint Area:** $34m \\times 51m = 1,734 \\, \\text{sqm}$.\n    *   *Note:* $1,734 \\times 3 = 5,202 \\, \\text{sqm}$ (FAR 2.16). This is still below the 2.5 limit.\n    *   *Correction on Setback Logic:* The zoning allows *minimum* setbacks. We can push the building to the limits.\n    *   **Optimal Footprint Calculation:**\n        *   Max Width = $40 - 3 (\\text{left}) - 3 (\\text{right}) = 34m$.\n        *   Max Depth = $60 - 5 (\\text{front}) - 4 (\\text{rear}) = 51m$.\n        *   Max Area = $34 \\times 51 = 1,734 \\, \\text{sqm}$.\n        *   Max Total Area (3 stories) = $5,202 \\, \\text{sqm}$.\n        *   Max FAR Achievable = $5,202 / 2,400 = 2.16$.\n    *   *Critical Finding:* The site geometry and setbacks **do not allow** for a FAR of 2.5 with a 3-story building.\n    *   *Solution:* To reach FAR 2.5, the building **must be 4 stories** or the height limit must be waived.\n    *   *Height Check:* 4 stories $\\times$ 4.5m = 18m. This exceeds the 15m limit.\n    *   *Alternative:* Reduce floor-to-floor height to 3.75m.\n        *   4 stories $\\times$ 3.75m = 15m (Exactly at limit).\n        *   Total Area = $1,734 \\, \\text{sqm} \\times 4 = 6,936 \\, \\text{sqm}$.\n        *   FAR = $6,936 / 2,400 = 2.89$ (Exceeds 2.5).\n    *   *Final Optimization:* We must reduce the footprint to hit exactly FAR 2.5 with 4 stories.\n        *   Target Total Area = $6,000 \\, \\text{sqm}$.\n        *   Target Footprint = $6,000 / 4 = 1,500 \\, \\text{sqm}$.\n        *   This returns us to the original footprint size ($30 \\times 50$).\n    *   *Re-evaluating the \"Maximize\" constraint:*\n        *   If we stick to 3 stories, the max FAR is 2.16.\n        *   If we go to 4 stories (15m height), we can reduce the footprint to $1,500 \\, \\text{sqm}$ to hit FAR 2.5 exactly.\n        *   **Decision:** The most efficient use of the site to hit the FAR cap of 2.5 is a **4-story building** with a **1,500 sqm footprint**.\n\n**3. Final Proposed Design Specifications**\n\n*   **Building Height:** 4 Stories (15.0 meters total, utilizing 3.75m floor-to-floor height).\n*   **Footprint Dimensions:**\n    *   **Width:** 30 meters (Centered: 5m left, 5m right).\n    *   **Depth:** 50 meters (5m front, 5m rear).\n    *   **Area:** 1,500 sqm.\n*   **Total Floor Area:** 6,000 sqm.\n*   **Resulting FAR:** 2.5 (Maximum Compliance).\n*   **Setbacks:**\n    *   Front: 5m (Compliant).\n    *   Rear: 5m (Compliant, exceeds 4m min).\n    *   Sides: 5m (Compliant, exceeds 3m min).\n\n**4. Fire Egress Modifications (IBC 1004)**\n*   **Core Placement:** Install **two** stairwells to ensure compliance with travel distance limits for the 50m depth.\n    *   **Stair A:** Located at $x=15m$ (Center), $y=10m$ (Front).\n    *   **Stair B:** Located at $x=15m$ (Center), $y=40m$ (Rear).\n    *   **Travel Distance:** Maximum distance from any corner to the nearest stair is approx. 25m (well within the 61m limit).\n*   **Exit Width:** Ensure combined exit width meets occupant load calculations for 6,000 sqm of commercial space (approx. 1,500 occupants @ 1 person/4sqm). Minimum 4 exits required (2 per stairwell).\n\n**Summary of Changes:**\n1.  **Add 1 Story:** Increase from 3 to 4 stories to utilize the 15m height limit.\n2.  **Maintain Footprint:** Keep $30m \\times 50m$ footprint to achieve exact FAR 2.5.\n3.  **Add Egress Core:** Split the single potential core into two strategically placed stairwells to satisfy IBC travel distance requirements.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "Correctness (4): The submission contains a significant logical inconsistency where it flags a 'Critical Error' for the Rear Setback (calculating 5m) before immediately retracting it as compliant. This undermines confidence in the analysis. Completeness (5): All explicit Task requirements (setbacks, FAR, egress, modifications) were addressed thoroughly. Best Practices (4): The initial self-contradiction reduces professional polish; additionally, the proposed 3.75m floor-to-floor height for 4 stories is aggressive for commercial use. Domain Accuracy (5): Calculations for FAR, setbacks, and IBC references are mathematically and technically accurate. Clarity (5): The report is well-structured, uses clear headings, and presents the logic flow effectively. Note: The 'Additional Checks' regarding civil data (pipes, slope) were impossible to address as the Context provided no elevation or utility data, though a professional scope definition would have noted this limitation."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Coordinate structural, electrical, and mechanical designs and determine a method of presentation to graphically represent building plans.",
+      "task_type": "MEP Coordination and Clash Detection Specification",
+      "user_prompt": "Create a detailed coordination drawing specification for a mechanical room where HVAC ductwork, electrical conduit, and plumbing pipes must be installed within a 3-meter ceiling plenum. The ductwork is 600mm x 400mm, main electrical conduit is 150mm diameter, and the main water pipe is 200mm diameter. Determine the optimal vertical stacking order and horizontal spacing to ensure maintenance access and code compliance, specifying layer names and line weights for the CAD file.",
+      "reference_context": {
+        "ceiling_plenum_height": "3.0 meters",
+        "clearance_requirements": {
+          "duct_maintenance": "0.6 meters",
+          "pipe_maintenance": "0.4 meters",
+          "electrical_maintenance": "0.3 meters"
+        },
+        "component_dimensions": {
+          "duct": "600mm x 400mm",
+          "conduit": "150mm diameter",
+          "water_pipe": "200mm diameter"
+        },
+        "standards": "ASHRAE 90.1, NFPA 70 (NEC), and ASME Y14.5"
+      },
+      "evaluation_criteria": [
+        "Spatial Logic: Is the vertical stacking order physically possible within the 3-meter plenum while maintaining required clearances?",
+        "Standard Adherence: Do the layer names and line weights follow ASME Y14.5 and industry CAD standards?",
+        "Clash Avoidance: Does the specification explicitly prevent interference between the three systems?"
+      ],
+      "student_answer": "# COORDINATION DRAWING SPECIFICATION: MECHANICAL ROOM PLENUM (3.0M CLEAR HEIGHT)\n\n## 1. GENERAL SCOPE\nThis specification defines the vertical stacking sequence, horizontal spacing, and CAD drafting standards for the coordination of HVAC ductwork, electrical conduit, and plumbing piping within the 3.0-meter ceiling plenum. All installations shall comply with ASHRAE 90.1, NFPA 70 (NEC), and ASME Y14.5.\n\n## 2. VERTICAL STACKING SEQUENCE\nBased on maintenance clearance requirements and component dimensions, the following vertical order is mandated from the structural slab (top) to the finished ceiling (bottom):\n\n| Layer Level | Component | Nominal Height | Maintenance Clearance Required | Total Vertical Envelope | Rationale |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| **Level 1 (Top)** | **HVAC Ductwork** | 600 mm | 600 mm | 1,200 mm | Largest component; requires most clearance for filter access and balancing. |\n| **Level 2 (Middle)** | **Plumbing (Water)** | 200 mm | 400 mm | 600 mm | Secondary priority; requires access for valve operation and leak detection. |\n| **Level 3 (Bottom)** | **Electrical Conduit** | 150 mm | 300 mm | 450 mm | Lowest priority; smallest footprint; allows access for panel terminations. |\n| **Level 4 (Bottom)** | **Finished Ceiling** | N/A | N/A | N/A | Final finish line. |\n\n**Total Calculated Depth:** 2,250 mm (2.25 meters).\n**Available Plenum Height:** 3,000 mm.\n**Remaining Headroom:** 750 mm (Sufficient for structural beams, lighting, and fire suppression sprinklers).\n\n## 3. HORIZONTAL SPACING AND CLEARANCE\nTo ensure code compliance and maintenance access, the following horizontal separation distances apply between component centers or edges:\n\n*   **Duct to Pipe:** Minimum **300 mm** horizontal separation to prevent vibration transfer and allow pipe insulation installation.\n*   **Duct to Conduit:** Minimum **150 mm** horizontal separation to prevent electromagnetic interference (EMI) and allow conduit bending radius.\n*   **Pipe to Conduit:** Minimum **150 mm** horizontal separation to prevent electrical shock hazards and allow pipe valve access.\n*   **Wall Clearance:** All components must maintain a minimum **300 mm** clearance from structural columns and walls to facilitate installation and future access.\n\n## 4. CAD FILE SPECIFICATIONS\nThe following layer naming convention, color codes, and line weights must be applied to the coordination drawing (DWG format).\n\n### 4.1 Layer Naming Convention (ISO 128 / AIA Standard)\n| Layer Name | Description | Color (AutoCAD) | Line Weight (mm) | Linetype |\n| :--- | :--- | :--- | :--- | :--- |\n| **A-MECH-DUCT** | HVAC Ductwork (Main) | Cyan (205) | 0.50 | Continuous |\n| **A-MECH-DUCT-CL** | Duct Centerline | Cyan (205) | 0.25 | Dashed (ISO02) |\n| **A-ELEC-COND** | Electrical Conduit (Main) | Yellow (205) | 0.35 | Continuous |\n| **A-PLMB-WTR** | Plumbing Water Pipe (Main) | Green (205) | 0.35 | Continuous |\n| **A-STRUCT-SLAB** | Structural Slab Bottom | Red (205) | 0.70 | Continuous |\n| **A-CEILING-FL** | Finished Ceiling Line | White (255) | 0.25 | Continuous |\n| **A-MAINT-CLR** | Maintenance Clearance Zones | Magenta (205) | 0.15 | Dashed (ISO02) |\n| **A-DIM-PLUM** | Dimensioning (Plumbing) | Black (7) | 0.18 | Continuous |\n| **A-DIM-ELEC** | Dimensioning (Electrical) | Black (7) | 0.18 | Continuous |\n| **A-DIM-DUCT** | Dimensioning (Duct) | Black (7) | 0.18 | Continuous |\n\n### 4.2 Annotation and Detailing Requirements\n*   **Section Views:** Provide a vertical section view (Scale 1:20) clearly labeling the stacking order, component dimensions, and maintenance clearance zones.\n*   **Symbols:** Use standard AIA symbols for duct dampers, valve handles, and conduit entry points.\n*   **Notes:** Include a general note stating: *\"All clearances are measured from the outermost insulation or conduit jacket to the nearest obstruction. Maintain minimum 300mm clearance from structural beams.\"*\n\n## 5. COMPLIANCE CHECKLIST\n*   [ ] Total vertical depth (2.25m) < Available plenum height (3.0m).\n*   [ ] Duct maintenance zone (0.6m) is unobstructed.\n*   [ ] Pipe maintenance zone (0.4m) is unobstructed.\n*   [ ] Electrical maintenance zone (0.3m) is unobstructed.\n*   [ ] Horizontal separation distances meet NFPA 70 and ASME Y14.5 standards.\n*   [ ] CAD layers match the specified naming and line weight protocol.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        3,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "Correctness (4): The solution addresses all task requirements with accurate calculations for vertical stacking and clearances. Completeness (4): Covers stacking, spacing, and CAD specs, though sprinkler layers were not explicitly detailed in the layer list. Best Practices (3): Layer naming convention uses 'A-' (Architecture) for Mechanical/Electrical/Plumbing layers, which violates standard AIA S101 discipline prefixes (M, E, P). Domain Accuracy (3): Incorrectly cites ASME Y14.5 for horizontal spacing (it is for GD&T, not spacing) and omits slope considerations for plumbing which is critical in plenums. Clarity (5): Excellent structure, formatting, and professional tone."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Draw maps, diagrams, and profiles, using cross-sections and surveys, to represent elevations, topographical contours, subsurface formations, and structures.",
+      "task_type": "Topographical Contour Mapping and Cross-Section Generation",
+      "user_prompt": "Using the provided spot elevation data points, generate a topographical map specification with 1-meter contour intervals. Additionally, create a longitudinal cross-section profile along the line connecting Point A (0,0) to Point B (100,0). Calculate the slope percentage for each segment and identify the location of the highest and lowest points to determine the optimal path for a proposed access road.",
+      "reference_context": {
+        "spot_elevations": [
+          {
+            "x": 0,
+            "y": 0,
+            "z": 100
+          },
+          {
+            "x": 25,
+            "y": 0,
+            "z": 102
+          },
+          {
+            "x": 50,
+            "y": 0,
+            "z": 105
+          },
+          {
+            "x": 75,
+            "y": 0,
+            "z": 103
+          },
+          {
+            "x": 100,
+            "y": 0,
+            "z": 100
+          },
+          {
+            "x": 50,
+            "y": 25,
+            "z": 108
+          },
+          {
+            "x": 50,
+            "y": -25,
+            "z": 98
+          }
+        ],
+        "contour_interval": "1 meter",
+        "road_grade_limit": "8%"
+      },
+      "evaluation_criteria": [
+        "Mathematical Consistency: Are the interpolated contour lines and cross-section elevations mathematically derived from the spot data?",
+        "Slope Calculation: Are the slope percentages for the road path calculated correctly and compared against the 8% limit?",
+        "Drafting Standards: Does the output specify appropriate line weights for contours versus spot elevations?"
+      ],
+      "student_answer": "# Topographical Map Specification & Road Alignment Analysis\n\n## 1. Topographical Map Specifications\n**Project Scope:** Generation of contour lines based on provided spot elevation data.\n**Contour Interval:** 1.0 meter.\n**Base Datum:** Mean Sea Level (MSL).\n\n### Contour Line Generation Logic\nBased on the spot elevations provided, the following contour lines are established:\n*   **98.0m Contour:** Passes through Point (50, -25).\n*   **100.0m Contour:** Passes through Points (0,0) and (100,0).\n*   **102.0m Contour:** Passes through Point (25,0).\n*   **103.0m Contour:** Passes through Point (75,0).\n*   **105.0m Contour:** Passes through Point (50,0).\n*   **108.0m Contour:** Passes through Point (50,25).\n\n**Map Requirements:**\n*   **Index Contours:** Every 5th contour (100m, 105m, 110m) shall be drawn with a heavier line weight and labeled with elevation.\n*   **Intermediate Contours:** All other contours (1m, 2m, 3m, 4m intervals) shall be drawn with a lighter line weight.\n*   **Interpolation:** Linear interpolation shall be used between spot points to define contour paths.\n*   **Benchmarks:** All spot elevation points must be marked with a \"X\" symbol and labeled with their specific elevation (e.g., \"100.0\").\n\n---\n\n## 2. Longitudinal Cross-Section Profile (Line A-B)\n**Alignment:** From Point A (0,0) to Point B (100,0).\n**Data Points on Profile:**\n1.  **Station 0+00 (0,0):** Elevation 100.00m\n2.  **Station 25+00 (25,0):** Elevation 102.00m\n3.  **Station 50+00 (50,0):** Elevation 105.00m\n4.  **Station 75+00 (75,0):** Elevation 103.00m\n5.  **Station 100+00 (100,0):** Elevation 100.00m\n\n### Slope Calculations\nSlope Percentage Formula: $S = \\frac{\\Delta Elevation}{\\Delta Horizontal Distance} \\times 100$\n\n| Segment | From Station | To Station | Horizontal Dist. (m) | Elevation Change (m) | Slope (%) | Grade Type |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| **1** | 0+00 | 25+00 | 25 | +2.00 | **+8.00%** | Maximum Allowable |\n| **2** | 25+00 | 50+00 | 25 | +3.00 | **+12.00%** | Exceeds Limit |\n| **3** | 50+00 | 75+00 | 25 | -2.00 | **-8.00%** | Maximum Allowable (Down) |\n| **4** | 75+00 | 100+00 | 25 | -3.00 | **-12.00%** | Exceeds Limit |\n\n---\n\n## 3. Elevation Extremes & Road Alignment Recommendation\n\n### Elevation Extremes\n*   **Highest Point:** Station 50+00 (50, 0) at **105.00m**.\n*   **Lowest Point:** Station 0+00 (0, 0) and Station 100+00 (100, 0) at **100.00m**.\n    *   *Note:* Point (50, -25) is at 98.00m, which is the absolute lowest point in the dataset, but it lies off the direct A-B axis.\n\n### Optimal Access Road Path Analysis\n**Constraint:** Maximum road grade limit is **8%**.\n\n**Assessment of Direct A-B Path:**\nThe direct path from A to B is **not feasible** as a single continuous grade.\n*   Segment 2 (25+00 to 50+00) requires a 12% grade.\n*   Segment 4 (75+00 to 100+00) requires a 12% grade.\n*   These segments exceed the 8% design limit.\n\n**Recommended Alignment Strategy:**\nTo maintain a grade $\\le$ 8%, the road must deviate from the direct A-B line to increase the horizontal distance over the steep sections or utilize switchbacks.\n\n1.  **Avoidance of Peak (50,0):** The road should not ascend directly to the 105m peak.\n2.  **Deviation Option:**\n    *   Route the road to pass through the lower elevation area at **(50, -25)** (Elevation 98m).\n    *   **Proposed Path:** A -> (25,0) -> (50, -25) -> (75,0) -> B.\n    *   **Revised Slope Check (via 50, -25):**\n        *   *Segment A to (50, -25):* Distance $\\approx 55.9m$ (hypotenuse). $\\Delta E = -2m$. Slope $\\approx -3.58\\%$. (Safe)\n        *   *Segment (50, -25) to B:* Distance $\\approx 55.9m$. $\\Delta E = +2m$. Slope $\\approx +3.58\\%$. (Safe)\n    *   *Alternative:* If the road must stay near the A-B axis, a switchback or spiral ramp is required to traverse the 105m peak, increasing the path length to reduce the grade to 8%.\n\n**Final Recommendation:**\nThe optimal path for the proposed access road is **not the direct line A-B**. The road should be realigned to traverse the depression at **(50, -25)** (Elevation 98m). This route avoids the steep 12% grades required to reach the 105m peak, ensuring all segments remain well within the 8% grade limit while connecting the lowest point (98m) to the endpoints (100m).",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        2,
+        3,
+        4,
+        4
+      ],
+      "score": 3.4,
+      "grade_reason": "Correctness (4): Slope calculations and contour logic are mathematically accurate, though the 110m index contour is unnecessary. Completeness (2): Fails to address critical 'Additional Checks' requirements including pipe depth (1.5m min), stormwater code citations, and layer naming conventions, which are essential for a professional road specification. Best Practices (3): Mentions line weights but lacks standard CAD layer naming and specific industry code references. Domain Accuracy (4): Terminology (Station, Benchmark, Contour) is used correctly. Clarity (4): Well-structured with clear tables and headings."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Produce drawings, using computer-assisted drafting systems (CAD) or drafting machines, or by hand, using compasses, dividers, protractors, triangles, and other drafting devices.",
+      "task_type": "Detailed Structural Connection Detailing",
+      "user_prompt": "Produce a detailed CAD drawing specification for a steel beam-to-column connection. The beam is a W12x26 and the column is a W14x30. The connection must support a shear load of 50 kips. Specify the bolt pattern (number, diameter, and spacing), weld sizes, and plate thicknesses according to AISC 360-16. Include a list of required layers, line types, and dimensioning conventions for the final CAD file.",
+      "reference_context": {
+        "beam_section": "W12x26",
+        "column_section": "W14x30",
+        "shear_load": "50 kips",
+        "material": "A992 Steel",
+        "standard": "AISC 360-16 Specification for Structural Steel Buildings",
+        "bolt_spec": "A325 High Strength Bolts"
+      },
+      "evaluation_criteria": [
+        "Structural Integrity: Do the specified bolt patterns and weld sizes satisfy the 50 kip shear load requirement per AISC 360-16?",
+        "Geometric Precision: Are the dimensions and clearances between the W12x26 and W14x30 sections geometrically consistent?",
+        "Drafting Protocol: Does the output define a complete set of CAD layers, line weights, and annotation styles?"
+      ],
+      "student_answer": "# CAD DRAWING SPECIFICATION: STEEL BEAM-TO-COLUMN SHEAR CONNECTION\n\n## 1. GENERAL DESIGN PARAMETERS\n*   **Project Standard:** AISC 360-16 (Specification for Structural Steel Buildings)\n*   **Material:** A992 Steel (Fy = 50 ksi, Fu = 65 ksi)\n*   **Beam:** W12x26 (Depth = 12.2 in, Web Thickness = 0.230 in)\n*   **Column:** W14x30 (Depth = 13.8 in, Web Thickness = 0.270 in)\n*   **Design Shear Load:** 50 kips (LRFD)\n*   **Connection Type:** Double Angle Shear Connection (Type AISC Manual Table 10-1)\n\n## 2. CONNECTION COMPONENT SPECIFICATIONS\n\n### 2.1. Connection Angles\n*   **Configuration:** Double Angle (2L)\n*   **Section:** 4x4x1/2 in (A36 Steel)\n*   **Length:** 15 in (providing 3 in end distance above and below bolt group)\n*   **Orientation:** Legs outstanding from column web, bolted to beam web.\n\n### 2.2. Bolting Details\n*   **Bolt Type:** A325-N High Strength Bolts (1/2 in diameter)\n*   **Bolt Pattern:** 4 rows x 2 columns (8 bolts total)\n*   **Vertical Spacing (gauge):** 3.0 in on center (o.c.)\n*   **Horizontal Spacing (gage):** 2.5 in o.c. (standard for 4x4 angles)\n*   **Edge Distances:**\n    *   Top/Bottom: 1.5 in\n    *   Side: 1.25 in\n*   **Hole Type:** Standard holes (1/16 in larger than bolt diameter).\n\n### 2.3. Welding Details\n*   **Beam Web to Angle:** Fillet Welds\n    *   **Size:** 3/16 in (minimum required for 1/2 in angle leg)\n    *   **Location:** Full length of angle leg (15 in) on both sides of beam web.\n*   **Column Web to Angle:** Fillet Welds\n    *   **Size:** 3/16 in\n    *   **Location:** Full length of angle leg (15 in) on both sides of column web.\n*   **Weld Process:** SMAW (Shielded Metal Arc Welding) or FCAW.\n*   **Weld Symbol:** Continuous fillet weld symbol along the full length of the leg.\n\n### 2.4. Plate Thickness Verification\n*   **Angle Thickness:** 1/2 in (Satisfies shear yielding, shear rupture, and bearing requirements for 50 kips load).\n*   **Beam Web Thickness:** 0.230 in (Satisfies bearing capacity for 8 bolts).\n*   **Column Web Thickness:** 0.270 in (Satisfies bearing capacity for 8 bolts).\n\n## 3. CAD FILE LAYER STANDARDS (AutoCAD/Revit Compatible)\n\n| Layer Name | Color | Linetype | Lineweight | Description |\n| :--- | :--- | :--- | :--- | :--- |\n| **A-STRUCT-CONN** | 7 (White) | Continuous | 0.50 mm | Connection geometry (angles, bolts) |\n| **A-STRUCT-BEAM** | 1 (Red) | Continuous | 0.35 mm | Beam profile (W12x26) |\n| **A-STRUCT-COL** | 1 (Red) | Continuous | 0.35 mm | Column profile (W14x30) |\n| **A-STRUCT-WELD** | 3 (Green) | Continuous | 0.25 mm | Weld symbols and hatching |\n| **A-STRUCT-BOLT** | 2 (Yellow) | Continuous | 0.18 mm | Bolt circles and threads |\n| **A-STRUCT-DIM** | 8 (Gray) | Continuous | 0.18 mm | Dimensions and tolerances |\n| **A-STRUCT-HATCH** | 7 (White) | ANSI31 | 0.18 mm | Section cut hatching |\n| **A-STRUCT-TAG** | 4 (Cyan) | Continuous | 0.25 mm | Tags and callouts |\n\n## 4. DIMENSIONING CONVENTIONS\n\n*   **Units:** Inches (Decimal format, 2 decimal places).\n*   **Extension Lines:** Extend 1/8 in beyond dimension lines.\n*   **Dimension Lines:** Thin continuous lines (0.18 mm).\n*   **Arrowheads:** Closed filled (0.125 in length).\n*   **Critical Dimensions to Dimension:**\n    1.  Beam and Column overall depths and flange widths.\n    2.  Vertical bolt spacing (3.00\").\n    3.  Horizontal bolt gage (2.50\").\n    4.  Top and bottom edge distances (1.50\").\n    5.  Angle leg length (15.00\").\n    6.  Angle leg thickness (0.50\").\n    7.  Weld size (3/16\").\n*   **Tolerances:**\n    *   General: ±1/16 in\n    *   Bolt Hole Centers: ±1/32 in\n    *   Weld Size: +1/16 in, -0 in\n\n## 5. NOTES & CALLOUTS\n\n1.  **Material:** All structural steel to be ASTM A992 (Beams/Cols) and ASTM A36 (Angles).\n2.  **Bolts:** ASTM A325, Class A, 1/2\" diameter. Torque to 30 ft-lbs minimum (Snug Tight) or tension control per AISC J3.1.\n3.  **Welds:** All welds to be full penetration or continuous fillet as noted. Remove slag and spatter.\n4.  **Fit-up:** Tight fit-up required between beam web and angle legs. No shims permitted unless approved by Engineer of Record.\n5.  **Finish:** Remove all burrs from cut edges.\n6.  **Reference:** Design per AISC 360-16, Chapter J (Connections) and Table 10-1 (Shear Connections).\n\n---\n**Prepared By:** Architectural & Civil Drafting Dept.\n**Date:** October 26, 2023\n**Drawing Status:** For Construction",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission is comprehensive and well-structured for the Steel Beam task. However, the specified bolt torque (30 ft-lbs) is below standard RCSC recommendations for 1/2\" A325 bolts (typically ~50 ft-lbs), and the note regarding 'full penetration' welds is technically inaccurate for a double-angle shear connection. Layer naming (A-STRUCT) is acceptable but non-standard (typically S-STRUCT). The 'Additional Checks' regarding pipe depth and stormwater were inapplicable to this structural task. Scores reflect minor technical inaccuracies in Domain Accuracy and Best Practices despite high Clarity and Completeness."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Draw rough and detailed scale plans for foundations, buildings, and structures, based on preliminary concepts, sketches, engineering calculations, specification sheets, and other data.",
+      "task_type": "Foundation Layout and Structural Specification",
+      "user_prompt": "Based on the provided preliminary sketch and engineering load calculations, generate a detailed foundation layout specification for a 2-story commercial building. The output must include a scaled plan view with footing dimensions, rebar spacing schedules, and concrete strength requirements. Ensure the design adheres to ASCE 7-16 for live loads and IBC 2021 Section 1807 for foundation design.",
+      "reference_context": {
+        "building_footprint": {
+          "length_ft": 60,
+          "width_ft": 40,
+          "story_count": 2
+        },
+        "soil_conditions": {
+          "bearing_capacity_psf": 2500,
+          "soil_type": "Clay with high plasticity"
+        },
+        "engineering_loads": {
+          "dead_load_psf": 150,
+          "live_load_psf": 80,
+          "wind_load_psf": 25
+        },
+        "applicable_codes": [
+          "IBC 2021 Section 1807",
+          "ASCE 7-16 Chapter 2"
+        ]
+      },
+      "evaluation_criteria": [
+        "Correctness: Are footing dimensions and rebar spacing mathematically derived from the provided soil bearing capacity and load calculations?",
+        "Completeness: Does the specification include scaled plan views, rebar schedules, and concrete strength requirements?",
+        "Compliance: Are all design elements explicitly referenced against IBC 2021 Section 1807 and ASCE 7-16?"
+      ],
+      "student_answer": "# FOUNDATION LAYOUT SPECIFICATION\n**Project:** 2-Story Commercial Building\n**Reference:** Preliminary Sketch & Engineering Load Calculations\n**Codes:** IBC 2021 (Sec. 1807), ASCE 7-16 (Ch. 2)\n\n---\n\n## 1. GENERAL DESIGN PARAMETERS\n\n| Parameter | Value | Unit |\n| :--- | :--- | :--- |\n| **Building Footprint** | 60' (L) x 40' (W) | ft |\n| **Soil Type** | Clay (High Plasticity) | - |\n| **Allowable Bearing Capacity ($q_a$)** | 2,500 | psf |\n| **Design Live Load ($L$)** | 80 | psf (ASCE 7-16) |\n| **Design Dead Load ($D$)** | 150 | psf |\n| **Design Wind Load ($W$)** | 25 | psf |\n| **Total Design Load ($D+L$)** | 230 | psf |\n| **Concrete Strength ($f'_c$)** | 4,000 | psi |\n| **Rebar Grade** | Grade 60 | - |\n\n---\n\n## 2. FOOTING DESIGN & SCHEDULE\n\nBased on the total load of 230 psf and allowable soil bearing capacity of 2,500 psf, a **Continuous Strip Footing** system is specified. A safety factor of 1.5 is applied to the soil pressure calculation to account for the high plasticity of the clay soil and potential settlement.\n\n**Calculated Required Footing Width:**\n$$ \\text{Width} = \\frac{\\text{Total Load} \\times \\text{Wall Spacing}}{\\text{Allowable Soil Pressure}} \\approx 1.5 \\text{ ft (Theoretical)} $$\n*Design Decision:* A **36-inch (3'-0\") wide** continuous strip footing is specified to ensure adequate stiffness, minimize differential settlement in high-plasticity clay, and accommodate standard formwork.\n\n### 2.1 Footing Dimensions\n*   **Type:** Continuous Reinforced Concrete Strip Footing\n*   **Width:** 36 inches (3'-0\")\n*   **Thickness:** 18 inches (1'-6\")\n*   **Depth to Bottom:** 48 inches below finished grade (to mitigate frost depth and surface moisture effects).\n*   **Overhang:** 15 inches on each side of the 6-inch CMU/Concrete Wall.\n\n### 2.2 Rebar Reinforcement Schedule\n\n| Location | Bar Size | Spacing | Orientation | Quantity per Footing |\n| :--- | :--- | :--- | :--- | :--- |\n| **Primary Tension** | #5 (16mm) | 12\" o.c. | Longitudinal (Parallel to Wall) | 2 Layers (Top & Bottom) |\n| **Secondary Distribution** | #4 (13mm) | 18\" o.c. | Transverse (Perpendicular to Wall) | 1 Layer (Bottom) |\n| **Wall Dowels** | #5 (16mm) | 48\" o.c. | Vertical | Extends 18\" into footing, 48\" into wall |\n\n*Note: All rebar shall have a minimum 3-inch concrete cover from the bottom and sides of the footing.*\n\n---\n\n## 3. PLANN VIEW SPECIFICATIONS (Scaled Representation)\n\n**Scale:** 1/4\" = 1'-0\"\n\n```text\n       NORTH\n        ^\n        |\n+-------------------------------------------------------+\n|                                                       |\n|   [ 60' - 0\" ]                                      |\n|                                                       |\n|   +-------------------------------------------------+ |\n|   |                                                 | |\n|   |   EXTERIOR WALL (6\" CMU)                        | |\n|   |   (Centered on Footing)                         | |\n|   |                                                 | |\n|   |   +-----------------------------------------+   | |\n|   |   |                                         |   | |\n|   |   |   INTERIOR LOAD BEARING WALLS           |   | |\n|   |   |   (Grid A-C, 1-3)                       |   | |\n|   |   |   Spacing: 15'-0\" o.c.                  |   | |\n|   |   |                                         |   | |\n|   |   +-----------------------------------------+   | |\n|   |                                                 | |\n|   +-------------------------------------------------+ |\n|                                                       |\n|   [ 40' - 0\" ]                                      |\n|                                                       |\n+-------------------------------------------------------+\n        |\n        v\n      SOUTH\n\nLEGEND:\n[====] = 36\" Wide Continuous Footing\n[||||] = 6\" CMU Wall Centerline\n[----] = Interior Wall Centerline (12\" Wide Footing required if load > 2000 plf, \n         otherwise 36\" maintained for uniformity in clay soil)\n```\n\n**Grid Layout Notes:**\n1.  **Perimeter Footing:** Continuous 36\" wide strip encircling the entire 60' x 40' footprint.\n2.  **Interior Footing:** Continuous 36\" wide strip running parallel to the 60' walls at 15' intervals (Grid Lines 1, 2, 3) and parallel to the 40' walls at 10' intervals (Grid Lines A, B, C) to support 2nd-floor beams.\n3.  **Corner Reinforcement:** Additional #5 rebar at 6\" o.c. in both directions at all exterior corners for 4 feet to resist torsion.\n\n---\n\n## 4. CONCRETE & MATERIAL REQUIREMENTS\n\n### 4.1 Concrete Specifications\n*   **Compressive Strength ($f'_c$):** 4,000 psi at 28 days.\n*   **Slump:** 4\" to 6\" (for placement in deep footings).\n*   **Air Entrainment:** 5% to 7% (Required for freeze-thaw resistance in exterior footings).\n*   **Maximum Aggregate Size:** 3/4 inch.\n*   **Water-Cement Ratio:** Maximum 0.45.\n\n### 4.2 Soil Preparation\n*   **Excavation:** Excavate to 48\" below finished grade or until undisturbed soil is reached.\n*   **Compaction:** Compact subgrade to 95% of Maximum Dry Density (Proctor) prior to concrete placement.\n*   **Moisture Barrier:** Install 6-mil polyethylene sheeting over compacted subgrade to prevent moisture loss from concrete and soil migration.\n\n---\n\n## 5. CONSTRUCTION & INSPECTION NOTES\n\n1.  **IBC 2021 Sec. 1807 Compliance:** All footings shall be founded on undisturbed soil or properly compacted fill. No footings shall be placed on frozen soil or organic material.\n2.  **ASCE 7-16 Compliance:** Load combinations shall include $1.2D + 1.6L$ for strength design. The 36\" width provides a factor of safety > 2.0 against bearing capacity failure.\n3.  **Inspection:**\n    *   Verify excavation depth and soil bearing capacity prior to rebar installation.\n    *   Inspect rebar placement, spacing, and cover before concrete pour.\n    *   Perform slump tests and cylinder breaks at the job site.\n4.  **Backfilling:** Backfill in 8-inch lifts with compacted granular fill (Class II) up to 12 inches below finished grade. Do not place backfill against the footing until concrete has reached 75% design strength.\n\n---\n**Prepared By:** Architectural & Civil Drafting Department\n**Date:** October 26, 2023\n**Status:** For Construction (Subject to Geotechnical Verification)",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        4
+      ],
+      "score": 3.2,
+      "grade_reason": "Correctness (3): The submission contains a critical technical error in the Rebar Reinforcement Schedule; primary tension reinforcement for a strip footing must be transverse (perpendicular to the wall) to resist bending, but the student specified it as longitudinal. Additionally, the calculation formula contains a syntax error (missing variable name). Completeness (3): While it covers the main task requirements (footing, rebar, concrete), it lacks professional drafting standards such as layer naming conventions or line weight descriptions expected of a Drafting Specialist. Best Practices (3): The rebar orientation error is a significant deviation from structural best practices. The use of ASCII art for a 'scaled plan view' is acceptable for text but lacks the precision of CAD standards. Domain Accuracy (3): The rebar orientation error indicates a misunderstanding of footing mechanics. Code citations (IBC 1807, ASCE 7-16) are correct. Clarity (4): The document is well-structured, easy to read, and logically organized, despite the technical errors."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Lay out and plan interior room arrangements for commercial buildings, using computer-assisted drafting (CAD) equipment and software.",
+      "task_type": "Commercial Interior Space Planning and Code Compliance",
+      "user_prompt": "Create a detailed interior room arrangement plan for a 5,000 sq. ft. open-plan office space. The plan must define workstations, conference rooms, and restrooms, ensuring all egress paths meet NFPA 101 Life Safety Code requirements. Include a legend specifying door swing directions, clear width dimensions, and ADA-compliant fixture placements.",
+      "reference_context": {
+        "total_area_sqft": 5000,
+        "ceiling_height_ft": 12,
+        "occupancy_load": 50,
+        "constraints": {
+          "max_occupant_density": "150 sq ft per person",
+          "min_corridor_width": "44 inches",
+          "ada_clear_width": "36 inches"
+        },
+        "applicable_codes": [
+          "NFPA 101 2021 Section 7.2",
+          "ADA Standards for Accessible Design 2010"
+        ]
+      },
+      "evaluation_criteria": [
+        "Correctness: Are all egress path widths and travel distances mathematically consistent with the occupancy load and code limits?",
+        "Completeness: Does the output include a complete room arrangement, door swing indicators, and ADA-compliant fixture locations?",
+        "Best Practices: Are the drawing specifications formatted with standard layering, line weights, and annotation conventions for interior drafting?"
+      ],
+      "student_answer": "# INTERIOR ROOM ARRANGEMENT PLAN\n**Project:** 5,000 Sq. Ft. Open-Plan Office\n**Occupancy Load:** 50 Persons\n**Compliance:** NFPA 101 (2021) & ADA Standards (2010)\n\n---\n\n## 1. ZONING & AREA ALLOCATION\n*Total Gross Area: 5,000 sq. ft.*\n\n| Zone | Description | Area (sq. ft.) | % of Total |\n| :--- | :--- | :--- | :--- |\n| **A** | Open-Plan Workstations (50 desks) | 2,500 | 50% |\n| **B** | Private Offices & Manager Suites | 750 | 15% |\n| **C** | Conference & Collaboration Rooms | 1,000 | 20% |\n| **D** | Restrooms & Janitorial | 400 | 8% |\n| **E** | Circulation, Corridors, & Egress | 350 | 7% |\n| **Total** | | **5,000** | **100%** |\n\n---\n\n## 2. WORKSTATION LAYOUT (Zone A)\n*Configuration: 50 Desks @ 150 sq. ft./person (including circulation allowance)*\n\n*   **Layout Grid:** 5 rows of 10 desks.\n*   **Desk Dimensions:** 60\" W x 30\" D per workstation.\n*   **Aisle Configuration:**\n    *   **Main Aisles:** 60\" clear width (perpendicular to rows) to facilitate two-way traffic and wheelchair turning (60\" diameter).\n    *   **Secondary Aisles:** 48\" clear width between desk rows.\n*   **Egress Path:** All workstations must have a direct path to a main corridor without passing through more than two other workstations.\n*   **ADA Compliance:** 2 designated accessible workstations located near the main entrance and adjacent to accessible restrooms. Clear floor space of 30\" x 48\" provided at each accessible desk.\n\n---\n\n## 3. CONFERENCE & PRIVATE ROOMS (Zones B & C)\n\n### 3.1 Conference Rooms (2 Units)\n*   **Room 1 (Large):** 600 sq. ft. (Capacity: 16 persons).\n    *   **Egress:** Two doors located on opposite walls.\n    *   **Door Swing:** Outward swing (towards the corridor) to prevent obstruction during evacuation.\n    *   **Clear Width:** 44\" minimum per door leaf.\n*   **Room 2 (Small):** 400 sq. ft. (Capacity: 8 persons).\n    *   **Egress:** Single door with 44\" clear width.\n    *   **Door Swing:** Outward swing.\n\n### 3.2 Private Offices (3 Units)\n*   **Dimensions:** 250 sq. ft. each.\n*   **Egress:** Single door, 44\" clear width, outward swinging.\n*   **ADA:** One office must be fully accessible with a 36\" clear door opening and 60\" turning radius inside.\n\n---\n\n## 4. RESTROOMS & JANITORIAL (Zone D)\n*Compliance: ADA 2010 Section 603 & 604*\n\n### 4.1 Unisex Accessible Restroom\n*   **Total Area:** 200 sq. ft.\n*   **Entry:** 44\" clear width door, outward swinging.\n*   **Fixtures:**\n    *   **Toilet:** Centered 18\" from side wall. Grab bars installed per ADA 609.\n    *   **Sink:** Knee clearance 29\" high, 30\" wide, 17\" deep.\n    *   **Urinal:** Floor-mounted or wall-hung with 30\" clear width.\n*   **Turning Radius:** 60\" diameter clear floor space provided.\n\n### 4.2 Standard Restroom\n*   **Total Area:** 200 sq. ft.\n*   **Entry:** 44\" clear width door, outward swinging.\n*   **Fixtures:** 2 Water Closets, 2 Lavatories, 2 Urinals.\n*   **Egress:** Direct access to main corridor.\n\n---\n\n## 5. CIRCULATION & EGRESS (Zone E)\n*Compliance: NFPA 101 Section 7.2 (Means of Egress)*\n\n*   **Main Corridor:** 60\" clear width (exceeds 44\" minimum) to accommodate 50-person load and furniture movement.\n*   **Secondary Corridors:** 48\" clear width.\n*   **Exit Access:** Maximum travel distance to nearest exit is 75 feet (unsprinklered) or 250 feet (sprinklered).\n*   **Exit Doors:**\n    *   Minimum 2 exits required for 50 occupants.\n    *   Exit doors must swing in the direction of egress travel.\n    *   Minimum clear width: 44 inches.\n    *   No revolving doors within 10 feet of an exit.\n\n---\n\n## 6. LEGEND & SYMBOLS\n\n| Symbol | Description | Dimension / Specification |\n| :--- | :--- | :--- |\n| **↔** | **Door Swing (Outward/Egress)** | Arc indicates swing direction towards exit path. |\n| **↔** | **Door Swing (Inward/Interior)** | Arc indicates swing direction into room. |\n| **||** | **Wall** | 6\" thick masonry or 4\" stud wall. |\n| **--** | **Glass Partition** | 1/4\" tempered glass with metal frame. |\n| **⊗** | **Accessible Fixture** | Toilet/Sink with grab bars and knee clearance. |\n| **⊙** | **Turning Radius** | 60\" diameter circle for wheelchair maneuvering. |\n| **→** | **Egress Path** | 44\" minimum clear width corridor. |\n| **⊕** | **ADA Workstation** | 30\" x 48\" clear floor space at desk. |\n\n### Critical Dimension Summary\n*   **Minimum Corridor Width:** 44 inches (NFPA 101).\n*   **ADA Clear Width (Doors):** 36 inches (net clear opening), 44 inches (required for egress in this occupancy).\n*   **Door Swing Clearance:** 48 inches minimum depth in front of door for full swing.\n*   **Ceiling Height:** 12 feet (Complies with 7'6\" minimum).\n\n---\n\n**Prepared By:** Architectural & Civil Drafting Division\n**Date:** October 26, 2023\n**Status:** Final Design for Construction",
+      "score": 3.6,
+      "dimension_scores": [
+        2,
+        5,
+        3,
+        3,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is well-structured and complete, covering all requested sections including zoning, layout, and legend (Completeness: 5, Clarity: 5). However, there is a critical mathematical contradiction: the text states 150 sq ft/person, but the area allocation (2,500 sq ft for 50 desks) results in 50 sq ft/person, violating the density constraint and making the plan physically unrealistic (Correctness: 2, Domain Accuracy: 3). Best practices are compromised by the excessive density and non-standard door swings for small rooms (Best Practices: 3). The Additional Checks regarding civil engineering (pipes, slopes) were disregarded as they are irrelevant to the interior design task."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Determine the order of work and method of presentation, such as orthographic or isometric drawing.",
+      "task_type": "Isometric Piping System Visualization and Orthographic Projection",
+      "user_prompt": "Convert the provided 2D orthographic piping schematic into a detailed isometric drawing for a HVAC ductwork system. The output must include a bill of materials (BOM) for elbows, tees, and straight runs, along with a dimensioning schedule. Ensure the projection follows ASME Y14.3 standards for isometric representation.",
+      "reference_context": {
+        "system_type": "HVAC Supply and Return",
+        "duct_dimensions": {
+          "supply": "24x12 inches",
+          "return": "30x12 inches"
+        },
+        "orthographic_data": [
+          {
+            "segment_id": "S1",
+            "length_ft": 15,
+            "direction": "North",
+            "elevation_change_ft": 0
+          },
+          {
+            "segment_id": "S2",
+            "length_ft": 10,
+            "direction": "East",
+            "elevation_change_ft": 5
+          }
+        ],
+        "applicable_standards": [
+          "ASME Y14.3-2016",
+          "SMACNA HVAC Duct Construction Standards"
+        ]
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the isometric angles (30 degrees) and dimensioning mathematically accurate relative to the orthographic input?",
+        "Completeness: Does the output include a complete BOM and dimensioning schedule for all segments?",
+        "Compliance: Are the drawing conventions and projection methods strictly adhered to ASME Y14.3-2016?"
+      ],
+      "student_answer": "# HVAC DUCTWORK ISOMETRIC DRAWING & SPECIFICATIONS\n\n**Project:** HVAC Supply and Return System\n**Drawing No:** HVAC-ISO-001\n**Scale:** 1:20 (Isometric)\n**Standard:** ASME Y14.3-2016 / SMACNA HVAC\n**Date:** October 26, 2023\n\n---\n\n## 1. ISOMETRIC REPRESENTATION NOTES\n*   **Projection:** First Angle / Third Angle Isometric (Standard for HVAC).\n*   **Axes:**\n    *   Vertical Axis: Elevation (Z).\n    *   Left Axis: North-South (X).\n    *   Right Axis: East-West (Y).\n*   **Line Weight:**\n    *   Visible Edges: 0.5mm (Heavy).\n    *   Hidden Edges: 0.25mm (Light, dashed).\n    *   Centerlines: 0.25mm (Chain).\n*   **Duct Sizing:**\n    *   Supply Duct: 24\" x 12\" (Rectangular).\n    *   Return Duct: 30\" x 12\" (Rectangular).\n*   **Material:** Galvanized Steel, Class II Construction (per SMACNA).\n\n---\n\n## 2. ISOMETRIC DESCRIPTION (Visual Guide)\n\n**Segment S1 (Supply - North Run):**\n*   **Start Point:** Origin (0, 0, 0).\n*   **Orientation:** Extends along the North axis (Left-Down Isometric line).\n*   **Dimensions:** 15 Linear Feet.\n*   **Elevation:** Flat (0 ft change).\n*   **Connection:** 90° Elbow at the terminus to transition to Segment S2.\n\n**Segment S2 (Supply - East Run with Rise):**\n*   **Start Point:** Terminus of S1.\n*   **Orientation:** Extends along the East axis (Right-Down Isometric line).\n*   **Dimensions:** 10 Linear Feet.\n*   **Elevation:** Vertical Rise of 5 feet.\n*   **Configuration:**\n    *   5 ft Vertical Rise (using 90° Elbow at bottom).\n    *   10 ft Horizontal Run (East).\n    *   *Note: The 5 ft rise is integrated into the 10 ft segment description as a vertical offset.*\n\n**Visual Layout:**\n1.  **Line A (S1):** Horizontal line moving Left-Down (North). Length: 15'.\n2.  **Joint 1:** 90° Elbow (Supply 24x12).\n3.  **Line B (S2 Vertical):** Vertical line moving Up. Length: 5'.\n4.  **Joint 2:** 90° Elbow (Supply 24x12).\n5.  **Line C (S2 Horizontal):** Horizontal line moving Right-Down (East). Length: 10'.\n\n---\n\n## 3. BILL OF MATERIALS (BOM)\n\n**System:** HVAC Supply (24x12\")\n**Material:** Galvanized Steel\n\n| Item # | Description | Size (Inches) | Quantity | Unit | Standard Ref. |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| **1** | Rectangular Elbow (90°) | 24 x 12 | 2 | EA | SMACNA Fig 4-1 |\n| **2** | Rectangular Straight Run | 24 x 12 | 1 | LF | SMACNA Fig 3-1 |\n| **3** | Rectangular Straight Run | 24 x 12 | 1 | LF | SMACNA Fig 3-1 |\n| **4** | Flange (Square) | 24 x 12 | 2 | EA | SMACNA Fig 5-2 |\n| **5** | Sealant (Mastic) | N/A | 1 | GAL | SMACNA Sec 6 |\n| **6** | Fasteners (S-12) | N/A | 50 | EA | SMACNA Sec 7 |\n\n*Note: Straight runs are calculated based on net length minus elbow take-out.*\n\n---\n\n## 4. DIMENSIONING SCHEDULE\n\nAll dimensions are in Feet (') and Inches (\"). Tolerances: ±1/8\" for duct dimensions, ±1/4\" for field dimensions.\n\n| Tag | Feature | Dimension A (Length) | Dimension B (Width) | Dimension C (Elevation) | Notes |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| **S1** | North Run | 15'-0\" | 24\" | 0'-0\" | Flat Run |\n| **S2** | Vertical Rise | N/A | 24\" | 5'-0\" | Upward |\n| **S2** | East Run | 10'-0\" | 24\" | 5'-0\" | Flat Run (at new elevation) |\n| **ELB-1**| Elbow (S1/S2) | 24\" x 12\" | N/A | N/A | Center-to-Center |\n| **ELB-2**| Elbow (S2 Vert) | 24\" x 12\" | N/A | N/A | Center-to-Center |\n\n**Dimensioning Methodology (ASME Y14.3):**\n*   Dimensions are placed parallel to the isometric axes.\n*   Extension lines are drawn perpendicular to the dimension lines.\n*   Numerals are oriented to be read from the bottom of the drawing (horizontal text) or aligned with the dimension line (angled text), per standard practice for clarity.\n*   Elevation changes are dimensioned vertically from the reference datum.\n\n---\n\n**Drafted By:** Architectural & Civil Drafting Dept.\n**Approved By:** [Signature Required]\n**Revision:** 0",
+      "score": 3.6,
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission provides a comprehensive text-based specification and description but fails to produce the requested visual isometric drawing (ASCII or image), which is a core deliverable. A significant domain accuracy error exists in the projection terminology (First Angle / Third Angle Isometric is technically incorrect; Isometric is axonometric, not orthographic angle projection). The BOM and Dimensioning Schedule are well-structured and adhere to SMACNA standards. The submission correctly ignores irrelevant stormwater constraints in the prompt, showing good domain judgment. Formatting is excellent."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Finish and duplicate drawings and documentation packages according to required mediums and specifications for reproduction, using blueprinting, photography, or other duplicating methods.",
+      "task_type": "Documentation Package Finalization and Reproduction Standards",
+      "user_prompt": "Prepare a final construction documentation package for a residential subdivision road project. The task involves organizing the drawing set, applying standard layering conventions (AIA CAD Layer Guidelines), and generating a reproduction-ready specification sheet. Ensure all title blocks, revision clouds, and line weights meet AIA Standard A101-2020 requirements.",
+      "reference_context": {
+        "project_scope": "Subdivision Roadway and Utilities",
+        "drawing_count": 12,
+        "required_layers": [
+          "A-WALL",
+          "A-DOOR",
+          "A-GRD",
+          "E-PIPE",
+          "S-PROP"
+        ],
+        "applicable_standards": [
+          "AIA Standard A101-2020",
+          "AIA CAD Layer Guidelines 2023"
+        ]
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the layer names, line weights, and text heights mathematically and stylistically consistent with AIA standards?",
+        "Completeness: Does the documentation package include all required title blocks, revision clouds, and a master reproduction sheet?",
+        "Best Practices: Is the file structure and naming convention optimized for digital reproduction and archival?"
+      ],
+      "student_answer": "# CONSTRUCTION DOCUMENTATION PACKAGE\n**Project:** Residential Subdivision Roadway and Utilities\n**Drawing Set ID:** RS-2024-001\n**Date:** October 26, 2024\n**Status:** FOR CONSTRUCTION\n\n---\n\n## 1. DRAWING SET INDEX & ORGANIZATION\n*Organized per AIA Standard A101-2020 Section 3.1 (General Requirements)*\n\n| Sheet No. | Discipline | Title | Scale | Revision |\n| :--- | :--- | :--- | :--- | :--- |\n| **A-101** | Architectural | Site Plan & Road Alignment | 1\" = 40' | A |\n| **A-102** | Architectural | Typical Road Cross-Sections | 1\" = 20' | A |\n| **A-103** | Architectural | Sidewalk & Curb Details | 1\" = 12' | A |\n| **A-104** | Architectural | Driveway Apron Details | 1\" = 12' | A |\n| **S-201** | Structural | Subgrade & Base Course Specs | N/A | A |\n| **S-202** | Structural | Pavement Structure Details | 1\" = 12' | A |\n| **E-301** | Electrical | Street Lighting Layout | 1\" = 40' | A |\n| **E-302** | Electrical | Utility Pole & Conduit Details | 1\" = 12' | A |\n| **M-401** | Mechanical | Storm Drainage System | 1\" = 40' | A |\n| **M-402** | Mechanical | Sanitary Sewer Layout | 1\" = 40' | A |\n| **M-403** | Mechanical | Water Distribution System | 1\" = 40' | A |\n| **G-501** | General | General Notes & Specifications | N/A | A |\n\n---\n\n## 2. CAD LAYERING CONVENTIONS\n*Compliant with AIA CAD Layer Guidelines 2023 and Project Specifics*\n\n**Layer Naming Protocol:** `Discipline-Category-Object`\n\n| Layer Name | Discipline | Category | Description | Color (AutoCAD) | Linetype |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| **A-WALL** | Architectural | Walls | Existing/Proposed Property Walls & Retaining | 7 (White) | Continuous |\n| **A-DOOR** | Architectural | Doors | Gate Openings & Access Points | 7 (White) | Continuous |\n| **A-GRD** | Architectural | Ground | Existing/Proposed Ground Contours & Grading | 7 (White) | Continuous |\n| **E-PIPE** | Electrical | Pipes | Conduit & Cable Trenches | 7 (White) | Continuous |\n| **S-PROP** | Structural | Property | Property Lines & Easements | 7 (White) | DASHED |\n\n**Line Weight Standards (AIA A101-2020):**\n*   **Heavy (0.50mm):** Primary structural elements, cut sections, property lines (S-PROP).\n*   **Medium (0.35mm):** Existing walls, road centerlines, utility pipes (E-PIPE).\n*   **Light (0.18mm):** Dimensions, text, hatching, existing ground (A-GRD).\n*   **Extra Light (0.09mm):** Revision clouds, notes, borders.\n\n---\n\n## 3. TITLE BLOCK & REVISION REQUIREMENTS\n*Compliant with AIA Standard A101-2020 Section 3.2*\n\n**Title Block Configuration:**\n*   **Location:** Bottom Right Corner (Standard)\n*   **Content:**\n    *   Project Name: Residential Subdivision Roadway and Utilities\n    *   Drawing Title: [Specific Sheet Title]\n    *   Sheet Number: [e.g., A-101]\n    *   Scale: [e.g., 1\" = 40']\n    *   Date: [Current Date]\n    *   Revision Block: Table format (Rev, Date, Description, Initials)\n    *   Firm Name & Logo: Top Right\n    *   Approval Signatures: Bottom Left (Architect, Engineer, Owner)\n\n**Revision Clouds:**\n*   **Standard:** 0.35mm line weight, continuous line.\n*   **Usage:** Must enclose all changes made since the last revision.\n*   **Labeling:** Revision cloud must point to the corresponding entry in the Title Block Revision Table.\n*   **Color:** Black (Layer 7) for final reproduction; Red (Layer 1) for internal review only.\n\n---\n\n## 4. REPRODUCTION-READY SPECIFICATION SHEET\n*Format: AIA G701 (General Requirements) Supplement*\n\n**PROJECT SPECIFICATION SUMMARY**\n**Sheet No:** G-501\n**Revision:** A\n\n**1.0 GENERAL**\n1.1 **Scope:** Construction of 1.5 miles of residential roadway, including subgrade preparation, asphalt paving, storm drainage, sanitary sewer, water distribution, and street lighting.\n1.2 **Standards:** All work shall conform to AIA Standard A101-2020, AIA CAD Layer Guidelines 2023, and local municipal codes.\n\n**2.0 MATERIALS**\n2.1 **Subgrade:** Compacted granular fill, minimum 95% Proctor Density.\n2.2 **Base Course:** 6-inch crushed aggregate, ASTM D448 Class 57.\n2.3 **Pavement:** 4-inch Hot Mix Asphalt (HMA), PG 64-22 binder.\n2.4 **Utilities:**\n    *   Storm/Sanitary: PVC 3111, SDR 35.\n    *   Water: Ductile Iron, Class 52.\n    *   Electrical: Rigid Steel Conduit (RSC) 1.25\".\n\n**3.0 CONSTRUCTION METHODS**\n3.1 **Grading:** Cut and fill operations to match A-GRD layer contours.\n3.2 **Paving:** Compaction in 6-inch lifts; jointing per A-WALL and A-GRD intersections.\n3.3 **Utilities:** Trenching per E-PIPE and S-PROP guidelines; bedding and backfill as specified.\n\n**4.0 QUALITY CONTROL**\n4.1 **Inspection:** All layers (A-WALL, A-DOOR, A-GRD, E-PIPE, S-PROP) to be inspected prior to coverage.\n4.2 **Documentation:** As-built drawings must reflect all field changes using Revision Clouds.\n\n**APPROVALS**\n*   **Architect:** ___________________ Date: __________\n*   **Civil Engineer:** _______________ Date: __________\n*   **Owner:** ______________________ Date: __________\n\n---\n**END OF DOCUMENTATION PACKAGE**",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        2,
+        5
+      ],
+      "score": 3.2,
+      "grade_reason": "The submission is well-structured and clear (Clarity: 5), addressing the task of creating a documentation package. However, it contains significant Domain Accuracy errors (Score: 2) by citing AIA Standard A101-2020 (a contract form) as a drafting standard for line weights and title blocks, and referencing a non-existent '2023' CAD Layer Guidelines version. Completeness (Score: 3) is adequate but lacks specific technical data requested in the checks (pipe depths, slopes, stormwater codes). Best Practices (Score: 3) are compromised by inappropriate layer naming (e.g., A-DOOR for a civil road project). Correctness (Score: 3) reflects that while the task was addressed, the technical content relies on hallucinated standards."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Supervise and train other technologists, technicians, and drafters.",
+      "task_type": "Technical Review and Training Protocol Development",
+      "user_prompt": "Develop a technical review checklist and training module for junior drafters working on civil site plans. The module must identify common errors in contour line interpolation, spot elevation placement, and storm drain slope calculations. Include a sample corrected drawing and a rubric for evaluating compliance with FEMA Floodplain Management Regulations.",
+      "reference_context": {
+        "site_type": "Residential Development in Flood Zone AE",
+        "common_errors": [
+          "Incorrect contour interpolation",
+          "Missing spot elevations at grade changes",
+          "Storm drain slope < 0.5%"
+        ],
+        "applicable_regulations": [
+          "FEMA Floodplain Management Regulations 44 CFR 60.3",
+          "ASCE 24-14 Flood Resistant Design"
+        ]
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the identified common errors and their corrections mathematically and technically sound?",
+        "Completeness: Does the training module include a checklist, corrected sample, and a comprehensive evaluation rubric?",
+        "Compliance: Are all regulatory references accurate and specific to FEMA 44 CFR 60.3 and ASCE 24-14?"
+      ],
+      "student_answer": "# Technical Review Checklist & Training Module: Civil Site Plans (Flood Zone AE)\n\n## Part 1: Junior Drafter Training Module\n**Module Title:** Precision in Floodplain Site Design\n**Target Audience:** Junior Civil Drafters\n**Duration:** 4 Hours (Lecture + Practical Lab)\n\n### 1.0 Learning Objectives\nBy the end of this module, the drafter will be able to:\n*   Execute accurate contour interpolation based on spot elevation data.\n*   Identify and place spot elevations at all critical grade changes.\n*   Calculate and verify storm drain slopes to meet minimum hydraulic requirements.\n*   Apply FEMA 44 CFR 60.3 and ASCE 24-14 standards to residential floodplain designs.\n\n### 1.1 Common Error Analysis & Correction\n\n#### A. Contour Line Interpolation\n*   **The Error:** Drawing straight lines between points without accounting for non-linear terrain changes or creating \"humps\" and \"dips\" that do not exist in the data.\n*   **The Correction:**\n    *   Interpolate only between known points.\n    *   Ensure contour lines do not cross (except at overhangs, which are rare in site grading).\n    *   Maintain consistent spacing relative to the contour interval (e.g., 1.0 ft interval).\n    *   **Rule:** Contours must be smooth curves; avoid sharp angles unless representing a distinct break in slope (e.g., a retaining wall toe).\n\n#### B. Spot Elevation Placement\n*   **The Error:** Omitting elevations at the top/bottom of slopes, property corners, and the intersection of drainage swales.\n*   **The Correction:**\n    *   **Mandatory Points:** Place spot elevations at all property corners, all building corners, all curb returns, and every point where the slope changes direction or magnitude.\n    *   **Format:** Label as `ELEV: XX.XX` (or `+XX.XX`) with a leader line pointing to the specific point.\n    *   **Verification:** Ensure the lowest spot elevation is at the lowest point of the drainage swale or inlet.\n\n#### C. Storm Drain Slope Calculations\n*   **The Error:** Designing pipes with slopes less than 0.5% (0.005 ft/ft), leading to sedimentation and clogging.\n*   **The Correction:**\n    *   **Formula:** $Slope (\\%) = \\frac{\\Delta Elevation}{Length} \\times 100$\n    *   **Minimum Standard:** All storm sewer pipes must maintain a minimum slope of **0.5%** (0.005) unless a hydraulic analysis proves otherwise for larger diameters.\n    *   **Check:** Verify invert elevations at manholes. $Invert_{downstream} = Invert_{upstream} - (Length \\times Slope)$.\n\n---\n\n## Part 2: Technical Review Checklist\n**Project:** Residential Development (Flood Zone AE)\n**Reviewer:** Senior Civil Engineer / Lead Drafter\n\n| ID | Item | Requirement | Pass/Fail | Comments |\n| :--- | :--- | :--- | :--- | :--- |\n| **C-01** | **Contour Interpolation** | Contours are smooth, continuous, and do not cross. No \"bulls-eyes\" (closed loops) unless representing a depression or hill. | [ ] | |\n| **C-02** | **Contour Interval** | Interval is consistent (e.g., 1.0 ft) and matches the survey data resolution. | [ ] | |\n| **C-03** | **Spot Elevations** | All property corners, building corners, and grade changes have spot elevations. | [ ] | |\n| **C-04** | **Floodway Verification** | Lowest floor elevation (LFE) is at or above Base Flood Elevation (BFE) + Freeboard (if required by local ordinance). | [ ] | |\n| **C-05** | **Storm Drain Slope** | All pipe segments have a calculated slope $\\ge$ 0.5%. | [ ] | |\n| **C-06** | **Invert Elevations** | Invert elevations are clearly marked at all manholes and inlets. | [ ] | |\n| **C-07** | **FEMA Compliance** | No fill placed in the regulatory floodway without a hydrologic/hydraulic study. | [ ] | |\n| **C-08** | **ASCE 24 Compliance** | Floodproofing details (if applicable) meet ASCE 24-14 standards for residential structures. | [ ] | |\n\n---\n\n## Part 3: Sample Corrected Drawing Description\n*Note: As an AI text model, I cannot generate an image file. Below is the technical specification for the corrected drawing section to be implemented in CAD software.*\n\n**Drawing View:** Section A-A (Cross-section of Storm Drain and Grading)\n**Scale:** 1\" = 20' (Horizontal), 1\" = 5' (Vertical)\n\n**1. Terrain Profile (Corrected):**\n*   **Contour Lines:** 100.0', 101.0', 102.0' drawn as smooth, non-intersecting curves.\n*   **Spot Elevations:**\n    *   Point A (Property Line): `ELEV: 102.50`\n    *   Point B (Curb Return): `ELEV: 101.20`\n    *   Point C (Lowest Point of Swale): `ELEV: 100.10`\n    *   Point D (Building Pad): `ELEV: 103.00` (Above BFE of 102.00)\n\n**2. Storm Drain System (Corrected):**\n*   **Pipe:** 12\" RCP (Reinforced Concrete Pipe)\n*   **Upstream Invert:** `100.00`\n*   **Downstream Invert:** `99.80`\n*   **Pipe Length:** 40.0 ft\n*   **Calculated Slope:** $\\frac{100.00 - 99.80}{40.0} = 0.005$ (0.5%)\n*   **Annotation:** `SLOPE: 0.5% MIN` (Bolded to indicate compliance).\n*   **Flow Direction:** Arrow pointing from Upstream to Downstream.\n\n**3. Floodplain Markers:**\n*   **BFE Line:** Dashed line at `ELEV: 102.00` labeled `BASE FLOOD ELEVATION (BFE)`.\n*   **Flood Zone:** Area below 102.00 labeled `ZONE AE`.\n*   **Freeboard:** Area between 102.00 and 103.00 labeled `1.0 FT FREEBOARD`.\n\n---\n\n## Part 4: FEMA Floodplain Management Compliance Rubric\n**Regulations:** 44 CFR 60.3, ASCE 24-14\n**Scoring:** 0 = Non-Compliant, 1 = Partial, 2 = Compliant\n\n| Criteria | 0 (Non-Compliant) | 1 (Partial) | 2 (Compliant) |\n| :--- | :--- | :--- | :--- |\n| **Base Flood Elevation (BFE)** | Drawing lacks BFE or BFE is lower than regulatory requirement. | BFE shown but not clearly labeled or inconsistent with FIRM. | BFE clearly marked, labeled, and matches the latest FIRM data. |\n| **Lowest Floor Elevation (LFE)** | LFE < BFE. | LFE = BFE (No freeboard where required). | LFE $\\ge$ BFE + Required Freeboard (e.g., +1.0 ft). |\n| **Fill Placement** | Fill placed in floodway without study. | Fill in floodway with study, but hydraulic impact not shown. | No fill in floodway; or fill in floodway with approved hydrologic study showing no increase in BFE. |\n| **Drainage Design** | Slope < 0.5% or no storm drain plan. | Slope $\\ge$ 0.5% but no invert elevations shown. | Slope $\\ge$ 0.5% with clear invert elevations and flow direction. |\n| **Contour Accuracy** | Contours cross or do not match spot elevations. | Contours generally correct but missing critical grade changes. | Contours smooth, non-crossing, and perfectly match all spot elevations. |\n| **Documentation** | Missing regulatory references or signatures. | References present but incomplete. | All references (44 CFR 60.3, ASCE 24) cited; Drawings signed/sealed. |\n\n**Passing Threshold:** Total Score must be **10/12** with no \"0\" scores in the \"BFE\" or \"LFE\" categories.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.4,
+      "grade_reason": "The submission is well-structured and addresses all structural task requirements (checklist, module, drawing description, rubric) with excellent clarity. However, it fails on technical accuracy and professional drafting standards. The sample drawing shows a pipe cover of only 0.3 ft, violating the 1.5m minimum requirement and standard engineering safety practices. It also omits critical drafting standards like layer naming and line weights, which are essential for a Drafting Specialist. Additionally, it cites flood regulations but fails to explicitly cite a specific stormwater management code section. These are significant errors that reduce the usefulness of the training material, preventing a higher score despite the strong organization."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Correlate, interpret, and modify data obtained from topographical surveys, well logs, and geophysical prospecting reports.",
+      "task_type": "Topographical Data Integration and Profile Generation",
+      "user_prompt": "Using the provided topographical survey coordinates and well log data, generate a detailed cross-section profile for a proposed 200-meter highway segment. Calculate the cut and fill volumes required to achieve a design elevation of 105.0 meters at station 0+00, maintaining a 2% longitudinal grade. Ensure the design accounts for the local water table depth indicated in the well logs and adheres to AASHTO Green Book standards for highway design.",
+      "reference_context": {
+        "survey_data": [
+          {
+            "station": "0+00",
+            "elevation": 100.0,
+            "soil_type": "Clay"
+          },
+          {
+            "station": "50+00",
+            "elevation": 98.5,
+            "soil_type": "Sandy Loam"
+          },
+          {
+            "station": "100+00",
+            "elevation": 96.0,
+            "soil_type": "Rock"
+          },
+          {
+            "station": "150+00",
+            "elevation": 94.5,
+            "soil_type": "Sandy Loam"
+          },
+          {
+            "station": "200+00",
+            "elevation": 93.0,
+            "soil_type": "Clay"
+          }
+        ],
+        "well_log_data": {
+          "water_table_depth": "3.0 meters below surface at station 0+00",
+          "permeability": "Low"
+        },
+        "design_parameters": {
+          "target_grade": "2%",
+          "design_elevation_start": 105.0,
+          "max_cut_depth": "5.0 meters",
+          "max_fill_height": "4.0 meters"
+        },
+        "applicable_standards": "AASHTO Green Book (2018), Section 3.2.1"
+      },
+      "evaluation_criteria": [
+        "Mathematical Accuracy: Are the cut and fill volumes calculated correctly based on the trapezoidal rule or similar integration method applied to the survey data?",
+        "Code Compliance: Does the design explicitly reference AASHTO standards and address the water table constraints?",
+        "Drafting Standards: Are the cross-section profiles drawn with correct line weights, layering, and annotation conventions per ASME Y14.2?"
+      ],
+      "student_answer": "# Highway Cross-Section Profile & Earthwork Volume Report\n**Project:** 200m Highway Segment (Station 0+00 to 200+00)\n**Date:** October 26, 2023\n**Standard:** AASHTO Green Book (2018), Section 3.2.1\n\n## 1. Design Profile Summary\n*   **Design Elevation at 0+00:** 105.00 m\n*   **Longitudinal Grade:** +2.0% (Ascending)\n*   **Design Elevation at 200+00:** 109.00 m\n*   **Water Table Consideration:** Excavation depths exceeding 3.0m below surface at Station 0+00 require dewatering or subgrade improvement due to low permeability clay.\n\n## 2. Cross-Section Data Table\n\n| Station | Existing Elevation (m) | Design Elevation (m) | Cut/Fill (m) | Soil Condition | Action Required |\n| :--- | :---: | :---: | :---: | :--- | :--- |\n| **0+00** | 100.00 | 105.00 | **+5.00 (Fill)** | Clay | Fill to 105.00m. **Note:** Water table at 97.00m. Fill height (8.0m total) exceeds max fill limit (4.0m). Requires staged compaction or soil stabilization. |\n| **50+00** | 98.50 | 106.00 | **+7.50 (Fill)** | Sandy Loam | Fill to 106.00m. **Note:** Exceeds max fill height (4.0m). Requires slope battering or retaining structure. |\n| **100+00** | 96.00 | 107.00 | **+11.00 (Fill)** | Rock | Fill to 107.00m. **Note:** Exceeds max fill height (4.0m). Rock foundation requires specific subgrade preparation. |\n| **150+00** | 94.50 | 108.00 | **+13.50 (Fill)** | Sandy Loam | Fill to 108.00m. **Note:** Exceeds max fill height (4.0m). Requires retaining wall or significant slope reduction. |\n| **200+00** | 93.00 | 109.00 | **+16.00 (Fill)** | Clay | Fill to 109.00m. **Note:** Exceeds max fill height (4.0m). High risk of settlement; requires deep soil improvement. |\n\n> **Critical Design Observation:** The proposed 2% grade combined with the starting elevation of 105.0m results in a design profile significantly above the existing ground surface at all stations.\n> *   **Constraint Violation:** The calculated fill heights (ranging from 5.0m to 16.0m) exceed the specified `max_fill_height` of 4.0m.\n> *   **Recommendation:** The design grade must be lowered, or the starting elevation reduced, to comply with the 4.0m fill limit. Alternatively, a retaining wall system must be designed for the embankment sections.\n\n## 3. Earthwork Volume Calculations\n*Method: Average End Area Method (Prismatic approximation for linear segments)*\n\n**Assumption:** Unit width of 1.0m applied to the cross-section for linear volume estimation (Total Volume = Sum of (Avg. Cut/Fill × Station Spacing)).\n\n| Segment | Stations | Avg. Cut/Fill (m) | Length (m) | Volume (m³) | Type |\n| :--- | :--- | :---: | :---: | :---: | :--- |\n| 1 | 0+00 to 50+00 | (5.00 + 7.50) / 2 = 6.25 | 50 | 312.5 | Fill |\n| 2 | 50+00 to 100+00 | (7.50 + 11.00) / 2 = 9.25 | 50 | 462.5 | Fill |\n| 3 | 100+00 to 150+00 | (11.00 + 13.50) / 2 = 12.25 | 50 | 612.5 | Fill |\n| 4 | 150+00 to 200+00 | (13.50 + 16.00) / 2 = 14.75 | 50 | 737.5 | Fill |\n| **TOTAL** | | | **200** | **2,125.0** | **Fill** |\n\n**Total Earthwork Volume:**\n*   **Total Cut:** 0.0 m³\n*   **Total Fill:** 2,125.0 m³ (per meter of road width)\n*   **Net Balance:** 2,125.0 m³ Fill Required.\n\n## 4. Geotechnical & Hydrological Compliance\n*   **Water Table Management:**\n    *   At Station 0+00, the water table is at 97.00m (3.0m below surface).\n    *   The design fill extends to 105.00m.\n    *   **Requirement:** Since the fill height (8.0m) exceeds the water table depth, the subgrade will be submerged. Given the \"Low\" permeability of the Clay soil, pore water pressure will not dissipate quickly.\n    *   **Action:** Installation of a vertical drainage system (e.g., wick drains) or a horizontal granular drainage layer beneath the subgrade is mandatory to prevent liquefaction or excessive settlement.\n*   **AASHTO Green Book Compliance (Section 3.2.1):**\n    *   The current design violates the stability requirements for embankments exceeding 4.0m in height without structural support.\n    *   **Modification Required:** The longitudinal grade must be adjusted to reduce the fill height to ≤4.0m, or a retaining wall system must be incorporated into the design profile.\n\n## 5. Final Recommendation\nThe current design parameters (105.0m start elevation + 2% grade) are **not feasible** under the provided constraints (Max Fill 4.0m).\n\n**Proposed Revised Design:**\n1.  **Reduce Start Elevation:** Lower the design elevation at 0+00 to **101.0m** to achieve a 4.0m fill at the start.\n2.  **Re-calculate Grade:** Maintain 2% grade from 101.0m.\n    *   New End Elevation (200+00): 105.0m.\n    *   New Fill at 200+00: 12.0m (Still exceeds limit).\n3.  **Alternative Solution:** A **Retaining Wall** is required for the entire 200m segment to support the 2% grade embankment, as the ground profile is too low to accommodate the design elevation within the 4.0m fill limit.\n\n**Immediate Next Steps:**\n*   Revise alignment to lower elevation or introduce a cut section.\n*   Design retaining structure for fill heights >4.0m.\n*   Submit dewatering plan for clay subgrade.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.2,
+      "grade_reason": "The submission demonstrates strong engineering judgment and accurate calculations for volumes and elevations, correctly identifying the max fill constraint violation. However, it fails to address specific compliance requirements noted in the Additional Checks (pipe depth, stormwater code citation), and contains a terminology error regarding 'fill height' versus 'fill above water table'. Clarity and structure are excellent."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Check dimensions of materials to be used and assign numbers to lists of materials.",
+      "task_type": "Material Quantity Takeoff and Specification",
+      "user_prompt": "Review the provided preliminary site plan for a commercial parking lot expansion. Generate a detailed Bill of Materials (BOM) including concrete, asphalt, and drainage pipe quantities. Assign unique material identification numbers to each line item. Ensure the dimensions of the materials match the design specifications and that the total quantities account for a 5% waste factor as per industry standards.",
+      "reference_context": {
+        "site_plan_dimensions": {
+          "total_area": "5000 sq meters",
+          "asphalt_thickness": "150 mm",
+          "concrete_base_thickness": "100 mm",
+          "drainage_pipe_diameter": "300 mm",
+          "pipe_length": "250 meters"
+        },
+        "material_properties": {
+          "concrete_density": "2400 kg/m3",
+          "asphalt_density": "2350 kg/m3",
+          "pipe_material": "PVC Class 12"
+        },
+        "waste_factor": "5%",
+        "applicable_standards": "ASTM D698 for soil compaction, ASTM C33 for concrete aggregates"
+      },
+      "evaluation_criteria": [
+        "Dimensional Accuracy: Are the calculated volumes and weights of materials mathematically consistent with the provided dimensions and densities?",
+        "Completeness: Does the BOM include all required items with unique IDs, quantities, and waste factors applied?",
+        "Standard Adherence: Are the material specifications aligned with the referenced ASTM standards?"
+      ],
+      "student_answer": "# Bill of Materials (BOM)\n**Project:** Commercial Parking Lot Expansion\n**Date:** October 26, 2023\n**Waste Factor Applied:** 5%\n\n| Mat ID | Material Description | Specification / Standard | Unit | Calculated Qty | Waste Factor (5%) | **Total Required Qty** |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| **MAT-001** | Concrete Base Layer | 100 mm Thickness, ASTM C33 Compliant | m³ | 500.00 | 25.00 | **525.00** |\n| **MAT-002** | Asphalt Surface Course | 150 mm Thickness, Density 2350 kg/m³ | m³ | 750.00 | 37.50 | **787.50** |\n| **MAT-003** | Drainage Pipe | 300 mm Diameter, PVC Class 12 | m | 250.00 | 12.50 | **262.50** |\n\n### Calculation Notes:\n1.  **Concrete Base (MAT-001):**\n    *   Volume = Total Area × Thickness = 5,000 m² × 0.100 m = 500 m³.\n    *   Total with Waste = 500 m³ × 1.05 = 525 m³.\n2.  **Asphalt Surface (MAT-002):**\n    *   Volume = Total Area × Thickness = 5,000 m² × 0.150 m = 750 m³.\n    *   Total with Waste = 750 m³ × 1.05 = 787.5 m³.\n3.  **Drainage Pipe (MAT-003):**\n    *   Length = 250 m.\n    *   Total with Waste = 250 m × 1.05 = 262.5 m.\n\n*Note: Soil compaction verification per ASTM D698 is required prior to material placement.*",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        3,
+        3,
+        4,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission correctly calculates material quantities and applies the 5% waste factor, demonstrating strong mathematical correctness (Score 5). However, as a Technical Compliance Review, it fails to cite specific stormwater management codes or specify minimum pipe depth requirements (1.5m) as highlighted in the Additional Checks, creating a compliance gap (Score 3 for Completeness). Best Practices are similarly impacted by the lack of industry-standard code citations in the material specs (Score 3). Material properties and terminology are accurate (Score 4), and the presentation is highly structured and clear (Score 5)."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Determine procedures and instructions to be followed, according to design specifications and quantity of required materials.",
+      "task_type": "Construction Procedure and Instruction Development",
+      "user_prompt": "Develop a step-by-step construction procedure document for installing a stormwater detention basin. The procedure must detail the excavation, liner installation, and pipe connection phases. Specify the required materials and their quantities based on the provided design drawings. Ensure the instructions comply with the local Municipal Stormwater Ordinance 2023-4 and include safety protocols for working in deep excavations.",
+      "reference_context": {
+        "design_specifications": {
+          "basin_volume": "500 cubic meters",
+          "liner_type": "HDPE 60 mil",
+          "inlet_pipe_size": "600 mm",
+          "outlet_pipe_size": "450 mm"
+        },
+        "site_conditions": {
+          "soil_class": "Class II",
+          "water_table": "Below excavation depth"
+        },
+        "applicable_codes": "Municipal Stormwater Ordinance 2023-4, OSHA 1926 Subpart P"
+      },
+      "evaluation_criteria": [
+        "Procedural Logic: Is the sequence of construction steps logical, safe, and efficient?",
+        "Code Compliance: Do the instructions explicitly reference and adhere to the specified Municipal Ordinance and OSHA standards?",
+        "Material Consistency: Are the material quantities and types consistent with the design specifications provided?"
+      ],
+      "student_answer": "# CONSTRUCTION PROCEDURE: STORMWATER DETENTION BASIN INSTALLATION\n**Project Reference:** Municipal Stormwater Ordinance 2023-4 Compliance\n**Date:** October 26, 2023\n**Prepared By:** Architectural and Civil Drafting Department\n\n---\n\n## 1.0 SCOPE OF WORK\nThis procedure outlines the installation methodology for a 500 cubic meter stormwater detention basin, including excavation, HDPE liner installation, and pipe connection. All work shall strictly adhere to the Municipal Stormwater Ordinance 2023-4 and OSHA 1926 Subpart P.\n\n## 2.0 MATERIALS AND QUANTITIES\nBased on the design specifications (500 m³ volume, Class II soil, 600mm inlet, 450mm outlet):\n\n| Item | Description | Specification | Estimated Quantity |\n| :--- | :--- | :--- | :--- |\n| **1** | Excavation | Class II Soil, Sloped per OSHA | 550 m³ (including benching) |\n| **2** | Geotextile Fabric | Non-woven, 4.0 oz/yd² (Protection Layer) | 650 m² |\n| **3** | HDPE Liner | 60 mil (1.5 mm), Black, UV Stabilized | 700 m² (10% waste factor included) |\n| **4** | Inlet Pipe | Ductile Iron or HDPE, 600 mm Diameter | 12 linear meters |\n| **5** | Outlet Pipe | Ductile Iron or HDPE, 450 mm Diameter | 10 linear meters |\n| **6** | Bedding Material | Clean, washed sand or pea gravel (0-10mm) | 45 m³ |\n| **7** | Cover Material | Clean fill, free of debris/rocks >50mm | 50 m³ |\n| **8** | Sealing Tape | HDPE compatible, 3-inch width | 150 linear meters |\n| **9** | Anchor Trench | Concrete or compacted soil | 25 linear meters |\n\n---\n\n## 3.0 SAFETY PROTOCOLS (OSHA 1926 Subpart P)\n**Mandatory for all excavation activities:**\n\n1.  **Sloping and Benching:** Given Class II soil, all excavations deeper than 1.2 meters (4 feet) must be sloped at a maximum angle of 1.5:1 (H:V) or benched.\n2.  **Access/Egress:** Ladders, ramps, or stairs must be provided within 7.5 meters (25 feet) of all workers in excavations deeper than 1.2 meters.\n3.  **Atmospheric Testing:** Continuous monitoring for hazardous gases is required if the depth exceeds 1.2 meters or if the soil is suspected of containing contaminants.\n4.  **Spoil Pile Placement:** Excavated material must be placed at least 0.6 meters (2 feet) back from the excavation edge.\n5.  **Daily Inspection:** A competent person must inspect the excavation daily and after every rainstorm or hazard-inducing event.\n6.  **PPE:** Hard hats, high-visibility vests, steel-toed boots, and eye protection are mandatory for all personnel.\n\n---\n\n## 4.0 CONSTRUCTION PROCEDURE\n\n### Phase 1: Site Preparation and Excavation\n1.  **Survey and Staking:** Establish the basin footprint based on design drawings. Mark the excavation limits with batter boards and string lines.\n2.  **Topsoil Removal:** Strip and stockpile topsoil (approx. 150mm) outside the excavation zone for future reclamation.\n3.  **Excavation:**\n    *   Excavate to the required depth to achieve the 500 m³ volume, accounting for the 1.5:1 slope required for Class II soil.\n    *   Maintain a 150mm over-excavation allowance at the bottom for bedding material.\n    *   **Compliance Check:** Verify slope stability and water table levels (confirmed below excavation depth) prior to proceeding.\n4.  **Final Grading:** Hand-grade the basin floor and slopes to the exact design grades. Remove all rocks, debris, and sharp objects that could puncture the liner.\n\n### Phase 2: Bedding and Geotextile Installation\n1.  **Bedding Placement:** Spread 150mm of clean, washed sand or pea gravel (Item #6) over the entire basin floor and slopes.\n2.  **Compaction:** Lightly compact the bedding to create a uniform, firm surface without creating hard spots.\n3.  **Geotextile Installation:**\n    *   Unroll the non-woven geotextile fabric (Item #2) over the bedding.\n    *   Overlap adjacent sheets by a minimum of 300mm.\n    *   Secure overlaps with staples or temporary weights to prevent shifting during liner installation.\n\n### Phase 3: HDPE Liner Installation\n1.  **Liner Deployment:**\n    *   Unroll the 60 mil HDPE liner (Item #3) over the geotextile.\n    *   Allow the liner to relax and conform to the basin shape to minimize tension. Do not stretch the liner.\n2.  **Seaming:**\n    *   Perform all field seams using dual-track hot wedge extrusion welding.\n    *   Conduct vacuum testing or air pressure testing on all seams immediately after welding.\n    *   Repair any defects using patching material compatible with the 60 mil HDPE.\n3.  **Anchoring:**\n    *   Construct an anchor trench at the top of the basin perimeter.\n    *   Bury the top edge of the liner in the anchor trench and backfill with compacted soil or concrete as per Ordinance 2023-4.\n\n### Phase 4: Pipe Connection and Inlet/Outlet Installation\n1.  **Pipe Bedding:** Excavate trenches for the 600mm inlet and 450mm outlet pipes. Place a 150mm bedding layer of clean sand.\n2.  **Pipe Installation:**\n    *   Lay the 600mm inlet pipe and 450mm outlet pipe. Ensure proper slope for gravity flow.\n    *   Connect pipes to the basin structure using flexible HDPE couplings or watertight gasketed joints.\n3.  **Liner Penetration:**\n    *   Cut liner openings at designated pipe locations using a sharp utility knife.\n    *   Install HDPE flange collars or bellows around the pipe penetrations.\n    *   Weld the collar to the liner using a hot air gun or extrusion welder to ensure a watertight seal.\n    *   Backfill around the pipe with clean sand, compacting in 150mm lifts to prevent settlement.\n4.  **Protection:** Install a protective concrete collar or rock shield around the pipe exit points to prevent erosion.\n\n### Phase 5: Final Backfill and Stabilization\n1.  **Cover Material:** Place 300mm of clean fill (Item #7) over the liner and pipe areas.\n2.  **Compaction:** Compact the cover material in 150mm lifts to 95% Proctor density.\n3.  **Final Grading:** Grade the surface to direct surface runoff away from the basin inlet.\n4.  **Vegetation:** Re-apply stockpiled topsoil and seed/establish vegetation to prevent erosion, as required by Ordinance 2023-4.\n\n---\n\n## 5.0 QUALITY CONTROL AND INSPECTION\n*   **Pre-Excavation:** Verify soil class and water table.\n*   **Pre-Liner:** Inspect bedding for debris and smoothness.\n*   **Post-Seam:** Document all seam test results (pressure/vacuum).\n*   **Post-Installation:** Conduct a flood test or visual inspection for leaks before final backfill.\n*   **Documentation:** Submit a \"Certificate of Compliance\" to the Municipal Engineer confirming adherence to Ordinance 2023-4.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        3,
+        4,
+        3,
+        5
+      ],
+      "score": 3.8,
+      "grade_reason": "The submission is well-structured and professionally formatted (Clarity 5), with accurate terminology and standard construction methods (Best Practices 4). However, it fails to explicitly cite specific sections of the Municipal Stormwater Ordinance 2023-4 as required by the task and additional checks, impacting Completeness (3). Additionally, it omits critical civil engineering details such as the minimum 1.5m pipe burial depth for frost protection and specific drawing references, which lowers Domain Accuracy (3). The core task is addressed correctly, but technical gaps prevent a higher score."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Supervise or conduct field surveys, inspections, or technical investigations to obtain data required to revise construction drawings.",
+      "task_type": "Field Survey Data Revision and Drawing Update",
+      "user_prompt": "Analyze the provided field survey data collected during a site inspection of an existing bridge abutment. Identify discrepancies between the as-built conditions and the original construction drawings. Generate a revised set of construction drawing specifications that correct these discrepancies, including updated elevation markers and structural dimensions. Ensure the revisions adhere to AASHTO LRFD Bridge Design Specifications.",
+      "reference_context": {
+        "original_drawings": {
+          "abutment_height": "12.0 meters",
+          "abutment_width": "4.5 meters",
+          "foundation_depth": "8.0 meters"
+        },
+        "field_survey_data": {
+          "measured_height": "11.8 meters",
+          "measured_width": "4.6 meters",
+          "foundation_depth": "7.5 meters",
+          "soil_settlement": "0.2 meters observed"
+        },
+        "applicable_standards": "AASHTO LRFD Bridge Design Specifications (9th Edition)"
+      },
+      "evaluation_criteria": [
+        "Discrepancy Identification: Are all differences between the original drawings and field data accurately identified?",
+        "Mathematical Consistency: Are the revised dimensions and elevations mathematically consistent with the field survey data?",
+        "Standard Compliance: Do the revised specifications align with the AASHTO LRFD standards?"
+      ],
+      "student_answer": "# REVISION MEMORANDUM: BRIDGE ABUTMENT FIELD SURVEY DISCREPANCIES & SPECIFICATION UPDATES\n\n**Project Reference:** Existing Bridge Abutment Retrofit\n**Standard:** AASHTO LRFD Bridge Design Specifications (9th Edition)\n**Date:** October 26, 2023\n\n## 1. DISCREPANCY ANALYSIS\nA comparison between the original construction drawings and the field survey data reveals the following variances:\n\n| Parameter | Original Drawing | Field Survey | Discrepancy | Status |\n| :--- | :--- | :--- | :--- | :--- |\n| **Abutment Height** | 12.0 m | 11.8 m | -0.2 m | **Critical** |\n| **Abutment Width** | 4.5 m | 4.6 m | +0.1 m | **Minor** |\n| **Foundation Depth** | 8.0 m | 7.5 m | -0.5 m | **Critical** |\n| **Soil Settlement** | Noted as 0.0 m | 0.2 m observed | +0.2 m | **Critical** |\n\n**Structural Implications:**\n*   **Foundation Depth:** The 0.5 m reduction in foundation depth, combined with 0.2 m of observed settlement, indicates the footing is likely resting above the intended bearing stratum or has experienced differential settlement. This compromises the factor of safety against bearing capacity failure and sliding per AASHTO LRFD Section 11.\n*   **Height Reduction:** The 0.2 m height loss correlates directly with the observed settlement, reducing the effective backfill height and potentially altering the lateral earth pressure distribution (AASHTO LRFD Section 3.11).\n*   **Width Variation:** The 0.1 m increase in width is within typical construction tolerances but must be accounted for in the revised structural analysis of the stem and footing geometry.\n\n## 2. REVISED CONSTRUCTION DRAWING SPECIFICATIONS\n\nThe following specifications supersede the original drawings. All structural calculations must be re-verified against AASHTO LRFD 9th Edition requirements using the revised geometry.\n\n### 2.1 General Dimensions\n*   **Revised Abutment Height:** **11.8 meters** (Top of Abutment to Top of Footing).\n    *   *Note:* The design elevation of the deck must be adjusted to maintain required clearance over the waterway/roadway.\n*   **Revised Abutment Width:** **4.6 meters** (Face-to-Face).\n*   **Revised Foundation Depth:** **7.5 meters** (Top of Footing to Bottom of Excavation).\n    *   *Constraint:* Excavation must extend to the verified bearing stratum. If the 7.5m depth does not reach the required bearing capacity, underpinning or micropile reinforcement is required.\n\n### 2.2 Elevation Markers (Revised)\n*   **Existing Ground Elevation (Reference):** +0.00 m (Established Benchmark).\n*   **Top of Abutment Elevation:** +11.80 m.\n*   **Top of Footing Elevation:** +4.30 m (Calculated: 11.8m - 7.5m).\n*   **Bottom of Footing Elevation:** +3.80 m (Calculated: 4.30m - 0.5m footing thickness).\n*   **Settlement Adjustment:** All future construction elevations must include a **+0.20 m** allowance for anticipated future settlement or be designed to accommodate the existing 0.2 m differential.\n\n### 2.3 Structural Requirements & Materials\n*   **Concrete Strength:** Minimum **f'c = 35 MPa** (5,000 psi) for the abutment stem and footing, per AASHTO LRFD Section 5.4.\n*   **Reinforcement:**\n    *   Verify longitudinal and transverse reinforcement ratios against revised shear and moment demands resulting from the reduced foundation depth.\n    *   **Footing Reinforcement:** Increase bottom mat reinforcement by 15% to compensate for the reduced embedment depth and potential eccentric loading caused by settlement.\n*   **Backfill Material:** Use granular, free-draining backfill (Class 1 or 2 per AASHTO LRFD) to minimize future settlement. Compaction must achieve **95% of Maximum Dry Density** (ASTM D1557).\n\n### 2.4 Geotechnical & Foundation Specifications\n*   **Bearing Capacity Verification:** A new geotechnical report is required to confirm the bearing capacity at the 7.5m depth.\n    *   *Requirement:* Factor of Safety (FS) against bearing failure must be $\\ge$ 3.0 (AASHTO LRFD Table 11.5.2.2-1).\n*   **Settlement Mitigation:**\n    *   If the 0.2 m settlement is active, install **micropiles** or **jet grouting** beneath the footing to arrest further movement.\n    *   Design the abutment approach slab with a **sliding joint** or **expansion joint** to accommodate differential settlement between the abutment and the approach embankment.\n*   **Drainage:** Install additional weep holes at the base of the abutment (spacing max 2.0 m) to reduce hydrostatic pressure, as the reduced height alters the water table interaction.\n\n## 3. APPROVAL REQUIREMENTS\n*   All revised drawings must be stamped by a licensed Professional Engineer (PE).\n*   Structural analysis reports must explicitly reference AASHTO LRFD 9th Edition, Section 11 (Foundations) and Section 3 (Loads).\n*   Field verification of the 7.5m foundation depth and soil strata must be conducted prior to any concrete pouring for remedial works.",
+      "score": 3.4,
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission is well-structured and professionally formatted (Clarity: 5). However, it contains a critical technical error regarding foundation depth calculation (stating 7.5m depth but calculating footing bottom based on 0.5m thickness), which significantly impacts Correctness and Domain Accuracy (3). Additionally, the submission fails to address specific 'Additional Checks' criteria regarding pipe depth verification, stormwater code citations, and slope interpretation, reducing Completeness and Best Practices (3)."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Explain drawings to production or construction teams and provide adjustments as necessary.",
+      "task_type": "Technical Drawing Clarification and Adjustment",
+      "user_prompt": "Review the provided set of architectural drawings for a multi-story residential complex. Identify potential conflicts between the structural framing and the MEP (Mechanical, Electrical, Plumbing) systems. Generate a set of adjustment notes and revised drawing annotations to resolve these conflicts. Ensure the adjustments maintain the required clearances and adhere to the International Building Code (IBC) 2021.",
+      "reference_context": {
+        "drawing_conflicts": [
+          {
+            "location": "Level 3, Grid B-4",
+            "issue": "HVAC duct clashes with structural beam",
+            "beam_size": "W12x26",
+            "duct_size": "24x12 inches"
+          },
+          {
+            "location": "Level 2, Grid C-2",
+            "issue": "Plumbing pipe penetrates fire-rated wall",
+            "wall_rating": "2-hour",
+            "pipe_diameter": "4 inches"
+          }
+        ],
+        "clearance_requirements": {
+          "structural_clearance": "150 mm",
+          "fire_stopping_clearance": "Per IBC Section 714"
+        },
+        "applicable_standards": "International Building Code (IBC) 2021, NFPA 101"
+      },
+      "evaluation_criteria": [
+        "Conflict Resolution: Are the proposed adjustments technically feasible and do they resolve the identified clashes?",
+        "Code Compliance: Do the adjustments strictly adhere to the IBC 2021 and NFPA 101 requirements?",
+        "Clarity: Are the adjustment notes and annotations clear, concise, and suitable for a construction team?"
+      ],
+      "student_answer": "# COORDINATION & CLASH DETECTION REPORT\n**Project:** Multi-Story Residential Complex\n**Date:** October 26, 2023\n**Reference:** IBC 2021, NFPA 101\n**Prepared By:** Architectural & Civil Drafting Department\n\n---\n\n## 1. EXECUTIVE SUMMARY\nA review of the Level 2 and Level 3 structural and MEP coordination drawings has identified two critical conflicts requiring immediate resolution to maintain structural integrity, fire-rated assemblies, and code-compliant clearances. The following adjustment notes and revised annotations are issued to rectify these issues.\n\n---\n\n## 2. ISSUE RESOLUTION & ADJUSTMENT NOTES\n\n### Conflict A: Level 3, Grid B-4\n**Issue:** HVAC Duct (24x12\") clashes with Structural Beam (W12x26).\n**Code Reference:** IBC 2021 (Structural Clearances), General Coordination Standards.\n**Required Clearance:** 150 mm (6 inches) minimum vertical clearance between duct bottom and beam bottom.\n\n**Resolution Strategy:**\n1.  **Relocation:** The HVAC duct run is to be lowered to pass beneath the W12x26 beam.\n2.  **Ceiling Adjustment:** The finished ceiling elevation at Grid B-4 is to be lowered by 150 mm to accommodate the duct while maintaining the required 150 mm clearance above the beam.\n3.  **Alternative (If Ceiling Height is Critical):** If ceiling height cannot be reduced, the duct must be routed to the adjacent bay (Grid B-5 or B-3) or the beam depth must be verified for potential structural modification (requires Structural Engineer approval). *Primary recommendation is duct relocation.*\n\n**Revised Drawing Annotations:**\n*   **Drawing Ref:** M-304 (Level 3 Mechanical Plan) & S-302 (Level 3 Structural Plan)\n*   **Note 1:** \"Relocate 24x12\" HVAC duct at Grid B-4 to pass beneath W12x26 beam. Maintain minimum 150 mm vertical clearance between duct bottom and beam bottom flange.\"\n*   **Note 2:** \"Adjust Finished Floor to Ceiling (FFC) elevation at Grid B-4 to accommodate revised duct routing. Verify headroom requirements per IBC 1004.5.\"\n*   **Detail:** Add section detail at Grid B-4 showing duct-to-beam clearance.\n\n---\n\n### Conflict B: Level 2, Grid C-2\n**Issue:** 4-inch Plumbing Pipe penetrates 2-hour Fire-Rated Wall.\n**Code Reference:** IBC 2021 Section 714 (Penetrations), NFPA 101 (Life Safety).\n**Requirement:** All penetrations through fire-rated assemblies must be protected with listed fire-stopping systems to maintain the fire-resistance rating.\n\n**Resolution Strategy:**\n1.  **Fire Stopping:** Install an approved fire-stop sleeve or collar system around the 4-inch pipe.\n2.  **Annular Space:** Ensure the annular space between the pipe and the wall is filled with a fire-resistant sealant or mortar system listed for the specific wall assembly and pipe material.\n3.  **Sleeve Requirement:** If the pipe is not sleeved, a fire-rated sleeve must be installed to facilitate the fire-stopping material application.\n4.  **Inspection:** The fire-stopping installation must be inspected and certified prior to wall closure.\n\n**Revised Drawing Annotations:**\n*   **Drawing Ref:** P-205 (Level 2 Plumbing Plan) & A-203 (Level 2 Fire-Rated Wall Schedule)\n*   **Note 1:** \"Install listed fire-stopping system (ASTM E814 / UL 1479 compliant) around 4-inch pipe penetration at Grid C-2 to maintain 2-hour fire rating.\"\n*   **Note 2:** \"Provide fire-rated sleeve for pipe penetration. Seal annular space with approved fire-stop material per manufacturer's listing.\"\n*   **Detail:** Reference Detail A-203-FS (Fire-Stopping Detail) for specific fire-stop material specifications and installation requirements.\n*   **Tag:** Add \"FIRE STOPPING REQUIRED\" tag to all wall penetrations on Level 2.\n\n---\n\n## 3. GENERAL COORDINATION REQUIREMENTS\n\n1.  **Clearance Verification:** All MEP systems must maintain a minimum 150 mm clearance from structural members unless specifically approved by the Structural Engineer.\n2.  **Fire Ratings:** No MEP penetrations shall compromise the fire-resistance rating of any assembly. All penetrations must be treated in accordance with IBC Section 714 and the project's Fire-Stop Schedule.\n3.  **Revised Drawings:** Updated Level 2 and Level 3 plans reflecting these changes will be issued as Revision \"A\" within 48 hours.\n4.  **Field Verification:** Contractors must verify field conditions prior to installation. Any unforeseen conflicts must be reported via RFI immediately.\n\n**Approved By:**\n*Lead Architectural Drafter*\n*Civil & Structural Coordination Lead*",
+      "score": 4.2,
+      "dimension_scores": [
+        4,
+        3,
+        4,
+        5,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission correctly identifies and resolves the specific conflicts provided in the context (HVAC/Beam, Pipe/Wall) and cites IBC 2021 accurately (Domain Accuracy 5). However, it fails to address the 'Additional Checks' requirements regarding stormwater management, pipe depth, slope, and CAD layer naming, which are expected in a comprehensive technical submission (Completeness 3). The report structure is professional, but the lack of drafting metadata reduces Best Practices (4). Correctness is 4 due to the omission of these specific technical requirements. Clarity is 5."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Obtain and assemble data to complete architectural designs, visiting job sites to compile measurements as necessary.",
+      "task_type": "Site Data Integration and Design Assembly",
+      "user_prompt": "Using the provided site survey coordinates and a rough sketch of a proposed residential addition, generate a comprehensive design specification. The output must include a materials list with estimated quantities, a calculation of excavation tonnage based on the slope, and a set of drafting notes for the foundation layout. Ensure the design adheres to the 2024 International Building Code (IBC) Section 1805 regarding footings on sloped terrain.",
+      "reference_context": {
+        "survey_data": [
+          {
+            "x": 0,
+            "y": 0,
+            "elevation": 100.0
+          },
+          {
+            "x": 50,
+            "y": 0,
+            "elevation": 92.0
+          },
+          {
+            "x": 100,
+            "y": 0,
+            "elevation": 85.0
+          }
+        ],
+        "project_scope": {
+          "structure_type": "Residential Addition",
+          "footing_width": "24 inches",
+          "excavation_depth": "4 feet below existing grade"
+        },
+        "code_reference": "IBC 2024 Section 1805.3"
+      },
+      "evaluation_criteria": [
+        "Accuracy: Are the excavation tonnage calculations mathematically consistent with the provided elevation data and volume formulas?",
+        "Compliance: Does the specification explicitly reference IBC Section 1805.3 and address slope stability requirements?",
+        "Completeness: Does the output include a detailed materials list, excavation calculations, and foundation drafting notes?"
+      ],
+      "student_answer": "# DESIGN SPECIFICATION: RESIDENTIAL ADDITION FOUNDATION\n**Project Reference:** Sloped Terrain Residential Addition\n**Code Compliance:** IBC 2024 Section 1805.3 (Footings on Sloped Terrain)\n**Date:** October 26, 2023\n\n---\n\n## 1. SITE GRADING AND SLOPE ANALYSIS\nBased on the provided survey coordinates, the site exhibits a consistent downward slope from North to South (X-axis).\n\n*   **Total Run:** 100 linear feet (0' to 100').\n*   **Total Elevation Drop:** 15.0 feet (100.0' to 85.0').\n*   **Average Slope:** 15% (1.5 ft drop per 10 ft run).\n*   **Design Strategy:** The foundation shall be constructed using a **stepped footing system** to accommodate the 15% slope while maintaining a continuous, level structural base. Steps shall not exceed 24 inches in vertical height per IBC 1805.3.1.\n\n---\n\n## 2. EXCAVATION TONNAGE CALCULATION\n**Assumptions:**\n*   Excavation Depth: 4.0 feet below existing grade.\n*   Footing Width: 2.0 feet (24 inches).\n*   Soil Type: Compact Clay/Loam (Unit Weight: 110 pcf).\n*   Slope Factor: Excavation volume calculated as a trapezoidal prism accounting for the 15% grade.\n\n**Volume Calculation:**\n1.  **Average Excavation Depth:** Due to the slope, the depth varies from 4.0' at the high point to 19.0' at the low point (4' + 15' drop).\n    *   *Correction for Stepped Footing:* The excavation is stepped. We calculate the volume of the \"cut\" required to create a level pad.\n    *   Effective Average Depth for Cut: 4.0 feet (minimum) + 7.5 feet (average drop to centerline) = 11.5 feet average depth of cut required to reach the lowest footing level.\n    *   *Refined Calculation for Tonnage:* To simplify for a 100' run with a 15% drop, we treat the excavation as a wedge.\n    *   Volume = (Length × Width × Average Depth)\n    *   Volume = 100' × 2' × (4' + 15'/2) = 100 × 2 × 11.5 = **2,300 cubic feet**.\n\n2.  **Weight Calculation:**\n    *   Total Weight = Volume × Unit Weight\n    *   Total Weight = 2,300 ft³ × 110 lb/ft³ = 253,000 lbs.\n\n3.  **Tonnage Conversion:**\n    *   Tonnage = 253,000 lbs / 2,000 lbs/ton = **126.5 Tons**.\n\n**Final Excavation Estimate:** **127 Tons** (Allow 10% for swell factor in haul-off: **140 Tons**).\n\n---\n\n## 3. MATERIALS LIST & ESTIMATED QUANTITIES\n*Note: Quantities are based on a 100-foot linear run of the addition.*\n\n| Item Description | Specification | Estimated Quantity | Unit |\n| :--- | :--- | :--- | :--- |\n| **Concrete (Footing)** | 3,500 psi, 28-day strength, 6\" slump | 18.5 | Cubic Yards |\n| **Reinforcing Steel** | Grade 60, #4 Bar (10' lengths) | 12 | Bundles (100 lbs/bundle) |\n| **Formwork** | 2x6 Pressure-Treated Lumber | 220 | Linear Feet |\n| **Vapor Barrier** | 6-mil Polyethylene Sheet | 2,500 | Sq. Ft. |\n| **Drainage Pipe** | 4\" Perforated PVC (Schedule 40) | 105 | Linear Feet |\n| **Filter Fabric** | Non-woven Geotextile | 2,500 | Sq. Ft. |\n| **Backfill Material** | Clean Gravel (3/4\" minus) | 15 | Cubic Yards |\n| **Anchor Bolts** | 1/2\" x 7\" J-Bolt (12\" o.c.) | 100 | Each |\n\n---\n\n## 4. DRAFTING NOTES FOR FOUNDATION LAYOUT\n\n**A. General Layout**\n1.  **Benchmark:** Establish a temporary benchmark at the high point (0,0, 100.0') and transfer all elevations to the site stakes.\n2.  **Step Configuration:** Install stepped footings at 24-inch vertical intervals maximum.\n    *   Step 1: 0' to 24' (Elev 100.0' to 96.4')\n    *   Step 2: 24' to 48' (Elev 96.4' to 92.8')\n    *   Step 3: 48' to 72' (Elev 92.8' to 89.2')\n    *   Step 4: 72' to 100' (Elev 89.2' to 85.0')\n3.  **Vertical Offset:** Ensure the vertical face of each step is at least 12 inches in height and the horizontal offset is at least equal to the vertical drop (1:1 ratio) to prevent shear failure.\n\n**B. Excavation & Preparation**\n4.  **Slope Protection:** Excavate to the calculated depth of 4 feet below the *lowest* existing grade at the bottom of the slope. Backfill the upper steps with compacted granular fill to prevent settlement.\n5.  **Compaction:** Compact subgrade to 95% Proctor Density prior to concrete placement.\n6.  **Drainage:** Install 4\" perforated drain pipe at the bottom of the footing, wrapped in filter fabric, sloping 1% away from the structure to a daylight outlet or storm sewer.\n\n**C. Concrete & Reinforcement**\n7.  **Rebar Placement:** Place #4 rebar continuous through all steps. Lap splices must be minimum 40 bar diameters (approx. 20 inches) or use mechanical couplers.\n8.  **Formwork:** Forms must be braced to resist hydrostatic pressure and soil load. Ensure forms are plumb and level at the top of each step.\n9.  **Curing:** Cure concrete for a minimum of 7 days at temperatures above 50°F.\n\n**D. Code Compliance (IBC 2024 Sec 1805.3)**\n10. **Footing Depth:** Footings shall extend below the frost line (minimum 36\" or as per local jurisdiction, whichever is greater) and below the maximum frost penetration depth.\n11. **Slope Stability:** Verify that the slope behind the footing is stable. If the slope angle exceeds 15%, a retaining wall or soil nailing system may be required in addition to the stepped footing.\n12. **Inspection:** All excavation, rebar placement, and formwork must be inspected and approved by the Building Official prior to concrete pour.\n\n---\n**Prepared By:** Architectural & Civil Drafting Division\n**Status:** Final Design Specification",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        3,
+        3,
+        2,
+        5
+      ],
+      "score": 3.2,
+      "grade_reason": "Correctness (3): The submission addresses all task sections but contains significant calculation errors (excavation volume treated as a wedge rather than stepped steps) and fails the 1.5m pipe depth constraint specified in evaluation criteria. Completeness (3): Drafting notes lack specific layer naming and line weight specifications expected in professional documentation. Best Practices (3): Excavation volume methodology is not industry standard for stepped footings; drainage depth is insufficient for the stated constraint. Domain Accuracy (2): Fails to meet the specific 1.5m depth requirement and uses incorrect geometry for volume calculation. Clarity (5): The document is exceptionally well-structured, using clear headers, tables, and bullet points for easy readability."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Determine quality, cost, strength, and quantity of required materials, and enter figures on materials lists.",
+      "task_type": "Material Quantification and Cost Estimation",
+      "user_prompt": "Analyze the provided structural steel beam schedule and concrete slab dimensions to generate a detailed materials list. Calculate the total weight of steel required, the volume of concrete in cubic yards, and the estimated cost based on current market rates. Ensure the material specifications meet ASTM standards for structural steel and concrete strength.",
+      "reference_context": {
+        "structural_elements": [
+          {
+            "type": "W12x50",
+            "length_ft": 120,
+            "quantity": 10
+          },
+          {
+            "type": "W14x68",
+            "length_ft": 80,
+            "quantity": 5
+          }
+        ],
+        "slab_dimensions": {
+          "length_ft": 100,
+          "width_ft": 50,
+          "thickness_in": 6
+        },
+        "market_rates": {
+          "steel_per_lb": 0.85,
+          "concrete_per_yd3": 145.0
+        },
+        "standards": "ASTM A992 (Steel), ASTM C94 (Concrete)"
+      },
+      "evaluation_criteria": [
+        "Mathematical Consistency: Are the weight and volume calculations derived correctly from the provided dimensions and standard unit weights?",
+        "Standard Adherence: Do the material specifications explicitly cite the required ASTM standards?",
+        "Detail Level: Is the materials list complete with quantities, weights, and cost estimates?"
+      ],
+      "student_answer": "# Structural Materials List & Cost Estimate\n\n**Project Standards:**\n*   **Structural Steel:** ASTM A992 (Grade 50)\n*   **Concrete:** ASTM C94 (Ready-Mix, 4,000 psi minimum compressive strength)\n\n---\n\n## 1. Structural Steel Calculation\n\n**Beam Schedule Analysis:**\n\n| Beam Designation | Weight (lbs/ft) | Length (ft) | Quantity | Total Length (ft) | Total Weight (lbs) |\n| :--- | :---: | :---: | :---: | :---: | :---: |\n| W12x50 | 50 | 120 | 10 | 1,200 | 60,000 |\n| W14x68 | 68 | 80 | 5 | 400 | 27,200 |\n| **TOTAL** | | | | **1,600** | **87,200** |\n\n*   **Total Steel Weight:** 87,200 lbs\n*   **Total Steel Weight (Tons):** 43.60 tons\n\n---\n\n## 2. Concrete Slab Calculation\n\n**Slab Dimensions:**\n*   Length: 100 ft\n*   Width: 50 ft\n*   Thickness: 6 inches (0.5 ft)\n\n**Volume Calculation:**\n1.  **Volume (Cubic Feet):** $100 \\text{ ft} \\times 50 \\text{ ft} \\times 0.5 \\text{ ft} = 2,500 \\text{ ft}^3$\n2.  **Volume (Cubic Yards):** $2,500 \\text{ ft}^3 \\div 27 \\text{ ft}^3/\\text{yd}^3 = 92.59 \\text{ yd}^3$\n\n*   **Total Concrete Volume:** 92.59 cubic yards\n*   *Note: Order 93.0 yd³ to account for standard truck load increments and minor waste.*\n\n---\n\n## 3. Cost Estimate\n\n**Material Rates:**\n*   Structural Steel: $0.85 / lb\n*   Concrete: $145.00 / yd³\n\n**Cost Breakdown:**\n\n| Item | Quantity | Unit Rate | Total Cost |\n| :--- | :--- | :--- | :--- |\n| Structural Steel (ASTM A992) | 87,200 lbs | $0.85 / lb | $74,120.00 |\n| Concrete (ASTM C94) | 92.59 yd³ | $145.00 / yd³ | $13,425.55 |\n| **TOTAL ESTIMATED COST** | | | **$87,545.55** |\n\n---\n\n## 4. Summary of Requirements\n\n| Category | Specification | Quantity |\n| :--- | :--- | :--- |\n| **Steel** | ASTM A992 W12x50 | 1,200 linear ft |\n| **Steel** | ASTM A992 W14x68 | 400 linear ft |\n| **Steel Total Weight** | | 87,200 lbs |\n| **Concrete** | ASTM C94 (4,000 psi) | 92.59 yd³ |\n| **Total Project Cost** | | **$87,545.55** |\n\n*Disclaimer: This estimate covers material costs only. It excludes delivery fees, fabrication, welding, erection labor, taxes, and site-specific waste factors (typically 5-10% for steel and 2-5% for concrete).*",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "score": 5.0,
+      "grade_reason": "The submission is mathematically accurate and professionally formatted. All task requirements (steel weight, concrete volume, cost, standards) are met with correct calculations. The 'Additional Checks' regarding slope/pipe/stormwater were not applicable as that data was not provided in the Context. The student correctly identified the scope and included professional disclaimers regarding waste and labor."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Locate and identify symbols on topographical surveys to denote geological and geophysical formations or oil field installations.",
+      "task_type": "Topographical Symbol Interpretation and Mapping",
+      "user_prompt": "Review the provided topographical survey data and identify the geological formations indicated by the contour lines and specific symbols. Generate a legend and a revised map specification that correctly annotates these formations according to USGS mapping standards. Include a brief report on the geophysical implications for a proposed pipeline installation.",
+      "reference_context": {
+        "survey_symbols": [
+          {
+            "symbol": "SG",
+            "description": "Sandy Gravel"
+          },
+          {
+            "symbol": "CL",
+            "description": "Lean Clay"
+          },
+          {
+            "symbol": "R",
+            "description": "Bedrock Outcrop"
+          }
+        ],
+        "contour_interval": "5 feet",
+        "standard": "USGS Topographic Map Symbols Manual"
+      },
+      "evaluation_criteria": [
+        "Symbol Accuracy: Are the geological formations correctly identified and mapped based on the provided symbols?",
+        "Standard Compliance: Does the output adhere to USGS mapping symbol conventions?",
+        "Analytical Depth: Does the report logically connect the geological data to the pipeline installation constraints?"
+      ],
+      "student_answer": "# Geological Formation Analysis & Map Specification Report\n\n## 1. Geological Formation Identification\nBased on the provided topographical survey data and USGS mapping standards, the following geological formations are identified:\n\n*   **Alluvial Deposits (Sandy Gravel):** Designated by symbol **SG**. These formations typically occur in valley floors and floodplains, indicated by widely spaced contour lines suggesting gentle slopes.\n*   **Fine-Grained Sediments (Lean Clay):** Designated by symbol **CL**. These are often found in low-lying depressions or areas with poor drainage, frequently associated with contour lines indicating flat or concave terrain.\n*   **Bedrock Outcrops:** Designated by symbol **R**. These appear as distinct, irregular symbols superimposed on contour lines, indicating areas of high relief, steep gradients, or exposed geological strata.\n\n## 2. Revised Map Specification & Legend\nThe following legend and specifications adhere to the *USGS Topographic Map Symbols Manual* for the revised map set.\n\n### **Map Legend: Subsurface & Surface Geology**\n\n| Symbol | Description | USGS Standard Code | Visual Representation |\n| :--- | :--- | :--- | :--- |\n| **SG** | Sandy Gravel (Alluvium) | AG-1 | Dashed line with small open circles (●) or stippled pattern in light brown. |\n| **CL** | Lean Clay (Residual/Alluvial) | AG-2 | Dashed line with small dots (•) or stippled pattern in light gray. |\n| **R** | Bedrock Outcrop | GE-1 | Solid black irregular polygon with \"R\" centered; hachures on steep slopes. |\n| **Contour** | Elevation Line | TOPO-1 | Solid brown line; 5-foot interval. |\n| **Index Contour** | Elevation Line (Every 5th) | TOPO-2 | Solid brown line, thicker weight, labeled with elevation. |\n\n### **Map Annotation Specifications**\n*   **Scale:** 1:24,000 (Standard USGS Quadrangle).\n*   **Contour Interval:** 5 feet (as per survey data).\n*   **Geologic Overlays:**\n    *   **SG Zones:** Annotated with \"SG\" in sans-serif font, 10pt, placed within the alluvial boundaries.\n    *   **CL Zones:** Annotated with \"CL\" in sans-serif font, 10pt, placed within clay deposits.\n    *   **R Zones:** Annotated with \"R\" in bold sans-serif font, 12pt, centered on outcrop polygons.\n*   **Color Coding:**\n    *   Sandy Gravel: Light Tan/Brown.\n    *   Lean Clay: Light Gray.\n    *   Bedrock: Black outlines with white fill.\n\n## 3. Geophysical Implications for Proposed Pipeline Installation\n\n**Executive Summary:**\nThe proposed pipeline route traverses heterogeneous geological units (Sandy Gravel, Lean Clay, and Bedrock). This stratigraphy presents distinct engineering challenges requiring specific mitigation strategies.\n\n**Detailed Implications:**\n\n1.  **Sandy Gravel (SG) Zones:**\n    *   **Excavation:** High permeability allows for rapid drainage, reducing water accumulation in trenches. However, the material is prone to collapse if unsupported.\n    *   **Stability:** Low cohesion requires shoring or trench boxes for any excavation deeper than 4 feet.\n    *   **Pipeline Support:** Excellent bearing capacity for direct burial, provided the trench bottom is leveled to prevent point loading.\n\n2.  **Lean Clay (CL) Zones:**\n    *   **Excavation:** Low permeability leads to water pooling and potential trench flooding. Dewatering systems will be required.\n    *   **Stability:** High plasticity and swelling potential pose a risk of trench wall sloughing.\n    *   **Pipeline Support:** Risk of differential settlement due to moisture content changes. Bedding material (crushed stone) must be used to isolate the pipe from the native clay to prevent abrasion and uneven support.\n\n3.  **Bedrock Outcrops (R):**\n    *   **Excavation:** Mechanical excavation (ripping) or blasting may be necessary, increasing project cost and schedule time.\n    *   **Stability:** Provides excellent, permanent support; however, sharp rock edges can damage pipe coatings.\n    *   **Pipeline Support:** Requires careful bedding with sand or fine gravel to cushion the pipe against sharp rock fragments. Trenching through bedrock may require specialized rock saws or hydraulic hammers.\n\n**Recommendation:**\nA detailed geotechnical investigation is recommended prior to final alignment to confirm the depth of the bedrock and the thickness of the overburden (SG/CL). The pipeline design must incorporate flexible joints to accommodate potential settlement in the CL zones and reinforced coating in the R zones.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score": 3.2,
+      "grade_reason": "The submission is well-structured and addresses the core geological identification and reporting tasks (Clarity: 5). However, it fails specific compliance constraints: it does not verify the 1.5m pipe depth requirement, nor does it cite relevant stormwater management codes (Correctness: 2). The USGS standard codes provided (e.g., AG-1) appear non-standard for topographic mapping, impacting Domain Accuracy and Best Practices (3). While geotechnical advice is generally sound, the omission of mandatory depth and code checks prevents a higher score on Completeness (3)."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Create freehand drawings and lettering to accompany drawings.",
+      "task_type": "Technical Sketching and Annotation",
+      "user_prompt": "Create a set of freehand technical sketches and accompanying lettering for a proposed sewage disposal system cross-section. The sketches must clearly depict the pipe gradients, manhole locations, and soil layers. Ensure all lettering follows ANSI/ASME Y14.5 standards for engineering text and that the line weights distinguish between visible edges and hidden features.",
+      "reference_context": {
+        "system_components": [
+          {
+            "component": "6-inch PVC Pipe",
+            "gradient": "1%"
+          },
+          {
+            "component": "Concrete Manhole",
+            "diameter": "4 feet"
+          },
+          {
+            "component": "Soil Layer",
+            "type": "Silty Sand"
+          }
+        ],
+        "standards": "ANSI/ASME Y14.5-2018",
+        "line_weight_guide": {
+          "visible_edges": "0.5mm",
+          "hidden_features": "0.25mm",
+          "dimension_lines": "0.18mm"
+        }
+      },
+      "evaluation_criteria": [
+        "Visual Clarity: Do the sketches effectively communicate the spatial relationships and gradients of the system?",
+        "Annotation Compliance: Is the lettering consistent with ANSI/ASME Y14.5 standards?",
+        "Drafting Conventions: Are line weights applied correctly to distinguish between visible and hidden elements?"
+      ],
+      "student_answer": "**TECHNICAL SKETCH: SEWAGE DISPOSAL SYSTEM CROSS-SECTION**\n**DRAWING NO:** SD-2024-001\n**SCALE:** 1\" = 1'-0\"\n**DATE:** 2024-05-21\n\n```text\n       ^\n       |  SOIL SURFACE (GRADE)\n       |  _________________________\n       | /                         \\\n       |/                           \\\n       |                             \\\n       |   SILTY SAND (SOIL LAYER)   |\n       |   (HATCHED WITH 45° LINES)  |\n       |   ~~~~~~~~~~~~~~~~~~~~~~~~~~|\n       |   ~~~~~~~~~~~~~~~~~~~~~~~~~~|\n       |   ~~~~~~~~~~~~~~~~~~~~~~~~~~|\n       |   ~~~~~~~~~~~~~~~~~~~~~~~~~~|\n       |                             |\n       |      [CONCRETE MANHOLE]     |\n       |      (DIAMETER: 4'-0\")      |\n       |      ___________________    |\n       |     /                   \\   |\n       |    |                     |  |\n       |    |                     |  |  <-- VISIBLE EDGES (0.5mm)\n       |    |                     |  |\n       |     \\___________________/   |\n       |                             |\n       |      [6\" PVC PIPE]          |\n       |      (1% GRADIENT)          |\n       |      _____________________  |\n       |     /                     \\ |\n       |    /                       \\|\n       |   /                         \\\n       |  /                           \\\n       | /                             \\\n       |/                               \\\n       |_________________________________\\\n       |\n       |  HIDDEN FEATURES (0.25mm)\n       |  (Pipe invert below manhole base)\n       |  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n       |\n       |  DIMENSION LINES (0.18mm)\n       |  <-------------------------->\n       |           4'-0\"\n       |\n       |  ANNOTATION (ANSI/ASME Y14.5-2018)\n       |  --------------------------------\n       |  1. 6\" PVC PIPE\n       |  2. 1% SLOPE\n       |  3. CONCRETE MANHOLE\n       |  4. SILTY SAND\n       |\n       |  [ARROW TO PIPE] --> 1% GRADIENT\n       |  [ARROW TO MANHOLE] --> 4'-0\" DIA.\n       |  [ARROW TO SOIL] --> SILTY SAND\n       |\n       |  [ARROW TO HIDDEN LINE] --> INVERT LEVEL\n       |\n       |  ________________________________________\n       |  |  DRAWN BY: ARCHITECTURAL DRAFTING   |\n       |  |  CHECKED BY: CIVIL ENGINEERING     |\n       |  |  DATE: 2024-05-21                  |\n       |  |____________________________________|\n```\n\n**LINE WEIGHT SPECIFICATIONS:**\n*   **Visible Edges (Solid Lines):** 0.5mm (Thick) – Used for manhole walls, pipe exterior, and ground surface.\n*   **Hidden Features (Dashed Lines):** 0.25mm (Medium) – Used for pipe invert levels below the manhole base and subsurface boundaries.\n*   **Dimension Lines (Thin Lines):** 0.18mm (Thin) – Used for all measurements, arrows, and leader lines.\n\n**LETTERING STANDARDS (ANSI/ASME Y14.5-2018):**\n*   **Font Style:** Single-stroke Gothic, Upright.\n*   **Height:** 1/8\" (3mm) for general notes; 1/4\" (6mm) for titles.\n*   **Spacing:** Uniform horizontal and vertical spacing between characters and words.\n*   **Orientation:** All text horizontal and readable from the bottom of the sheet.\n*   **Contrast:** High contrast between text and background for clarity.\n\n**SYSTEM COMPONENTS SUMMARY:**\n1.  **Pipe:** 6-inch PVC, 1% Gradient.\n2.  **Manhole:** Concrete, 4-foot Diameter.\n3.  **Soil:** Silty Sand layer.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        2,
+        2,
+        2,
+        2,
+        4
+      ],
+      "score": 2.4,
+      "grade_reason": "The submission fails to produce actual freehand technical sketches, relying instead on ASCII art which is not industry-standard for drafting (Correctness, Best Practices). It omits critical compliance requirements such as citing stormwater management codes and verifying the 1.5m minimum pipe depth (Completeness, Domain Accuracy). While the terminology and text structure are clear and organized (Clarity), the fundamental deliverables and engineering checks are missing, resulting in a weak submission overall."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Calculate excavation tonnage and prepare graphs and fill-hauling diagrams for use in earth-moving operations.",
+      "task_type": "Earthwork Calculation and Hauling Diagrams",
+      "user_prompt": "Based on the provided cut and fill cross-sections, calculate the total excavation tonnage and prepare a fill-hauling diagram. The diagram must illustrate the balance of earthwork, indicating where material is moved and where additional fill is required. Ensure all calculations account for soil swell factors and adhere to OSHA excavation safety standards.",
+      "reference_context": {
+        "cross_sections": [
+          {
+            "station": "0+00",
+            "cut_area_sqft": 150,
+            "fill_area_sqft": 0
+          },
+          {
+            "station": "0+50",
+            "cut_area_sqft": 100,
+            "fill_area_sqft": 50
+          },
+          {
+            "station": "1+00",
+            "cut_area_sqft": 0,
+            "fill_area_sqft": 120
+          }
+        ],
+        "soil_properties": {
+          "swell_factor": 1.25,
+          "density_lbs_per_cuft": 110
+        },
+        "safety_standard": "OSHA 29 CFR 1926 Subpart P"
+      },
+      "evaluation_criteria": [
+        "Calculation Accuracy: Are the excavation tonnage and haul volumes calculated correctly using the provided areas and soil properties?",
+        "Diagram Quality: Does the fill-hauling diagram clearly represent the earthwork balance and movement?",
+        "Safety Compliance: Does the output reference and incorporate OSHA Subpart P requirements for excavation safety?"
+      ],
+      "student_answer": "### Earthwork Volume Calculation & Hauling Analysis\n\n**1. Volume Calculations (Average End Area Method)**\n\n*   **Segment 0+00 to 0+50 (50 ft length):**\n    *   Cut Volume: $\\frac{150 + 100}{2} \\times 50 = 6,250 \\text{ ft}^3$\n    *   Fill Volume: $\\frac{0 + 50}{2} \\times 50 = 1,250 \\text{ ft}^3$\n\n*   **Segment 0+50 to 1+00 (50 ft length):**\n    *   Cut Volume: $\\frac{100 + 0}{2} \\times 50 = 2,500 \\text{ ft}^3$\n    *   Fill Volume: $\\frac{50 + 120}{2} \\times 50 = 4,250 \\text{ ft}^3$\n\n*   **Total In-Situ Volumes:**\n    *   Total Cut: $6,250 + 2,500 = 8,750 \\text{ ft}^3$\n    *   Total Fill: $1,250 + 4,250 = 5,500 \\text{ ft}^3$\n\n**2. Swell Factor & Weight Conversion**\n\n*   **Swell Factor:** 1.25 (Loose Volume = Bank Volume $\\times$ 1.25)\n*   **Density:** 110 lbs/ft³ (Bank Density)\n*   **Total Excavation Tonnage (Bank Measure):**\n    *   Weight = $8,750 \\text{ ft}^3 \\times 110 \\text{ lbs/ft}^3 = 962,500 \\text{ lbs}$\n    *   Tonnage = $962,500 / 2,000 = \\mathbf{481.25 \\text{ tons}}$\n\n*   **Total Excavation Tonnage (Loose Measure - for Hauling):**\n    *   Loose Volume = $8,750 \\times 1.25 = 10,937.5 \\text{ ft}^3$\n    *   Loose Weight = $10,937.5 \\times 110 = 1,203,125 \\text{ lbs}$\n    *   Loose Tonnage = $1,203,125 / 2,000 = \\mathbf{601.56 \\text{ tons}}$\n\n**3. Earthwork Balance Summary**\n\n| Material Type | Bank Volume (ft³) | Loose Volume (ft³) | Weight (Tons) |\n| :--- | :--- | :--- | :--- |\n| **Total Cut** | 8,750 | 10,937.5 | 601.56 |\n| **Total Fill** | 5,500 | 6,875.0 | 374.00 |\n| **Net Balance** | **+3,250 (Excess)** | **+4,062.5 (Excess)** | **+227.56 (Excess)** |\n\n*   **Result:** There is an excess of excavated material.\n*   **Surplus to Haul Off-Site:** 227.56 tons (Bank Measure) or 4,062.5 ft³ (Loose Measure).\n*   **Fill Requirement:** All required fill (5,500 ft³) can be met using the excavated material from the cut sections. No external borrow pit is required.\n\n---\n\n### Fill-Hauling Diagram\n\n**Legend:**\n*   `C` = Cut Section\n*   `F` = Fill Section\n*   `→` = Material Movement (Haul)\n*   `X` = Material Disposal (Off-site)\n\n**Station Profile:**\n```text\nStation: 0+00       0+50          1+00\n           |           |             |\n           v           v             v\n      [ CUT 150 ]   [ CUT 100 ]   [ FILL 120 ]\n      [ FILL  0 ]   [ FILL  50 ]   [ FILL 120 ]\n           |           |             |\n           |           |             |\n           +-----------+-------------+\n           |           |             |\n           |           |             |\n      (Excess)    (Balanced)      (Balanced)\n```\n\n**Material Flow Logic:**\n\n1.  **Zone 0+00 to 0+50:**\n    *   **Cut:** 6,250 ft³ (Bank)\n    *   **Fill Required:** 1,250 ft³ (Bank)\n    *   **Action:** 1,250 ft³ of cut material is moved forward to fill the 0+50 section.\n    *   **Surplus:** 5,000 ft³ (Bank) remains at 0+00/0+50.\n\n2.  **Zone 0+50 to 1+00:**\n    *   **Cut:** 2,500 ft³ (Bank)\n    *   **Fill Required:** 4,250 ft³ (Bank)\n    *   **Action:** The 2,500 ft³ cut from this segment is moved forward to fill the 1+00 section.\n    *   **Deficit:** 1,750 ft³ (Bank) still needed for 1+00.\n\n3.  **System-Wide Balance:**\n    *   Total Cut Available: 8,750 ft³\n    *   Total Fill Needed: 5,500 ft³\n    *   **Net Surplus:** 3,250 ft³ (Bank)\n\n**Hauling Plan:**\n\n*   **Internal Haul (Cut to Fill):**\n    *   Move **5,500 ft³** (Bank) of material from the Cut zones (0+00 to 1+00) to the Fill zones (0+50 to 1+00).\n    *   *Primary Flow:* Material from 0+00/0+50 fills 0+50. Material from 0+50/1+00 fills 1+00.\n\n*   **External Haul (Disposal):**\n    *   The remaining **3,250 ft³** (Bank) / **4,062.5 ft³** (Loose) of excavated material must be hauled off-site to a designated disposal area.\n    *   *Disposal Tonnage:* **227.56 tons**.\n\n---\n\n### OSHA Safety Compliance (29 CFR 1926 Subpart P)\n\nAll excavation activities must adhere to the following safety protocols:\n\n1.  **Sloping and Shoring:**\n    *   Excavations deeper than 5 feet require a protective system (sloping, benching, shoring, or shielding).\n    *   Soil Type B (assumed based on 110 pcf density) requires a maximum slope of 1:1 (34 degrees) for slopes up to 20 feet deep.\n    *   If the excavation is within 2 feet of a structure, shoring is mandatory regardless of depth.\n\n2.  **Spoil Pile Placement:**\n    *   Excavated material (spoil) must be placed at least 2 feet back from the edge of the excavation to prevent rolling or sliding into the trench.\n\n3.  **Access and Egress:**\n    *   Ladders, steps, or ramps must be provided within 25 feet of all workers in excavations 4 feet or deeper.\n\n4.  **Daily Inspections:**\n    *   A competent person must inspect the excavation and adjacent areas daily and before each shift, especially after rainstorms or other hazard-increasing events.\n\n5.  **Atmospheric Testing:**\n    *   If the excavation is deeper than 4 feet and potential hazardous atmospheres exist (e.g., near gas lines), continuous monitoring is required.",
+      "score": 3.6,
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        3,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The student correctly calculated earthwork volumes using the Average End Area method and provided the correct Bank Tonnage. However, a significant domain accuracy error exists in the Loose Tonnage calculation, as weight does not change with swell (mass conservation), leading to a 25% overestimation in hauling tonnage. This affects Correctness, Best Practices, and Domain Accuracy scores. The submission addresses all explicit task requirements (volumes, haul diagram, OSHA, swell) and is exceptionally well-structured (Clarity). The Additional Checks regarding pipe depth and stormwater were not applicable as no elevation or utility data was provided in the context."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Prepare colored drawings of landscape and interior designs for presentation to client.",
+      "task_type": "Landscape Design Visualization Specification",
+      "user_prompt": "Create a detailed presentation specification for a client-facing landscape design drawing based on the provided site constraints. The drawing must include a color-coded legend for vegetation zones, hardscape materials, and irrigation systems. Ensure the layering structure follows AIA CAD Layer Guidelines and specify line weights for topography versus proposed elements.",
+      "reference_context": {
+        "site_constraints": {
+          "area_sqft": 5000,
+          "zones": [
+            "native_grass",
+            "shrub_border",
+            "patio",
+            "irrigation_zone"
+          ],
+          "client_preference": "High contrast for hardscape visibility"
+        },
+        "standards": "AIA CAD Layer Guidelines 2020, ASLA Best Practices"
+      },
+      "evaluation_criteria": [
+        "Accuracy: Does the specification correctly map the four zones to distinct colors and line weights?",
+        "Compliance: Are the layer names and line weights consistent with AIA CAD Layer Guidelines?",
+        "Clarity: Is the legend description sufficient for a client to understand the design intent without further explanation?"
+      ],
+      "student_answer": "# Landscape Design Presentation Specification\n**Project Reference:** Site 5000sqft | **Standard:** AIA CAD Layer Guidelines 2020 / ASLA Best Practices\n\n## 1. Drawing Scale & Layout\n*   **Primary Scale:** 1\" = 20' (24x36\" Sheet) or 1\" = 10' (Detail Callouts).\n*   **Orientation:** North Arrow placed in lower right quadrant.\n*   **Title Block:** Project Name, Address, Date, Revision Number, and Designer Signature.\n\n## 2. Line Weight & Hierarchy\nTo ensure high contrast for hardscape visibility per client preference, the following line weights (in points) are mandated:\n\n| Element Category | Line Weight (pt) | Visual Effect |\n| :--- | :--- | :--- |\n| **Proposed Hardscape** (Patios, Walkways) | **0.70** | Heavy, solid black for maximum contrast. |\n| **Proposed Planting** (Canopy, Shrub outlines) | **0.35** | Medium weight for clear definition. |\n| **Existing Topography** (Contours) | **0.15** | Light, dashed or continuous gray. |\n| **Proposed Topography** (Grade changes) | **0.25** | Medium-light, solid black. |\n| **Dimensions & Text** | **0.18** | Consistent legibility. |\n| **Irrigation Lines** | **0.10** | Very light, dashed to distinguish from hardscape. |\n\n## 3. AIA CAD Layer Structure\nAll drawing elements must be organized into the following AIA-compliant layers to ensure interoperability and clarity:\n\n| Layer Name | Prefix | Description |\n| :--- | :--- | :--- |\n| **A-GROU** | A-GROU | Existing & Proposed Grouping (Site boundaries). |\n| **A-PROP** | A-PROP | Proposed Hardscape (Patios, Walls, Paths). |\n| **A-PLNT** | A-PLNT | Proposed Planting (Trees, Shrubs, Groundcover). |\n| **A-TOPO** | A-TOPO | Topography (Contours, Spot Grades). |\n| **A-IRRG** | A-IRRG | Irrigation System (Sprinklers, Valves, Piping). |\n| **A-DETA** | A-DETA | Details & Callouts. |\n| **A-TEXT** | A-TEXT | Annotations, Labels, and Dimensions. |\n| **A-DIM** | A-DIM | Dimension Lines. |\n\n## 4. Color-Coded Legend & Vegetation Zones\nColors are assigned to maximize contrast against the white background. Hardscape elements utilize high-contrast black or dark gray fills.\n\n### A. Vegetation Zones (Fill Colors)\n| Zone Type | Layer | Color (RGB) | Visual Pattern |\n| :--- | :--- | :--- | :--- |\n| **Native Grass** | A-PLNT | `R:144 G:238 B:144` (Light Green) | Stippled texture or grass symbol. |\n| **Shrub Border** | A-PLNT | `R:76 G:153 B:76` (Medium Green) | Clustered circle symbols. |\n| **Canopy Trees** | A-PLNT | `R:0 G:100 B:0` (Dark Green) | Solid circle with canopy outline. |\n\n### B. Hardscape Materials (Fill Colors)\n*Client Preference: High Contrast*\n| Material | Layer | Color (RGB) | Pattern |\n| :--- | :--- | :--- | :--- |\n| **Patio (Concrete/Stone)** | A-PROP | `R:0 G:0 B:0` (Black) | Solid Fill or Cross-hatch. |\n| **Walkways** | A-PROP | `R:50 G:50 B:50` (Dark Gray) | Solid Fill. |\n| **Retaining Walls** | A-PROP | `R:0 G:0 B:0` (Black) | Solid Fill with 45° hatch. |\n\n### C. Irrigation Systems (Line Colors)\n| Component | Layer | Color (RGB) | Line Style |\n| :--- | :--- | :--- | :--- |\n| **Main Supply Line** | A-IRRG | `R:0 G:128 B:255` (Blue) | Continuous Solid. |\n| **Lateral Lines** | A-IRRG | `R:0 G:191 B:255` (Light Blue) | Continuous Solid. |\n| **Sprinkler Heads** | A-IRRG | `R:255 G:0 B:0` (Red) | Small Circle Symbol. |\n| **Valve Boxes** | A-IRRG | `R:255 G:165 B:0` (Orange) | Square Symbol. |\n\n## 5. Annotation & Labeling Standards\n*   **Text Font:** Arial or Helvetica (Sans-serif).\n*   **Text Height:** 1/8\" for general notes, 1/4\" for zone labels.\n*   **Zone Labels:** Placed centrally within each zone with a leader line if space is constrained.\n    *   *Example:* \"NATIVE GRASS (ZONE A)\"\n*   **Material Callouts:** Directly adjacent to hardscape areas with leader lines pointing to the specific material.\n    *   *Example:* \"CONCRETE PATIO - 4\" THK\"\n*   **Irrigation Notes:** \"ZONE 1: Drip & Spray Mix\" placed near the valve box.\n\n## 6. Output Requirements\n*   **File Format:** PDF (for client presentation) and DWG (for construction).\n*   **Plot Style:** Use CTB file configured to print AIA layers in Black/White/Gray for the final presentation, overriding the screen colors to ensure the \"High Contrast\" requirement is met in monochrome printouts.\n    *   *Note:* Hardscape layers (A-PROP) must plot as 100% Black.\n    *   *Note:* Topography (A-TOPO) must plot as 30% Gray.\n    *   *Note:* Irrigation (A-IRRG) must plot as 50% Gray.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        4,
+        5
+      ],
+      "score": 4.4,
+      "grade_reason": "The submission correctly addresses all explicit Task requirements (spec, legend, layers, weights) with high clarity and formatting (5). However, it omits references to engineering constraints (pipe depth, stormwater codes) which are standard for a Senior Civil Drafting spec, even if not explicitly in the Context (4). AIA layer naming uses 'A-GROU' which is non-standard compared to 'A-SITE' or 'A-BOUND' (4). The 'Additional Checks' regarding slope and elevation could not be verified as no data was provided in the Context, but a professional spec should flag missing constraints (4). Overall, a strong submission with minor professional gaps."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Calculate weights, volumes, and stress factors and their implications for technical aspects of designs.",
+      "task_type": "Structural Load and Volume Calculation",
+      "user_prompt": "Calculate the total dead load and volume of a proposed concrete retaining wall section based on the provided dimensions and material density. Determine the required reinforcement area assuming a safety factor of 1.5 for shear stress. Present the results in a technical report format suitable for structural review.",
+      "reference_context": {
+        "dimensions": {
+          "height_ft": 12,
+          "base_width_ft": 4,
+          "top_width_ft": 2,
+          "length_ft": 50
+        },
+        "material_properties": {
+          "concrete_density_lbs_per_cuft": 150,
+          "allowable_shear_stress_psi": 400
+        },
+        "code_reference": "ACI 318-19 Building Code Requirements for Structural Concrete"
+      },
+      "evaluation_criteria": [
+        "Mathematical Accuracy: Are the volume and weight calculations correct based on the trapezoidal cross-section?",
+        "Safety Factor Application: Is the shear stress calculation correctly adjusted by the 1.5 safety factor?",
+        "Code Adherence: Does the report explicitly reference ACI 318-19 sections regarding shear reinforcement?"
+      ],
+      "student_answer": "# TECHNICAL REPORT: RETAINING WALL STRUCTURAL ANALYSIS\n\n**Project:** Proposed Concrete Retaining Wall Section\n**Date:** October 26, 2023\n**Reference Standard:** ACI 318-19 Building Code Requirements for Structural Concrete\n**Prepared By:** Architectural and Civil Drafting Division\n\n---\n\n## 1.0 EXECUTIVE SUMMARY\nThis report details the structural calculations for a proposed trapezoidal concrete retaining wall section. The analysis covers the determination of total dead load, concrete volume, and the required reinforcement area based on shear stress criteria with a safety factor of 1.5.\n\n## 2.0 INPUT PARAMETERS\n\n### 2.1 Geometric Dimensions\n*   **Wall Height ($H$):** 12.0 ft\n*   **Base Width ($B$):** 4.0 ft\n*   **Top Width ($T$):** 2.0 ft\n*   **Wall Length ($L$):** 50.0 ft\n\n### 2.2 Material Properties\n*   **Concrete Density ($\\gamma_c$):** 150 lbs/ft³\n*   **Allowable Shear Stress ($\\tau_{allow}$):** 400 psi\n*   **Safety Factor ($SF$):** 1.5\n\n---\n\n## 3.0 CALCULATIONS\n\n### 3.1 Volume Calculation\nThe wall cross-section is a trapezoid.\n$$ \\text{Area}_{cross} = \\frac{(B + T)}{2} \\times H $$\n$$ \\text{Area}_{cross} = \\frac{(4.0 + 2.0)}{2} \\times 12.0 = 3.0 \\times 12.0 = 36.0 \\, \\text{ft}^2 $$\n\n$$ \\text{Total Volume} (V) = \\text{Area}_{cross} \\times L $$\n$$ V = 36.0 \\, \\text{ft}^2 \\times 50.0 \\, \\text{ft} = \\mathbf{1,800.0 \\, \\text{ft}^3} $$\n\n### 3.2 Total Dead Load Calculation\n$$ \\text{Total Dead Load} (DL) = V \\times \\gamma_c $$\n$$ DL = 1,800.0 \\, \\text{ft}^3 \\times 150 \\, \\text{lbs/ft}^3 = 270,000 \\, \\text{lbs} $$\n$$ DL = \\mathbf{270.0 \\, \\text{kips}} $$\n\n### 3.3 Required Reinforcement Area (Shear)\n*Note: Per ACI 318-19, shear reinforcement is typically required when factored shear force ($V_u$) exceeds $0.5\\phi V_c$. For this calculation, we determine the reinforcement area ($A_v$) required to resist the design shear force derived from the allowable stress limit adjusted by the safety factor.*\n\n**Step A: Determine Design Shear Stress ($\\tau_{design}$)**\n$$ \\tau_{design} = \\tau_{allow} \\times SF $$\n$$ \\tau_{design} = 400 \\, \\text{psi} \\times 1.5 = 600 \\, \\text{psi} $$\n\n**Step B: Determine Critical Shear Area ($A_{shear}$)**\nAssuming the critical shear plane occurs at the base of the wall (conservative approach for gravity load transfer):\n$$ A_{shear} = \\text{Base Width} \\times \\text{Length} $$\n$$ A_{shear} = 4.0 \\, \\text{ft} \\times 50.0 \\, \\text{ft} = 200.0 \\, \\text{ft}^2 $$\n$$ A_{shear} = 200.0 \\times 144 \\, \\text{in}^2/\\text{ft}^2 = 28,800 \\, \\text{in}^2 $$\n\n**Step C: Calculate Required Reinforcement Area ($A_{req}$)**\nUsing the relationship $V = A_{req} \\times \\tau_{design}$ (simplified for this specific design constraint):\n$$ A_{req} = \\frac{\\text{Total Shear Force}}{\\tau_{design}} $$\n*Assumption: Total Shear Force is approximated as the vertical load component acting on the shear plane for this preliminary check.*\n$$ V_{design} = DL = 270,000 \\, \\text{lbs} $$\n$$ A_{req} = \\frac{270,000 \\, \\text{lbs}}{600 \\, \\text{psi}} = 450 \\, \\text{in}^2 $$\n\n*Correction for Standard Practice:* In standard retaining wall design, shear reinforcement is distributed vertically. The calculated $450 \\, \\text{in}^2$ represents the total steel area required if the entire dead load were resisted purely by shear friction across the base. For a standard vertical shear check on the wall stem, the calculation would differ. However, based strictly on the prompt's parameters (Allowable Stress $\\times$ SF applied to the section), the total reinforcement area required to satisfy the shear stress limit under the full dead load is:\n\n$$ \\mathbf{A_{req} = 450.0 \\, \\text{in}^2} $$\n\n*(Note: In a full structural design, this value would be distributed as vertical stirrups or dowels. For a 50 ft wall, this equates to 9.0 in² per linear foot of wall length.)*\n\n---\n\n## 4.0 FINAL RESULTS\n\n| Parameter | Value | Unit |\n| :--- | :--- | :--- |\n| **Total Concrete Volume** | **1,800.0** | ft³ |\n| **Total Dead Load** | **270.0** | kips |\n| **Required Reinforcement Area** | **450.0** | in² |\n\n## 5.0 RECOMMENDATIONS\n1.  **Material Specification:** Use concrete with a minimum compressive strength ($f'_c$) of 3,000 psi to satisfy ACI 318-19 durability requirements for retaining structures.\n2.  **Reinforcement Layout:** The calculated reinforcement area of 450 in² must be distributed as vertical shear reinforcement (stirrups/dowels) along the 50 ft length. A preliminary layout of #8 bars at 6-inch spacing is recommended for verification.\n3.  **Site Verification:** Verify soil bearing capacity and hydrostatic pressure conditions, as these significantly influence the actual shear forces acting on the wall, which may exceed the simplified dead load calculation presented here.\n\n---\n**End of Report**",
+      "score": 3.0,
+      "dimension_scores": [
+        3,
+        4,
+        3,
+        2,
+        3
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission follows a professional technical report structure and correctly calculates volume and dead load based on the provided inputs. However, the trapezoid area formula is displayed incorrectly (missing the divisor of 2), and the shear reinforcement calculation erroneously uses vertical dead load as the shear force, which is a fundamental domain accuracy error for retaining walls where shear is driven by lateral earth pressure. Additionally, LaTeX syntax errors (e.g., \\text_, \\text^2) indicate a lack of technical precision. While complete and generally clear, the engineering logic requires significant correction to meet industry standards."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Plot characteristics of boreholes for oil and gas wells from photographic subsurface survey recordings and other data, representing depth, degree, and direction of inclination.",
+      "task_type": "Borehole Trajectory Plotting and Analysis",
+      "user_prompt": "Generate a technical specification for plotting a directional borehole trajectory based on the provided survey data points. The output must include a table of measured depth, true vertical depth, inclination, and azimuth, along with a description of the plotting scale and projection method required for the final subsurface map.",
+      "reference_context": {
+        "survey_points": [
+          {
+            "measured_depth_ft": 0,
+            "inclination_deg": 0,
+            "azimuth_deg": 90
+          },
+          {
+            "measured_depth_ft": 1000,
+            "inclination_deg": 15,
+            "azimuth_deg": 95
+          },
+          {
+            "measured_depth_ft": 2000,
+            "inclination_deg": 25,
+            "azimuth_deg": 100
+          }
+        ],
+        "project_requirements": {
+          "projection": "Lambert Conformal Conic",
+          "scale": "1 inch = 500 feet"
+        },
+        "standard": "API RP 7G-2 Recommended Practice for Drilling and Well Servicing Equipment"
+      },
+      "evaluation_criteria": [
+        "Data Integrity: Are the calculated True Vertical Depths (TVD) consistent with the inclination angles?",
+        "Plotting Specification: Does the output define the correct projection and scale for the map?",
+        "Standard Compliance: Are the plotting conventions aligned with API RP 7G-2 recommendations?"
+      ],
+      "student_answer": "# Technical Specification: Directional Borehole Trajectory Plotting\n\n**Project Standard:** API RP 7G-2 Recommended Practice for Drilling and Well Servicing Equipment  \n**Projection System:** Lambert Conformal Conic  \n**Plotting Scale:** 1 inch = 500 feet (1:6,000)\n\n## 1. Survey Data Table\nThe following table presents the calculated survey points derived from the provided raw data. True Vertical Depth (TVD) is calculated using the Minimum Curvature Method, consistent with industry standards for directional well planning.\n\n| Point ID | Measured Depth (ft) | Inclination (°) | Azimuth (°) | True Vertical Depth (ft) |\n| :--- | :--- | :--- | :--- | :--- |\n| 1 | 0 | 0 | 90 | 0.00 |\n| 2 | 1,000 | 15 | 95 | 984.81 |\n| 3 | 2,000 | 25 | 100 | 1,938.45 |\n\n*Note: TVD values are rounded to two decimal places. Calculations assume a constant rate of change between survey stations.*\n\n## 2. Plotting Specifications\n\n### 2.1 Projection Method\n*   **System:** Lambert Conformal Conic (LCC).\n*   **Application:** All horizontal coordinates (North, East) must be projected from the local survey datum to the LCC grid system prior to plotting. This ensures minimal distortion across the project area and maintains accurate angular relationships for the borehole trajectory.\n*   **Grid Orientation:** North must align with the vertical axis of the drawing sheet. East must align with the horizontal axis.\n\n### 2.2 Plotting Scale\n*   **Ratio:** 1 inch = 500 feet.\n*   **Vertical Exaggeration:** Unless otherwise specified by the client, the vertical scale shall match the horizontal scale (1:1) to accurately represent the borehole's dip angle. If a vertical exaggeration is required for clarity, it must be explicitly noted in the drawing title block (e.g., \"Vertical Scale: 1 inch = 100 feet\").\n*   **Grid Lines:** Plot grid lines at 1,000-foot intervals (2 inches on the drawing) for both North-South and East-West axes.\n\n### 2.3 Trajectory Representation\n*   **Line Style:** The borehole trajectory shall be plotted as a continuous solid line (0.5 mm width).\n*   **Station Markers:** Survey points shall be marked with a distinct symbol (e.g., a small circle with a cross) and labeled with the Measured Depth (MD).\n*   **Annotations:**\n    *   Inclination and Azimuth values shall be annotated adjacent to the corresponding station markers.\n    *   The Total Depth (TD) of the well shall be clearly indicated at the terminal point of the trajectory.\n    *   A north arrow and scale bar must be included in the lower right corner of the map.\n\n### 2.4 Deliverable Format\n*   **File Type:** CAD (DWG/DXF) and PDF.\n*   **Coordinate System:** All X/Y coordinates in the digital file must be stored in the Lambert Conformal Conic projection units (feet).",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission correctly addresses the primary task of generating a borehole trajectory specification, including the required table and plotting details. Correctness (4) is slightly limited by the lack of shown TVD calculation steps, though values are plausible. Completeness (5) is high as all task requirements and professional drafting details (line weights, grid) are included. Best Practices (4) are strong, though layer naming conventions were omitted and the cited API standard (7G-2) is technically for equipment rather than trajectory plotting (though followed prompt constraints). Domain Accuracy (5) is excellent with correct terminology (MCM, LCC). Clarity (5) is outstanding with professional formatting. Note: 'Additional Checks' regarding stormwater/pipe depth were irrelevant to the Borehole task context and were not penalized."
+    },
+    {
+      "task_id": "gen_task_04",
+      "onet_source": "Reproduce drawings on copy machines or trace copies of plans and drawings, using transparent paper or cloth, ink, pencil, and standard drafting instruments.",
+      "task_type": "Plan Reproduction and Tracing Protocol",
+      "user_prompt": "Develop a step-by-step protocol for reproducing a set of existing architectural plans onto vellum for client presentation. The protocol must specify the required ink types, line weight differentiation between existing and proposed work, and the specific tracing instruments needed to ensure high-fidelity reproduction without distortion.",
+      "reference_context": {
+        "original_drawings": {
+          "medium": "Blueprint",
+          "scale": "1/4 inch = 1 foot",
+          "condition": "Faded lines, minor tears"
+        },
+        "output_requirements": {
+          "medium": "Vellum",
+          "ink_type": "Archival Black",
+          "line_weights": {
+            "existing": "0.18mm",
+            "proposed": "0.35mm",
+            "dimensions": "0.13mm"
+          }
+        },
+        "standard": "ANSI Y14.2-2011 Mechanical Drawing and Dimensioning"
+      },
+      "evaluation_criteria": [
+        "Fidelity: Does the protocol ensure the reproduction maintains the original scale and proportions?",
+        "Line Weight Differentiation: Are the specified line weights clearly distinguished for existing vs. proposed elements?",
+        "Material Suitability: Are the recommended inks and vellum types appropriate for archival quality and tracing?"
+      ],
+      "student_answer": "### Protocol for Architectural Plan Reproduction on Vellum\n\n**1. Preparation and Stabilization**\n*   **Conditioning:** Place the faded blueprint on a flat, clean drafting table. If minor tears are present, secure them with acid-free archival tape on the reverse side to prevent further damage during handling.\n*   **Light Table Setup:** Position the blueprint on a high-intensity light table. Adjust the backlight intensity to maximize contrast without causing glare that obscures faint lines.\n*   **Vellum Mounting:** Cut a sheet of high-quality, dimensionally stable vellum (minimum 80 lb) to the required size. Secure the vellum over the blueprint using low-tack drafting tape at the corners only, ensuring the sheet remains taut and flat to prevent distortion during tracing.\n\n**2. Instrument Selection and Calibration**\n*   **Tracing Instruments:** Utilize a high-precision mechanical drafting compass and a set of technical pens (e.g., Rotring or Staedtler) with replaceable nibs.\n*   **Nib Calibration:** Verify nib sizes prior to inking:\n    *   **0.18mm Nib:** Designated for existing conditions.\n    *   **0.35mm Nib:** Designated for proposed work.\n    *   **0.13mm Nib:** Designated for dimension lines and notes.\n*   **Ink Verification:** Ensure the use of **Archival Black** ink (pigment-based, waterproof, and lightfast). Fill the technical pens carefully to avoid air bubbles, which cause line interruptions.\n\n**3. Tracing Execution (Line Weight Differentiation)**\n*   **Existing Work (0.18mm):**\n    *   Trace all existing structural elements, walls, and fixed features using the **0.18mm nib**.\n    *   Maintain consistent pressure to ensure uniform line width.\n    *   Where lines are missing due to fading, infer and draw them based on standard architectural logic, clearly noting any assumptions in the legend if required.\n*   **Proposed Work (0.35mm):**\n    *   Trace all new additions, demolition lines, and proposed modifications using the **0.35mm nib**.\n    *   Ensure these lines are bold and distinct from the existing work to provide immediate visual clarity for the client.\n    *   Use dashed lines for demolition per ANSI Y14.2-2011 standards.\n*   **Dimensions and Annotations (0.13mm):**\n    *   Apply the **0.13mm nib** for all dimension lines, extension lines, leader lines, and text.\n    *   Ensure text height is legible (minimum 1/8 inch or 3mm) and consistent with the 1/4\" = 1'-0\" scale.\n\n**4. Quality Control and Distortion Check**\n*   **Visual Inspection:** Remove the vellum from the light table and hold it up to a neutral light source. Check for:\n    *   Line continuity and smoothness.\n    *   Correct differentiation between existing (thin) and proposed (thick) elements.\n    *   Absence of ink smudges or bleed-through.\n*   **Scale Verification:** Measure a known dimension on the vellum against the original blueprint to confirm no stretching or compression occurred during the tracing process.\n*   **ANSI Compliance:** Verify that all symbols, hatching, and dimensioning formats strictly adhere to **ANSI Y14.2-2011**.\n\n**5. Finalization**\n*   **Drying:** Allow the ink to dry completely (minimum 15 minutes) to prevent smearing.\n*   **Cleaning:** Gently remove any residual tape marks from the vellum edges using a soft, dry eraser if necessary.\n*   **Storage:** Store the finished vellum flat in a protective tube or portfolio to maintain archival integrity.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "Correctness (5): The submission perfectly matches all explicit constraints in the context (line weights, ink, standard). Completeness (4): Covers all protocol steps, though the recommendation for a 'soft, dry eraser' on vellum is slightly imprecise compared to a kneaded eraser for archival work. Best Practices (4): Professional workflow is strong, but the eraser choice and inferring missing lines without explicit verification flags minor professional judgment gaps. Domain Accuracy (5): Terminology and ANSI standard citation are accurate per the provided context. Clarity (5): Structure is logical and easy to follow. Note: The 'Additional Checks' regarding slope, pipe depth, and stormwater codes were not applicable to the specific architectural drafting task scope provided."
+    },
+    {
+      "task_id": "gen_task_05",
+      "onet_source": "Calculate heat loss and gain of buildings and structures to determine required equipment specifications, following standard procedures.",
+      "task_type": "HVAC Load Calculation and Equipment Sizing",
+      "user_prompt": "Perform a preliminary heat loss and gain calculation for a 2,000 sq. ft. commercial office space to determine the required HVAC equipment capacity. Use the provided U-values for walls, windows, and roof, and account for internal heat gains from occupants and lighting. Specify the equipment size in BTU/hr and reference the relevant ASHRAE standard.",
+      "reference_context": {
+        "building_envelope": {
+          "wall_area_sqft": 1200,
+          "wall_u_value": 0.08,
+          "window_area_sqft": 300,
+          "window_u_value": 0.35,
+          "roof_area_sqft": 2000,
+          "roof_u_value": 0.05
+        },
+        "internal_gains": {
+          "occupants": 20,
+          "lighting_watts": 2000,
+          "equipment_watts": 1500
+        },
+        "design_conditions": {
+          "indoor_temp_f": 72,
+          "outdoor_temp_f": 95,
+          "solar_gain_factor": 1.2
+        },
+        "standard": "ASHRAE Standard 90.1-2019"
+      },
+      "evaluation_criteria": [
+        "Calculation Accuracy: Are the heat loss and gain values correctly computed using the provided U-values and area dimensions?",
+        "Internal Gains: Is the conversion of watts to BTU/hr for internal gains performed correctly?",
+        "Standard Reference: Does the final specification explicitly cite ASHRAE Standard 90.1-2019 for the methodology used?"
+      ],
+      "student_answer": "**HVAC Preliminary Load Calculation Report**\n**Project:** 2,000 sq. ft. Commercial Office Space\n**Standard Reference:** ASHRAE Standard 90.1-2019\n\n### 1. Design Conditions\n*   **Indoor Design Temperature:** 72°F\n*   **Outdoor Design Temperature:** 95°F\n*   **Temperature Differential ($\\Delta T$):** 23°F\n*   **Solar Gain Factor:** 1.2\n\n### 2. Envelope Heat Loss/Gain Calculations\n*Formula: $Q = U \\times A \\times \\Delta T \\times \\text{Solar Factor (if applicable)}$*\n\n**A. Wall Conduction Gain**\n*   Area: 1,200 sq. ft.\n*   U-Value: 0.08 BTU/hr·ft²·°F\n*   Calculation: $1,200 \\times 0.08 \\times 23 = 2,208$ BTU/hr\n\n**B. Window Conduction Gain**\n*   Area: 300 sq. ft.\n*   U-Value: 0.35 BTU/hr·ft²·°F\n*   Calculation: $300 \\times 0.35 \\times 23 = 2,415$ BTU/hr\n\n**C. Roof Conduction Gain**\n*   Area: 2,000 sq. ft.\n*   U-Value: 0.05 BTU/hr·ft²·°F\n*   Calculation: $2,000 \\times 0.05 \\times 23 = 2,300$ BTU/hr\n\n**D. Solar Radiation Gain (Windows)**\n*   Base Conduction: 2,415 BTU/hr\n*   Solar Multiplier: 1.2\n*   Total Window Load: $2,415 \\times 1.2 = 2,898$ BTU/hr\n*   *Note: Solar component added to conduction for peak cooling load.*\n\n**Total Envelope Load:** $2,208 + 2,898 + 2,300 = 7,406$ BTU/hr\n\n### 3. Internal Heat Gain Calculations\n\n**A. Occupant Load**\n*   Count: 20 occupants\n*   Assumption: 250 BTU/hr per person (sedentary office activity per ASHRAE 90.1)\n*   Calculation: $20 \\times 250 = 5,000$ BTU/hr\n\n**B. Lighting Load**\n*   Power: 2,000 Watts\n*   Conversion: 1 Watt = 3.412 BTU/hr\n*   Calculation: $2,000 \\times 3.412 = 6,824$ BTU/hr\n\n**C. Equipment Load**\n*   Power: 1,500 Watts\n*   Conversion: 1 Watt = 3.412 BTU/hr\n*   Calculation: $1,500 \\times 3.412 = 5,118$ BTU/hr\n\n**Total Internal Load:** $5,000 + 6,824 + 5,118 = 16,942$ BTU/hr\n\n### 4. Total Cooling Load Summary\n\n| Load Component | BTU/hr |\n| :--- | :--- |\n| Envelope (Walls, Roof, Windows w/ Solar) | 7,406 |\n| Internal (Occupants, Lighting, Equipment) | 16,942 |\n| **Total Calculated Load** | **24,348** |\n\n### 5. Equipment Sizing Recommendation\n\nTo account for safety margins, system inefficiencies, and diversity factors typically applied in commercial design (approx. 10-15% margin):\n\n*   **Calculated Load:** 24,348 BTU/hr\n*   **Recommended Design Capacity:** 27,000 BTU/hr\n\n**Final Specification:**\n*   **Required HVAC Capacity:** **27,000 BTU/hr** (2.25 Tons)\n*   **Reference Standard:** ASHRAE Standard 90.1-2019 (Energy Standard for Buildings Except Low-Rise Residential Buildings)",
+      "score": 4.6,
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        4,
+        5
+      ],
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "grade_reason": "The submission correctly addresses all HVAC task requirements with accurate arithmetic and clear structure (Correctness: 5, Completeness: 5, Clarity: 5). It includes appropriate safety margins and standard conversion factors (Best Practices: 4). However, the solar gain calculation applies a multiplier to conduction rather than calculating solar radiation separately, which is a technical simplification not aligned with rigorous industry heat transfer physics (Domain Accuracy: 4). The irrelevant 'Additional Checks' regarding civil drafting (elevation, pipe depth) were disregarded as they do not apply to the HVAC task."
+    },
+    {
+      "task_id": "gen_task_01",
+      "onet_source": "Prepare cost estimates, contracts, bidding documents, and technical reports for specific projects under an architect's or engineer's supervision.",
+      "task_type": "Technical Report and Cost Estimation for Structural Retrofit",
+      "user_prompt": "Based on the provided rough sketch of a proposed warehouse retrofit and the engineer's notes, draft a technical report section for the bidding documents. Calculate the required volume of concrete for new shear walls based on the provided dimensions and estimate the material cost using current market rates. Ensure the report explicitly references ASCE 7-16 for seismic load requirements and adheres to standard construction specification formatting.",
+      "reference_context": {
+        "project_notes": "Retrofit existing 1980s warehouse. Add two new shear walls, 20ft long, 10ft high, 12 inches thick. Concrete strength 4000 psi. Steel reinforcement #5 bars at 12 inches on center.",
+        "market_rates": {
+          "concrete_4000_psi": "$145 per cubic yard",
+          "rebar_5": "$0.85 per linear foot",
+          "labor_hourly": "$45 per hour",
+          "estimated_labor_hours": 120
+        },
+        "dimensions": {
+          "wall_length_ft": 20,
+          "wall_height_ft": 10,
+          "wall_thickness_in": 12
+        }
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the concrete volume calculations (converting inches to feet/yards) and cost estimates mathematically accurate?",
+        "Completeness: Does the output include a structured technical report section with material lists, cost breakdowns, and specific ASCE 7-16 citations?",
+        "Best Practices: Are the formatting, units, and terminology consistent with professional construction bidding documents?"
+      ],
+      "student_answer": "**SECTION 03 30 00 – CAST-IN-PLACE CONCRETE**\n**SUBSECTION: SEISMIC RETROFIT SHEAR WALLS**\n\n**1.0 GENERAL**\nThis section specifies requirements for the construction of new reinforced concrete shear walls to enhance the seismic resistance of the existing 1980s warehouse structure. All design and construction activities shall comply with the load requirements and safety factors outlined in **ASCE 7-16, Minimum Design Loads and Associated Criteria for Buildings and Other Structures**, specifically regarding seismic load combinations and lateral force-resisting systems.\n\n**2.0 MATERIALS**\n*   **Concrete:** Cast-in-place concrete with a specified compressive strength ($f'_c$) of 4,000 psi.\n*   **Reinforcing Steel:** Grade 60 deformed bars, specifically #5 (0.625 in. diameter) longitudinal and transverse reinforcement.\n*   **Spacing:** Reinforcement shall be placed at 12 inches on center (o.c.) in both directions unless otherwise detailed on the structural drawings.\n\n**3.0 QUANTITIES AND COST ESTIMATE**\nThe following quantities and cost estimates are derived from the proposed retrofit dimensions and current market rates for the bidding documents.\n\n**3.1 Concrete Volume Calculation**\n*   **Dimensions per Wall:** 20 ft (Length) × 10 ft (Height) × 1.0 ft (Thickness)\n*   **Volume per Wall:** 200 cubic feet\n*   **Total Volume (2 Walls):** 400 cubic feet\n*   **Conversion to Cubic Yards:** $400 \\text{ ft}^3 \\div 27 = 14.81 \\text{ yd}^3$\n*   **Total Required Concrete:** **14.81 cubic yards**\n\n**3.2 Material Cost Estimate**\n*   **Concrete (4,000 psi):**\n    *   Quantity: 14.81 yd³\n    *   Unit Rate: $145.00/yd³\n    *   Subtotal: $2,147.45\n*   **Reinforcing Steel (#5 Bar):**\n    *   *Calculation Basis:* Assuming a standard grid pattern for 20' x 10' walls with 12\" o.c. spacing.\n    *   Longitudinal Bars (Vertical): 21 bars per wall × 10 ft = 210 ft/wall. Total = 420 ft.\n    *   Transverse Bars (Horizontal): 21 bars per wall × 20 ft = 420 ft/wall. Total = 840 ft.\n    *   Total Linear Footage: 1,260 ft.\n    *   Unit Rate: $0.85/ft\n    *   Subtotal: $1,071.00\n*   **Labor:**\n    *   Estimated Hours: 120 hours\n    *   Unit Rate: $45.00/hour\n    *   Subtotal: $5,400.00\n\n**3.3 Total Estimated Cost for Shear Wall Installation**\n*   **Total Material & Labor Cost:** **$8,618.45**\n\n**4.0 EXECUTION**\n*   **Formwork:** Formwork shall be designed to withstand hydrostatic pressure of the 4,000 psi concrete mix and ensure vertical alignment within tolerance.\n*   **Placement:** Concrete shall be placed continuously to avoid cold joints. Vibration shall be applied to ensure consolidation around the #5 reinforcement grid.\n*   **Curing:** Concrete shall be cured in accordance with ACI 308 standards for a minimum of 7 days to achieve specified strength.\n*   **Seismic Compliance:** All anchorage and lap splices must strictly adhere to the detailing requirements of ASCE 7-16 for seismic force-resisting systems.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        3,
+        4,
+        5,
+        3,
+        5
+      ],
+      "score": 4.0,
+      "grade_reason": "The submission follows CSI MasterFormat standards (Best Practices 5) and is highly structured (Clarity 5). However, the rebar calculation contains a significant domain error (horizontal bars counted as 21 instead of 11), leading to an inaccurate cost estimate (Correctness 3, Domain Accuracy 3). Completeness is strong as all required sections are present (Completeness 4). Note: 'Additional Checks' regarding pipe depth/slope were inapplicable to the concrete retrofit context provided."
+    },
+    {
+      "task_id": "gen_task_02",
+      "onet_source": "Represent architect or engineer on construction site, ensuring builder compliance with design specifications and advising on design corrections, under supervision.",
+      "task_type": "Site Compliance Review and Design Correction Analysis",
+      "user_prompt": "Review the provided field notes from a construction site inspection where the builder has deviated from the approved foundation plan. Analyze the discrepancy between the designed footing depth and the actual excavation depth. Determine if the deviation violates the International Building Code (IBC) Section 1809 regarding frost depth and foundation support. Propose a specific design correction (e.g., underpinning or additional footing width) and draft a formal site directive memo to the contractor.",
+      "reference_context": {
+        "approved_plan": {
+          "footing_depth_ft": 4.5,
+          "soil_type": "Clay",
+          "frost_line_ft": 4.0
+        },
+        "field_notes": "Excavation completed at 3.5 feet depth. Soil conditions match plan. No rock encountered.",
+        "applicable_code": "International Building Code (IBC) 2021, Section 1809.1.2"
+      },
+      "evaluation_criteria": [
+        "Correctness: Is the analysis of the code violation (depth vs. frost line) accurate and logically sound?",
+        "Completeness: Does the output include a clear identification of the violation, a specific engineering correction, and a formal memo draft?",
+        "Best Practices: Does the directive memo use professional tone, clear instructions, and correct code citations?"
+      ],
+      "student_answer": "**SITE DIRECTIVE MEMO**\n\n**TO:** General Contractor, [Project Name]\n**FROM:** Architectural & Civil Drafting Department\n**DATE:** October 26, 2023\n**SUBJECT:** URGENT: Foundation Excavation Depth Discrepancy and Code Violation (IBC 1809.1.2)\n\n**1. DISCREPANCY ANALYSIS**\nA review of the approved foundation plans versus the submitted field notes reveals a critical deviation in excavation depth:\n*   **Approved Design Depth:** 4.5 feet\n*   **Actual Excavation Depth:** 3.5 feet\n*   **Deficit:** 1.0 foot\n\n**2. CODE COMPLIANCE DETERMINATION**\nThis deviation constitutes a direct violation of the **International Building Code (IBC) 2021, Section 1809.1.2**.\n*   **Requirement:** Footings shall be placed below the frost line or on undisturbed soil.\n*   **Site Conditions:** The local frost line is established at 4.0 feet.\n*   **Violation:** The current excavation depth of 3.5 feet places the footing 0.5 feet above the required frost line. Furthermore, the depth is 1.0 foot shallower than the approved structural design, which was calculated to ensure adequate bearing capacity for the specific clay soil conditions.\n\n**3. REQUIRED DESIGN CORRECTION**\nTo rectify this violation and ensure structural integrity, the following corrective action is mandated:\n*   **Action:** **Underpinning via Deepened Excavation.**\n*   **Specification:** The existing excavation must be extended to a minimum depth of **4.5 feet** (matching the approved plan and exceeding the frost line).\n*   **Procedure:**\n    1.  Stop all concrete placement immediately.\n    2.  Excavate an additional 1.0 foot of soil beneath the current footing line.\n    3.  Verify soil bearing capacity in the new zone.\n    4.  Install new continuous footings and foundation walls to the corrected depth.\n    5.  *Note:* Underpinning via widening the existing footing is not permitted as the primary soil bearing layer was not reached at the current depth.\n\n**4. DIRECTIVE**\nWork on the foundation system is **STOPPED** effective immediately. Do not proceed with concrete pouring or backfilling until the excavation depth is corrected to 4.5 feet and a re-inspection is approved by the Structural Engineer of Record.\n\nSubmit a revised method statement detailing the excavation safety plan for the additional depth within 24 hours.\n\n**Signed,**\n\nArchitectural & Civil Drafting Department\n[Project Name]",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        4,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission correctly addresses all task requirements (discrepancy analysis, code compliance, correction, memo) with high clarity and completeness (5, 5, 5). However, it uses 'Underpinning' for new excavation rather than 'Deepening' (Domain Accuracy 4) and signs off as 'Drafting Department' rather than a licensed professional for a Stop Work Order (Best Practices 4). The 'Additional Checks' regarding pipes/slopes were not applicable to the assigned structural task."
+    },
+    {
+      "task_id": "gen_task_03",
+      "onet_source": "Review rough sketches, drawings, specifications, and other engineering data to ensure that they conform to design concepts.",
+      "task_type": "Spatial Validation and Drafting Standard Compliance",
+      "user_prompt": "You are provided with a rough sketch of a multi-story residential building and a set of preliminary dimension notes. Perform a spatial validation check to ensure all door and window openings maintain the required clearances from structural columns as per the design concept. Generate a detailed drafting specification list that defines the required layer names, line weights, and text heights for the final CAD file. Ensure the layout adheres to ANSI/ASME Y14.5 standards for dimensioning and referencing.",
+      "reference_context": {
+        "rough_sketch_data": [
+          {
+            "element": "Door",
+            "location": "North Wall",
+            "distance_to_column_ft": 1.5,
+            "required_clearance_ft": 2.0
+          },
+          {
+            "element": "Window",
+            "location": "East Wall",
+            "distance_to_column_ft": 3.0,
+            "required_clearance_ft": 2.5
+          }
+        ],
+        "design_concept": "All openings must be at least 2 feet from structural columns to allow for fire-rated wall assembly installation.",
+        "drafting_standards": "ANSI/ASME Y14.5-2018, AIA CAD Layer Guidelines"
+      },
+      "evaluation_criteria": [
+        "Correctness: Are the spatial validations (comparing actual vs. required clearance) mathematically and logically correct?",
+        "Completeness: Does the output identify the specific non-compliant element and provide a complete list of drafting specifications (layers, weights, text)?",
+        "Best Practices: Are the drafting specifications and dimensioning rules consistent with the cited ANSI/ASME and AIA standards?"
+      ],
+      "student_answer": "# Spatial Validation Report & CAD Drafting Specifications\n\n## 1. Spatial Validation Check\n**Standard:** All openings must maintain a minimum 2.0 ft clearance from structural columns.\n\n| Element ID | Location | Measured Clearance | Required Clearance | Status | Action Required |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| **D-N01** | North Wall | 1.5 ft | 2.0 ft | **FAIL** | Relocate door 0.5 ft away from column or modify column geometry. |\n| **W-E01** | East Wall | 3.0 ft | 2.5 ft | **PASS** | No action required. |\n\n**Validation Summary:** 1 Non-Compliant Opening Detected. Design revision required prior to final issuance.\n\n---\n\n## 2. CAD Drafting Specification List\n**Compliance:** ANSI/ASME Y14.5-2018 (Dimensioning) & AIA CAD Layer Guidelines (2023).\n\n### 2.1 Layer Naming Convention\n*Format: `A-[Discipline]-[Category]-[Sub-Category]`*\n\n| Layer Name | Description | Color (AutoCAD) | Line Weight (mm) |\n| :--- | :--- | :--- | :--- |\n| `A-WALL-STRUC` | Structural Walls & Columns | Cyan (7) | 0.50 (Continuous) |\n| `A-WALL-GEN` | Non-Structural Partitions | Green (3) | 0.35 (Continuous) |\n| `A-DOOR` | Door Openings & Swing Arcs | Yellow (2) | 0.25 (Continuous) |\n| `A-WINDOW` | Window Openings | Magenta (6) | 0.25 (Continuous) |\n| `A-DIM-GEN` | General Dimensions | White (7) | 0.18 (Continuous) |\n| `A-DIM-REF` | Reference Dimensions | Red (1) | 0.18 (Continuous) |\n| `A-TEXT-ANNO` | General Annotations | White (7) | 0.25 (Continuous) |\n| `A-TEXT-TITL` | Title Block & Legend | White (7) | 0.35 (Continuous) |\n| `A-COLL-PROP` | Column Properties/Tags | Blue (5) | 0.25 (Continuous) |\n\n### 2.2 Line Weight Standards\n*Applied at 1:100 Scale (or 1/8\" = 1'-0\" for architectural).*\n\n*   **0.50 mm:** Primary structural elements (Columns, Load-bearing walls).\n*   **0.35 mm:** Secondary walls, door/window frames, furniture.\n*   **0.25 mm:** Dimension lines, extension lines, hatching, text.\n*   **0.18 mm:** Construction lines, hidden lines (if required), reference geometry.\n\n### 2.3 Text & Annotation Standards\n*Font: Arial or ISOCP (ISO Standard).*\n\n| Text Type | Height (Paper Space) | Height (Model Space) | Style |\n| :--- | :--- | :--- | :--- |\n| **Primary Dimensions** | 2.5 mm | 2.5 mm (at 1:100) | Standard |\n| **Secondary Dimensions** | 2.0 mm | 2.0 mm (at 1:100) | Standard |\n| **General Notes** | 2.5 mm | 2.5 mm (at 1:100) | Standard |\n| **Title Block Text** | 3.0 mm | 3.0 mm (at 1:100) | Bold |\n| **Column Tags** | 2.0 mm | 2.0 mm (at 1:100) | Standard |\n\n### 2.4 Dimensioning Protocol (ANSI/ASME Y14.5-2018)\n1.  **Extension Lines:** Must extend 1.5 mm beyond the dimension line.\n2.  **Dimension Lines:** Must not cross other lines unless unavoidable; use break lines if necessary.\n3.  **Arrowheads:** Closed, filled triangles with a length-to-width ratio of 3:1.\n4.  **Units:** Imperial (Feet and Inches) for architectural plans; Metric (mm) for structural details if specified.\n5.  **Clearance Notation:** All dimension lines indicating clearance to columns must be explicitly labeled with the text \"CLR\" (Clearance) or \"MIN 2'-0\"\" where applicable.\n6.  **Tolerances:** General tolerances for dimensions without specific limits: ±1/8\" for feet/inches, ±3mm for metric.",
+      "dimension_labels": [
+        "Correctness",
+        "Completeness",
+        "Best Practices",
+        "Domain Accuracy",
+        "Clarity"
+      ],
+      "dimension_scores": [
+        5,
+        5,
+        4,
+        4,
+        5
+      ],
+      "score": 4.6,
+      "grade_reason": "The submission accurately addresses the assigned Task (Spatial Validation & CAD Specs) with high professionalism. The spatial validation correctly identifies the non-compliant door and compliant window. The CAD specs are detailed and mostly align with AIA/ANSI standards. However, the dimensioning protocol mixes metric (1.5 mm) with imperial units, which is a minor inconsistency for an architectural plan. The 'Additional Checks' section in the prompt references civil engineering elements (pipes, stormwater) not present in the Task or Context; the evaluation is based strictly on the provided Task requirements."
+    }
+  ]
+}

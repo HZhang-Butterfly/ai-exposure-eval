@@ -1,0 +1,79 @@
+{
+  "job_id": "insurance_underwriter",
+  "job_title": "Insurance Underwriters",
+  "onet_code": "13-2053.00",
+  "role_description": "Senior Insurance Underwriting Analyst and Risk Assessment Specialist",
+  "task_types": "Risk Analysis and Documentation Review / Policy Modification and Endorsement / Reinsurance Authorization / Stakeholder Communication / Catastrophe and Aggregate Risk Evaluation",
+  "onet_tasks": [
+    "Examine documents to determine degree of risk from factors such as applicant health, financial standing and value, and condition of property.",
+    "Decline excessive risks.",
+    "Write to field representatives, medical personnel, or others to obtain further information, quote rates, or explain company underwriting policies.",
+    "Evaluate possibility of losses due to catastrophe or excessive insurance.",
+    "Review company records to determine amount of insurance in force on single risk or group of closely related risks.",
+    "Decrease value of policy when risk is substandard and specify applicable endorsements or apply rating to ensure safe, profitable distribution of risks, using reference materials.",
+    "Authorize reinsurance of policy when risk is high."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly reference specific underwriting guidelines or rating tables provided in the context",
+    "Requirement 6: Risk mitigation strategies must be justified by quantitative data or regulatory compliance standards",
+    "Requirement 7: Communication drafts must maintain professional tone and clarity suitable for medical or legal professionals"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Examine documents to determine degree of risk from factors such as applicant health, financial standing and value, and condition of property.",
+    "task_type": "Risk Analysis and Documentation Review",
+    "user_prompt": "Analyze the attached applicant profile for a $5M commercial property insurance request. The applicant has a history of two fire claims in the last 5 years, a credit score of 620, and the property is located in a flood zone with no recent mitigation upgrades. Calculate the risk score based on the provided underwriting matrix, determine if the risk is acceptable, and if so, propose specific rating adjustments or endorsements required to bring the risk to an acceptable level. If the risk is unacceptable, draft a formal decline letter citing the specific policy clauses.",
+    "reference_context": {
+      "applicant_profile": {
+        "property_value": 5000000,
+        "location_risk_factor": "High (Flood Zone A)",
+        "claim_history": [
+          {
+            "year": 2021,
+            "type": "Fire",
+            "amount": 150000
+          },
+          {
+            "year": 2019,
+            "type": "Fire",
+            "amount": 85000
+          }
+        ],
+        "financial_standing": {
+          "credit_score": 620,
+          "debt_to_income_ratio": 0.45
+        }
+      },
+      "underwriting_matrix": {
+        "base_rate": 0.0025,
+        "flood_zone_multiplier": 1.5,
+        "claim_history_penalty": 0.0015,
+        "credit_score_penalty": 0.001,
+        "max_acceptable_risk_score": 0.006,
+        "decline_threshold": 0.0075
+      },
+      "policy_clauses": [
+        "Clause 4.2: Automatic decline for 2+ fire claims in 5 years",
+        "Clause 8.1: Mandatory flood mitigation endorsement for Zone A properties"
+      ]
+    },
+    "evaluation_criteria": [
+      "Correctness: Does the calculated risk score accurately reflect the matrix inputs?",
+      "Completeness: Did the AI address all factors (financial, property, claims) and provide a clear decision?",
+      "Best practices: Are the proposed endorsements or decline reasons aligned with standard industry practices and the provided clauses?"
+    ]
+  },
+  "grading_notes": "Check if the AI correctly applied the flood zone multiplier and claim history penalties. Verify that the AI did not ignore the '2+ fire claims' automatic decline clause if the calculated score exceeds the threshold. Ensure the decline letter (if applicable) cites the specific policy clause numbers provided in the context. Watch for hallucinated rating factors not present in the reference matrix.",
+  "grading_rubric_template": [
+    "1. Risk Accuracy: Does the solution correctly calculate risk scores and apply all multipliers from the provided matrix?",
+    "2. Compliance Adherence: Are decisions (accept/decline/modify) strictly based on the provided underwriting guidelines and policy clauses?",
+    "3. Mitigation Strategy: If the risk is accepted, are the proposed endorsements and rating adjustments specific and sufficient to mitigate the identified hazards?",
+    "4. Communication Quality: Is the output (letters, memos) professional, clear, and appropriately tailored to the recipient (e.g., medical personnel, field reps)?",
+    "5. Logical Consistency: Does the final recommendation logically follow from the data analysis without contradictions?"
+  ],
+  "grading_scale_max": 5
+}

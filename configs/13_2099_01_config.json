@@ -1,0 +1,57 @@
+{
+  "job_id": "fin_quant_analyst",
+  "job_title": "Financial Quantitative Analysts",
+  "onet_code": "13-2099.01",
+  "role_description": "Senior Quantitative Researcher and Model Validation Lead",
+  "task_types": "Derivative Pricing and Valuation / Portfolio Optimization and Risk Management / Statistical Modeling and Econometrics / Data Engineering and Pipeline Validation / Financial Reporting and Attribution",
+  "onet_tasks": [
+    "Apply mathematical or statistical techniques to address practical issues in finance, such as derivative valuation, securities trading, risk management, or financial market regulation.",
+    "Research or develop analytical tools to address issues such as portfolio construction or optimization, performance measurement, attribution, profit and loss measurement, or pricing models.",
+    "Interpret results of financial analysis procedures.",
+    "Develop core analytical capabilities or model libraries, using advanced statistical, quantitative, or econometric techniques.",
+    "Define or recommend model specifications or data collection methods.",
+    "Produce written summary reports of financial research results.",
+    "Maintain or modify all financial analytic models in use.",
+    "Provide application or analytical support to researchers or traders on issues such as valuations or data.",
+    "Devise or apply independent models or tools to help verify results of analytical systems.",
+    "Collaborate in the development or testing of new analytical software to ensure compliance with user requirements, specifications, or scope."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly handle financial edge cases (e.g., zero volatility, negative interest rates, data gaps)",
+    "Requirement 6: Mathematical derivations or code must be numerically stable and computationally efficient",
+    "Requirement 7: All assumptions regarding market models (e.g., Black-Scholes, Heston, Mean-Variance) must be clearly stated"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Apply mathematical or statistical techniques to address practical issues in finance, such as derivative valuation, securities trading, risk management, or financial market regulation.",
+    "task_type": "Derivative Pricing and Valuation",
+    "user_prompt": "Given the following market data for a European Call Option on a non-dividend paying stock, implement a Monte Carlo simulation to price the option using Geometric Brownian Motion. The simulation must use 100,000 paths, a risk-free rate of 2.5%, and a volatility of 20%. Output the estimated price, the standard error, and the 95% confidence interval. Additionally, provide a brief explanation of how you handled the random number generation seed for reproducibility.",
+    "reference_context": {
+      "stock_price": 100.0,
+      "strike_price": 105.0,
+      "time_to_maturity": 1.0,
+      "risk_free_rate": 0.025,
+      "volatility": 0.2,
+      "num_paths": 100000,
+      "seed": 42
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — does the calculated price fall within the theoretical bounds and match the Black-Scholes benchmark within a reasonable tolerance?",
+      "Criterion 2: Completeness — did it calculate the price, standard error, confidence interval, and seed explanation?",
+      "Criterion 3: Best practices — is the code efficient, vectorized, and does it handle potential numerical overflow?"
+    ]
+  },
+  "grading_notes": "Check for the use of vectorized operations instead of loops for performance. Verify that the random number generator is seeded correctly for reproducibility. Ensure the confidence interval calculation uses the correct t-statistic or z-score for the sample size. Watch for the 'look-ahead bias' if the prompt implies using future data. Verify that the discounting of payoffs is done correctly using the risk-free rate.",
+  "grading_rubric_template": [
+    "1. Mathematical Correctness: Are the formulas and numerical implementations accurate for the specified financial model?",
+    "2. Completeness: Does the solution address all parts of the prompt including edge cases and specific output formats?",
+    "3. Computational Efficiency: Is the code optimized for performance (e.g., vectorization) suitable for large-scale simulations?",
+    "4. Robustness: Are numerical stability issues (e.g., log of negative numbers, division by zero) handled gracefully?",
+    "5. Clarity and Documentation: Is the code well-commented, and are the assumptions and limitations clearly explained?"
+  ],
+  "grading_scale_max": 5
+}

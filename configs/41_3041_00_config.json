@@ -1,0 +1,70 @@
+{
+  "job_id": "travel_agent",
+  "job_title": "Travel Agents",
+  "onet_code": "41-3041.00",
+  "role_description": "Senior Travel Operations Specialist and Client Experience Manager",
+  "task_types": "Client Consultation and Needs Analysis / Itinerary Planning and Cost Estimation / Reservation Management and Booking / Payment Processing and Financial Reconciliation / Regulatory Compliance and Information Dissemination",
+  "onet_tasks": [
+    "Collect payment for transportation and accommodations from customer.",
+    "Plan, describe, arrange, and sell itinerary tour packages and promotional travel incentives offered by various travel carriers.",
+    "Converse with customer to determine destination, mode of transportation, travel dates, financial considerations, and accommodations required.",
+    "Compute cost of travel and accommodations, using calculator, computer, carrier tariff books, and hotel rate books, or quote package tour's costs.",
+    "Record and maintain information on clients, vendors, and travel packages.",
+    "Book transportation and hotel reservations, using computer or telephone.",
+    "Print or request transportation carrier tickets, using computer printer system or system link to travel carrier.",
+    "Provide customer with brochures and publications containing travel information, such as local customs, points of interest, or foreign country regulations."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must account for real-world constraints such as visa requirements, currency fluctuations, and seasonal pricing variations",
+    "Requirement 6: All financial calculations must be accurate to the cent and include breakdowns of taxes and fees",
+    "Requirement 7: The AI must demonstrate empathy and professional communication tone in client-facing scenarios"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Converse with customer to determine destination, mode of transportation, travel dates, financial considerations, and accommodations required.",
+    "task_type": "Client Consultation and Needs Analysis",
+    "user_prompt": "A client named Sarah is planning a 10-day trip to Japan for two people. Her budget is $6,000 USD. She prefers cultural experiences over shopping, needs a hotel in central Tokyo with a view, and requires a round-trip flight from New York. She has a mild food allergy to shellfish. Draft a comprehensive consultation response that outlines 3 distinct itinerary options, estimates the total cost for each including flights and hotels, and lists specific cultural etiquette tips she must know regarding dining and public transport.",
+    "reference_context": {
+      "client_profile": {
+        "name": "Sarah",
+        "travelers": 2,
+        "origin": "New York, USA",
+        "destination": "Tokyo, Japan",
+        "duration_days": 10,
+        "budget_usd": 6000,
+        "preferences": [
+          "Cultural experiences",
+          "Central location",
+          "Hotel view"
+        ],
+        "constraints": [
+          "Shellfish allergy",
+          "No shopping focus"
+        ]
+      },
+      "market_data_sample": {
+        "avg_flight_nyc_tokyo": 1200,
+        "avg_hotel_tokyo_central": 250,
+        "currency_rate_usd_jpy": 150.5
+      }
+    },
+    "evaluation_criteria": [
+      "Correctness: Are the cost estimates mathematically accurate and within the stated budget?",
+      "Completeness: Does the response cover all constraints including the allergy and specific preferences?",
+      "Best Practices: Is the itinerary logical regarding travel times and location proximity?"
+    ]
+  },
+  "grading_notes": "Check for hallucinated flight prices that exceed market averages significantly. Verify that the shellfish allergy is explicitly addressed in the dining recommendations. Ensure the cultural tips are specific to Japan (e.g., shoe removal, chopstick etiquette) rather than generic travel advice. Confirm that the total cost calculation includes estimated taxes and fees, not just base rates.",
+  "grading_rubric_template": [
+    "1. Accuracy: Are all financial calculations, currency conversions, and logistical details factually correct?",
+    "2. Constraint Adherence: Did the solution strictly follow all client constraints (budget, allergies, preferences)?",
+    "3. Professionalism: Is the tone appropriate for a high-end travel consultant and is the communication clear?",
+    "4. Completeness: Does the response provide a full itinerary, cost breakdown, and necessary travel information?",
+    "5. Feasibility: Are the suggested plans realistic given current travel conditions and logistical realities?"
+  ],
+  "grading_scale_max": 5
+}
