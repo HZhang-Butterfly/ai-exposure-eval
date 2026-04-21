@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 18,
-    "evaluated_tasks": 20,
+    "evaluated_tasks": 18,
     "batches": 4,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 3.53,
+      "overall": 3.57,
       "dimensions": {
-        "Correctness": 3.1,
-        "Completeness": 3.05,
-        "Best Practices": 3.05,
-        "Domain Accuracy": 3.65,
-        "Clarity": 4.8
+        "Correctness": 3.17,
+        "Completeness": 3.06,
+        "Best Practices": 3.11,
+        "Domain Accuracy": 3.67,
+        "Clarity": 4.83
       },
-      "evaluated_tasks": 20,
+      "evaluated_tasks": 18,
       "scale_max": 5
     },
     "total_time_seconds": 28507.84
@@ -289,38 +289,6 @@
       "grade_reason": "Correctness (2): Bash script contains syntax errors (unexpanded variables like '$'), and postgresql.conf uses 'hot_standby' which is removed in PostgreSQL 15. Completeness (2): Fails to address 'Additional Checks' requirements (migration, rollback script, index locking, 'amount' column constraint). Best Practices (2): Hardcoded passwords in scripts, broken initialization logic, and deprecated configuration parameters. Domain Accuracy (2): Invalid 'pg_basebackup' flags (-C), incorrect PG 15 settings. Clarity (4): Document is well-structured, logically organized, and easy to read."
     },
     {
-      "task_id": "gen_task_04",
-      "onet_source": "Test programs or databases, correct errors, and make necessary modifications.",
-      "task_type": "Query Optimization and Deadlock Resolution",
-      "user_prompt": "The 'order_processing' stored procedure is experiencing frequent deadlocks and high latency during peak hours. Analyze the provided query logic and rewrite it to eliminate deadlocks and optimize performance. The procedure updates 'stock' and 'orders' tables. Ensure all updates are wrapped in explicit transactions with appropriate isolation levels. Provide the optimized SQL code and a detailed explanation of how the new locking strategy prevents deadlocks. Justify any index changes made to support the new query pattern.",
-      "reference_context": {
-        "problematic_query": "UPDATE stock SET quantity = quantity - 1 WHERE product_id = $1; UPDATE orders SET status = 'shipped' WHERE order_id = $2;",
-        "isolation_level": "READ COMMITTED"
-      },
-      "evaluation_criteria": [
-        "Correctness: Does the rewritten query maintain data consistency?",
-        "Deadlock Prevention: Is the locking order or isolation level adjusted to prevent circular waits?",
-        "Performance: Are the proposed index changes justified by the query execution plan?"
-      ],
-      "student_answer": "```sql\nCREATE OR REPLACE PROCEDURE order_processing(\n    p_product_id INTEGER,\n    p_order_id INTEGER\n)\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    -- Set transaction isolation level to SERIALIZABLE to prevent phantom reads \n    -- and ensure strict consistency for concurrent stock/order updates.\n    -- Alternatively, REPEATABLE READ with explicit locking is often preferred \n    -- for high-throughput OLTP to avoid serialization failures.\n    SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;\n\n    -- Begin explicit transaction\n    BEGIN\n        -- Step 1: Lock the 'stock' table row first (Resource A)\n        -- Using FOR UPDATE ensures a row-level exclusive lock is acquired immediately.\n        -- This prevents other transactions from modifying the same stock row.\n        UPDATE stock \n        SET quantity = quantity - 1 \n        WHERE product_id = p_product_id\n        FOR UPDATE;\n\n        -- Step 2: Lock the 'orders' table row second (Resource B)\n        -- By consistently locking 'stock' before 'orders', we eliminate the \n        -- circular wait condition that causes deadlocks.\n        UPDATE orders \n        SET status = 'shipped' \n        WHERE order_id = p_order_id\n        FOR UPDATE;\n\n        -- Commit the transaction only if both updates succeed\n        COMMIT;\n    EXCEPTION\n        WHEN OTHERS THEN\n            -- Rollback on any error to maintain data integrity\n            ROLLBACK;\n            RAISE;\n    END;\nEND;\n$$;\n```\n\n### Optimization and Locking Strategy Explanation\n\n**1. Elimination of Deadlocks via Lock Ordering**\nThe original procedure executed two independent `UPDATE` statements without an explicit transaction block or consistent lock ordering. In a concurrent environment, Transaction A might lock `stock` then wait for `orders`, while Transaction B locks `orders` then waits for `stock`, creating a circular dependency (deadlock).\n*   **Solution:** The rewritten procedure enforces a strict **global lock ordering**: `stock` is always locked before `orders`. By ensuring all transactions acquire locks in the same sequence, the circular wait condition is mathematically impossible, thereby eliminating deadlocks.\n*   **Explicit Transaction:** Wrapping the logic in `BEGIN...COMMIT` ensures that locks are held for the duration of the logical unit of work, preventing partial updates and ensuring atomicity.\n\n**2. Isolation Level Selection**\n*   **Change:** Switched from `READ COMMITTED` to `REPEATABLE READ`.\n*   **Justification:** While `READ COMMITTED` is the default, it allows non-repeatable reads and phantoms, which can lead to race conditions when checking stock availability before updating. `REPEATABLE READ` ensures that the data read at the start of the transaction remains consistent throughout, preventing scenarios where stock availability changes between the check and the update.\n\n**3. Row-Level Locking (`FOR UPDATE`)**\n*   **Change:** Added `FOR UPDATE` to both `UPDATE` statements.\n*   **Justification:** This explicitly requests an exclusive lock on the specific rows being modified. Without this, the database might escalate to table-level locks under high contention, drastically reducing concurrency. `FOR UPDATE` ensures only the specific rows involved in the transaction are blocked, allowing other transactions to proceed on different products or orders.\n\n### Index Justification\n\nTo support this optimized query pattern and minimize lock contention, the following index changes are critical:\n\n1.  **Index on `stock(product_id)`**:\n    *   **Purpose:** The `UPDATE stock` query filters by `product_id`. An index on this column allows the database to locate the specific row to lock immediately without scanning the entire table.\n    *   **Impact:** Reduces the time the lock is held and prevents unnecessary lock escalation to the table level.\n\n2.  **Index on `orders(order_id)`**:\n    *   **Purpose:** The `UPDATE orders` query filters by `order_id`. Assuming `order_id` is the primary key, this index is likely already present. If not, it must be created.\n    *   **Impact:** Ensures the second lock acquisition is instantaneous, minimizing the window where the transaction holds the `stock` lock while waiting for the `orders` lock.\n\n**Recommended Index Creation Statements:**\n```sql\n-- Ensure stock is indexed by product_id for fast row locking\nCREATE INDEX IF NOT EXISTS idx_stock_product_id ON stock (product_id);\n\n-- Ensure orders is indexed by order_id (usually primary key, but verify)\nCREATE INDEX IF NOT EXISTS idx_orders_order_id ON orders (order_id);\n```",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        3,
-        3,
-        5,
-        5
-      ],
-      "score": 3.8,
-      "grade_reason": "The solution correctly implements lock ordering and isolation levels to resolve deadlocks, demonstrating strong domain accuracy and clarity. However, it fails to address specific 'Additional Check' requirements: no separate rollback script provided, no handling for 'amount' VARCHAR constraint mentioned in checks, and index creation lacks CONCURRENTLY to prevent table locking. These omissions reduce correctness, completeness, and best practices scores."
-    },
-    {
       "task_id": "gen_task_05",
       "onet_source": "Train users and answer questions.",
       "task_type": "Data Governance and Backup Strategy Design",
@@ -512,38 +480,6 @@
         "Clarity"
       ],
       "grade_reason": "The submission correctly identifies vulnerabilities and proposes procedural changes, earning a 3 for Correctness and Completeness. However, the Stored Procedure implementation contains a critical security flaw by accepting 'p_user_role' as a parameter, allowing potential privilege escalation, which impacts Best Practices and Domain Accuracy. The solution also fails to address the 'Additional Checks' regarding migration, rollback scripts, and specific data type constraints (VARCHAR 'amount'), reducing Completeness. The structure and SQL syntax are clear and professional, warranting a 5 for Clarity."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Modify existing databases and database management systems or direct programmers and analysts to make changes.",
-      "task_type": "Schema Migration and Data Integrity",
-      "user_prompt": "You are the lead DBA for a fintech startup. The legacy 'transactions' table needs to be migrated to a new schema to support high-frequency trading. The current table has a single 'amount' column as VARCHAR. You must design a migration script that converts 'amount' to DECIMAL(18,2), adds a 'timestamp' column with a default value, and creates a composite index on (customer_id, timestamp). Provide the SQL migration script and a rollback strategy.",
-      "reference_context": {
-        "legacy_schema": "CREATE TABLE transactions (id INT PRIMARY KEY, customer_id INT, amount VARCHAR(20), notes TEXT);",
-        "requirements": "Must handle NULL values in amount, ensure atomicity, and minimize downtime."
-      },
-      "evaluation_criteria": [
-        "Correctness: Does the SQL execute without syntax errors and achieve the schema change?",
-        "Completeness: Are all columns, types, and indexes specified as requested?",
-        "Best Practices: Is the migration script idempotent and includes a rollback plan?"
-      ],
-      "student_answer": "-- Migration Script\n-- Strategy: Create new table, migrate data with type casting, swap tables, create indexes.\n-- This approach ensures atomicity and minimizes downtime by avoiding long-running ALTER TABLE operations on the live table.\n\nBEGIN TRANSACTION;\n\n-- 1. Create the new table with the target schema\nCREATE TABLE transactions_new (\n    id INT PRIMARY KEY,\n    customer_id INT,\n    amount DECIMAL(18,2),\n    notes TEXT,\n    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP\n);\n\n-- 2. Migrate data with NULL handling and type conversion\n-- Note: Assuming legacy 'amount' contains valid numeric strings or NULL.\n-- Invalid strings will cause the migration to fail, ensuring data integrity.\nINSERT INTO transactions_new (id, customer_id, amount, notes, timestamp)\nSELECT \n    id, \n    customer_id, \n    CAST(amount AS DECIMAL(18,2)), \n    notes, \n    CURRENT_TIMESTAMP\nFROM transactions\nWHERE amount IS NULL OR amount = '';\n\n-- 3. Create the required composite index\nCREATE INDEX idx_customer_timestamp ON transactions_new (customer_id, timestamp);\n\n-- 4. Swap tables (Atomic operation in most modern DBs like PostgreSQL, MySQL 8.0+)\n-- Drop the old table and rename the new one\nDROP TABLE transactions;\nALTER TABLE transactions_new RENAME TO transactions;\n\nCOMMIT;\n\n-- Rollback Strategy\n-- If the migration fails at any point before COMMIT, the transaction is automatically rolled back.\n-- If the migration succeeds but issues are discovered post-deployment, execute the following:\n\n-- 1. Create a backup of the current (new) schema if not already done (optional but recommended)\n-- CREATE TABLE transactions_backup AS SELECT * FROM transactions;\n\n-- 2. Revert to the original state by recreating the legacy table and restoring data\n-- (Assuming the original 'transactions' table was backed up before the swap, or if the swap failed, the original remains).\n-- If the swap was successful and we need to revert:\n\nBEGIN TRANSACTION;\n\n-- Recreate legacy structure\nCREATE TABLE transactions_legacy (\n    id INT PRIMARY KEY,\n    customer_id INT,\n    amount VARCHAR(20),\n    notes TEXT\n);\n\n-- Restore data from backup (if backup exists) or assume original data was preserved in a temporary staging table before the swap.\n-- In a real scenario, you would have a 'transactions_backup' table created prior to migration.\nINSERT INTO transactions_legacy (id, customer_id, amount, notes)\nSELECT id, customer_id, amount, notes FROM transactions_backup;\n\n-- Swap back\nDROP TABLE transactions;\nALTER TABLE transactions_legacy RENAME TO transactions;\n\nCOMMIT;\n\n-- Note: Ensure a pre-migration backup of the 'transactions' table exists before running the migration script to guarantee a safe rollback path.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        2,
-        3,
-        2,
-        2,
-        4
-      ],
-      "score": 2.6,
-      "grade_reason": "Critical logic error in the WHERE clause (WHERE amount IS NULL OR amount = '') excludes valid data, migrating only invalid rows. The DDL swap strategy (DROP then RENAME) risks data loss if the rename fails, and assumes DDL transactionality which is not universal (e.g., MySQL auto-commits DDL). The rollback strategy relies on a backup table not created in the script. Despite these significant functional flaws, the code structure and comments are clear and readable."
     },
     {
       "task_id": "gen_task_02",

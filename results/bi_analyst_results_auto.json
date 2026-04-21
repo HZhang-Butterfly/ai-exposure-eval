@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 17,
-    "evaluated_tasks": 20,
+    "evaluated_tasks": 17,
     "batches": 4,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.38,
+      "overall": 4.35,
       "dimensions": {
-        "Correctness": 4.15,
-        "Completeness": 4.1,
-        "Best Practices": 4.35,
+        "Correctness": 4.06,
+        "Completeness": 4.12,
+        "Best Practices": 4.29,
         "Domain Accuracy": 4.35,
-        "Clarity": 4.95
+        "Clarity": 4.94
       },
-      "evaluated_tasks": 20,
+      "evaluated_tasks": 17,
       "scale_max": 5
     },
     "total_time_seconds": 3776.02
@@ -405,58 +405,6 @@
       "grade_reason": "The submission is well-structured and uses accurate financial terminology (Clarity, Domain Accuracy). However, it omits critical data privacy and security controls required for financial services metadata (Correctness, Completeness, Best Practices). Additionally, the 'unlock access' enforcement strategy is aggressive and may hinder adoption culture (Best Practices)."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Synthesize current business intelligence or trend data to support recommendations for action.",
-      "task_type": "Strategic Trend Analysis and Recommendation",
-      "user_prompt": "You are a BI Analyst for a mid-sized e-commerce retailer. You have been provided with a dataset containing monthly sales figures, customer acquisition costs, and return rates for the last 24 months, alongside a summary of recent market trends indicating a 15% shift in consumer preference towards sustainable packaging. Analyze the provided data to identify correlations between the sustainability trend and sales performance in specific product categories. Synthesize these findings into a strategic recommendation memo for the VP of Operations, proposing a specific action plan to capitalize on this trend while mitigating potential supply chain risks.",
-      "reference_context": {
-        "sales_data_sample": [
-          {
-            "month": "2023-01",
-            "category": "Packaging",
-            "sales": 12000,
-            "returns": 500
-          },
-          {
-            "month": "2023-02",
-            "category": "Packaging",
-            "sales": 12500,
-            "returns": 480
-          },
-          {
-            "month": "2023-03",
-            "category": "Packaging",
-            "sales": 14200,
-            "returns": 450
-          }
-        ],
-        "market_trend_summary": "Competitor analysis shows 3 major rivals launched sustainable packaging lines in Q1 2023, resulting in a 12% market share gain for the sector. Consumer sentiment analysis indicates a 20% higher willingness to pay for eco-friendly options.",
-        "supply_chain_constraints": "Raw material costs for biodegradable plastics have increased by 8% in the last quarter."
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Analytical Depth — Does the response correctly interpret the correlation between trends and sales data?",
-        "Criterion 2: Strategic Alignment — Are the recommendations actionable and directly tied to the identified data insights?",
-        "Criterion 3: Risk Assessment — Does the solution address the supply chain cost constraints mentioned in the context?"
-      ],
-      "student_answer": "**MEMORANDUM**\n\n**TO:** VP of Operations\n**FROM:** Business Intelligence Analyst\n**DATE:** October 26, 2023\n**SUBJECT:** Strategic Action Plan: Capitalizing on Sustainable Packaging Trends\n\n### Executive Summary\nRecent market analysis indicates a decisive 15% consumer shift toward sustainable packaging, with competitors capturing a 12% market share in Q1 2023. Our internal data confirms a strong positive correlation between this trend and sales performance in the \"Packaging\" category, where sales rose 18.4% (from $12,000 to $14,200) over the first quarter of 2023, accompanied by a 10% reduction in return rates. To maintain competitiveness and leverage the 20% higher willingness to pay for eco-friendly options, immediate strategic action is required to address the concurrent 8% increase in raw material costs.\n\n### Data-Driven Insights\n1.  **Sales Correlation:** The \"Packaging\" category demonstrates the highest growth trajectory, directly aligning with the market trend. The 18.4% sales increase in Q1 2023 suggests that sustainability is no longer a niche preference but a primary purchase driver.\n2.  **Customer Satisfaction:** Return rates for the Packaging category decreased from 500 (Jan) to 450 (Mar), indicating that sustainable options improve customer retention and reduce operational friction associated with returns.\n3.  **Market Opportunity:** Competitor activity has validated the sector's growth. The 20% premium consumers are willing to pay for eco-friendly options provides a margin buffer to absorb rising material costs.\n\n### Strategic Recommendation: The \"Green-Shift\" Initiative\n\nTo capitalize on this trend while mitigating supply chain risks, we propose the following three-phase action plan:\n\n#### Phase 1: Product & Pricing Optimization (Immediate)\n*   **Action:** Launch a premium \"Eco-First\" product line within the Packaging category, explicitly marketing the sustainability benefits.\n*   **Pricing Strategy:** Implement a 10–12% price premium on these SKUs. This leverages the identified 20% consumer willingness to pay, effectively offsetting the 8% increase in biodegradable plastic costs while preserving net margins.\n*   **Inventory:** Prioritize allocation of current sustainable stock to high-volume SKUs to prevent stockouts during the peak demand window.\n\n#### Phase 2: Supply Chain Diversification (30–60 Days)\n*   **Risk Mitigation:** The 8% cost increase signals volatility in the biodegradable plastic market. We must immediately diversify our supplier base to include at least two secondary vendors for raw materials to prevent single-point failures.\n*   **Cost Hedging:** Negotiate long-term fixed-price contracts with primary suppliers for the next 12 months to lock in current rates before further inflation occurs.\n*   **Inventory Buffer:** Increase safety stock levels for sustainable raw materials by 20% to buffer against potential supply disruptions.\n\n#### Phase 3: Operational Integration (60–90 Days)\n*   **Process Update:** Update fulfillment protocols to ensure sustainable packaging is standard for all orders, not just the premium line, to maximize brand consistency.\n*   **Marketing Alignment:** Coordinate with the Marketing team to highlight the reduction in return rates and the environmental impact in customer communications, reinforcing the value proposition.\n\n### Conclusion\nThe data confirms that sustainability is a critical growth vector. By implementing a premium pricing strategy on our new Eco-First line and securing our supply chain through diversification, we can capture the 12% market share currently held by competitors while neutralizing the impact of rising raw material costs. Approval is requested to initiate Phase 1 immediately.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        4,
-        5,
-        4,
-        5
-      ],
-      "score": 4.4,
-      "grade_reason": "The submission demonstrates strong professional structure and strategic thinking (Best Practices, Clarity). However, it scores 4 on Correctness and Completeness because it fails to include a specific future KPI to track the success of the action plan, as required by the Additional Checks. It also scores 4 on Domain Accuracy due to a minor calculation rounding error (18.33% reported as 18.4%) and a lack of acknowledgment that the analysis is based on a 3-month sample rather than the requested 24 months of data. While the strategy is sound, these precision and requirement gaps prevent a perfect score."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Create or review technical design documentation to ensure the accurate development of reporting solutions.",
       "task_type": "Technical Design and Architecture Review",
@@ -612,58 +560,6 @@
       "grade_reason": "The submission is well-structured and uses domain terminology accurately (5 for Clarity, 5 for Domain Accuracy). However, the Market Size section conflates TAM with a growth rate and lacks a numerical estimate, and the budget justification asserts sufficiency without a cost breakdown, which are meaningful gaps for a Senior Architect evaluation (4 for Correctness, Completeness, Best Practices)."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Synthesize current business intelligence or trend data to support recommendations for action.",
-      "task_type": "Strategic Trend Analysis and Recommendation",
-      "user_prompt": "You are a BI Analyst for a mid-sized e-commerce retailer. You have been provided with a dataset containing monthly sales figures, customer acquisition costs, and return rates for the last 24 months, alongside a summary of recent market trends indicating a 15% shift in consumer preference towards sustainable packaging. Analyze the provided data to identify correlations between the sustainability trend and sales performance in specific product categories. Synthesize these findings into a strategic recommendation memo for the VP of Operations, proposing a specific action plan to capitalize on this trend while mitigating potential supply chain risks.",
-      "reference_context": {
-        "sales_data_sample": [
-          {
-            "month": "2023-01",
-            "category": "Packaging",
-            "sales": 12000,
-            "returns": 500
-          },
-          {
-            "month": "2023-02",
-            "category": "Packaging",
-            "sales": 12500,
-            "returns": 480
-          },
-          {
-            "month": "2023-03",
-            "category": "Packaging",
-            "sales": 14200,
-            "returns": 450
-          }
-        ],
-        "market_trend_summary": "Competitor analysis shows 3 major rivals launched sustainable packaging lines in Q1 2023, resulting in a 12% market share gain for the sector. Consumer sentiment analysis indicates a 20% higher willingness to pay for eco-friendly options.",
-        "supply_chain_constraints": "Raw material costs for biodegradable plastics have increased by 8% in the last quarter."
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Analytical Depth — Does the response correctly interpret the correlation between trends and sales data?",
-        "Criterion 2: Strategic Alignment — Are the recommendations actionable and directly tied to the identified data insights?",
-        "Criterion 3: Risk Assessment — Does the solution address the supply chain cost constraints mentioned in the context?"
-      ],
-      "student_answer": "**MEMORANDUM**\n\n**TO:** VP of Operations\n**FROM:** Business Intelligence Analyst\n**DATE:** October 26, 2023\n**SUBJECT:** Strategic Action Plan: Capitalizing on Sustainable Packaging Trends\n\n### Executive Summary\nRecent market analysis indicates a decisive 15% shift in consumer preference toward sustainable packaging, with competitors capturing a 12% market share gain in Q1 2023. Our internal data confirms a strong positive correlation between this trend and sales performance in the \"Packaging\" category, where sales increased by 18.4% (from $12,000 to $14,200) over the first quarter of 2023, concurrent with a 10% reduction in return rates. To maintain competitive parity and leverage the 20% higher willingness to pay for eco-friendly options, immediate strategic action is required to address rising raw material costs.\n\n### Data Analysis & Correlation Findings\n1.  **Sales Performance:** The \"Packaging\" category demonstrates a direct upward trajectory aligned with the market trend. Month-over-month growth accelerated from 4.2% (Jan–Feb) to 13.6% (Feb–Mar), outpacing historical averages.\n2.  **Customer Satisfaction:** Return rates for sustainable packaging items decreased from 500 (Jan) to 450 (Mar), suggesting higher customer retention and product satisfaction among eco-conscious buyers.\n3.  **Market Opportunity:** Competitor activity has validated the demand; however, the 20% premium consumers are willing to pay for sustainable options remains largely untapped in our current pricing structure.\n\n### Strategic Recommendation: \"Green-First\" Supply Chain Pivot\n\nTo capitalize on this momentum while mitigating the 8% increase in biodegradable raw material costs, we propose the following three-phase action plan:\n\n#### Phase 1: Pricing & Product Strategy (Immediate)\n*   **Implement Value-Based Pricing:** Introduce a 15–20% price premium for sustainable packaging SKUs to capture the identified consumer willingness to pay. This margin will offset the 8% increase in raw material costs.\n*   **Bundle Strategy:** Create \"Eco-Complete\" bundles pairing sustainable packaging with high-margin core products to increase average order value (AOV) and accelerate inventory turnover.\n\n#### Phase 2: Supply Chain Optimization (30–60 Days)\n*   **Diversify Supplier Base:** Immediately initiate contracts with at least two alternative suppliers for biodegradable plastics to reduce dependency on current vendors and hedge against price volatility.\n*   **Long-Term Hedging:** Negotiate fixed-price contracts for the next 12 months with primary suppliers to lock in current rates before further market inflation occurs.\n*   **Inventory Buffer:** Increase safety stock levels for sustainable materials by 25% to prevent stockouts during the anticipated Q2 demand surge.\n\n#### Phase 3: Operational Integration (60–90 Days)\n*   **Marketing Alignment:** Launch a targeted campaign highlighting the sustainability shift, explicitly communicating the \"20% higher willingness to pay\" value proposition to justify the price adjustment.\n*   **Logistics Review:** Audit current logistics partners for their own carbon footprint to ensure the entire supply chain aligns with the new sustainable positioning, preventing reputational risk.\n\n### Conclusion\nThe data confirms that sustainability is no longer a niche preference but a primary driver of sales and customer loyalty in our sector. By proactively adjusting pricing to reflect market value and securing supply chain stability through diversification, we can convert the current 15% market shift into a sustained competitive advantage.\n\n**Next Steps:** Approval is requested to authorize the procurement team to begin supplier diversification negotiations and for the Finance team to model the revised pricing structure for the upcoming quarter.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        4,
-        5,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "Correctness (5): The submission addresses all core task requirements including memo format, data analysis, strategic recommendation, and risk mitigation. Completeness (4): While comprehensive, it lacks a specific success KPI (e.g., target margin or fill rate) as requested in the additional checks, focusing instead on action targets. Best Practices (5): Professional memo structure, phased action plan, and executive tone are industry-standard. Domain Accuracy (4): Terminology is accurate, but there is a minor calculation imprecision (18.33% growth reported as 18.4%). Clarity (5): The document is well-structured, logical, and easy to read."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Conduct or coordinate tests to ensure that intelligence is consistent with defined needs.",
       "task_type": "Intelligence Validation and Gap Analysis",
@@ -757,58 +653,6 @@
       ],
       "score": 4.2,
       "grade_reason": "The submission is well-structured and comprehensive, addressing all schema, KPI, and security requirements (Completeness 5, Clarity 5). It follows industry standards for ETL and RBAC (Best Practices 4). However, Domain Accuracy is 3 because the SQL logic for 'Average Inventory' incorrectly uses a Dimension table attribute instead of a Fact snapshot, contradicting the KPI definition and standard inventory accounting. Correctness is 4 as the technical requirements (nulls, timezone) are met despite the modeling simplification."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Synthesize current business intelligence or trend data to support recommendations for action.",
-      "task_type": "Data Synthesis and Reporting",
-      "user_prompt": "You are a BI Analyst for a mid-sized e-commerce retailer. You have been provided with a dataset containing monthly sales figures, customer acquisition costs, and return rates for the last 24 months, alongside a summary of recent market trends indicating a 15% shift in consumer preference towards sustainable packaging. Analyze the provided data to identify correlations between the sustainability trend and sales performance in specific product categories. Synthesize these findings into a strategic recommendation memo for the VP of Operations, proposing a specific action plan to capitalize on this trend while mitigating potential supply chain risks.",
-      "reference_context": {
-        "sales_data_sample": [
-          {
-            "month": "2023-01",
-            "category": "Packaging",
-            "sales": 12000,
-            "returns": 500
-          },
-          {
-            "month": "2023-02",
-            "category": "Packaging",
-            "sales": 12500,
-            "returns": 480
-          },
-          {
-            "month": "2023-03",
-            "category": "Packaging",
-            "sales": 14200,
-            "returns": 450
-          }
-        ],
-        "market_trend_summary": "Competitor analysis shows 3 major rivals launched sustainable packaging lines in Q1 2023, resulting in a 12% market share gain for the sector. Consumer sentiment analysis indicates a 20% higher willingness to pay for eco-friendly options.",
-        "supply_chain_constraints": "Raw material costs for biodegradable plastics have increased by 8% in the last quarter."
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Analytical Depth — Does the response correctly interpret the correlation between trends and sales data?",
-        "Criterion 2: Strategic Alignment — Are the recommendations actionable and directly tied to the identified data insights?",
-        "Criterion 3: Risk Assessment — Does the solution address the supply chain cost constraints mentioned in the context?"
-      ],
-      "student_answer": "**MEMORANDUM**\n\n**TO:** VP of Operations\n**FROM:** Business Intelligence Analyst\n**DATE:** October 26, 2023\n**SUBJECT:** Strategic Action Plan: Capitalizing on Sustainable Packaging Trends\n\n### Executive Summary\nRecent market analysis indicates a decisive 15% consumer shift toward sustainable packaging, with competitors gaining a 12% market share in Q1 2023. Our internal data confirms a strong positive correlation between this trend and sales performance in the \"Packaging\" category, which saw a 18.3% sales increase (from $12,000 to $14,200) over the first quarter of 2023, accompanied by a 10% reduction in return rates. While consumer willingness to pay for eco-friendly options is 20% higher, rising raw material costs for biodegradable plastics (up 8% last quarter) present a margin risk. This memo outlines a strategic roadmap to capture market share while mitigating supply chain volatility.\n\n### Data-Driven Insights\n1.  **Sales Correlation:** The \"Packaging\" category demonstrates immediate responsiveness to the sustainability trend. The 18.3% sales growth in Q1 2023 aligns directly with the market-wide shift, suggesting our current product mix is capturing emerging demand.\n2.  **Customer Satisfaction:** Return rates in the Packaging category declined from 500 (Jan) to 450 (Mar), a 10% improvement. This suggests that sustainable packaging not only drives acquisition but also enhances product integrity and customer retention.\n3.  **Market Opportunity:** Competitor analysis reveals a 12% market share gain for the sector, driven by the launch of sustainable lines. Our data indicates a 20% premium willingness among consumers, providing a clear avenue for margin expansion if managed correctly.\n4.  **Risk Factor:** The 8% increase in biodegradable raw material costs threatens to erode the potential margin gains from the 20% price premium if procurement strategies are not adjusted immediately.\n\n### Strategic Recommendation: \"Green Growth Initiative\"\n\nTo capitalize on this trend while neutralizing supply chain risks, I propose the following three-phase action plan:\n\n#### Phase 1: Product & Pricing Optimization (Immediate)\n*   **Premium Tier Launch:** Introduce a \"Sustainable Premium\" line for the Packaging category, leveraging the 20% consumer willingness to pay. Price this tier at a 15-18% premium to offset the 8% raw material cost increase and maintain healthy margins.\n*   **Marketing Alignment:** Rebrand current packaging SKUs with clear \"Eco-Certified\" labeling to capture the 15% trend shift. Highlight the reduction in return rates as a quality assurance metric in marketing collateral.\n\n#### Phase 2: Supply Chain Resilience (30-60 Days)\n*   **Diversified Sourcing:** Immediately initiate contracts with at least two secondary suppliers for biodegradable plastics to mitigate the risk of single-source price volatility.\n*   **Strategic Stockpiling:** Utilize current cash flow to secure a 3-month buffer stock of raw materials at current pricing levels before projected Q3 cost hikes.\n*   **Cost-Volume Analysis:** Conduct a unit-level margin analysis to identify specific packaging SKUs where the 8% cost increase cannot be absorbed. Re-engineer these specific SKUs for material efficiency or phase them out in favor of higher-margin alternatives.\n\n#### Phase 3: Long-Term Integration (90+ Days)\n*   **Category Expansion:** Extend the sustainable packaging strategy to adjacent high-volume categories (e.g., Electronics, Home Goods) to replicate the 18.3% sales lift observed in the Packaging category.\n*   **Supplier Partnership Program:** Establish a joint development program with key suppliers to co-invest in cost-reduction technologies for biodegradable materials, aiming to reverse the 8% cost trend over the next fiscal year.\n\n### Conclusion\nThe data confirms that sustainability is no longer a niche preference but a primary driver of sales and customer satisfaction. By implementing the \"Green Growth Initiative,\" we can secure the 12% market share currently held by competitors, leverage the 20% price premium, and protect our bottom line against raw material inflation. Immediate approval to proceed with Phase 1 sourcing and pricing adjustments is requested.",
-      "score": 4.6,
-      "dimension_scores": [
-        5,
-        4,
-        4,
-        5,
-        5
-      ],
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "grade_reason": "Correctness (5): The submission accurately calculates sales growth (18.3%) and return rate reduction (10%) based on the provided sample data, and correctly integrates all market trend and supply chain constraints without hallucinating data. Completeness (4): While the action plan is detailed, it lacks a dedicated section or explicit KPIs to track the success of the initiative (e.g., specific margin targets or market share tracking metrics), which is a requirement noted in the additional checks. Best Practices (4): The memo format and strategic structure are professional, but industry standards for a strategic recommendation typically include a specific 'Success Metrics' or 'KPIs' section to ensure accountability, which is missing. Domain Accuracy (5): Terminology (SKU, margin analysis, diversification) and business logic are used correctly. Clarity (5): The document is well-structured, concise, and appropriate for an executive audience."
     },
     {
       "task_id": "gen_task_01",

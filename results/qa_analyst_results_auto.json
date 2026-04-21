@@ -6,8 +6,8 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 30,
-    "evaluated_tasks": 26,
-    "batches": 6,
+    "evaluated_tasks": 25,
+    "batches": 5,
     "batch_size": 5,
     "grading_scale_max": 5,
     "grading_dimensions": [
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.2,
+      "overall": 4.19,
       "dimensions": {
-        "Correctness": 4.21,
+        "Correctness": 4.22,
         "Completeness": 3.96,
-        "Best Practices": 3.75,
-        "Domain Accuracy": 4.21,
-        "Clarity": 4.88
+        "Best Practices": 3.74,
+        "Domain Accuracy": 4.17,
+        "Clarity": 4.87
       },
-      "evaluated_tasks": 26,
+      "evaluated_tasks": 25,
       "scale_max": 5
     },
     "total_time_seconds": 38927.8
@@ -1204,49 +1204,6 @@
         "Clarity"
       ],
       "grade_reason": "The submission is professionally formatted and addresses all required sections (metrics, slowest endpoint, recommendations). However, a calculation error exists in the average response time for /api/search (725ms actual vs 675ms reported), reducing Correctness and Domain Accuracy. Additionally, the analysis lacks professional caveats regarding the statistical validity of percentile calculations on a sample size of only 4 requests, affecting Best Practices. Recommendations are actionable and relevant. Clarity is exceptional."
-    },
-    {
-      "task_id": "gen_task_05",
-      "onet_source": "Conduct historical analyses of test results.",
-      "task_type": "Regression Test Strategy",
-      "user_prompt": "Based on the provided change log and historical test failure data, design a targeted regression test strategy for the upcoming release. Identify which test suites must be executed, which can be skipped, and which need to be expanded. Include a risk assessment for skipping specific tests.",
-      "reference_context": {
-        "change_log": [
-          "Modified 'Cart Checkout' logic to support new payment gateway",
-          "Updated 'User Authentication' module to enforce 2FA",
-          "Fixed a typo in the 'About Us' page text",
-          "Refactored database schema for 'Order History'"
-        ],
-        "historical_failures": {
-          "Cart Checkout": "High failure rate (15%) due to payment gateway timeouts",
-          "User Authentication": "Low failure rate (2%)",
-          "Order History": "Medium failure rate (8%) due to data migration issues",
-          "About Us": "Zero failures"
-        },
-        "available_resources": "Limited to 4 hours of execution time"
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Relevance - Does the strategy focus on high-risk areas identified in the change log and history?",
-        "Criterion 2: Efficiency - Does the plan maximize coverage within the 4-hour constraint?",
-        "Criterion 3: Risk Management - Are the risks of skipping tests clearly documented and justified?"
-      ],
-      "student_answer": "# Targeted Regression Test Strategy: Upcoming Release\n\n## 1. Test Suite Execution Plan\n\n### **Must Execute (High Priority)**\n*   **Cart Checkout Suite**\n    *   **Action:** Full regression execution with expanded negative testing.\n    *   **Rationale:** The core logic was modified to support a new payment gateway. Historical data shows a high failure rate (15%) specifically related to payment timeouts, which is now a critical risk area.\n    *   **Scope:** Focus on integration tests with the new gateway, timeout scenarios, and rollback procedures.\n*   **User Authentication Suite**\n    *   **Action:** Full regression execution.\n    *   **Rationale:** The module was updated to enforce 2FA. This is a security-critical change affecting all user access paths.\n    *   **Scope:** Verify 2FA enrollment, enforcement, bypass attempts, and fallback mechanisms.\n\n### **Must Expand (Medium Priority)**\n*   **Order History Suite**\n    *   **Action:** Execute full regression with added data migration validation tests.\n    *   **Rationale:** The database schema was refactored. Historical data indicates an 8% failure rate due to data migration issues.\n    *   **Scope:** Add specific test cases for data integrity, schema compatibility, and performance under load post-refactor.\n\n### **Can Skip (Low Priority)**\n*   **About Us Suite**\n    *   **Action:** Skip execution.\n    *   **Rationale:** The change was a text typo fix. Historical data shows zero failures. The risk of regression is negligible.\n\n---\n\n## 2. Risk Assessment for Skipped Tests\n\n| Test Suite | Risk Level | Justification | Mitigation Strategy |\n| :--- | :--- | :--- | : |\n| **About Us** | **Low** | Changes were limited to static text content. No logic, database, or API interactions were modified. | Monitor user feedback channels post-release for immediate reporting of the typo or any unexpected rendering issues. |\n\n---\n\n## 3. Resource Allocation (4-Hour Limit)\n\nTo adhere to the 4-hour constraint while maximizing coverage:\n\n1.  **Cart Checkout (1.5 Hours):**\n    *   0.5h: Setup and environment verification.\n    *   0.75h: Critical path execution (New Gateway + Timeout scenarios).\n    *   0.25h: Analysis and defect logging.\n2.  **User Authentication (1.0 Hour):**\n    *   0.25h: Setup.\n    *   0.6h: 2FA enforcement and security flow execution.\n    *   0.15h: Analysis.\n3.  **Order History (1.0 Hour):**\n    *   0.25h: Setup and data seeding.\n    *   0.6h: Schema refactoring validation and migration tests.\n    *   0.15h: Analysis.\n4.  **Buffer/Reporting (0.5 Hours):**\n    *   Final report generation and stakeholder communication.\n\n**Note:** The \"About Us\" suite is excluded from this schedule to ensure sufficient time is allocated to high-risk areas.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        4,
-        4,
-        5,
-        5
-      ],
-      "score": 4.4,
-      "grade_reason": "The submission demonstrates a strong risk-based approach and clear structure, correctly prioritizing high-failure areas like Cart Checkout and User Authentication. It effectively allocates resources within the 4-hour constraint. However, it lacks the specific technical depth expected of a Senior QA Lead, particularly regarding the 'Additional Checks' (e.g., explicit race condition handling, specific negative input validation, detailed DB verification steps). These omissions prevent it from reaching an exceptional 5, but the core strategy is sound and professional, warranting a 4."
     },
     {
       "task_id": "gen_task_01",

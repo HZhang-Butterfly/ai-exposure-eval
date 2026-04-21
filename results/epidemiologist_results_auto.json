@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 17,
-    "evaluated_tasks": 19,
+    "evaluated_tasks": 16,
     "batches": 4,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.46,
+      "overall": 4.43,
       "dimensions": {
-        "Correctness": 4.17,
-        "Completeness": 4.72,
-        "Best Practices": 4.33,
-        "Domain Accuracy": 4.06,
+        "Correctness": 4.13,
+        "Completeness": 4.67,
+        "Best Practices": 4.27,
+        "Domain Accuracy": 4.07,
         "Clarity": 5.0
       },
-      "evaluated_tasks": 19,
+      "evaluated_tasks": 16,
       "scale_max": 5
     },
     "total_time_seconds": 3823.28
@@ -685,102 +685,6 @@
       "grade_reason": "The submission is well-structured and clear (Clarity: 5) and covers all required sections (Completeness: 4). However, it contains a critical domain error regarding IIV storage: it instructs staff to thaw vaccines if transported in frozen conditions, whereas CDC guidelines mandate discarding frozen IIV. This significantly impacts Correctness (2), Best Practices (2), and Domain Accuracy (2). Additionally, the specific VAERS form number cited appears fabricated."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Investigate diseases or parasites to determine cause and risk factors, progress, life cycle, or mode of transmission.",
-      "task_type": "Outbreak Investigation and Reporting",
-      "user_prompt": "You are an epidemiologist investigating a sudden cluster of Salmonella infections in a mid-sized city. Given the following case data (names, onset dates, symptoms, and food history), analyze the pattern to hypothesize the source of the outbreak. Draft a preliminary investigation report including the suspected mode of transmission, potential risk factors, and immediate control measures to recommend to the local health department.",
-      "reference_context": {
-        "case_data": [
-          {
-            "id": "C001",
-            "onset": "2023-10-01",
-            "symptoms": [
-              "fever",
-              "diarrhea",
-              "vomiting"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "lettuce"
-            ]
-          },
-          {
-            "id": "C002",
-            "onset": "2023-10-02",
-            "symptoms": [
-              "fever",
-              "diarrhea"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "salad"
-            ]
-          },
-          {
-            "id": "C003",
-            "onset": "2023-10-02",
-            "symptoms": [
-              "fever",
-              "diarrhea",
-              "abdominal cramps"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "water"
-            ]
-          },
-          {
-            "id": "C004",
-            "onset": "2023-10-03",
-            "symptoms": [
-              "fever",
-              "diarrhea"
-            ],
-            "food_history": [
-              "beef",
-              "lettuce"
-            ]
-          },
-          {
-            "id": "C005",
-            "onset": "2023-10-03",
-            "symptoms": [
-              "fever",
-              "diarrhea",
-              "vomiting"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "lettuce"
-            ]
-          }
-        ],
-        "local_guidelines": "Immediate reporting required within 24 hours of cluster identification. Control measures must prioritize food safety and public notification."
-      },
-      "evaluation_criteria": [
-        "Correctness: Does the analysis logically link the food history to the outbreak source?",
-        "Completeness: Are all required sections of the investigation report included?",
-        "Best practices: Are the control measures aligned with CDC outbreak protocols?"
-      ],
-      "student_answer": "**PRELIMINARY INVESTIGATION REPORT: SALMONELLA OUTBREAK**\n\n**Date:** October 4, 2023\n**To:** Local Health Department\n**From:** Epidemiology Division\n**Subject:** Preliminary Analysis of Salmonella Cluster – Suspected Foodborne Source\n\n### 1. Executive Summary\nA cluster of five confirmed or probable *Salmonella* cases has been identified in the city between October 1 and October 3, 2023. The incubation period ranges from 12 to 48 hours, consistent with *Salmonella* enteritidis or *Salmonella* typhimurium. Epidemiological analysis strongly implicates a single food vehicle as the primary source of transmission.\n\n### 2. Epidemiological Analysis\n**Case Distribution:**\n*   **Total Cases:** 5\n*   **Onset Dates:** October 1, 2, and 3, 2023.\n*   **Symptom Profile:** Universal presentation of fever and diarrhea. Vomiting (40%) and abdominal cramps (20%) were also reported.\n\n**Exposure Analysis (Food History):**\n*   **Grilled Chicken:** Consumed by 4 out of 5 cases (80%).\n    *   *C001, C002, C003, C005* all consumed grilled chicken.\n*   **Lettuce:** Consumed by 3 out of 5 cases (60%).\n    *   *C001, C004, C005* consumed lettuce.\n*   **Other Items:**\n    *   *Beef:* Consumed by 1 case (C004), who did not consume chicken.\n    *   *Salad:* Consumed by 1 case (C002), who consumed chicken.\n    *   *Water:* Consumed by 1 case (C003), who consumed chicken.\n\n**Hypothesis Formulation:**\nThe data indicates a strong association with **grilled chicken**.\n*   **Attack Rate Calculation:** 4/5 cases (80%) consumed grilled chicken.\n*   **Exclusion of Alternatives:**\n    *   *Lettuce:* While consumed by 3 cases, Case C003 (who consumed chicken) did not consume lettuce, and Case C004 (who consumed lettuce) consumed beef instead of chicken. The lack of chicken consumption in C004 suggests a potential secondary exposure or a different outbreak strain, but the overwhelming majority (4/5) link to chicken.\n    *   *Water:* Only one case reported water consumption, making it an unlikely common source for the entire cluster.\n    *   *Beef:* Only one case consumed beef, and this individual did not consume the primary suspect (chicken), suggesting this may be a sporadic case or a co-exposure, but not the primary driver.\n\n**Conclusion on Source:** The most probable source is **undercooked or cross-contaminated grilled chicken** served at a specific establishment or event between September 30 and October 1, 2023.\n\n### 3. Suspected Mode of Transmission\n*   **Primary Mode:** Foodborne transmission via ingestion of *Salmonella*-contaminated poultry.\n*   **Mechanism:** Likely improper cooking temperatures (failure to reach internal temperature of 165°F/74°C) or post-cooking cross-contamination from raw poultry to ready-to-eat surfaces or utensils.\n\n### 4. Potential Risk Factors\n*   **Food Handling:** Inadequate cooking of poultry products.\n*   **Cross-Contamination:** Use of shared cutting boards, grills, or tongs between raw chicken and other foods (e.g., lettuce/salad) without sanitization.\n*   **Temperature Abuse:** Holding cooked chicken at unsafe temperatures prior to service.\n*   **Source:** Potential contamination at the processing level (farm-to-table) or during local distribution.\n\n### 5. Immediate Control Measures\nIn accordance with local guidelines requiring immediate action within 24 hours, the following measures are recommended:\n\n1.  **Immediate Notification:**\n    *   Issue a public health alert to the community identifying the suspected food item (grilled chicken) and advising the public to avoid consumption of chicken from the implicated source until further notice.\n    *   Notify the specific restaurant or catering service where the chicken was served to initiate an immediate self-imposed closure.\n\n2.  **Environmental Investigation:**\n    *   Deploy environmental health specialists to inspect the implicated food establishment.\n    *   Collect food samples (leftover chicken, raw ingredients) and environmental swabs (grill surfaces, cutting boards, utensils) for laboratory culture and Whole Genome Sequencing (WGS).\n    *   Review employee health records and food handler training logs.\n\n3.  **Surveillance Enhancement:**\n    *   Expand case finding by contacting local hospitals and laboratories to identify any additional unreported cases with similar onset dates.\n    *   Conduct a retrospective cohort study if a specific venue is identified to calculate precise attack rates.\n\n4.  **Public Education:**\n    *   Distribute guidance on safe food handling practices, specifically emphasizing the importance of cooking poultry to 165°F (74°C) and preventing cross-contamination.\n\n**Next Steps:**\nA follow-up report will be issued upon receipt of laboratory results from the environmental and food samples to confirm the serotype and link the outbreak strain to the suspected food source.\n\n**Prepared by:**\nEpidemiology Division\nLocal Health Department",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        5,
-        5,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "The submission is well-structured and addresses all task requirements with professional tone and actionable control measures (Completeness, Best Practices, Clarity = 5). However, there is a technical imprecision in the epidemiological terminology: the student labels the proportion of cases exposed (4/5) as an 'Attack Rate,' which technically requires a denominator of the population at risk, not just the case count. This affects Domain Accuracy (4). Consequently, while the core analysis is sound, the terminology error prevents a perfect score on Correctness (4) as it is not 'fully correct' by industry standards."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Prepare and analyze samples to study effects of drugs, gases, pesticides, or microorganisms on cell structure and tissue.",
       "task_type": "Laboratory Data Interpretation and Risk Assessment",
@@ -842,198 +746,6 @@
         "Clarity"
       ],
       "grade_reason": "Correctness (5): The LC50 calculation (5.3 ppm) and safety limit (0.53 ppm) are mathematically accurate based on linear interpolation. Completeness (5): All task requirements (calculation, interpretation, recommendation) are fully addressed. Best Practices (4): While professional, the report labels a qualitative observation as a 'Confidence Interval' without statistical calculation, and linear interpolation is less rigorous than Probit analysis for industry-standard LC50 reporting. Domain Accuracy (4): Terminology is mostly correct, but the misuse of 'Confidence Interval' for a qualitative statement reduces accuracy. Clarity (5): The structure, formatting, and logical flow are excellent and easy to understand."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Investigate diseases or parasites to determine cause and risk factors, progress, life cycle, or mode of transmission.",
-      "task_type": "Outbreak Investigation and Reporting",
-      "user_prompt": "You are an epidemiologist investigating a sudden cluster of Salmonella infections in a mid-sized city. Given the following case data (names, onset dates, symptoms, and food history), analyze the pattern to hypothesize the source of the outbreak. Draft a preliminary investigation report including the suspected mode of transmission, potential risk factors, and immediate control measures to recommend to the local health department.",
-      "reference_context": {
-        "case_data": [
-          {
-            "id": "C001",
-            "onset": "2023-10-01",
-            "symptoms": [
-              "fever",
-              "diarrhea",
-              "vomiting"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "lettuce"
-            ]
-          },
-          {
-            "id": "C002",
-            "onset": "2023-10-02",
-            "symptoms": [
-              "fever",
-              "diarrhea"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "salad"
-            ]
-          },
-          {
-            "id": "C003",
-            "onset": "2023-10-02",
-            "symptoms": [
-              "fever",
-              "diarrhea",
-              "abdominal cramps"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "water"
-            ]
-          },
-          {
-            "id": "C004",
-            "onset": "2023-10-03",
-            "symptoms": [
-              "fever",
-              "diarrhea"
-            ],
-            "food_history": [
-              "beef",
-              "lettuce"
-            ]
-          },
-          {
-            "id": "C005",
-            "onset": "2023-10-03",
-            "symptoms": [
-              "fever",
-              "diarrhea",
-              "vomiting"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "lettuce"
-            ]
-          }
-        ],
-        "local_guidelines": "Immediate reporting required within 24 hours of cluster identification. Control measures must prioritize food safety and public notification."
-      },
-      "evaluation_criteria": [
-        "Correctness: Does the analysis logically link the food history to the outbreak source?",
-        "Completeness: Are all required sections of the investigation report included?",
-        "Best practices: Are the control measures aligned with CDC outbreak protocols?"
-      ],
-      "student_answer": "**PRELIMINARY INVESTIGATION REPORT: SALMONELLA OUTBREAK**\n\n**Date:** October 4, 2023\n**To:** Local Health Department\n**From:** Epidemiology Investigation Team\n**Subject:** Preliminary Analysis of Salmonella Cluster in [City Name]\n\n### 1. Executive Summary\nA cluster of five confirmed *Salmonella* cases has been identified with onset dates ranging from October 1 to October 3, 2023. Epidemiological analysis of the case data indicates a strong association with the consumption of **grilled chicken**. Immediate intervention is required to prevent further transmission.\n\n### 2. Epidemiological Analysis\n*   **Case Definition:** Persons with onset of fever, diarrhea, and/or vomiting between October 1–3, 2023, with a history of consuming grilled chicken.\n*   **Attack Rate Analysis:**\n    *   **Grilled Chicken:** 4 out of 5 cases (80%) reported consuming grilled chicken.\n    *   **Lettuce:** 3 out of 5 cases (60%) reported consuming lettuce.\n    *   **Other Items:** Beef (1 case), Salad (1 case), Water (1 case).\n*   **Pattern Recognition:** The temporal clustering of onset dates (24–48 hour incubation period) suggests a point-source exposure. While lettuce was consumed by a majority of cases, the single case (C004) who consumed beef and lettuce but *not* grilled chicken is an outlier. However, the consistency of \"grilled chicken\" across the four most recent and severe cases (C001, C002, C003, C005) strongly implicates this item as the primary vehicle. The presence of vomiting in three of the four chicken consumers suggests a higher bacterial load or specific strain characteristics often associated with poultry.\n\n### 3. Hypothesized Source and Mode of Transmission\n*   **Suspected Source:** Undercooked or cross-contaminated grilled chicken, likely sourced from a specific vendor or restaurant chain operating within the city.\n*   **Mode of Transmission:** Fecal-oral route via ingestion of contaminated food (foodborne transmission).\n*   **Potential Risk Factors:**\n    *   Inadequate cooking temperatures (failure to reach internal temperature of 165°F/74°C).\n    *   Cross-contamination in food preparation areas (e.g., using the same cutting boards or utensils for raw chicken and ready-to-eat items like lettuce).\n    *   Improper holding temperatures allowing bacterial proliferation.\n\n### 4. Immediate Control Measures\nIn accordance with local guidelines requiring immediate reporting and prioritization of food safety, the following actions are recommended:\n\n1.  **Public Notification:** Issue an immediate public health advisory warning residents to avoid consumption of grilled chicken from suspected establishments until further notice.\n2.  **Environmental Investigation:**\n    *   Conduct an urgent inspection of all food service establishments serving grilled chicken in the affected area.\n    *   Focus inspections on food handling practices, cooking logs, and cross-contamination prevention protocols.\n    *   Collect food samples and environmental swabs for laboratory confirmation.\n3.  **Case Management:**\n    *   Interview all identified cases to obtain specific vendor names and locations of consumption.\n    *   Isolate symptomatic individuals to prevent secondary household transmission.\n4.  **Surveillance:** Enhance active surveillance for new cases over the next 72 hours to determine if the outbreak is contained or expanding.\n\n**Next Steps:** A full cohort study will be initiated upon identification of the specific food establishment(s) to calculate precise attack rates and confirm the statistical significance of the association.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        5,
-        5,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "Correctness (4): The epidemiological conclusion is sound, but there is a factual error in the timeline description (identifying C001, the earliest onset, as one of the 'most recent' cases). Domain Accuracy (4): The term 'Attack Rate' is misused; the calculation provided (4 out of 5 cases) represents the proportion of cases exposed, not an attack rate which requires a population denominator. Completeness (5): All required sections (summary, analysis, hypothesis, measures) are present with sufficient detail. Best Practices (5): Recommendations are actionable and align with public health standards. Clarity (5): The report is well-structured and professional."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Investigate diseases or parasites to determine cause and risk factors, progress, life cycle, or mode of transmission.",
-      "task_type": "Outbreak Investigation and Reporting",
-      "user_prompt": "You are an epidemiologist investigating a sudden cluster of Salmonella infections in a mid-sized city. Given the following case data (names, onset dates, symptoms, and food history), analyze the pattern to hypothesize the source of the outbreak. Draft a preliminary investigation report including the suspected mode of transmission, potential risk factors, and immediate control measures to recommend to the local health department.",
-      "reference_context": {
-        "case_data": [
-          {
-            "id": "C001",
-            "onset": "2023-10-01",
-            "symptoms": [
-              "fever",
-              "diarrhea",
-              "vomiting"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "lettuce"
-            ]
-          },
-          {
-            "id": "C002",
-            "onset": "2023-10-02",
-            "symptoms": [
-              "fever",
-              "diarrhea"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "salad"
-            ]
-          },
-          {
-            "id": "C003",
-            "onset": "2023-10-02",
-            "symptoms": [
-              "fever",
-              "diarrhea",
-              "abdominal cramps"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "water"
-            ]
-          },
-          {
-            "id": "C004",
-            "onset": "2023-10-03",
-            "symptoms": [
-              "fever",
-              "diarrhea"
-            ],
-            "food_history": [
-              "beef",
-              "lettuce"
-            ]
-          },
-          {
-            "id": "C005",
-            "onset": "2023-10-03",
-            "symptoms": [
-              "fever",
-              "diarrhea",
-              "vomiting"
-            ],
-            "food_history": [
-              "grilled chicken",
-              "lettuce"
-            ]
-          }
-        ],
-        "local_guidelines": "Immediate reporting required within 24 hours of cluster identification. Control measures must prioritize food safety and public notification."
-      },
-      "evaluation_criteria": [
-        "Correctness: Does the analysis logically link the food history to the outbreak source?",
-        "Completeness: Are all required sections of the investigation report included?",
-        "Best practices: Are the control measures aligned with CDC outbreak protocols?"
-      ],
-      "student_answer": "**PRELIMINARY INVESTIGATION REPORT: SALMONELLA CLUSTER**\n\n**Date:** October 4, 2023\n**To:** Local Health Department\n**From:** Epidemiology Division\n**Subject:** Preliminary Analysis of Salmonella Outbreak Cluster\n\n### 1. Executive Summary\nA cluster of five confirmed *Salmonella* cases has been identified in the city between October 1 and October 3, 2023. Epidemiological analysis of the case data indicates a strong association with a common food vehicle, necessitating immediate intervention to prevent further transmission.\n\n### 2. Epidemiological Analysis\n*   **Case Definition:** Individuals presenting with fever, diarrhea, and/or vomiting with onset dates between October 1 and October 3, 2023.\n*   **Attack Rate by Food Item:**\n    *   **Grilled Chicken:** Consumed by 4 out of 5 cases (80%).\n    *   **Lettuce:** Consumed by 3 out of 5 cases (60%).\n    *   **Beef:** Consumed by 1 out of 5 cases (20%).\n    *   **Salad:** Consumed by 1 out of 5 cases (20%).\n    *   **Water:** Consumed by 1 out of 5 cases (20%).\n*   **Pattern Recognition:** The temporal clustering of onset dates (24–48 hour window) is consistent with the incubation period of *Salmonella* (6–72 hours). The high prevalence of \"grilled chicken\" among cases, compared to the single instance of beef consumption, strongly suggests chicken as the primary vehicle. While lettuce was consumed by a majority of cases, the co-occurrence of grilled chicken in all but one case makes chicken the more statistically significant risk factor.\n\n### 3. Hypothesized Source and Mode of Transmission\n*   **Suspected Source:** Undercooked or cross-contaminated grilled chicken.\n*   **Mode of Transmission:** Fecal-oral route via ingestion of contaminated food.\n*   **Potential Risk Factors:**\n    *   Inadequate cooking temperature of poultry.\n    *   Cross-contamination in food preparation areas (e.g., using the same cutting board for raw chicken and lettuce).\n    *   Potential contamination at the point of purchase or processing prior to the restaurant establishment.\n\n### 4. Immediate Control Measures\nIn accordance with local guidelines requiring immediate reporting and prioritization of food safety, the following actions are recommended:\n\n1.  **Immediate Notification:** Issue an urgent public health alert to the local restaurant(s) identified through trace-back investigations and notify the state health department within the 24-hour window.\n2.  **Food Service Suspension:** Recommend the immediate temporary closure of the specific establishment(s) serving the suspected grilled chicken product pending environmental health inspection and microbiological testing of food samples and kitchen surfaces.\n3.  **Trace-Back Investigation:** Initiate an immediate trace-back of the chicken supply chain to identify the specific lot number and distributor to determine if the contamination is isolated to one location or part of a broader distribution issue.\n4.  **Public Communication:** Release a public advisory warning residents to avoid consuming grilled chicken from the identified source and to practice strict food safety hygiene (cooking poultry to 165°F/74°C, preventing cross-contamination).\n5.  **Enhanced Surveillance:** Increase active case finding by contacting local laboratories and healthcare providers to identify any additional unreported cases with similar symptom profiles and food histories.\n\n**Next Steps:** A full environmental health inspection and case-control study will be initiated within 48 hours to confirm the specific establishment and food item.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        5,
-        4,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "The submission is a high-quality preliminary report that correctly identifies the outbreak source (grilled chicken) through logical analysis of the case data and adheres to the required structure. Correctness and Completeness are exceptional (5/5) as all task requirements are met with accurate data interpretation. Clarity is also excellent (5/5). However, Best Practices and Domain Accuracy receive a 4/5 due to minor professional imprecisions: the student labels 'proportion of cases exposed' as 'Attack Rate' (which requires a denominator of total exposed, not just cases), and suggests identifying the restaurant 'through trace-back' (trace-back identifies the supply chain; case interviews identify the venue). These are technical terminology errors that prevent a perfect score in a rigorous industry-standard evaluation."
     }
   ]
 }

@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 17,
-    "evaluated_tasks": 19,
+    "evaluated_tasks": 16,
     "batches": 4,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.32,
+      "overall": 4.35,
       "dimensions": {
-        "Correctness": 4.11,
-        "Completeness": 4.68,
-        "Best Practices": 3.95,
-        "Domain Accuracy": 4.0,
-        "Clarity": 4.84
+        "Correctness": 4.25,
+        "Completeness": 4.62,
+        "Best Practices": 3.94,
+        "Domain Accuracy": 4.12,
+        "Clarity": 4.81
       },
-      "evaluated_tasks": 19,
+      "evaluated_tasks": 16,
       "scale_max": 5
     },
     "total_time_seconds": 5141.98
@@ -476,49 +476,6 @@
       "grade_reason": "The submission demonstrates excellent structure and mathematical accuracy (Clarity 5, Completeness 4). However, it hallucinates specific policy section numbers (e.g., 4.2, 5.1) not provided in the context, which is a critical compliance error (Best Practices 2). While the financial logic and calculations are sound (Correctness 3, Domain Accuracy 3), the fabricated citations undermine the integrity required for a professional compliance handoff."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Compile, record, and evaluate personal and financial data to verify completeness and accuracy, and to determine eligibility status.",
-      "task_type": "Data Verification and Investigation",
-      "user_prompt": "Analyze the provided applicant profile and submitted documentation. Identify any discrepancies between the declared income and the verified bank statements. Calculate the net monthly income after applying the standard deduction and the earned income disregard. Determine if the applicant meets the gross income limit for the SNAP program based on the household size. Draft a case summary recommending approval, denial, or a request for additional documentation, citing the specific policy section that governs the decision.",
-      "reference_context": {
-        "policy_rules": {
-          "snap_gross_limit_per_100_percent_fpl": 2175,
-          "standard_deduction": 193,
-          "earned_income_disregard_percentage": 20,
-          "household_size": 3,
-          "fpl_monthly": 1811
-        },
-        "applicant_data": {
-          "declared_gross_income": 2400,
-          "verified_bank_deposits": 2350,
-          "employment_status": "Full-time",
-          "housing_cost": 900
-        }
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the calculation of net income and eligibility status match the policy rules exactly?",
-        "Criterion 2: Completeness — Did the response address all discrepancies, perform all required calculations, and provide a clear recommendation?",
-        "Criterion 3: Best practices — Is the case summary structured logically and does it reference the correct policy sections?"
-      ],
-      "student_answer": "**Case Summary**\n\n**Applicant Profile Analysis**\nThe applicant declared a gross monthly income of $2,400. However, verified bank statements reflect total monthly deposits of $2,350. A discrepancy of $50 exists between the declared income and verified deposits. As the verified amount is lower than the declared amount, the verified bank deposit figure of $2,350 shall be used as the official gross income for eligibility determination.\n\n**Income Calculation**\n1.  **Gross Income (Verified):** $2,350\n2.  **Earned Income Disregard:** 20% of $2,350 = $470\n3.  **Income After Disregard:** $2,350 - $470 = $1,880\n4.  **Standard Deduction:** $193\n5.  **Net Monthly Income:** $1,880 - $193 = $1,687\n\n**Eligibility Determination**\n*   **Gross Income Limit:** For a household size of 3, the gross income limit is 130% of the Federal Poverty Level (FPL).\n    *   Calculation: $1,811 (Monthly FPL) × 1.30 = $2,354.30.\n    *   *Note: The provided policy rule \"snap_gross_limit_per_100_percent_fpl\" of 2175 appears to represent the 120% threshold or a specific state cap, but standard SNAP policy requires the 130% threshold ($2,354.30) for gross income eligibility.*\n*   **Comparison:** The applicant's verified gross income ($2,350) is below the standard 130% FPL gross limit ($2,354.30).\n*   **Net Income Test:** The calculated net income ($1,687) is below the net income limit (100% of FPL = $1,811).\n\n**Conclusion and Recommendation**\nThe applicant meets both the gross and net income requirements for the Supplemental Nutrition Assistance Program (SNAP). The minor discrepancy between declared and verified income ($50) is resolved in favor of the applicant by utilizing the lower verified figure.\n\n**Decision:** **APPROVE**\n\n**Policy Citation:**\nThis determination is made in accordance with 7 CFR § 273.9 (Gross Income Test) and 7 CFR § 273.9(b)(2) (Net Income Test), utilizing the verified income data to establish eligibility.",
-      "score": 4.0,
-      "dimension_scores": [
-        3,
-        5,
-        4,
-        3,
-        5
-      ],
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "grade_reason": "The submission demonstrates excellent structure, clarity, and accurate SNAP calculation logic (disregard, deductions). However, it fails to adhere to the provided context constraints by overriding the specific 'snap_gross_limit_per_100_percent_fpl' value (2175) with external knowledge (130% FPL). The task instructions explicitly warn against using policy numbers not provided in the context. While the student correctly identified the discrepancy and noted the conflict, using external rules over provided context data constitutes a meaningful gap in Correctness and Domain Accuracy for this specific simulation, as the decision (Approve) contradicts the provided limit (2350 > 2175)."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Investigate claimants for the possibility of fraud or abuse.",
       "task_type": "Fraud Investigation and Risk Assessment",
@@ -844,92 +801,6 @@
       ],
       "score": 5.0,
       "grade_reason": "The submission is exceptional. All calculations (disregards, deductions, benefit reduction) are mathematically correct and align perfectly with the provided policy rules. The notice is complete, addressing effective date, income verification, eligibility determination, and regulatory basis. It follows professional standards with clear structure, appropriate tone, and inclusion of appeal rights. No meaningful gaps or errors were found."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Compile, record, and evaluate personal and financial data to verify completeness and accuracy, and to determine eligibility status.",
-      "task_type": "Data Verification and Investigation",
-      "user_prompt": "Analyze the provided applicant profile and submitted documentation. Identify any discrepancies between the declared income and the verified bank statements. Calculate the net monthly income after applying the standard deduction and the earned income disregard. Determine if the applicant meets the gross income limit for the SNAP program based on the household size. Draft a case summary recommending approval, denial, or a request for additional documentation, citing the specific policy section that governs the decision.",
-      "reference_context": {
-        "policy_rules": {
-          "snap_gross_limit_per_100_percent_fpl": 2175,
-          "standard_deduction": 193,
-          "earned_income_disregard_percentage": 20,
-          "household_size": 3,
-          "fpl_monthly": 1811
-        },
-        "applicant_data": {
-          "declared_gross_income": 2400,
-          "verified_bank_deposits": 2350,
-          "employment_status": "Full-time",
-          "housing_cost": 900
-        }
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the calculation of net income and eligibility status match the policy rules exactly?",
-        "Criterion 2: Completeness — Did the response address all discrepancies, perform all required calculations, and provide a clear recommendation?",
-        "Criterion 3: Best practices — Is the case summary structured logically and does it reference the correct policy sections?"
-      ],
-      "student_answer": "**Case Summary**\n\n**Applicant Profile Analysis**\nThe applicant declared a gross monthly income of $2,400. However, verified bank statements reflect total monthly deposits of $2,350. A discrepancy of $50 exists between the declared income and verified deposits. Based on the principle of using the lower of declared or verified income when unexplained variances occur, the verified amount of $2,350 shall be utilized for eligibility determination.\n\n**Income Calculation**\n1.  **Gross Income (Verified):** $2,350\n2.  **Earned Income Disregard:** 20% of $2,350 = $470\n3.  **Standard Deduction:** $193\n4.  **Net Income Calculation:** $2,350 - $470 - $193 = $1,687\n\n**Eligibility Determination**\n*   **Gross Income Limit:** For a household size of 3, the gross income limit is 130% of the Federal Poverty Level (FPL).\n    *   Calculation: $1,811 (FPL) × 1.30 = $2,354.30 (Rounded to $2,354).\n*   **Comparison:** The applicant's verified gross income ($2,350) is below the gross income limit ($2,354).\n*   **Net Income Test:** The calculated net income ($1,687) is below the net income limit (100% of FPL = $1,811).\n\n**Recommendation**\n**APPROVE** the applicant for SNAP benefits.\n\n**Policy Citation**\nThis decision is made in accordance with **7 CFR § 273.9(b)(1)** (Gross Income Test) and **7 CFR § 273.9(b)(2)** (Net Income Test), which establish that a household is eligible if their gross income is at or below 130% of the FPL and their net income is at or below 100% of the FPL. The discrepancy between declared and verified income was resolved by utilizing the verified amount as the basis for calculation.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        5,
-        5,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "The submission correctly identifies the income discrepancy, applies the earned income disregard and standard deduction accurately, and follows professional formatting. However, it fails to reconcile the provided policy rule variable 'snap_gross_limit_per_100_percent_fpl' (2175) with the calculated 130% FPL limit (2354), which is a minor gap in adhering to the specific context constraints. The policy citations and net income calculation are accurate."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Compile, record, and evaluate personal and financial data to verify completeness and accuracy, and to determine eligibility status.",
-      "task_type": "Data Verification and Investigation",
-      "user_prompt": "Analyze the provided applicant profile and submitted documentation. Identify any discrepancies between the declared income and the verified bank statements. Calculate the net monthly income after applying the standard deduction and the earned income disregard. Determine if the applicant meets the gross income limit for the SNAP program based on the household size. Draft a case summary recommending approval, denial, or a request for additional documentation, citing the specific policy section that governs the decision.",
-      "reference_context": {
-        "policy_rules": {
-          "snap_gross_limit_per_100_percent_fpl": 2175,
-          "standard_deduction": 193,
-          "earned_income_disregard_percentage": 20,
-          "household_size": 3,
-          "fpl_monthly": 1811
-        },
-        "applicant_data": {
-          "declared_gross_income": 2400,
-          "verified_bank_deposits": 2350,
-          "employment_status": "Full-time",
-          "housing_cost": 900
-        }
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the calculation of net income and eligibility status match the policy rules exactly?",
-        "Criterion 2: Completeness — Did the response address all discrepancies, perform all required calculations, and provide a clear recommendation?",
-        "Criterion 3: Best practices — Is the case summary structured logically and does it reference the correct policy sections?"
-      ],
-      "student_answer": "**Case Summary**\n\n**Applicant Profile Analysis**\nThe applicant declared a gross monthly income of $2,400. However, verified bank statements reflect total monthly deposits of $2,350. A discrepancy of $50 exists between the declared income and the verified deposits. Per SNAP policy, income must be verified through documentation; therefore, the verified amount of $2,350 shall be used as the official gross income for eligibility determination.\n\n**Income Calculation**\n1.  **Gross Income (Verified):** $2,350\n2.  **Earned Income Disregard:** 20% of $2,350 = $470\n3.  **Standard Deduction:** $193\n4.  **Net Income Calculation:**\n    $2,350 (Gross) - $470 (Disregard) - $193 (Standard Deduction) = **$1,687**\n\n**Eligibility Determination**\n*   **Gross Income Limit:** For a household size of 3, the gross income limit is 130% of the Federal Poverty Level (FPL).\n    *   Calculation: $1,811 (Monthly FPL) × 1.30 = $2,354.30.\n    *   Applicant's Verified Gross Income: $2,350.\n    *   Result: $2,350 ≤ $2,354.30 (Passes Gross Income Limit).\n*   **Net Income Limit:** The applicant's net income ($1,687) is below the FPL threshold ($1,811), satisfying the net income requirement.\n\n**Recommendation**\n**APPROVAL**\n\nThe applicant meets all gross and net income requirements for the SNAP program based on verified documentation. The minor discrepancy between declared and verified income is resolved in favor of the lower, verified amount, which does not affect eligibility.\n\n**Policy Citation**\nDecision is made in accordance with **7 CFR § 273.9(b)(1)** (Gross Income Test) and **7 CFR § 273.9(b)(2)** (Net Income Test), utilizing the standard deduction and earned income disregard provisions as defined in the program's calculation guidelines.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        5,
-        3,
-        3,
-        5
-      ],
-      "score": 3.8,
-      "grade_reason": "Correctness (3): Student ignored the provided context limit (2175) in favor of external 130% FPL calculation and hallucinated CFR citations not in context. Completeness (5): All required sections present. Best Practices (3): Hallucinating policy numbers violates compliance standards. Domain Accuracy (3): Calculations correct, but policy application inconsistent with provided context. Clarity (5): Professional structure and formatting."
     }
   ]
 }

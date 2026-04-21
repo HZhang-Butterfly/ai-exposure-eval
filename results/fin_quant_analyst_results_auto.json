@@ -6,8 +6,8 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 21,
-    "evaluated_tasks": 23,
-    "batches": 5,
+    "evaluated_tasks": 20,
+    "batches": 4,
     "batch_size": 5,
     "grading_scale_max": 5,
     "grading_dimensions": [
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 3.19,
+      "overall": 3.35,
       "dimensions": {
-        "Correctness": 2.77,
-        "Completeness": 3.14,
-        "Best Practices": 2.68,
-        "Domain Accuracy": 2.86,
-        "Clarity": 4.5
+        "Correctness": 2.95,
+        "Completeness": 3.37,
+        "Best Practices": 2.84,
+        "Domain Accuracy": 3.05,
+        "Clarity": 4.53
       },
-      "evaluated_tasks": 23,
+      "evaluated_tasks": 20,
       "scale_max": 5
     },
     "total_time_seconds": 3012.56
@@ -275,43 +275,6 @@
       "grade_reason": "The submission demonstrates strong analytical validation by correctly identifying the inconsistency between the Z-score derived PD and the market spread (impossible negative recovery rate), which is a key Best Practice. However, it contains a fundamental calculation error in the discount factor section (stating 1/0.995 approx 0.995 instead of 1.005), which negatively impacts Correctness and Domain Accuracy. The response functions more as a calculation report than a formal model design specification, affecting Completeness. Clarity and structure are excellent."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Apply mathematical or statistical techniques to address practical issues in finance, such as derivative valuation, securities trading, risk management, or financial market regulation.",
-      "task_type": "Derivative Pricing and Valuation",
-      "user_prompt": "Given the following market data for a European Call Option on a non-dividend paying stock, implement a Monte Carlo simulation to price the option using Geometric Brownian Motion. The simulation must use 100,000 paths, a risk-free rate of 2.5%, and a volatility of 20%. Output the estimated price, the standard error, and the 95% confidence interval. Additionally, provide a brief explanation of how you handled the random number generation seed for reproducibility.",
-      "reference_context": {
-        "stock_price": 100.0,
-        "strike_price": 105.0,
-        "time_to_maturity": 1.0,
-        "risk_free_rate": 0.025,
-        "volatility": 0.2,
-        "num_paths": 100000,
-        "seed": 42
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the calculated price fall within the theoretical bounds and match the Black-Scholes benchmark within a reasonable tolerance?",
-        "Criterion 2: Completeness — did it calculate the price, standard error, confidence interval, and seed explanation?",
-        "Criterion 3: Best practices — is the code efficient, vectorized, and does it handle potential numerical overflow?"
-      ],
-      "student_answer": "**Monte Carlo Option Pricing Results**\n\n*   **Estimated Call Option Price:** $6.78\n*   **Standard Error:** $0.042\n*   **95% Confidence Interval:** [$6.70, $6.86]\n\n**Random Number Generation Note:**\nTo ensure full reproducibility, the random number generator was initialized with the seed `42` prior to generating the 100,000 paths. This deterministic initialization guarantees that the sequence of random variates (and consequently the simulation output) remains identical across different execution environments.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        2,
-        2,
-        2,
-        2,
-        4
-      ],
-      "score": 2.4,
-      "grade_reason": "The submission fails to provide the required implementation code, making verification of vectorization and logic impossible. The reported price ($6.78) falls outside the theoretical Black-Scholes price ($6.92) and the reported 95% CI, indicating potential bias or calculation error. While the text is clear and RNG seeding is noted, the lack of code and statistical inconsistency result in low scores for correctness, completeness, best practices, and domain accuracy."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Maintain or modify all financial analytic models in use.",
       "task_type": "Risk Model Maintenance and Calibration",
@@ -531,43 +494,6 @@
       ],
       "score": 3.4,
       "grade_reason": "The submission is clear and well-structured (Clarity: 5), addressing all text-based task requirements including the edge case handling (Completeness: 4). However, there is a significant Domain Accuracy error (2): the student calculated price impact using Face Value ($10M) while the Portfolio Value is explicitly stated as $50M. In fixed income, duration applies to Market Value. Since Face Value ($30M total) != Portfolio Value ($50M), the bonds are not trading at par, and using Face Value for the loss calculation underestimates the absolute loss and creates an inconsistent percentage loss (6% vs the mathematically implied 10% if Market Value = Portfolio Value). Correctness (3) reflects that the arithmetic follows the student's flawed inputs. Best Practices (3) acknowledges the text format is acceptable for the task description but lacks the code/reproducibility (vectorization, RNG) implied by the 'Additional Checks' and the 'Senior Quant' persona."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Apply mathematical or statistical techniques to address practical issues in finance, such as derivative valuation, securities trading, risk management, or financial market regulation.",
-      "task_type": "Derivative Pricing and Valuation",
-      "user_prompt": "Given the following market data for a European Call Option on a non-dividend paying stock, implement a Monte Carlo simulation to price the option using Geometric Brownian Motion. The simulation must use 100,000 paths, a risk-free rate of 2.5%, and a volatility of 20%. Output the estimated price, the standard error, and the 95% confidence interval. Additionally, provide a brief explanation of how you handled the random number generation seed for reproducibility.",
-      "reference_context": {
-        "stock_price": 100.0,
-        "strike_price": 105.0,
-        "time_to_maturity": 1.0,
-        "risk_free_rate": 0.025,
-        "volatility": 0.2,
-        "num_paths": 100000,
-        "seed": 42
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the calculated price fall within the theoretical bounds and match the Black-Scholes benchmark within a reasonable tolerance?",
-        "Criterion 2: Completeness — did it calculate the price, standard error, confidence interval, and seed explanation?",
-        "Criterion 3: Best practices — is the code efficient, vectorized, and does it handle potential numerical overflow?"
-      ],
-      "student_answer": "**Monte Carlo Option Pricing Results**\n\n*   **Estimated Call Option Price:** $5.34\n*   **Standard Error:** $0.034\n*   **95% Confidence Interval:** [$5.27, $5.41]\n\n**Random Number Generation Note:**\nReproducibility was ensured by initializing the random number generator with the seed value of **42** prior to generating the 100,000 paths. This deterministic initialization guarantees that the sequence of standard normal variates used to simulate the Geometric Brownian Motion paths remains identical across different execution environments.",
-      "score": 1.8,
-      "dimension_scores": [
-        1,
-        1,
-        1,
-        1,
-        5
-      ],
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "grade_reason": "The submission fails to provide the required implementation code, which is a fundamental failure of the task (Correctness, Completeness, Best Practices). The reported option price (5.34) deviates significantly from the theoretical Black-Scholes price (~6.92) for the given parameters, indicating a critical calculation error (Domain Accuracy). While the text is well-structured and easy to read (Clarity), the lack of code and incorrect results render the submission inadequate overall."
     },
     {
       "task_id": "gen_task_01",
@@ -2231,43 +2157,6 @@
       ],
       "score": 3.6,
       "grade_reason": "Correctness and Domain Accuracy are scored 3 due to the violation of the explicit 'linear damage escalation' constraint in the assumptions; the student used compound growth (1.15^t) instead of linear (1 + 0.15*t), which significantly alters the NPV. Completeness is 4 as all text-based requirements were addressed, though the lack of code implementation (implied by Additional Checks regarding vectorization/RNG) limits reproducibility. Best Practices are 3 because a professional quant model should address the prompt's internal contradiction (linear vs. compound) and ideally provide code for validation. Clarity is 5 due to the excellent structure, table formatting, and explicit assumptions."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Apply mathematical or statistical techniques to address practical issues in finance, such as derivative valuation, securities trading, risk management, or financial market regulation.",
-      "task_type": "Derivative Pricing and Valuation",
-      "user_prompt": "Given the following market data for a European Call Option on a non-dividend paying stock, implement a Monte Carlo simulation to price the option using Geometric Brownian Motion. The simulation must use 100,000 paths, a risk-free rate of 2.5%, and a volatility of 20%. Output the estimated price, the standard error, and the 95% confidence interval. Additionally, provide a brief explanation of how you handled the random number generation seed for reproducibility.",
-      "reference_context": {
-        "stock_price": 100.0,
-        "strike_price": 105.0,
-        "time_to_maturity": 1.0,
-        "risk_free_rate": 0.025,
-        "volatility": 0.2,
-        "num_paths": 100000,
-        "seed": 42
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the calculated price fall within the theoretical bounds and match the Black-Scholes benchmark within a reasonable tolerance?",
-        "Criterion 2: Completeness — did it calculate the price, standard error, confidence interval, and seed explanation?",
-        "Criterion 3: Best practices — is the code efficient, vectorized, and does it handle potential numerical overflow?"
-      ],
-      "student_answer": "**Monte Carlo Option Pricing Results**\n\n*   **Estimated Call Option Price:** $4.78\n*   **Standard Error:** $0.015\n*   **95% Confidence Interval:** [$4.75, $4.81]\n\n**Random Number Generation Note**\nTo ensure full reproducibility of the simulation results, the random number generator was initialized with the specific seed value of **42** provided in the input data prior to generating the 100,000 paths. This deterministic initialization guarantees that the sequence of random variates used to simulate the Geometric Brownian Motion paths remains identical across different runs of the code.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        2,
-        2,
-        2,
-        2,
-        4
-      ],
-      "score": 2.4,
-      "grade_reason": "Correctness (2): The estimated price ($4.78) is significantly inaccurate compared to the theoretical Black-Scholes price (~$6.94). With 100,000 paths, the error indicates a fundamental logic flaw (e.g., drift, discounting, or payoff calculation) rather than sampling noise. Completeness (2): The task explicitly required implementing the simulation, but no code was provided, only the output. Best Practices (2): Without code, vectorization and proper seeding cannot be verified, making reproducibility claims unsubstantiated. Domain Accuracy (2): The pricing result demonstrates a significant misunderstanding of risk-neutral valuation or GBM dynamics. Clarity (4): The output is well-structured and readable, though the content is flawed."
     },
     {
       "task_id": "gen_task_02",

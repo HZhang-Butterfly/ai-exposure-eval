@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 31,
-    "evaluated_tasks": 32,
+    "evaluated_tasks": 31,
     "batches": 7,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 3.9,
+      "overall": 3.88,
       "dimensions": {
-        "Correctness": 3.5,
-        "Completeness": 3.91,
-        "Best Practices": 3.47,
-        "Domain Accuracy": 3.78,
+        "Correctness": 3.48,
+        "Completeness": 3.9,
+        "Best Practices": 3.45,
+        "Domain Accuracy": 3.74,
         "Clarity": 4.84
       },
-      "evaluated_tasks": 32,
+      "evaluated_tasks": 31,
       "scale_max": 5
     },
     "total_time_seconds": 6997.61
@@ -863,63 +863,6 @@
         "Clarity"
       ],
       "grade_reason": "The submission is well-structured and uses correct pricing terminology (Clarity 5, Domain Accuracy 4). However, it fails statistical rigor by extrapolating total revenue loss from only 3 data points to 500 orders without caveats (Correctness 3, Best Practices 3). It also does not address the discrepancy between the requested 50-order sample and the 3 provided rows (Completeness 3). The 'Additional Checks' regarding delays/containers were irrelevant to this pricing task."
-    },
-    {
-      "task_id": "gen_task_05",
-      "onet_source": "Analyze logistics data, using methods such as data mining, data modeling, or cost or benefit analysis.",
-      "task_type": "Customs Clearance Delay Analysis",
-      "user_prompt": "Analyze the customs clearance data for the past quarter. Identify shipments that experienced delays due to 'Documentation Error' or 'Inspection'. Calculate the average delay days for these specific reasons. Estimate the total cost of these delays assuming a penalty of $200 per day per shipment. Recommend a process improvement to reduce documentation errors.",
-      "reference_context": {
-        "dataset_sample": [
-          {
-            "shipment_id": "CUS-301",
-            "delay_reason": "Documentation Error",
-            "delay_days": 5,
-            "penalty_per_day": 200
-          },
-          {
-            "shipment_id": "CUS-302",
-            "delay_reason": "Inspection",
-            "delay_days": 3,
-            "penalty_per_day": 200
-          },
-          {
-            "shipment_id": "CUS-303",
-            "delay_reason": "Documentation Error",
-            "delay_days": 7,
-            "penalty_per_day": 200
-          },
-          {
-            "shipment_id": "CUS-304",
-            "delay_reason": "Weather",
-            "delay_days": 2,
-            "penalty_per_day": 200
-          }
-        ],
-        "notes": "Data contains 500 rows. Some entries have missing 'delay_reason' fields; exclude these from the specific reason analysis but include in total delay count."
-      },
-      "evaluation_criteria": [
-        "Correctness: Are the average delay days and total penalty costs calculated correctly for the specified reasons?",
-        "Completeness: Did the response identify the specific reasons, calculate costs, and provide a process improvement recommendation?",
-        "Best practices: Does the analysis exclude missing 'delay_reason' entries from the specific reason breakdown while acknowledging them in the total dataset?"
-      ],
-      "student_answer": "### Customs Clearance Delay Analysis: Q3 Report\n\n**1. Affected Shipments Identification**\nBased on the provided dataset sample, the following shipments were delayed due to the specified reasons:\n*   **Documentation Error:** CUS-301, CUS-303\n*   **Inspection:** CUS-302\n*   *Excluded:* CUS-304 (Reason: Weather)\n\n**2. Average Delay Calculation**\n*   **Total Delay Days (Target Reasons):** 5 (CUS-301) + 3 (CUS-302) + 7 (CUS-303) = 15 days\n*   **Total Affected Shipments:** 3\n*   **Average Delay Days:** 15 days / 3 shipments = **5.0 days**\n\n**3. Estimated Cost of Delays**\n*   **Calculation:** Total Delay Days × Penalty Rate\n*   **Math:** 15 days × $200/day = **$3,000**\n*   *Note:* This figure represents the cost for the sample data provided. For the full dataset of 500 rows, this cost must be scaled based on the actual count of \"Documentation Error\" and \"Inspection\" entries.\n\n**4. Recommended Process Improvement**\n**Implementation of a Pre-Submission Automated Validation Protocol**\n\nTo reduce \"Documentation Error\" delays, the logistics team should deploy an automated validation tool integrated with the shipping management system prior to customs submission. This tool will:\n*   **Cross-Reference Data:** Automatically verify that commercial invoices, packing lists, and certificates of origin match against the declared HS codes and values.\n*   **Format Enforcement:** Enforce mandatory field completion and standard date/currency formats to prevent human entry errors.\n*   **Real-Time Alerts:** Flag discrepancies immediately to the logistics coordinator for correction before the shipment is filed, reducing the likelihood of rejection and subsequent delays.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        4,
-        4,
-        5,
-        5
-      ],
-      "score": 4.4,
-      "grade_reason": "The submission correctly identifies shipments, calculates averages, and estimates costs based on the provided sample data (Correctness, Domain Accuracy, Clarity). However, the process improvement recommendation is generic and does not meet the 'Additional Checks' requirement for specificity (e.g., naming specific carriers or error patterns), which limits Completeness and Best Practices scores to 4 rather than 5."
     },
     {
       "task_id": "gen_task_01",

@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 11,
-    "evaluated_tasks": 12,
+    "evaluated_tasks": 11,
     "batches": 3,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 3.5,
+      "overall": 3.45,
       "dimensions": {
-        "Correctness": 3.33,
-        "Completeness": 3.67,
-        "Best Practices": 3.17,
-        "Domain Accuracy": 3.75,
-        "Clarity": 3.58
+        "Correctness": 3.27,
+        "Completeness": 3.55,
+        "Best Practices": 3.18,
+        "Domain Accuracy": 3.64,
+        "Clarity": 3.64
       },
-      "evaluated_tasks": 12,
+      "evaluated_tasks": 11,
       "scale_max": 5
     },
     "total_time_seconds": 2302.7
@@ -132,42 +132,6 @@
       ],
       "score": 4.0,
       "grade_reason": "The mathematical proof is logically sound and correctly establishes the completeness of C[0, 1] using standard arguments (pointwise convergence, uniform convergence, continuity of limit). However, there are significant LaTeX syntax errors (e.g., \\begin without environment name, \\frac{\\epsilon} missing denominator) that reduce professional quality. The 'Additional Checks' regarding logistic growth are irrelevant to the assigned Banach space task and were correctly not addressed."
-    },
-    {
-      "task_id": "gen_task_03",
-      "onet_source": "Apply mathematical theories and techniques to the solution of practical problems in business, engineering, the sciences, or other fields.",
-      "task_type": "Statistical Inference",
-      "user_prompt": "An engineer is testing the lifespan of a new battery type. Given a sample of 25 batteries with a mean lifespan of 120 hours and a standard deviation of 15 hours, construct a 95% confidence interval for the true mean lifespan assuming the population is normally distributed. Then, perform a hypothesis test to determine if the mean lifespan is significantly greater than 115 hours at the alpha = 0.05 level. Provide the test statistic, p-value, and conclusion.",
-      "reference_context": {
-        "sample_size": 25,
-        "sample_mean": 120,
-        "sample_std_dev": 15,
-        "hypothesized_mean": 115,
-        "distribution": "Normal",
-        "alpha": 0.05
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Are the t-statistic and critical values calculated correctly using the t-distribution?",
-        "Criterion 2: Completeness — Does the response include both the confidence interval calculation and the hypothesis test steps?",
-        "Criterion 3: Best practices — Is the assumption of normality justified or noted, and is the interpretation of the p-value accurate?"
-      ],
-      "student_answer": "### 95% Confidence Interval\n\nGiven:\n- Sample size ($n$) = 25\n- Sample mean ($\\bar{x}$) = 120\n- Sample standard deviation ($s$) = 15\n- Confidence level = 95%\n\nSince the population standard deviation is unknown and the sample size is small ($n < 30$), we use the $t$-distribution with $df = n - 1 = 24$.\n\nThe critical value $t_{\\alpha/2}$ for a 95% confidence interval with 24 degrees of freedom is approximately $2.064$.\n\n$$ \\text{Margin of Error} (E) = t_{\\alpha/2} \\times \\frac{s}{\\sqrt{n}} = 2.064 \\times \\frac{15}{\\sqrt{25}} = 2.064 \\times 3 = 6.192 $$\n\n$$ \\text{Confidence Interval} = \\bar{x} \\pm E = 120 \\pm 6.192 $$\n\n**95% Confidence Interval:** $[113.808, 126.192]$\n\n---\n\n### Hypothesis Test\n\n**Hypotheses:**\n- Null Hypothesis ($H_0$): $\\mu \\le 115$\n- Alternative Hypothesis ($H_1$): $\\mu > 115$ (Right-tailed test)\n\n**Test Statistic:**\n$$ t = \\frac{\\bar{x} - \\mu_0}{s / \\sqrt{n}} = \\frac{120 - 115}{15 / \\sqrt{25}} = \\frac{5}{3} \\approx 1.667 $$\n\n**P-value:**\nUsing the $t$-distribution with $df = 24$:\n$P(T > 1.667) \\approx 0.054$\n\n**Conclusion:**\nSince the p-value ($0.054$) is greater than the significance level ($\\alpha = 0.05$), we **fail to reject the null hypothesis**. There is insufficient evidence at the 0.05 level to conclude that the mean lifespan of the new battery type is significantly greater than 115 hours.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        5,
-        3,
-        5,
-        3
-      ],
-      "score": 4.0,
-      "grade_reason": "The student correctly performed the statistical calculations for the confidence interval and hypothesis test, using the appropriate t-distribution and obtaining accurate critical values and p-values. However, the submission contains significant LaTeX formatting errors (e.g., '\\frac{\\sqrt}' is incomplete), which detracts from professionalism and clarity. Completeness is high as all required components (CI, hypotheses, statistic, p-value, conclusion) are present. Domain accuracy is excellent regarding statistical concepts. The 'Additional Checks' regarding logistic growth and Jacobians were ignored as they are irrelevant to the provided statistical task."
     },
     {
       "task_id": "gen_task_04",

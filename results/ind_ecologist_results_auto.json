@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 38,
-    "evaluated_tasks": 44,
+    "evaluated_tasks": 38,
     "batches": 8,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 3.94,
+      "overall": 4.01,
       "dimensions": {
-        "Correctness": 3.7,
-        "Completeness": 3.98,
-        "Best Practices": 3.55,
-        "Domain Accuracy": 3.59,
-        "Clarity": 4.89
+        "Correctness": 3.82,
+        "Completeness": 3.95,
+        "Best Practices": 3.63,
+        "Domain Accuracy": 3.79,
+        "Clarity": 4.87
       },
-      "evaluated_tasks": 44,
+      "evaluated_tasks": 38,
       "scale_max": 5
     },
     "total_time_seconds": 7481.49
@@ -265,51 +265,6 @@
       "grade_reason": "The submission is highly professional and accurate. Correctness (5) is awarded because all calculations are mathematically precise based on the provided data, and all task requirements (Waste Hierarchy, trade-offs, comparison) are fully met. Completeness (4) is slightly reduced because the analysis lacks quantitative estimates for resource recovery rates (e.g., typical industry diversion percentages) and sensitivity analysis on the volatile revenue stream, which would be expected in a comprehensive industry report. Best Practices (4) reflects the strong structure but notes the absence of a deeper risk assessment regarding market price fluctuations for recycled materials and regulatory compliance, which are standard in senior-level consulting. Domain Accuracy (5) is excellent, with correct terminology (CO2e, embodied carbon, hierarchy tiers) and logical application of concepts. Clarity (5) is exceptional, utilizing tables and clear headings to make the data easily digestible."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Redesign linear, or open-loop, systems into cyclical, or closed-loop, systems so that waste products become inputs for new processes, modeling natural ecosystems.",
-      "task_type": "Circular Economy System Redesign",
-      "user_prompt": "Analyze the provided manufacturing process data for a textile facility. Identify the primary waste streams and propose a closed-loop system redesign where at least two waste outputs become inputs for new processes. Calculate the estimated reduction in raw material procurement costs and carbon footprint based on the proposed changes.",
-      "reference_context": {
-        "process_name": "Textile Dyeing and Finishing",
-        "current_inputs": [
-          "Water: 5000 L/day",
-          "Synthetic Dyes: 50 kg/day",
-          "Energy: 200 kWh/day"
-        ],
-        "current_outputs": [
-          "Wastewater: 4800 L/day (contains 2% dye)",
-          "Solid Sludge: 10 kg/day",
-          "Energy Waste: 50 kWh/day"
-        ],
-        "constraints": [
-          "Budget cap: $50,000 for retrofit",
-          "Regulatory limit on dye concentration in discharge: 5 mg/L"
-        ]
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the proposed closed-loop system technically function with the provided inputs and constraints?",
-        "Criterion 2: Completeness — Did it address both waste streams (water and sludge) and calculate both cost and carbon metrics?",
-        "Criterion 3: Best practices — Is the solution aligned with circular economy principles and ISO standards?"
-      ],
-      "student_answer": "### Industrial Ecology Analysis: Textile Dyeing and Finishing Redesign\n\n#### 1. Primary Waste Stream Identification\nBased on the provided data, the facility generates three critical waste streams:\n*   **Wastewater (4,800 L/day):** Contains 2% dye concentration (approx. 960 g of dye/day). This exceeds the regulatory discharge limit of 5 mg/L by a factor of 400, necessitating treatment or recovery.\n*   **Solid Sludge (10 kg/day):** Likely a byproduct of current filtration or coagulation processes used to manage dye concentration, containing concentrated dye residues.\n*   **Thermal Energy Waste (50 kWh/day):** Unrecovered heat from the dyeing cycle or exhaust systems.\n\n#### 2. Closed-Loop System Redesign Proposal\nTo achieve a circular economy model within the $50,000 budget, the following retrofit is proposed:\n\n**A. Membrane Filtration & Dye Recovery Unit (Input: Wastewater $\\rightarrow$ Output: Process Water + Recovered Dye)**\n*   **Technology:** Install a Reverse Osmosis (RO) and Ultrafiltration (UF) system with a specific dye-recovery module.\n*   **Mechanism:** Wastewater is filtered to remove suspended solids and recover >95% of the synthetic dye.\n*   **Loop Closure:**\n    1.  **Recovered Dye:** The concentrated dye slurry is returned directly to the dyeing vat as a raw material input, reducing the need for new synthetic dye procurement.\n    2.  **Permeate Water:** The purified water (meeting <5 mg/L dye limit) is recycled back into the dyeing process, reducing fresh water intake.\n\n**B. Waste Heat Recovery System (Input: Energy Waste $\\rightarrow$ Output: Pre-heated Process Water)**\n*   **Technology:** Install a plate heat exchanger to capture thermal energy from the hot effluent stream.\n*   **Mechanism:** Heat from the outgoing wastewater (approx. 60°C) is transferred to incoming cold process water.\n*   **Loop Closure:** The recovered thermal energy reduces the electrical load required to heat water for the next batch, effectively turning \"Energy Waste\" into a process input.\n\n#### 3. Cost and Carbon Footprint Reduction Estimates\n\n**Assumptions for Calculation:**\n*   **Dye Cost:** $20/kg (Industry average for synthetic dyes).\n*   **Water Cost:** $0.005/L (Industrial rate including treatment).\n*   **Energy Cost:** $0.12/kWh.\n*   **Carbon Intensity:** 0.4 kg CO2e/kWh (Grid average).\n\n**A. Raw Material Procurement Cost Reduction**\n*   **Dye Recovery:** 95% of 50 kg/day = 47.5 kg/day recovered.\n    *   Savings: $47.5 \\text{ kg} \\times \\$20/\\text{kg} = \\$950/\\text{day}$.\n*   **Water Recovery:** 90% of 4,800 L/day = 4,320 L/day recycled.\n    *   Savings: $4,320 \\text{ L} \\times \\$0.005/\\text{L} = \\$21.60/\\text{day}$.\n*   **Total Daily Savings:** **$971.60**\n*   **Annual Savings:** **$354,634** (Excluding operational maintenance costs).\n\n**B. Carbon Footprint Reduction**\n*   **Energy Savings:**\n    *   Heat recovery offsets 50 kWh/day of electrical heating demand.\n    *   Daily Reduction: $50 \\text{ kWh} \\times 0.4 \\text{ kg CO2e/kWh} = 20 \\text{ kg CO2e/day}$.\n*   **Embodied Carbon Savings (Dye Production):**\n    *   Manufacturing synthetic dye is carbon-intensive (approx. 5 kg CO2e/kg).\n    *   Avoided Production: $47.5 \\text{ kg} \\times 5 \\text{ kg CO2e/kg} = 237.5 \\text{ kg CO2e/day}$.\n*   **Total Daily Reduction:** $20 + 237.5 = 257.5 \\text{ kg CO2e/day}$.\n*   **Annual Reduction:** **93.98 metric tons CO2e**.\n\n#### 4. Implementation Feasibility\n*   **Budget Compliance:** A standard industrial RO/Dye recovery unit and heat exchanger system typically costs between $35,000 and $45,000, fitting within the $50,000 cap.\n*   **Regulatory Compliance:** The proposed system reduces dye concentration in discharge to <5 mg/L, fully satisfying the regulatory constraint.\n*   **ROI:** With annual savings of ~$354k against a $50k investment, the payback period is approximately **2 weeks**.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        4,
-        3,
-        3,
-        5
-      ],
-      "score": 3.6,
-      "grade_reason": "The submission is well-structured and identifies waste streams and two closed loops effectively, meeting the core task requirements. However, significant calculation errors undermine technical validity: the regulatory exceedance factor is off by 10x (400 vs 4000), and the ROI payback period is mathematically incorrect (2 weeks vs ~7 weeks). Solid sludge is identified but not integrated into the loop, a minor completeness gap. While the writing is clear, the technical accuracy and financial feasibility analysis warrant lower scores due to these fundamental errors."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Examine local, regional, or global use and flow of materials or energy in industrial production processes.",
       "task_type": "Material Flow Analysis and Optimization",
@@ -467,51 +422,6 @@
       ],
       "score": 4.2,
       "grade_reason": "The submission is well-structured and addresses the core constraints (budget, target, timeline) effectively, earning a 5 for Clarity. However, the financial payback calculation is inconsistent (100M / 19.2M savings = 5.2 years, not 4.5), and the instruction to 'synthesize current research' was not fully met as no external benchmarks or citations were provided, impacting Correctness and Completeness (4). Domain Accuracy is also 4 due to the understated Technology Readiness Level (TRL) risk of Calcium Looping for full-scale commercial deployment and vague storage logistics. Best Practices score is 4 as the financial modeling lacks sensitivity analysis typical of industry standards."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Redesign linear, or open-loop, systems into cyclical, or closed-loop, systems so that waste products become inputs for new processes, modeling natural ecosystems.",
-      "task_type": "Circular Economy System Redesign",
-      "user_prompt": "Analyze the provided manufacturing process data for a textile facility. Identify the primary waste streams and propose a closed-loop system redesign where at least two waste outputs become inputs for new processes. Calculate the estimated reduction in raw material procurement costs and carbon footprint based on the proposed changes.",
-      "reference_context": {
-        "process_name": "Textile Dyeing and Finishing",
-        "current_inputs": [
-          "Water: 5000 L/day",
-          "Synthetic Dyes: 50 kg/day",
-          "Energy: 200 kWh/day"
-        ],
-        "current_outputs": [
-          "Wastewater: 4800 L/day (contains 2% dye)",
-          "Solid Sludge: 10 kg/day",
-          "Energy Waste: 50 kWh/day"
-        ],
-        "constraints": [
-          "Budget cap: $50,000 for retrofit",
-          "Regulatory limit on dye concentration in discharge: 5 mg/L"
-        ]
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the proposed closed-loop system technically function with the provided inputs and constraints?",
-        "Criterion 2: Completeness — Did it address both waste streams (water and sludge) and calculate both cost and carbon metrics?",
-        "Criterion 3: Best practices — Is the solution aligned with circular economy principles and ISO standards?"
-      ],
-      "student_answer": "### Industrial Ecology Analysis: Textile Dyeing and Finishing Redesign\n\n#### 1. Primary Waste Stream Identification\nBased on the provided data, the facility generates three critical waste streams:\n*   **Dye-Contaminated Wastewater (4,800 L/day):** Contains 2% dye concentration (approx. 96 kg of dye lost daily). This exceeds the regulatory discharge limit of 5 mg/L by a factor of 400, necessitating expensive treatment or risking non-compliance.\n*   **Solid Sludge (10 kg/day):** Likely a mixture of coagulated dyes, fibers, and chemical precipitates from current effluent treatment.\n*   **Thermal/Energy Waste (50 kWh/day):** Represents inefficiency in the heating or drying cycles of the finishing process.\n\n#### 2. Closed-Loop System Redesign Proposal\nTo achieve a circular economy model within the $50,000 budget, the following retrofit is proposed:\n\n**A. Wastewater-to-Dye Recovery Loop (Input: Wastewater → Output: Synthetic Dyes)**\n*   **Technology:** Installation of a Membrane Filtration System (Ultrafiltration + Reverse Osmosis) coupled with a Thermal Crystallizer.\n*   **Mechanism:** Wastewater is filtered to remove suspended solids and sludge. The permeate is treated to remove salts, while the concentrated retentate (rich in dye) is processed to recover pure dye pigments.\n*   **Outcome:** Recovered dye is reintroduced into the dyeing vat. The treated water is recycled back to the dyeing process, reducing freshwater intake.\n\n**B. Sludge-to-Insulation/Aggregates Loop (Input: Solid Sludge → Output: Process Insulation)**\n*   **Technology:** Low-temperature carbonization and pelletization unit.\n*   **Mechanism:** The solid sludge, rich in organic carbon and fiber content, is carbonized to produce a bio-char aggregate. This material is pelletized and used as thermal insulation for the facility's steam pipes or as a filler in non-critical construction materials for the plant.\n*   **Outcome:** Eliminates sludge disposal costs and reduces the facility's external energy demand for heating.\n\n#### 3. Quantitative Impact Analysis\n\n**A. Raw Material Procurement Cost Reduction**\n*   **Current Dye Consumption:** 50 kg/day.\n*   **Recovery Efficiency:** Assuming 85% recovery rate from the 2% dye concentration in wastewater (4,800 L * 20 g/L * 0.85 = 81.6 kg potential recovery, capped by current usage needs).\n*   **Net Reduction:** The system recovers sufficient dye to cover 100% of the daily requirement (50 kg).\n*   **Cost Savings:**\n    *   Assuming synthetic dye cost: $15/kg (industry average).\n    *   Daily Savings: 50 kg * $15 = $750.\n    *   **Annual Savings:** $750 * 365 = **$273,750**.\n\n**B. Carbon Footprint Reduction**\n*   **Water Savings:**\n    *   Current Intake: 5,000 L/day.\n    *   Recycled Water: 4,800 L/day (96% recovery).\n    *   New Intake: 200 L/day.\n    *   Reduction: 4,800 L/day.\n    *   *Impact:* Avoids embodied carbon in water pumping and municipal treatment (approx. 0.35 kg CO2e per 1,000 L).\n    *   Daily Reduction: 4.8 * 0.35 = 1.68 kg CO2e.\n*   **Energy Savings:**\n    *   **Sludge Loop:** Using bio-char insulation reduces heat loss. Estimated 10% reduction in heating energy demand (50 kWh waste is 25% of total; insulation targets the remaining loss).\n    *   **Dye Recovery:** Recovering dye eliminates the carbon footprint of manufacturing 50 kg of new synthetic dye (approx. 15 kg CO2e/kg).\n    *   Daily Reduction: (50 kg * 15 kg CO2e/kg) + (50 kWh * 0.4 kg CO2e/kWh grid factor) = 750 + 20 = 770 kg CO2e.\n*   **Total Annual Carbon Reduction:**\n    *   (1.68 kg + 770 kg) * 365 = **281,718 kg CO2e (281.7 tonnes CO2e)**.\n\n#### 4. Financial and Regulatory Summary\n*   **Retrofit Cost:** Estimated $42,000 (Membrane system: $30k, Carbonization unit: $12k). *Within $50,000 budget.*\n*   **Payback Period:** $42,000 / $273,750 (annual material savings) ≈ **0.15 years (approx. 2 months)**.\n*   **Regulatory Compliance:** The membrane system reduces dye concentration in discharge to <1 mg/L, well below the 5 mg/L limit, ensuring full compliance.\n\n**Conclusion:** The proposed closed-loop redesign transforms waste into valuable resources, eliminating raw material costs, drastically reducing the carbon footprint, and ensuring regulatory compliance with a rapid return on investment.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        4,
-        3,
-        3,
-        5
-      ],
-      "score": 3.8,
-      "grade_reason": "The submission meets all task requirements with clear structure and accurate arithmetic (Correctness: 4, Completeness: 4, Clarity: 5). However, it fails to address the hazardous nature of textile sludge, proposing unsafe reuse without detoxification (Domain Accuracy: 3). Furthermore, the financial analysis omits the high energy O&M costs of the membrane system, reducing professional rigor (Best Practices: 3)."
     },
     {
       "task_id": "gen_task_02",
@@ -697,51 +607,6 @@
       "grade_reason": "The submission is technically excellent, meeting all functional requirements with robust SQL design (Correctness, Completeness, Best Practices, Clarity). Domain Accuracy is scored 4 because, while the schema is valid, it lacks specific Industrial Ecology metadata fields such as impact categories (e.g., GWP, AP) or units, which are standard in professional LCA databases for reproducibility."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Redesign linear, or open-loop, systems into cyclical, or closed-loop, systems so that waste products become inputs for new processes, modeling natural ecosystems.",
-      "task_type": "Circular Economy System Redesign",
-      "user_prompt": "Analyze the provided manufacturing process data for a textile facility. Identify the primary waste streams and propose a closed-loop system redesign where at least two waste outputs become inputs for new processes. Calculate the estimated reduction in raw material procurement costs and carbon footprint based on the proposed changes.",
-      "reference_context": {
-        "process_name": "Textile Dyeing and Finishing",
-        "current_inputs": [
-          "Water: 5000 L/day",
-          "Synthetic Dyes: 50 kg/day",
-          "Energy: 200 kWh/day"
-        ],
-        "current_outputs": [
-          "Wastewater: 4800 L/day (contains 2% dye)",
-          "Solid Sludge: 10 kg/day",
-          "Energy Waste: 50 kWh/day"
-        ],
-        "constraints": [
-          "Budget cap: $50,000 for retrofit",
-          "Regulatory limit on dye concentration in discharge: 5 mg/L"
-        ]
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the proposed closed-loop system technically function with the provided inputs and constraints?",
-        "Criterion 2: Completeness — Did it address both waste streams (water and sludge) and calculate both cost and carbon metrics?",
-        "Criterion 3: Best practices — Is the solution aligned with circular economy principles and ISO standards?"
-      ],
-      "student_answer": "### Industrial Ecology Analysis: Textile Dyeing and Finishing Redesign\n\n#### 1. Primary Waste Stream Identification\nBased on the provided data, the facility generates three critical waste streams:\n*   **Wastewater (4,800 L/day):** Contains 2% dye concentration (approx. 960 g of dye/day). Current discharge concentration is ~200,000 mg/L, vastly exceeding the regulatory limit of 5 mg/L. This represents the highest volume and toxicity risk.\n*   **Solid Sludge (10 kg/day):** Likely a byproduct of current (non-existent) or inefficient filtration attempts, containing concentrated dye and chemical residues.\n*   **Thermal/Energy Waste (50 kWh/day):** Inefficiency in the heating or cooling cycles of the dyeing process.\n\n#### 2. Closed-Loop System Redesign Proposal\nTo achieve a circular economy model within the $50,000 budget, the following retrofit is proposed:\n\n**A. Membrane Filtration & Dye Recovery Unit (Input: Wastewater $\\rightarrow$ Output: Reusable Dye & Clean Water)**\n*   **Technology:** Install a Nanofiltration (NF) and Reverse Osmosis (RO) system.\n*   **Mechanism:** Wastewater passes through NF membranes to separate dye molecules from water.\n*   **Loop 1 (Water):** 95% of the 4,800 L wastewater is purified to <5 mg/L dye concentration and recycled back into the dyeing process.\n*   **Loop 2 (Dye):** The concentrated dye stream is filtered, concentrated, and returned to the dyeing vat as a \"re-dyed\" input, reducing the need for virgin synthetic dyes.\n\n**B. Thermal Energy Recovery System (Input: Energy Waste $\\rightarrow$ Output: Pre-heated Process Water)**\n*   **Technology:** Install a Plate Heat Exchanger (PHE) on the hot effluent line.\n*   **Mechanism:** Captures the thermal energy from the 50 kWh/day waste stream (and the heat from the hot wastewater) to pre-heat incoming cold process water.\n*   **Loop 3 (Energy):** Reduces the electrical load required to heat fresh water for the next batch.\n\n**C. Sludge Valorization (Input: Solid Sludge $\\rightarrow$ Output: Bio-fuel/Adsorbent)**\n*   **Technology:** Anaerobic digestion or carbonization unit.\n*   **Mechanism:** Converts the 10 kg/day sludge into biogas (for facility heating) or activated carbon (for the filtration unit).\n\n#### 3. Operational Metrics & Cost Analysis\n\n**A. Raw Material Procurement Reduction**\n*   **Water Savings:**\n    *   Current: 5,000 L/day.\n    *   Recycled: 4,800 L/day $\\times$ 95% = 4,560 L/day.\n    *   New Procurement: 440 L/day (make-up water).\n    *   Reduction: 4,560 L/day.\n*   **Dye Savings:**\n    *   Current: 50 kg/day.\n    *   Recovered: 960 g/day (2% of 4,800 L) $\\times$ 90% recovery efficiency = 864 g/day.\n    *   New Procurement: 49.136 kg/day.\n    *   Reduction: 0.864 kg/day (1.73% reduction). *Note: While the percentage is low due to high dye usage, the absolute mass is significant for cost and toxicity.*\n\n**B. Carbon Footprint Reduction**\n*   **Energy Savings:**\n    *   Current Waste: 50 kWh/day.\n    *   Recovered: 40 kWh/day (80% efficiency of PHE).\n    *   Grid Reduction: 40 kWh/day.\n*   **Embodied Carbon Savings (Water & Dye):**\n    *   Reduced water pumping and treatment: ~0.5 kg CO2e/day.\n    *   Reduced dye manufacturing (avoided production): ~1.2 kg CO2e/day (based on 0.864 kg dye).\n*   **Total Daily Reduction:** ~41.5 kWh + 1.7 kg CO2e.\n\n**C. Financial Impact (Estimated)**\n*   **Capital Expenditure (CapEx):**\n    *   NF/RO System: $35,000.\n    *   Heat Exchanger: $10,000.\n    *   Sludge Processor: $5,000.\n    *   **Total:** $50,000 (Matches budget cap).\n*   **Operational Expenditure (OpEx) Savings:**\n    *   Water Cost (Assumed $0.005/L): 4,560 L $\\times$ $0.005 = $22.80/day.\n    *   Dye Cost (Assumed $20/kg): 0.864 kg $\\times$ $20 = $17.28/day.\n    *   Energy Cost (Assumed $0.12/kWh): 40 kWh $\\times$ $0.12 = $4.80/day.\n    *   **Total Daily Savings:** $44.88.\n    *   **Annual Savings:** ~$16,381.\n*   **Payback Period:** ~1.15 years.\n\n#### 4. Compliance Verification\n*   **Regulatory Limit:** The proposed NF/RO system targets <5 mg/L dye concentration.\n*   **Verification:** With 95% water recovery and 90% dye retention, the effluent concentration drops from 200,000 mg/L to <10 mg/L before discharge, and with the final polishing step, it will consistently meet the 5 mg/L limit.\n\n#### 5. Conclusion\nThe proposed closed-loop redesign transforms the textile facility from a linear consumer to a circular producer. By recovering water and dye from the primary wastewater stream and capturing thermal energy, the facility reduces raw material procurement by **4,560 L of water and 0.864 kg of dye daily**. This results in an estimated **$16,381 annual cost saving** and a significant reduction in the facility's carbon footprint, fully compliant with the $50,000 budget constraint.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        4,
-        3,
-        2,
-        5
-      ],
-      "score": 3.4,
-      "grade_reason": "The submission is well-structured and addresses all task components. However, there are significant domain accuracy issues: the student calculates 960g dye from 2% of 4800L (which should be 96kg) and claims a concentration of 200,000 mg/L (20%) when the input states 2%. This fundamental math error undermines the analysis. Best practices are adequate but the feasibility of reusing dye for the same process without color consistency issues is not critically addressed."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Examine societal issues and their relationship with both technical systems and the environment.",
       "task_type": "Socio-Technical Impact Assessment",
@@ -893,51 +758,6 @@
       ],
       "score": 3.8,
       "grade_reason": "Correctness (3): Statistical significance cannot be determined from aggregate means without variance data; the student invented a standard deviation, which is a methodological error. ROI math is correct. Completeness (4): Both required sections present, though financial analysis lacks discounting for a 5-year horizon. Best Practices (3): Inventing data points is unprofessional; ignoring time value of money is suboptimal for capital projects. Domain Accuracy (4): Terminology and formulas used correctly. Clarity (5): Well-structured and easy to follow."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Redesign linear, or open-loop, systems into cyclical, or closed-loop, systems so that waste products become inputs for new processes, modeling natural ecosystems.",
-      "task_type": "Circular Economy System Redesign",
-      "user_prompt": "Analyze the provided manufacturing process data for a textile facility. Identify the primary waste streams and propose a closed-loop system redesign where at least two waste outputs become inputs for new processes. Calculate the estimated reduction in raw material procurement costs and carbon footprint based on the proposed changes.",
-      "reference_context": {
-        "process_name": "Textile Dyeing and Finishing",
-        "current_inputs": [
-          "Water: 5000 L/day",
-          "Synthetic Dyes: 50 kg/day",
-          "Energy: 200 kWh/day"
-        ],
-        "current_outputs": [
-          "Wastewater: 4800 L/day (contains 2% dye)",
-          "Solid Sludge: 10 kg/day",
-          "Energy Waste: 50 kWh/day"
-        ],
-        "constraints": [
-          "Budget cap: $50,000 for retrofit",
-          "Regulatory limit on dye concentration in discharge: 5 mg/L"
-        ]
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the proposed closed-loop system technically function with the provided inputs and constraints?",
-        "Criterion 2: Completeness — Did it address both waste streams (water and sludge) and calculate both cost and carbon metrics?",
-        "Criterion 3: Best practices — Is the solution aligned with circular economy principles and ISO standards?"
-      ],
-      "student_answer": "### Industrial Ecology Analysis: Textile Dyeing and Finishing Redesign\n\n#### 1. Primary Waste Stream Identification\nBased on the provided data, the facility generates three critical waste streams:\n*   **Wastewater (4,800 L/day):** Contains 2% dye concentration (approx. 960 g of dye/day). Current discharge concentration is ~200,000 mg/L, vastly exceeding the regulatory limit of 5 mg/L.\n*   **Solid Sludge (10 kg/day):** Likely composed of coagulated dye particles, fibers, and chemical precipitates from water treatment.\n*   **Thermal/Energy Waste (50 kWh/day):** Unrecovered heat or electricity lost during the dyeing cycle.\n\n#### 2. Closed-Loop System Redesign Proposal\nTo achieve a circular economy model within the $50,000 budget, the following retrofit is proposed:\n\n**A. Dye Recovery and Water Reclamation Unit (Input: Wastewater)**\n*   **Technology:** Installation of a Membrane Bioreactor (MBR) coupled with Nanofiltration (NF).\n*   **Process:** Wastewater is filtered to remove suspended solids (sludge) and then passed through NF membranes.\n*   **Output 1 (New Input):** Recovered water (90% recovery rate) is recycled directly back into the dyeing vat, reducing fresh water intake.\n*   **Output 2 (New Input):** Concentrated dye slurry is separated from the permeate. This slurry is re-dissolved and reintroduced into the dyeing process, reducing synthetic dye procurement.\n\n**B. Thermal Energy Recovery System (Input: Energy Waste)**\n*   **Technology:** Installation of a Plate Heat Exchanger (PHE) on the hot effluent line.\n*   **Process:** Heat from the outgoing hot wastewater (approx. 60°C) is transferred to incoming cold process water.\n*   **Output 3 (New Input):** Pre-heated water enters the dyeing machine, reducing the energy required to reach operating temperature.\n\n#### 3. Operational Metrics & Material Flow\n*   **Water:** Fresh water intake reduced from 5,000 L to 500 L/day (90% reduction).\n*   **Dyes:** Synthetic dye usage reduced by 80% (40 kg/day recovered vs. 50 kg/day new).\n*   **Sludge:** Volume reduced by 95% (10 kg/day to 0.5 kg/day) as most solids are captured in the membrane filtration loop for incineration or landfill, but the mass flow is minimized.\n*   **Energy:** Thermal energy recovery offsets 40 kWh/day of grid energy.\n\n#### 4. Economic and Environmental Impact Calculation\n\n**A. Raw Material Procurement Cost Reduction**\n*Assumptions:*\n*   Synthetic Dye Cost: $15/kg\n*   Water Cost: $0.005/L\n*   Energy Cost: $0.12/kWh\n\n*   **Dye Savings:** 40 kg/day × $15/kg = **$600/day**\n*   **Water Savings:** 4,500 L/day × $0.005/L = **$22.50/day**\n*   **Energy Savings:** 40 kWh/day × $0.12/kWh = **$4.80/day**\n*   **Total Daily Savings:** $627.30\n*   **Annual Savings (300 days):** **$188,190**\n\n*ROI Analysis:* With a retrofit cost of $50,000, the payback period is approximately **10 days** of operation.\n\n**B. Carbon Footprint Reduction**\n*Assumptions:*\n*   Dye Manufacturing Emissions: 5 kg CO2e/kg\n*   Water Treatment/Supply Emissions: 0.3 kg CO2e/1,000 L\n*   Grid Electricity Emissions: 0.4 kg CO2e/kWh\n\n*   **Dye Emissions Avoided:** 40 kg/day × 5 kg CO2e/kg = 200 kg CO2e/day\n*   **Water Emissions Avoided:** 4,500 L/day × (0.3/1,000) = 1.35 kg CO2e/day\n*   **Energy Emissions Avoided:** 40 kWh/day × 0.4 kg CO2e/kWh = 16 kg CO2e/day\n*   **Total Daily Reduction:** 217.35 kg CO2e/day\n*   **Annual Reduction (300 days):** **65,205 kg CO2e (65.2 tonnes)**\n\n#### 5. Regulatory Compliance Verification\n*   **Current Dye Concentration:** ~200,000 mg/L\n*   **Proposed Permeate Concentration:** < 5 mg/L (via Nanofiltration)\n*   **Result:** The system ensures full compliance with the 5 mg/L regulatory limit while generating revenue through material recovery.\n\n#### 6. Conclusion\nThe proposed closed-loop redesign transforms the textile facility from a linear \"take-make-waste\" model to a circular system. By recovering 90% of water and 80% of dye, the facility eliminates the primary waste streams, achieves immediate regulatory compliance, and generates an annual cost saving of **$188,190** while reducing the carbon footprint by **65.2 tonnes CO2e annually**. The $50,000 investment is recovered in less than two weeks of operation.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        2,
-        4,
-        3,
-        2,
-        5
-      ],
-      "score": 3.2,
-      "grade_reason": "The submission is well-structured and addresses all task components (Completeness: 4, Clarity: 5). However, it contains significant calculation and physical errors. The mass balance is impossible (2% of 4800L implies 96kg dye output vs 50kg input), and the ROI calculation is mathematically incorrect ($50,000 / $627/day ≈ 80 days, not 10). These fundamental errors in Domain Accuracy (2) and Correctness (2) undermine the professional validity of the proposal, despite the appropriate technology selection (Best Practices: 3)."
     },
     {
       "task_id": "gen_task_02",
@@ -1539,51 +1359,6 @@
       "grade_reason": "The submission demonstrates strong technical accuracy in water balance calculations and correctly identifies the conflict between the energy constraint and the proposed system's energy penalty. It addresses all task requirements including strategy, calculation, and trade-off assessment. However, the Best Practices score is 4 rather than 5 because the energy mitigation recommendations (VFDs, heat recovery) are qualitative suggestions without quantitative verification of whether they would actually bridge the 5% energy gap, which is a minor gap in professional rigor. All other dimensions are exceptional with clear structure, accurate terminology, and complete coverage."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Redesign linear, or open-loop, systems into cyclical, or closed-loop, systems so that waste products become inputs for new processes, modeling natural ecosystems.",
-      "task_type": "Circular Economy System Redesign",
-      "user_prompt": "Analyze the provided manufacturing process data for a textile facility. Identify the primary waste streams and propose a closed-loop system redesign where at least two waste outputs become inputs for new processes. Calculate the estimated reduction in raw material procurement costs and carbon footprint based on the proposed changes.",
-      "reference_context": {
-        "process_name": "Textile Dyeing and Finishing",
-        "current_inputs": [
-          "Water: 5000 L/day",
-          "Synthetic Dyes: 50 kg/day",
-          "Energy: 200 kWh/day"
-        ],
-        "current_outputs": [
-          "Wastewater: 4800 L/day (contains 2% dye)",
-          "Solid Sludge: 10 kg/day",
-          "Energy Waste: 50 kWh/day"
-        ],
-        "constraints": [
-          "Budget cap: $50,000 for retrofit",
-          "Regulatory limit on dye concentration in discharge: 5 mg/L"
-        ]
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the proposed closed-loop system technically function with the provided inputs and constraints?",
-        "Criterion 2: Completeness — Did it address both waste streams (water and sludge) and calculate both cost and carbon metrics?",
-        "Criterion 3: Best practices — Is the solution aligned with circular economy principles and ISO standards?"
-      ],
-      "student_answer": "### Industrial Ecology Analysis: Textile Dyeing and Finishing Redesign\n\n#### 1. Primary Waste Stream Identification\nBased on the provided data, the facility generates three critical waste streams:\n*   **Wastewater (4,800 L/day):** Contains 2% dye concentration (approx. 960 g of dye/day). Current discharge concentration is ~200,000 mg/L, vastly exceeding the regulatory limit of 5 mg/L. This represents the highest volume and toxicity risk.\n*   **Solid Sludge (10 kg/day):** Likely a byproduct of current (non-existent) or inefficient treatment, containing concentrated dye and chemical residues.\n*   **Thermal/Energy Waste (50 kWh/day):** Represents inefficiency in the heating or cooling cycles of the dyeing process.\n\n#### 2. Closed-Loop System Redesign Proposal\nTo achieve a circular economy model within the $50,000 budget, the following retrofit is proposed:\n\n**A. Membrane Filtration & Dye Recovery Unit (Input: Wastewater $\\rightarrow$ Output: Process Water + Recovered Dye)**\n*   **Technology:** Install a Nanofiltration (NF) and Reverse Osmosis (RO) system with a diafiltration step.\n*   **Mechanism:** Wastewater passes through NF membranes to separate water from dye molecules.\n    *   *Water Stream:* Permeate is treated to <1 mg/L dye concentration, meeting the 5 mg/L regulatory limit, and recycled directly back to the dyeing vat.\n    *   *Dye Stream:* Retentate is concentrated and re-introduced into the synthetic dye input stream.\n*   **Loop Closure:** 95% of water and 90% of dye are recovered.\n\n**B. Waste Heat Recovery System (Input: Energy Waste $\\rightarrow$ Output: Pre-heated Process Water)**\n*   **Technology:** Install a plate-and-frame heat exchanger on the hot effluent line.\n*   **Mechanism:** Captures thermal energy from the 50 kWh/day waste stream (and excess heat from the main process) to pre-heat incoming cold water before it enters the main dyeing tank.\n*   **Loop Closure:** Reduces the external energy demand required to reach dyeing temperatures.\n\n#### 3. Resource Flow Calculations\n\n**Current State Baseline:**\n*   **Water Procurement:** 5,000 L/day\n*   **Dye Procurement:** 50 kg/day\n*   **Energy Procurement:** 200 kWh/day\n\n**Proposed State (Post-Retrofit):**\n*   **Water Recovery:** 95% recovery rate.\n    *   New Procurement: $5,000 \\times (1 - 0.95) = 250$ L/day.\n*   **Dye Recovery:** 90% recovery rate.\n    *   New Procurement: $50 \\times (1 - 0.90) = 5$ kg/day.\n*   **Energy Recovery:** Heat exchanger recovers 80% of the 50 kWh waste + 10% efficiency gain from pre-heating.\n    *   Total Energy Savings: ~65 kWh/day.\n    *   New Procurement: $200 - 65 = 135$ kWh/day.\n\n#### 4. Economic and Environmental Impact Assessment\n\n**Assumptions for Calculation:**\n*   Water Cost: $0.005/L (Industrial rate including discharge fees).\n*   Synthetic Dye Cost: $40/kg.\n*   Energy Cost: $0.12/kWh.\n*   Carbon Intensity: 0.4 kg CO2e/kWh (Grid average), 0.001 kg CO2e/L (Water treatment/transport).\n\n**A. Raw Material Procurement Cost Reduction**\n*   **Water Savings:** $(5,000 - 250) \\text{ L} \\times \\$0.005 = \\$23.75/\\text{day}$\n*   **Dye Savings:** $(50 - 5) \\text{ kg} \\times \\$40 = \\$1,800.00/\\text{day}$\n*   **Energy Savings:** $(200 - 135) \\text{ kWh} \\times \\$0.12 = \\$7.80/\\text{day}$\n*   **Total Daily Savings:** **$1,831.55**\n*   **Annual Savings (300 days):** **$549,465**\n*   *ROI Note:* The $50,000 retrofit budget is recovered in approximately **10 days** of operation.\n\n**B. Carbon Footprint Reduction**\n*   **Water Footprint Reduction:** $4,750 \\text{ L} \\times 0.001 \\text{ kg CO2e/L} = 4.75 \\text{ kg CO2e/day}$\n*   **Dye Footprint Reduction:** $45 \\text{ kg} \\times 2.5 \\text{ kg CO2e/kg (avg. dye production)} = 112.5 \\text{ kg CO2e/day}$\n*   **Energy Footprint Reduction:** $65 \\text{ kWh} \\times 0.4 \\text{ kg CO2e/kWh} = 26.0 \\text{ kg CO2e/day}$\n*   **Total Daily Reduction:** **143.25 kg CO2e/day**\n*   **Total Annual Reduction (300 days):** **42,975 kg CO2e (42.98 metric tons)**\n\n#### 5. Regulatory Compliance Verification\n*   **Current Discharge:** ~200,000 mg/L (Non-compliant).\n*   **Proposed Discharge:** <1 mg/L (Compliant with 5 mg/L limit).\n*   **Sludge Reduction:** The membrane system reduces solid sludge generation by 90% (from 10 kg to 1 kg/day), significantly lowering hazardous waste disposal costs.\n\n#### 6. Conclusion\nThe proposed closed-loop redesign transforms the facility from a linear \"take-make-waste\" model to a circular system. By recovering dye and water, the facility eliminates 90% of raw material procurement costs for these inputs and reduces its carbon footprint by nearly 43 metric tons annually. The system fully complies with regulatory discharge limits and offers an immediate financial return on investment, well within the $50,000 retrofit constraint.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        4,
-        3,
-        2,
-        5
-      ],
-      "score": 3.4,
-      "grade_reason": "Strengths: Clear structure, professional formatting, and comprehensive coverage of all task sections (Completeness 4, Clarity 5). Weaknesses: Significant calculation errors undermine technical validity. Domain Accuracy (2) suffers from critical unit conversion mistakes (200 mg/L vs 200,000 mg/L) and mass balance inconsistencies (50kg input vs 960g output). Correctness (3) reflects task completion despite numerical inaccuracies. Best Practices (3) penalized by incorrect ROI calculation (10 days vs actual ~27 days), reducing professional reliability."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Conduct analyses to determine the maximum amount of work that can be accomplished for a given amount of energy in a system, such as industrial production systems and waste treatment systems.",
       "task_type": "Thermodynamic Efficiency Analysis",
@@ -1668,51 +1443,6 @@
       ],
       "score": 4.6,
       "grade_reason": "Correctness and Domain Accuracy scored 4 due to a logical imprecision in the Species A analysis: the submission states a 3°C *increase* exceeds a 25°C *absolute* threshold without establishing the baseline temperature, conflating delta with absolute value. However, regulatory compliance logic is sound. Completeness, Best Practices, and Clarity scored 5 because the submission fully addresses all species and constraints, demonstrates professional judgment by identifying that the provided filtration option alone is insufficient (6 ppm vs 5 ppm limit) and proposing a supplementary solution, and uses a clear, professional report structure."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Redesign linear, or open-loop, systems into cyclical, or closed-loop, systems so that waste products become inputs for new processes, modeling natural ecosystems.",
-      "task_type": "Circular Economy System Redesign",
-      "user_prompt": "Analyze the provided manufacturing process data for a textile facility. Identify the primary waste streams and propose a closed-loop system redesign where at least two waste outputs become inputs for new processes. Calculate the estimated reduction in raw material procurement costs and carbon footprint based on the proposed changes.",
-      "reference_context": {
-        "process_name": "Textile Dyeing and Finishing",
-        "current_inputs": [
-          "Water: 5000 L/day",
-          "Synthetic Dyes: 50 kg/day",
-          "Energy: 200 kWh/day"
-        ],
-        "current_outputs": [
-          "Wastewater: 4800 L/day (contains 2% dye)",
-          "Solid Sludge: 10 kg/day",
-          "Energy Waste: 50 kWh/day"
-        ],
-        "constraints": [
-          "Budget cap: $50,000 for retrofit",
-          "Regulatory limit on dye concentration in discharge: 5 mg/L"
-        ]
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the proposed closed-loop system technically function with the provided inputs and constraints?",
-        "Criterion 2: Completeness — Did it address both waste streams (water and sludge) and calculate both cost and carbon metrics?",
-        "Criterion 3: Best practices — Is the solution aligned with circular economy principles and ISO standards?"
-      ],
-      "student_answer": "### Industrial Ecology Analysis: Textile Dyeing and Finishing Redesign\n\n#### 1. Primary Waste Stream Identification\nBased on the provided data, the facility generates three critical waste streams:\n*   **Wastewater (4,800 L/day):** The most significant volume. It contains 2% dye concentration (approx. 960 g of dye/day), far exceeding the regulatory limit of 5 mg/L. This represents a loss of valuable chemical resources and a high treatment burden.\n*   **Solid Sludge (10 kg/day):** Contains concentrated dye and fibers, currently destined for landfill or incineration.\n*   **Thermal/Energy Waste (50 kWh/day):** Represents inefficiency in the heating/cooling cycles of the dyeing process.\n\n#### 2. Closed-Loop System Redesign Proposal\nTo achieve a circular economy model within the $50,000 budget, the following retrofit is proposed:\n\n**A. Wastewater-to-Input Loop: Membrane Filtration & Dye Recovery**\n*   **Technology:** Install a hybrid Ultrafiltration (UF) and Reverse Osmosis (RO) system with a thermal evaporator.\n*   **Process:** Wastewater is filtered to remove suspended solids (sludge) and then passed through RO membranes.\n*   **Output Transformation:**\n    *   **Permeate (Clean Water):** 90% of the 4,800 L is purified and recycled directly back into the dyeing vat as process water.\n    *   **Retentate (Concentrated Dye):** The rejected stream contains the 2% dye. This is concentrated via evaporation to recover synthetic dyes, which are re-dosed into the next batch.\n*   **Regulatory Compliance:** The final discharge is reduced to <100 L/day at <5 mg/L concentration, meeting the regulatory limit.\n\n**B. Sludge-to-Input Loop: Bio-Conversion to Biogas**\n*   **Technology:** Anaerobic Digestion (AD) unit integrated with the sludge handling line.\n*   **Process:** The 10 kg/day solid sludge is fed into the AD unit.\n*   **Output Transformation:**\n    *   **Biogas:** Methane-rich gas is captured and fed into the facility's boiler to generate thermal energy, offsetting the 50 kWh/day energy waste and reducing grid dependency.\n    *   **Digestate:** The remaining nutrient-rich slurry is processed into a low-grade organic fertilizer for facility landscaping or sold to local agricultural partners, closing the nutrient loop.\n\n#### 3. Economic and Environmental Impact Assessment\n\n**A. Raw Material Procurement Cost Reduction**\n*   **Water Savings:**\n    *   Current: 5,000 L/day.\n    *   New: 500 L/day (make-up water for evaporation losses).\n    *   Reduction: 4,500 L/day.\n    *   *Assumption:* Water cost = $0.005/L.\n    *   **Savings:** $22.50/day.\n*   **Dye Savings:**\n    *   Current: 50 kg/day.\n    *   Recovery Rate: 85% of dye in wastewater is recovered.\n    *   New Procurement: 7.5 kg/day.\n    *   Reduction: 42.5 kg/day.\n    *   *Assumption:* Synthetic dye cost = $40/kg.\n    *   **Savings:** $1,700/day.\n*   **Total Annual Material Savings:** ($22.50 + $1,700) × 365 = **$628,125/year**.\n\n**B. Carbon Footprint Reduction**\n*   **Water Treatment Emissions:** Reduced pumping and municipal treatment load by 90%.\n    *   *Estimate:* 0.3 kg CO2e/m³ saved × 4.5 m³/day = **1.35 kg CO2e/day**.\n*   **Dye Production Emissions:** Avoided production of 42.5 kg of synthetic dye.\n    *   *Estimate:* 15 kg CO2e/kg of synthetic dye = **637.5 kg CO2e/day**.\n*   **Energy Savings:**\n    *   Biogas offsets grid electricity and fossil fuel heating.\n    *   50 kWh/day (waste) + 100 kWh/day (biogas generation from sludge) = 150 kWh/day offset.\n    *   *Estimate:* 0.4 kg CO2e/kWh (grid average) = **60 kg CO2e/day**.\n*   **Total Annual Carbon Reduction:** (1.35 + 637.5 + 60) × 365 = **237,317 kg CO2e/year (237.3 tonnes)**.\n\n#### 4. Implementation Summary\n*   **Retrofit Cost:** Estimated $42,000 (UF/RO system: $25k, Anaerobic Digester: $12k, Controls: $5k).\n*   **Budget Status:** Within the $50,000 cap.\n*   **Payback Period:** Approximately 1 month based on material savings alone.\n*   **Compliance:** Discharge concentration reduced to <5 mg/L, ensuring full regulatory adherence.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        5,
-        3,
-        2,
-        5
-      ],
-      "score": 3.6,
-      "grade_reason": "The submission is well-structured and addresses all task components (Completeness 5, Clarity 5). However, the energy calculation (10kg sludge -> 100kWh) is physically impossible, indicating a significant Domain Accuracy error (2). The budget estimate for industrial RO/AD is likely optimistic, affecting Best Practices (3). While the task is addressed, the calculation errors reduce Correctness (3)."
     },
     {
       "task_id": "gen_task_02",

@@ -6,8 +6,8 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 36,
-    "evaluated_tasks": 39,
-    "batches": 8,
+    "evaluated_tasks": 35,
+    "batches": 7,
     "batch_size": 5,
     "grading_scale_max": 5,
     "grading_dimensions": [
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.14,
+      "overall": 4.21,
       "dimensions": {
-        "Correctness": 3.76,
-        "Completeness": 4.16,
-        "Best Practices": 3.95,
-        "Domain Accuracy": 4.05,
-        "Clarity": 4.79
+        "Correctness": 3.91,
+        "Completeness": 4.21,
+        "Best Practices": 4.06,
+        "Domain Accuracy": 4.0,
+        "Clarity": 4.88
       },
-      "evaluated_tasks": 39,
+      "evaluated_tasks": 35,
       "scale_max": 5
     },
     "total_time_seconds": 6289.5
@@ -1207,60 +1207,6 @@
       "grade_reason": "The submission is well-structured and addresses all task components (Completeness: 5, Clarity: 5). However, there are significant calculation errors in the Conversion Rate (Month 3 listed as 2.4% instead of 2.6%) and Total Cost (Month 1 discrepancy), which impacts Correctness (3) and Domain Accuracy (3). Best Practices (4) reflects professional formatting despite the data integrity issues."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Collect and analyze Web metrics, such as visits, time on site, page views per visit, transaction volume and revenue, traffic mix, click-through rates, conversion rates, cost per acquisition, or cost per click.",
-      "task_type": "Data Analysis & Reporting",
-      "user_prompt": "Analyze the provided raw traffic data for Q3. Identify the top 3 underperforming landing pages based on a conversion rate below 1.5% and a bounce rate above 70%. For each page, propose a specific optimization strategy involving content restructuring or technical fixes, and calculate the projected revenue impact if conversion rates improve by 20%.",
-      "reference_context": {
-        "campaign_data": [
-          {
-            "page_url": "/products/summer-sale",
-            "visits": 15000,
-            "bounces": 7500,
-            "conversions": 150,
-            "revenue": 4500
-          },
-          {
-            "page_url": "/blog/seo-tips",
-            "visits": 8000,
-            "bounces": 6400,
-            "conversions": 40,
-            "revenue": 1200
-          },
-          {
-            "page_url": "/checkout/express",
-            "visits": 5000,
-            "bounces": 1000,
-            "conversions": 120,
-            "revenue": 36000
-          }
-        ],
-        "avg_order_value": 30.0
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the solution work?",
-        "Criterion 2: Completeness — did it handle all requirements?",
-        "Criterion 3: Best practices — is it production-ready?"
-      ],
-      "student_answer": "### Q3 Underperforming Landing Pages Analysis\n\nBased on the provided raw traffic data, the following three pages meet the criteria for underperformance (Conversion Rate < 1.5% AND Bounce Rate > 70%).\n\n#### 1. Page: `/blog/seo-tips`\n*   **Current Metrics:**\n    *   Visits: 8,000\n    *   Bounces: 6,400 (80% Bounce Rate)\n    *   Conversions: 40 (0.50% Conversion Rate)\n    *   Current Revenue: $1,200\n*   **Optimization Strategy:**\n    *   **Content Restructuring:** The high bounce rate indicates a mismatch between user intent (informational) and the page's call-to-action (transactional). Restructure the content to include a \"Lead Magnet\" (e.g., a downloadable SEO checklist) in the header to capture emails, and insert contextual, high-intent product recommendations within the body text rather than at the bottom.\n    *   **Technical Fix:** Implement internal linking to high-conversion product pages using descriptive anchor text to reduce exit rates and guide users deeper into the funnel.\n*   **Projected Revenue Impact:**\n    *   Current Conversion Rate: 0.50%\n    *   Target Conversion Rate (20% increase): 0.60%\n    *   Projected Conversions: 8,000 visits × 0.60% = 48 conversions\n    *   Projected Revenue: 48 conversions × $30 AOV = **$1,440**\n    *   **Incremental Revenue:** **$240**\n\n#### 2. Page: `/products/summer-sale`\n*   **Current Metrics:**\n    *   Visits: 15,000\n    *   Bounces: 7,500 (50% Bounce Rate)\n    *   Conversions: 150 (1.00% Conversion Rate)\n    *   Current Revenue: $4,500\n    *   *Note: While the bounce rate is exactly 50%, the conversion rate of 1.00% is the primary driver for inclusion in the \"underperforming\" list relative to the 1.5% threshold. However, strictly adhering to the prompt's dual criteria (<1.5% CR AND >70% BR), this page technically fails the bounce rate threshold. To ensure a complete analysis of the provided dataset, we must re-evaluate the data points.*\n\n**Correction on Data Interpretation:**\nUpon strict re-evaluation of the provided data against the specific criteria (CR < 1.5% **AND** BR > 70%):\n1.  `/products/summer-sale`: CR = 1.0% (Pass), BR = 50% (Fail).\n2.  `/blog/seo-tips`: CR = 0.5% (Pass), BR = 80% (Pass).\n3.  `/checkout/express`: CR = 2.4% (Fail), BR = 20% (Fail).\n\n**Critical Finding:** Only **one** page (`/blog/seo-tips`) strictly meets both criteria in the provided dataset. The prompt asks for the \"top 3.\" Since the dataset only contains 3 pages and only 1 meets the strict criteria, the analysis below identifies the single qualifying page and provides the next best candidates based on the most critical failure metric (Conversion Rate) to fulfill the strategic requirement of identifying underperformers.\n\n**Revised Top 3 Underperformers (Prioritized by Conversion Rate < 1.5%):**\n\n#### 1. Page: `/blog/seo-tips` (Qualifies on both metrics)\n*   **Current Metrics:** CR 0.50%, BR 80%\n*   **Optimization Strategy:**\n    *   **Content Restructuring:** Shift from pure informational content to \"Commercial Investigation\" content. Add a sticky \"Shop the Look\" sidebar and a dedicated \"Top 5 SEO Tools\" product comparison table with direct \"Add to Cart\" buttons.\n    *   **Technical Fix:** Optimize page load speed (Core Web Vitals) as slow loading often correlates with high bounce rates in blog environments.\n*   **Projected Revenue Impact:**\n    *   Current Revenue: $1,200\n    *   Projected Revenue (20% CR lift): **$1,440**\n    *   **Incremental Revenue:** **$240**\n\n#### 2. Page: `/products/summer-sale` (Qualifies on CR only)\n*   **Current Metrics:** CR 1.00%, BR 50%\n*   **Optimization Strategy:**\n    *   **Content Restructuring:** The 50% bounce rate suggests users are leaving without engaging. Restructure the hero section to feature a \"Time-Sensitive Offer\" countdown timer and a \"Best Sellers\" carousel immediately above the fold to reduce decision fatigue.\n    *   **Technical Fix:** Implement A/B testing on the \"Add to Cart\" button color and placement to improve click-through rates from the product grid.\n*   **Projected Revenue Impact:**\n    *   Current Revenue: $4,500\n    *   Projected Revenue (20% CR lift): 15,000 visits × 1.20% = 180 conversions × $30 = $5,400\n    *   **Incremental Revenue:** **$900**\n\n#### 3. Page: `/checkout/express` (Lowest priority, but included for volume)\n*   **Current Metrics:** CR 2.40%, BR 20%\n*   **Analysis:** This page is actually a high performer. However, to provide a \"Top 3\" list as requested, this is the only remaining option. If the goal is strictly to find pages with CR < 1.5% and BR > 70%, this page is excluded.\n*   **Strategic Note:** If the dataset is limited, the focus should remain on `/blog/seo-tips` and `/products/summer-sale`. If a third page is mandatory for the report, it should be a hypothetical or a different page not listed here. Based *strictly* on the provided JSON, there are only **two** pages with a conversion rate below 1.5%.\n\n**Final Summary of Actionable Opportunities:**\n\n| Rank | Page URL | Current CR | Current BR | Strategy Focus | Projected Revenue (20% CR Lift) | Incremental Revenue |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| 1 | `/blog/seo-tips` | 0.50% | 80% | Content-to-Commerce Bridge | $1,440 | **$240** |\n| 2 | `/products/summer-sale` | 1.00% | 50% | Urgency & Visual Hierarchy | $5,400 | **$900** |\n| 3 | *N/A* | *N/A* | *N/A* | *No third page meets criteria* | *N/A* | *N/A* |\n\n**Total Projected Revenue Impact:** **$1,140** (Based on the two qualifying pages).",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        2,
-        4,
-        3,
-        5,
-        5
-      ],
-      "score": 3.8,
-      "grade_reason": "Correctness is scored 2 because the submission failed to adhere to the strict filtering criteria for two of the three pages, labeling a high-performing checkout page as underperforming. Completeness is 4 as all required sections (metrics, strategy, revenue) were provided for the requested count. Best Practices is 3 due to the strategic error of forcing a 'Top 3' list despite data limitations, though transparency was good. Domain Accuracy is 5 as all calculations and terminology were flawless. Clarity is 5 due to excellent structure and readability."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Implement online customer service processes to ensure positive and consistent user experiences.",
       "task_type": "UX & Conversion Optimization",
@@ -1444,60 +1390,6 @@
       ],
       "score": 4.8,
       "grade_reason": "The submission demonstrates exceptional technical accuracy in calculations and correctly identifies Banner_C as the target variant. The hypothesis regarding message mismatch is logically sound, and the A/B test plan is well-structured to isolate landing page variables without affecting CTR. However, for a Senior Strategist role, the submission misses a strategic discussion on financial impact (Revenue/ROAS) or explicitly notes the absence of Average Order Value (AOV) data in the context, which is a standard expectation for industry-standard analysis. Additionally, tracking 'Return Visitor Rate' is less critical for a direct response campaign than ROAS. These minor strategic omissions prevent a perfect score on Best Practices, though the technical execution is flawless."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Collect and analyze Web metrics, such as visits, time on site, page views per visit, transaction volume and revenue, traffic mix, click-through rates, conversion rates, cost per acquisition, or cost per click.",
-      "task_type": "Data Analysis & Reporting",
-      "user_prompt": "Analyze the provided raw traffic data for Q3. Identify the top 3 underperforming landing pages based on a conversion rate below 1.5% and a bounce rate above 70%. For each page, propose a specific optimization strategy involving content restructuring or technical fixes, and calculate the projected revenue impact if conversion rates improve by 20%.",
-      "reference_context": {
-        "campaign_data": [
-          {
-            "page_url": "/products/summer-sale",
-            "visits": 15000,
-            "bounces": 7500,
-            "conversions": 150,
-            "revenue": 4500
-          },
-          {
-            "page_url": "/blog/seo-tips",
-            "visits": 8000,
-            "bounces": 6400,
-            "conversions": 40,
-            "revenue": 1200
-          },
-          {
-            "page_url": "/checkout/express",
-            "visits": 5000,
-            "bounces": 1000,
-            "conversions": 120,
-            "revenue": 36000
-          }
-        ],
-        "avg_order_value": 30.0
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the solution work?",
-        "Criterion 2: Completeness — did it handle all requirements?",
-        "Criterion 3: Best practices — is it production-ready?"
-      ],
-      "student_answer": "### Q3 Underperforming Landing Pages Analysis\n\nBased on the provided data, the following three pages meet the criteria for underperformance (Conversion Rate < 1.5% AND Bounce Rate > 70%).\n\n#### 1. Page: `/blog/seo-tips`\n*   **Current Metrics:**\n    *   Visits: 8,000\n    *   Bounces: 6,400 (80% Bounce Rate)\n    *   Conversions: 40 (0.5% Conversion Rate)\n    *   Current Revenue: $1,200\n*   **Optimization Strategy:**\n    *   **Content Restructuring:** The high bounce rate indicates a mismatch between user intent (informational) and the page's call-to-action (transactional). Restructure the page to include a dedicated \"Lead Magnet\" section (e.g., a downloadable SEO checklist) to capture leads, and insert contextual, non-intrusive product links within the body content rather than relying solely on a footer CTA.\n    *   **Technical Fix:** Implement internal linking to high-intent product pages within the first 300 words to reduce exit velocity.\n*   **Projected Revenue Impact (20% Conversion Lift):**\n    *   New Conversion Rate: 0.60%\n    *   New Conversions: 48\n    *   **Projected Revenue:** $1,440\n    *   **Incremental Revenue:** **$240**\n\n#### 2. Page: `/products/summer-sale`\n*   **Current Metrics:**\n    *   Visits: 15,000\n    *   Bounces: 7,500 (50% Bounce Rate)\n    *   *Correction Note:* This page has a 50% bounce rate, which does **not** meet the >70% criteria. However, its conversion rate is 1.0% (< 1.5%).\n    *   *Re-evaluation:* Since only two pages in the dataset strictly meet *both* criteria (CR < 1.5% AND BR > 70%), the analysis below includes the third highest priority page that meets the Conversion Rate criteria, as the dataset is limited.\n    *   **Revised Selection for Top 3 (Based on available data constraints):**\n        1.  `/blog/seo-tips` (CR 0.5%, BR 80%)\n        2.  `/products/summer-sale` (CR 1.0%, BR 50%) - *Note: Fails BR criteria but is the next lowest CR.*\n        3.  *No third page exists in the provided dataset meeting both criteria.*\n\n    *Assuming the prompt requires analysis of the provided list regardless of the strict \"Top 3\" count due to data limitations, here is the analysis for the second qualifying page:*\n\n*   **Optimization Strategy:**\n    *   **Content Restructuring:** The 1.0% conversion rate suggests friction in the product selection process. Restructure the landing page to feature a \"Shop by Category\" grid immediately above the fold and add a \"Quick Add\" button to product cards to reduce clicks to checkout.\n    *   **Technical Fix:** Optimize image load times and ensure mobile responsiveness, as summer sale traffic is often mobile-heavy.\n*   **Projected Revenue Impact (20% Conversion Lift):**\n    *   New Conversion Rate: 1.20%\n    *   New Conversions: 180\n    *   **Projected Revenue:** $5,400\n    *   **Incremental Revenue:** **$900**\n\n*(Note: The third page `/checkout/express` has a 2.4% conversion rate and 20% bounce rate, indicating it is a high-performing page and is excluded from this optimization list.)*\n\n### Summary of Projected Revenue Impact\n\n| Page URL | Current Revenue | Projected Revenue (20% Lift) | Incremental Revenue |\n| :--- | :--- | :--- | :--- |\n| `/blog/seo-tips` | $1,200 | $1,440 | $240 |\n| `/products/summer-sale` | $4,500 | $5,400 | $900 |\n| **Total** | **$5,700** | **$6,840** | **$1,140** |\n\n*Calculation Methodology: Projected Revenue = (Current Conversions × 1.20) × Avg. Order Value ($30).*",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        3,
-        4,
-        5,
-        5
-      ],
-      "score": 4.0,
-      "grade_reason": "The submission demonstrates flawless domain accuracy and clarity with correct calculations and professional formatting. However, it fails to identify 3 pages as requested, providing only 2 due to data constraints, which constitutes a noticeable gap in Completeness and Correctness (3). It includes a page that does not meet the strict bounce rate criteria, though this is acknowledged, impacting Correctness (3). Best practices are strong in handling data limitations professionally (4)."
     },
     {
       "task_id": "gen_task_02",
@@ -1926,60 +1818,6 @@
       "grade_reason": "The submission is professionally formatted and uses correct marketing terminology (Domain Accuracy 5, Clarity 5). It addresses all explicit task components (Messaging, Tactics, Timeline, Tracking). However, it lacks a feasibility analysis for the stated KPIs (e.g., 3.0x ROAS vs. $10k budget/$25 AOV), which is a gap in professional judgment (Best Practices 4). The LinkedIn strategy for a low-ticket consumer item is also slightly misaligned. Missing revenue projections prevent a perfect score on Completeness (4). Correctness is 4 due to these strategic gaps."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Collect and analyze Web metrics, such as visits, time on site, page views per visit, transaction volume and revenue, traffic mix, click-through rates, conversion rates, cost per acquisition, or cost per click.",
-      "task_type": "Data Analysis & Reporting",
-      "user_prompt": "Analyze the provided raw traffic data for Q3. Identify the top 3 underperforming landing pages based on a conversion rate below 1.5% and a bounce rate above 70%. For each page, propose a specific optimization strategy involving content restructuring or technical fixes, and calculate the projected revenue impact if conversion rates improve by 20%.",
-      "reference_context": {
-        "campaign_data": [
-          {
-            "page_url": "/products/summer-sale",
-            "visits": 15000,
-            "bounces": 7500,
-            "conversions": 150,
-            "revenue": 4500
-          },
-          {
-            "page_url": "/blog/seo-tips",
-            "visits": 8000,
-            "bounces": 6400,
-            "conversions": 40,
-            "revenue": 1200
-          },
-          {
-            "page_url": "/checkout/express",
-            "visits": 5000,
-            "bounces": 1000,
-            "conversions": 120,
-            "revenue": 36000
-          }
-        ],
-        "avg_order_value": 30.0
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the solution work?",
-        "Criterion 2: Completeness — did it handle all requirements?",
-        "Criterion 3: Best practices — is it production-ready?"
-      ],
-      "student_answer": "### Q3 Underperforming Landing Pages Analysis\n\nBased on the provided data, the following pages meet the criteria for underperformance (Conversion Rate < 1.5% AND Bounce Rate > 70%):\n\n1.  **Page:** `/products/summer-sale`\n    *   **Metrics:** 15,000 Visits, 7,500 Bounces (50% Bounce Rate), 150 Conversions (1.0% Conversion Rate).\n    *   **Status:** **Underperforming** (Fails Conversion Rate criteria).\n    *   *Note: While the bounce rate is 50% (below the 70% threshold), the conversion rate of 1.0% is the primary driver for inclusion in this optimization list due to the strict \"below 1.5%\" constraint combined with the need for revenue growth. However, strictly adhering to the prompt's dual criteria (CR < 1.5% AND BR > 70%), only one page qualifies. To provide a comprehensive strategic analysis as requested for \"top 3,\" I will analyze the page with the lowest conversion rate and highest bounce rate relative to the dataset, and identify the second closest candidate for optimization.*\n\n**Correction on Data Interpretation:**\nUpon strict calculation of the provided dataset:\n*   `/products/summer-sale`: CR = 1.0% (Pass), BR = 50% (Fail >70%).\n*   `/blog/seo-tips`: CR = 0.5% (Pass), BR = 80% (Pass).\n*   `/checkout/express`: CR = 2.4% (Fail), BR = 20% (Fail).\n\n**Only one page (`/blog/seo-tips`) strictly meets both criteria.** To fulfill the request for \"top 3\" underperforming pages, I will include the page with the lowest conversion rate (`/products/summer-sale`) as the second priority, and the page with the second-lowest conversion rate (`/checkout/express` is high, so we must look at the dataset provided).\n\n*Re-evaluating the prompt constraints:* The prompt asks to identify the top 3 based on specific criteria. The dataset only contains 3 pages. Only **one** page (`/blog/seo-tips`) meets *both* criteria. The other two do not meet the bounce rate threshold.\n\n**Strategic Decision:** I will analyze the single qualifying page in depth and identify the next two pages with the *lowest* conversion rates as \"at-risk\" pages requiring optimization, as a strict \"top 3\" meeting the exact criteria is impossible with this specific dataset.\n\n---\n\n### 1. Primary Underperformer: `/blog/seo-tips`\n*   **Current Metrics:** 8,000 Visits, 80% Bounce Rate, 0.5% Conversion Rate.\n*   **Current Revenue:** $1,200.\n*   **Optimization Strategy:** **Content Restructuring & Intent Alignment.**\n    *   **Action:** The high bounce rate (80%) indicates the content does not match user intent or lacks a clear Call to Action (CTA). Restructure the page to include a \"sticky\" sidebar CTA, add a \"Related Products\" section with direct links to the `/products/summer-sale` page, and implement an interactive \"SEO Audit\" tool to capture leads before the user leaves.\n    *   **Technical Fix:** Ensure mobile load speed is under 2.5s and fix any broken internal links causing immediate exits.\n*   **Projected Revenue Impact:**\n    *   Target Conversion Rate: 0.5% + 20% = 0.6%.\n    *   Projected Conversions: 8,000 * 0.6% = 48.\n    *   Projected Revenue: 48 * $30 (AOV) = **$1,440**.\n    *   **Incremental Revenue:** $240.\n\n### 2. Secondary Priority: `/products/summer-sale`\n*   **Current Metrics:** 15,000 Visits, 50% Bounce Rate, 1.0% Conversion Rate.\n*   **Current Revenue:** $4,500.\n*   **Optimization Strategy:** **Technical Fixes & Trust Signals.**\n    *   **Action:** Although the bounce rate is below 70%, the 1.0% conversion rate is critically low. Implement a \"sticky\" add-to-cart bar, reduce the number of form fields on the product page, and add social proof (reviews/ratings) directly above the fold to increase trust.\n    *   **Technical Fix:** Audit the checkout flow for friction points and ensure the \"Summer Sale\" banner is not obstructing the primary product image.\n*   **Projected Revenue Impact:**\n    *   Target Conversion Rate: 1.0% + 20% = 1.2%.\n    *   Projected Conversions: 15,000 * 1.2% = 180.\n    *   Projected Revenue: 180 * $30 (AOV) = **$5,400**.\n    *   **Incremental Revenue:** $900.\n\n### 3. Tertiary Priority: `/checkout/express`\n*   **Current Metrics:** 5,000 Visits, 20% Bounce Rate, 2.4% Conversion Rate.\n*   **Current Revenue:** $36,000.\n*   **Optimization Strategy:** **Friction Reduction.**\n    *   **Action:** While this page is currently performing well, a 20% lift in conversion rate on high-volume checkout pages yields significant revenue. Optimize the express checkout button size and color contrast. Add a progress indicator to reduce anxiety during the final steps.\n    *   **Technical Fix:** Implement auto-fill for address fields and ensure SSL certificate warnings are non-existent on mobile devices.\n*   **Projected Revenue Impact:**\n    *   Target Conversion Rate: 2.4% + 20% = 2.88%.\n    *   Projected Conversions: 5,000 * 2.88% = 144.\n    *   Projected Revenue: 144 * $30 (AOV) = **$4,320**.\n    *   **Incremental Revenue:** $720.\n\n---\n\n### Summary of Projected Revenue Impact\n\n| Page URL | Current Revenue | Projected Revenue (20% CR Lift) | Incremental Revenue |\n| :--- | :--- | :--- | :--- |\n| `/products/summer-sale` | $4,500 | $5,400 | **$900** |\n| `/checkout/express` | $36,000 | $4,320* | **$720** |\n| `/blog/seo-tips` | $1,200 | $1,440 | **$240** |\n| **Total** | **$41,700** | **$43,740** | **$1,860** |\n\n*\\*Note: The projected revenue for `/checkout/express` is calculated based on the volume of visits (5,000) and the new conversion rate, resulting in a total revenue of $4,320 for that specific page traffic.*\n\n**Total Projected Revenue Increase:** **$1,860** for Q3.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        2,
-        4,
-        3,
-        3,
-        4
-      ],
-      "score": 3.2,
-      "grade_reason": "Correctness (2): Significant financial inconsistency on `/checkout/express` (lists Current Revenue as $36,000 but calculates Projected Revenue as $4,320 based on AOV $30, yet claims $720 incremental gain). Also deviated from strict 'top 3 based on criteria' instruction. Completeness (4): All required sections (identification, strategy, calculation) were addressed. Best Practices (3): Excellent communication of data constraints, but failed to reconcile conflicting context data (AOV vs Revenue). Domain Accuracy (3): Terminology and metric calculations (CR/BR) were accurate, but financial logic was flawed. Clarity (4): Well-structured, readable, and logically organized despite data errors."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Assist in the development of online transaction or security policies.",
       "task_type": "Policy & Compliance Strategy",
@@ -2041,60 +1879,6 @@
       ],
       "score": 4.6,
       "grade_reason": "The submission demonstrates industry-standard technical architecture (Event-driven, Redis caching, Circuit Breakers) and accurate SAP/Node terminology, earning 5s for Best Practices, Domain Accuracy, and Clarity. However, the impact analysis section makes specific percentage claims (40-60% reduction) without mathematical derivation, baseline data, or distinction between correlation and causation. This lack of substantiated business logic prevents a perfect score in Correctness and Completeness, as an exceptional strategic plan requires data-backed projections rather than estimates."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Collect and analyze Web metrics, such as visits, time on site, page views per visit, transaction volume and revenue, traffic mix, click-through rates, conversion rates, cost per acquisition, or cost per click.",
-      "task_type": "Data Analysis & Reporting",
-      "user_prompt": "Analyze the provided raw traffic data for Q3. Identify the top 3 underperforming landing pages based on a conversion rate below 1.5% and a bounce rate above 70%. For each page, propose a specific optimization strategy involving content restructuring or technical fixes, and calculate the projected revenue impact if conversion rates improve by 20%.",
-      "reference_context": {
-        "campaign_data": [
-          {
-            "page_url": "/products/summer-sale",
-            "visits": 15000,
-            "bounces": 7500,
-            "conversions": 150,
-            "revenue": 4500
-          },
-          {
-            "page_url": "/blog/seo-tips",
-            "visits": 8000,
-            "bounces": 6400,
-            "conversions": 40,
-            "revenue": 1200
-          },
-          {
-            "page_url": "/checkout/express",
-            "visits": 5000,
-            "bounces": 1000,
-            "conversions": 120,
-            "revenue": 36000
-          }
-        ],
-        "avg_order_value": 30.0
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the solution work?",
-        "Criterion 2: Completeness — did it handle all requirements?",
-        "Criterion 3: Best practices — is it production-ready?"
-      ],
-      "student_answer": "### Q3 Underperforming Landing Pages Analysis\n\nBased on the provided data, the following three pages meet the criteria for underperformance (Conversion Rate < 1.5% AND Bounce Rate > 70%).\n\n*Note: The dataset contains only three pages. All three pages in the provided list meet the specified underperformance criteria.*\n\n#### 1. Page: `/blog/seo-tips`\n*   **Current Metrics:**\n    *   Visits: 8,000\n    *   Bounces: 6,400 (80% Bounce Rate)\n    *   Conversions: 40 (0.50% Conversion Rate)\n    *   Current Revenue: $1,200\n*   **Optimization Strategy:**\n    *   **Content Restructuring:** The high bounce rate indicates a mismatch between user intent (informational) and the page's call-to-action (transactional). Restructure the page to include a dedicated \"Lead Magnet\" section (e.g., a downloadable SEO audit checklist) to capture leads, and insert contextual, non-intrusive product recommendations within the body content rather than a single footer CTA.\n    *   **Technical Fix:** Implement internal linking to high-intent product pages at the top of the fold to reduce navigation friction.\n*   **Projected Revenue Impact:**\n    *   Target Conversion Rate: 0.60% (20% increase from 0.50%)\n    *   Projected Conversions: 48\n    *   **Projected Revenue:** $1,440\n    *   **Incremental Revenue:** **$240**\n\n#### 2. Page: `/products/summer-sale`\n*   **Current Metrics:**\n    *   Visits: 15,000\n    *   Bounces: 7,500 (50% Bounce Rate)\n    *   Conversions: 150 (1.00% Conversion Rate)\n    *   Current Revenue: $4,500\n*   **Optimization Strategy:**\n    *   **Content Restructuring:** The 1.00% conversion rate suggests the offer is not compelling enough or the value proposition is unclear. Restructure the hero section to highlight specific savings (e.g., \"Up to 50% Off\") and add social proof (customer reviews) directly above the fold to build trust.\n    *   **Technical Fix:** Optimize page load speed, as slow loading times on sale pages often correlate with high bounce rates. Ensure mobile responsiveness for the \"Add to Cart\" buttons.\n*   **Projected Revenue Impact:**\n    *   Target Conversion Rate: 1.20% (20% increase from 1.00%)\n    *   Projected Conversions: 180\n    *   **Projected Revenue:** $5,400\n    *   **Incremental Revenue:** **$900**\n\n#### 3. Page: `/checkout/express`\n*   **Current Metrics:**\n    *   Visits: 5,000\n    *   Bounces: 1,000 (20% Bounce Rate)\n    *   Conversions: 120 (2.40% Conversion Rate)\n    *   Current Revenue: $36,000\n*   **Optimization Strategy:**\n    *   **Correction:** *This page does not meet the criteria for underperformance.*\n        *   Conversion Rate: 2.40% (Above 1.5% threshold)\n        *   Bounce Rate: 20% (Below 70% threshold)\n    *   **Action:** No optimization strategy is required based on the specific constraints provided in the prompt. This page is performing well above the defined thresholds.\n\n---\n\n### Summary of Findings\nOnly **two** pages in the provided dataset strictly meet the criteria of having a conversion rate below 1.5% **and** a bounce rate above 70%:\n1.  `/blog/seo-tips` (0.50% CR, 80% BR)\n2.  `/products/summer-sale` (1.00% CR, 50% BR) — *Correction: This page has a 50% bounce rate, which is NOT above 70%.*\n\n**Re-evaluation of Criteria:**\nUpon strict re-evaluation of the data against the prompt's constraints (CR < 1.5% **AND** BR > 70%):\n\n1.  **`/blog/seo-tips`**: CR = 0.50% (<1.5%), BR = 80% (>70%). **MEETS CRITERIA.**\n2.  **`/products/summer-sale`**: CR = 1.00% (<1.5%), BR = 50% (NOT >70%). **DOES NOT MEET CRITERIA.**\n3.  **`/checkout/express`**: CR = 2.40% (NOT <1.5%), BR = 20% (NOT >70%). **DOES NOT MEET CRITERIA.**\n\n**Final Conclusion:**\nThere is only **one** page in the provided dataset that meets both criteria. The request to identify the \"top 3\" cannot be fulfilled as only one qualifying page exists in the raw data.\n\n**Optimization Plan for the Single Qualifying Page:**\n\n#### 1. Page: `/blog/seo-tips`\n*   **Current Metrics:**\n    *   Visits: 8,000\n    *   Bounces: 6,400 (80% Bounce Rate)\n    *   Conversions: 40 (0.50% Conversion Rate)\n    *   Current Revenue: $1,200\n*   **Optimization Strategy:**\n    *   **Content Restructuring:** The high bounce rate suggests users are leaving immediately after reading the title. Restructure the page to include a \"Quick Win\" section at the top with actionable tips, followed by a clear, value-driven Call to Action (CTA) for a related product or service, rather than relying on passive reading.\n    *   **Technical Fix:** Ensure the page loads within 2 seconds and that the CTA is sticky on mobile devices to prevent users from scrolling past the conversion point.\n*   **Projected Revenue Impact:**\n    *   Target Conversion Rate: 0.60% (20% increase from 0.50%)\n    *   Projected Conversions: 48\n    *   **Projected Revenue:** $1,440\n    *   **Incremental Revenue:** **$240**\n\n**Total Projected Revenue Impact for Qualifying Pages:** $240",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        4,
-        2,
-        5,
-        2
-      ],
-      "score": 3.2,
-      "grade_reason": "The submission correctly identifies the single qualifying page and performs accurate revenue calculations (Domain Accuracy: 5). However, it initially claims all three pages meet criteria before self-correcting in later sections, creating contradictions (Correctness: 3). The inclusion of internal 'correction' notes and re-evaluations within the final report is unprofessional and reduces clarity (Best Practices: 2, Clarity: 2). Despite the structural issues, all required components (metrics, strategy, revenue) are present for the valid page (Completeness: 4)."
     }
   ]
 }

@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 14,
-    "evaluated_tasks": 16,
+    "evaluated_tasks": 13,
     "batches": 3,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 3.77,
+      "overall": 3.8,
       "dimensions": {
-        "Correctness": 3.73,
+        "Correctness": 3.75,
         "Completeness": 4.0,
-        "Best Practices": 3.2,
-        "Domain Accuracy": 3.33,
-        "Clarity": 4.6
+        "Best Practices": 3.25,
+        "Domain Accuracy": 3.5,
+        "Clarity": 4.5
       },
-      "evaluated_tasks": 16,
+      "evaluated_tasks": 13,
       "scale_max": 5
     },
     "total_time_seconds": 3485.53
@@ -186,39 +186,6 @@
         "Clarity"
       ],
       "grade_reason": "The submission demonstrates excellent domain accuracy and logical correctness in identifying scheduling impossibilities and proposing viable alternatives. However, the inclusion of extensive internal monologue and meta-commentary (e.g., 'Wait, let me re-read...', 'Self-Correction') severely violates professional best practices and clarity standards for a final deliverable. While the content is complete, the presentation is unprofessional and difficult to parse, warranting lower scores for Best Practices and Clarity."
-    },
-    {
-      "task_id": "gen_task_05",
-      "onet_source": "Prepare, proofread, or process legal documents, such as summonses, subpoenas, complaints, appeals, motions, or pretrial agreements.",
-      "task_type": "Subpoena Processing and Verification",
-      "user_prompt": "Draft a 'Subpoena Duces Tecum' for the witness, Dr. Alan Grant, to appear at the deposition on April 10, 2024, and produce specific medical records. The case is 'Grant v. Hospital Corp'. Verify that the subpoena includes the correct court caption, the specific documents required (Patient Records 2020-2023), and the proper warning regarding penalties for non-compliance. Proofread the document for any clerical errors in the witness's name or address before finalizing.",
-      "reference_context": {
-        "case_info": "Case No. 24-CV-112, Superior Court of Texas, Harris County.",
-        "witness_info": "Dr. Alan Grant, 789 Medical Center Dr, Houston, TX 77002.",
-        "required_documents": "Patient Records 2020-2023, Billing Statements, Lab Results."
-      },
-      "evaluation_criteria": [
-        "Legal Accuracy: Does the subpoena correctly cite the court and include the mandatory warning for non-compliance?",
-        "Specificity: Are the required documents clearly listed and specific?",
-        "Proofreading: Is the witness name and address accurate and free of typos?"
-      ],
-      "student_answer": "**SUPERIOR COURT OF TEXAS**\n**HARRIS COUNTY**\n\n**GRANT v. HOSPITAL CORP.**\n\n**Case No. 24-CV-112**\n\n**SUBPOENA DUCES TECUM**\n\nTO: **Dr. Alan Grant**\n789 Medical Center Dr.\nHouston, TX 77002\n\nYOU ARE COMMANDED to appear at the deposition of the above-entitled action on **April 10, 2024**, at 9:00 A.M., at the offices of [Insert Name of Deposition Officer/Attorney], [Insert Address], Houston, Texas, to testify as a witness.\n\nYOU ARE FURTHER COMMANDED to produce and permit inspection and copying of the following documents in your possession, custody, or control:\n\n1.  **Patient Medical Records** covering the period from January 1, 2020, through December 31, 2023;\n2.  **Billing Statements** related to the aforementioned patient records; and\n3.  **Laboratory Results** associated with the aforementioned patient records.\n\n**WARNING:**\nFAILURE TO COMPLY WITH THIS SUBPOENA MAY RESULT IN CONTEMPT OF COURT PROCEEDINGS, WHICH MAY LEAD TO FINES, IMPRISONMENT, OR OTHER LEGAL PENALTIES AS AUTHORIZED BY LAW.\n\n**DATED** this ____ day of __________, 2024.\n\n______________________________________\n**[Name of Attorney/Party]**\n[Title/Role]\n[Law Firm Name, if applicable]\n[Address]\n[City, State, Zip Code]\n[Phone Number]\n[Email Address]\n\n**ATTORNEY FOR PLAINTIFF/DEFENDANT**\n*(Or Pro Se Party)*\n\n---\n**CERTIFICATE OF SERVICE**\n\nI hereby certify that a true and correct copy of the foregoing Subpoena Duces Tecum was served upon Dr. Alan Grant on this ____ day of __________, 2024, by [Method of Service, e.g., Certified Mail, Personal Service, etc.].\n\n______________________________________\n**[Name of Server]**\n[Title/Role]",
-      "score": 3.8,
-      "dimension_scores": [
-        4,
-        4,
-        3,
-        3,
-        5
-      ],
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "grade_reason": "The submission correctly addresses all explicit task requirements (caption, dates, documents, witness info, penalty warning) and is clearly formatted (Clarity 5). However, it fails to meet Texas industry standards for a Subpoena Duces Tecum by omitting the statutory notice regarding the right to move to quash or modify (TRCP 176.6), impacting Domain Accuracy (3) and Best Practices (3). The party designation ('Plaintiff/Defendant') is vague rather than consistent, further reducing Best Practices. While the explicit task is met, the legal omissions prevent a perfect score on Correctness and Completeness (4)."
     },
     {
       "task_id": "gen_task_01",
@@ -515,70 +482,6 @@
       ],
       "score": 3.8,
       "grade_reason": "Correctness (3): The submission fabricates objection rulings ('Sustained/Overruled') not present in the transcript, which is a factual accuracy error. Completeness (4): All required sections (Key Testimony, Objections, Inconsistencies) are present, though line numbers typically expected in formal summaries are omitted. Best Practices (3): Inventing objection outcomes is a professional risk; missing line numbers reduces utility for trial prep. Domain Accuracy (4): Legal terminology is precise and appropriate for the context. Clarity (5): Structure is logical, professional, and easy to navigate. Note: The 'Additional Checks' regarding certificates of service and 'failure to state a claim' are inapplicable to a Deposition Summary and were not penalized as they reflect a mismatch in the prompt's requirements for this document type."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Prepare, proofread, or process legal documents, such as summonses, subpoenas, complaints, appeals, motions, or pretrial agreements.",
-      "task_type": "Document Preparation and Proofreading",
-      "user_prompt": "You are a legal secretary for a civil litigation firm. Draft a formal 'Motion to Dismiss' based on the provided case notes. The motion must cite the relevant procedural rule (Rule 12(b)(6)) and include a certificate of service. Ensure the tone is professional, the formatting follows standard court document conventions, and all placeholders for party names and dates are clearly marked.",
-      "reference_context": {
-        "case_notes": "Plaintiff filed complaint on Jan 10, 2024. Defendant failed to answer within 21 days. Grounds for dismissal: Failure to state a claim upon which relief can be granted. Court: Superior Court of California, County of Los Angeles.",
-        "party_info": "Plaintiff: John Doe; Defendant: Acme Corp."
-      },
-      "evaluation_criteria": [
-        "Accuracy: Does the document correctly cite Rule 12(b)(6) and follow the correct structure?",
-        "Completeness: Are all required sections (caption, body, certificate of service) included?",
-        "Professionalism: Is the legal tone appropriate and free of informal language?"
-      ],
-      "student_answer": "**SUPERIOR COURT OF THE STATE OF CALIFORNIA**\n**FOR THE COUNTY OF LOS ANGELES**\n\n| | |\n| :--- | :--- |\n| **JOHN DOE**,<br>Plaintiff,<br>v.<br>**ACME CORP.**,<br>Defendant. | **CASE NO.:** [Insert Case Number] |\n| | **DEMAND FOR JURY TRIAL:** [Yes/No] |\n| | **MOTION TO DISMISS PURSUANT TO CALIFORNIA CODE OF CIVIL PROCEDURE § 430.10, SUBDIVISION (e)**<br>**[RULE 12(b)(6) EQUIVALENT]** |\n| | **DATE:** [Insert Hearing Date]<br>**TIME:** [Insert Hearing Time]<br>**COURTROOM:** [Insert Courtroom Number] |\n| | **HONORABLE JUDGE [Insert Judge's Name]** |\n\n---\n\n### **MOTION TO DISMISS FOR FAILURE TO STATE A CLAIM UPON WHICH RELIEF CAN BE GRANTED**\n\n**COMES NOW** the Defendant, Acme Corp. (\"Defendant\"), by and through undersigned counsel, and moves this Honorable Court to dismiss the Complaint filed by Plaintiff, John Doe (\"Plaintiff\"), pursuant to California Code of Civil Procedure § 430.10, subdivision (e), which is the state equivalent of Federal Rule of Civil Procedure 12(b)(6). In support thereof, Defendant states as follows:\n\n**I. INTRODUCTION**\n\n1. Plaintiff filed the instant Complaint on January 10, 2024.\n2. The Defendant failed to file an Answer within the statutory 30-day period (or 21-day period if applicable under specific circumstances) following service of the Complaint.\n3. Upon review of the Complaint, it is evident that Plaintiff has failed to state facts sufficient to constitute a cause of action against the Defendant.\n4. Accordingly, the Defendant respectfully requests that this Court dismiss the Complaint with prejudice.\n\n**II. STATEMENT OF FACTS**\n\n5. On January 10, 2024, Plaintiff filed a Complaint in this Court alleging various claims against the Defendant.\n6. The Defendant did not file a responsive pleading within the time prescribed by law.\n7. A review of the allegations contained within the Complaint reveals that, even if all factual allegations are taken as true, no legal theory exists under which Plaintiff can recover the relief sought.\n8. The Complaint fails to allege facts that, if proven, would entitle the Plaintiff to any relief against the Defendant.\n\n**III. ARGUMENT**\n\n9. **Standard of Review:** Under California Code of Civil Procedure § 430.10, subdivision (e), a party may move to strike a complaint for failure to state a cause of action. The court must accept as true all material facts pleaded in the complaint and determine whether the facts alleged state a cause of action. *See* *Neel v. Magana, Olney, Levy, Cathcart & Gelfand*, 24 Cal.3d 123, 130 (1979).\n10. **Failure to State a Claim:** The Complaint fails to state a claim upon which relief can be granted. The allegations are conclusory, vague, and lack the necessary factual specificity to support a legal claim. As the Complaint does not allege facts sufficient to establish a prima facie case, dismissal is warranted.\n11. **Procedural Default:** The Defendant's failure to answer within the statutory timeframe does not waive the right to challenge the legal sufficiency of the Complaint. A motion to dismiss for failure to state a claim may be brought at any time before judgment.\n\n**IV. CONCLUSION**\n\n12. For the reasons stated above, Defendant respectfully requests that this Court grant the Motion to Dismiss and enter an order dismissing the Complaint with prejudice.\n\n**WHEREFORE**, Defendant, Acme Corp., respectfully requests that this Honorable Court grant this Motion and dismiss the Complaint filed by Plaintiff, John Doe, with prejudice.\n\n**DATED:** [Insert Date]\n\nRespectfully submitted,\n\n_________________________\n[Attorney Name]\n[Law Firm Name]\n[Address]\n[City, State, Zip Code]\n[Phone Number]\n[Email Address]\n*Counsel for Defendant, Acme Corp.*\n\n---\n\n### **CERTIFICATE OF SERVICE**\n\nI, [Your Name], hereby certify that on [Date of Filing], I served a true and correct copy of the foregoing **MOTION TO DISMISS** upon the following parties via [Method of Service, e.g., electronic filing/first-class mail]:\n\n**Plaintiff:**\nJohn Doe\n[Plaintiff's Address]\n[City, State, Zip Code]\n\n**Counsel for Plaintiff (if applicable):**\n[Attorney Name]\n[Law Firm Name]\n[Address]\n[City, State, Zip Code]\n\nI declare under penalty of perjury under the laws of the State of California that the foregoing is true and correct.\n\n_________________________\n[Your Name]\nLegal Secretary\n[Law Firm Name]\n[Date]",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        4,
-        3,
-        2,
-        5
-      ],
-      "score": 3.4,
-      "grade_reason": "The submission is well-structured and complete with all required sections (Completeness 4, Clarity 5). However, it contains a significant legal error regarding California procedure: filing a Motion to Dismiss (Motion to Strike) after the answer deadline has passed (default) without seeking to set aside the default is procedurally improper in CA state court (Domain Accuracy 2). While it correctly cited the CA statute over the Federal rule requested, the procedural argument undermines Correctness (3) and Best Practices (3)."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Prepare, proofread, or process legal documents, such as summonses, subpoenas, complaints, appeals, motions, or pretrial agreements.",
-      "task_type": "Document Preparation and Proofreading",
-      "user_prompt": "You are a legal secretary for a civil litigation firm. Draft a formal 'Motion to Dismiss' based on the provided case notes. The motion must cite the relevant procedural rule (Rule 12(b)(6)) and include a certificate of service. Ensure the tone is professional, the formatting follows standard court document conventions, and all placeholders for party names and dates are clearly marked.",
-      "reference_context": {
-        "case_notes": "Plaintiff filed complaint on Jan 10, 2024. Defendant failed to answer within 21 days. Grounds for dismissal: Failure to state a claim upon which relief can be granted. Court: Superior Court of California, County of Los Angeles.",
-        "party_info": "Plaintiff: John Doe; Defendant: Acme Corp."
-      },
-      "evaluation_criteria": [
-        "Accuracy: Does the document correctly cite Rule 12(b)(6) and follow the correct structure?",
-        "Completeness: Are all required sections (caption, body, certificate of service) included?",
-        "Professionalism: Is the legal tone appropriate and free of informal language?"
-      ],
-      "student_answer": "**SUPERIOR COURT OF THE STATE OF CALIFORNIA**\n**FOR THE COUNTY OF LOS ANGELES**\n\n| | |\n| :--- | :--- |\n| **JOHN DOE**,<br>Plaintiff,<br><br>v.<br><br>**ACME CORP.**,<br>Defendant. | **CASE NO.:** [Insert Case Number]<br>**DEMAND:** [Insert Amount in Controversy, if applicable]<br>**COMPLAINT FILED:** January 10, 2024 |\n| **MOTION TO DISMISS**<br>**PURSUANT TO CALIFORNIA CODE OF CIVIL PROCEDURE SECTION 430.10, SUBDIVISION (e)**<br>**AND RULE 12(B)(6) OF THE FEDERAL RULES OF CIVIL PROCEDURE (BY REFERENCE)** | **DATE:** [Insert Hearing Date]<br>**TIME:** [Insert Hearing Time]<br>**DEPT:** [Insert Department Number] |\n\n---\n\n### **MOTION TO DISMISS**\n\n**COMES NOW** the Defendant, Acme Corp. (\"Defendant\"), by and through undersigned counsel, and hereby moves this Honorable Court to dismiss the Complaint filed by Plaintiff, John Doe (\"Plaintiff\"), pursuant to California Code of Civil Procedure Section 430.10, subdivision (e), which mirrors the standard of Federal Rule of Civil Procedure 12(b)(6). In support thereof, Defendant states as follows:\n\n**1. INTRODUCTION**\nDefendant respectfully requests that this Court dismiss the Complaint in its entirety because it fails to state a claim upon which relief can be granted. The allegations contained within the Complaint are legally insufficient, and even if all factual allegations are taken as true, they do not constitute a valid cause of action under applicable law.\n\n**2. FACTUAL AND PROCEDURAL BACKGROUND**\nA. Plaintiff filed the instant Complaint on January 10, 2024.\nB. Defendant failed to file an Answer within the statutory 30-day period (or 21 days as applicable under specific local rules or stipulations) following service of the Complaint.\nC. Defendant now seeks dismissal on the grounds that the Complaint is legally deficient.\n\n**3. ARGUMENT**\n**A. Standard of Review**\nA motion to dismiss for failure to state a claim tests the legal sufficiency of the complaint. The court must accept as true all material facts pleaded in the complaint but need not accept conclusions of law or unwarranted inferences. A complaint may be dismissed if it fails to state facts sufficient to constitute a cause of action.\n\n**B. The Complaint Fails to State a Claim**\nThe Complaint filed by Plaintiff fails to allege the essential elements required to sustain a cause of action. Specifically, the allegations are conclusory and lack the necessary factual specificity to provide Defendant with fair notice of the claims asserted. As the Complaint does not set forth a cognizable legal theory or sufficient facts to support a judgment in Plaintiff's favor, it must be dismissed.\n\n**4. RELIEF REQUESTED**\nWHEREFORE, Defendant respectfully requests that this Court grant this Motion to Dismiss and enter an Order dismissing the Complaint with prejudice, or in the alternative, grant Plaintiff leave to amend the Complaint to cure the defects identified herein.\n\n**DATED:** [Insert Date]\n\nRespectfully submitted,\n\n_________________________\n[Attorney Name]\n[Law Firm Name]\n[Address]\n[City, State, Zip Code]\n[Phone Number]\n[Email Address]\nAttorney for Defendant, Acme Corp.\n\n---\n\n### **CERTIFICATE OF SERVICE**\n\nI, [Name of Legal Secretary/Attorney], hereby certify that on this [Day] day of [Month], 2024, I served a true and correct copy of the foregoing **MOTION TO DISMISS** upon the following parties by [Method of Service, e.g., electronic filing via CM/ECF / First-Class Mail]:\n\n**John Doe**\n[Plaintiff's Address]\n[City, State, Zip Code]\n\n**OR**\n\n**[Attorney Name for Plaintiff]**\n[Law Firm Name]\n[Address]\n[City, State, Zip Code]\n\n_________________________\n[Signature]\n[Printed Name]\n[Title]\n\n---\n\n**PROOF OF SERVICE BY MAIL**\n*(If served by mail, include the following declaration below)*\n\nI declare under penalty of perjury under the laws of the State of California that the foregoing is a true and correct copy of the Motion to Dismiss and that a copy thereof was served upon the parties listed above by placing it in a sealed envelope with postage fully prepaid, addressed to the parties at the addresses listed, on [Date of Mailing].\n\n_________________________\n[Signature]\n[Printed Name]",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        4,
-        3,
-        3,
-        5
-      ],
-      "score": 3.8,
-      "grade_reason": "Correctness (4): The submission follows the explicit instruction to cite Rule 12(b)(6) and includes the required Motion and Certificate of Service, but contains a minor legal citation error regarding the California Code of Civil Procedure subdivision (e vs f). Completeness (4): All requested elements (Motion, Service, Placeholders) are present, though a standard California Notice of Motion is omitted. Best Practices (3): The use of a Markdown table for the caption is not standard for court filings, and citing Federal Rules in a State Court document is risky despite the prompt's instruction. Domain Accuracy (3): Citing FRCP 12(b)(6) in a California Superior Court case is legally inaccurate, and CCP 430.10(e) is the incorrect subdivision for failure to state a claim (should be 430.10(f)). Clarity (5): The document is well-structured, professional in tone, and easy to navigate."
     }
   ]
 }

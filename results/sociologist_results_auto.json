@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 15,
-    "evaluated_tasks": 16,
+    "evaluated_tasks": 15,
     "batches": 3,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.39,
+      "overall": 4.43,
       "dimensions": {
-        "Correctness": 4.47,
-        "Completeness": 4.33,
-        "Best Practices": 3.87,
-        "Domain Accuracy": 4.33,
+        "Correctness": 4.5,
+        "Completeness": 4.36,
+        "Best Practices": 3.93,
+        "Domain Accuracy": 4.43,
         "Clarity": 4.93
       },
-      "evaluated_tasks": 16,
+      "evaluated_tasks": 15,
       "scale_max": 5
     },
     "total_time_seconds": 2942.39
@@ -361,39 +361,6 @@
       ],
       "score": 5.0,
       "grade_reason": "The submission is exceptional. It accurately translates all technical findings (correlation vs causation, specific thresholds, study limitations) without distortion. It meets all constraints (word count, Myth vs Fact sidebar, three tips) and maintains an empathetic, non-alarmist tone suitable for the audience. Domain terminology is used correctly, and the structure is clear and professional. No meaningful gaps were identified."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Develop, implement, and evaluate methods of data collection, such as questionnaires or interviews.",
-      "task_type": "Data Collection Design",
-      "user_prompt": "Design a comprehensive data collection protocol for a study investigating the impact of remote work on social isolation among employees in the tech sector. The protocol must include a sampling strategy, a draft questionnaire with 10 Likert-scale items and 3 open-ended questions, and a plan for ensuring participant anonymity. Justify your methodological choices based on the specific nature of the population.",
-      "reference_context": {
-        "population_description": "Full-time software engineers and product managers at mid-sized tech firms (50-500 employees) who have worked remotely for at least 2 years.",
-        "research_goal": "To determine if there is a statistically significant correlation between hours spent in virtual meetings and self-reported feelings of isolation.",
-        "constraints": "Budget is limited to $5,000; timeline is 3 months; participants must be recruited via professional networks."
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Methodological Rigor — Does the sampling and data collection method align with the research goal?",
-        "Criterion 2: Ethical Compliance — Are anonymity and informed consent protocols clearly defined?",
-        "Criterion 3: Instrument Quality — Are the survey questions unbiased, clear, and capable of measuring the intended constructs?"
-      ],
-      "student_answer": "# Data Collection Protocol: Remote Work and Social Isolation in the Tech Sector\n\n## 1. Sampling Strategy\n**Method:** Stratified Purposive Sampling with Snowball Recruitment.\n\n**Rationale:**\nGiven the constraint to recruit via professional networks and the specific target population (full-time software engineers and product managers in mid-sized firms with ≥2 years of remote experience), a random sampling approach is infeasible. Purposive sampling ensures participants meet the strict inclusion criteria (role, firm size, tenure). Stratification will be applied to ensure proportional representation between software engineers and product managers, as these roles often experience different social dynamics in remote settings.\n\n**Recruitment Procedure:**\n1.  **Initial Outreach:** Leverage LinkedIn and professional Slack/Discord communities specific to mid-sized tech firms to identify potential participants.\n2.  **Screening:** A brief pre-survey filter will verify employment status, firm size (50–500 employees), and remote work tenure (≥2 years).\n3.  **Snowball Extension:** Initial participants will be invited to share the survey link within their internal professional networks to reach the target sample size (N=200) within the 3-month timeline.\n\n**Justification:**\nThis strategy maximizes the likelihood of reaching a highly specialized, hard-to-access population while adhering to the $5,000 budget by utilizing free digital channels rather than paid panels. It directly addresses the research goal by ensuring the sample possesses the specific tenure required to assess long-term isolation trends.\n\n---\n\n## 2. Data Collection Instrument: Draft Questionnaire\n\n**Section A: Demographics & Work Context**\n*   Role: [Software Engineer / Product Manager]\n*   Firm Size: [50-100 / 101-250 / 251-500]\n*   Average Hours per Week in Virtual Meetings: [Open Numeric Input]\n\n**Section B: Social Isolation and Virtual Interaction (Likert Scale)**\n*Instructions: Please indicate your level of agreement with the following statements on a scale of 1 (Strongly Disagree) to 5 (Strongly Agree).*\n\n1.  I frequently feel disconnected from my colleagues despite regular digital communication.\n2.  The number of hours I spend in virtual meetings correlates with my feelings of loneliness.\n3.  I miss the spontaneous, informal interactions that occurred in a physical office.\n4.  I feel that my contributions are less visible to my team in a remote setting.\n5.  I have developed a strong sense of belonging with my current remote team.\n6.  Virtual meetings often feel transactional rather than relational.\n7.  I actively seek out non-work-related conversations with colleagues online.\n8.  My current remote work arrangement negatively impacts my mental well-being.\n9.  I feel that my professional network has expanded since working remotely.\n10. I would prefer a hybrid model over a fully remote model to improve social connection.\n\n**Section C: Qualitative Insights**\n*Instructions: Please answer the following questions in your own words.*\n\n1.  Describe a specific instance where a virtual meeting either alleviated or exacerbated your feelings of isolation.\n2.  What specific organizational practices (e.g., virtual coffee chats, team building) have you found most effective in combating social isolation?\n3.  In your opinion, what is the primary barrier preventing your team from feeling socially connected while working remotely?\n\n---\n\n## 3. Plan for Ensuring Participant Anonymity\n\n**Protocol:**\n1.  **Data Aggregation:** No personally identifiable information (PII) such as names, email addresses, or specific company names will be collected in the survey instrument.\n2.  **Third-Party Hosting:** The survey will be hosted on a secure, encrypted platform (e.g., Qualtrics or REDCap) configured to strip IP addresses and metadata upon submission.\n3.  **Unique Identifiers:** If longitudinal tracking is required for the 3-month timeline, participants will be assigned a random alphanumeric ID generated at the start of the survey. This ID will be the only link between the participant and their data, stored in a separate, password-protected file inaccessible to the research team.\n4.  **Aggregated Reporting:** All results will be reported only in aggregate form. Given the small sample size of specific sub-groups (e.g., Product Managers in 50-100 employee firms), cell sizes will be suppressed if they fall below a threshold of 5 to prevent deductive disclosure.\n5.  **Informed Consent:** The consent form will explicitly state that data is anonymous, that participation is voluntary, and that data will be destroyed after the study concludes.\n\n**Justification:**\nIn the tech sector, employees may fear professional repercussions for admitting to feelings of isolation or dissatisfaction with their company's remote culture. Strict anonymity is critical to obtaining valid, honest data regarding the correlation between meeting hours and isolation. This approach mitigates the \"social desirability bias\" often found in corporate surveys and ensures ethical compliance when dealing with a vulnerable professional population.",
-      "score": 3.8,
-      "dimension_scores": [
-        4,
-        4,
-        3,
-        3,
-        5
-      ],
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "grade_reason": "The submission meets all structural requirements with excellent clarity and formatting. However, the questionnaire contains a leading Likert item asking respondents to confirm the study's hypothesis, which violates survey design best practices and compromises domain accuracy regarding variable measurement. Additionally, while the sampling strategy is pragmatic given constraints, the use of non-probability sampling limits the ability to claim statistical significance for the broader population."
     },
     {
       "task_id": "gen_task_02",

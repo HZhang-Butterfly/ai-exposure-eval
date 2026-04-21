@@ -6,8 +6,8 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 29,
-    "evaluated_tasks": 30,
-    "batches": 6,
+    "evaluated_tasks": 24,
+    "batches": 5,
     "batch_size": 5,
     "grading_scale_max": 5,
     "grading_dimensions": [
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 3.71,
+      "overall": 3.81,
       "dimensions": {
-        "Correctness": 3.3,
-        "Completeness": 3.52,
-        "Best Practices": 3.3,
-        "Domain Accuracy": 3.85,
-        "Clarity": 4.59
+        "Correctness": 3.39,
+        "Completeness": 3.61,
+        "Best Practices": 3.39,
+        "Domain Accuracy": 4.0,
+        "Clarity": 4.65
       },
-      "evaluated_tasks": 30,
+      "evaluated_tasks": 24,
       "scale_max": 5
     },
     "total_time_seconds": 4410.29
@@ -447,36 +447,6 @@
         "Clarity"
       ],
       "grade_reason": "The submission is well-structured and addresses the core requirements with a clear architecture and browser report. However, the code snippet contains a memory leak (missing revokeObjectURL), which impacts Best Practices. The Wasm import syntax is bundler-specific and slightly imprecise for a general PoC, affecting Domain Accuracy. Mobile viewport constraints mentioned in additional checks are not explicitly addressed, slightly impacting Completeness. Correctness is high but the memory leak is a functional gap. Clarity is excellent."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
-      "task_type": "Cross-Browser Compatibility Testing",
-      "user_prompt": "Analyze the provided CSS snippet for a responsive navigation bar. Identify three specific compatibility issues across Chrome, Firefox, and Safari regarding flexbox behavior and pseudo-elements. Propose a corrected CSS block that ensures consistent rendering on all three browsers while maintaining the original design intent.",
-      "reference_context": {
-        "original_css": ".nav-container { display: flex; justify-content: space-between; } .nav-item::before { content: ''; width: 10px; height: 10px; background: red; }",
-        "browser_versions": {
-          "chrome": "latest",
-          "firefox": "latest",
-          "safari": "latest"
-        }
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the solution work?",
-        "Criterion 2: Completeness — did it handle all requirements?",
-        "Criterion 3: Best practices — is it production-ready?"
-      ],
-      "student_answer": "```css\n.nav-container {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n  -ms-flex-pack: justify;\n  justify-content: space-between;\n  -webkit-box-align: center;\n  -ms-flex-align: center;\n  align-items: center;\n}\n\n.nav-item {\n  position: relative;\n}\n\n.nav-item::before {\n  content: '';\n  width: 10px;\n  height: 10px;\n  background: red;\n  position: absolute;\n  top: 50%;\n  left: 100%;\n  margin-top: -5px;\n  margin-left: 5px;\n}\n```",
-      "score": 0,
-      "dimension_scores": [],
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
     },
     {
       "task_id": "gen_task_02",
@@ -985,177 +955,6 @@
       ],
       "score": 4.4,
       "grade_reason": "The submission is technically accurate and well-structured, addressing all constraints including WCAG 2.1 AA, performance targets, budget, and timeline (Correctness 5, Clarity 5). However, the budget allocation for a Senior Developer is unrealistically low for industry standards, indicating a minor gap in professional judgment (Best Practices 4, Domain Accuracy 4). Additionally, while ARIA labels are covered, specific form error identification strategies (WCAG 3.3.1) and detailed 3G throttling configurations are omitted, slightly reducing Completeness (4)."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
-      "task_type": "Cross-Browser Compatibility Testing",
-      "user_prompt": "Analyze the provided CSS snippet for a responsive navigation bar. Identify three specific compatibility issues across Chrome, Firefox, and Safari regarding flexbox behavior and pseudo-elements. Propose a corrected CSS block that ensures consistent rendering on all three browsers while maintaining the original design intent.",
-      "reference_context": {
-        "original_css": ".nav-container { display: flex; justify-content: space-between; } .nav-item::before { content: ''; width: 10px; height: 10px; background: red; }",
-        "browser_versions": {
-          "chrome": "latest",
-          "firefox": "latest",
-          "safari": "latest"
-        }
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the solution work?",
-        "Criterion 2: Completeness — did it handle all requirements?",
-        "Criterion 3: Best practices — is it production-ready?"
-      ],
-      "student_answer": "```css\n.nav-container {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n  -webkit-justify-content: space-between;\n  -ms-flex-pack: justify;\n  justify-content: space-between;\n}\n\n.nav-item::before {\n  content: '';\n  width: 10px;\n  height: 10px;\n  background: red;\n  display: inline-block;\n  vertical-align: middle;\n}\n```",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        2,
-        2,
-        2,
-        2,
-        3
-      ],
-      "score": 2.2,
-      "grade_reason": "The submission fails to address the primary requirement of identifying three specific compatibility issues, providing only the CSS code. The CSS itself uses deprecated vendor prefixes (-webkit-box, -ms-flexbox) that are unnecessary for latest browsers, indicating outdated domain knowledge and poor best practices. While the code is syntactically valid and readable, the response is incomplete regarding the analytical portion of the task."
-    },
-    {
-      "task_id": "gen_task_02",
-      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
-      "task_type": "JavaScript Feature Detection and Fallback",
-      "user_prompt": "Review the provided JavaScript function intended to handle file uploads using the Fetch API. Identify potential failures in older browsers (e.g., Internet Explorer 11) and legacy mobile browsers. Rewrite the function to include robust error handling, input validation for file types and size, and a fallback mechanism using XMLHttpRequest for unsupported environments.",
-      "reference_context": {
-        "original_js": "async function uploadFile(file) { const formData = new FormData(); formData.append('file', file); const response = await fetch('/upload', { method: 'POST', body: formData }); return response.json(); }",
-        "target_environments": [
-          "Chrome 120",
-          "Firefox 120",
-          "Safari 17",
-          "IE 11"
-        ]
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the solution work?",
-        "Criterion 2: Completeness — did it handle all requirements?",
-        "Criterion 3: Best practices — is it production-ready?"
-      ],
-      "student_answer": "```javascript\n/**\n * Robust file upload function with IE11 fallback, validation, and error handling.\n * @param {File} file - The file object to upload.\n * @param {string} uploadUrl - The endpoint URL.\n * @param {Object} options - Configuration options (maxSize, allowedTypes).\n * @returns {Promise<any>} - The JSON response from the server.\n */\nfunction uploadFile(file, uploadUrl = '/upload', options = {}) {\n  const {\n    maxSize = 10 * 1024 * 1024, // Default 10MB\n    allowedTypes = ['image/*', 'application/pdf', 'text/plain'] // Default types\n  } = options;\n\n  // 1. Input Validation\n  if (!file) {\n    return Promise.reject(new Error('No file provided.'));\n  }\n\n  if (file.size > maxSize) {\n    return Promise.reject(new Error(`File size exceeds limit of ${maxSize / 1024 / 1024}MB.`));\n  }\n\n  const fileType = file.type || file.name.split('.').pop();\n  const isTypeAllowed = allowedTypes.some(type => {\n    if (type.includes('*')) {\n      const baseType = type.split('/')[0];\n      return fileType.startsWith(baseType);\n    }\n    return fileType === type || file.type === type;\n  });\n\n  if (!isTypeAllowed) {\n    return Promise.reject(new Error('File type is not allowed.'));\n  }\n\n  // 2. Feature Detection for Fetch and FormData\n  const supportsFetch = typeof window !== 'undefined' && window.fetch && window.FormData;\n\n  if (!supportsFetch) {\n    // 3. Fallback for Legacy Browsers (e.g., IE11) using XMLHttpRequest\n    return new Promise((resolve, reject) => {\n      const xhr = new window.XMLHttpRequest();\n      const formData = new window.FormData();\n      formData.append('file', file);\n\n      xhr.open('POST', uploadUrl, true);\n\n      // Handle progress (optional but recommended)\n      xhr.upload.onprogress = (event) => {\n        if (event.lengthComputable) {\n          const percentComplete = (event.loaded / event.total) * 100;\n          console.log(`Upload progress: ${percentComplete.toFixed(2)}%`);\n        }\n      };\n\n      xhr.onload = () => {\n        if (xhr.status >= 200 && xhr.status < 300) {\n          try {\n            resolve(JSON.parse(xhr.responseText));\n          } catch (e) {\n            reject(new Error('Invalid JSON response from server.'));\n          }\n        } else {\n          reject(new Error(`Upload failed with status: ${xhr.status} ${xhr.statusText}`));\n        }\n      };\n\n      xhr.onerror = () => {\n        reject(new Error('Network error occurred during upload.'));\n      };\n\n      xhr.ontimeout = () => {\n        reject(new Error('Upload timed out.'));\n      };\n\n      xhr.send(formData);\n    });\n  }\n\n  // 4. Modern Implementation using Fetch API\n  return new Promise((resolve, reject) => {\n    const formData = new window.FormData();\n    formData.append('file', file);\n\n    fetch(uploadUrl, {\n      method: 'POST',\n      body: formData\n    })\n      .then(response => {\n        if (!response.ok) {\n          throw new Error(`Server responded with status: ${response.status}`);\n        }\n        return response.json();\n      })\n      .then(data => resolve(data))\n      .catch(error => {\n        // Distinguish between network errors and parse errors\n        if (error instanceof TypeError && error.message === 'Failed to fetch') {\n          reject(new Error('Network error: Unable to reach server.'));\n        } else {\n          reject(error);\n        }\n      });\n  });\n}\n```",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        4,
-        3,
-        4,
-        5
-      ],
-      "score": 4.0,
-      "grade_reason": "Correctness (4): The core upload logic and fallback are sound, but the file type validation logic is flawed (mixing MIME types and extensions can cause false negatives). Completeness (4): Covers all functional requirements including validation and fallback, though production-ready code would typically include CSRF token handling. Best Practices (3): Wrapping native fetch in a new Promise is an anti-pattern; async/await would be preferred even with IE11 support via transpilation. Domain Accuracy (4): Demonstrates strong understanding of XHR vs Fetch and browser feature detection. Clarity (5): Code is well-structured, commented, and easy to follow."
-    },
-    {
-      "task_id": "gen_task_03",
-      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
-      "task_type": "HTML5 Semantic Structure and Accessibility Audit",
-      "user_prompt": "Examine the provided HTML snippet for a product listing page. Identify three accessibility and semantic structure issues that may cause rendering inconsistencies or screen reader failures across different browsers. Refactor the code to use proper ARIA roles, semantic tags, and ensure input validation attributes are correctly applied for production readiness.",
-      "reference_context": {
-        "original_html": "<div class='product-list'><div class='item'><img src='prod.jpg'><h3>Product Name</h3><button>Buy</button></div></div>",
-        "accessibility_standards": "WCAG 2.1 AA"
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the solution work?",
-        "Criterion 2: Completeness — did it handle all requirements?",
-        "Criterion 3: Best practices — is it production-ready?"
-      ],
-      "student_answer": "```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Product Listing</title>\n</head>\n<body>\n    <main>\n        <section aria-labelledby=\"products-heading\">\n            <h1 id=\"products-heading\">Our Products</h1>\n            <ul class=\"product-list\" role=\"list\">\n                <li class=\"item\">\n                    <article>\n                        <img src=\"prod.jpg\" alt=\"Product Name\" loading=\"lazy\">\n                        <h3>Product Name</h3>\n                        <button type=\"button\" aria-label=\"Add Product Name to cart\">Buy</button>\n                    </article>\n                </li>\n            </ul>\n        </section>\n    </main>\n</body>\n</html>\n```",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        3,
-        4,
-        4,
-        4
-      ],
-      "score": 3.6,
-      "grade_reason": "The student provided a semantically correct HTML refactor with proper ARIA attributes and viewport settings, demonstrating strong domain knowledge. However, the submission failed to explicitly identify the three accessibility issues from the original snippet as required by the task instructions. Additionally, the requirement to ensure input validation attributes were applied was not addressed, as no input fields were added or validated for production readiness. While the code quality is high, the incomplete response to the prompt requirements reduces Correctness and Completeness scores."
-    },
-    {
-      "task_id": "gen_task_04",
-      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
-      "task_type": "API Integration and Error Handling",
-      "user_prompt": "Analyze the provided Node.js Express route handler for a user registration endpoint. Identify security vulnerabilities and potential cross-browser data submission issues. Implement comprehensive input validation, error handling for network failures, and ensure the response headers are set correctly to prevent cross-origin issues in all major browsers.",
-      "reference_context": {
-        "original_code": "app.post('/register', (req, res) => { const { email, password } = req.body; // save to DB res.send('Registered'); });",
-        "security_requirements": [
-          "Input Sanitization",
-          "HTTPS Enforcement",
-          "CORS Configuration"
-        ]
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the solution work?",
-        "Criterion 2: Completeness — did it handle all requirements?",
-        "Criterion 3: Best practices — is it production-ready?"
-      ],
-      "student_answer": "```javascript\nconst express = require('express');\nconst { body, validationResult } = require('express-validator');\nconst cors = require('cors');\nconst crypto = require('crypto');\nconst app = express();\n\n// Middleware: CORS Configuration\n// Ensures cross-browser compatibility and security by restricting origins\napp.use(cors({\n  origin: (origin, callback) => {\n    // Allow only trusted origins in production; allow null for local testing if needed\n    const allowedOrigins = ['https://yourtrusteddomain.com'];\n    if (!origin || allowedOrigins.includes(origin)) {\n      callback(null, true);\n    } else {\n      callback(new Error('Not allowed by CORS'));\n    }\n  },\n  methods: ['POST'],\n  allowedHeaders: ['Content-Type', 'Authorization'],\n  credentials: true,\n  optionsSuccessStatus: 200\n}));\n\n// Middleware: Body Parser with JSON limit to prevent DoS\napp.use(express.json({ limit: '10kb' }));\n\n// Middleware: HTTPS Enforcement (Redirect HTTP to HTTPS)\n// Note: This should ideally be handled by the reverse proxy (Nginx/Apache), \n// but included here for completeness in the app logic.\napp.use((req, res, next) => {\n  if (req.headers['x-forwarded-proto'] !== 'https') {\n    return res.redirect(`https://${req.get('Host')}${req.url}`);\n  }\n  next();\n});\n\n// Input Validation Rules\nconst registerValidation = [\n  body('email')\n    .trim()\n    .isEmail()\n    .normalizeEmail()\n    .withMessage('Please provide a valid email address.')\n    .isLength({ max: 254 })\n    .withMessage('Email address is too long.'),\n  \n  body('password')\n    .trim()\n    .isLength({ min: 8, max: 128 })\n    .withMessage('Password must be between 8 and 128 characters.')\n    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]/)\n    .withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.')\n];\n\n// Route Handler\napp.post('/register', registerValidation, async (req, res) => {\n  // 1. Validate Input\n  const errors = validationResult(req);\n  if (!errors.isEmpty()) {\n    return res.status(400).json({ \n      success: false, \n      errors: errors.array().map(err => ({ field: err.path, message: err.msg })) \n    });\n  }\n\n  const { email, password } = req.body;\n\n  try {\n    // 2. Input Sanitization (Already handled by express-validator, but ensure DB safety)\n    // In a real scenario, use parameterized queries or an ORM like Sequelize/TypeORM\n    // Simulating DB save with error handling\n    if (!email || !password) {\n      throw new Error('Missing required fields');\n    }\n\n    // Simulate hashing password (Use bcrypt in production)\n    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');\n\n    // Simulate DB Insert\n    // await db.query('INSERT INTO users (email, password) VALUES (?, ?)', [email, hashedPassword]);\n\n    // 3. Success Response\n    res.status(201).json({ \n      success: true, \n      message: 'User registered successfully',\n      headers: {\n        'X-Content-Type-Options': 'nosniff',\n        'X-Frame-Options': 'DENY',\n        'X-XSS-Protection': '1; mode=block'\n      }\n    });\n\n  } catch (error) {\n    // 4. Network/Server Error Handling\n    console.error('Registration error:', error);\n    \n    // Generic error response to avoid leaking internal details\n    res.status(500).json({ \n      success: false, \n      message: 'An unexpected error occurred. Please try again later.' \n    });\n  }\n});\n\nmodule.exports = app;\n```",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        2,
-        3,
-        2,
-        2,
-        5
-      ],
-      "score": 2.8,
-      "grade_reason": "Correctness (2): Critical security flaws (SHA256 for passwords) and functional error (security headers placed in JSON body instead of HTTP headers). Completeness (3): All sections addressed but implementations are flawed. Best Practices (2): SHA256 is insecure for passwords; Helmet middleware preferred. Domain Accuracy (2): Confuses HTTP headers with JSON payload. Clarity (5): Code is well-structured and readable."
-    },
-    {
-      "task_id": "gen_task_05",
-      "onet_source": "Evaluate code to ensure that it is valid, is properly structured, meets industry standards, and is compatible with browsers, devices, or operating systems.",
-      "task_type": "Responsive Layout Debugging",
-      "user_prompt": "Debug the provided CSS Grid layout for a dashboard interface. Identify three specific rendering issues that occur on mobile devices (Safari iOS) versus desktop browsers (Chrome, Firefox). Provide a corrected CSS solution that includes media queries, proper fallbacks for older browsers, and ensures the layout remains functional with input validation for dynamic content.",
-      "reference_context": {
-        "original_css": ".dashboard { display: grid; grid-template-columns: 1fr 2fr; } .widget { background: #f0f0f0; }",
-        "device_breakpoints": [
-          "Mobile (375px)",
-          "Tablet (768px)",
-          "Desktop (1920px)"
-        ]
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — does the solution work?",
-        "Criterion 2: Completeness — did it handle all requirements?",
-        "Criterion 3: Best practices — is it production-ready?"
-      ],
-      "student_answer": "```css\n/* Base Reset & Variables */\n:root {\n  --grid-gap: 16px;\n  --widget-bg: #f0f0f0;\n  --widget-padding: 1rem;\n  --font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif;\n}\n\n/* Fallback for older browsers (IE11 and below) */\n@supports not (display: grid) {\n  .dashboard {\n    display: flex;\n    flex-wrap: wrap;\n  }\n  .dashboard > .widget {\n    width: 100%;\n    box-sizing: border-box;\n  }\n}\n\n/* Main Dashboard Container */\n.dashboard {\n  display: grid;\n  /* Fallback for Safari iOS < 10.3 which had issues with 1fr in specific contexts */\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  grid-template-rows: auto;\n  gap: var(--grid-gap);\n  padding: var(--grid-gap);\n  background: #fff;\n  font-family: var(--font-family);\n  box-sizing: border-box;\n  min-height: 100vh;\n}\n\n/* Widget Styling */\n.widget {\n  background: var(--widget-bg);\n  padding: var(--widget-padding);\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.05);\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: column;\n  /* Ensure content doesn't overflow on small screens */\n  min-width: 0; \n}\n\n/* Input Validation Styling */\n.widget input, .widget textarea {\n  width: 100%;\n  padding: 8px;\n  margin-top: 8px;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  box-sizing: border-box;\n  font-size: 1rem;\n}\n\n.widget input:invalid, .widget textarea:invalid {\n  border-color: #ff4d4d;\n  background-color: #fff0f0;\n}\n\n.widget input:valid, .widget textarea:valid {\n  border-color: #4caf50;\n}\n\n/* Responsive Breakpoints */\n\n/* Mobile (375px and below) - Fixes: Stacked layout, touch-friendly inputs, prevents horizontal scroll */\n@media (max-width: 480px) {\n  .dashboard {\n    /* Force single column to prevent Safari iOS wrapping issues */\n    grid-template-columns: 1fr;\n    gap: 12px;\n    padding: 12px;\n  }\n\n  .widget {\n    /* Ensure inputs don't cause overflow */\n    width: 100%;\n    min-width: 0;\n  }\n\n  /* iOS Specific Fix: Prevents zoom on input focus if viewport is small */\n  input, textarea {\n    font-size: 16px; /* Prevents iOS auto-zoom */\n  }\n}\n\n/* Tablet (768px) - Fixes: 2-column layout, balanced spacing */\n@media (min-width: 481px) and (max-width: 1024px) {\n  .dashboard {\n    grid-template-columns: repeat(2, 1fr);\n    gap: 16px;\n  }\n}\n\n/* Desktop (1025px and above) - Fixes: 3-column layout, optimal spacing */\n@media (min-width: 1025px) {\n  .dashboard {\n    /* Original intent: 1fr 2fr was too rigid; switched to responsive grid */\n    grid-template-columns: repeat(3, 1fr);\n    gap: 24px;\n    max-width: 1400px;\n    margin: 0 auto;\n  }\n  \n  /* If specific widget needs 2x width, use grid-column */\n  .widget.span-2 {\n    grid-column: span 2;\n  }\n}\n\n/* Safari iOS Specific Fixes (using -webkit prefixes where necessary) */\n@supports (-webkit-appearance: none) {\n  .dashboard {\n    /* Ensures grid tracks render correctly on older iOS Safari */\n    -webkit-grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  }\n}\n```",
-      "score": 0,
-      "dimension_scores": [],
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "grade_reason": "Parse error: Could not repair JSON: line 1 column 1 (char 0)"
     },
     {
       "task_id": "gen_task_01",

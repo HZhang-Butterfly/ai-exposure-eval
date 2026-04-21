@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 20,
-    "evaluated_tasks": 21,
+    "evaluated_tasks": 19,
     "batches": 4,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.57,
+      "overall": 4.53,
       "dimensions": {
-        "Correctness": 4.45,
-        "Completeness": 4.45,
-        "Best Practices": 4.2,
-        "Domain Accuracy": 4.75,
+        "Correctness": 4.39,
+        "Completeness": 4.39,
+        "Best Practices": 4.17,
+        "Domain Accuracy": 4.72,
         "Clarity": 5.0
       },
-      "evaluated_tasks": 21,
+      "evaluated_tasks": 19,
       "scale_max": 5
     },
     "total_time_seconds": 48629.3
@@ -608,42 +608,6 @@
       "grade_reason": "The submission correctly addresses all explicit task requirements, including the recipient, patient details, claim number, specific missing authorization elements, deadline, and HIPAA citation, warranting a 5 for Correctness and Domain Accuracy. The tone is professional and cooperative. However, it scores a 4 on Completeness and Best Practices because it lacks specific instructions on how to return the form (e.g., email, fax, portal), which is a standard industry practice for administrative correspondence. Additionally, while the letter expresses cooperation, it does not explicitly define a goodwill offer with terms as suggested in the additional checks, though this was not a primary task requirement."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Compose letters in reply to correspondence concerning such items as requests for merchandise, damage claims, credit information requests, delinquent accounts, incorrect billing, or unsatisfactory service.",
-      "task_type": "Correspondence Composition",
-      "user_prompt": "Draft a formal response letter to a customer regarding a disputed billing charge of $150.00 on their credit card statement dated October 12th. The customer claims they never authorized this transaction. You have verified that the transaction was made by the account holder using the registered IP address. However, the customer has requested a refund due to a recent change in their banking policy. Draft the letter explaining the verification results, politely declining the refund request based on company policy, but offering a one-time 10% credit on their next purchase as a goodwill gesture. Ensure the tone is firm yet empathetic.",
-      "reference_context": {
-        "customer_name": "Sarah Jenkins",
-        "account_number": "****-****-****-4582",
-        "transaction_date": "2023-10-12",
-        "transaction_amount": 150.0,
-        "company_policy": "Refunds are not issued for unauthorized charges if the IP address matches the registered device, unless fraud is proven.",
-        "goodwill_offer": "10% credit on next purchase, valid for 30 days."
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the letter accurately reflect the verification findings and the specific transaction details?",
-        "Criterion 2: Completeness — Did it address the dispute, explain the policy, decline the refund, and offer the credit?",
-        "Criterion 3: Best practices — Is the tone professional, legally safe, and free of defensive language?"
-      ],
-      "student_answer": "Sarah Jenkins\n[Customer Address]\n[City, State, Zip Code]\n\n[Date]\n\n**Re: Disputed Charge Inquiry – Account Ending in 4582**\n\nDear Ms. Jenkins,\n\nThank you for contacting us regarding the $150.00 charge appearing on your credit card statement dated October 12, 2023. We understand your concern regarding this transaction and appreciate the opportunity to review the details of your account.\n\nUpon conducting a thorough investigation, we verified that the transaction in question was initiated using the registered IP address associated with your account. Our security protocols confirm that the login credentials and device information matched the profile on file at the time of the purchase. Consequently, our company policy dictates that refunds for unauthorized charges are not issued when the transaction originates from a verified, registered device, unless definitive proof of external fraud is provided. As the verification confirms the activity originated from your registered source, we are unable to process a refund for this specific charge.\n\nWe recognize that your request may be influenced by recent changes to your banking policies, and we sincerely regret any inconvenience this situation has caused. While we must adhere to our established security and billing guidelines, we value your loyalty as a customer.\n\nAs a gesture of goodwill, we would like to offer you a one-time credit of 10% on your next purchase. This credit will be applied automatically upon checkout and is valid for 30 days from the date of this letter.\n\nWe hope this resolution demonstrates our commitment to your satisfaction while maintaining the security standards of your account. Should you have any further questions or require additional assistance, please do not hesitate to contact our customer support team.\n\nSincerely,\n\nCorrespondence Clerk\nCustomer Service Department\n[Company Name]\n[Contact Information]",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        5,
-        5,
-        5,
-        5
-      ],
-      "score": 5.0,
-      "grade_reason": "The submission is exceptional and meets all task requirements with no meaningful gaps. It correctly incorporates specific constraints (dates, amounts, policy wording, offer terms) and handles sensitive data by masking the account number appropriately. The tone is professionally balanced between firm refusal and empathy, and the structure follows industry-standard business letter formatting. No errors or omissions were identified."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Review correspondence for format and typographical accuracy, assemble the information into a prescribed form with the correct number of copies, and submit it to an authorized official for signature.",
       "task_type": "Document Assembly and Review",
@@ -786,42 +750,6 @@
       ],
       "score": 4.8,
       "grade_reason": "The submission meets all explicit task requirements and accurately cites SOX Section 806. Clarity and domain accuracy are excellent. Best Practices is 4 due to the sign-off ('Correspondence Clerks') lacking expected authority for compliance matters and omitting a secure follow-up contact method. Additional checks regarding refusal and goodwill were correctly omitted as inapplicable to an acknowledgment letter."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Compose letters in reply to correspondence concerning such items as requests for merchandise, damage claims, credit information requests, delinquent accounts, incorrect billing, or unsatisfactory service.",
-      "task_type": "Correspondence Composition",
-      "user_prompt": "Draft a formal response letter to a customer regarding a disputed billing charge of $150.00 on their credit card statement dated October 12th. The customer claims they never authorized this transaction. You have verified that the transaction was made by the account holder using the registered IP address. However, the customer has requested a refund due to a recent change in their banking policy. Draft the letter explaining the verification results, politely declining the refund request based on company policy, but offering a one-time 10% credit on their next purchase as a goodwill gesture. Ensure the tone is firm yet empathetic.",
-      "reference_context": {
-        "customer_name": "Sarah Jenkins",
-        "account_number": "****-****-****-4582",
-        "transaction_date": "2023-10-12",
-        "transaction_amount": 150.0,
-        "company_policy": "Refunds are not issued for unauthorized charges if the IP address matches the registered device, unless fraud is proven.",
-        "goodwill_offer": "10% credit on next purchase, valid for 30 days."
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the letter accurately reflect the verification findings and the specific transaction details?",
-        "Criterion 2: Completeness — Did it address the dispute, explain the policy, decline the refund, and offer the credit?",
-        "Criterion 3: Best practices — Is the tone professional, legally safe, and free of defensive language?"
-      ],
-      "student_answer": "Sarah Jenkins\n[Customer Address]\n[City, State, Zip Code]\n\n[Date]\n\n**Re: Disputed Charge Inquiry – Account Ending in 4582**\n\nDear Ms. Jenkins,\n\nThank you for contacting our Customer Service team regarding the $150.00 charge appearing on your credit card statement dated October 12, 2023. We understand your concern regarding this transaction and appreciate the opportunity to review the details of your account.\n\nUpon conducting a thorough investigation, we verified that the transaction in question was initiated using the registered IP address associated with your account. Our security protocols confirm that the login credentials and device identification matched your established profile at the time of the purchase. Consequently, based on our company policy, which states that refunds are not issued for unauthorized charges when the IP address matches the registered device unless fraud is proven, we are unable to process a refund for this specific transaction.\n\nWe recognize that your request may be influenced by recent changes to your banking policies, and we sincerely regret that this outcome does not align with your expectations. While we must adhere to our security and billing guidelines, we value your loyalty as a customer and wish to maintain a positive relationship with you.\n\nAs a gesture of goodwill, we are pleased to offer you a one-time credit of 10% toward your next purchase. This credit will be applied automatically upon checkout and is valid for 30 days from the date of this letter.\n\nWe hope this resolution demonstrates our commitment to your satisfaction. If you have any further questions or require additional assistance, please do not hesitate to contact us directly.\n\nSincerely,\n\nCorrespondence Clerk\nCustomer Service Department\n[Company Name]\n[Contact Information]",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        5,
-        4,
-        5,
-        5
-      ],
-      "score": 4.8,
-      "grade_reason": "The submission correctly addresses all prompt requirements with accurate policy application and clear tone (Correctness, Completeness, Domain Accuracy, Clarity = 5). However, Best Practices = 4 due to the absence of a unique dispute reference number and explicit fraud reporting instructions, which are standard industry requirements for compliance correspondence to ensure auditability and clear customer guidance."
     }
   ]
 }

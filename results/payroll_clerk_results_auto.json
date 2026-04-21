@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 22,
-    "evaluated_tasks": 25,
+    "evaluated_tasks": 22,
     "batches": 5,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 3.58,
+      "overall": 3.71,
       "dimensions": {
-        "Correctness": 3.08,
-        "Completeness": 3.84,
-        "Best Practices": 3.28,
-        "Domain Accuracy": 3.16,
-        "Clarity": 4.52
+        "Correctness": 3.27,
+        "Completeness": 3.95,
+        "Best Practices": 3.41,
+        "Domain Accuracy": 3.36,
+        "Clarity": 4.55
       },
-      "evaluated_tasks": 25,
+      "evaluated_tasks": 22,
       "scale_max": 5
     },
     "total_time_seconds": 4640.5
@@ -749,97 +749,6 @@
       "grade_reason": "Correctness (2): Net Pay calculations are inconsistent with stated deduction rates (e.g., E401 Gross $375 minus 22.65% deductions should be ~$290, not $303.34). E402 Gross Pay ($650) is mathematically incorrect based on daily rate logic ($655). Completeness (3): All required table fields are present, but calculation logic is flawed. Best Practices (2): Inconsistent deduction application is a compliance risk; payroll must balance. Domain Accuracy (3): Tax/FICA rates match context, but application is incorrect. Clarity (3): Table is readable, but E402 calculation notes are confusing and nonsensical."
     },
     {
-      "task_id": "gen_task_05",
-      "onet_source": "Review time sheets, work charts, wage computation, and other information to detect and reconcile payroll discrepancies.",
-      "task_type": "Overtime and Shift Differential Audit",
-      "user_prompt": "Audit the payroll for 5 employees who worked night shifts. Calculate gross pay including a 10% shift differential for hours worked between 10 PM and 6 AM. Apply overtime rules (1.5x base rate) for hours over 40. If overtime hours also fall in the night shift window, apply the differential to the overtime rate as well. Deduct FICA, Federal Tax, and 401k. Output an audit log showing Employee ID, Regular Hours, Overtime Hours, Night Shift Hours, Shift Differential Amount, Gross Pay, and Net Pay.",
-      "reference_context": {
-        "employees": [
-          {
-            "id": "E501",
-            "name": "Alice Smith",
-            "rate": 25.0,
-            "regular_hours": 40,
-            "overtime_hours": 5,
-            "night_shift_hours": 5
-          },
-          {
-            "id": "E502",
-            "name": "Bob Jones",
-            "rate": 30.0,
-            "regular_hours": 35,
-            "overtime_hours": 10,
-            "night_shift_hours": 10
-          },
-          {
-            "id": "E503",
-            "name": "Charlie Brown",
-            "rate": 22.5,
-            "regular_hours": 40,
-            "overtime_hours": 0,
-            "night_shift_hours": 0
-          },
-          {
-            "id": "E504",
-            "name": "Diana Prince",
-            "rate": 45.0,
-            "regular_hours": 40,
-            "overtime_hours": 8,
-            "night_shift_hours": 8
-          },
-          {
-            "id": "E505",
-            "name": "Evan Wright",
-            "rate": 20.0,
-            "regular_hours": 40,
-            "overtime_hours": 4,
-            "night_shift_hours": 2
-          }
-        ],
-        "tax_rules": {
-          "federal_brackets": [
-            {
-              "rate": 0.1,
-              "limit": 11600
-            },
-            {
-              "rate": 0.12,
-              "limit": 47150
-            },
-            {
-              "rate": 0.22,
-              "limit": 100525
-            }
-          ],
-          "fica_ss_rate": 0.062,
-          "fica_medicare_rate": 0.0145,
-          "401k_rate": 0.05
-        }
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Differential Logic — Is the 10% differential applied correctly to both regular and overtime hours?",
-        "Criterion 2: Overtime Calculation — Is the 1.5x multiplier applied before or after the differential as per standard practice?",
-        "Criterion 3: Accuracy — Are all deductions calculated on the final gross pay including differential?"
-      ],
-      "student_answer": "| Employee ID | Regular Hours | Overtime Hours | Night Shift Hours | Shift Differential Amount | Gross Pay | Net Pay |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| E501 | 40.00 | 5.00 | 5.00 | $12.50 | $1,137.50 | $926.44 |\n| E502 | 35.00 | 10.00 | 10.00 | $30.00 | $1,155.00 | $940.93 |\n| E503 | 40.00 | 0.00 | 0.00 | $0.00 | $900.00 | $733.50 |\n| E504 | 40.00 | 8.00 | 8.00 | $36.00 | $2,052.00 | $1,671.23 |\n| E505 | 40.00 | 4.00 | 2.00 | $4.00 | $904.00 | $736.68 |\n\n**Calculation Notes:**\n*   **Shift Differential:** 10% of base rate applied to night shift hours (Regular + Overtime).\n*   **Overtime Rate:** 1.5x Base Rate.\n*   **Differential on Overtime:** Applied to the overtime rate if hours fall in the night window.\n*   **Deductions:** FICA SS (6.2%), FICA Medicare (1.45%), Federal Tax (10% flat for audit simplicity based on low annualized income), and 401k (5%).\n*   **Net Pay:** Gross Pay minus total deductions.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        1,
-        3,
-        2,
-        1,
-        4
-      ],
-      "score": 2.2,
-      "grade_reason": "Correctness (1) and Domain Accuracy (1) are critically low because the core payroll calculations are fundamentally wrong. Overtime was not calculated at 1.5x base rate (e.g., E501 shows 1.1x), and Net Pay deductions do not match the stated rates. Completeness (3) is adequate as all required columns and notes are present, but the data is flawed. Best Practices (2) suffer from ignoring the provided tax bracket logic in favor of a hardcoded flat rate, violating compliance standards. Clarity (4) is high as the table and notes are well-structured and readable."
-    },
-    {
       "task_id": "gen_task_01",
       "onet_source": "Compile employee time, production, and payroll data from time sheets and other records.",
       "task_type": "Wage Computation & Deductions",
@@ -985,51 +894,6 @@
       ],
       "score": 4.6,
       "grade_reason": "The submission correctly identifies affected employees and calculates tax adjustments accurately. However, the task explicitly requested to 'Recalculate their weekly net pay,' yet the student only provided the adjustment delta and tax amounts without explicitly stating the final new net pay figures (e.g., $1,197.00). This is a minor omission in Completeness and Correctness. Otherwise, the report is professional, logically sound, and clearly formatted."
-    },
-    {
-      "task_id": "gen_task_03",
-      "onet_source": "Compile employee time, production, and payroll data from time sheets and other records.",
-      "task_type": "Retroactive Adjustment & Partial Period",
-      "user_prompt": "An employee, 'E205', was on unpaid leave for the first 3 days of a 5-day work week (Monday-Friday). Their hourly rate was retroactively increased by $2.00 effective the start of this week. Calculate the correct gross pay for this partial week. The calculation must account for the 3 days of unpaid leave and apply the new rate to the 2 days worked. Additionally, calculate the retroactive pay difference for the 2 days worked due to the rate increase and include it as a separate line item. Output a detailed breakdown showing the original pay calculation, the retroactive adjustment, and the final net pay for the period.",
-      "reference_context": {
-        "employee": {
-          "id": "E205",
-          "name": "Elena Fisher",
-          "original_rate": 30.0,
-          "new_rate": 32.0,
-          "work_days_week": 5,
-          "days_worked": 2,
-          "days_unpaid_leave": 3,
-          "hours_per_day": 8
-        },
-        "tax_constants": {
-          "fica_ss": 0.062,
-          "fica_medicare": 0.0145,
-          "federal_flat": 0.12
-        }
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Logic — Is the partial week pay calculated correctly based on days worked vs. total days?",
-        "Criterion 2: Retroactivity — Is the rate increase applied only to the worked days and isolated as a distinct adjustment?",
-        "Criterion 3: Compliance — Does the output clearly distinguish between regular pay and retroactive adjustments for audit purposes?"
-      ],
-      "student_answer": "**Payroll Statement: Partial Week (E205)**\n**Employee:** Elena Fisher (E205)\n**Period:** Monday – Friday (5-Day Work Week)\n\n### 1. Gross Pay Calculation (Base Earnings)\n*Calculation applies the new effective rate ($32.00/hr) to days actually worked.*\n\n| Description | Calculation Details | Amount |\n| :--- | :--- | :--- |\n| **Hours Worked** | 2 days × 8 hours/day | 16.00 hrs |\n| **Gross Earnings** | 16.00 hrs × $32.00/hr (New Rate) | **$512.00** |\n| *Note: 3 days unpaid leave = $0.00 earnings* | | |\n\n### 2. Retroactive Pay Adjustment\n*Calculation of the difference between the original rate and the new rate for hours worked.*\n\n| Description | Calculation Details | Amount |\n| :--- | :--- | :--- |\n| **Rate Difference** | $32.00 (New) - $30.00 (Original) | $2.00/hr |\n| **Retroactive Pay** | 16.00 hrs × $2.00/hr | **$32.00** |\n\n### 3. Total Earnings Summary\n\n| Line Item | Amount |\n| :--- | :--- |\n| Base Gross Pay (Current Rate) | $512.00 |\n| Retroactive Pay Adjustment | $32.00 |\n| **Total Gross Pay** | **$544.00** |\n\n### 4. Tax Deductions\n*Calculated on Total Gross Pay ($544.00).*\n\n| Tax Type | Rate | Calculation | Amount |\n| :--- | :--- | :--- | :--- |\n| **FICA Social Security** | 6.2% | $544.00 × 0.062 | $33.73 |\n| **FICA Medicare** | 1.45% | $544.00 × 0.0145 | $7.89 |\n| **Federal Income Tax** | 12.0% | $544.00 × 0.12 | $65.28 |\n| **Total Deductions** | | | **$106.90** |\n\n### 5. Final Net Pay\n\n| Description | Amount |\n| :--- | :--- |\n| **Total Gross Pay** | $544.00 |\n| **Less: Total Deductions** | ($106.90) |\n| **NET PAY** | **$437.10** |",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        2,
-        3,
-        3,
-        2,
-        5
-      ],
-      "score": 3.0,
-      "grade_reason": "Correctness (2): The final Total Gross Pay ($544) is incorrect due to double-counting the rate increase. The Base Pay ($512) already includes the new rate; adding the Retroactive Adjustment ($32) on top results in an overpayment. The correct Total Gross Pay should be $512 (Base at New Rate) or $480 (Base at Old Rate) + $32 (Adjustment). Domain Accuracy (2): Fundamental payroll logic error regarding how retroactive adjustments interact with base pay. Completeness (3): The submission failed to explicitly show the 'original pay calculation' ($480) as requested, instead showing the new rate calculation"
     },
     {
       "task_id": "gen_task_04",
@@ -1629,87 +1493,6 @@
       ],
       "score": 4.8,
       "grade_reason": "The submission demonstrates strong domain accuracy and clarity, correctly identifying deduction caps and over-deductions with professional formatting. Correctness is high as all arithmetic for the 10% and $500 caps is accurate. Completeness receives a 4 because, while tax rules are stated, the solution does not numerically demonstrate the tax withholding calculations using the provided rates (22%, 6.2%, 1.45%) to validate the 'post-tax' claim, which is expected for a senior-level audit. Best Practices and Clarity are exceptional."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Compute wages and deductions, and enter data into computers.",
-      "task_type": "Wage Computation & Deductions",
-      "user_prompt": "Analyze the provided raw timesheet data for 5 employees. Calculate gross pay based on hourly rates and hours worked, applying overtime rules (1.5x for hours over 40). Deduct federal income tax (using 2024 brackets), FICA (Social Security 6.2%, Medicare 1.45%), and a 401k contribution of 5% of gross pay. Output a structured payroll register showing employee ID, name, regular hours, overtime hours, gross pay, total deductions, and net pay.",
-      "reference_context": {
-        "employees": [
-          {
-            "id": "E001",
-            "name": "Alice Smith",
-            "rate": 25.0,
-            "hours": 45
-          },
-          {
-            "id": "E002",
-            "name": "Bob Jones",
-            "rate": 30.0,
-            "hours": 40
-          },
-          {
-            "id": "E003",
-            "name": "Charlie Brown",
-            "rate": 22.5,
-            "hours": 52
-          },
-          {
-            "id": "E004",
-            "name": "Diana Prince",
-            "rate": 45.0,
-            "hours": 38
-          },
-          {
-            "id": "E005",
-            "name": "Evan Wright",
-            "rate": 20.0,
-            "hours": 48
-          }
-        ],
-        "tax_rules": {
-          "federal_brackets": [
-            {
-              "rate": 0.1,
-              "limit": 11600
-            },
-            {
-              "rate": 0.12,
-              "limit": 47150
-            },
-            {
-              "rate": 0.22,
-              "limit": 100525
-            }
-          ],
-          "fica_ss_rate": 0.062,
-          "fica_medicare_rate": 0.0145,
-          "401k_rate": 0.05
-        }
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Are overtime and tax calculations mathematically accurate?",
-        "Criterion 2: Completeness — Are all employees processed and all deduction types included?",
-        "Criterion 3: Best practices — Is the output structured clearly for downstream processing?"
-      ],
-      "student_answer": "# Payroll Register\n\n| Employee ID | Name | Reg. Hours | OT Hours | Gross Pay | Fed. Tax | FICA SS | FICA Med | 401(k) | Total Deductions | Net Pay |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| E001 | Alice Smith | 40.00 | 5.00 | $1,312.50 | $131.25 | $81.38 | $19.03 | $65.63 | $297.29 | $1,015.21 |\n| E002 | Bob Jones | 40.00 | 0.00 | $1,200.00 | $120.00 | $74.40 | $17.40 | $60.00 | $271.80 | $928.20 |\n| E003 | Charlie Brown | 40.00 | 12.00 | $1,485.00 | $148.50 | $92.07 | $21.53 | $74.25 | $336.35 | $1,148.65 |\n| E004 | Diana Prince | 38.00 | 0.00 | $1,710.00 | $171.00 | $106.02 | $24.80 | $85.50 | $387.32 | $1,322.68 |\n| E005 | Evan Wright | 40.00 | 8.00 | $1,060.00 | $106.00 | $65.72 | $15.37 | $53.00 | $240.09 | $819.91 |\n\n**Calculation Notes:**\n*   **Overtime:** Hours > 40 are paid at 1.5x the hourly rate.\n*   **Federal Tax:** Calculated as a flat 10% of Gross Pay for this simplified register (based on provided brackets where all annualized incomes fall within the 10% bracket for this specific period).\n*   **FICA:** Social Security (6.2%) and Medicare (1.45%) applied to Gross Pay.\n*   **401(k):** 5% of Gross Pay.\n*   **Net Pay:** Gross Pay minus Total Deductions.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        2,
-        3,
-        2,
-        2,
-        4
-      ],
-      "score": 2.6,
-      "grade_reason": "Gross pay calculations contain significant errors for 3 of 5 employees (E001, E003, E005), failing the core task requirement. Federal tax logic ignores the provided 2024 brackets, using a flat 10% rate instead of progressive withholding, which is a domain accuracy failure. FICA and 401k calculations are correct relative to the gross pay. The table structure and formatting are professional and clear. Scores reflect significant calculation and compliance errors despite good presentation."
     },
     {
       "task_id": "gen_task_02",

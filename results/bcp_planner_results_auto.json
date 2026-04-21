@@ -6,8 +6,8 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 21,
-    "evaluated_tasks": 26,
-    "batches": 5,
+    "evaluated_tasks": 20,
+    "batches": 4,
     "batch_size": 5,
     "grading_scale_max": 5,
     "grading_dimensions": [
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.27,
+      "overall": 4.16,
       "dimensions": {
-        "Correctness": 4.27,
-        "Completeness": 4.08,
-        "Best Practices": 3.96,
-        "Domain Accuracy": 4.04,
+        "Correctness": 4.1,
+        "Completeness": 3.95,
+        "Best Practices": 3.8,
+        "Domain Accuracy": 3.95,
         "Clarity": 5.0
       },
-      "evaluated_tasks": 26,
+      "evaluated_tasks": 20,
       "scale_max": 5
     },
     "total_time_seconds": 6139.38
@@ -221,44 +221,6 @@
       ],
       "score": 3.4,
       "grade_reason": "The submission is well-structured and professionally written (Clarity 5), addressing the core task of summarizing the DR test. However, it fails to meet the explicit 'Additional Checks' requirements: it does not distinguish between MTD, RTO, and RPO (Domain Accuracy 3), does not address the cloud migration/Region A risk (Completeness 3), and repeats provided RTO/RPO without calculating new targets based on regulatory/churn data (Correctness 3). While the data for these calculations was not in the Context, a rigorous submission should have flagged this or adhered to the MTD distinction requirement. Best Practices (3) are impacted by the omission of MTD, a standard BC metric."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze impact on, and risk to, essential business functions or information systems to identify acceptable recovery time periods and resource requirements.",
-      "task_type": "Impact Analysis & RTO Definition",
-      "user_prompt": "You are a Business Continuity Planner. A regional bank is undergoing a digital transformation that introduces new cloud-based transaction processing. Based on the provided system architecture and business impact data, identify the critical functions, calculate the maximum tolerable downtime (MTD), and propose specific RTO and RPO values for the core transaction engine. Justify your choices based on regulatory requirements and customer impact.",
-      "reference_context": {
-        "system_architecture": "Primary database in Region A (US-East), Secondary in Region B (US-West), Cloud API Gateway, Mobile App Frontend",
-        "business_impact_data": {
-          "transaction_latency_increase": "200ms causes 5% customer churn",
-          "downtime_cost_per_minute": "$15,000",
-          "regulatory_requirement": "Transactions must be recoverable within 15 minutes of failure"
-        },
-        "current_rpo": "4 hours",
-        "current_rto": "24 hours"
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Are the RTO and RPO values logically derived from the provided constraints and regulatory limits?",
-        "Criterion 2: Completeness — Did the response identify all critical functions and address both financial and operational impacts?",
-        "Criterion 3: Best practices — Is the proposed solution aligned with industry standards for financial sector continuity?"
-      ],
-      "student_answer": "### Business Continuity Plan: Core Transaction Engine\n\n#### 1. Critical Functions Identification\nBased on the system architecture and business impact data, the following functions are classified as **Critical** for the digital transformation initiative:\n*   **Real-Time Transaction Processing:** The core engine handling deposit, withdrawal, and transfer operations via the Cloud API Gateway.\n*   **Data Synchronization & Replication:** The mechanism ensuring data consistency between the Primary Database (Region A) and Secondary Database (Region B).\n*   **Customer Authentication & Session Management:** Essential for maintaining secure access to the Mobile App Frontend during transaction execution.\n\n#### 2. Maximum Tolerable Downtime (MTD) Calculation\nThe MTD represents the total time a business function can be unavailable before causing irreversible damage to the organization.\n\n*   **Regulatory Constraint:** Transactions must be recoverable within **15 minutes** of failure.\n*   **Financial Impact:** At $15,000 per minute, a 15-minute outage results in a $225,000 loss, which is significant but secondary to the regulatory breach.\n*   **Customer Impact:** While a 200ms latency increase causes 5% churn, a total outage causes immediate service denial.\n\n**Determined MTD:** **15 Minutes**\n*Justification:* The regulatory requirement explicitly mandates recovery within 15 minutes. Exceeding this threshold constitutes a compliance violation, regardless of financial or customer churn metrics. Therefore, the MTD cannot exceed the regulatory limit.\n\n#### 3. Proposed Recovery Objectives\n\n| Metric | Proposed Value | Justification |\n| :--- | :--- | :--- |\n| **Recovery Time Objective (RTO)** | **10 Minutes** | The current RTO of 24 hours is unacceptable. To meet the 15-minute MTD (regulatory limit), the RTO must include a buffer for post-recovery validation and testing. Setting RTO at 10 minutes ensures the system is fully operational with a 5-minute safety margin before the 15-minute regulatory deadline is reached. |\n| **Recovery Point Objective (RPO)** | **< 1 Minute** | The current RPO of 4 hours is insufficient for real-time banking. To prevent significant data loss during a failover between Region A and Region B, the RPO must be minimized. An RPO of <1 minute ensures that the volume of lost transactions is negligible, maintaining data integrity and preventing reconciliation issues that could trigger regulatory penalties. |\n\n#### 4. Strategic Recommendations\nTo achieve the proposed RTO (10 min) and RPO (<1 min), the following architectural adjustments are required immediately:\n1.  **Upgrade Replication Strategy:** Transition from asynchronous batch replication to **synchronous or near-synchronous replication** between Region A and Region B to reduce RPO from 4 hours to <1 minute.\n2.  **Automated Failover:** Implement an automated failover mechanism for the Cloud API Gateway and Database layer to eliminate manual intervention time, ensuring the 10-minute RTO is achievable.\n3.  **Latency Monitoring:** Deploy real-time latency monitoring to detect the 200ms threshold immediately, triggering pre-emptive scaling or failover before customer churn occurs.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        4,
-        4,
-        5,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "The submission correctly identifies critical functions and derives MTD from the regulatory constraint, with RTO and RPO values logically set with appropriate buffers. However, the recommendation for synchronous replication across regions to achieve <1 min RPO overlooks the potential latency impact on the 200ms churn threshold, which is a key constraint in the context. Additionally, the MTD 'calculation' relies solely on the regulatory limit without explicitly weighing it against financial tolerance. These technical and analytical nuances prevent a perfect score on Best Practices and Completeness."
     },
     {
       "task_id": "gen_task_02",
@@ -603,44 +565,6 @@
       "grade_reason": "The submission correctly addresses all explicit requirements of the manufacturing monitoring task, including metrics, thresholds, resolution steps, and financial calculations. The math and technical terminology are accurate. However, it scores a 4 on Best Practices because it does not explicitly distinguish between RTO, RPO, and MTD, which are standard Business Continuity terminology expected in professional plans. The 'Additional Checks' in the prompt instructions regarding cloud migration and customer churn appear to be template errors unrelated to the manufacturing context and were not penalized."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze impact on, and risk to, essential business functions or information systems to identify acceptable recovery time periods and resource requirements.",
-      "task_type": "Impact Analysis & RTO Definition",
-      "user_prompt": "You are a Business Continuity Planner. A regional bank is undergoing a digital transformation that introduces new cloud-based transaction processing. Based on the provided system architecture and business impact data, identify the critical functions, calculate the maximum tolerable downtime (MTD), and propose specific RTO and RPO values for the core transaction engine. Justify your choices based on regulatory requirements and customer impact.",
-      "reference_context": {
-        "system_architecture": "Primary database in Region A (US-East), Secondary in Region B (US-West), Cloud API Gateway, Mobile App Frontend",
-        "business_impact_data": {
-          "transaction_latency_increase": "200ms causes 5% customer churn",
-          "downtime_cost_per_minute": "$15,000",
-          "regulatory_requirement": "Transactions must be recoverable within 15 minutes of failure"
-        },
-        "current_rpo": "4 hours",
-        "current_rto": "24 hours"
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Are the RTO and RPO values logically derived from the provided constraints and regulatory limits?",
-        "Criterion 2: Completeness — Did the response identify all critical functions and address both financial and operational impacts?",
-        "Criterion 3: Best practices — Is the proposed solution aligned with industry standards for financial sector continuity?"
-      ],
-      "student_answer": "### Business Continuity Plan: Core Transaction Engine\n\n#### 1. Critical Functions Identification\nBased on the system architecture and business impact data, the following functions are classified as **Critical** for the digital transformation initiative:\n*   **Real-Time Transaction Processing:** The core engine handling deposit, withdrawal, and transfer operations via the Cloud API Gateway.\n*   **Data Synchronization & Replication:** The mechanism ensuring data consistency between the Primary Database (Region A) and Secondary Database (Region B).\n*   **Customer Authentication & Session Management:** The gateway function enabling secure access via the Mobile App Frontend.\n\n#### 2. Maximum Tolerable Downtime (MTD) Calculation\nThe MTD represents the total time a business function can be unavailable before causing irreversible damage or regulatory breach.\n\n*   **Regulatory Constraint:** Transactions must be recoverable within **15 minutes** of failure.\n*   **Financial Impact:** At $15,000 per minute, a 15-minute outage results in a $225,000 loss, but the regulatory breach is the limiting factor.\n*   **Customer Impact:** While a 200ms latency increase causes 5% churn, total downtime is a binary failure state.\n\n**Determined MTD:** **15 Minutes**\n*Justification:* The regulatory requirement explicitly mandates recovery within 15 minutes. Exceeding this threshold constitutes a compliance violation, which carries higher severity than immediate financial loss or customer churn.\n\n#### 3. Proposed Recovery Objectives\n\n| Metric | Proposed Value | Justification |\n| :--- | :--- | :--- |\n| **Recovery Time Objective (RTO)** | **10 Minutes** | The current RTO of 24 hours is unacceptable. To meet the 15-minute MTD with a safety buffer for failover validation and customer notification, the system must be restored within 10 minutes. This ensures the 15-minute regulatory window is not breached even if minor delays occur during the Region A to Region B failover. |\n| **Recovery Point Objective (RPO)** | **< 1 Minute** | The current RPO of 4 hours is critically insufficient. To prevent significant financial discrepancy and ensure the \"recoverable within 15 minutes\" rule applies to the *state* of the data, data loss must be negligible. An RPO of <1 minute ensures that in the event of a Region A failure, the Region B secondary database contains near-real-time transaction data, preventing the need for complex manual reconciliation that would extend the effective downtime. |\n\n#### 4. Strategic Implementation Notes\n*   **Architecture Adjustment:** The current 4-hour RPO indicates asynchronous or infrequent backups. The architecture must be upgraded to **synchronous or near-synchronous replication** between Region A and Region B to achieve the <1 minute RPO.\n*   **Failover Automation:** Manual intervention must be eliminated. The Cloud API Gateway and database failover mechanisms must be fully automated to execute within the 10-minute RTO window.\n*   **Latency Monitoring:** While the RTO/RPO addresses downtime, the 200ms latency threshold requires continuous performance monitoring of the API Gateway to prevent the 5% churn trigger during degraded operations.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        4,
-        5,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "The submission demonstrates strong domain knowledge and correctly applies the hierarchy of MTD, RTO, and RPO (RTO < MTD). It accurately identifies the regulatory constraint as the limiting factor for MTD and proposes appropriate technical controls (synchronous replication, automation). However, it receives a 4 on Completeness and Domain Accuracy because 'Data Synchronization' is listed as a critical business function rather than a technical capability supporting the core transaction function, which is a minor terminology imprecision. Additionally, the RTO buffer justification ('safety buffer') is slightly generic compared to industry standards that might specify a percentage of MTD. These are minor gaps that do not cause real problems but prevent a perfect 5."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Create business continuity and disaster recovery budgets.",
       "task_type": "Budgeting & Resource Allocation",
@@ -808,83 +732,6 @@
       "grade_reason": "The submission is well-structured and addresses the core task requirements effectively, earning high marks for Clarity and Domain Accuracy regarding the provided data calculations. However, it fails to meet the specific constraints outlined in the 'Additional Checks' section of the evaluation instructions. Specifically, it repeats the provided RTO without calculating new targets based on the implied '15-minute regulatory requirement' and 'customer churn' data. It also fails to distinguish between MTD, RTO, and RPO, which is a standard Business Continuity best practice, and does not address the 'Region A' cloud migration risk specified in the checks. These omissions prevent a higher score on Correctness, Completeness, and Best Practices."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze impact on, and risk to, essential business functions or information systems to identify acceptable recovery time periods and resource requirements.",
-      "task_type": "Impact Analysis & RTO Definition",
-      "user_prompt": "You are a Business Continuity Planner. A regional bank is undergoing a digital transformation that introduces new cloud-based transaction processing. Based on the provided system architecture and business impact data, identify the critical functions, calculate the maximum tolerable downtime (MTD), and propose specific RTO and RPO values for the core transaction engine. Justify your choices based on regulatory requirements and customer impact. Additionally, define a communication protocol with specific escalation paths and contact verification steps, and quantify the risk assessment in terms of financial loss.",
-      "reference_context": {
-        "system_architecture": "Primary database in Region A (US-East), Secondary in Region B (US-West), Cloud API Gateway, Mobile App Frontend",
-        "business_impact_data": {
-          "transaction_latency_increase": "200ms causes 5% customer churn",
-          "downtime_cost_per_minute": "$15,000",
-          "regulatory_requirement": "Transactions must be recoverable within 15 minutes of failure"
-        },
-        "current_rpo": "4 hours",
-        "current_rto": "24 hours"
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Are the RTO and RPO values logically derived from the provided constraints and regulatory limits, specifically ensuring RTO does not exceed 15 minutes?",
-        "Criterion 2: Completeness — Did the response identify all critical functions, address both financial and operational impacts, and explicitly define MTD?",
-        "Criterion 3: Best practices — Is the proposed communication protocol detailed with specific escalation paths and contact verification steps, and is the risk assessment quantified in financial terms?",
-        "Criterion 4: Justification — Are the proposed RTO/RPO values justified by the provided downtime cost and regulatory requirements?"
-      ],
-      "student_answer": "# Business Continuity Plan: Core Transaction Engine\n\n## 1. Critical Function Identification\n**Core Transaction Engine**\n*   **Definition:** The cloud-based processing unit responsible for real-time fund transfers, balance updates, and transaction logging.\n*   **Criticality:** High. This function directly impacts revenue generation, regulatory compliance, and customer trust. Any disruption halts the bank's primary revenue stream and violates the \"Transactions must be recoverable within 15 minutes\" mandate.\n\n## 2. Recovery Metrics: RTO and RPO\nBased on the regulatory mandate and business impact data, the current metrics (RTO: 24h, RPO: 4h) are insufficient. The following targets are established:\n\n| Metric | Proposed Value | Justification |\n| :--- | :--- | :--- |\n| **RTO (Recovery Time Objective)** | **15 Minutes** | **Regulatory Compliance:** The explicit requirement states transactions must be recoverable within 15 minutes. <br>**Customer Impact:** Exceeding 15 minutes triggers immediate reputational damage and potential regulatory fines. |\n| **RPO (Recovery Point Objective)** | **< 1 Minute** | **Data Integrity:** The current 4-hour RPO implies a potential loss of 4 hours of transaction data, which is unacceptable for a banking environment. <br>**Latency Sensitivity:** A 200ms latency increase causes 5% churn; a 4-hour data gap is catastrophic. The RPO must be near-zero to ensure no transaction is lost during a failover between Region A and Region B. |\n\n## 3. Maximum Tolerable Downtime (MTD)\n**Calculated MTD:** **15 Minutes**\n\n*   **Calculation Logic:**\n    *   The MTD is the maximum time a business function can be unavailable before causing irreversible damage.\n    *   While the financial loss ($15,000/min) accumulates continuously, the **regulatory requirement** acts as the hard stop.\n    *   If downtime exceeds 15 minutes, the bank fails the regulatory mandate, triggering immediate enforcement actions, fines, and loss of operating license.\n    *   Therefore, the MTD is capped at the regulatory limit of 15 minutes, regardless of the cumulative financial loss.\n\n## 4. Risk Assessment: Financial Quantification\nThe risk is quantified by the potential financial loss per minute of downtime and the cumulative impact of the current gap.\n\n*   **Current State Risk (Gap Analysis):**\n    *   Current RTO (24h) vs. Required RTO (15m) = **23 hours 45 minutes** of exposure.\n    *   Potential Loss per Incident: $15,000 × 1,425 minutes = **$21,375,000** (excluding regulatory fines and churn).\n    *   Customer Churn Risk: If latency increases by 200ms during the transition, 5% of the active user base may defect. Assuming 1 million active users with an average lifetime value (LTV) of $500, a 5% churn represents **$250,000,000** in lost future revenue.\n\n*   **Mitigated State Risk (Post-Implementation):**\n    *   With RTO of 15 minutes, the maximum financial loss per incident is capped at **$225,000** ($15,000 × 15).\n    *   This represents a **98.9% reduction** in potential direct financial loss per incident compared to the current state.\n\n## 5. Communication Protocol & Escalation Path\n\n### Communication Protocol\n*   **Trigger:** Automated alert from Cloud API Gateway or Database monitoring system indicating >1 minute latency or Region A unavailability.\n*   **Initial Notification:** SMS and Email blast to the Incident Response Team (IRT) within 2 minutes of trigger.\n*   **Status Updates:** Every 15 minutes during the incident via a dedicated Slack/Teams channel and automated status page.\n*   **Stakeholder Notification:**\n    *   *Internal:* Executive Leadership within 30 minutes.\n    *   *External:* Regulatory bodies and major customers within 60 minutes (if outage exceeds 10 minutes).\n\n### Escalation Paths\n1.  **Level 1 (0–5 mins):** On-Call Site Reliability Engineer (SRE).\n    *   *Action:* Attempt automated failover to Region B.\n2.  **Level 2 (5–10 mins):** IT Director / Cloud Architect.\n    *   *Action:* Manual intervention if automated failover fails; initiate regional switchover.\n3.  **Level 3 (10–15 mins):** Chief Information Security Officer (CISO) / Chief Technology Officer (CTO).\n    *   *Action:* Declare Major Incident; authorize external vendor support; prepare regulatory notification.\n4.  **Level 4 (>15 mins):** Chief Executive Officer (CEO) / Board of Directors.\n    *   *Action:* Public relations management; regulatory liaison; strategic decision on extended outage.\n\n### Contact Verification Steps\nTo ensure communication integrity during a crisis:\n1.  **Primary Verification:** Contact the designated lead via the primary mobile number. If no answer within 2 minutes, proceed to secondary.\n2.  **Secondary Verification:** Contact the designated lead via the secondary mobile number and the primary email.\n3.  **Tertiary Verification:** If the lead is unreachable, contact the \"Backup Lead\" (pre-designated alternate) via the emergency hotline.\n4.  **Validation:** The Incident Commander must verbally confirm the identity of the responder by asking for a pre-agreed \"Challenge-Response\" code (e.g., \"What is the current region status code?\") before granting system access or authorizing critical actions.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        5,
-        4,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "The submission correctly addresses all task requirements, including critical function identification, MTD calculation, RTO/RPO proposals, financial risk quantification, and communication protocols. The structure is clear and professional. However, it scores 4 on Best Practices and Domain Accuracy because it sets RTO equal to MTD (15 minutes), leaving no operational buffer for incident declaration which is risky in industry standards. Additionally, the justification for RPO conflates network latency (affecting availability/SLA) with data recovery point objectives, showing a minor conceptual gap despite reaching the correct banking standard."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze impact on, and risk to, essential business functions or information systems to identify acceptable recovery time periods and resource requirements.",
-      "task_type": "Impact Analysis & RTO Definition",
-      "user_prompt": "You are a Business Continuity Planner. A regional bank is undergoing a digital transformation that introduces new cloud-based transaction processing. Based on the provided system architecture and business impact data, identify the critical functions, calculate the maximum tolerable downtime (MTD), and propose specific RTO and RPO values for the core transaction engine. Justify your choices based on regulatory requirements and customer impact.",
-      "reference_context": {
-        "system_architecture": "Primary database in Region A (US-East), Secondary in Region B (US-West), Cloud API Gateway, Mobile App Frontend",
-        "business_impact_data": {
-          "transaction_latency_increase": "200ms causes 5% customer churn",
-          "downtime_cost_per_minute": "$15,000",
-          "regulatory_requirement": "Transactions must be recoverable within 15 minutes of failure"
-        },
-        "current_rpo": "4 hours",
-        "current_rto": "24 hours"
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Are the RTO and RPO values logically derived from the provided constraints and regulatory limits?",
-        "Criterion 2: Completeness — Did the response identify all critical functions and address both financial and operational impacts?",
-        "Criterion 3: Best practices — Is the proposed solution aligned with industry standards for financial sector continuity?"
-      ],
-      "student_answer": "### Business Continuity Plan: Core Transaction Engine\n\n#### 1. Critical Functions Identification\nBased on the system architecture and business impact data, the following functions are classified as **Critical** and require immediate recovery prioritization:\n*   **Core Transaction Processing Engine:** The primary function handling real-time fund transfers, deposits, and withdrawals. Any interruption directly impacts revenue and customer trust.\n*   **Cloud API Gateway:** The critical interface enabling communication between the Mobile App Frontend and the Core Transaction Engine. Failure here renders the mobile channel unusable.\n*   **Primary/Secondary Database Synchronization:** The mechanism ensuring data integrity and availability across Region A and Region B.\n\n#### 2. Maximum Tolerable Downtime (MTD) Calculation\nThe MTD represents the total time a business function can be unavailable before causing irreversible damage to the organization.\n\n*   **Regulatory Constraint:** Transactions must be recoverable within **15 minutes** of failure.\n*   **Financial Impact:** At $15,000 per minute, a 15-minute outage results in a $225,000 loss, but the regulatory breach is the limiting factor.\n*   **Customer Impact:** A 200ms latency increase causes 5% churn; however, total downtime is a more severe event than latency.\n*   **Determination:** The MTD is dictated by the strictest constraint. Since the regulatory requirement mandates recovery within 15 minutes, the MTD cannot exceed this threshold without incurring regulatory penalties and immediate reputational collapse.\n\n**Maximum Tolerable Downtime (MTD): 15 Minutes**\n\n#### 3. Recovery Objectives (RTO and RPO)\nTo ensure the MTD of 15 minutes is met, the following specific targets are established for the Core Transaction Engine:\n\n| Metric | Target Value | Justification |\n| :--- | :--- | :--- |\n| **Recovery Time Objective (RTO)** | **10 Minutes** | The RTO must be set below the MTD (15 mins) to account for the time required to verify system integrity, validate data consistency, and perform final user acceptance testing before resuming live traffic. A 10-minute RTO provides a 5-minute safety buffer. |\n| **Recovery Point Objective (RPO)** | **< 1 Minute** | The current RPO of 4 hours is unacceptable. Given the regulatory requirement for immediate recoverability and the real-time nature of banking transactions, data loss must be minimized to near-zero. An RPO of <1 minute ensures that in the event of a failover to Region B, no more than one minute of transaction data is lost, maintaining financial accuracy and regulatory compliance. |\n\n#### 4. Strategic Justification\n*   **Regulatory Compliance:** The proposed RTO (10 mins) and RPO (<1 min) directly satisfy the mandate that \"transactions must be recoverable within 15 minutes.\" The current architecture (4-hour RPO, 24-hour RTO) is non-compliant and poses a significant legal risk.\n*   **Customer Retention:** By reducing downtime to under 10 minutes, the bank mitigates the risk of mass customer churn associated with extended outages. The shift to a near-zero RPO prevents transaction discrepancies that lead to customer disputes and loss of trust.\n*   **Financial Protection:** Limiting downtime to 10 minutes caps the maximum financial exposure at $150,000 per incident, compared to the potential for unlimited losses with the current 24-hour RTO.\n*   **Architecture Alignment:** These targets necessitate an immediate upgrade to **Active-Active** or **Active-Passive with automated failover** between Region A and Region B, replacing the current 4-hour backup cycle with real-time replication.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        5,
-        4,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "The submission correctly identifies critical functions, calculates MTD, and proposes RTO/RPO values with sound logic (Correctness: 5, Completeness: 5, Clarity: 5). However, classifying 'Database Synchronization' as a business function rather than a technical dependency indicates a minor terminology gap (Domain Accuracy: 4). Furthermore, the justification for the aggressive <1 minute RPO does not explicitly address the potential latency impact on the 200ms churn threshold, which is a key professional consideration in cloud architecture (Best Practices: 4). The answer is competent and professional but lacks the nuanced trade-off analysis expected of exceptional industry-standard work."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Review existing disaster recovery, crisis management, or business continuity plans.",
       "task_type": "Plan Gap Analysis & Communication Protocol Design",
@@ -973,93 +820,6 @@
       ],
       "score": 4.0,
       "grade_reason": "The submission correctly addresses the explicit task requirements with accurate financial calculations and specific technology-based mitigation strategies (e.g., Kafka, Edge Computing). The structure is clear and professional. However, it fails to distinguish between MTD, RTO, and RPO as required by the 'Additional Checks' validation criteria, which is a significant gap in Business Continuity domain accuracy. Additionally, while the provided failure scenarios only covered AI and ERP, a senior-level assessment might have noted the dependencies (GPS, Portal) even if not explicitly in the failure list, though the student's focus on provided scenarios is defensible. The RTO compliance validation is strong."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze impact on, and risk to, essential business functions or information systems to identify acceptable recovery time periods and resource requirements.",
-      "task_type": "Impact Analysis & RTO Definition",
-      "user_prompt": "You are a Business Continuity Planner. A regional bank is undergoing a digital transformation that introduces new cloud-based transaction processing. Based on the provided system architecture and business impact data, identify the critical functions, calculate the maximum tolerable downtime (MTD), and propose specific RTO and RPO values for the core transaction engine. Justify your choices based on regulatory requirements and customer impact.",
-      "reference_context": {
-        "system_architecture": "Primary database in Region A (US-East), Secondary in Region B (US-West), Cloud API Gateway, Mobile App Frontend",
-        "business_impact_data": {
-          "transaction_latency_increase": "200ms causes 5% customer churn",
-          "downtime_cost_per_minute": "$15,000",
-          "regulatory_requirement": "Transactions must be recoverable within 15 minutes of failure"
-        },
-        "current_rpo": "4 hours",
-        "current_rto": "24 hours"
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Are the RTO and RPO values logically derived from the provided constraints and regulatory limits?",
-        "Criterion 2: Completeness — Did the response identify all critical functions and address both financial and operational impacts?",
-        "Criterion 3: Best practices — Is the proposed solution aligned with industry standards for financial sector continuity?"
-      ],
-      "student_answer": "### Business Continuity Plan: Core Transaction Engine\n\n#### 1. Critical Functions Identification\nBased on the digital transformation architecture and business impact data, the following functions are classified as **Critical**:\n*   **Real-Time Transaction Processing:** The core engine handling deposit, withdrawal, and transfer operations via the Cloud API Gateway.\n*   **Data Synchronization:** The replication mechanism between the Primary Database (Region A) and Secondary Database (Region B).\n*   **Customer Access Channels:** The Mobile App Frontend connectivity to the transaction engine.\n\n*Justification:* Any disruption to these functions directly triggers immediate financial loss ($15,000/minute), regulatory non-compliance, and accelerated customer churn (5% churn at 200ms latency).\n\n#### 2. Maximum Tolerable Downtime (MTD) Calculation\nThe MTD is defined as the maximum time a business function can be unavailable before the organization faces irreversible consequences (regulatory penalties, catastrophic financial loss, or permanent customer loss).\n\n*   **Regulatory Constraint:** Transactions must be recoverable within **15 minutes**.\n*   **Financial Constraint:** At $15,000/minute, a 15-minute outage results in $225,000 in direct costs. While higher costs accumulate, the regulatory mandate sets the hard ceiling for recovery.\n*   **Customer Impact:** A 200ms latency increase causes 5% churn. While this is a performance metric, a total outage (infinite latency) is the worst-case scenario.\n\n**Determined MTD:** **15 Minutes**\n*Reasoning:* The regulatory requirement acts as the binding constraint. Exceeding 15 minutes constitutes a breach of compliance, which carries penalties exceeding the direct financial loss of the downtime itself.\n\n#### 3. Proposed Recovery Objectives\n\n| Metric | Proposed Value | Current Value | Rationale |\n| :--- | :--- | :--- | : |\n| **Recovery Time Objective (RTO)** | **10 Minutes** | 24 Hours | The RTO must be strictly less than the MTD (15 mins) to provide a safety buffer for failover testing and validation. The current 24-hour RTO is unacceptable for a real-time banking engine. |\n| **Recovery Point Objective (RPO)** | **< 1 Minute** | 4 Hours | The RPO defines the maximum acceptable data loss. Given the 15-minute regulatory recovery window and the need to prevent transaction duplication or loss during a failover from Region A to Region B, data loss must be near-zero. A 4-hour RPO would result in significant financial discrepancies and regulatory violations. |\n\n#### 4. Strategic Justification\n\n**A. Regulatory Compliance**\nThe mandate requiring transaction recovery within 15 minutes necessitates an RTO of 10 minutes. This ensures that even with minor delays in failover initiation or verification, the system remains within the 15-minute compliance window. The current 4-hour RPO is non-compliant; it must be reduced to sub-minute levels to ensure data integrity during the recovery window.\n\n**B. Customer Impact & Financial Protection**\n*   **Churn Mitigation:** The current architecture allows for a 4-hour data loss window. In a high-frequency trading or banking environment, this is unacceptable. Reducing RPO to <1 minute ensures that customer balances and transaction histories are preserved, preventing the \"trust deficit\" that leads to churn.\n*   **Latency Management:** The architecture must support automatic failover to Region B (US-West) within the 10-minute RTO. This requires the Cloud API Gateway to be configured for global traffic steering and the database replication to be synchronous or near-synchronous (asynchronous with <1s lag) to meet the RPO.\n*   **Cost Avoidance:** Reducing downtime from the current 24-hour potential to a 10-minute maximum limits exposure to the $15,000/minute cost rate, capping the maximum financial impact of a single incident at $150,000 (excluding reputational damage), rather than the $36 million potential loss over a full day.\n\n**Implementation Recommendation:**\nImmediate migration to a **synchronous or near-synchronous database replication** strategy between Region A and Region B is required to achieve the <1 minute RPO. Additionally, the Cloud API Gateway must be configured with **active-active failover** capabilities to ensure the 10-minute RTO is achievable without manual intervention.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        5,
-        5,
-        5,
-        5
-      ],
-      "score": 5.0,
-      "grade_reason": "The submission is exceptional. It correctly identifies MTD based on the regulatory constraint (15 mins) and sets RTO (10 mins) and RPO (<1 min) with appropriate buffers and justifications. It distinguishes between MTD, RTO, and RPO clearly and addresses the cloud migration risks effectively. The structure is professional, and the strategic justification links financial impact and churn to the proposed targets. No meaningful gaps were found in the technical or business logic."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze impact on, and risk to, essential business functions or information systems to identify acceptable recovery time periods and resource requirements.",
-      "task_type": "Impact Analysis & RTO Definition",
-      "user_prompt": "You are a Business Continuity Planner. A regional bank is undergoing a digital transformation that introduces new cloud-based transaction processing. Based on the provided system architecture and business impact data, identify the critical functions, calculate the maximum tolerable downtime (MTD), and propose specific RTO and RPO values for the core transaction engine. Justify your choices based on regulatory requirements and customer impact. Additionally, define a communication protocol including specific escalation paths and contact verification steps, and quantify the risk assessment in terms of financial loss and operational downtime.",
-      "reference_context": {
-        "system_architecture": "Primary database in Region A (US-East), Secondary in Region B (US-West), Cloud API Gateway, Mobile App Frontend",
-        "business_impact_data": {
-          "transaction_latency_increase": "200ms causes 5% customer churn",
-          "downtime_cost_per_minute": "$15,000",
-          "regulatory_requirement": "Transactions must be recoverable within 15 minutes of failure"
-        },
-        "current_rpo": "4 hours",
-        "current_rto": "24 hours",
-        "critical_functions": [
-          "Real-time transaction processing",
-          "Account balance updates",
-          "Customer authentication"
-        ],
-        "stakeholders": {
-          "it_director": "John Doe (Ext: 5001)",
-          "compliance_officer": "Jane Smith (Ext: 5002)",
-          "ceo": "Robert Brown (Ext: 5003)"
-        }
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Are the RTO and RPO values logically derived from the provided constraints and regulatory limits (e.g., RTO <= 15 minutes)?",
-        "Criterion 2: Completeness — Did the response identify all critical functions, address both financial and operational impacts, and include a communication protocol with escalation paths?",
-        "Criterion 3: Risk Quantification — Is the risk assessment explicitly quantified in terms of financial loss per minute and operational downtime duration?",
-        "Criterion 4: Best Practices — Is the proposed solution aligned with industry standards for financial sector continuity and regulatory compliance?"
-      ],
-      "student_answer": "# Business Continuity Plan: Digital Transformation Core Transaction Engine\n\n## 1. Critical Function Identification\nBased on the system architecture and business impact data, the following functions are classified as **Critical** due to their direct impact on regulatory compliance, revenue generation, and customer trust:\n*   **Real-time Transaction Processing**: The primary revenue driver; failure results in immediate financial loss and customer churn.\n*   **Account Balance Updates**: Essential for accurate financial reporting and preventing overdraft fraud; failure compromises data integrity.\n*   **Customer Authentication**: The primary security gate; failure exposes the bank to unauthorized access and regulatory penalties.\n\n## 2. Recovery Metrics (RTO and RPO)\nThe current metrics (RTO: 24 hours, RPO: 4 hours) are non-compliant and unacceptable. The following targets are established:\n\n| Metric | Proposed Value | Justification |\n| :--- | :--- | :--- |\n| **Maximum Tolerable Downtime (MTD)** | **15 Minutes** | Dictated strictly by the regulatory requirement (\"Transactions must be recoverable within 15 minutes\"). Exceeding this triggers immediate regulatory breach and potential fines. |\n| **Recovery Time Objective (RTO)** | **10 Minutes** | Set below the MTD (15 mins) to provide a 5-minute buffer for failover validation, stakeholder notification, and manual intervention if automated failover fails. |\n| **Recovery Point Objective (RPO)** | **< 1 Minute** | The current 4-hour RPO is unacceptable. Given the $15,000/minute cost and the need for real-time balance accuracy, data loss must be minimized to near-zero to prevent financial reconciliation errors and customer disputes. |\n\n## 3. Risk Assessment Quantification\n*   **Financial Loss Exposure**:\n    *   **Base Cost**: $15,000 per minute of downtime.\n    *   **Churn Impact**: A latency increase of 200ms causes 5% churn. If the system degrades to this threshold for 15 minutes (MTD), the bank risks losing 5% of active transaction volume, compounding the direct $225,000 (15 mins × $15k) loss with long-term customer lifetime value erosion.\n    *   **Regulatory Penalty Risk**: Failure to meet the 15-minute recovery window introduces high risk of regulatory fines, estimated at 10x the immediate downtime cost ($2.25M+) based on standard banking compliance penalties.\n*   **Operational Downtime Impact**:\n    *   **Total Service Unavailability**: 100% of transaction processing halted during the RTO window.\n    *   **Data Integrity Risk**: High. With a proposed RPO of <1 minute, the risk of losing a full day's transaction history is eliminated, but the risk of partial transaction states (e.g., funds debited but not credited) remains if the RTO is not met.\n\n## 4. Communication Protocol and Escalation Path\nA tiered escalation protocol is established to ensure rapid response during a disruption.\n\n### Escalation Matrix\n| Level | Role | Responsibility | Contact |\n| :--- | :--- | :--- | :--- |\n| **Level 1** | Incident Commander (IT Ops) | Initial detection, triage, and execution of failover procedures. | John Doe (Ext: 5001) |\n| **Level 2** | Compliance & Legal | Regulatory notification, impact assessment, and customer communication approval. | Jane Smith (Ext: 5002) |\n| **Level 3** | Executive Leadership | Strategic decision-making, external stakeholder management, and public relations. | Robert Brown (Ext: 5003) |\n\n### Verification Steps\n1.  **Primary Contact Verification**: Upon triggering the incident, the Incident Commander must verify the contact via the primary phone line.\n2.  **Secondary Verification**: If the primary contact is unreachable within 2 minutes, verification is attempted via the secondary secure channel (e.g., encrypted messaging app or backup mobile number on file).\n3.  **Tertiary Verification**: If both fail, the next available senior manager in the chain of command is contacted via the corporate emergency hotline.\n4.  **Status Confirmation**: All stakeholders must acknowledge receipt of the incident alert within 5 minutes of the initial notification.\n\n### Communication Flow\n1.  **Detection**: Automated monitoring detects latency >200ms or outage.\n2.  **Alert**: System automatically notifies Level 1 (John Doe).\n3.  **Assessment**: Level 1 assesses impact. If RTO < 10 mins is threatened, Level 2 (Jane Smith) is notified immediately.\n4.  **Escalation**: If recovery is not initiated within 5 minutes, Level 3 (Robert Brown) is notified.\n5.  **Resolution**: Once the system is restored, a post-incident report is generated within 24 hours.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        4,
-        5,
-        4,
-        5
-      ],
-      "score": 4.4,
-      "grade_reason": "The submission correctly calculates MTD, RTO, and RPO based on regulatory and financial data, and provides a professional communication protocol. However, it fails to explicitly analyze the architectural risk of the Region A single point of failure as requested in the context and additional checks, merely listing the critical functions provided in the prompt rather than deriving them from the architecture. The risk quantification focuses on financial loss but lacks specific mitigation strategies for the cross-region failover latency implied by the architecture."
     }
   ]
 }

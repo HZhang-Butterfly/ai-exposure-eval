@@ -6,8 +6,8 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 16,
-    "evaluated_tasks": 20,
-    "batches": 4,
+    "evaluated_tasks": 15,
+    "batches": 3,
     "batch_size": 5,
     "grading_scale_max": 5,
     "grading_dimensions": [
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.57,
+      "overall": 4.64,
       "dimensions": {
-        "Correctness": 4.42,
-        "Completeness": 4.47,
-        "Best Practices": 4.26,
-        "Domain Accuracy": 4.68,
+        "Correctness": 4.5,
+        "Completeness": 4.57,
+        "Best Practices": 4.43,
+        "Domain Accuracy": 4.71,
         "Clarity": 5.0
       },
-      "evaluated_tasks": 20,
+      "evaluated_tasks": 15,
       "scale_max": 5
     },
     "total_time_seconds": 3149.27
@@ -220,56 +220,6 @@
         "Clarity"
       ],
       "grade_reason": "The submission is exceptional. It correctly synthesized data, identified all inconsistencies including score, debt, and payment status, and applied the risk policy conservatively. The High Risk recommendation strictly follows the provided matrix. No hallucinated data was introduced, and the professional structure meets industry standards. The D/E ratio mention is a standard recommendation for due diligence, not a factual claim."
-    },
-    {
-      "task_id": "gen_task_05",
-      "onet_source": "Evaluate customers' computerized credit records and payment histories to decide whether to approve new credit, based on predetermined standards.",
-      "task_type": "Regulatory Compliance and Decision Logic",
-      "user_prompt": "You are a Senior Credit Authorizer. Review the application for 'Elena Rodriguez' against the company's updated GDPR and FCRA compliance standards. The applicant has requested a copy of their credit file and a specific reason for a previous denial. Draft a response letter that explains the denial decision based on the provided risk factors while ensuring all regulatory disclosures are met. Do not include any sensitive PII other than what is necessary for the explanation.",
-      "reference_context": {
-        "applicant_profile": {
-          "name": "Elena Rodriguez",
-          "previous_application_date": "2023-10-15",
-          "credit_score": 590,
-          "dti_ratio": 0.55,
-          "recent_inquiries": 4,
-          "denial_reasons": [
-            "Low credit score",
-            "High debt-to-income ratio"
-          ]
-        },
-        "company_standards": {
-          "min_score": 620,
-          "max_dti": 0.45,
-          "max_inquiries_30days": 2
-        },
-        "regulatory_requirements": {
-          "fcra_adverse_action": "Must state specific reasons for denial",
-          "gdpr_rights": "Must inform of right to rectification and data access"
-        }
-      },
-      "evaluation_criteria": [
-        "Regulatory Adherence: Does the letter include all mandatory FCRA adverse action statements and GDPR rights?",
-        "Accuracy: Are the denial reasons explicitly linked to the provided risk factors (score, DTI)?",
-        "Tone: Is the communication empathetic yet firm and professional?"
-      ],
-      "student_answer": "Elena Rodriguez\n[Applicant Address]\n[City, State, Zip Code]\n\n**Re: Adverse Action Notice – Application Dated October 15, 2023**\n\nDear Ms. Rodriguez,\n\nThank you for your recent application for credit with our institution. We have reviewed your file and, unfortunately, we are unable to grant the credit requested at this time.\n\n**Reasons for Denial**\nIn accordance with the Fair Credit Reporting Act (FCRA), we are required to provide you with the specific reasons for this adverse action. Your application was denied based on the following factors:\n\n1.  **Credit Score:** Your current credit score of 590 is below our minimum underwriting requirement of 620.\n2.  **Debt-to-Income Ratio:** Your debt-to-income ratio of 55% exceeds our maximum allowable threshold of 45%.\n\nAdditionally, our records indicate four recent credit inquiries within the last 30 days, which exceeds our limit of two inquiries for this period.\n\n**Your Rights Under the FCRA**\nYou have the right to receive a free copy of your credit report from the consumer reporting agency that provided the information used in this decision. To obtain this report, please contact the agency directly or visit their website. You also have the right to dispute the accuracy or completeness of any information in your credit file.\n\n**Your Rights Under GDPR**\nIn compliance with the General Data Protection Regulation (GDPR), you have the right to:\n*   **Access:** Request a copy of the personal data we hold about you.\n*   **Rectification:** Request the correction of any inaccurate or incomplete personal data.\n*   **Erasure:** Request the deletion of your data where applicable.\n\nTo exercise these rights, please contact our Data Protection Officer at [Insert Contact Information] or write to us at [Insert Mailing Address].\n\nWe encourage you to review your credit report for accuracy and consider steps to improve your credit profile, such as reducing outstanding debt and limiting new credit applications, before reapplying.\n\nSincerely,\n\nSenior Credit Authorizer\n[Company Name]\n[Company Address]\n[Phone Number]",
-      "score": 3.6,
-      "dimension_scores": [
-        3,
-        3,
-        3,
-        4,
-        5
-      ],
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "grade_reason": "The submission is clear and accurate on data (Clarity 5, Domain Accuracy 4). However, it fails to include the specific Consumer Reporting Agency (CRA) contact details mandated by FCRA adverse action standards, which is a significant compliance gap (Correctness 3, Completeness 3, Best Practices 3). Additionally, it includes 'inquiries' as a denial reason which, while logically valid per company standards, was not listed in the provided 'denial_reasons' field."
     },
     {
       "task_id": "gen_task_01",
@@ -478,109 +428,6 @@
       ],
       "score": 5.0,
       "grade_reason": "The submission is an exceptional, industry-standard template that strictly adheres to all provided FCRA requirements and context constraints. It correctly includes specific denial reasons with exact figures (580 vs 620, 45% vs 35%), avoids prohibited vague language, and accurately states the CRA's non-involvement and consumer rights (dispute/free report within 60 days). No hallucinated data was introduced, placeholders were used appropriately for variable information, and the professional tone and structure meet compliance standards without meaningful gaps."
-    },
-    {
-      "task_id": "gen_task_05",
-      "onet_source": "Examine city directories and public records to verify residence property ownership, bankruptcies, liens, arrest record, or unpaid taxes of applicants.",
-      "task_type": "Multi-Source Data Synthesis and Risk Scoring",
-      "user_prompt": "You are a Senior Credit Analyst. Synthesize data from three sources (Application, Credit Bureau, and Public Records) to calculate a composite risk score and make a final approval decision. The decision must strictly follow the weighted scoring model provided.",
-      "reference_context": {
-        "data_sources": {
-          "application": {
-            "income": 55000,
-            "employment_years": 3
-          },
-          "credit_bureau": {
-            "score": 640,
-            "delinquencies_12mo": 2
-          },
-          "public_records": {
-            "liens": 0,
-            "bankruptcies": 0
-          }
-        },
-        "scoring_model": {
-          "score_thresholds": {
-            "excellent": 700,
-            "good": 650,
-            "fair": 600,
-            "poor": 550
-          },
-          "delinquency_penalty": 50,
-          "income_stability_bonus": 20,
-          "approval_cutoff": 600
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: Is the final composite score calculated correctly applying the penalties and bonuses?",
-        "Completeness: Did the response show the step-by-step calculation leading to the final decision?",
-        "Best Practices: Is the conclusion clearly linked to the calculated score and the approval cutoff?"
-      ],
-      "student_answer": "**Credit Analysis Report**\n\n**Applicant Profile**\n*   **Income:** $55,000\n*   **Employment Tenure:** 3 Years\n*   **Credit Bureau Score:** 640\n*   **Delinquencies (12mo):** 2\n*   **Public Records:** No Liens, No Bankruptcies\n\n**Risk Score Calculation**\n1.  **Base Credit Score:** 640\n2.  **Delinquency Adjustment:** -50 (2 delinquencies trigger the standard penalty)\n3.  **Income Stability Adjustment:** +20 (3 years employment qualifies for the stability bonus)\n4.  **Composite Risk Score:** 640 - 50 + 20 = **610**\n\n**Decision Logic**\n*   **Calculated Score:** 610\n*   **Approval Cutoff:** 600\n*   **Classification:** Fair (Score falls between 600 and 650)\n\n**Final Determination**\n**APPROVED**\n\nThe applicant meets the minimum threshold for approval. While the credit history shows recent delinquencies, the income stability and absence of public records mitigate the risk sufficiently to exceed the 600-point cutoff.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        4,
-        4,
-        4,
-        5
-      ],
-      "score": 4.2,
-      "grade_reason": "The submission correctly calculates the score and decision based on the provided model (640 - 50 + 20 = 610, Approved). However, it fails to note the absence of DTI data, which is a critical industry standard check mentioned in the Additional Checks, reducing domain accuracy and best practices scores. The interpretation of the delinquency penalty as a flat deduction is reasonable given the JSON structure but lacks explicit assumption documentation. Clarity is excellent with professional formatting."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Evaluate customers' computerized credit records and payment histories to decide whether to approve new credit, based on predetermined standards.",
-      "task_type": "Risk Assessment Decision Making",
-      "user_prompt": "You are a Credit Authorizer. Review the provided applicant profile and credit history. Apply the company's risk matrix to determine if the credit application should be approved, denied, or flagged for manual review. Output your decision and a detailed justification citing specific data points from the profile.",
-      "reference_context": {
-        "applicant_profile": {
-          "name": "John Doe",
-          "ssn_last_4": "1234",
-          "annual_income": 45000,
-          "debt_to_income_ratio": 0.42,
-          "credit_score": 620,
-          "bankruptcy_history": "None",
-          "liens": "None",
-          "payment_history": "3 late payments in last 24 months",
-          "employment_stability": "2 years at current employer"
-        },
-        "company_risk_matrix": {
-          "min_credit_score": 650,
-          "max_dti": 0.36,
-          "max_late_payments_24mo": 1,
-          "bankruptcy_disqualifier": true,
-          "liens_disqualifier": true
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: Is the final decision (Approve/Deny/Flag) logically consistent with the provided risk matrix?",
-        "Completeness: Did the response address all relevant data points (income, score, history) in the justification?",
-        "Best Practices: Is the reasoning clear, professional, and suitable for an audit record?"
-      ],
-      "student_answer": "**Decision:** Deny\n\n**Justification:**\nThe credit application for John Doe (SSN ending in 1234) is denied based on the following deviations from the company risk matrix:\n\n1.  **Credit Score:** The applicant's credit score of **620** falls below the minimum required threshold of **650**.\n2.  **Debt-to-Income Ratio (DTI):** The applicant's DTI of **0.42 (42%)** exceeds the maximum allowable limit of **0.36 (36%)**.\n3.  **Payment History:** The applicant has **3 late payments** in the last 24 months, which exceeds the maximum allowance of **1 late payment**.\n\nWhile the applicant has no bankruptcy history or liens and demonstrates employment stability, the cumulative impact of the substandard credit score, excessive debt burden, and poor recent payment performance results in an automatic denial.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        5,
-        4,
-        5,
-        5
-      ],
-      "score": 4.8,
-      "grade_reason": "The submission is factually accurate, correctly identifying all risk matrix violations and reaching the appropriate denial decision with clear data citation, warranting 5s for Correctness, Completeness, Domain Accuracy, and Clarity. Best Practices receives a 4 because while professional, it lacks explicit policy references or a specific statement ruling out the 'manual review' option, which would be expected in a truly exceptional industry-standard credit memo."
     },
     {
       "task_id": "gen_task_02",
@@ -853,54 +700,6 @@
       "grade_reason": "The submission correctly applies the provided protocol and cites relevant data points accurately (Correctness, Domain Accuracy, Clarity). However, it omits explicit verification of the bankruptcy and dispute status fields provided in the profile. A Senior Analyst would document these negative checks to ensure compliance before external collection, representing a minor gap in Completeness and Best Practices."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Evaluate customers' computerized credit records and payment histories to decide whether to approve new credit, based on predetermined standards.",
-      "task_type": "Risk Assessment Decision Making",
-      "user_prompt": "You are a Credit Authorizer. Review the provided applicant profile and credit history. Apply the company's risk matrix to determine if the credit application should be approved, denied, or flagged for manual review. Output your decision and a detailed justification citing specific data points from the profile.",
-      "reference_context": {
-        "applicant_profile": {
-          "name": "John Doe",
-          "ssn_last_4": "1234",
-          "annual_income": 45000,
-          "debt_to_income_ratio": 0.42,
-          "credit_score": 620,
-          "bankruptcy_history": "None",
-          "liens": "None",
-          "payment_history": "3 late payments in last 24 months",
-          "employment_stability": "2 years at current employer"
-        },
-        "company_risk_matrix": {
-          "min_credit_score": 650,
-          "max_dti": 0.36,
-          "max_late_payments_24mo": 1,
-          "bankruptcy_disqualifier": true,
-          "liens_disqualifier": true
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: Is the final decision (Approve/Deny/Flag) logically consistent with the provided risk matrix?",
-        "Completeness: Did the response address all relevant data points (income, score, history) in the justification?",
-        "Best Practices: Is the reasoning clear, professional, and suitable for an audit record?"
-      ],
-      "student_answer": "**Decision:** DENY\n\n**Justification:**\nThe credit application for John Doe (SSN ending in 1234) is denied based on the following deviations from the company risk matrix:\n\n1.  **Credit Score Deficiency:** The applicant's credit score is **620**, which falls below the minimum required threshold of **650**.\n2.  **Debt-to-Income Ratio Exceedance:** The applicant's debt-to-income ratio is **0.42 (42%)**, exceeding the maximum allowable limit of **0.36 (36%)**.\n3.  **Payment History Violation:** The applicant has **3 late payments** in the last 24 months, surpassing the maximum permitted limit of **1**.\n\nWhile the applicant has no bankruptcy history or liens and demonstrates employment stability, the cumulative failures in credit score, debt-to-income ratio, and payment history result in an automatic denial per policy.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        4,
-        4,
-        5,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "Correctness (5): The decision and all data points are factually accurate against the provided context. Domain Accuracy (5): Terminology and thresholds are applied correctly. Clarity (5): The structure is professional and easy to read. Completeness (4): While the decision is correct, the justification does not explicitly address why 'manual review' was not selected among the three options provided in the task. Best Practices (4): A senior-level submission would typically include next steps or a brief risk severity assessment to fully justify the denial beyond just threshold breaches."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Keep records of customers' charges and payments.",
       "task_type": "Data Reconciliation and Compliance Audit",
@@ -1024,54 +823,6 @@
       ],
       "score": 5.0,
       "grade_reason": "The submission correctly addresses all task requirements, including the statement generation and privacy checklist. Calculations are accurate, and the output strictly adheres to the provided security policy's allowed and prohibited fields. The formatting is professional and clear. No meaningful gaps or errors were identified."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Evaluate customers' computerized credit records and payment histories to decide whether to approve new credit, based on predetermined standards.",
-      "task_type": "Risk Assessment Decision Making",
-      "user_prompt": "You are a Credit Authorizer. Review the provided applicant profile and credit history. Apply the company's risk matrix to determine if the credit application should be approved, denied, or flagged for manual review. Output your decision and a detailed justification citing specific data points from the profile.",
-      "reference_context": {
-        "applicant_profile": {
-          "name": "John Doe",
-          "ssn_last_4": "1234",
-          "annual_income": 45000,
-          "debt_to_income_ratio": 0.42,
-          "credit_score": 620,
-          "bankruptcy_history": "None",
-          "liens": "None",
-          "payment_history": "3 late payments in last 24 months",
-          "employment_stability": "2 years at current employer"
-        },
-        "company_risk_matrix": {
-          "min_credit_score": 650,
-          "max_dti": 0.36,
-          "max_late_payments_24mo": 1,
-          "bankruptcy_disqualifier": true,
-          "liens_disqualifier": true
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: Is the final decision (Approve/Deny/Flag) logically consistent with the provided risk matrix?",
-        "Completeness: Did the response address all relevant data points (income, score, history) in the justification?",
-        "Best Practices: Is the reasoning clear, professional, and suitable for an audit record?"
-      ],
-      "student_answer": "**Decision:** Deny\n\n**Justification:**\nThe credit application for John Doe (SSN ending in 1234) is denied based on the following deviations from the company's risk matrix:\n\n1.  **Credit Score:** The applicant's credit score of **620** falls below the minimum required threshold of **650**.\n2.  **Debt-to-Income Ratio (DTI):** The applicant's DTI of **0.42 (42%)** exceeds the maximum allowable limit of **0.36 (36%)**.\n3.  **Payment History:** The applicant has **3 late payments** in the last 24 months, which exceeds the maximum allowance of **1 late payment**.\n\nWhile the applicant has no bankruptcy history or liens and demonstrates employment stability, the cumulative impact of the substandard credit score, excessive debt load, and poor recent payment behavior results in an automatic denial.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        5,
-        4,
-        5,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "Correctness (4): The decision is accurate, but the justification uses 'cumulative impact' phrasing which implies all factors are required for denial, whereas the matrix likely dictates denial on any single threshold violation. Best Practices (4): While the decision logic is sound, a professional credit authorization typically includes a reference to adverse action notification requirements (ECOA/FCRA) for denied applications, which is omitted here. Completeness (5): All specific data points from the profile and matrix are accurately cited. Domain Accuracy (5): Terminology and calculations are precise. Clarity (5): The output is well-structured and easy to read."
     }
   ]
 }

@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 19,
-    "evaluated_tasks": 21,
+    "evaluated_tasks": 18,
     "batches": 4,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -20,13 +20,13 @@
     "exposure_score": {
       "overall": 4.36,
       "dimensions": {
-        "Correctness": 4.24,
-        "Completeness": 4.24,
-        "Best Practices": 4.24,
-        "Domain Accuracy": 4.19,
-        "Clarity": 4.9
+        "Correctness": 4.28,
+        "Completeness": 4.22,
+        "Best Practices": 4.22,
+        "Domain Accuracy": 4.17,
+        "Clarity": 4.89
       },
-      "evaluated_tasks": 21,
+      "evaluated_tasks": 18,
       "scale_max": 5
     },
     "total_time_seconds": 3562.67
@@ -379,40 +379,6 @@
       "grade_reason": "The submission demonstrates strong clinical knowledge and professional counseling tone, particularly in Best Practices and Clarity. However, it fails to explicitly show the segregation calculation requested by the instruction to 'Calculate theoretical risks,' impacting Completeness. Additionally, it conflates theoretical segregation risk (typically 1/3 unbalanced gametes) with empirical live-birth risk in the terminology, slightly affecting Domain Accuracy and Correctness. The risk estimates are clinically acceptable but on the higher end for live-born outcomes."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze genetic information to identify patients or families at risk for specific disorders or syndromes.",
-      "task_type": "Clinical Risk Assessment",
-      "user_prompt": "Given the following family pedigree and patient history, identify the most likely mode of inheritance for the observed condition and calculate the recurrence risk for the patient's future children. Provide a summary of the reasoning based on the provided data.",
-      "reference_context": {
-        "patient_age": 34,
-        "family_history": "Patient's mother diagnosed with Breast Cancer at 45. Patient's maternal aunt diagnosed with Ovarian Cancer at 48. Patient's father has no history of cancer. Patient has two healthy children.",
-        "lab_results": "BRCA1 sequencing pending; Family history suggests high risk.",
-        "pedigree_data": "3 generations, 2 affected females on maternal side, no male affected."
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the identified inheritance pattern match the clinical data?",
-        "Criterion 2: Completeness — Did it address recurrence risk, mode of inheritance, and reasoning?",
-        "Criterion 3: Best practices — Is the tone appropriate for a clinical report and does it cite standard guidelines?"
-      ],
-      "student_answer": "**Mode of Inheritance:** Autosomal Dominant\n\n**Recurrence Risk for Future Children:** 50% (assuming the patient carries a pathogenic *BRCA1* variant)\n\n**Summary of Reasoning:**\nThe clinical presentation and pedigree data are highly characteristic of Hereditary Breast and Ovarian Cancer (HBOC) syndrome caused by a germline mutation in the *BRCA1* gene. The pattern of inheritance is **autosomal dominant**, evidenced by:\n1.  **Vertical Transmission:** The condition appears in multiple generations (maternal grandmother's side, though not explicitly named, is implied by the aunt's diagnosis, and the patient's mother).\n2.  **Affected Individuals:** The patient's mother and maternal aunt are affected, indicating transmission through the maternal line.\n3.  **Gender Distribution:** While *BRCA1* mutations affect both sexes, the observed cases are female, which is consistent with the high penetrance of breast and ovarian cancers in women. The absence of affected males does not rule out autosomal dominant inheritance, as males can be carriers who may develop prostate or pancreatic cancer (often at lower rates or later ages) or remain unaffected.\n4.  **Early Onset:** Diagnoses at ages 45 and 48 are considered early-onset for these cancers, strongly suggesting a genetic etiology rather than sporadic occurrence.\n\n**Risk Calculation:**\nIf the patient tests positive for a pathogenic *BRCA1* variant, she has a 50% chance of passing the mutated allele to each future child, regardless of the child's sex. Consequently, each future child would have a 50% risk of inheriting the mutation and an associated increased lifetime risk of developing breast, ovarian, or other related cancers. If the patient tests negative, the recurrence risk for her children would revert to the general population risk (unless the mutation is found in a parent who was not tested or is a *de novo* event, which is rare). Pending the *BRCA1* sequencing results, the theoretical risk based on family history is 50%.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        3,
-        3,
-        4,
-        5
-      ],
-      "score": 3.6,
-      "grade_reason": "The submission correctly identifies Autosomal Dominant inheritance and uses appropriate genetic terminology (BRCA1, penetrance, germline). However, the recurrence risk calculation is conditional (50% assuming the patient is a carrier) rather than providing the unconditional risk based on family history (25%, accounting for the patient's 50% carrier probability). This omission affects Correctness, Completeness, and Best Practices, as standard genetic counseling requires presenting the pre-test risk to the patient. Domain accuracy regarding genetic concepts is high, and the structure is very clear."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Prepare or provide genetics-related educational materials to patients or medical personnel.",
       "task_type": "Patient Education Material Development",
@@ -708,74 +674,6 @@
       ],
       "score": 4.6,
       "grade_reason": "The submission is a strong draft that accurately addresses the prompt's requirements for problem, intervention, and outcomes. Terminology is precise (HBOC, BRCA, CHW). However, the reliance on historical controls in Aim 2 is a methodological weakness compared to concurrent controls, impacting Best Practices. Additionally, while the aims are clear, a bulleted format is often preferred in NIH Specific Aims pages for readability, affecting Completeness slightly. No domain errors or insensitive language were found."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze genetic information to identify patients or families at risk for specific disorders or syndromes.",
-      "task_type": "Clinical Risk Assessment",
-      "user_prompt": "Based on the provided family history and pedigree data, determine the most likely mode of inheritance for the observed condition and calculate the recurrence risk for the patient's future children. Provide a summary of the reasoning based on the provided data, ensuring all communication reflects empathy and cultural sensitivity.",
-      "reference_context": {
-        "patient_age": 34,
-        "family_history": "Patient's mother diagnosed with Breast Cancer at 45. Patient's maternal aunt diagnosed with Ovarian Cancer at 48. Patient's father has no history of cancer. Patient has two healthy children.",
-        "lab_results": "BRCA1 sequencing pending; Family history suggests high risk.",
-        "pedigree_data": "3 generations, 2 affected females on maternal side, no male affected."
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the identified inheritance pattern match the clinical data (Autosomal Dominant)?",
-        "Criterion 2: Completeness — Did it address recurrence risk, mode of inheritance, and reasoning based on Mendelian patterns?",
-        "Criterion 3: Best practices — Is the tone appropriate for a clinical report, does it cite standard guidelines (e.g., NCCN), and does it include a disclaimer regarding pending lab results?"
-      ],
-      "student_answer": "**Genetic Counseling Summary**\n\n**Mode of Inheritance**\nBased on the family history provided, the most likely mode of inheritance is **Autosomal Dominant**, specifically consistent with Hereditary Breast and Ovarian Cancer (HBOC) syndrome associated with a *BRCA1* or *BRCA2* pathogenic variant. This conclusion is supported by the presence of breast and ovarian cancers in multiple generations on the maternal side, the early age of onset (45 and 48 years), and the vertical transmission pattern affecting females. While the current data shows only female affected individuals, *BRCA* mutations are autosomal dominant, meaning males can carry and transmit the mutation even if they do not develop these specific cancers.\n\n**Recurrence Risk Calculation**\nAssuming the patient carries a pathogenic *BRCA1* variant (which is pending confirmation via sequencing), the recurrence risk for her future children is **50%**.\n*   **Explanation:** As an autosomal dominant condition, if the patient is a carrier, she has a 1 in 2 chance of passing the specific gene variant to each child, regardless of the child's sex.\n*   **Current Status:** Until the *BRCA1* sequencing results are finalized, this risk remains theoretical. If the patient tests negative for the familial variant, the risk for her children returns to the general population baseline.\n\n**Reasoning Summary**\nThe pattern of breast cancer in the mother and ovarian cancer in the maternal aunt, both diagnosed before age 50, strongly suggests a hereditary cancer syndrome rather than sporadic cases. The clustering of these specific cancers on one side of the family, spanning two generations, aligns with the known penetrance of *BRCA* mutations. The absence of male affected individuals in the pedigree does not rule out this diagnosis, as ovarian cancer is exclusive to females and breast cancer in men with *BRCA* mutations is rare. The pending lab results are critical to confirm the specific genetic etiology and to guide personalized risk management for the patient and her offspring.\n\n**Counseling Note**\nWe understand that navigating family health history and potential genetic risks can be emotionally challenging. Please know that this information is intended to empower you with knowledge to make informed decisions about your health and your family's future. We are committed to supporting you with sensitivity to your unique cultural and personal values throughout this process. Once your genetic test results are available, we will schedule a follow-up to discuss the implications in detail and outline a tailored care plan.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        5,
-        5,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "The submission is well-structured, empathetic, and professionally written, meeting best practices and clarity standards (5s). However, the recurrence risk calculation is conditional (50% if carrier) rather than providing the current pre-test probability for the children (approx. 25%, based on the mother's affected status). This represents a meaningful gap in Correctness and Domain Accuracy regarding the specific family structure and Mendelian risk calculation, preventing a perfect score on those dimensions."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze genetic information to identify patients or families at risk for specific disorders or syndromes.",
-      "task_type": "Clinical Risk Assessment and Counseling Simulation",
-      "user_prompt": "You are a genetic counselor reviewing a case for a 34-year-old female patient (Patient A) who is concerned about her family's history of early-onset cancers. Based on the provided family history and pedigree data, determine the most likely mode of inheritance, calculate the recurrence risk for her future children, and draft a summary of your findings for the patient's medical record. Ensure your response adheres to HIPAA standards, demonstrates cultural sensitivity, and includes a disclaimer that this is a simulation and not a formal medical diagnosis.",
-      "reference_context": {
-        "patient_age": 34,
-        "family_history": "Patient's mother was diagnosed with Breast Cancer at 45. Patient's maternal aunt was diagnosed with Ovarian Cancer at 48. Patient's father has no history of cancer. Patient currently has two healthy children (ages 6 and 8).",
-        "lab_results": "BRCA1 sequencing is pending; however, the family history strongly suggests a hereditary cancer syndrome.",
-        "pedigree_data": "Three generations available. Two affected females on the maternal side (mother and aunt). No affected males identified in the maternal lineage. Patient is the only female in the second generation with a known diagnosis pending."
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the identified inheritance pattern (Autosomal Dominant) align with the provided clinical data and standard Mendelian patterns?",
-        "Criterion 2: Completeness — Does the response accurately calculate the recurrence risk (50% for future children) and provide a clear reasoning chain based on the pedigree?",
-        "Criterion 3: Best Practices — Is the tone empathetic and culturally sensitive? Does the response include a clear disclaimer regarding the simulation nature and HIPAA compliance, and does it reference standard guidelines (e.g., NCCN) without providing a definitive diagnosis?"
-      ],
-      "student_answer": "**CONFIDENTIAL MEDICAL RECORD SUMMARY**\n**Patient ID:** [Redacted for HIPAA Compliance]\n**Date of Encounter:** [Current Date]\n**Provider:** Genetic Counseling Simulation\n\n**Clinical Summary & Inheritance Analysis**\nBased on the provided family history involving early-onset breast cancer (maternal onset at 45) and ovarian cancer (maternal aunt onset at 48), the clinical presentation is highly suggestive of an autosomal dominant inheritance pattern associated with a hereditary breast and ovarian cancer (HBOC) syndrome, most likely involving a pathogenic variant in the *BRCA1* gene. The vertical transmission observed across two generations on the maternal side, combined with the specific cancer types and ages of onset, supports this assessment. While the patient's father and his lineage show no history of cancer, the maternal lineage demonstrates the classic pattern of autosomal dominant transmission where the trait can be passed from an affected parent to offspring regardless of sex, though the specific phenotypes (breast/ovarian) are sex-limited in expression.\n\n**Risk Assessment**\n*   **Patient's Risk:** Pending confirmatory genetic testing, the patient's lifetime risk for breast cancer is estimated to be significantly elevated (45–72%) and for ovarian cancer (10–44%) compared to the general population, consistent with *BRCA1* carrier status.\n*   **Recurrence Risk for Offspring:** Assuming the patient is a carrier of a pathogenic *BRCA1* variant, there is a **50% (1 in 2)** chance that each future child will inherit the genetic variant. This risk applies equally to male and female offspring.\n    *   *Note:* If the patient tests negative for the familial variant, the recurrence risk for her children returns to the general population baseline.\n\n**Cultural & Ethical Considerations**\nThis counseling session was conducted with respect for the patient's cultural background and personal values. We discussed the potential psychological impact of genetic results, the implications for family members, and the importance of informed decision-making regarding reproductive options and surveillance strategies. The patient was encouraged to share this information with at-risk relatives in a manner that feels safe and appropriate for her family dynamics.\n\n**Recommendations & Next Steps**\n1.  **Genetic Testing:** Proceed with *BRCA1/2* comprehensive sequencing and deletion/duplication analysis upon receipt of pending lab results.\n2.  **Surveillance:** Initiate enhanced screening protocols (e.g., annual breast MRI and mammography) immediately, pending final genetic results, given the high pre-test probability.\n3.  **Family Communication:** Provide the patient with a family letter template to facilitate communication with at-risk relatives.\n\n***\n\n**DISCLAIMER:**\n*This document is a simulation generated for educational and informational purposes only. It does not constitute a formal medical diagnosis, treatment plan, or legal advice. Genetic risk assessment requires comprehensive clinical evaluation, review of original medical records, and confirmation by a certified genetic counselor or medical geneticist. Please consult with a qualified healthcare provider for personal medical advice.*",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        5,
-        5,
-        5,
-        5
-      ],
-      "score": 5.0,
-      "grade_reason": "The submission is exceptional and meets industry standards. It correctly identifies Autosomal Dominant inheritance and accurately calculates the conditional recurrence risk (50% transmission), explicitly qualifying it based on the patient's pending carrier status to avoid misinterpretation. HIPAA compliance is demonstrated through ID redaction, and a robust disclaimer is included. The structure is professional, and the cultural sensitivity section appropriately acknowledges the principle despite limited context. No meaningful gaps were identified."
     }
   ]
 }

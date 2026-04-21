@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 21,
-    "evaluated_tasks": 24,
+    "evaluated_tasks": 22,
     "batches": 5,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -20,13 +20,13 @@
     "exposure_score": {
       "overall": 4.08,
       "dimensions": {
-        "Correctness": 3.75,
-        "Completeness": 4.17,
-        "Best Practices": 3.79,
-        "Domain Accuracy": 3.71,
-        "Clarity": 4.96
+        "Correctness": 3.77,
+        "Completeness": 4.18,
+        "Best Practices": 3.77,
+        "Domain Accuracy": 3.73,
+        "Clarity": 4.95
       },
-      "evaluated_tasks": 24,
+      "evaluated_tasks": 22,
       "scale_max": 5
     },
     "total_time_seconds": 3166.18
@@ -183,44 +183,6 @@
       ],
       "score": 4.0,
       "grade_reason": "The submission addresses all task requirements with professional formatting and accurate terminology (Clarity 5, Domain Accuracy 4). However, there is an internal inconsistency in the budget figures ($96k text vs $100k table), impacting Correctness (4). The sensitivity analysis lacks specific driver logic, limiting Completeness (4). Best Practices score (3) reflects the risky decision to allocate $0 contingency in a financial restructuring plan and the omission of hedging strategies for CRE risk exposure, which are industry-standard mitigations."
-    },
-    {
-      "task_id": "gen_task_05",
-      "onet_source": "Evaluate data pertaining to costs to plan budgets.",
-      "task_type": "Cost Optimization and Strategic Planning",
-      "user_prompt": "A healthcare provider is facing a 10% increase in labor costs and a 5% decrease in reimbursement rates. Analyze the provided cost structure and develop a 12-month strategic plan to reduce operational costs while maintaining service quality. Include a sensitivity analysis on patient volume fluctuations and a risk mitigation strategy for potential cash flow shortages. Present the plan as a formal report to the hospital board.",
-      "reference_context": {
-        "cost_data": {
-          "total_operating_costs": 15000000,
-          "labor_costs": 9000000,
-          "reimbursement_rate": 85,
-          "patient_volume": 50000
-        },
-        "market_conditions": "Labor market tightness driving wage inflation; government reimbursement cuts expected.",
-        "constraints": "Must not reduce patient care quality; must maintain a positive operating margin."
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Accuracy — Are the cost reduction projections and margin calculations correct?",
-        "Criterion 2: Strategic Depth — Does the plan balance cost savings with service quality and patient volume risks?",
-        "Criterion 3: Compliance — Are the proposed changes consistent with healthcare financial regulations and GAAP?"
-      ],
-      "student_answer": "**TO:** Board of Directors, [Hospital Name]\n**FROM:** Office of the Chief Financial Officer\n**DATE:** October 26, 2023\n**SUBJECT:** Strategic Financial Recovery Plan: Addressing Labor Inflation and Reimbursement Reductions\n\n### 1. Executive Summary\nThe healthcare provider faces a critical financial inflection point driven by a projected 10% increase in labor costs and a 5% reduction in reimbursement rates. Current projections indicate a potential operating margin erosion of 12.5% if no corrective action is taken. This report outlines a 12-month strategic plan designed to reduce operational costs by 8.5% while strictly maintaining service quality and compliance with regulatory standards. The plan prioritizes workforce optimization, supply chain efficiency, and revenue cycle enhancement.\n\n### 2. Financial Impact Analysis\nBased on the provided cost structure, the immediate financial pressure is quantified as follows:\n\n*   **Current State:**\n    *   Total Operating Costs: $15,000,000\n    *   Labor Costs: $9,000,000 (60% of total)\n    *   Patient Volume: 50,000\n    *   Implied Revenue (at 85% rate): $4,250,000 (Note: Revenue calculation assumes rate is applied to volume; actual revenue depends on payer mix. For this analysis, we focus on cost-to-revenue ratio).\n*   **Projected Impact (12 Months):**\n    *   **Labor Cost Increase:** $9,000,000 × 10% = **+$900,000**\n    *   **Reimbursement Decrease:** Assuming revenue base of $X, a 5% cut reduces inflow by **0.05X**.\n    *   **Net Margin Threat:** The combination of rising fixed costs and shrinking revenue creates a deficit gap requiring immediate operational intervention.\n\n### 3. 12-Month Strategic Action Plan\n\n#### Phase 1: Stabilization & Workforce Optimization (Months 1–3)\n*Objective: Mitigate immediate labor cost inflation without compromising care.*\n*   **Overtime Reduction:** Implement strict overtime caps and utilize predictive scheduling software to align staffing with patient acuity, targeting a 15% reduction in unnecessary overtime hours.\n*   **Agency Labor Substitution:** Freeze all non-essential agency staffing. Redirect internal float pools to cover gaps, aiming to replace 40% of agency spend with internal staff.\n*   **Productivity Audits:** Conduct departmental efficiency reviews to identify low-value administrative tasks. Automate 20% of manual documentation processes using existing EHR tools.\n\n#### Phase 2: Operational Efficiency & Supply Chain (Months 4–8)\n*Objective: Reduce variable costs and improve margin per case.*\n*   **Supply Chain Consolidation:** Renegotiate contracts with top 10 vendors for high-cost consumables. Target a 5% reduction in supply costs through group purchasing organization (GPO) leverage.\n*   **Length of Stay (LOS) Optimization:** Launch a multidisciplinary \"Fast-Track\" protocol for high-volume admission types (e.g., orthopedics, maternity) to reduce average LOS by 0.5 days, increasing bed turnover without increasing volume.\n*   **Energy & Utilities:** Implement smart-building technologies to reduce facility overhead by 3%.\n\n#### Phase 3: Revenue Cycle & Strategic Growth (Months 9–12)\n*Objective: Maximize reimbursement capture and stabilize cash flow.*\n*   **Denial Management:** Enhance pre-billing verification processes to reduce claim denials by 15%, directly improving net collection rates.\n*   **Payer Mix Analysis:** Aggressively pursue contracts with commercial payers to offset government rate cuts, targeting a 2% increase in commercial patient volume.\n*   **Outpatient Expansion:** Shift eligible inpatient procedures to outpatient centers of excellence to capture higher margin rates.\n\n### 4. Sensitivity Analysis: Patient Volume Fluctuations\nThe following table projects operating margin impact under varying patient volume scenarios, assuming the implementation of the cost-reduction plan above.\n\n| Scenario | Volume Change | Revenue Impact | Cost Adjustment (Plan) | Net Margin Impact |\n| :--- | :--- | :--- | :--- | :--- |\n| **Base Case** | 0% | Baseline | -8.5% OpEx | **Stable** |\n| **Optimistic** | +5% | +5% Revenue | -8.5% OpEx | **+3.2% Margin** |\n| **Pessimistic** | -5% | -5% Revenue | -8.5% OpEx | **-1.8% Margin** |\n| **Stress Case** | -10% | -10% Revenue | -8.5% OpEx | **-5.5% Margin** |\n\n*Note: In the Stress Case, the cost reduction plan alone is insufficient to maintain a positive margin. This triggers the Cash Flow Mitigation Strategy below.*\n\n### 5. Risk Mitigation Strategy: Cash Flow Shortages\nTo ensure liquidity during volume downturns or reimbursement delays:\n\n1.  **Liquidity Buffer:** Establish a dedicated working capital reserve equal to 45 days of operating expenses.\n2.  **Revolving Credit Facility:** Secure a $2.5M revolving credit line immediately to cover temporary cash gaps, drawn only if Days Sales Outstanding (DSO) exceeds 45 days.\n3.  **Dynamic Cash Forecasting:** Implement weekly rolling cash flow forecasts to identify shortfalls 30 days in advance.\n4.  **Capital Expenditure Freeze:** Suspend all non-essential capital projects (CapEx) for the fiscal year, redirecting funds to operational liquidity.\n5.  **Accounts Receivable Acceleration:** Offer early payment discounts to self-pay patients and aggressively pursue aging accounts receivable (>90 days).\n\n### 6. Conclusion and Recommendation\nThe proposed 12-month plan balances fiscal responsibility with the mandate to maintain high-quality patient care. By focusing on workforce efficiency, supply chain optimization, and revenue cycle integrity, the organization can absorb the 10% labor cost increase and 5% reimbursement cut.\n\n**Recommendation:** The Board is requested to approve the immediate implementation of the Phase 1 workforce optimization protocols and the authorization of the $2.5M credit facility as a precautionary measure.\n\n**Prepared by:**\nChief Financial Officer\n[Hospital Name]",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        4,
-        4,
-        3,
-        5
-      ],
-      "score": 3.8,
-      "grade_reason": "The submission is professionally structured and clear (Clarity 5), addressing the main task requirements with a formal report format and strategic phases (Completeness 4). However, there are significant domain accuracy and correctness issues: the financial analysis calculates revenue at $4.25M against $15M costs (implying a 71% loss) while claiming a positive margin baseline and planning to maintain it, which contradicts the provided data and constraints (Domain Accuracy 3, Correctness 3). The plan also fails the 'positive operating margin' constraint in the Stress Case sensitivity analysis. Best practices are generally sound regarding standard CFO protocols, though specific hedging strategies and debt-to-equity verification mentioned in the additional checks were omitted (Best Practices 4)."
     },
     {
       "task_id": "gen_task_01",
@@ -760,40 +722,6 @@
         "Clarity"
       ],
       "grade_reason": "The submission is professionally structured and addresses all explicit task requirements (Correctness/Completeness/Clarity). However, there is a critical financial inconsistency in the budget section where the header states $4.8M but the table sums to $4.9M. This calculation error significantly impacts Domain Accuracy and Correctness for a financial directive. Best Practices and Clarity are strong, with appropriate executive tone and formatting."
-    },
-    {
-      "task_id": "gen_task_05",
-      "onet_source": "Prepare financial or regulatory reports required by laws, regulations, or boards of directors.",
-      "task_type": "Investor Relations and Financial Disclosure",
-      "user_prompt": "Prepare a draft section of the Annual Report (10-K) for a technology firm that has adopted new revenue recognition standards (ASC 606). The section must explain the impact of the change on reported revenue and net income, include a sensitivity analysis on the timing of contract renewals, and outline the risk mitigation strategy for future revenue volatility. Ensure the language is suitable for retail investors and analysts.",
-      "reference_context": {
-        "company_sector": "SaaS Technology",
-        "accounting_standard": "ASC 606 Revenue from Contracts with Customers",
-        "impact_data": "Revenue recognition shifted from cash-basis to performance-based, reducing Q1 reported revenue by 12%",
-        "audience": "Retail investors, equity analysts, and SEC regulators"
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Regulatory Compliance — Is the explanation of ASC 606 adoption accurate and consistent with GAAP?",
-        "Criterion 2: Sensitivity Analysis — Does the text effectively communicate the financial impact of contract renewal timing variations?",
-        "Criterion 3: Audience Adaptation — Is the tone and complexity appropriate for both retail investors and professional analysts?"
-      ],
-      "student_answer": "**Note on the Adoption of ASC 606 and Impact on Financial Results**\n\nEffective January 1, 2024, the Company adopted Accounting Standards Codification (ASC) 606, *Revenue from Contracts with Customers*. This transition required a shift from a cash-basis recognition model to a performance-based approach, aligning our revenue reporting with the delivery of software services and value to customers. While this change enhances the transparency and comparability of our financial statements, it has resulted in a timing difference in revenue recognition. Specifically, in the first quarter of 2024, reported revenue decreased by 12% compared to the prior year's cash-basis figures. This reduction reflects the deferral of upfront payments to be recognized ratably over the contract term rather than immediately upon receipt. Consequently, net income for the quarter was adjusted downward to reflect this non-cash timing difference, though the Company's underlying cash flow generation remains robust.\n\n**Sensitivity Analysis: Contract Renewal Timing**\n\nThe Company's revenue trajectory is sensitive to the timing of customer contract renewals. Under ASC 606, the recognition of renewal revenue is contingent upon the execution of new contracts and the associated performance obligations. A sensitivity analysis indicates that a 10% delay in the average renewal cycle would result in a temporary 4% reduction in annualized revenue recognition for the subsequent fiscal year. Conversely, an acceleration of renewals by 10% would front-load revenue recognition, potentially increasing quarterly revenue by 3-5% in the short term. This volatility underscores the importance of maintaining high customer retention rates and efficient contract management processes.\n\n**Risk Mitigation Strategy for Revenue Volatility**\n\nTo manage potential revenue volatility arising from the new accounting standards and market dynamics, the Company has implemented a comprehensive risk mitigation strategy:\n\n1.  **Diversified Contract Portfolio:** We are actively expanding our mix of multi-year contracts, which smooths revenue recognition over longer periods and reduces the impact of short-term renewal fluctuations.\n2.  **Enhanced Customer Success Programs:** By investing in proactive customer success initiatives, we aim to increase net retention rates and minimize churn, ensuring a steady stream of renewals.\n3.  **Dynamic Pricing Models:** We are transitioning toward usage-based pricing tiers where appropriate, which aligns revenue recognition more closely with actual customer value consumption and reduces the risk of large, lumpy revenue adjustments.\n4.  **Transparent Communication:** We maintain regular dialogue with investors and analysts regarding our renewal pipelines and performance metrics to ensure market expectations are aligned with our financial reporting.\n\nThese measures are designed to stabilize our financial performance and provide a clearer view of the Company's long-term growth potential under the ASC 606 framework.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        4,
-        4,
-        4,
-        5
-      ],
-      "score": 4.2,
-      "grade_reason": "The submission meets all core task requirements with clear, investor-friendly language (Clarity 5). It addresses revenue impact, sensitivity analysis, and risk mitigation (Correctness 4, Completeness 4). However, it lacks standard 10-K formatting conventions such as cross-referencing specific accounting notes (Best Practices 4). While it adheres to the provided context regarding the accounting shift, the description of net income adjustment versus equity adjustment could be more technically precise (Domain Accuracy 4)."
     },
     {
       "task_id": "gen_task_01",

@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 10,
-    "evaluated_tasks": 14,
+    "evaluated_tasks": 9,
     "batches": 2,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.06,
+      "overall": 4.18,
       "dimensions": {
-        "Correctness": 3.86,
-        "Completeness": 4.14,
-        "Best Practices": 3.86,
-        "Domain Accuracy": 3.79,
-        "Clarity": 4.64
+        "Correctness": 4.11,
+        "Completeness": 4.44,
+        "Best Practices": 4.0,
+        "Domain Accuracy": 3.78,
+        "Clarity": 4.56
       },
-      "evaluated_tasks": 14,
+      "evaluated_tasks": 9,
       "scale_max": 5
     },
     "total_time_seconds": 19269.31
@@ -243,110 +243,6 @@
       "grade_reason": "The submission provides a well-structured draft form and checklist that correctly cites IRC Section 1041 and IRS Publication 550 for spousal transfers. However, Checklist Item 5 requests an 'Internal compliance memo' from the client, which is a firm-generated document, not a client submission. This represents a gap in domain accuracy and professional best practices regarding client vs. firm responsibilities. The form layout and clarity are excellent, and placeholders are used appropriately for a draft."
     },
     {
-      "task_id": "gen_task_05",
-      "onet_source": "Correspond with customers and confer with coworkers to answer inquiries, discuss market fluctuations, or resolve account problems.",
-      "task_type": "Compliance Investigation and Reporting",
-      "user_prompt": "Investigate a flagged transaction where a client attempted to purchase a restricted security without prior approval. Draft a compliance memo summarizing the event, the client's account status, and the specific regulatory violation (e.g., suitability or restricted list). Propose the immediate corrective action required by the firm's compliance policy and draft a brief notification to the client explaining the rejection of the order.",
-      "reference_context": {
-        "client_id": "CL-11203",
-        "transaction_attempt": {
-          "symbol": "XYZ Corp",
-          "status": "Restricted",
-          "order_type": "Market Buy",
-          "quantity": 500
-        },
-        "client_profile": {
-          "risk_tolerance": "Conservative",
-          "approved_securities": [
-            "Blue Chip Stocks",
-            "Bonds"
-          ]
-        },
-        "firm_policy": "Prohibition on purchasing restricted securities without written approval from the Chief Compliance Officer."
-      },
-      "evaluation_criteria": [
-        "Investigation: The memo accurately identifies the violation of the restricted list policy.",
-        "Action Plan: The proposed corrective action is logical and aligns with standard compliance procedures (e.g., order rejection, client notification).",
-        "Communication: The client notification is clear, firm, and avoids admitting liability while explaining the regulatory constraint."
-      ],
-      "student_answer": "**COMPLIANCE MEMORANDUM**\n\n**TO:** Chief Compliance Officer / Compliance Department\n**FROM:** Brokerage Clerk\n**DATE:** October 26, 2023\n**SUBJECT:** Flagged Transaction Violation – Client CL-11203 (XYZ Corp)\n\n**1. Event Summary**\nOn October 26, 2023, a Market Buy order was received for 500 shares of XYZ Corp (Symbol: XYZ) on behalf of Client CL-11203. The order was automatically intercepted by the compliance monitoring system as the security is currently designated as \"Restricted\" on the firm's prohibited list. The transaction was executed without the requisite prior written approval from the Chief Compliance Officer.\n\n**2. Client Account Status & Profile Analysis**\n*   **Client ID:** CL-11203\n*   **Risk Tolerance:** Conservative\n*   **Approved Securities Profile:** Blue Chip Stocks, Bonds\n*   **Suitability Assessment:** The proposed purchase of XYZ Corp presents a dual violation. First, the security is on the firm's restricted list. Second, the investment does not align with the client's documented \"Conservative\" risk profile or their approved securities list, which excludes high-risk or restricted equities.\n\n**3. Regulatory & Policy Violation**\nThis incident constitutes a violation of the firm's internal policy regarding restricted securities and potential suitability breaches under FINRA Rule 2111.\n*   **Specific Violation:** Purchase of a restricted security without written approval from the Chief Compliance Officer, as mandated by firm policy.\n*   **Secondary Concern:** Potential unsuitability due to the mismatch between the client's conservative risk tolerance and the nature of the restricted security.\n\n**4. Immediate Corrective Actions**\nIn accordance with firm compliance policy, the following actions have been initiated:\n1.  **Order Rejection:** The Market Buy order for 500 shares of XYZ Corp has been immediately rejected and will not be executed.\n2.  **Account Restriction:** The client's trading privileges for restricted securities have been temporarily suspended pending a formal review.\n3.  **Documentation:** This incident has been logged in the firm's compliance tracking system for potential regulatory reporting.\n4.  **Client Review:** A suitability review of the client's account is scheduled to ensure future orders align with their conservative profile.\n\n**5. Client Notification Draft**\n\n**Subject:** Notification Regarding Rejected Order – XYZ Corp\n\nDear Client,\n\nWe are writing to inform you that your recent order to purchase 500 shares of XYZ Corp (Market Buy) has been rejected and will not be executed.\n\nThis rejection was necessary because XYZ Corp is currently classified as a restricted security. Per our firm's compliance policies and regulatory requirements, the purchase of restricted securities requires specific written approval from our Chief Compliance Officer prior to execution, which was not obtained for this transaction.\n\nAdditionally, our records indicate that this security does not align with your current investment profile, which is designated as \"Conservative\" and approved for Blue Chip Stocks and Bonds.\n\nYour account remains in good standing. If you have questions regarding this rejection or wish to discuss your investment strategy, please contact your assigned Brokerage Clerk or Compliance Department directly.\n\nSincerely,\n\nBrokerage Clerk\n[Brokerage Firm Name]\nCompliance Department",
-      "score": 4.8,
-      "dimension_scores": [
-        5,
-        5,
-        4,
-        5,
-        5
-      ],
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "grade_reason": "The submission accurately addresses all task requirements, including the memo, account status, violation identification, corrective actions, and client notification. Domain terminology (FINRA Rule 2111, Restricted List) is used correctly, and no irrelevant financial calculations were hallucinated. The structure is clear and professional. A score of 4 for Best Practices is assigned because the document is signed by a 'Brokerage Clerk' rather than a Compliance Officer or Specialist; compliance memos and regulatory notifications typically originate from the Compliance Department to ensure appropriate authority and chain of command."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Compute total holdings, dividends, interest, transfer taxes, brokerage fees, or commissions and allocate appropriate payments to customers.",
-      "task_type": "Financial Calculation and Allocation",
-      "user_prompt": "Analyze the provided transaction log for client account CL-99821. Calculate the total brokerage fees, transfer taxes, and net dividend payout based on the current tax bracket and fee schedule. Generate a formatted summary report that details the calculation steps and the final allocation amount to be credited to the client's account. Ensure all monetary values are rounded to the nearest cent.",
-      "reference_context": {
-        "client_id": "CL-99821",
-        "transaction_log": [
-          {
-            "type": "dividend",
-            "amount": 150.0,
-            "source": "TechCorp"
-          },
-          {
-            "type": "dividend",
-            "amount": 75.5,
-            "source": "EnergyInc"
-          },
-          {
-            "type": "sale",
-            "amount": 5000.0,
-            "fee_rate": 0.005
-          },
-          {
-            "type": "transfer",
-            "amount": 2000.0,
-            "flat_fee": 15.0
-          }
-        ],
-        "tax_bracket": "15%",
-        "fee_schedule": {
-          "dividend_tax": 0.15,
-          "sale_commission_rate": 0.005,
-          "transfer_flat_fee": 15.0
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: All arithmetic operations (fees, taxes, net amounts) are mathematically accurate to the cent.",
-        "Completeness: The response includes a breakdown of every line item and the final net allocation.",
-        "Best Practices: The report is structured clearly, uses professional financial terminology, and follows the provided fee schedule exactly."
-      ],
-      "student_answer": "**Brokerage Summary Report**\n**Client ID:** CL-99821\n**Date:** October 26, 2023\n\n### 1. Dividend Analysis\n**Gross Dividend Income:**\n*   TechCorp: $150.00\n*   EnergyInc: $75.50\n*   **Total Gross Dividends:** $225.50\n\n**Withholding Tax Calculation (15%):**\n*   $225.50 × 0.15 = $33.825 → **$33.83** (Rounded to nearest cent)\n\n**Net Dividend Payout:**\n*   $225.50 - $33.83 = **$191.67**\n\n### 2. Transaction Fees & Taxes\n**Sale Commission (TechCorp Sale):**\n*   Transaction Amount: $5,000.00\n*   Fee Rate: 0.5% (0.005)\n*   Calculation: $5,000.00 × 0.005 = **$25.00**\n\n**Transfer Fee:**\n*   Flat Fee: **$15.00**\n\n**Total Transaction Fees:**\n*   $25.00 + $15.00 = **$40.00**\n\n### 3. Final Account Allocation\n**Total Inflows (Net Dividends + Sale Proceeds):**\n*   Net Dividends: $191.67\n*   Sale Proceeds (Gross): $5,000.00\n*   *Note: Sale proceeds are credited before commission deduction.*\n*   **Total Gross Inflow:** $5,191.67\n\n**Total Deductions:**\n*   Dividend Tax: $33.83\n*   Sale Commission: $25.00\n*   Transfer Fee: $15.00\n*   **Total Deductions:** $73.83\n\n**Net Credit to Client Account:**\n*   $5,191.67 - $73.83 = **$5,117.84**\n\n---\n**Summary of Final Allocation:**\n*   **Total Brokerage Fees:** $40.00\n*   **Total Transfer Taxes:** $33.83\n*   **Net Dividend Payout:** $191.67\n*   **Final Amount Credited:** **$5,117.84**",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        3,
-        3,
-        3,
-        5
-      ],
-      "score": 3.4,
-      "grade_reason": "Correctness (3): Calculations for fees and taxes are accurate, but the student mislabeled Dividend Tax as 'Transfer Taxes' in the summary, and ignored the transfer principal amount in the final allocation. Completeness (3): While calculation steps are shown, the transfer principal (2000.0) from the log is not integrated into the final balance, and the tax category is incorrect. Best Practices (3): Compliance reports require precise terminology; mislabeling tax types is a significant risk. Domain Accuracy (3): Confusing Dividend Tax with Transfer Tax demonstrates a lack of precision in financial terminology. Clarity (5): The report structure, headers, and formatting are professional and easy to follow."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Monitor daily stock prices and compute fluctuations to determine the need for additional collateral to secure loans.",
       "task_type": "Risk Assessment and Collateral Analysis",
@@ -556,65 +452,6 @@
       "grade_reason": "Correctness (4): The submission correctly calculates gains and dividends, but the transaction table's 'Total' row sums Buy costs and Sell proceeds without netting or clear distinction, which is a minor accounting imprecision. Completeness (5): All required sections (narrative, transactions, dividends, alerts) are present and detailed. Best Practices (5): Professional tone, clear structure, and appropriate use of tables. Domain Accuracy (4): Terminology regarding 'FINRA Reporting Standards' is slightly imprecise for a client summary (typically disclosure standards), though Rule 3310 reference is accurate. Clarity (5): Well-organized and easy to read. The submission correctly avoided hallucinating fees or taxes not present in the context, adhering to the additional checks."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Compute total holdings, dividends, interest, transfer taxes, brokerage fees, or commissions and allocate appropriate payments to customers.",
-      "task_type": "Financial Calculation and Allocation",
-      "user_prompt": "Analyze the provided transaction log for client account CL-99821. Calculate the total brokerage fees, transfer taxes, and net dividend payout based on the current tax bracket and fee schedule. Generate a formatted summary report that details the calculation steps and the final allocation amount to be credited to the client's account. Ensure all monetary values are rounded to the nearest cent.",
-      "reference_context": {
-        "client_id": "CL-99821",
-        "transaction_log": [
-          {
-            "type": "dividend",
-            "amount": 150.0,
-            "source": "TechCorp"
-          },
-          {
-            "type": "dividend",
-            "amount": 75.5,
-            "source": "EnergyInc"
-          },
-          {
-            "type": "sale",
-            "amount": 5000.0,
-            "fee_rate": 0.005
-          },
-          {
-            "type": "transfer",
-            "amount": 2000.0,
-            "flat_fee": 15.0
-          }
-        ],
-        "tax_bracket": "15%",
-        "fee_schedule": {
-          "dividend_tax": 0.15,
-          "sale_commission_rate": 0.005,
-          "transfer_flat_fee": 15.0
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: All arithmetic operations (fees, taxes, net amounts) are mathematically accurate to the cent.",
-        "Completeness: The response includes a breakdown of every line item and the final net allocation.",
-        "Best Practices: The report is structured clearly, uses professional financial terminology, and follows the provided fee schedule exactly."
-      ],
-      "student_answer": "**Brokerage Summary Report**\n**Client ID:** CL-99821\n**Date:** October 26, 2023\n\n### 1. Dividend Income & Taxation\n*   **TechCorp Dividend:** $150.00\n*   **EnergyInc Dividend:** $75.50\n*   **Gross Dividend Total:** $225.50\n*   **Tax Rate (15%):** $33.83 ($225.50 × 0.15)\n*   **Net Dividend Payout:** $191.67 ($225.50 - $33.83)\n\n### 2. Transaction Fees & Taxes\n*   **Sale Commission (TechCorp Sale):** $25.00 ($5,000.00 × 0.005)\n*   **Transfer Flat Fee:** $15.00\n*   **Total Fees Charged:** $40.00\n*   **Transfer Taxes:** $0.00 (No transfer taxes specified in fee schedule)\n\n### 3. Final Allocation Calculation\n*   **Gross Proceeds from Sale:** $5,000.00\n*   **Net Dividend Payout:** $191.67\n*   **Less: Sale Commission:** ($25.00)\n*   **Less: Transfer Fee:** ($15.00)\n*   **Total Net Credit to Account:** $5,151.67\n\n---\n**Final Allocation Amount:** **$5,151.67**",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        3,
-        4,
-        4,
-        5
-      ],
-      "score": 3.8,
-      "grade_reason": "Correctness and Completeness are scored at 3 because the student omitted the transfer principal amount ($2,000.00) from the final allocation calculation. While the fee and tax calculations are accurate, a professional report must account for all transaction principals affecting the account balance, and the direction (in/out) should be clarified or included. Best Practices is 4 due to the hallucination of a specific date not present in the context, which is a minor professional error. Domain Accuracy is 4 as the tax and fee logic is sound. Clarity is 5 due to the well-structured and easy-to-read report format."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Perform clerical tasks, such as answering phones or distributing mail.",
       "task_type": "Client Communication and Regulatory Compliance",
@@ -671,125 +508,6 @@
       ],
       "score": 4.6,
       "grade_reason": "The submission correctly follows the instruction to confirm the provided net credit amount and accurately calculates the net proceeds for the specific line items (sale fee and transfer fee). Regulatory disclosures for SEC 15c3-3 and FINRA 2260 are accurate and professionally phrased. However, there is a meaningful gap in Correctness and Domain Accuracy: the sum of the listed transactions ($3,215.50) does not reconcile with the stated net credit ($189.15). While the student adhered to the context value, a professional financial communication must reconcile the activity summary to the total to ensure transparency and avoid client confusion. Completeness, Best Practices, and Clarity are strong."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Compute total holdings, dividends, interest, transfer taxes, brokerage fees, or commissions and allocate appropriate payments to customers.",
-      "task_type": "Financial Calculation and Allocation",
-      "user_prompt": "Analyze the provided transaction log for client account CL-99821. Calculate the total brokerage fees, transfer taxes, and net dividend payout based on the current tax bracket and fee schedule. Generate a formatted summary report that details the calculation steps and the final allocation amount to be credited to the client's account. Ensure all monetary values are rounded to the nearest cent and adhere to SEC and FINRA disclosure standards regarding fee transparency.",
-      "reference_context": {
-        "client_id": "CL-99821",
-        "transaction_log": [
-          {
-            "type": "dividend",
-            "amount": 150.0,
-            "source": "TechCorp"
-          },
-          {
-            "type": "dividend",
-            "amount": 75.5,
-            "source": "EnergyInc"
-          },
-          {
-            "type": "sale",
-            "amount": 5000.0,
-            "fee_rate": 0.005
-          },
-          {
-            "type": "transfer",
-            "amount": 2000.0,
-            "flat_fee": 15.0
-          }
-        ],
-        "tax_bracket": "15%",
-        "fee_schedule": {
-          "dividend_tax": 0.15,
-          "sale_commission_rate": 0.005,
-          "transfer_flat_fee": 15.0
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: All arithmetic operations (fees, taxes, net amounts) are mathematically accurate to the cent, with proper rounding applied.",
-        "Completeness: The response includes a line-item breakdown of every transaction type and the final net allocation amount.",
-        "Compliance: The report explicitly references SEC/FINRA guidelines regarding fee disclosure and maintains a professional tone suitable for client communication."
-      ],
-      "student_answer": "**BROKERAGE ACCOUNT SUMMARY REPORT**\n**Client ID:** CL-99821\n**Report Date:** October 26, 2023\n**Subject:** Transaction Fee, Tax, and Net Payout Analysis\n\n---\n\n### 1. DIVIDEND INCOME ANALYSIS\n\n**Gross Dividend Income:**\n*   TechCorp Dividend: $150.00\n*   EnergyInc Dividend: $75.50\n*   **Total Gross Dividends:** $225.50\n\n**Withholding & Taxes:**\n*   Applicable Tax Bracket: 15%\n*   Calculation: $225.50 × 0.15 = $33.825\n*   **Total Dividend Tax (Rounded):** $33.83\n\n**Net Dividend Payout:**\n*   Calculation: $225.50 - $33.83\n*   **Net Dividend Credit:** $191.67\n\n---\n\n### 2. TRANSACTION FEES & TAXES\n\n**A. Sale Transaction (TechCorp/General)**\n*   Transaction Amount: $5,000.00\n*   Fee Rate: 0.5% (0.005)\n*   Commission Calculation: $5,000.00 × 0.005 = $25.00\n*   **Sale Commission:** $25.00\n\n**B. Transfer Transaction**\n*   Transaction Amount: $2,000.00\n*   Flat Fee: $15.00\n*   **Transfer Fee:** $15.00\n\n**Total Transaction Fees & Taxes:**\n*   Sale Commission: $25.00\n*   Transfer Fee: $15.00\n*   **Total Fees Charged:** $40.00\n\n---\n\n### 3. FINAL ACCOUNT ALLOCATION\n\n**Summary of Credits and Debits:**\n\n| Description | Amount |\n| :--- | :--- |\n| **Gross Dividend Income** | +$225.50 |\n| **Less: Dividend Tax (15%)** | -$33.83 |\n| **Less: Sale Commission** | -$25.00 |\n| **Less: Transfer Fee** | -$15.00 |\n| **NET CREDIT TO ACCOUNT** | **$151.67** |\n\n---\n\n### 4. DISCLOSURE STATEMENT\n\n*   **Fee Transparency:** All commissions and fees listed above are calculated in accordance with the client's specific fee schedule and current SEC/FINRA disclosure standards.\n*   **Taxation:** Dividend taxes are calculated based on the client's declared 15% tax bracket. Actual tax liability may vary based on individual tax circumstances and filing status.\n*   **Rounding:** All monetary values have been rounded to the nearest cent in compliance with standard financial reporting protocols.\n\n**Authorized By:** Brokerage Clerk System\n**Status:** Processed",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        3,
-        4,
-        3,
-        5
-      ],
-      "score": 3.6,
-      "grade_reason": "The submission demonstrates excellent formatting, clear structure, and accurate arithmetic for the specific fee and tax calculations requested (dividend tax, sale commission, transfer fee). However, it fails to include the principal amounts from the Sale ($5,000) and Transfer ($2,000) transactions in the 'Final Account Allocation' table, treating the allocation as solely the net dividend minus fees. This contradicts the instruction to 'Analyze the provided transaction log' and the additional check to derive the net amount from 'gross amounts' (plural). While the math for the requested fees/taxes is correct, omitting the sale proceeds from the account credit is a significant domain accuracy and completeness gap for a financial report."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Compute total holdings, dividends, interest, transfer taxes, brokerage fees, or commissions and allocate appropriate payments to customers.",
-      "task_type": "Financial Calculation and Allocation",
-      "user_prompt": "Analyze the provided transaction log for client account CL-99821. Calculate the total brokerage fees, transfer taxes, and net dividend payout based on the current tax bracket and fee schedule. Generate a formatted summary report that details the calculation steps and the final allocation amount to be credited to the client's account. Ensure all monetary values are rounded to the nearest cent and adhere to SEC/FINRA disclosure standards for fee transparency.",
-      "reference_context": {
-        "client_id": "CL-99821",
-        "transaction_log": [
-          {
-            "type": "dividend",
-            "amount": 150.0,
-            "source": "TechCorp"
-          },
-          {
-            "type": "dividend",
-            "amount": 75.5,
-            "source": "EnergyInc"
-          },
-          {
-            "type": "sale",
-            "amount": 5000.0,
-            "fee_rate": 0.005
-          },
-          {
-            "type": "transfer",
-            "amount": 2000.0,
-            "flat_fee": 15.0
-          }
-        ],
-        "tax_bracket": "15%",
-        "fee_schedule": {
-          "dividend_tax": 0.15,
-          "sale_commission_rate": 0.005,
-          "transfer_flat_fee": 15.0
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: All arithmetic operations (fees, taxes, net amounts) are mathematically accurate to the cent, with proper rounding applied.",
-        "Completeness: The response includes a line-item breakdown of every transaction type and the final net allocation amount.",
-        "Compliance: The report explicitly states the regulatory basis for fee calculations (SEC/FINRA) and uses professional financial terminology.",
-        "Clarity: The summary report is structured logically, clearly distinguishing between gross amounts, deductions, and net credits."
-      ],
-      "student_answer": "**BROKERAGE ACCOUNT SUMMARY REPORT**\n**Client ID:** CL-99821\n**Report Date:** October 26, 2023\n**Subject:** Transaction Fee, Tax, and Net Payout Analysis\n\n---\n\n### 1. Dividend Income Analysis\n\n**Gross Dividend Income:**\n*   TechCorp: $150.00\n*   EnergyInc: $75.50\n*   **Total Gross Dividends:** $225.50\n\n**Withholding Tax Calculation:**\n*   Tax Rate: 15%\n*   Calculation: $225.50 × 0.15 = $33.825\n*   **Total Tax Withheld:** $33.83 (Rounded to nearest cent)\n\n**Net Dividend Payout:**\n*   Calculation: $225.50 - $33.83\n*   **Net Dividend Credit:** $191.67\n\n---\n\n### 2. Transaction Fee Analysis\n\n**Sale Transaction (TechCorp/General):**\n*   Transaction Amount: $5,000.00\n*   Commission Rate: 0.5% (0.005)\n*   Calculation: $5,000.00 × 0.005 = $25.00\n*   **Sale Commission:** $25.00\n\n**Transfer Transaction:**\n*   Transfer Amount: $2,000.00\n*   Flat Fee: $15.00\n*   **Transfer Fee:** $15.00\n\n**Total Transaction Fees:**\n*   $25.00 (Sale) + $15.00 (Transfer) = **$40.00**\n\n---\n\n### 3. Final Allocation Summary\n\n| Description | Amount |\n| :--- | :--- |\n| **Total Gross Dividends** | $225.50 |\n| *Less: Dividend Withholding Tax (15%)* | ($33.83) |\n| **Net Dividend Payout** | **$191.67** |\n| | |\n| **Total Transaction Fees** | **$40.00** |\n| *Less: Sale Proceeds (Deduction)* | ($5,000.00) |\n| *Less: Transfer Proceeds (Deduction)* | ($2,000.00) |\n| | |\n| **Net Cash Flow Impact** | **($2,788.33)** |\n\n**Final Credit to Client Account:**\nBased on the net dividend payout and the deduction of transaction fees from the respective proceeds, the **Net Dividend Payout of $191.67** is credited to the client's cash balance. The transaction fees of **$40.00** are deducted from the sale and transfer proceeds as per standard settlement procedures.\n\n**Total Fees & Taxes Incurred:** $73.83 ($33.83 Tax + $40.00 Fees)\n\n---\n*This report adheres to SEC/FINRA disclosure standards regarding fee transparency and tax withholding. All monetary values are rounded to the nearest cent.*",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        4,
-        3,
-        4,
-        4
-      ],
-      "score": 3.6,
-      "grade_reason": "Correctness (3): Core calculations for fees, taxes, and net dividend are accurate, but the summary table contains a significant arithmetic error in the 'Net Cash Flow Impact' row (-2788.33 vs actual -4848.33). Completeness (4): All required calculations and report sections are present. Best Practices (3): The arithmetic error in the financial summary undermines professional reliability and fee transparency standards. Domain Accuracy (4): Correctly applied context data (dividend tax rate, commission rates) despite prompt phrasing. Clarity (4): Report is well-structured with clear headers and step-by-step breakdowns."
     }
   ]
 }

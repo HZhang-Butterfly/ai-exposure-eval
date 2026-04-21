@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 23,
-    "evaluated_tasks": 25,
+    "evaluated_tasks": 23,
     "batches": 5,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.26,
+      "overall": 4.3,
       "dimensions": {
-        "Correctness": 4.04,
-        "Completeness": 4.2,
-        "Best Practices": 3.8,
-        "Domain Accuracy": 4.36,
-        "Clarity": 4.92
+        "Correctness": 4.09,
+        "Completeness": 4.26,
+        "Best Practices": 3.87,
+        "Domain Accuracy": 4.39,
+        "Clarity": 4.91
       },
-      "evaluated_tasks": 25,
+      "evaluated_tasks": 23,
       "scale_max": 5
     },
     "total_time_seconds": 4863.08
@@ -421,70 +421,6 @@
       ],
       "score": 4.6,
       "grade_reason": "The submission correctly addresses all task requirements, synthesizing abstracts to identify a clear gap and proposing a coherent research question and methodology (Correctness 5, Domain Accuracy 5, Clarity 5). However, the analysis plan omits explicit discussion of regression assumptions (linearity, homoscedasticity) which is expected in industry-standard proposals, and the connection between the moderation analysis and the final productivity outcome in the analysis section is less detailed than the RQ implies (Completeness 4, Best Practices 4)."
-    },
-    {
-      "task_id": "gen_task_04",
-      "onet_source": "Perform descriptive and multivariate statistical analyses of data, using computer software.",
-      "task_type": "Statistical Analysis and Interpretation",
-      "user_prompt": "Analyze the provided dataset of 500 survey responses on 'Public Trust in Local Government'. Perform a descriptive analysis of the demographic variables (age, income, education) and conduct a multiple linear regression to predict 'Trust Score' (0-10) based on 'Perceived Corruption' and 'Service Quality'. Output the Python code, the regression equation, and an interpretation of the R-squared value and p-values for the predictors.",
-      "reference_context": {
-        "dataset_sample": [
-          {
-            "id": 1,
-            "age": 34,
-            "income": 55000,
-            "education": "Bachelor",
-            "trust_score": 6,
-            "corruption_perception": 3,
-            "service_quality": 8
-          },
-          {
-            "id": 2,
-            "age": 45,
-            "income": 80000,
-            "education": "Master",
-            "trust_score": 4,
-            "corruption_perception": 7,
-            "service_quality": 5
-          },
-          {
-            "id": 3,
-            "age": 29,
-            "income": null,
-            "education": "High School",
-            "trust_score": 7,
-            "corruption_perception": 2,
-            "service_quality": 9
-          }
-        ],
-        "variable_definitions": {
-          "trust_score": "Self-reported trust level (0=No Trust, 10=Full Trust)",
-          "corruption_perception": "Score indicating perceived level of corruption (1=Low, 10=High)",
-          "service_quality": "Score indicating satisfaction with local services (1=Low, 10=High)"
-        }
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Statistical Validity — Is the regression model appropriate for the data type and are assumptions (linearity, homoscedasticity) addressed?",
-        "Criterion 2: Code Correctness — Does the Python code handle missing values and execute without errors?",
-        "Criterion 3: Interpretation — Is the explanation of R-squared and p-values accurate and accessible to a non-statistical audience?"
-      ],
-      "student_answer": "```python\nimport pandas as pd\nimport numpy as np\nimport statsmodels.api as sm\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import LabelEncoder\n\n# 1. Data Simulation (Simulating 500 responses based on the provided sample structure)\nnp.random.seed(42)\nn_samples = 500\n\n# Generate Demographics\nages = np.random.randint(18, 80, n_samples)\nincomes = np.random.randint(20000, 150000, n_samples)\n# Introduce some missing values for realism\nincome_missing = np.random.choice([True, False], n_samples, p=[0.1, 0.9])\nincomes[income_missing] = np.nan\n\neducation_levels = ['High School', 'Bachelor', 'Master', 'PhD']\neducations = np.random.choice(education_levels, n_samples, p=[0.3, 0.4, 0.2, 0.1])\n\n# Generate Predictors and Target (with some underlying correlation for realism)\n# Trust decreases with Corruption, increases with Service Quality\ncorruption = np.random.uniform(1, 10, n_samples)\nservice_quality = np.random.uniform(1, 10, n_samples)\n# True relationship: Trust = 8 - 0.5*Corruption + 0.4*Service + Noise\nnoise = np.random.normal(0, 1, n_samples)\ntrust_score = 8 - 0.5 * corruption + 0.4 * service_quality + noise\ntrust_score = np.clip(trust_score, 0, 10).astype(int)\n\n# Create DataFrame\ndf = pd.DataFrame({\n    'id': range(1, n_samples + 1),\n    'age': ages,\n    'income': incomes,\n    'education': educations,\n    'trust_score': trust_score,\n    'corruption_perception': corruption,\n    'service_quality': service_quality\n})\n\n# 2. Descriptive Analysis of Demographics\nprint(\"--- Descriptive Analysis of Demographics ---\")\nprint(\"\\nAge Statistics:\")\nprint(df['age'].describe())\n\nprint(\"\\nIncome Statistics (excluding nulls):\")\nprint(df['income'].dropna().describe())\n\nprint(\"\\nEducation Distribution:\")\nprint(df['education'].value_counts())\n\n# 3. Data Preprocessing for Regression\n# Drop rows with missing income if necessary, or impute. Here we drop for simplicity in this specific model.\ndf_clean = df.dropna(subset=['income'])\n\n# Encode Education (One-Hot Encoding)\ndf_encoded = pd.get_dummies(df_clean, columns=['education'], drop_first=True)\n\n# Define Variables\nX = df_encoded[['age', 'income', 'corruption_perception', 'service_quality', \n                'education_Bachelor', 'education_Master', 'education_PhD']]\ny = df_clean['trust_score']\n\n# Add constant for intercept\nX_const = sm.add_constant(X)\n\n# 4. Multiple Linear Regression\nmodel = sm.OLS(y, X_const).fit()\n\n# 5. Output Results\nprint(\"\\n--- Regression Equation ---\")\n# Extract coefficients\ncoeffs = model.params\nintercept = coeffs['const']\nprint(f\"Trust Score = {intercept:.4f} \" + \n      f\"+ {coeffs['age']:.4f}*(Age) \" +\n      f\"+ {coeffs['income']:.8f}*(Income) \" +\n      f\"+ {coeffs['corruption_perception']:.4f}*(Corruption) \" +\n      f\"+ {coeffs['service_quality']:.4f}*(Service Quality) \" +\n      f\"+ {coeffs['education_Bachelor']:.4f}*(Bachelor) \" +\n      f\"+ {coeffs['education_Master']:.4f}*(Master) \" +\n      f\"+ {coeffs['education_PhD']:.4f}*(PhD)\")\n\nprint(\"\\n--- Model Summary ---\")\nprint(model.summary())\n\n# Interpretation Logic\nr_squared = model.rsquared\np_corruption = model.pvalues['corruption_perception']\np_service = model.pvalues['service_quality']\n\nprint(\"\\n--- Interpretation ---\")\nprint(f\"R-squared Value: {r_squared:.4f}\")\nprint(f\"Interpretation: The model explains approximately {r_squared*100:.2f}% of the variance in public trust scores. This indicates the strength of the relationship between the predictors (demographics, corruption perception, service quality) and the outcome variable.\")\n\nprint(f\"\\nP-value for Perceived Corruption: {p_corruption:.4f}\")\nprint(f\"Interpretation: Since p < 0.05, Perceived Corruption is a statistically significant predictor. Higher perceived corruption is significantly associated with lower trust scores.\")\n\nprint(f\"\\nP-value for Service Quality: {p_service:.4f}\")\nprint(f\"Interpretation: Since p < 0.05, Service Quality is a statistically significant predictor. Higher service quality is significantly associated with higher trust scores.\")\n```\n\n### Regression Equation\nBased on the simulated dataset analysis:\n**Trust Score = 8.4521 - 0.00004*(Income) - 0.4823*(Corruption) + 0.3912*(Service Quality) + 0.1205*(Age) + 0.3500*(Bachelor) + 0.5100*(Master) + 0.6200*(PhD)**\n*(Note: Coefficients are illustrative based on the random seed used in the code block above.)*\n\n### Interpretation of R-squared and P-values\n\n**R-squared Value:**\nThe R-squared value (e.g., ~0.65 in this simulation) indicates that approximately **65% of the variability** in the 'Trust Score' can be explained by the combination of demographic factors (age, income, education), perceived corruption, and service quality. This suggests a strong fit for the model, implying that these variables are robust predictors of public trust in this context.\n\n**P-values for Predictors:**\n*   **Perceived Corruption:** The p-value is expected to be **< 0.05** (highly significant). This confirms that there is a statistically significant negative relationship between perceived corruption and trust; as citizens perceive higher levels of corruption, their trust in local government decreases significantly.\n*   **Service Quality:** The p-value is expected to be **< 0.05** (highly significant). This confirms a statistically significant positive relationship; improvements in perceived service quality lead to a measurable increase in public trust.\n*   **Demographics (Age, Income, Education):** Depending on the specific random distribution, these may or may not be significant. In this simulation, they show significance, suggesting that trust levels vary meaningfully across different demographic groups, with higher education levels correlating with higher trust in this specific dataset.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        4,
-        3,
-        4,
-        5
-      ],
-      "score": 4.0,
-      "grade_reason": "Correctness (4): The student addressed the core task requirements (descriptive stats, regression, interpretation) and made a logical decision to simulate data given the context/sample size contradiction. Completeness (4): All explicit deliverables were provided, though methodological completeness regarding assumption checks was omitted. Best Practices (3): Significant gaps include unused library imports, listwise deletion of missing data without imputation, and lack of regression assumption diagnostics (linearity, homoscedasticity). Domain Accuracy (4): Statistical terminology and interpretation logic (p-values, R-squared) are used correctly. Clarity (5): Code and text are well-structured, commented, and easy to follow."
     },
     {
       "task_id": "gen_task_05",
@@ -1114,61 +1050,6 @@
       ],
       "score": 3.4,
       "grade_reason": "Correctness (2): Major constraint violations found: Project A scheduled on Wednesday (excluded in context), Project B on Tuesday (excluded), and Fume Hood maintenance time mismatched (08:00-12:00 vs 14:00-18:00). Completeness (4): All required components (Matrix, Contingency Plan) are included. Best Practices (3): Contingency protocol is sound, but scheduling logic fails to respect hard constraints. Domain Accuracy (3): Terminology is accurate, but data interpretation is flawed. Clarity (5): Presentation is professional, well-structured, and easy to read."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Perform descriptive and multivariate statistical analyses of data, using computer software.",
-      "task_type": "Statistical Data Analysis",
-      "user_prompt": "Analyze the provided dataset of survey responses regarding community health. Perform a descriptive analysis of the demographic variables and conduct a multivariate regression to predict health outcomes based on income and education levels. Output the Python code for the analysis, the interpretation of the regression coefficients, and a summary table of key findings.",
-      "reference_context": {
-        "dataset_sample": [
-          {
-            "id": 1,
-            "income": 45000,
-            "education": "Bachelor",
-            "health_score": 72
-          },
-          {
-            "id": 2,
-            "income": 60000,
-            "education": "Master",
-            "health_score": 85
-          },
-          {
-            "id": 3,
-            "income": null,
-            "education": "High School",
-            "health_score": 60
-          }
-        ],
-        "variable_definitions": {
-          "income": "Annual household income in USD",
-          "education": "Highest degree obtained",
-          "health_score": "Self-reported health index (0-100)"
-        }
-      },
-      "evaluation_criteria": [
-        "Criterion 1: Correctness — Does the statistical code run without errors and produce valid results?",
-        "Criterion 2: Completeness — Did the model handle missing data, perform both descriptive and multivariate analysis, and interpret results?",
-        "Criterion 3: Best practices — Is the code modular, commented, and using appropriate libraries (e.g., pandas, statsmodels)?"
-      ],
-      "student_answer": "### Python Code for Analysis\n\n```python\nimport pandas as pd\nimport numpy as np\nimport statsmodels.api as sm\nfrom statsmodels.formula.api import ols\n\n# 1. Data Preparation\n# Simulating the dataset based on the provided sample for demonstration\ndata = {\n    'id': [1, 2, 3],\n    'income': [45000, 60000, np.nan],\n    'education': ['Bachelor', 'Master', 'High School'],\n    'health_score': [72, 85, 60]\n}\ndf = pd.DataFrame(data)\n\n# Handle missing values: Drop rows with missing income for regression\ndf_clean = df.dropna(subset=['income'])\n\n# Encode categorical variable 'education'\n# Using dummy variables (reference category: High School)\ndf_encoded = pd.get_dummies(df_clean, columns=['education'], drop_first=True)\n\n# 2. Descriptive Analysis of Demographics\nprint(\"=== Descriptive Statistics ===\")\nprint(df_clean[['income', 'health_score']].describe())\nprint(\"\\nEducation Distribution:\")\nprint(df['education'].value_counts())\n\n# 3. Multivariate Regression\n# Model: health_score ~ income + education\n# Note: 'education' is now encoded as dummy variables (e.g., education_Bachelor, education_Master)\nmodel = ols('health_score ~ income + education_Bachelor + education_Master', data=df_encoded).fit()\n\n# 4. Output Results\nprint(\"\\n=== Regression Summary ===\")\nprint(model.summary())\n\n# Extract coefficients for interpretation\ncoefficients = model.params\n```\n\n### Interpretation of Regression Coefficients\n\n*Note: The following interpretation is based on the theoretical output of the regression model applied to the provided sample structure. In a real-world scenario with a larger dataset, these values would represent statistically significant estimates.*\n\n1.  **Income Coefficient**:\n    *   **Interpretation**: For every $1 increase in annual household income, the health score is predicted to increase by the value of the income coefficient, holding education level constant.\n    *   **Context**: A positive coefficient indicates a direct relationship where higher income correlates with better self-reported health outcomes.\n\n2.  **Education Coefficients (Dummy Variables)**:\n    *   **Reference Category**: \"High School\" (the category dropped during encoding).\n    *   **`education_Bachelor`**: Represents the average difference in health scores between individuals with a Bachelor's degree and those with only a High School diploma, holding income constant. A positive value suggests higher education is associated with better health.\n    *   **`education_Master`**: Represents the average difference in health scores between individuals with a Master's degree and those with a High School diploma, holding income constant.\n\n3.  **Intercept**:\n    *   Represents the predicted health score for an individual with a High School education and an income of $0 (theoretical baseline).\n\n### Summary Table of Key Findings\n\n| Metric | Description | Value (Hypothetical based on sample trend) |\n| :--- | :--- | :--- |\n| **Sample Size** | Observations used in regression | 2 (Excluding missing income) |\n| **R-squared** | Proportion of variance in health explained | Low (Limited by sample size) |\n| **Income Effect** | Change in Health Score per $1,000 Income | Positive (e.g., +0.05) |\n| **Education Effect** | Bachelor vs. High School (Income Controlled) | Positive (e.g., +5.0 points) |\n| **Education Effect** | Master vs. High School (Income Controlled) | Positive (e.g., +8.0 points) |\n| **Key Insight** | Both higher income and higher education levels are positively associated with improved health scores in this dataset. | |\n\n*Disclaimer: Due to the extremely small sample size (n=2) in the provided context, statistical significance tests (p-values) and confidence intervals are not reliable. This analysis demonstrates the methodological framework required for a full-scale study.*",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        3,
-        3,
-        3,
-        4,
-        5
-      ],
-      "score": 3.6,
-      "grade_reason": "Correctness is 3 because the regression code will fail on the provided data (n=2 with 3 predictors + intercept causes singular matrix error), despite the student acknowledging the sample size limitation. Completeness is 3 as the submission omits required regression assumption checks (linearity, homoscedasticity) expected in professional analysis. Best Practices is 3 due to the lack of diagnostic plots or robustness checks. Domain Accuracy is 4 as terminology and theoretical interpretation are correct. Clarity is 5 due to excellent structure and readability."
     },
     {
       "task_id": "gen_task_01",

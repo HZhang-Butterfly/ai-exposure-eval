@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 19,
-    "evaluated_tasks": 20,
+    "evaluated_tasks": 19,
     "batches": 4,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.44,
+      "overall": 4.41,
       "dimensions": {
-        "Correctness": 4.4,
-        "Completeness": 4.3,
-        "Best Practices": 4.3,
-        "Domain Accuracy": 4.25,
+        "Correctness": 4.37,
+        "Completeness": 4.26,
+        "Best Practices": 4.26,
+        "Domain Accuracy": 4.21,
         "Clarity": 4.95
       },
-      "evaluated_tasks": 20,
+      "evaluated_tasks": 19,
       "scale_max": 5
     },
     "total_time_seconds": 3661.27
@@ -223,47 +223,6 @@
       ],
       "score": 4.6,
       "grade_reason": "The memo is professionally formatted and legally accurate regarding GINA prohibitions and EEOC AI liability principles. It demonstrates strong Best Practices by including draft policy language for immediate use. However, it omits specific reference to the '4/5ths rule' (80% rule) for disparate impact analysis, which is a standard EEOC metric expected in senior-level compliance documentation. This creates a minor gap in Domain Accuracy and Completeness, though the overall legal advice remains sound and the Clarity is excellent."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Investigate employment practices or alleged violations of laws to document and correct discriminatory factors.",
-      "task_type": "Investigative Analysis",
-      "user_prompt": "You are an Equal Opportunity Officer. A department manager has reported a pattern of exclusionary behavior in the hiring process for the Engineering team, citing that no women have been hired for senior roles in the last 18 months despite a 40% female applicant pool. Analyze the provided hiring data and interview transcripts to identify potential disparate impact. Draft a formal investigation plan including specific data points to verify, interview questions for the hiring manager, and a preliminary risk assessment based on Title VII disparate impact theory.",
-      "reference_context": {
-        "hiring_data": {
-          "period": "Jan 2022 - Dec 2023",
-          "total_applicants": 150,
-          "female_applicants": 60,
-          "male_applicants": 90,
-          "female_hired": 0,
-          "male_hired": 12,
-          "total_hired": 12
-        },
-        "interview_snippet": "Hiring Manager: 'We prioritize candidates with specific legacy system experience which is rare among recent female graduates. We need someone who can hit the ground running immediately.'",
-        "legal_context": "Title VII of the Civil Rights Act of 1964; EEOC Uniform Guidelines on Employee Selection Procedures"
-      },
-      "evaluation_criteria": [
-        "Correctness: Does the analysis correctly apply the 80% rule or statistical significance testing to the provided data?",
-        "Completeness: Does the plan cover data verification, stakeholder interviews, and legal risk assessment?",
-        "Best Practices: Is the investigation plan structured to minimize legal liability and ensure procedural fairness?"
-      ],
-      "student_answer": "**FORMAL INVESTIGATION PLAN: DISPARATE IMPACT ANALYSIS**\n\n**1. Executive Summary & Preliminary Risk Assessment**\nBased on the provided data, the Engineering department exhibits a statistically significant adverse impact on female candidates, triggering a high-risk classification under Title VII of the Civil Rights Act of 1964 and the EEOC Uniform Guidelines on Employee Selection Procedures.\n\n*   **Adverse Impact Calculation (Four-Fifths Rule):**\n    *   Female Selection Rate: 0% (0 hired / 60 applicants).\n    *   Male Selection Rate: 13.3% (12 hired / 90 applicants).\n    *   Ratio: 0% / 13.3% = 0.00.\n    *   **Conclusion:** The selection rate for female candidates is less than 80% (four-fifths) of the rate for male candidates. This constitutes prima facie evidence of disparate impact.\n*   **Risk Level:** **Critical.** The combination of a 0% selection rate for a protected class and the hiring manager's justification regarding \"legacy system experience\" (which may correlate with gender due to historical educational and industry trends) suggests a policy or practice that is not job-related and consistent with business necessity.\n\n**2. Data Verification Requirements**\nTo validate the disparate impact and determine the specific source of the barrier, the following data points must be extracted and analyzed:\n\n*   **Granular Selection Metrics:** Breakdown of applicants by stage (Screening, Technical Assessment, Interview, Offer) categorized by gender to identify the specific funnel stage where female candidates are excluded.\n*   **Credential Analysis:** Correlation between \"legacy system experience\" and gender. Specifically, analyze the percentage of male vs. female applicants possessing the cited legacy skills to determine if the requirement acts as a proxy for gender.\n*   **Job Description Audit:** Review of all 12 job postings from the period to verify if \"legacy system experience\" was listed as a mandatory requirement versus a preferred qualification.\n*   **Interview Scoring Data:** Aggregated scores for female vs. male candidates at each interview stage to identify potential bias in evaluation criteria.\n*   **Alternative Candidate Pool:** Data on qualified female candidates who were rejected and the specific reasons documented for their rejection.\n\n**3. Interview Protocol: Hiring Manager**\nThe following questions are designed to elicit the business necessity defense and assess the validity of the selection criteria:\n\n*   \"Can you provide a detailed, written justification for why 'legacy system experience' is an essential, non-negotiable requirement for *all* senior engineering roles, rather than a preferred skill?\"\n*   \"What specific business function or operational risk would occur if a senior engineer were hired without this specific legacy experience, assuming they possess the core engineering competencies?\"\n*   \"Did you consider alternative selection methods or training programs to onboard candidates without this specific background who otherwise met the core technical criteria?\"\n*   \"Please describe the specific criteria used to evaluate 'legacy system experience' during the interview process. Was this evaluation standardized across all candidates, or was it subjective?\"\n*   \"Were any female candidates interviewed who possessed the core technical skills but lacked the legacy experience? If so, what was the documented rationale for their rejection?\"\n\n**4. Immediate Corrective Actions & Next Steps**\n*   **Suspend Current Hiring:** Halt all pending senior engineering hires until the investigation is complete.\n*   **Legal Review:** Engage Legal Counsel to review the \"legacy system\" requirement against EEOC guidelines regarding business necessity.\n*   **Remediation Plan:** If the requirement is found to be a barrier without business necessity, develop a plan to:\n    *   Revise job descriptions to remove or reclassify the legacy requirement.\n    *   Implement targeted outreach to female engineering candidates.\n    *   Provide training on unconscious bias for the interview panel.\n*   **Reporting:** Submit a preliminary findings report to the Executive Leadership Team and the Board within 14 days of investigation completion.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        5,
-        5,
-        5,
-        5
-      ],
-      "score": 5.0,
-      "grade_reason": "The submission is exceptional, addressing all task requirements with high professional standards. It correctly applies the 4/5ths rule and Title VII disparate impact theory, accurately calculating selection rates and identifying the prima facie case. The investigation plan is comprehensive, including specific data points, robust interview questions focused on business necessity, and a clear risk assessment. The tone is objective yet decisive, and the structure is clear and easy to follow. No meaningful gaps or errors were identified."
     },
     {
       "task_id": "gen_task_02",

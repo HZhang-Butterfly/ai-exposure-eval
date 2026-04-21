@@ -6,7 +6,7 @@
     "teacher_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "student_model": "Qwen/Qwen3.5-35B-A3B-FP8",
     "total_onet_tasks": 30,
-    "evaluated_tasks": 35,
+    "evaluated_tasks": 30,
     "batches": 6,
     "batch_size": 5,
     "grading_scale_max": 5,
@@ -18,15 +18,15 @@
       "Clarity"
     ],
     "exposure_score": {
-      "overall": 4.15,
+      "overall": 4.06,
       "dimensions": {
-        "Correctness": 3.74,
-        "Completeness": 4.23,
-        "Best Practices": 4.09,
-        "Domain Accuracy": 3.77,
-        "Clarity": 4.91
+        "Correctness": 3.67,
+        "Completeness": 4.1,
+        "Best Practices": 3.93,
+        "Domain Accuracy": 3.7,
+        "Clarity": 4.9
       },
-      "evaluated_tasks": 35,
+      "evaluated_tasks": 30,
       "scale_max": 5
     },
     "total_time_seconds": 5955.81
@@ -246,50 +246,6 @@
       "grade_reason": "The submission is professional, well-structured, and correctly determines the loan is outside approval authority. The escalation memo is complete and provides sound justification for the LTV and bankruptcy risk. However, the student assumed 'Chapter 7' bankruptcy in the profile section, whereas the provided context only specified 'bankruptcy discharge' without specifying the chapter. This assumption, while not changing the outcome, represents a minor factual inaccuracy relative to the provided data, preventing a perfect score on Correctness and Domain Accuracy."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze applicants' financial status, credit, and property evaluations to determine feasibility of granting loans.",
-      "task_type": "Financial Analysis & Feasibility",
-      "user_prompt": "You are a Loan Officer reviewing a mortgage application for a self-employed applicant. The applicant has provided the following data: Gross annual income of $120,000 (verified via tax returns), monthly debt obligations of $2,500, and a requested loan amount of $450,000 with a 20% down payment. The property is appraised at $562,500. Calculate the Debt-to-Income (DTI) ratio and Loan-to-Value (LTV) ratio. Determine if the loan meets the standard underwriting criteria (DTI < 43%, LTV < 80%) and draft a recommendation memo including any required conditions for approval.",
-      "reference_context": {
-        "applicant_profile": {
-          "employment_type": "Self-Employed",
-          "gross_annual_income": 120000,
-          "monthly_debt_obligations": 2500,
-          "requested_loan_amount": 450000,
-          "down_payment_percentage": 20
-        },
-        "property_data": {
-          "appraised_value": 562500
-        },
-        "underwriting_policy": {
-          "max_dti": 0.43,
-          "max_ltv": 0.8
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: Are the DTI and LTV calculations mathematically accurate to two decimal places?",
-        "Completeness: Does the response include the recommendation memo and all required conditions?",
-        "Best practices: Is the recommendation aligned with standard banking policies and risk management principles?"
-      ],
-      "student_answer": "**MEMORANDUM**\n\n**TO:** Underwriting Department\n**FROM:** Loan Officer\n**DATE:** October 26, 2023\n**SUBJECT:** Underwriting Analysis and Recommendation – [Applicant Name]\n\n**1. Financial Analysis**\n\n*   **Debt-to-Income (DTI) Ratio Calculation:**\n    *   Gross Monthly Income: $120,000 / 12 = $10,000\n    *   Total Monthly Debt Obligations: $2,500\n    *   DTI Ratio: $2,500 / $10,000 = **25.0%**\n\n*   **Loan-to-Value (LTV) Ratio Calculation:**\n    *   Appraised Value: $562,500\n    *   Down Payment (20%): $112,500\n    *   Loan Amount: $562,500 - $112,500 = $450,000\n    *   LTV Ratio: $450,000 / $562,500 = **80.0%**\n\n**2. Underwriting Criteria Assessment**\n\n*   **DTI Requirement:** Policy maximum is 43%. Applicant DTI is 25.0%.\n    *   *Status:* **Pass**\n*   **LTV Requirement:** Policy maximum is 80%. Applicant LTV is 80.0%.\n    *   *Status:* **Pass** (Meets threshold exactly)\n\n**3. Recommendation**\n\n**Decision:** **Approved with Conditions**\n\nThe applicant meets all standard underwriting criteria regarding debt-to-income and loan-to-value ratios. The self-employment income is verified via tax returns, and the down payment satisfies the 20% equity requirement, eliminating the need for Private Mortgage Insurance (PMI).\n\n**Required Conditions for Final Approval:**\n\n1.  **Self-Employment Verification:** Submit two full years of personal and business tax returns (including all schedules) to verify consistent income trends.\n2.  **Profit and Loss Statement:** Provide a year-to-date Profit and Loss statement signed by the applicant, reconciled to the tax returns.\n3.  **Asset Verification:** Provide 60 days of bank statements for all accounts used to fund the down payment and closing costs to verify source of funds.\n4.  **Title Search:** Clear title search with no outstanding liens or judgments.\n5.  **Property Insurance:** Proof of hazard insurance coverage prior to closing.\n6.  **Credit Report:** Review of updated credit report to ensure no new derogatory items or increased debt obligations have occurred since initial application.\n\n**Next Steps:**\nUpon receipt and satisfactory review of the conditions listed above, the file will be forwarded to the final underwriter for closing authorization.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        5,
-        5,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "The submission demonstrates strong professional formatting and accurate calculations for DTI (25%) and LTV (80%). Completeness and Clarity are exceptional, covering all task requirements including a detailed memo and appropriate self-employment conditions. However, Correctness and Domain Accuracy are scored 4 due to a minor compliance nuance: the prompt specifies LTV < 80%, while the calculated LTV is exactly 80%. A rigorous compliance officer would flag this boundary condition rather than marking it as a clear 'Pass' without noting the strict inequality exception, though industry standards often allow 80%."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Review loan agreements to ensure that they are complete and accurate according to policy.",
       "task_type": "Compliance & Documentation Review",
@@ -470,50 +426,6 @@
       "grade_reason": "Correctness and Domain Accuracy are scored at 3 because the student calculated a specific corrected DTI (38.5%) without the necessary Gross Income variable provided in the prompt. This fabrication of underwriting data is a significant domain error, as DTI cannot be accurately derived from debt reduction alone. Completeness is 4 as all required sections (FCRA, timeline, risk plan, response) are present. Best Practices is 3 because fabricating specific financial ratios violates compliance standards, despite otherwise sound risk mitigation strategies. Clarity is 5 due to excellent structure and professional tone."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze applicants' financial status, credit, and property evaluations to determine feasibility of granting loans.",
-      "task_type": "Financial Analysis & Feasibility",
-      "user_prompt": "You are a Loan Officer reviewing a mortgage application for a self-employed applicant. The applicant has provided the following data: Gross annual income of $120,000 (verified via tax returns), monthly debt obligations of $2,500, and a requested loan amount of $450,000 with a 20% down payment. The property is appraised at $562,500. Calculate the Debt-to-Income (DTI) ratio and Loan-to-Value (LTV) ratio. Determine if the loan meets the standard underwriting criteria (DTI < 43%, LTV < 80%) and draft a recommendation memo including any required conditions for approval.",
-      "reference_context": {
-        "applicant_profile": {
-          "employment_type": "Self-Employed",
-          "gross_annual_income": 120000,
-          "monthly_debt_obligations": 2500,
-          "requested_loan_amount": 450000,
-          "down_payment_percentage": 20
-        },
-        "property_data": {
-          "appraised_value": 562500
-        },
-        "underwriting_policy": {
-          "max_dti": 0.43,
-          "max_ltv": 0.8
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: Are the DTI and LTV calculations mathematically accurate to two decimal places?",
-        "Completeness: Does the response include the recommendation memo and all required conditions?",
-        "Best practices: Is the recommendation aligned with standard banking policies and risk management principles?"
-      ],
-      "student_answer": "**MEMORANDUM**\n\n**TO:** Underwriting Department\n**FROM:** Loan Officer\n**DATE:** October 26, 2023\n**SUBJECT:** Underwriting Analysis and Recommendation – [Applicant Name]\n\n**1. Financial Calculations**\n\n*   **Debt-to-Income (DTI) Ratio:**\n    *   Monthly Gross Income: $10,000 ($120,000 / 12)\n    *   Monthly Debt Obligations: $2,500\n    *   Calculation: $2,500 / $10,000 = **25.0%**\n\n*   **Loan-to-Value (LTV) Ratio:**\n    *   Loan Amount: $450,000\n    *   Appraised Value: $562,500\n    *   Calculation: $450,000 / $562,500 = **80.0%**\n\n**2. Underwriting Criteria Assessment**\n\n*   **DTI Requirement:** Policy maximum is 43%.\n    *   *Result:* **Pass** (25.0% < 43%)\n*   **LTV Requirement:** Policy maximum is 80%.\n    *   *Result:* **Pass** (80.0% ≤ 80%)\n\n**3. Recommendation**\n\n**Status:** **Approved with Conditions**\n\nThe applicant meets all standard underwriting criteria regarding debt-to-income and loan-to-value ratios. The self-employment income verification via tax returns is acceptable. However, as the LTV is exactly at the 80% threshold, Private Mortgage Insurance (PMI) is not required, but strict adherence to the 20% equity requirement is mandatory.\n\n**Required Conditions for Closing:**\n\n1.  **Income Verification:** Submit final two years of personal and business tax returns (Form 1040 with Schedule C) to confirm the $120,000 gross income stability.\n2.  **Asset Verification:** Provide two months of bank statements for all accounts used to fund the down payment and closing costs to verify the 20% ($112,500) source of funds.\n3.  **Property Insurance:** Submit a copy of the homeowner's insurance policy declaration page prior to closing.\n4.  **Title Search:** Clear title report with no outstanding liens or judgments.\n5.  **Occupancy Certification:** Signed affidavit confirming the property will be the applicant's primary residence.\n\n**Next Steps:**\nUpon satisfaction of the conditions listed above, the file is ready for final underwriting approval and loan commitment issuance.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        5,
-        5,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "Correctness (4): Calculations for DTI and LTV are accurate, but the LTV result (80%) technically fails the strict '< 80%' criteria specified in the prompt, though the student correctly applied industry norms. Completeness (5): All task requirements including calculations, criteria assessment, recommendation, and conditions are fully addressed. Best Practices (5): Professional memo structure and appropriate conditions for self-employed verification and closing. Domain Accuracy (4): Terminology and concepts are used correctly, but the LTV threshold interpretation slightly conflicts with the prompt's explicit inequality constraint. Clarity (5): Output is well-structured, professional, and easy to understand."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Compute payment schedules.",
       "task_type": "Payment Schedule & Compliance",
@@ -660,50 +572,6 @@
       ],
       "score": 4.4,
       "grade_reason": "Correctness (4): Addresses main tasks but omits explicit loan disposition (approve/deny/refer) in audit procedure per Additional Checks. Completeness (4): Audit procedure lacks specific outcome for flagged loans. Best Practices (4): Risk exposure formula (Loan Amount * DTI Delta) is non-standard for credit risk. Domain Accuracy (5): DTI formula and ECOA citations are accurate. Clarity (5): Professional structure and formatting."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze applicants' financial status, credit, and property evaluations to determine feasibility of granting loans.",
-      "task_type": "Financial Analysis & Feasibility",
-      "user_prompt": "You are a Loan Officer reviewing a mortgage application for a self-employed applicant. The applicant has provided the following data: Gross annual income of $120,000 (verified via tax returns), monthly debt obligations of $2,500, and a requested loan amount of $450,000 with a 20% down payment. The property is appraised at $562,500. Calculate the Debt-to-Income (DTI) ratio and Loan-to-Value (LTV) ratio. Determine if the loan meets the standard underwriting criteria (DTI < 43%, LTV < 80%) and draft a recommendation memo including any required conditions for approval.",
-      "reference_context": {
-        "applicant_profile": {
-          "employment_type": "Self-Employed",
-          "gross_annual_income": 120000,
-          "monthly_debt_obligations": 2500,
-          "requested_loan_amount": 450000,
-          "down_payment_percentage": 20
-        },
-        "property_data": {
-          "appraised_value": 562500
-        },
-        "underwriting_policy": {
-          "max_dti": 0.43,
-          "max_ltv": 0.8
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: Are the DTI and LTV calculations mathematically accurate to two decimal places?",
-        "Completeness: Does the response include the recommendation memo and all required conditions?",
-        "Best practices: Is the recommendation aligned with standard banking policies and risk management principles?"
-      ],
-      "student_answer": "**MEMORANDUM**\n\n**TO:** Underwriting Department\n**FROM:** Loan Officer\n**DATE:** October 26, 2023\n**SUBJECT:** Underwriting Analysis and Recommendation – [Applicant Name]\n\n**1. Financial Analysis**\n\n*   **Debt-to-Income (DTI) Ratio:**\n    *   Monthly Gross Income: $10,000 ($120,000 / 12)\n    *   Monthly Debt Obligations: $2,500\n    *   Calculation: $2,500 / $10,000 = **25.0%**\n\n*   **Loan-to-Value (LTV) Ratio:**\n    *   Appraised Value: $562,500\n    *   Down Payment (20%): $112,500\n    *   Loan Amount: $450,000\n    *   Calculation: $450,000 / $562,500 = **80.0%**\n\n**2. Underwriting Criteria Assessment**\n\n*   **DTI Requirement:** Policy maximum is 43%. Applicant DTI is 25.0%.\n    *   *Status:* **Pass**\n*   **LTV Requirement:** Policy maximum is 80%. Applicant LTV is 80.0%.\n    *   *Status:* **Pass** (Meets threshold exactly)\n\n**3. Recommendation**\n\n**Recommendation:** **Approve with Conditions**\n\nThe applicant meets all standard underwriting criteria regarding income stability, debt load, and equity position. The self-employment income is verified via tax returns, and the LTV ratio is within the acceptable limit for a conventional loan without requiring private mortgage insurance (PMI).\n\n**Required Conditions for Final Approval:**\n\n1.  **Self-Employment Verification:** Submit two full years of personal and business tax returns (including all schedules) to verify consistent income trends.\n2.  **Profit & Loss Statement:** Provide a year-to-date Profit & Loss statement signed by the applicant, reconciled to the tax returns.\n3.  **Asset Verification:** Provide two months of bank statements for all accounts used to fund the down payment and closing costs to verify source of funds.\n4.  **Title Search:** Clear title report with no outstanding liens or judgments.\n5.  **Property Insurance:** Proof of hazard insurance coverage prior to closing.\n6.  **Occupancy Verification:** Signed affidavit confirming the property will be the applicant's primary residence.\n\n**Next Steps:**\nUpon receipt and satisfactory review of the conditions listed above, the file will be ready for final credit approval and closing.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        4,
-        5,
-        5,
-        4,
-        5
-      ],
-      "score": 4.6,
-      "grade_reason": "The submission is professional and addresses all task components effectively. Scores of 5 are given for Completeness, Best Practices, and Clarity due to the strong memo structure and standard conditions. Scores of 4 are assigned for Correctness and Domain Accuracy because the student did not explicitly state the assumption that the $2,500 debt figure includes the new mortgage payment (standard DTI practice), and the LTV 'Pass' decision on exactly 80% (when prompt specified < 80%) lacked a note on the policy discrepancy between text and context JSON."
     },
     {
       "task_id": "gen_task_02",
@@ -883,50 +751,6 @@
       "grade_reason": "Correctness (3): Final determination is accurate (only 2 eligible), but initial logic error listing A004 as eligible reduces confidence. Completeness (4): All criteria, ECOA constraints, and data limitations were addressed. Best Practices (2): Unprofessional presentation with visible draft revisions ('Revised Top 3', 'Correction') in a final report. Domain Accuracy (3): ECOA application is safe but slightly theoretical regarding defaults. Clarity (2): Confusing structure with contradictory sections and repeated candidate listings."
     },
     {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze applicants' financial status, credit, and property evaluations to determine feasibility of granting loans.",
-      "task_type": "Financial Analysis & Feasibility",
-      "user_prompt": "You are a Loan Officer reviewing a mortgage application for a self-employed applicant. The applicant has provided the following data: Gross annual income of $120,000 (verified via tax returns), monthly debt obligations of $2,500, and a requested loan amount of $450,000 with a 20% down payment. The property is appraised at $562,500. Calculate the Debt-to-Income (DTI) ratio and Loan-to-Value (LTV) ratio. Determine if the loan meets the standard underwriting criteria (DTI < 43%, LTV < 80%) and draft a recommendation memo including any required conditions for approval.",
-      "reference_context": {
-        "applicant_profile": {
-          "employment_type": "Self-Employed",
-          "gross_annual_income": 120000,
-          "monthly_debt_obligations": 2500,
-          "requested_loan_amount": 450000,
-          "down_payment_percentage": 20
-        },
-        "property_data": {
-          "appraised_value": 562500
-        },
-        "underwriting_policy": {
-          "max_dti": 0.43,
-          "max_ltv": 0.8
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: Are the DTI and LTV calculations mathematically accurate to two decimal places?",
-        "Completeness: Does the response include the recommendation memo and all required conditions?",
-        "Best practices: Is the recommendation aligned with standard banking policies and risk management principles?"
-      ],
-      "student_answer": "**MEMORANDUM**\n\n**TO:** Underwriting Department\n**FROM:** Loan Officer\n**DATE:** October 26, 2023\n**SUBJECT:** Underwriting Analysis and Recommendation – [Applicant Name]\n\n**1. Financial Analysis**\n\n*   **Debt-to-Income (DTI) Ratio Calculation:**\n    *   Gross Monthly Income: $120,000 / 12 = $10,000\n    *   Total Monthly Debt Obligations: $2,500\n    *   DTI Ratio: $2,500 / $10,000 = **25.0%**\n\n*   **Loan-to-Value (LTV) Ratio Calculation:**\n    *   Appraised Value: $562,500\n    *   Down Payment (20%): $112,500\n    *   Loan Amount: $562,500 - $112,500 = $450,000\n    *   LTV Ratio: $450,000 / $562,500 = **80.0%**\n\n**2. Underwriting Criteria Assessment**\n\n*   **DTI Requirement:** Policy maximum is 43%. Applicant DTI is 25.0%.\n    *   *Status:* **Pass**\n*   **LTV Requirement:** Policy maximum is 80%. Applicant LTV is 80.0%.\n    *   *Status:* **Pass** (Meets threshold exactly)\n\n**3. Recommendation**\n\n**Recommendation:** **Approve with Conditions**\n\nThe applicant meets all standard underwriting criteria regarding debt-to-income and loan-to-value ratios. The self-employment income is verified via tax returns, and the down payment structure satisfies the 80% LTV cap, eliminating the requirement for Private Mortgage Insurance (PMI).\n\n**Required Conditions for Approval:**\n\n1.  **Self-Employment Verification:** Submit two full years of personal and business tax returns (including all schedules) to verify consistent income trends.\n2.  **Profit and Loss Statement:** Provide a year-to-date Profit and Loss statement signed by the applicant, reconciled to the most recent tax return.\n3.  **Asset Verification:** Provide 12 months of bank statements for all accounts to verify the source of the 20% down payment ($112,500) and closing costs.\n4.  **Title Search:** Clear title search with no outstanding liens or judgments.\n5.  **Homeowners Insurance:** Proof of hazard insurance coverage prior to closing.\n6.  **Occupancy:** Signed occupancy affidavit confirming the property will be the primary residence.\n\n**Next Steps:**\nUpon receipt and satisfactory review of the conditions listed above, the file will be forwarded to the final underwriter for closing approval.",
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "dimension_scores": [
-        5,
-        5,
-        5,
-        5,
-        5
-      ],
-      "score": 5.0,
-      "grade_reason": "The submission is exceptional and meets all industry standards. Calculations for DTI (25%) and LTV (80%) are mathematically precise. The recommendation memo follows professional formatting with clear sections. The student correctly identified self-employment verification requirements (tax returns, P&L) and standard closing conditions. The interpretation of the 80% LTV threshold aligns with industry standards (inclusive max) supported by the JSON context, despite the strict inequality in the text description. No meaningful gaps or errors found."
-    },
-    {
       "task_id": "gen_task_02",
       "onet_source": "Contact applicants or creditors to resolve questions about applications or to assist with completion of paperwork.",
       "task_type": "Application Resolution & Compliance",
@@ -1097,50 +921,6 @@
       ],
       "score": 3.0,
       "grade_reason": "The submission is exceptionally clear and well-structured (Clarity: 5), but contains a critical mathematical error in the baseline scenario. The minimum payment on Credit Card A ($100) exactly equals the monthly interest ($100), meaning the principal never decreases and the debt is never paid off, rendering the 14-year payoff and interest savings estimates impossible (Correctness: 2, Domain Accuracy: 2). While the Avalanche allocation logic is correct, the failure to identify this 'interest-only' trap indicates poor professional judgment (Best Practices: 3). The submission addresses the explicit task requirements but lacks the risk analysis (DTI/Approval status) suggested by the Additional Checks, though the calculation error is the primary deficiency (Completeness: 3)."
-    },
-    {
-      "task_id": "gen_task_01",
-      "onet_source": "Analyze applicants' financial status, credit, and property evaluations to determine feasibility of granting loans.",
-      "task_type": "Financial Analysis & Feasibility",
-      "user_prompt": "You are a Loan Officer reviewing a mortgage application for a self-employed applicant. The applicant has provided the following data: Gross annual income of $120,000 (verified via tax returns), monthly debt obligations of $2,500, and a requested loan amount of $450,000 with a 20% down payment. The property is appraised at $562,500. Calculate the Debt-to-Income (DTI) ratio and Loan-to-Value (LTV) ratio. Determine if the loan meets the standard underwriting criteria (DTI < 43%, LTV < 80%) and draft a recommendation memo including any required conditions for approval.",
-      "reference_context": {
-        "applicant_profile": {
-          "employment_type": "Self-Employed",
-          "gross_annual_income": 120000,
-          "monthly_debt_obligations": 2500,
-          "requested_loan_amount": 450000,
-          "down_payment_percentage": 20
-        },
-        "property_data": {
-          "appraised_value": 562500
-        },
-        "underwriting_policy": {
-          "max_dti": 0.43,
-          "max_ltv": 0.8
-        }
-      },
-      "evaluation_criteria": [
-        "Correctness: Are the DTI and LTV calculations mathematically accurate to two decimal places?",
-        "Completeness: Does the response include the recommendation memo and all required conditions?",
-        "Best practices: Is the recommendation aligned with standard banking policies and risk management principles?"
-      ],
-      "student_answer": "**MEMORANDUM**\n\n**TO:** Underwriting Department\n**FROM:** Loan Officer\n**DATE:** October 26, 2023\n**SUBJECT:** Underwriting Analysis and Recommendation – [Applicant Name]\n\n**1. Financial Analysis**\n\n*   **Debt-to-Income (DTI) Ratio:**\n    *   Monthly Gross Income: $10,000 ($120,000 / 12)\n    *   Monthly Debt Obligations: $2,500\n    *   Calculation: $2,500 / $10,000 = **25.0%**\n\n*   **Loan-to-Value (LTV) Ratio:**\n    *   Appraised Value: $562,500\n    *   Down Payment (20%): $112,500\n    *   Loan Amount: $450,000\n    *   Calculation: $450,000 / $562,500 = **80.0%**\n\n**2. Underwriting Criteria Assessment**\n\n*   **DTI Requirement:** Policy maximum is 43%.\n    *   *Result:* **Pass** (25.0% < 43%)\n*   **LTV Requirement:** Policy maximum is 80%.\n    *   *Result:* **Pass** (80.0% ≤ 80%)\n\n**3. Recommendation**\n\n**Status:** **Approved with Conditions**\n\nThe applicant meets all standard underwriting criteria regarding debt-to-income and loan-to-value ratios. The self-employment income is verified via tax returns, and the down payment structure satisfies the 80% LTV threshold, eliminating the requirement for Private Mortgage Insurance (PMI).\n\n**Required Conditions for Final Approval:**\n\n1.  **Self-Employment Verification:** Submit two full years of personal and business tax returns (including all schedules) to verify income stability and calculate the average net income.\n2.  **Profit and Loss Statement:** Provide a year-to-date (YTD) profit and loss statement signed by the applicant, reconciled to the most recent tax return.\n3.  **Asset Verification:** Provide 2-3 months of bank statements for all accounts used to fund the down payment and closing costs to verify source of funds.\n4.  **Title Search:** Clear title report with no outstanding liens or judgments.\n5.  **Property Insurance:** Proof of hazard insurance coverage prior to closing.\n6.  **Employment Verification:** A current letter of verification of self-employment confirming the business is active and in good standing.\n\n**Next Steps:**\nUpon receipt and satisfactory review of the conditions listed above, the file will be forwarded to the final underwriter for closing authorization.",
-      "score": 4.6,
-      "dimension_scores": [
-        4,
-        5,
-        5,
-        4,
-        5
-      ],
-      "dimension_labels": [
-        "Correctness",
-        "Completeness",
-        "Best Practices",
-        "Domain Accuracy",
-        "Clarity"
-      ],
-      "grade_reason": "Correctness (4): Calculations are mathematically accurate based on provided inputs, but using Gross Income for Self-Employed DTI is technically provisional as underwriting typically requires Net Income; the 'Pass' determination is therefore conditional. Completeness (5): All task requirements including calculations, assessment, memo, and conditions are fully addressed. Best Practices (5): Professional memo structure and appropriate conditions for self-employment verification (tax returns, P&L, assets) align with industry standards. Domain Accuracy (4): Correctly identifies self-employment nuances in conditions, but the initial DTI calculation relies on Gross Income rather than the standard Net Income for SE applicants. Clarity (5): Output is well-structured, logical, and easy to understand."
     },
     {
       "task_id": "gen_task_02",
