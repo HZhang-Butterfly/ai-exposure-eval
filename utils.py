@@ -10,52 +10,87 @@ import pandas as pd
 import re
 from typing import List, Dict, Optional
 
+# Optional: load .env file if python-dotenv is installed
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 # Directory for prompt template files (relative to cwd)
 PROMPT_TEMPLATE_DIR = "prompt_templates"
 
 # ================= Configuration =================
-SERVER_IP = "172.27.146.129"
-# All models now served from the same endpoint (port 8600)
-META_PROMPT_API_URL = f"http://{SERVER_IP}:8600/v1/chat/completions"
-META_PROMPT_MODEL = "Qwen/Qwen3.5-35B-A3B-FP8"
+# Defaults — overridden by pipeline_config.json, then by env vars, then by CLI args.
+SERVER_IP = "localhost"
 
-TEACHER_API_URL = f"http://{SERVER_IP}:8600/v1/chat/completions"
-TEACHER_MODEL_NAME = "Qwen/Qwen3.5-35B-A3B-FP8"
+META_PROMPT_API_URL = f"http://{SERVER_IP}:8000/v1/chat/completions"
+META_PROMPT_MODEL = "default"
 
-STUDENT_API_URL = f"http://{SERVER_IP}:8600/v1/chat/completions"
-STUDENT_MODEL_NAME = "Qwen/Qwen3.5-35B-A3B-FP8"
+TEACHER_API_URL = f"http://{SERVER_IP}:8000/v1/chat/completions"
+TEACHER_MODEL_NAME = "default"
+
+STUDENT_API_URL = f"http://{SERVER_IP}:8000/v1/chat/completions"
+STUDENT_MODEL_NAME = "default"
 
 # Pipeline config (loaded from pipeline_config.json); used by evaluation steps
 CONFIG = {}
 
 def load_config(path: str = "pipeline_config.json") -> dict:
     """
-    Load pipeline config from JSON and update SERVER_IP, TEACHER_*, STUDENT_* in this module.
-    If the file is missing, CONFIG is {} and callers rely on .get(key, default) for fallbacks.
+    Load pipeline configuration with a three-tier priority system:
+      1. pipeline_config.json  (base config)
+      2. Environment variables  (override JSON; useful in CI or Docker)
+      3. CLI arguments          (highest priority; applied by the caller after this call)
+
+    Supported environment variables:
+      EVAL_SERVER_IP, EVAL_SERVER_PORT
+      EVAL_TEACHER_MODEL, EVAL_STUDENT_MODEL
+      EVAL_TEACHER_PORT, EVAL_STUDENT_PORT
+
+    If pipeline_config.json is missing, falls back to env vars then built-in defaults.
     """
     global CONFIG, SERVER_IP, \
         TEACHER_API_URL, TEACHER_MODEL_NAME, \
         STUDENT_API_URL, STUDENT_MODEL_NAME, \
         META_PROMPT_API_URL, META_PROMPT_MODEL
+
+    # ── Tier 1: JSON config ──────────────────────────────────────────────────
     try:
         with open(path, "r", encoding="utf-8") as f:
             CONFIG = json.load(f)
     except FileNotFoundError:
         CONFIG = {}
+
     s = CONFIG.get("server", {})
     m = CONFIG.get("models", {})
-    SERVER_IP = s.get("ip", "172.27.146.129")
-    # All roles (meta-prompt / teacher / student) now use the same port and model
-    port = s.get("student_port", 8600)
-    api_base = f"http://{SERVER_IP}:{port}/v1/chat/completions"
-    TEACHER_API_URL = api_base
-    STUDENT_API_URL = api_base
-    META_PROMPT_API_URL = api_base
-    # Default model for all roles unless overridden in pipeline_config.json
-    default_model = "Qwen/Qwen3.5-35B-A3B-FP8"
-    META_PROMPT_MODEL = m.get("meta_prompt", default_model)
-    TEACHER_MODEL_NAME = m.get("teacher", default_model)
-    STUDENT_MODEL_NAME = m.get("student", default_model)
+
+    json_ip          = s.get("ip", "localhost")
+    json_port        = s.get("student_port", s.get("teacher_port", 8000))
+    json_teacher_mdl = m.get("teacher", m.get("meta_prompt", "default"))
+    json_student_mdl = m.get("student", "default")
+
+    # ── Tier 2: Environment variable overrides ───────────────────────────────
+    env_ip             = os.environ.get("EVAL_SERVER_IP")
+    env_port           = os.environ.get("EVAL_SERVER_PORT")
+    env_teacher_model  = os.environ.get("EVAL_TEACHER_MODEL")
+    env_student_model  = os.environ.get("EVAL_STUDENT_MODEL")
+    env_teacher_port   = os.environ.get("EVAL_TEACHER_PORT")
+    env_student_port   = os.environ.get("EVAL_STUDENT_PORT")
+
+    SERVER_IP = env_ip or json_ip
+
+    teacher_port = int(env_teacher_port or env_port or json_port)
+    student_port = int(env_student_port or env_port or json_port)
+
+    TEACHER_MODEL_NAME = env_teacher_model or json_teacher_mdl
+    STUDENT_MODEL_NAME = env_student_model or json_student_mdl
+    META_PROMPT_MODEL  = TEACHER_MODEL_NAME  # meta-prompt uses the teacher model
+
+    TEACHER_API_URL   = f"http://{SERVER_IP}:{teacher_port}/v1/chat/completions"
+    STUDENT_API_URL   = f"http://{SERVER_IP}:{student_port}/v1/chat/completions"
+    META_PROMPT_API_URL = TEACHER_API_URL
+
     return CONFIG
 
 

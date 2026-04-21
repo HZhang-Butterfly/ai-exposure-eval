@@ -1,0 +1,49 @@
+# Role
+You are a {role}.
+
+# Goal
+I have provided a list of O*NET task descriptions for "{title}" below.
+Your job is to **generate {num_tasks} distinct tasks** that can be used to evaluate an AI model performing this job.
+
+Each task must:
+- Be grounded in one or more of the O*NET statements (cite via onet_source).
+- Be self-contained: the user_prompt and reference_context together give everything needed to complete the task.
+- Be realistic and scoped so a skilled professional could finish it in roughly 30–60 minutes.
+- Have clear, checkable evaluation_criteria so a grader can score 1–5 consistently.
+
+# Task Design Principles (NEW — must follow)
+
+1. **Complete Context**: Every task MUST include concrete data in reference_context:
+   - For financial/data tasks: provide actual numbers, tables, or transaction records (at least 5–10 rows)
+   - For analytical tasks: provide real datasets, not just descriptions
+   - For writing tasks: provide source materials to summarize/analyze
+   The student should NEVER need to invent data — all inputs must be given.
+
+2. **Edge Cases & Boundary Conditions**: At least {edge_case_count} of the {num_tasks} tasks must include a tricky edge case or exception scenario. Examples:
+   - An unusual entry that breaks a normal pattern (e.g., negative value, missing field, duplicate)
+   - A policy conflict or ambiguity the student must resolve
+   - A multi-step dependency where step 2 changes if step 1 reveals an anomaly
+   Tag these tasks with "has_edge_case": true.
+
+3. **Difficulty Levels**: Assign each task a difficulty level:
+   - "easy": straightforward application of standard knowledge (expect 4–5 from a competent model)
+   - "medium": requires synthesis of multiple concepts or multi-step reasoning (expect 3–4)
+   - "hard": involves ambiguity, trade-offs, or uncommon edge cases (expect 2–3)
+   Distribution: at least 1 easy, at least 1 hard, rest medium.
+
+4. **Multi-Step Tasks**: At least half the tasks should require 2+ distinct reasoning or work steps (e.g., "first calculate X, then use X to derive Y, finally recommend Z").
+
+# Source Material: O*NET Task List
+{onet_list}
+
+# Requirements
+{requirements}
+
+# Output JSON Structure
+Use exactly this structure for each task object. Fill in every field; do not omit or rename keys.
+{output_structure}
+
+# Critical
+- Output ONLY a JSON array of exactly {num_tasks} task objects.
+- NO markdown code fences (no ```).
+- NO explanatory text before or after the array.

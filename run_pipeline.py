@@ -14,12 +14,17 @@ Flow (per job):
   6. Save to results/{job_id}_results_auto.json
 
 Usage:
-  python qwen_main_pipeline.py --batch-all              # run all 114 jobs
-  python qwen_main_pipeline.py --batch-all --resume     # skip already-completed jobs
-  python qwen_main_pipeline.py --job "Software Dev"     # run a single job by title fragment
-  python qwen_main_pipeline.py                          # interactive job picker
-  python qwen_main_pipeline.py --config saved.json      # use saved config, skip config LLM call
-  python qwen_main_pipeline.py --skip-eval --job "X"   # generate config only, no evaluation
+  python run_pipeline.py --batch-all                    # run all 114 jobs
+  python run_pipeline.py --batch-all --resume           # skip already-completed jobs
+  python run_pipeline.py --job "Software Dev"           # run a single job by title fragment
+  python run_pipeline.py                                # interactive job picker
+  python run_pipeline.py --config saved.json            # use saved config, skip config LLM call
+  python run_pipeline.py --skip-eval --job "X"          # generate config only, no evaluation
+
+Model / server can be set via (highest priority first):
+  CLI args:   --server-ip, --port, --teacher-model, --student-model
+  Env vars:   EVAL_SERVER_IP, EVAL_SERVER_PORT, EVAL_TEACHER_MODEL, EVAL_STUDENT_MODEL
+  JSON file:  pipeline_config.json  (copy from pipeline_config.example.json)
 """
 
 import json
@@ -807,50 +812,126 @@ def run_job(
 # MAIN
 # ─────────────────────────────────────────────
 
+def validate_config():
+    """
+    Check that the loaded config doesn't contain placeholder values.
+    Prints a helpful error and exits if the server is not configured.
+    """
+    placeholders = {"YOUR_SERVER_IP", "YOUR_MODEL_NAME", "default", "localhost"}
+    errors = []
+
+    if utils.SERVER_IP in placeholders:
+        errors.append(
+            "  Server IP is not set.\n"
+            "  Fix: copy pipeline_config.example.json → pipeline_config.json and set 'server.ip',\n"
+            "       or set the EVAL_SERVER_IP environment variable,\n"
+            "       or pass --server-ip on the command line."
+        )
+    if utils.TEACHER_MODEL_NAME in placeholders:
+        errors.append(
+            "  Teacher model is not set.\n"
+            "  Fix: set 'models.teacher' in pipeline_config.json,\n"
+            "       or set the EVAL_TEACHER_MODEL environment variable,\n"
+            "       or pass --teacher-model on the command line."
+        )
+    if utils.STUDENT_MODEL_NAME in placeholders:
+        errors.append(
+            "  Student model is not set.\n"
+            "  Fix: set 'models.student' in pipeline_config.json,\n"
+            "       or set the EVAL_STUDENT_MODEL environment variable,\n"
+            "       or pass --student-model on the command line."
+        )
+    if errors:
+        print("\nConfiguration error — cannot start pipeline:\n")
+        for e in errors:
+            print(e)
+        print("\nSee pipeline_config.example.json and .env.example for setup instructions.\n")
+        sys.exit(1)
+
+
 def main():
     parser = argparse.ArgumentParser(
-        description="Job Evaluation Pipeline — batch or single-job mode",
+        description="Job Evaluation Pipeline — model-agnostic, works with any OpenAI-compatible server",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python qwen_main_pipeline.py --batch-all                   # run all 114 jobs
-  python qwen_main_pipeline.py --batch-all --resume          # skip already-done jobs
-  python qwen_main_pipeline.py --patch-all                   # patch all existing results
-  python qwen_main_pipeline.py --patch --job "Budget"        # patch one job
-  python qwen_main_pipeline.py --job "Software Developers"   # single job
-  python qwen_main_pipeline.py                               # interactive picker
-  python qwen_main_pipeline.py --config saved.json           # use saved config
-  python qwen_main_pipeline.py --skip-eval --job "X"         # config only, no eval
+  python run_pipeline.py --batch-all                         # run all 114 jobs
+  python run_pipeline.py --batch-all --resume                # skip already-done jobs
+  python run_pipeline.py --patch-all                         # patch all existing results
+  python run_pipeline.py --patch --job "Budget"              # patch one job
+  python run_pipeline.py --job "Software Developers"         # single job
+  python run_pipeline.py                                     # interactive picker
+  python run_pipeline.py --config saved.json                 # use saved config
+  python run_pipeline.py --skip-eval --job "X"               # config only, no eval
+
+Override server/model without editing config files:
+  python run_pipeline.py --server-ip 10.0.0.1 --port 8000 --teacher-model llama3 --job "Budget"
+  EVAL_SERVER_IP=10.0.0.1 EVAL_TEACHER_MODEL=llama3 python run_pipeline.py --job "Budget"
         """,
     )
-    parser.add_argument("--excel",        default="Task Statements.xlsx",
+    parser.add_argument("--excel",          default="Task Statements.xlsx",
                         help="O*NET Task Statements Excel file")
-    parser.add_argument("--digital-jobs", default="digital_jobs.csv",
+    parser.add_argument("--digital-jobs",   default="digital_jobs.csv",
                         help="Pre-filtered digital jobs CSV (114 jobs)")
-    parser.add_argument("--job",          default=None,
+    parser.add_argument("--job",            default=None,
                         help="Run a single job whose title contains this string")
-    parser.add_argument("--batch-all",    action="store_true",
+    parser.add_argument("--batch-all",      action="store_true",
                         help="Run all jobs from digital_jobs.csv")
-    parser.add_argument("--resume",       action="store_true",
+    parser.add_argument("--resume",         action="store_true",
                         help="Skip jobs that already have a results file (--batch-all)")
-    parser.add_argument("--patch",        action="store_true",
-                        help="Patch an existing result file: re-grade unscored tasks and fill unevaluated O*NET tasks")
-    parser.add_argument("--patch-all",    action="store_true",
+    parser.add_argument("--patch",          action="store_true",
+                        help="Patch an existing result file: re-grade unscored tasks and fill gaps")
+    parser.add_argument("--patch-all",      action="store_true",
                         help="Apply --patch to every existing result file")
-    parser.add_argument("--batch-size",   type=int, default=None,
+    parser.add_argument("--batch-size",     type=int, default=None,
                         help="Tasks per batch (default: pipeline_config batch_size = 5)")
-    parser.add_argument("--skip-eval",    action="store_true",
+    parser.add_argument("--skip-eval",      action="store_true",
                         help="Generate config only, skip evaluation steps")
-    parser.add_argument("--output",       default="job_config_interactive.json",
+    parser.add_argument("--output",         default="job_config_interactive.json",
                         help="Path to write the last job config JSON")
-    parser.add_argument("--config",       default=None,
+    parser.add_argument("--config",         default=None,
                         help="Use an existing job config JSON (skips config LLM call)")
+    # ── Model / server overrides (CLI tier — highest priority) ───────────────
+    parser.add_argument("--server-ip",      default=None,
+                        help="Override server IP (highest priority over config/env)")
+    parser.add_argument("--port",           type=int, default=None,
+                        help="Override server port for both teacher and student")
+    parser.add_argument("--teacher-model",  default=None,
+                        help="Override teacher model name")
+    parser.add_argument("--student-model",  default=None,
+                        help="Override student model name")
+    parser.add_argument("--pipeline-config", default="pipeline_config.json",
+                        help="Path to pipeline config JSON (default: pipeline_config.json)")
     # ── Commented out: --tasks is no longer used; all O*NET tasks are evaluated ──
     # parser.add_argument("--tasks", type=int, default=None,
     #                     help="Number of tasks (1–20); now replaced by running all tasks")
     args = parser.parse_args()
 
-    utils.load_config()
+    # Load config (JSON → env vars applied inside load_config)
+    utils.load_config(args.pipeline_config)
+
+    # Apply CLI overrides (Tier 3 — highest priority)
+    if args.server_ip:
+        utils.SERVER_IP = args.server_ip
+        port = args.port or 8000
+        base = f"http://{utils.SERVER_IP}:{port}/v1/chat/completions"
+        utils.TEACHER_API_URL = base
+        utils.STUDENT_API_URL = base
+        utils.META_PROMPT_API_URL = base
+    elif args.port:
+        base = f"http://{utils.SERVER_IP}:{args.port}/v1/chat/completions"
+        utils.TEACHER_API_URL = base
+        utils.STUDENT_API_URL = base
+        utils.META_PROMPT_API_URL = base
+    if args.teacher_model:
+        utils.TEACHER_MODEL_NAME = args.teacher_model
+        utils.META_PROMPT_MODEL  = args.teacher_model
+    if args.student_model:
+        utils.STUDENT_MODEL_NAME = args.student_model
+
+    # Validate config before doing anything else
+    validate_config()
+
     batch_size  = args.batch_size or utils.CONFIG.get("task", {}).get("batch_size", 5)
     results_dir = utils.CONFIG.get("output", {}).get("results_dir", "results")
     suffix      = utils.CONFIG.get("output", {}).get("file_suffix_auto", "_results_auto.json")
