@@ -15,7 +15,7 @@ Thanks for your interest in contributing. This document covers prerequisites, de
 ## Development Setup
 
 ```bash
-git clone https://github.com/your-org/job_eval.git
+git clone https://github.com/ButterflyLabs-org/job_eval.git
 cd job_eval
 
 # Create a virtual environment (recommended)
