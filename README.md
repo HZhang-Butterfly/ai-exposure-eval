@@ -1,4 +1,30 @@
-# Job Evaluation Pipeline
+# AI Occupational Exposure Evaluation Framework
+
+> Extending and validating AI exposure scoring across 100+ occupations — with multi-model,
+> task-level, and agentic evaluation dimensions.
+
+**Author:** Hao Zhang · UCLA M.Eng., ECE  
+**Original Work:** Yiru Chen ([ButterflyLabs-org/job_eval](https://github.com/ButterflyLabs-org/job_eval))  
+**Mentor:** Xibin Gao · [Butterfly Labs](https://www.butterflylabs.org/)
+
+---
+
+## Background
+
+This project builds on the `job_eval` pipeline created by Yiru Chen during her internship at Butterfly Labs. The original system quantifies AI exposure risk across 114 real-world occupations using O*NET task data via a 3-step LLM evaluation pipeline (Teacher → Student → Judge).
+
+This repository extends that work into a rigorous, reproducible, and publishable research contribution aligned with Butterfly Labs' mission of AI safety, transparency, and accessibility.
+
+## What This Extension Adds (Hao's Research)
+
+- **Task-Level Decomposition**: Extending scoring from occupation-level to O*NET Detailed Work Activity (DWA) level.
+- **Multi-Model Evaluation**: Running exposure assessments using ≥3 LLMs (e.g., GPT-4o, Claude 3.5, Qwen3.5, Llama-3-70B) to measure cross-model variance.
+- **Agentic Exposure Dimension**: Designing rubrics for tool-using AI agent evaluation (beyond text-in/text-out).
+- **Empirical Validation**: Quantifying the gap between theoretical exposure and empirical completion quality via controlled experiments.
+
+---
+
+## Baseline Architecture (Original Pipeline)
 
 Quantify **AI exposure risk** across 114 real-world occupations using a three-step LLM evaluation pipeline grounded in [O\*NET](https://www.onetonline.org/) task data.
 
