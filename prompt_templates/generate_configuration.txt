@@ -1,0 +1,68 @@
+You are an expert in job analysis and AI evaluation design.
+
+# Job Information
+- Title: {job_title}
+- O*NET-SOC Code: {onet_code}
+
+# Selected O*NET Task Statements
+{tasks_list}
+
+# Your Task
+Create a complete job evaluation configuration for testing AI models on **{job_title}** tasks.
+This config will be used to: generate {num_eval_tasks} realistic tasks, run a student model, and grade the outputs.
+
+# Required Output — JSON only, no markdown, no extra text
+
+{
+  "job_id": "short_lowercase_id (e.g. 'sde', 'db_architect', 'bi_analyst')",
+  "job_title": "{job_title}",
+  "onet_code": "{onet_code}",
+
+  "role_description": "Professional role for the AI teacher/evaluator, e.g. 'Senior Software Architect and Technical Reviewer'",
+
+  "task_types": "5-7 realistic task categories for this job, separated by ' / '",
+
+  "onet_tasks": {onet_tasks_json},
+
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Add 2-3 more job-specific requirements"
+  ],
+
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "The specific O*NET sentence this task is based on",
+    "task_type": "One of the task_types listed above",
+    "user_prompt": "Detailed, realistic instruction for the AI to solve",
+    "reference_context": "Code snippet, data sample, schema, or documentation the AI needs",
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — does the solution work?",
+      "Criterion 2: Completeness — did it handle all requirements?",
+      "Criterion 3: Best practices — is it production-ready?"
+    ]
+  },
+
+  "grading_notes": "Job-specific pitfalls for the judge to watch for (e.g. 'Check for SQL injection', 'Verify edge case handling')",
+
+  "grading_rubric_template": [
+    "1. Correctness: Does the solution meet all functional requirements?",
+    "2. Completeness: Are all parts of the task addressed?",
+    "3. Best Practices: Is the solution idiomatic and production-ready?",
+    "4. Security / Robustness: Are edge cases and security concerns handled?",
+    "5. Clarity: Is the output well-structured and easy to understand?"
+  ],
+
+  "grading_scale_max": 5
+}
+
+# Rules
+1. grading_rubric_template must have exactly 5 dimensions, ordered by importance for this job.
+   Customize the wording to reflect what matters most (e.g. replace "Security" with "Performance" for a DB job).
+2. grading_scale_max must be 5.
+3. output_structure is a template for ONE task — show what a single task object looks like.
+4. DO NOT include markdown code fences.
+5. DO NOT add explanatory text before or after the JSON.
+Return ONLY the JSON object.

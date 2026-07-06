@@ -1,0 +1,62 @@
+{
+  "job_id": "tax_agent_132081",
+  "job_title": "Tax Examiners and Collectors, and Revenue Agents",
+  "onet_code": "13-2081.00",
+  "role_description": "Senior Tax Compliance Officer and Revenue Collection Specialist",
+  "task_types": "Delinquency Management / Taxpayer Communication / Debt Resolution Strategy / Compliance Verification / Case Documentation",
+  "onet_tasks": [
+    "Send notices to taxpayers when accounts are delinquent.",
+    "Confer with taxpayers or their representatives to discuss the issues, laws, and regulations involved in returns, and to resolve problems with returns.",
+    "Notify taxpayers of any overpayment or underpayment, and either issue a refund or request further payment.",
+    "Maintain records for each case, including contacts, telephone numbers, and actions taken.",
+    "Contact taxpayers by mail or telephone to address discrepancies and to request supporting documentation.",
+    "Answer questions from taxpayers and assist them in completing tax forms.",
+    "Collect taxes from individuals or businesses according to prescribed laws and regulations.",
+    "Determine appropriate methods of debt settlement, such as offers of compromise, wage garnishment, or seizure and sale of property.",
+    "Check tax forms to verify that names and taxpayer identification numbers are correct, that computations have been performed correctly, or that amounts match those on supporting documentation.",
+    "Examine and analyze tax assets and liabilities to determine resolution of delinquent tax problems."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must reflect realistic IRS or state tax scenarios involving complex financial data.",
+    "Requirement 2: Each task must include specific taxpayer details (e.g., EIN, SSN, filing status) to ensure self-containment.",
+    "Requirement 3: Difficulty must be intermediate to hard, requiring analysis of tax codes and calculation verification (30-60 min equivalent).",
+    "Requirement 4: All outputs must strictly adhere to JSON formatting without markdown or explanatory text.",
+    "Requirement 5: Solutions must explicitly cite relevant Internal Revenue Code (IRC) sections or Treasury Regulations where applicable.",
+    "Requirement 6: Debt settlement strategies must prioritize the least restrictive collection method first as per federal policy."
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Determine appropriate methods of debt settlement, such as offers of compromise, wage garnishment, or seizure and sale of property.",
+    "task_type": "Debt Resolution Strategy",
+    "user_prompt": "Analyze the attached taxpayer profile and determine the most appropriate debt settlement method. The taxpayer owes $125,000 in back taxes, has no liquid assets, but owns a commercial property valued at $200,000 with a $150,000 mortgage. They have a history of partial payments. Provide a recommendation on whether to pursue an Offer in Compromise, wage garnishment, or lien filing, citing the specific IRC section that supports your choice.",
+    "reference_context": {
+      "taxpayer_profile": {
+        "entity_type": "Corporation",
+        "total_liability": 125000,
+        "liquid_assets": 5000,
+        "real_estate": {
+          "value": 200000,
+          "mortgage": 150000,
+          "equity": 50000
+        },
+        "payment_history": "Irregular partial payments over 18 months",
+        "compliance_status": "Non-compliant for 3 years"
+      },
+      "applicable_law_snippet": "IRC Section 7122 allows for compromise of tax liability if the taxpayer demonstrates that collection of the full amount would cause economic hardship or is unlikely to be collected."
+    },
+    "evaluation_criteria": [
+      "Correctness: Does the recommendation align with the taxpayer's financial reality and legal constraints?",
+      "Completeness: Did the response address all financial factors and propose a specific action plan?",
+      "Best Practices: Is the solution consistent with IRS Collection Policy Manual guidelines?"
+    ]
+  },
+  "grading_notes": "Watch for failure to calculate equity correctly (Value minus Mortgage), ignoring the 'least restrictive means' principle, or citing incorrect IRC sections. Ensure the AI does not recommend seizure of property if an Offer in Compromise is viable based on the equity analysis.",
+  "grading_rubric_template": [
+    "1. Legal Accuracy: Does the solution correctly apply tax laws and regulations to the scenario?",
+    "2. Financial Analysis: Is the calculation of assets, liabilities, and equity performed correctly?",
+    "3. Strategic Appropriateness: Is the recommended collection method the most effective and legally sound option?",
+    "4. Procedural Compliance: Does the solution follow established IRS collection procedures and hierarchy?",
+    "5. Clarity and Documentation: Is the reasoning clear, well-structured, and supported by evidence?"
+  ],
+  "grading_scale_max": 5
+}

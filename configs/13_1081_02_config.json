@@ -1,0 +1,85 @@
+{
+  "job_id": "logistics_analyst",
+  "job_title": "Logistics Analysts",
+  "onet_code": "13-1081.02",
+  "role_description": "Senior Supply Chain Data Analyst and Operations Optimization Specialist",
+  "task_types": "Data Management & Database Maintenance / Real-time Tracking & Monitoring / Vendor & Carrier Communication / Process Optimization & Recommendation / Predictive Analytics & Reporting",
+  "onet_tasks": [
+    "Maintain databases of logistics information.",
+    "Remotely monitor the flow of vehicles or inventory, using Web-based logistics information systems to track vehicles or containers.",
+    "Communicate with or monitor service providers, such as ocean carriers, air freight forwarders, global consolidators, customs brokers, or trucking companies.",
+    "Track product flow from origin to final delivery.",
+    "Interpret data on logistics elements, such as availability, maintainability, reliability, supply chain management, strategic sourcing or distribution, supplier management, or transportation.",
+    "Recommend improvements to existing or planned logistics processes.",
+    "Apply analytic methods or tools to understand, predict, or control logistics operations or processes.",
+    "Prepare reports on logistics performance measures.",
+    "Enter logistics-related data into databases.",
+    "Provide ongoing analyses in areas such as transportation costs, parts procurement, back orders, or delivery processes."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must account for real-world data inconsistencies such as missing timestamps or duplicate shipment IDs",
+    "Requirement 6: Recommendations must be backed by quantitative analysis of the provided dataset rather than generic advice",
+    "Requirement 7: All code or logic must handle edge cases like delayed customs clearance or partial inventory shipments"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Apply analytic methods or tools to understand, predict, or control logistics operations or processes.",
+    "task_type": "Predictive Analytics & Reporting",
+    "user_prompt": "Analyze the provided shipment dataset for Q3. Identify the top 3 carriers with the highest variance in delivery times compared to their quoted lead times. Calculate the cost impact of these delays assuming a penalty of $500 per day per delayed container. Output a summary report with the carrier names, average delay days, total penalty cost, and a specific recommendation for renegotiating contracts with the worst performer.",
+    "reference_context": {
+      "dataset_sample": [
+        {
+          "shipment_id": "SHP-1001",
+          "carrier": "GlobalTrans",
+          "quoted_days": 5,
+          "actual_days": 6,
+          "container_count": 2,
+          "cost_per_day": 500
+        },
+        {
+          "shipment_id": "SHP-1002",
+          "carrier": "OceanLink",
+          "quoted_days": 7,
+          "actual_days": 12,
+          "container_count": 1,
+          "cost_per_day": 500
+        },
+        {
+          "shipment_id": "SHP-1003",
+          "carrier": "GlobalTrans",
+          "quoted_days": 5,
+          "actual_days": 4,
+          "container_count": 3,
+          "cost_per_day": 500
+        },
+        {
+          "shipment_id": "SHP-1004",
+          "carrier": "AirFreightX",
+          "quoted_days": 2,
+          "actual_days": 3,
+          "container_count": 1,
+          "cost_per_day": 500
+        }
+      ],
+      "notes": "Data contains 500 rows. Some entries have null values for 'actual_days' indicating in-transit status."
+    },
+    "evaluation_criteria": [
+      "Correctness: Are the calculations for variance and penalty costs accurate based on the provided data?",
+      "Completeness: Did the response identify the top 3 carriers, calculate total costs, and provide a specific recommendation?",
+      "Best practices: Does the analysis handle the null values for in-transit shipments appropriately (e.g., exclude or flag)?"
+    ]
+  },
+  "grading_notes": "Check if the model correctly excludes in-transit shipments from variance calculations. Verify that the penalty calculation multiplies delay days by container count and daily rate. Ensure the recommendation is specific to the data (e.g., naming the specific carrier) rather than generic.",
+  "grading_rubric_template": [
+    "1. Analytical Accuracy: Are all calculations (variance, costs, averages) mathematically correct based on the provided data?",
+    "2. Data Integrity Handling: Did the model correctly identify and handle missing or ambiguous data points (e.g., in-transit shipments)?",
+    "3. Actionable Insight: Are the recommendations specific, data-driven, and directly tied to the analysis performed?",
+    "4. Completeness: Does the output address all parts of the prompt including the identification of top carriers and cost impact?",
+    "5. Professional Presentation: Is the report structured clearly with logical flow and appropriate formatting for a business stakeholder?"
+  ],
+  "grading_scale_max": 5
+}

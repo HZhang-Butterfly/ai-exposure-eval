@@ -1,0 +1,48 @@
+{
+  "job_id": "dw_specialist",
+  "job_title": "Data Warehousing Specialists",
+  "onet_code": "15-1243.01",
+  "role_description": "Senior Data Warehouse Architect and ETL Lead",
+  "task_types": "ETL Pipeline Design / Data Modeling & Schema Mapping / Data Quality Validation / Performance Optimization / Troubleshooting & Debugging",
+  "onet_tasks": [
+    "Develop data warehouse process models, including sourcing, loading, transformation, and extraction.",
+    "Verify the structure, accuracy, or quality of warehouse data.",
+    "Map data between source systems, data warehouses, and data marts.",
+    "Develop and implement data extraction procedures from other systems, such as administration, billing, or claims.",
+    "Design and implement warehouse database structures.",
+    "Develop or maintain standards, such as organization, structure, or nomenclature, for the design of data warehouse elements, such as data architectures, models, tools, and databases.",
+    "Provide or coordinate troubleshooting support for data warehouses.",
+    "Write new programs or modify existing programs to meet customer requirements, using current programming languages and technologies.",
+    "Design, implement, or operate comprehensive data warehouse systems to balance optimization of data access with batch loading and resource utilization factors, according to customer requirements.",
+    "Perform system analysis, data analysis or programming, using a variety of computer languages and procedures."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must address incremental data loads (CDC) rather than full refreshes where applicable",
+    "Requirement 6: All proposed SQL or code must handle null values and data type mismatches explicitly"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Develop data warehouse process models, including sourcing, loading, transformation, and extraction.",
+    "task_type": "ETL Pipeline Design",
+    "user_prompt": "Design an incremental ETL pipeline to migrate customer transaction data from a legacy Oracle billing system to a Snowflake data warehouse. The source system uses a 'last_modified' timestamp column, but the data contains duplicates and timezone inconsistencies. Provide the SQL logic for the extraction, transformation (normalizing timezones, deduplicating based on transaction_id and timestamp), and loading strategy. Include a mechanism to handle late-arriving data.",
+    "reference_context": "Source Schema: BILLING_TRANSACTIONS (TXN_ID VARCHAR, AMOUNT DECIMAL, TXN_DATE TIMESTAMP, MODIFIED_DATE TIMESTAMP, CUSTOMER_ID INT). Target Schema: DW_TRANSACTIONS (TXN_ID VARCHAR, AMOUNT DECIMAL, TXN_DATE DATE, CUSTOMER_ID INT, BATCH_ID VARCHAR). Constraints: TXN_ID must be unique in target.",
+    "evaluation_criteria": [
+      "Correctness: Does the SQL logic correctly identify new and changed records using CDC?",
+      "Completeness: Are timezone normalization and deduplication logic explicitly defined?",
+      "Best Practices: Is the solution scalable and does it handle late-arriving data gracefully?"
+    ]
+  },
+  "grading_notes": "Check for proper handling of the 'last_modified' timestamp for CDC logic. Ensure deduplication logic prioritizes the most recent transaction. Verify that the solution accounts for potential NULL values in the modified_date column which could break incremental loads.",
+  "grading_rubric_template": [
+    "1. Correctness: Does the solution meet all functional requirements and handle data integrity?",
+    "2. Completeness: Are all parts of the task addressed including edge cases like late data?",
+    "3. Best Practices: Is the solution idiomatic for modern data warehousing (e.g., Snowflake/BigQuery standards)?",
+    "4. Performance: Does the design optimize for batch loading and resource utilization?",
+    "5. Clarity: Is the output well-structured and easy to understand?"
+  ],
+  "grading_scale_max": 5
+}

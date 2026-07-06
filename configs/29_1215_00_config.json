@@ -1,0 +1,70 @@
+{
+  "job_id": "family_medicine_phys",
+  "job_title": "Family Medicine Physicians",
+  "onet_code": "29-1215.00",
+  "role_description": "Senior Family Medicine Physician and Clinical Quality Assurance Evaluator",
+  "task_types": "Clinical Diagnosis and Treatment Planning / Patient Communication and Education / Care Coordination and Referral / Medical Record Management and Compliance / Public Health and Preventive Care",
+  "onet_tasks": [
+    "Prescribe or administer treatment, therapy, medication, vaccination, and other specialized medical care to treat or prevent illness, disease, or injury.",
+    "Order, perform, and interpret tests and analyze records, reports, and examination information to diagnose patients' condition.",
+    "Collect, record, and maintain patient information, such as medical history, reports, or examination results.",
+    "Monitor patients' conditions and progress and reevaluate treatments as necessary.",
+    "Explain procedures and discuss test results or prescribed treatments with patients.",
+    "Advise patients and community members concerning diet, activity, hygiene, and disease prevention.",
+    "Direct and coordinate activities of nurses, students, assistants, specialists, therapists, and other medical staff.",
+    "Refer patients to medical specialists or other practitioners when necessary.",
+    "Coordinate work with nurses, social workers, rehabilitation therapists, pharmacists, psychologists, and other health care providers.",
+    "Plan, implement, or administer health programs or standards in hospitals, businesses, or communities for prevention or treatment of injury or illness."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic clinical scenarios involving complex patient histories, not simplified toy examples.",
+    "Requirement 2: Each task must be self-contained with all necessary clinical context (vitals, labs, history) provided in the prompt.",
+    "Requirement 3: Difficulty should be intermediate to hard, requiring synthesis of multiple data points and adherence to clinical guidelines (30-60 min to solve).",
+    "Requirement 4: Output format must be strict JSON without markdown or explanatory text outside the JSON structure.",
+    "Requirement 5: Solutions must explicitly reference evidence-based guidelines (e.g., USPSTF, AAFP) where applicable.",
+    "Requirement 6: Patient safety and contraindications must be prioritized in all treatment plans.",
+    "Requirement 7: Communication strategies must be tailored to health literacy levels and cultural sensitivity."
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Order, perform, and interpret tests and analyze records, reports, and examination information to diagnose patients' condition.",
+    "task_type": "Clinical Diagnosis and Treatment Planning",
+    "user_prompt": "A 54-year-old male presents with fatigue, polyuria, and blurred vision. His BMI is 32. Lab results show fasting glucose of 145 mg/dL, HbA1c of 7.8%, and LDL of 130 mg/dL. He has a family history of type 2 diabetes. Based on current AAFP guidelines, formulate a comprehensive management plan including diagnostic confirmation steps, lifestyle modifications, and pharmacological interventions, while addressing potential contraindications.",
+    "reference_context": {
+      "patient_profile": {
+        "age": 54,
+        "gender": "Male",
+        "symptoms": [
+          "Fatigue",
+          "Polyuria",
+          "Blurred Vision"
+        ],
+        "vitals": {
+          "bp": "135/85 mmHg",
+          "bmi": 32
+        },
+        "labs": {
+          "fasting_glucose": 145,
+          "hba1c": 7.8,
+          "ldl": 130
+        },
+        "family_history": "Type 2 Diabetes"
+      },
+      "guidelines_reference": "AAFP Guidelines for Type 2 Diabetes Management 2023"
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Clinical Accuracy — Does the diagnosis and treatment plan align with current evidence-based guidelines?",
+      "Criterion 2: Safety — Are drug interactions, contraindications, and patient comorbidities properly addressed?",
+      "Criterion 3: Completeness — Does the plan cover diagnosis, medication, lifestyle, and follow-up?"
+    ]
+  },
+  "grading_notes": "Watch for failure to address the specific HbA1c threshold for diagnosis, omission of lifestyle counseling, or prescribing medications without checking renal function or contraindications. Ensure the AI distinguishes between Type 1 and Type 2 diabetes management based on the patient profile.",
+  "grading_rubric_template": [
+    "1. Clinical Accuracy: Does the solution align with current evidence-based medical guidelines and standard of care?",
+    "2. Patient Safety: Are all contraindications, drug interactions, and risk factors properly identified and mitigated?",
+    "3. Completeness: Does the response cover diagnosis, treatment, lifestyle modification, and follow-up planning?",
+    "4. Communication Clarity: Is the medical advice explained in a way that is understandable for a patient or clear for a care team?",
+    "5. Professionalism: Is the tone appropriate, empathetic, and adherent to ethical medical standards?"
+  ],
+  "grading_scale_max": 5
+}

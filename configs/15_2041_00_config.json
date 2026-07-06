@@ -1,0 +1,49 @@
+{
+  "job_id": "statistician",
+  "job_title": "Statisticians",
+  "onet_code": "15-2041.00",
+  "role_description": "Senior Statistical Analyst and Research Methodologist",
+  "task_types": "Data Cleaning & Preparation / Statistical Modeling & Analysis / Research Design & Methodology / Data Visualization & Reporting / Methodological Validation",
+  "onet_tasks": [
+    "Analyze and interpret statistical data to identify significant differences in relationships among sources of information.",
+    "Identify relationships and trends in data, as well as any factors that could affect the results of research.",
+    "Determine whether statistical methods are appropriate, based on user needs or research questions of interest.",
+    "Prepare data for processing by organizing information, checking for inaccuracies, and adjusting and weighting the raw data.",
+    "Present statistical and nonstatistical results, using charts, bullets, and graphs, in meetings or conferences to audiences such as clients, peers, and students.",
+    "Report results of statistical analyses, including information in the form of graphs, charts, and tables.",
+    "Design research projects that apply valid scientific techniques, and use information obtained from baselines or historical data to structure uncompromised and efficient analyses.",
+    "Process large amounts of data for statistical modeling and graphic analysis, using computers.",
+    "Adapt statistical methods to solve specific problems in many fields, such as economics, biology, and engineering.",
+    "Evaluate the statistical methods and procedures used to obtain data to ensure validity, applicability, efficiency, and accuracy."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly state assumptions made regarding data distribution or missing values",
+    "Requirement 6: Justification for method selection must be grounded in statistical theory or domain best practices",
+    "Requirement 7: Visualizations must be described with precise axis labels, titles, and legend details"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Prepare data for processing by organizing information, checking for inaccuracies, and adjusting and weighting the raw data.",
+    "task_type": "Data Cleaning & Preparation",
+    "user_prompt": "You are provided with a raw dataset of patient recovery times containing missing values, outliers, and inconsistent date formats. Perform the following: 1) Identify and describe the strategy for handling missing values based on the data distribution. 2) Detect outliers using the IQR method and decide whether to cap or remove them. 3) Apply a weighting factor to adjust for known sampling bias in the demographic data. 4) Output the cleaned dataset schema and a summary of transformations applied.",
+    "reference_context": "Raw data sample: [{\"id\": 1, \"time\": \"2023-01-15\", \"weight\": 1.2, \"status\": \"recovered\"}, {\"id\": 2, \"time\": null, \"weight\": 1.0, \"status\": \"pending\"}, {\"id\": 3, \"time\": \"2023-01-20\", \"weight\": 1.5, \"status\": \"recovered\"}]. Known bias: Patients over 60 were underrepresented by 20%.",
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — does the solution work?",
+      "Criterion 2: Completeness — did it handle all requirements?",
+      "Criterion 3: Best practices — is it production-ready?"
+    ]
+  },
+  "grading_notes": "Check for inappropriate imputation methods (e.g., mean imputation for skewed data), verify that outlier handling is justified by the context, ensure weighting calculations are mathematically accurate, and confirm that the final output clearly documents all data transformations.",
+  "grading_rubric_template": [
+    "1. Statistical Validity: Are the chosen methods appropriate for the data type and distribution?",
+    "2. Completeness: Are all data quality issues addressed and documented?",
+    "3. Methodological Justification: Is the reasoning for each step clearly explained and theoretically sound?",
+    "4. Data Integrity: Are edge cases, missing values, and outliers handled without introducing bias?",
+    "5. Clarity: Is the final report or code structured and easy to interpret for stakeholders?"
+  ],
+  "grading_scale_max": 5
+}

@@ -1,0 +1,92 @@
+{
+  "job_id": "qa_analyst",
+  "job_title": "Software Quality Assurance Analysts and Testers",
+  "onet_code": "15-1253.00",
+  "role_description": "Senior QA Lead and Test Automation Architect",
+  "task_types": "Test Case Design / Defect Analysis and Reporting / Test Strategy Development / Regression Testing Planning / Usability and Functional Validation",
+  "onet_tasks": [
+    "Identify, analyze, and document problems with program function, output, online screen, or content.",
+    "Document software defects, using a bug tracking system, and report defects to software developers.",
+    "Develop testing programs that address areas such as database impacts, software scenarios, regression testing, negative testing, error or bug retests, or usability.",
+    "Design test plans, scenarios, scripts, or procedures.",
+    "Document test procedures to ensure replicability and compliance with standards.",
+    "Provide feedback and recommendations to developers on software usability and functionality.",
+    "Install, maintain, or use software testing programs.",
+    "Test system modifications to prepare for implementation.",
+    "Create or maintain databases of known test defects.",
+    "Develop or specify standards, methods, or procedures to determine product quality or release readiness."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly address edge cases and negative testing scenarios",
+    "Requirement 6: Defect reports must follow industry-standard formats including severity, steps to reproduce, and expected vs actual results"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Design test plans, scenarios, scripts, or procedures.",
+    "task_type": "Test Case Design",
+    "user_prompt": "Given the following API endpoint specifications and a list of recent user-reported issues, design a comprehensive test plan including positive, negative, and edge case scenarios. Include a prioritized list of test cases with expected outcomes.",
+    "reference_context": {
+      "api_endpoint": "POST /api/v1/orders",
+      "payload_schema": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sku": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          },
+          "payment_method": {
+            "type": "string",
+            "enum": [
+              "credit_card",
+              "paypal",
+              "crypto"
+            ]
+          }
+        },
+        "required": [
+          "user_id",
+          "items",
+          "payment_method"
+        ]
+      },
+      "known_issues": [
+        "System crashes when quantity is 0",
+        "Duplicate orders generated for same user within 1 second",
+        "Invalid SKU codes accepted without validation"
+      ]
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Does the test plan cover all specified known issues and schema constraints?",
+      "Criterion 2: Completeness — Are positive, negative, and edge cases clearly defined?",
+      "Criterion 3: Best practices — Is the test plan structured for automation and traceability?"
+    ]
+  },
+  "grading_notes": "Check for explicit handling of race conditions in the duplicate order scenario, validation of negative inputs (e.g., negative quantities, invalid enums), and whether the test plan includes database verification steps for order persistence.",
+  "grading_rubric_template": [
+    "1. Correctness: Does the solution meet all functional requirements and address the provided context accurately?",
+    "2. Completeness: Are all parts of the task addressed, including positive, negative, and edge cases?",
+    "3. Best Practices: Is the solution idiomatic for QA, using clear, traceable, and automatable test structures?",
+    "4. Robustness: Are edge cases, error handling, and data integrity concerns thoroughly covered?",
+    "5. Clarity: Is the output well-structured, professional, and easy for developers to execute?"
+  ],
+  "grading_scale_max": 5
+}

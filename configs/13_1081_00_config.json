@@ -1,0 +1,84 @@
+{
+  "job_id": "logisticians",
+  "job_title": "Logisticians",
+  "onet_code": "13-1081.00",
+  "role_description": "Senior Logistics Operations Manager and Strategic Supply Chain Consultant",
+  "task_types": "Stakeholder Relationship Management / Subcontractor & Vendor Oversight / Cost Optimization & Process Redesign / Proposal Development & Presentation / Resource Allocation & Team Leadership",
+  "onet_tasks": [
+    "Maintain and develop positive business relationships with a customer's key personnel involved in, or directly relevant to, a logistics activity.",
+    "Develop an understanding of customers' needs and take actions to ensure that such needs are met.",
+    "Manage subcontractor activities, reviewing proposals, developing performance specifications, and serving as liaisons between subcontractors and organizations.",
+    "Develop proposals that include documentation for estimates.",
+    "Review logistics performance with customers against targets, benchmarks, and service agreements.",
+    "Direct availability and allocation of materials, supplies, and finished products.",
+    "Redesign the movement of goods to maximize value and minimize costs.",
+    "Explain proposed solutions to customers, management, or other interested parties through written proposals and oral presentations.",
+    "Direct team activities, establishing task priorities, scheduling and tracking work assignments, providing guidance, and ensuring the availability of resources.",
+    "Perform managerial duties such as hiring and training employees and overseeing facility needs or requirements."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must demonstrate quantitative reasoning for cost or efficiency metrics",
+    "Requirement 6: Responses must explicitly address risk mitigation strategies inherent in logistics operations"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Redesign the movement of goods to maximize value and minimize costs.",
+    "task_type": "Cost Optimization & Process Redesign",
+    "user_prompt": "You are a Logistics Manager for a regional distribution center. Current data shows a 15% increase in fuel costs and a 10% delay in delivery times due to inefficient routing. Analyze the provided shipment data and propose a revised routing strategy that reduces total transit time by at least 12% while maintaining a budget increase of no more than 5%. Include a step-by-step justification for your route changes and a projected cost-benefit analysis.",
+    "reference_context": {
+      "shipment_data": [
+        {
+          "origin": "Warehouse A",
+          "destination": "Store 1",
+          "distance_km": 120,
+          "current_cost": 450,
+          "current_time_hours": 4
+        },
+        {
+          "origin": "Warehouse A",
+          "destination": "Store 2",
+          "distance_km": 180,
+          "current_cost": 600,
+          "current_time_hours": 6
+        },
+        {
+          "origin": "Warehouse B",
+          "destination": "Store 1",
+          "distance_km": 90,
+          "current_cost": 350,
+          "current_time_hours": 3
+        },
+        {
+          "origin": "Warehouse B",
+          "destination": "Store 2",
+          "distance_km": 200,
+          "current_cost": 700,
+          "current_time_hours": 7
+        }
+      ],
+      "constraints": {
+        "max_budget_increase_percent": 5,
+        "target_time_reduction_percent": 12,
+        "fuel_cost_factor": 1.15
+      }
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — does the proposed routing mathematically satisfy the time and budget constraints?",
+      "Criterion 2: Completeness — did it address all shipment points and include a full cost-benefit analysis?",
+      "Criterion 3: Best practices — is the solution scalable and does it consider real-world variables like traffic or weather?"
+    ]
+  },
+  "grading_notes": "Check if the model correctly calculates the new total costs including the 15% fuel hike. Verify that the proposed time reduction is actually achievable with the suggested route changes. Ensure the model does not simply suggest 'faster trucks' without addressing the routing logic or cost implications. Watch for failure to account for the 5% budget cap when proposing expensive solutions.",
+  "grading_rubric_template": [
+    "1. Operational Efficiency: Does the solution effectively reduce costs or time while meeting constraints?",
+    "2. Completeness: Are all logistical variables (distance, cost, time, constraints) addressed in the analysis?",
+    "3. Strategic Reasoning: Is the proposed solution logical, defensible, and aligned with business goals?",
+    "4. Risk Management: Does the plan account for potential disruptions or edge cases in the supply chain?",
+    "5. Clarity: Is the proposal structured clearly for stakeholders to understand the trade-offs?"
+  ],
+  "grading_scale_max": 5
+}

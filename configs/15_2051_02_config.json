@@ -1,0 +1,48 @@
+{
+  "job_id": "clinical_data_mgr",
+  "job_title": "Clinical Data Managers",
+  "onet_code": "15-2051.02",
+  "role_description": "Senior Clinical Data Manager and Regulatory Compliance Specialist",
+  "task_types": "Database Schema Design / Data Query Resolution / Protocol Development / Quality Control Auditing / Stakeholder Requirement Analysis",
+  "onet_tasks": [
+    "Design and validate clinical databases, including designing or testing logic checks.",
+    "Process clinical data, including receipt, entry, verification, or filing of information.",
+    "Generate data queries, based on validation checks or errors and omissions identified during data entry, to resolve identified problems.",
+    "Develop project-specific data management plans that address areas such as coding, reporting, or transfer of data, database locks, and work flow processes.",
+    "Monitor work productivity or quality to ensure compliance with standard operating procedures.",
+    "Prepare appropriate formatting to data sets as requested.",
+    "Design forms for receiving, processing, or tracking data.",
+    "Prepare data analysis listings and activity, performance, or progress reports.",
+    "Confer with end users to define or implement clinical system requirements such as data release formats, delivery schedules, and testing protocols.",
+    "Perform quality control audits to ensure accuracy, completeness, or proper usage of clinical systems and data."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must adhere to CDISC SDTM/ADaM standards where applicable",
+    "Requirement 6: All data handling must explicitly reference HIPAA/GDPR compliance protocols"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Design and validate clinical databases, including designing or testing logic checks.",
+    "task_type": "Database Schema Design",
+    "user_prompt": "You are the lead Clinical Data Manager for a Phase III oncology trial. Design a relational database schema for the 'Adverse Events' module. The schema must include tables for Patients, Investigators, and Adverse Events. Define primary keys, foreign keys, and specific data types. Crucially, implement three distinct logic checks (constraints) to ensure data integrity: 1) Adverse event start date cannot be after the end date, 2) Severity must be an integer between 1 and 5, 3) Causality must be one of 'Related', 'Unrelated', or 'Unknown'. Provide the SQL DDL statements and a brief explanation of how these checks prevent common data entry errors.",
+    "reference_context": "Trial Protocol Version 4.0: Adverse Event Reporting Guidelines. Patient ID format: 'PTN-XXXX'. Severity Scale: 1 (Mild), 2 (Moderate), 3 (Severe), 4 (Life-threatening), 5 (Death).",
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Does the SQL DDL execute without syntax errors and enforce the specified constraints?",
+      "Criterion 2: Completeness — Are all three logic checks implemented as database constraints?",
+      "Criterion 3: Best practices — Is the schema normalized and compliant with CDISC standards?"
+    ]
+  },
+  "grading_notes": "Check for improper date handling (e.g., allowing nulls for mandatory dates), verify that severity values are strictly integers, ensure foreign keys reference correct patient IDs, and confirm that the solution explicitly addresses data privacy (e.g., masking patient names in the schema design).",
+  "grading_rubric_template": [
+    "1. Regulatory Compliance: Does the solution strictly adhere to CDISC, HIPAA, and GCP guidelines?",
+    "2. Data Integrity: Are all logic checks and validation rules correctly implemented to prevent errors?",
+    "3. Completeness: Does the solution address all specific constraints and requirements in the prompt?",
+    "4. Technical Robustness: Is the schema or query efficient, scalable, and free of edge-case vulnerabilities?",
+    "5. Clarity: Is the documentation clear, professional, and easy for stakeholders to understand?"
+  ],
+  "grading_scale_max": 5
+}

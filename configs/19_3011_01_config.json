@@ -1,0 +1,83 @@
+{
+  "job_id": "env_economist",
+  "job_title": "Environmental Economists",
+  "onet_code": "19-3011.01",
+  "role_description": "Senior Environmental Economist and Policy Analyst",
+  "task_types": "Cost-Benefit Analysis / Economic Modeling / Policy Recommendation / Technical Writing / Data Interpretation",
+  "onet_tasks": [
+    "Write technical documents or academic articles to communicate study results or economic forecasts.",
+    "Conduct research on economic and environmental topics, such as alternative fuel use, public and private land use, soil conservation, air and water pollution control, and endangered species protection.",
+    "Collect and analyze data to compare the environmental implications of economic policy or practice alternatives.",
+    "Assess the costs and benefits of various activities, policies, or regulations that affect the environment or natural resource stocks.",
+    "Prepare and deliver presentations to communicate economic and environmental study results, to present policy recommendations, or to raise awareness of environmental consequences.",
+    "Develop programs or policy recommendations to achieve environmental goals in cost-effective ways.",
+    "Develop economic models, forecasts, or scenarios to predict future economic and environmental outcomes.",
+    "Demonstrate or promote the economic benefits of sound environmental regulations.",
+    "Conduct research to study the relationships among environmental problems and patterns of economic production and consumption.",
+    "Perform complex, dynamic, and integrated mathematical modeling of ecological, environmental, or economic systems."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: All economic calculations must explicitly state assumptions regarding discount rates and time horizons",
+    "Requirement 6: Policy recommendations must balance economic efficiency with environmental sustainability goals",
+    "Requirement 7: Technical writing must adhere to professional academic or government reporting standards"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Assess the costs and benefits of various activities, policies, or regulations that affect the environment or natural resource stocks.",
+    "task_type": "Cost-Benefit Analysis",
+    "user_prompt": "You are an environmental economist tasked with evaluating a proposed regulation to limit sulfur dioxide emissions from coal-fired power plants. Using the provided dataset of abatement costs and health benefit estimates, calculate the Net Present Value (NPV) over a 20-year period. Assume a discount rate of 3%. Present your findings in a structured report that includes the total costs, total benefits, NPV, and a recommendation on whether to proceed with the regulation based on a benefit-cost ratio greater than 1.0.",
+    "reference_context": {
+      "dataset": [
+        {
+          "year": 1,
+          "abatement_cost_millions": 150,
+          "health_benefit_millions": 120
+        },
+        {
+          "year": 2,
+          "abatement_cost_millions": 160,
+          "health_benefit_millions": 135
+        },
+        {
+          "year": 3,
+          "abatement_cost_millions": 175,
+          "health_benefit_millions": 150
+        },
+        {
+          "year": 4,
+          "abatement_cost_millions": 190,
+          "health_benefit_millions": 165
+        },
+        {
+          "year": 5,
+          "abatement_cost_millions": 210,
+          "health_benefit_millions": 180
+        }
+      ],
+      "assumptions": {
+        "discount_rate": 0.03,
+        "total_years": 20,
+        "cost_growth_rate": 0.05,
+        "benefit_growth_rate": 0.04
+      }
+    },
+    "evaluation_criteria": [
+      "Correctness: Are the NPV calculations mathematically accurate using the provided discount rate?",
+      "Completeness: Does the response include all required components (costs, benefits, NPV, BCR, recommendation)?",
+      "Best Practices: Is the methodology for extrapolating data beyond the 5-year sample clearly explained and reasonable?"
+    ]
+  },
+  "grading_notes": "Check for proper application of discounting formulas (PV = FV / (1+r)^n). Verify that the AI does not simply sum nominal values without adjusting for time value of money. Ensure the recommendation logically follows the calculated Benefit-Cost Ratio. Watch for hallucinated data points not present in the reference context.",
+  "grading_rubric_template": [
+    "1. Analytical Rigor: Are the economic models and calculations (NPV, BCR) performed correctly with appropriate assumptions?",
+    "2. Completeness: Does the solution address all parts of the prompt including data extrapolation and final recommendation?",
+    "3. Policy Relevance: Are the recommendations practical, balanced, and grounded in the calculated economic evidence?",
+    "4. Clarity and Structure: Is the output well-organized, professional, and easy for a stakeholder to understand?",
+    "5. Methodological Transparency: Are all assumptions, limitations, and calculation steps clearly documented?"
+  ],
+  "grading_scale_max": 5
+}

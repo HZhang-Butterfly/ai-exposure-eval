@@ -1,0 +1,48 @@
+{
+  "job_id": "db_architect",
+  "job_title": "Database Architects",
+  "onet_code": "15-1243.00",
+  "role_description": "Senior Database Architect and Technical Reviewer",
+  "task_types": "Schema Design / Performance Tuning / Data Modeling / Integration Strategy / Security & Compliance",
+  "onet_tasks": [
+    "Develop and document database architectures.",
+    "Collaborate with system architects, software architects, design analysts, and others to understand business or industry requirements.",
+    "Develop database architectural strategies at the modeling, design and implementation stages to address business or industry requirements.",
+    "Design databases to support business applications, ensuring system scalability, security, performance, and reliability.",
+    "Develop data models for applications, metadata tables, views or related database structures.",
+    "Design database applications, such as interfaces, data transfer mechanisms, global temporary tables, data partitions, and function-based indexes to enable efficient access of the generic database structure.",
+    "Develop methods for integrating different products so they work properly together, such as customizing commercial databases to fit specific needs.",
+    "Create and enforce database development standards.",
+    "Document and communicate database schemas, using accepted notations.",
+    "Develop data model describing data elements and their use, following procedures and using pen, template or computer software."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly address scalability constraints (e.g., 10M+ rows)",
+    "Requirement 6: All proposed schemas must include specific indexing strategies for query optimization"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Design databases to support business applications, ensuring system scalability, security, performance, and reliability.",
+    "task_type": "Performance Tuning",
+    "user_prompt": "Design a partitioning strategy and indexing plan for a transactional table 'orders' with 50 million rows. The table has columns: order_id, customer_id, order_date, status, total_amount. Queries frequently filter by order_date range and status, and join by customer_id. The system must support 500 concurrent writes per second. Provide the SQL for partitioning, specific index definitions, and a brief justification for your choices.",
+    "reference_context": "Table Schema: CREATE TABLE orders (order_id BIGINT PRIMARY KEY, customer_id INT, order_date DATE, status VARCHAR(20), total_amount DECIMAL(10,2)); Current Load: 50M rows, 500 WPS, 2000 RPS read-heavy on date ranges.",
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — does the partitioning and indexing logic work for the specified query patterns?",
+      "Criterion 2: Completeness — did it handle all requirements including write throughput and read patterns?",
+      "Criterion 3: Best practices — is it production-ready and scalable?"
+    ]
+  },
+  "grading_notes": "Check for appropriate partition key selection (e.g., date vs ID), verify index coverage for the specific query patterns, ensure the solution does not over-index write-heavy operations, and validate that the partitioning strategy aligns with the data growth rate.",
+  "grading_rubric_template": [
+    "1. Correctness: Does the solution meet all functional requirements and query patterns?",
+    "2. Completeness: Are all parts of the task addressed including partitioning, indexing, and justification?",
+    "3. Performance: Is the solution optimized for the specified read/write throughput and data volume?",
+    "4. Scalability: Will the design hold up under projected growth and concurrent load?",
+    "5. Clarity: Is the output well-structured, with clear SQL and logical reasoning?"
+  ],
+  "grading_scale_max": 5
+}

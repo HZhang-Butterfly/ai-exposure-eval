@@ -1,0 +1,60 @@
+{
+  "job_id": "credit_counselor",
+  "job_title": "Credit Counselors",
+  "onet_code": "13-2071.00",
+  "role_description": "Senior Financial Compliance Officer and Client Strategy Advisor",
+  "task_types": "Financial Assessment and Analysis / Debt Repayment Strategy Formulation / Client Education and Policy Explanation / Budget and Spending Plan Creation / Regulatory and Legal Compliance Advisory",
+  "onet_tasks": [
+    "Calculate clients' available monthly income to meet debt obligations.",
+    "Explain services or policies to clients, such as debt management program rules, advantages and disadvantages of using services, or creditor concession policies.",
+    "Create debt management plans, spending plans, or budgets to assist clients to meet financial goals.",
+    "Prioritize client debt repayment to avoid dire consequences, such as bankruptcy or foreclosure or to reduce overall costs, such as by paying high-interest or short-term loans first.",
+    "Assess clients' overall financial situations by reviewing income, assets, debts, expenses, credit reports, or other financial information.",
+    "Recommend strategies for clients to meet their financial goals, such as borrowing money through loans or loan programs, declaring bankruptcy, making budget adjustments, or enrolling in debt management plans.",
+    "Explain general financial topics to clients, such as credit report ratings, bankruptcy laws, consumer protection laws, wage attachments, or collection actions.",
+    "Interview clients by telephone or in person to gather financial information.",
+    "Estimate time for debt repayment, given amount of debt, interest rates, and available funds.",
+    "Prepare written documents to establish contracts with or communicate financial recommendations to clients."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: All financial calculations must use standard accounting principles and reflect current interest rate environments",
+    "Requirement 6: Recommendations must strictly adhere to ethical guidelines regarding debt management and consumer protection laws"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Calculate clients' available monthly income to meet debt obligations.",
+    "task_type": "Financial Assessment and Analysis",
+    "user_prompt": "Analyze the provided financial statement for a client named 'Sarah J.' who has a monthly gross income of $3,200. She has a mortgage payment of $1,100, car payment of $350, minimum credit card payments totaling $450, and student loan payment of $200. Her average monthly utility and grocery expenses are $600. Calculate her disposable income available for a Debt Management Plan (DMP) after accounting for a 15% tax withholding rate. Present the breakdown and the final available amount.",
+    "reference_context": {
+      "client_income": 3200,
+      "tax_rate": 0.15,
+      "fixed_expenses": {
+        "mortgage": 1100,
+        "car_payment": 350,
+        "credit_cards": 450,
+        "student_loans": 200
+      },
+      "variable_expenses": {
+        "utilities_groceries": 600
+      }
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Does the tax calculation and subtraction of expenses yield the accurate disposable income?",
+      "Criterion 2: Completeness — Did the response clearly itemize all income and expense categories?",
+      "Criterion 3: Best practices — Is the financial advice presented in a clear, empathetic, and professional tone suitable for a client facing debt?"
+    ]
+  },
+  "grading_notes": "Verify that the tax is calculated on gross income before expenses. Ensure the AI does not recommend unrealistic budget cuts (e.g., eliminating food costs) and explicitly checks if the calculated disposable income is sufficient to cover the minimum debt payments or if a DMP is necessary. Watch for failure to account for the tax withholding rate.",
+  "grading_rubric_template": [
+    "1. Accuracy: Are all financial calculations (income, tax, expenses, disposable income) mathematically correct?",
+    "2. Completeness: Does the response address all components of the client's financial picture provided in the prompt?",
+    "3. Strategic Alignment: Are the recommendations logically derived from the calculated data and consistent with debt management best practices?",
+    "4. Compliance and Ethics: Does the advice adhere to consumer protection standards and avoid recommending illegal or predatory financial actions?",
+    "5. Clarity and Tone: Is the explanation easy for a distressed client to understand and delivered with appropriate professionalism?"
+  ],
+  "grading_scale_max": 5
+}

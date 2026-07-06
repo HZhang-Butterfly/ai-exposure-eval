@@ -1,0 +1,68 @@
+{
+  "job_id": "cost_estimator",
+  "job_title": "Cost Estimators",
+  "onet_code": "13-1051.00",
+  "role_description": "Senior Cost Estimation Analyst and Project Financial Reviewer",
+  "task_types": "Blueprint Analysis and Estimation / Vendor Negotiation and Tendering / Historical Data Analysis / Cost-Effectiveness Assessment / Cross-Departmental Consultation / Production vs. Purchase Decision / Cost Monitoring System Design",
+  "onet_tasks": [
+    "Analyze blueprints and other documentation to prepare time, cost, materials, and labor estimates.",
+    "Confer with engineers, architects, owners, contractors, and subcontractors on changes and adjustments to cost estimates.",
+    "Collect historical cost data to estimate costs for current or future products.",
+    "Assess cost effectiveness of products, projects or services, tracking actual costs relative to bids as the project develops.",
+    "Consult with clients, vendors, personnel in other departments, or construction foremen to discuss and formulate estimates and resolve issues.",
+    "Establish and maintain tendering process, and conduct negotiations.",
+    "Prepare estimates for use in selecting vendors or subcontractors.",
+    "Prepare estimates used by management for purposes such as planning, organizing, and scheduling work.",
+    "Set up cost monitoring and reporting systems and procedures.",
+    "Review material and labor requirements to decide whether it is more cost-effective to produce or purchase components."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: All calculations must explicitly state assumptions regarding labor rates, material waste percentages, and overhead allocation",
+    "Requirement 6: Solutions must demonstrate awareness of market volatility and include contingency buffers in final estimates",
+    "Requirement 7: Recommendations must be backed by comparative analysis of at least two distinct scenarios or vendor options"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Analyze blueprints and other documentation to prepare time, cost, materials, and labor estimates.",
+    "task_type": "Blueprint Analysis and Estimation",
+    "user_prompt": "You are a Cost Estimator for a commercial construction firm. Analyze the provided project specifications for a 50,000 sq. ft. warehouse expansion. The project involves concrete foundation work, steel framing, and HVAC installation. Using the provided historical data and current market rates, generate a detailed cost estimate breakdown including materials, labor, equipment, and overhead. Include a 10% contingency for unforeseen site conditions. Present the final output as a structured JSON object with line items, unit costs, quantities, and total costs.",
+    "reference_context": {
+      "project_specs": {
+        "foundation_area_sq_ft": 50000,
+        "steel_weight_tons": 120,
+        "hvac_units": 4,
+        "labor_hours_estimated": 8500
+      },
+      "market_rates": {
+        "concrete_per_cubic_yard": 145.0,
+        "steel_per_ton": 950.0,
+        "hvac_unit_install": 12000.0,
+        "labor_rate_per_hour": 42.5,
+        "overhead_percentage": 15.0,
+        "material_waste_factor": 0.05
+      },
+      "historical_data": {
+        "average_delay_days": 5,
+        "cost_variance_last_project": 0.08
+      }
+    },
+    "evaluation_criteria": [
+      "Correctness: Are all mathematical calculations accurate based on the provided rates and quantities?",
+      "Completeness: Does the estimate include all required categories (materials, labor, overhead, contingency) and line items?",
+      "Best Practices: Are assumptions clearly documented, and is the waste factor applied correctly to material costs?"
+    ]
+  },
+  "grading_notes": "Verify that the AI correctly applied the waste factor to material quantities before multiplying by unit cost. Check that the contingency is calculated on the total project cost, not just materials. Ensure the overhead is applied consistently across labor and material subtotals. Watch for hallucinated rates not present in the reference context.",
+  "grading_rubric_template": [
+    "1. Accuracy of Financial Calculations: Are all cost computations mathematically precise and based strictly on provided data?",
+    "2. Completeness of Estimate Scope: Does the solution cover all required cost components (materials, labor, overhead, contingency) without omissions?",
+    "3. Professional Assumption Handling: Are implicit assumptions (waste, delays, market variance) explicitly stated and logically applied?",
+    "4. Strategic Value: Does the estimate provide actionable insights for management planning and risk mitigation?",
+    "5. Clarity and Structure: Is the final output well-organized, easy to audit, and formatted for immediate use in reporting?"
+  ],
+  "grading_scale_max": 5
+}

@@ -1,0 +1,73 @@
+{
+  "job_id": "pfa_advisor",
+  "job_title": "Personal Financial Advisors",
+  "onet_code": "13-2052.00",
+  "role_description": "Senior Financial Planning Strategist and Compliance Officer",
+  "task_types": "Client Needs Assessment / Investment Strategy Formulation / Portfolio Rebalancing / Regulatory Compliance & Disclosure / Financial Education & Communication",
+  "onet_tasks": [
+    "Interview clients to determine their current income, expenses, insurance coverage, tax status, financial objectives, risk tolerance, or other information needed to develop a financial plan.",
+    "Recommend to clients strategies in cash management, insurance coverage, investment planning, or other areas to help them achieve their financial goals.",
+    "Manage client portfolios, keeping client plans up-to-date.",
+    "Implement financial planning recommendations, or refer clients to someone who can assist them with plan implementation.",
+    "Analyze financial information obtained from clients to determine strategies for meeting clients' financial objectives.",
+    "Answer clients' questions about the purposes and details of financial plans and strategies.",
+    "Review clients' accounts and plans regularly to determine whether life changes, economic changes, environmental concerns, or financial performance indicate a need for plan reassessment.",
+    "Contact clients periodically to determine any changes in their financial status.",
+    "Investigate available investment opportunities to determine compatibility with client financial plans.",
+    "Explain to clients the personal financial advisor's responsibilities and the types of services to be provided."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: All investment recommendations must explicitly align with the client's stated risk tolerance and time horizon",
+    "Requirement 6: Solutions must adhere to fiduciary standards and avoid conflicts of interest in the proposed strategy"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Interview clients to determine their current income, expenses, insurance coverage, tax status, financial objectives, risk tolerance, or other information needed to develop a financial plan.",
+    "task_type": "Client Needs Assessment",
+    "user_prompt": "You are a financial advisor. A client named Sarah, a 35-year-old software engineer, has provided the following financial snapshot: Annual income $140,000, monthly expenses $6,500, $25,000 in high-interest credit card debt, $15,000 in emergency savings, and a stated goal of early retirement in 20 years. She has a moderate risk tolerance. Draft a comprehensive initial assessment report that identifies her top three financial priorities, calculates her debt-to-income ratio, and outlines a phased strategy to address her debt before aggressive investing.",
+    "reference_context": {
+      "client_profile": {
+        "name": "Sarah",
+        "age": 35,
+        "occupation": "Software Engineer",
+        "annual_income": 140000,
+        "monthly_expenses": 6500,
+        "debt": {
+          "credit_card_balance": 25000,
+          "credit_card_apr": 0.22
+        },
+        "assets": {
+          "emergency_fund": 15000,
+          "retirement_accounts": 40000
+        },
+        "goals": [
+          "Early retirement in 20 years",
+          "Debt freedom"
+        ],
+        "risk_tolerance": "Moderate"
+      },
+      "constraints": [
+        "Must prioritize high-interest debt repayment",
+        "Must maintain minimum emergency fund of 3 months expenses"
+      ]
+    },
+    "evaluation_criteria": [
+      "Correctness: Are the financial calculations (DTI, cash flow) accurate?",
+      "Completeness: Does the plan address all client goals and constraints?",
+      "Best Practices: Is the strategy aligned with standard financial planning methodologies?"
+    ]
+  },
+  "grading_notes": "Check if the model prioritizes the 22% APR credit card debt over aggressive investing, as this is a critical fiduciary error. Ensure the emergency fund calculation is based on the $6,500 monthly expense figure, not annual. Verify that the retirement projection accounts for inflation and the specific 20-year horizon.",
+  "grading_rubric_template": [
+    "1. Accuracy: Are all financial calculations and ratios derived correctly from the provided data?",
+    "2. Strategic Alignment: Does the proposed plan logically address the client's specific goals and risk profile?",
+    "3. Fiduciary Compliance: Does the solution prioritize the client's best interest, particularly regarding high-cost debt and conflicts?",
+    "4. Completeness: Are all components of the financial plan (cash flow, debt, investments, insurance) addressed?",
+    "5. Clarity: Is the explanation of the strategy clear, professional, and easy for a layperson to understand?"
+  ],
+  "grading_scale_max": 5
+}

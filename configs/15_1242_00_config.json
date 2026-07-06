@@ -1,0 +1,52 @@
+{
+  "job_id": "db_admin",
+  "job_title": "Database Administrators",
+  "onet_code": "15-1242.00",
+  "role_description": "Senior Database Architect and Technical Reviewer",
+  "task_types": "Database Schema Migration / Security & Access Control / Performance Tuning & Upgrades / Troubleshooting & Error Correction / User Training & Support",
+  "onet_tasks": [
+    "Modify existing databases and database management systems or direct programmers and analysts to make changes.",
+    "Plan, coordinate, and implement security measures to safeguard information in computer files against accidental or unauthorized damage, modification or disclosure.",
+    "Plan and install upgrades of database management system software to enhance database performance.",
+    "Specify users and user access levels for each segment of database.",
+    "Test changes to database applications or systems.",
+    "Test programs or databases, correct errors, and make necessary modifications.",
+    "Train users and answer questions.",
+    "Provide technical support to junior staff or clients.",
+    "Approve, schedule, plan, and supervise the installation and testing of new products and improvements to computer systems, such as the installation of new databases.",
+    "Develop standards and guidelines for the use and acquisition of software and to protect vulnerable information."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must prioritize data integrity and ACID compliance",
+    "Requirement 6: All SQL queries must be parameterized to prevent injection attacks",
+    "Requirement 7: Performance optimization strategies must be explicitly justified"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Modify existing databases and database management systems or direct programmers and analysts to make changes.",
+    "task_type": "Database Schema Migration",
+    "user_prompt": "You are the lead DBA for a fintech startup. The legacy 'transactions' table needs to be migrated to a new schema to support high-frequency trading. The current table has a single 'amount' column as VARCHAR. You must design a migration script that converts 'amount' to DECIMAL(18,2), adds a 'timestamp' column with a default value, and creates a composite index on (customer_id, timestamp). Provide the SQL migration script and a rollback strategy.",
+    "reference_context": {
+      "legacy_schema": "CREATE TABLE transactions (id INT PRIMARY KEY, customer_id INT, amount VARCHAR(20), notes TEXT);",
+      "requirements": "Must handle NULL values in amount, ensure atomicity, and minimize downtime."
+    },
+    "evaluation_criteria": [
+      "Correctness: Does the SQL execute without syntax errors and achieve the schema change?",
+      "Completeness: Are all columns, types, and indexes specified as requested?",
+      "Best Practices: Is the migration script idempotent and includes a rollback plan?"
+    ]
+  },
+  "grading_notes": "Check for proper handling of data type casting errors during migration. Verify that the rollback script is provided. Ensure the index creation does not lock the table for an excessive duration. Confirm that the solution addresses the specific constraint of the 'amount' column being VARCHAR.",
+  "grading_rubric_template": [
+    "1. Correctness: Does the solution meet all functional requirements and execute without errors?",
+    "2. Data Integrity: Are ACID properties maintained and is data loss prevented during the operation?",
+    "3. Performance: Is the solution optimized for the specific workload (e.g., indexing, locking strategies)?",
+    "4. Security: Are access controls and injection risks properly addressed?",
+    "5. Clarity: Is the output well-structured, documented, and easy to understand?"
+  ],
+  "grading_scale_max": 5
+}

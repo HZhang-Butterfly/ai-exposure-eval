@@ -1,0 +1,81 @@
+{
+  "job_id": "intelligence_analyst",
+  "job_title": "Intelligence Analysts",
+  "onet_code": "33-3021.06",
+  "role_description": "Senior Intelligence Analyst and Strategic Risk Evaluator",
+  "task_types": "Data Synthesis and Reporting / Threat Pattern Analysis / Source Validation and Correlation / Predictive Modeling / Criminal Network Mapping",
+  "onet_tasks": [
+    "Prepare comprehensive written reports, presentations, maps, or charts, based on research, collection, and analysis of intelligence data.",
+    "Gather, analyze, correlate, or evaluate information from a variety of resources, such as law enforcement databases.",
+    "Validate known intelligence with data from other sources.",
+    "Analyze intelligence data to identify patterns and trends in criminal activity.",
+    "Conduct presentations of analytic findings.",
+    "Study activities relating to narcotics, money laundering, gangs, auto theft rings, terrorism, or other national security threats.",
+    "Gather intelligence information by field observation, confidential information sources, or public records.",
+    "Predict future gang, organized crime, or terrorist activity, using analyses of intelligence data.",
+    "Establish criminal profiles to aid in connecting criminal organizations with their members.",
+    "Link or chart suspects to criminal organizations or events to determine activities and interrelationships."
+  ],
+  "specific_requirement": [
+    "Tasks must be realistic, not toy examples",
+    "Each task should be self-contained with all necessary context",
+    "Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Output format must be strict JSON without markdown",
+    "Analyses must explicitly distinguish between verified facts and speculative hypotheses",
+    "Solutions must adhere to strict chain-of-custody logic for data sources",
+    "Recommendations must be actionable and prioritized by threat severity"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Analyze intelligence data to identify patterns and trends in criminal activity.",
+    "task_type": "Threat Pattern Analysis",
+    "user_prompt": "You are an intelligence analyst reviewing a 6-month dataset of auto theft rings in the Pacific Northwest. The dataset includes 500 incidents with timestamps, locations, vehicle types, and modus operandi (MO) descriptions. Identify the emerging pattern of operation, predict the next likely target zone based on current trends, and draft a one-paragraph briefing summary for the task force commander.",
+    "reference_context": {
+      "dataset_sample": [
+        {
+          "id": "AT-101",
+          "date": "2023-01-15",
+          "location": "Seattle, WA",
+          "vehicle": "Toyota Camry",
+          "mo": "Two-person team, distraction technique"
+        },
+        {
+          "id": "AT-102",
+          "date": "2023-02-20",
+          "location": "Tacoma, WA",
+          "vehicle": "Honda Accord",
+          "mo": "Two-person team, distraction technique"
+        },
+        {
+          "id": "AT-103",
+          "date": "2023-03-10",
+          "location": "Bellevue, WA",
+          "vehicle": "Toyota Camry",
+          "mo": "Two-person team, distraction technique"
+        },
+        {
+          "id": "AT-104",
+          "date": "2023-04-05",
+          "location": "Everett, WA",
+          "vehicle": "Nissan Altima",
+          "mo": "Two-person team, distraction technique"
+        }
+      ],
+      "trend_notes": "Incidents are moving northward along I-5 corridor every 3-4 weeks. Target vehicles are shifting from sedans to SUVs in the last month."
+    },
+    "evaluation_criteria": [
+      "Pattern Recognition: Correctly identifies the geographic and temporal progression of the ring.",
+      "Predictive Accuracy: Provides a logical, data-supported prediction for the next target zone.",
+      "Clarity and Tone: The briefing summary is concise, professional, and suitable for command-level review."
+    ]
+  },
+  "grading_notes": "Watch for hallucinated data points not present in the reference context. Ensure the AI does not confuse correlation with causation. Verify that the prediction is grounded in the provided trend notes (e.g., the shift to SUVs) rather than generic assumptions. Check that the distinction between observed facts and future predictions is clear.",
+  "grading_rubric_template": [
+    "1. Analytical Accuracy: Does the solution correctly interpret the data and identify valid patterns?",
+    "2. Logical Consistency: Are the predictions and conclusions logically derived from the provided evidence?",
+    "3. Actionability: Are the findings presented in a way that allows for immediate operational decision-making?",
+    "4. Source Integrity: Does the response strictly adhere to the provided data without fabricating external facts?",
+    "5. Professional Communication: Is the output structured and toned appropriately for an intelligence briefing?"
+  ],
+  "grading_scale_max": 5
+}

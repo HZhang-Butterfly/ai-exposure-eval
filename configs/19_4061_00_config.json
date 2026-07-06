@@ -1,0 +1,74 @@
+{
+  "job_id": "ss_research_assist",
+  "job_title": "Social Science Research Assistants",
+  "onet_code": "19-4061.00",
+  "role_description": "Senior Social Science Data Analyst and Research Methodology Reviewer",
+  "task_types": "Statistical Data Analysis / Research Report Generation / Data Quality Assurance / Database Management / Literature Synthesis",
+  "onet_tasks": [
+    "Design and create special programs for tasks such as statistical analysis and data entry and cleaning.",
+    "Provide assistance with the preparation of project-related reports, manuscripts, and presentations.",
+    "Prepare tables, graphs, fact sheets, and written reports summarizing research results.",
+    "Perform descriptive and multivariate statistical analyses of data, using computer software.",
+    "Verify the accuracy and validity of data entered in databases, correcting any errors.",
+    "Develop and implement research quality control procedures.",
+    "Prepare, manipulate, and manage extensive databases.",
+    "Perform data entry and other clerical work as required for project completion.",
+    "Conduct internet-based and library research.",
+    "Present research findings to groups of people."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Statistical solutions must explicitly state assumptions and justify method selection",
+    "Requirement 6: Data cleaning steps must handle missing values and outliers transparently"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Perform descriptive and multivariate statistical analyses of data, using computer software.",
+    "task_type": "Statistical Data Analysis",
+    "user_prompt": "Analyze the provided dataset of survey responses regarding community health. Perform a descriptive analysis of the demographic variables and conduct a multivariate regression to predict health outcomes based on income and education levels. Output the Python code for the analysis, the interpretation of the regression coefficients, and a summary table of key findings.",
+    "reference_context": {
+      "dataset_sample": [
+        {
+          "id": 1,
+          "income": 45000,
+          "education": "Bachelor",
+          "health_score": 72
+        },
+        {
+          "id": 2,
+          "income": 60000,
+          "education": "Master",
+          "health_score": 85
+        },
+        {
+          "id": 3,
+          "income": null,
+          "education": "High School",
+          "health_score": 60
+        }
+      ],
+      "variable_definitions": {
+        "income": "Annual household income in USD",
+        "education": "Highest degree obtained",
+        "health_score": "Self-reported health index (0-100)"
+      }
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Does the statistical code run without errors and produce valid results?",
+      "Criterion 2: Completeness — Did the model handle missing data, perform both descriptive and multivariate analysis, and interpret results?",
+      "Criterion 3: Best practices — Is the code modular, commented, and using appropriate libraries (e.g., pandas, statsmodels)?"
+    ]
+  },
+  "grading_notes": "Check for proper handling of missing income values (imputation vs. exclusion), verify that the regression model assumptions (linearity, homoscedasticity) are discussed, ensure the interpretation of coefficients is statistically sound, and confirm that the output format matches the requested JSON structure.",
+  "grading_rubric_template": [
+    "1. Statistical Validity: Are the methods chosen appropriate for the data type and research question?",
+    "2. Data Integrity: Did the model correctly handle missing values, outliers, and data cleaning steps?",
+    "3. Analytical Depth: Does the interpretation go beyond surface-level numbers to explain relationships?",
+    "4. Code Quality: Is the code reproducible, efficient, and well-documented?",
+    "5. Clarity: Is the final report or output structured logically for a non-technical audience?"
+  ],
+  "grading_scale_max": 5
+}

@@ -1,0 +1,48 @@
+{
+  "job_id": "stat_assist",
+  "job_title": "Statistical Assistants",
+  "onet_code": "43-9111.00",
+  "role_description": "Senior Data Analyst and Statistical Quality Assurance Reviewer",
+  "task_types": "Data Cleaning and Validation / Statistical Computation and Analysis / Data Visualization and Reporting / Database Management and Maintenance / Survey Data Processing",
+  "onet_tasks": [
+    "Compute and analyze data, using statistical formulas and computers or calculators.",
+    "Check source data to verify completeness and accuracy.",
+    "Enter data into computers for use in analyses or reports.",
+    "Compile reports, charts, or graphs that describe and interpret findings of analyses.",
+    "Participate in the publication of data or information.",
+    "File data and related information, and maintain and update databases.",
+    "Organize paperwork, such as survey forms or reports, for distribution or analysis.",
+    "Code data prior to computer entry, using lists of codes.",
+    "Compile statistics from source materials, such as production or sales records, quality-control or test records, time sheets, or survey sheets.",
+    "Interview people and keep track of their responses."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly handle missing values and outliers with documented logic",
+    "Requirement 6: All statistical calculations must show the formula or method used for reproducibility"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Compute and analyze data, using statistical formulas and computers or calculators.",
+    "task_type": "Statistical Computation and Analysis",
+    "user_prompt": "Given the attached raw survey dataset containing 500 responses with missing values and inconsistent date formats, calculate the mean, median, and standard deviation for the 'Satisfaction Score' column. Identify any outliers using the IQR method and exclude them from the final mean calculation. Provide a step-by-step breakdown of your cleaning process and the final statistical summary in a structured format.",
+    "reference_context": "Raw CSV data snippet: id,date,satisfaction_score,department\n1,2023-01-15,85,HR\n2,2023-01-16,,Sales\n3,2023-01-17,92,IT\n4,2023-01-18,45,HR\n5,invalid_date,88,Sales",
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — does the solution work?",
+      "Criterion 2: Completeness — did it handle all requirements?",
+      "Criterion 3: Best practices — is it production-ready?"
+    ]
+  },
+  "grading_notes": "Verify that the model correctly identifies and handles the missing 'Satisfaction Score' (null/empty) and the 'invalid_date' entry. Ensure the IQR outlier detection logic is applied correctly (Q1 - 1.5*IQR and Q3 + 1.5*IQR) and that the final mean is recalculated excluding the identified outliers. Check that the explanation clearly distinguishes between raw data handling and statistical computation.",
+  "grading_rubric_template": [
+    "1. Correctness: Are all statistical calculations (mean, median, std dev, IQR) accurate and applied to the correct dataset subset?",
+    "2. Data Integrity: Did the model properly handle missing values, formatting errors, and outlier exclusion without data loss?",
+    "3. Methodology: Is the statistical approach (e.g., IQR for outliers) clearly explained and reproducible?",
+    "4. Completeness: Does the output include the full cleaning log, the final summary statistics, and the interpretation of findings?",
+    "5. Clarity: Is the final report structured logically, making it easy for a non-technical stakeholder to understand the data quality and results?"
+  ],
+  "grading_scale_max": 5
+}

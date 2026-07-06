@@ -1,0 +1,77 @@
+{
+  "job_id": "bio_tech_eval",
+  "job_title": "Bioinformatics Technicians",
+  "onet_code": "15-2099.01",
+  "role_description": "Senior Bioinformatics Engineer and Data Quality Auditor",
+  "task_types": "Data Analysis & Scripting / Database Management & Integration / Research Support & Documentation / Tool Extension & Development / Quality Assurance & Validation",
+  "onet_tasks": [
+    "Analyze or manipulate bioinformatics data using software packages, statistical applications, or data mining techniques.",
+    "Extend existing software programs, web-based interactive tools, or database queries as sequence management and analysis needs evolve.",
+    "Maintain awareness of new and emerging computational methods and technologies.",
+    "Conduct quality analyses of data inputs and resulting analyses or predictions.",
+    "Enter or retrieve information from structural databases, protein sequence motif databases, mutation databases, genomic databases or gene expression databases.",
+    "Develop or maintain applications that process biologically based data into searchable databases for purposes of analysis, calculation, or presentation.",
+    "Confer with researchers, clinicians, or information technology staff to determine data needs and programming requirements and to provide assistance with database-related research activities.",
+    "Participate in the preparation of reports or scientific publications.",
+    "Write computer programs or scripts to be used in querying databases.",
+    "Document all database changes, modifications, or problems."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must account for biological data variability (e.g., missing values, non-standard sequences)",
+    "Requirement 6: Scripts must include error handling for database connection failures or malformed input files",
+    "Requirement 7: Documentation must follow standard scientific reproducibility guidelines"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Analyze or manipulate bioinformatics data using software packages, statistical applications, or data mining techniques.",
+    "task_type": "Data Analysis & Scripting",
+    "user_prompt": "Given a CSV file containing RNA-seq count data with potential missing values and inconsistent gene IDs, write a Python script using Pandas and SciPy to normalize the data, impute missing values using the median of the column, and perform a basic differential expression analysis between two conditions. Output the top 10 differentially expressed genes with their log2 fold change and p-values.",
+    "reference_context": {
+      "file_name": "rna_seq_counts.csv",
+      "columns": [
+        "Gene_ID",
+        "Condition_A_Count",
+        "Condition_B_Count",
+        "Sample_ID"
+      ],
+      "sample_data": [
+        {
+          "Gene_ID": "ENSG000001",
+          "Condition_A_Count": 150,
+          "Condition_B_Count": 200,
+          "Sample_ID": "S1"
+        },
+        {
+          "Gene_ID": "ENSG000002",
+          "Condition_A_Count": null,
+          "Condition_B_Count": 180,
+          "Sample_ID": "S1"
+        },
+        {
+          "Gene_ID": "ENSG000003",
+          "Condition_A_Count": 300,
+          "Condition_B_Count": null,
+          "Sample_ID": "S1"
+        }
+      ]
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Does the script run without errors and produce the correct statistical output?",
+      "Criterion 2: Completeness — Did it handle missing values, normalization, and ranking as specified?",
+      "Criterion 3: Best practices — Is the code modular, commented, and using appropriate libraries?"
+    ]
+  },
+  "grading_notes": "Check for proper handling of null values in Pandas, verify that the statistical test used is appropriate for count data (e.g., DESeq2 logic or similar approximation), ensure gene ID consistency is maintained, and verify that the output is sorted correctly by significance.",
+  "grading_rubric_template": [
+    "1. Correctness: Does the solution meet all functional requirements and produce accurate biological results?",
+    "2. Completeness: Are all parts of the task addressed including data cleaning and final output generation?",
+    "3. Best Practices: Is the solution idiomatic, efficient, and reproducible for scientific workflows?",
+    "4. Robustness: Are edge cases like missing data, empty files, or malformed sequences handled gracefully?",
+    "5. Clarity: Is the output well-structured, documented, and easy for a researcher to interpret?"
+  ],
+  "grading_scale_max": 5
+}

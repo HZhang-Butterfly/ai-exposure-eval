@@ -1,0 +1,79 @@
+{
+  "job_id": "brokerage_clerk",
+  "job_title": "Brokerage Clerks",
+  "onet_code": "43-4011.00",
+  "role_description": "Senior Compliance and Operations Specialist for Financial Services",
+  "task_types": "Customer Inquiry Resolution / Transaction Documentation / Regulatory Compliance Verification / Financial Calculation and Allocation / Operational Reporting",
+  "onet_tasks": [
+    "Correspond with customers and confer with coworkers to answer inquiries, discuss market fluctuations, or resolve account problems.",
+    "Document security transactions, such as purchases, sales, conversions, redemptions, or payments, using computers, accounting ledgers, or certificate records.",
+    "File, type, or operate standard office machines.",
+    "Perform clerical tasks, such as answering phones or distributing mail.",
+    "Prepare forms, such as receipts, withdrawal orders, transmittal papers, or transfer confirmations, based on transaction requests from stockholders.",
+    "Schedule and coordinate transfer and delivery of security certificates between companies, departments, and customers.",
+    "Monitor daily stock prices and compute fluctuations to determine the need for additional collateral to secure loans.",
+    "Verify ownership and transaction information and dividend distribution instructions to ensure conformance with governmental regulations, using stock records and reports.",
+    "Compute total holdings, dividends, interest, transfer taxes, brokerage fees, or commissions and allocate appropriate payments to customers.",
+    "Prepare reports summarizing daily transactions and earnings for individual customer accounts."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Financial calculations must maintain cent-level precision and handle rounding rules correctly",
+    "Requirement 6: All regulatory references must cite current SEC or FINRA guidelines relevant to the scenario",
+    "Requirement 7: Customer communication must adhere to professional tone and compliance disclosure standards"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Compute total holdings, dividends, interest, transfer taxes, brokerage fees, or commissions and allocate appropriate payments to customers.",
+    "task_type": "Financial Calculation and Allocation",
+    "user_prompt": "Analyze the provided transaction log for a client account. Calculate the total brokerage fees, transfer taxes, and net dividend payout based on the current tax bracket and fee schedule. Generate a formatted summary report that details the calculation steps and the final allocation amount to be credited to the client's account. Ensure all monetary values are rounded to the nearest cent.",
+    "reference_context": {
+      "client_id": "CL-99821",
+      "transaction_log": [
+        {
+          "type": "dividend",
+          "amount": 150.0,
+          "source": "TechCorp"
+        },
+        {
+          "type": "dividend",
+          "amount": 75.5,
+          "source": "EnergyInc"
+        },
+        {
+          "type": "sale",
+          "amount": 5000.0,
+          "fee_rate": 0.005
+        },
+        {
+          "type": "transfer",
+          "amount": 2000.0,
+          "flat_fee": 15.0
+        }
+      ],
+      "tax_bracket": "15%",
+      "fee_schedule": {
+        "dividend_tax": 0.15,
+        "sale_commission_rate": 0.005,
+        "transfer_flat_fee": 15.0
+      }
+    },
+    "evaluation_criteria": [
+      "Correctness: All arithmetic operations (fees, taxes, net amounts) are mathematically accurate to the cent.",
+      "Completeness: The response includes a breakdown of every line item and the final net allocation.",
+      "Best Practices: The report is structured clearly, uses professional financial terminology, and follows the provided fee schedule exactly."
+    ]
+  },
+  "grading_notes": "Verify that the AI does not hallucinate tax rates or fee structures not present in the reference context. Check that the AI correctly applies the flat fee to the transfer transaction rather than a percentage. Ensure the final net amount is derived after deducting all applicable taxes and fees from the gross amounts.",
+  "grading_rubric_template": [
+    "1. Accuracy: Are all financial calculations (fees, taxes, net totals) mathematically precise to the cent?",
+    "2. Compliance: Does the solution strictly adhere to the provided fee schedules and tax rates without deviation?",
+    "3. Completeness: Are all transaction types in the log processed and reflected in the final report?",
+    "4. Clarity: Is the output structured as a professional financial report with clear line-item breakdowns?",
+    "5. Robustness: Does the solution handle edge cases such as zero-value transactions or specific rounding requirements correctly?"
+  ],
+  "grading_scale_max": 5
+}

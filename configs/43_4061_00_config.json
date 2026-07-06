@@ -1,0 +1,63 @@
+{
+  "job_id": "eligibility_interviewer",
+  "job_title": "Eligibility Interviewers, Government Programs",
+  "onet_code": "43-4061.00",
+  "role_description": "Senior Eligibility Analyst and Compliance Officer specializing in public assistance program administration and regulatory adherence.",
+  "task_types": "Case Determination and Authorization / Data Verification and Investigation / Applicant Communication and Education / Regulatory Compliance and Reporting / Interagency Coordination and Referral",
+  "onet_tasks": [
+    "Compute and authorize amounts of assistance for programs, such as grants, monetary payments, and food stamps.",
+    "Keep records of assigned cases, and prepare required reports.",
+    "Compile, record, and evaluate personal and financial data to verify completeness and accuracy, and to determine eligibility status.",
+    "Interview and investigate applicants for public assistance to gather information pertinent to their applications.",
+    "Interview benefits recipients at specified intervals to certify their eligibility for continuing benefits.",
+    "Interpret and explain information such as eligibility requirements, application details, payment methods, and applicants' legal rights.",
+    "Initiate procedures to grant, modify, deny, or terminate assistance, or refer applicants to other agencies for assistance.",
+    "Check with employers or other references to verify answers and obtain further information.",
+    "Answer applicants' questions about benefits and claim procedures.",
+    "Provide social workers with pertinent information gathered during applicant interviews."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly cite specific regulatory thresholds or policy clauses relevant to the scenario",
+    "Requirement 6: All financial calculations must account for standard deductions and income disregards defined in the provided context",
+    "Requirement 7: Communication responses must maintain a professional, empathetic, and legally compliant tone suitable for vulnerable populations"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Compile, record, and evaluate personal and financial data to verify completeness and accuracy, and to determine eligibility status.",
+    "task_type": "Data Verification and Investigation",
+    "user_prompt": "Analyze the provided applicant profile and submitted documentation. Identify any discrepancies between the declared income and the verified bank statements. Calculate the net monthly income after applying the standard deduction and the earned income disregard. Determine if the applicant meets the gross income limit for the SNAP program based on the household size. Draft a case summary recommending approval, denial, or a request for additional documentation, citing the specific policy section that governs the decision.",
+    "reference_context": {
+      "policy_rules": {
+        "snap_gross_limit_per_100_percent_fpl": 2175,
+        "standard_deduction": 193,
+        "earned_income_disregard_percentage": 20,
+        "household_size": 3,
+        "fpl_monthly": 1811
+      },
+      "applicant_data": {
+        "declared_gross_income": 2400,
+        "verified_bank_deposits": 2350,
+        "employment_status": "Full-time",
+        "housing_cost": 900
+      }
+    },
+    "evaluation_criteria": [
+      "Criterion 1: Correctness — Does the calculation of net income and eligibility status match the policy rules exactly?",
+      "Criterion 2: Completeness — Did the response address all discrepancies, perform all required calculations, and provide a clear recommendation?",
+      "Criterion 3: Best practices — Is the case summary structured logically and does it reference the correct policy sections?"
+    ]
+  },
+  "grading_notes": "Watch for failure to apply the earned income disregard correctly, ignoring the standard deduction, or misinterpreting the gross income limit relative to the Federal Poverty Level (FPL). Ensure the AI does not hallucinate policy numbers not provided in the context. Verify that the tone of the recommendation is objective and free of bias.",
+  "grading_rubric_template": [
+    "1. Regulatory Accuracy: Does the solution correctly apply all specific policy rules, deductions, and thresholds provided in the context?",
+    "2. Data Integrity: Did the AI correctly identify discrepancies in the provided data and handle the calculations without arithmetic errors?",
+    "3. Decision Logic: Is the final eligibility determination (approve/deny/verify) logically derived from the calculated data and policy constraints?",
+    "4. Professional Communication: Is the output clear, empathetic, and structured in a manner suitable for official case records and applicant communication?",
+    "5. Completeness: Are all parts of the prompt addressed, including the identification of missing information and the citation of specific regulations?"
+  ],
+  "grading_scale_max": 5
+}

@@ -1,0 +1,64 @@
+{
+  "job_id": "loan_officer",
+  "job_title": "Loan Officers",
+  "onet_code": "13-2072.00",
+  "role_description": "Senior Credit Risk Analyst and Loan Compliance Officer",
+  "task_types": "Client Consultation / Financial Analysis & Feasibility / Regulatory Compliance & Documentation / Risk Assessment & Decision Making / Dispute Resolution",
+  "onet_tasks": [
+    "Meet with applicants to obtain information for loan applications and to answer questions about the process.",
+    "Analyze applicants' financial status, credit, and property evaluations to determine feasibility of granting loans.",
+    "Approve loans within specified limits, and refer loan applications outside those limits to management for approval.",
+    "Explain to customers the different types of loans and credit options that are available, as well as the terms of those services.",
+    "Submit applications to credit analysts for verification and recommendation.",
+    "Review loan agreements to ensure that they are complete and accurate according to policy.",
+    "Review and update credit and loan files.",
+    "Obtain and compile copies of loan applicants' credit histories, corporate financial statements, and other financial information.",
+    "Work with clients to identify their financial goals and to find ways of reaching those goals.",
+    "Handle customer complaints and take appropriate action to resolve them."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must be realistic, not toy examples",
+    "Requirement 2: Each task should be self-contained with all necessary context",
+    "Requirement 3: Difficulty should be intermediate to hard (30-60 min to solve)",
+    "Requirement 4: Output format must be strict JSON without markdown",
+    "Requirement 5: Solutions must explicitly cite relevant regulatory constraints (e.g., Truth in Lending Act, Dodd-Frank) where applicable",
+    "Requirement 6: Financial calculations must demonstrate precision to two decimal places and include clear logic for debt-to-income ratios",
+    "Requirement 7: Risk mitigation strategies must be specific to the identified credit profile rather than generic advice"
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Analyze applicants' financial status, credit, and property evaluations to determine feasibility of granting loans.",
+    "task_type": "Financial Analysis & Feasibility",
+    "user_prompt": "You are a Loan Officer reviewing a mortgage application for a self-employed applicant. The applicant has provided the following data: Gross annual income of $120,000 (verified via tax returns), monthly debt obligations of $2,500, and a requested loan amount of $450,000 with a 20% down payment. The property is appraised at $562,500. Calculate the Debt-to-Income (DTI) ratio and Loan-to-Value (LTV) ratio. Determine if the loan meets the standard underwriting criteria (DTI < 43%, LTV < 80%) and draft a recommendation memo including any required conditions for approval.",
+    "reference_context": {
+      "applicant_profile": {
+        "employment_type": "Self-Employed",
+        "gross_annual_income": 120000,
+        "monthly_debt_obligations": 2500,
+        "requested_loan_amount": 450000,
+        "down_payment_percentage": 20
+      },
+      "property_data": {
+        "appraised_value": 562500
+      },
+      "underwriting_policy": {
+        "max_dti": 0.43,
+        "max_ltv": 0.8
+      }
+    },
+    "evaluation_criteria": [
+      "Correctness: Are the DTI and LTV calculations mathematically accurate?",
+      "Completeness: Does the response include the recommendation memo and all required conditions?",
+      "Best practices: Is the recommendation aligned with standard banking policies and risk management principles?"
+    ]
+  },
+  "grading_notes": "Watch for errors in calculating DTI (monthly debt / monthly gross income) versus annual ratios. Ensure the AI distinguishes between self-employed income verification complexities and W-2 income. Check that the recommendation explicitly states whether the loan is approved, denied, or referred to management based on the calculated ratios.",
+  "grading_rubric_template": [
+    "1. Accuracy: Are all financial calculations (DTI, LTV, interest estimates) mathematically precise and correctly derived from the provided data?",
+    "2. Compliance: Does the solution adhere to relevant lending regulations and internal policy limits without exception?",
+    "3. Decision Logic: Is the approval/denial/refer decision clearly justified by the calculated metrics and risk factors?",
+    "4. Completeness: Does the output include all required components (calculations, memo, conditions, next steps)?",
+    "5. Clarity: Is the professional communication clear, concise, and appropriate for a formal banking record?"
+  ],
+  "grading_scale_max": 5
+}

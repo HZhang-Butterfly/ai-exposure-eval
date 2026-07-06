@@ -1,0 +1,67 @@
+{
+  "job_id": "credit_auth_clerk",
+  "job_title": "Credit Authorizers, Checkers, and Clerks",
+  "onet_code": "43-4041.00",
+  "role_description": "Senior Credit Risk Analyst and Compliance Officer",
+  "task_types": "Credit Data Verification / Risk Assessment Decision Making / Regulatory Compliance Reporting / Customer Communication / Financial Record Management",
+  "onet_tasks": [
+    "Keep records of customers' charges and payments.",
+    "Compile and analyze credit information gathered by investigation.",
+    "Obtain information about potential creditors from banks, credit bureaus, and other credit services, and provide reciprocal information if requested.",
+    "Interview credit applicants by telephone or in person to obtain personal and financial data needed to complete credit report.",
+    "Evaluate customers' computerized credit records and payment histories to decide whether to approve new credit, based on predetermined standards.",
+    "File sales slips in customers' ledgers for billing purposes.",
+    "Receive charge slips or credit applications by mail, or receive information from salespeople or merchants by telephone.",
+    "Mail charge statements to customers.",
+    "Examine city directories and public records to verify residence property ownership, bankruptcies, liens, arrest record, or unpaid taxes of applicants.",
+    "Relay credit report information to subscribers by mail or by telephone."
+  ],
+  "specific_requirement": [
+    "Requirement 1: Tasks must simulate real-world scenarios involving sensitive financial data and regulatory constraints (e.g., FCRA, GDPR).",
+    "Requirement 2: Each task must be self-contained with a provided dataset or scenario context to ensure the AI has all necessary information.",
+    "Requirement 3: Difficulty must be intermediate to hard, requiring multi-step reasoning, data synthesis, and adherence to strict approval criteria.",
+    "Requirement 4: Output must be strictly valid JSON without markdown formatting or code fences.",
+    "Requirement 5: Solutions must explicitly document the rationale for approval or denial based on the provided credit standards.",
+    "Requirement 6: All generated responses must demonstrate professional tone and clarity suitable for internal audit trails or customer correspondence."
+  ],
+  "output_structure": {
+    "task_id": "gen_task_01",
+    "onet_source": "Evaluate customers' computerized credit records and payment histories to decide whether to approve new credit, based on predetermined standards.",
+    "task_type": "Risk Assessment Decision Making",
+    "user_prompt": "You are a Credit Authorizer. Review the provided applicant profile and credit history. Apply the company's risk matrix to determine if the credit application should be approved, denied, or flagged for manual review. Output your decision and a detailed justification citing specific data points from the profile.",
+    "reference_context": {
+      "applicant_profile": {
+        "name": "John Doe",
+        "ssn_last_4": "1234",
+        "annual_income": 45000,
+        "debt_to_income_ratio": 0.42,
+        "credit_score": 620,
+        "bankruptcy_history": "None",
+        "liens": "None",
+        "payment_history": "3 late payments in last 24 months",
+        "employment_stability": "2 years at current employer"
+      },
+      "company_risk_matrix": {
+        "min_credit_score": 650,
+        "max_dti": 0.36,
+        "max_late_payments_24mo": 1,
+        "bankruptcy_disqualifier": true,
+        "liens_disqualifier": true
+      }
+    },
+    "evaluation_criteria": [
+      "Correctness: Is the final decision (Approve/Deny/Flag) logically consistent with the provided risk matrix?",
+      "Completeness: Did the response address all relevant data points (income, score, history) in the justification?",
+      "Best Practices: Is the reasoning clear, professional, and suitable for an audit record?"
+    ]
+  },
+  "grading_notes": "Watch for hallucinated data not present in the reference context. Ensure the AI strictly adheres to the provided risk matrix thresholds without making arbitrary exceptions. Verify that the AI correctly identifies disqualifying factors (e.g., DTI > 0.36) even if other factors are positive.",
+  "grading_rubric_template": [
+    "1. Accuracy of Decision: Does the final approval/denial strictly follow the provided risk criteria?",
+    "2. Data Integration: Did the AI correctly extract and utilize all relevant facts from the applicant profile?",
+    "3. Logical Justification: Is the reasoning for the decision clear, specific, and traceable to the data?",
+    "4. Compliance & Tone: Does the output maintain a professional, objective tone suitable for financial records?",
+    "5. Constraint Adherence: Did the AI avoid hallucinating external data or ignoring explicit constraints in the prompt?"
+  ],
+  "grading_scale_max": 5
+}
