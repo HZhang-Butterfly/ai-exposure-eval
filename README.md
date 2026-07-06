@@ -51,7 +51,7 @@ The **Exposure Score** (1–5) is the mean across all dimensions and all tasks f
 
 ```bash
 # 1. Clone and install
-git clone https://github.com/your-org/job_eval.git
+git clone https://github.com/ButterflyLabs-org/job_eval.git
 cd job_eval
 pip install -r requirements.txt
 
@@ -127,9 +127,9 @@ Copy `.env.example` → `.env` (also never committed):
 
 Example — run without editing any file:
 ```bash
-EVAL_SERVER_IP=10.0.0.1 EVAL_TEACHER_MODEL=llama3 python run_pipeline.py --job "Budget"
+EVAL_SERVER_IP=10.0.0.1 EVAL_TEACHER_MODEL=YOUR_MODEL_NAME python run_pipeline.py --job "Budget"
 # or
-python run_pipeline.py --server-ip 10.0.0.1 --teacher-model llama3 --job "Budget"
+python run_pipeline.py --server-ip 10.0.0.1 --teacher-model YOUR_MODEL_NAME --job "Budget"
 ```
 
 ---
@@ -250,14 +250,11 @@ job_eval/
 │   ├── step2_student_system.txt
 │   └── step3_grading.txt
 │
-├── prompt_templates_v2/         # Enhanced V2 prompts (difficulty tagging, edge cases)
-│
 ├── digital_jobs.csv             # 114 pre-filtered digital occupations
 ├── Task Statements.xlsx         # O*NET task data (source of truth)
 │
 ├── configs/                     # Cached LLM-generated job configs (auto-created)
-├── results/                     # Pipeline results (auto-created)
-└── results_v2/                  # V2 pipeline results
+└── results/                     # Pipeline results (auto-created)
 ```
 
 Prompt templates are plain `.txt` files with `{placeholder}` substitution. Edit them to change task generation style, grading strictness, or scoring criteria — no code changes needed.
