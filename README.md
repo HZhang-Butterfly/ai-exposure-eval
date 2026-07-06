@@ -3,7 +3,7 @@
 > Extending and validating AI exposure scoring across 100+ occupations — with multi-model,
 > task-level, and agentic evaluation dimensions.
 
-**Author:** Hao Zhang · UCLA M.Eng., ECE  
+**Author:** Hao Zhang · UCLA M.Eng.
 **Original Work:** Yiru Chen ([ButterflyLabs-org/job_eval](https://github.com/ButterflyLabs-org/job_eval))  
 **Mentor:** Xibin Gao · [Butterfly Labs](https://www.butterflylabs.org/)
 
