@@ -821,12 +821,11 @@ def validate_config():
     placeholders = {"YOUR_SERVER_IP", "YOUR_MODEL_NAME", "default", "localhost"}
     errors = []
 
-    if utils.SERVER_IP in placeholders:
+    if any(ip in placeholders for ip in [utils.teacher_ip, utils.student_ip, utils.judge_ip]):
         errors.append(
-            "  Server IP is not set.\n"
+            "  Server IP is not set for one or more models.\n"
             "  Fix: copy pipeline_config.example.json → pipeline_config.json and set 'server.ip',\n"
-            "       or set the EVAL_SERVER_IP environment variable,\n"
-            "       or pass --server-ip on the command line."
+            "       or set the EVAL_SERVER_IP environment variable."
         )
     if utils.TEACHER_MODEL_NAME in placeholders:
         errors.append(
@@ -841,6 +840,12 @@ def validate_config():
             "  Fix: set 'models.student' in pipeline_config.json,\n"
             "       or set the EVAL_STUDENT_MODEL environment variable,\n"
             "       or pass --student-model on the command line."
+        )
+    if utils.JUDGE_MODEL_NAME in placeholders:
+        errors.append(
+            "  Judge model is not set.\n"
+            "  Fix: set 'models.judge' in pipeline_config.json,\n"
+            "       or set the EVAL_JUDGE_MODEL environment variable."
         )
     if errors:
         print("\nConfiguration error — cannot start pipeline:\n")
@@ -913,17 +918,23 @@ Override server/model without editing config files:
 
     # Apply CLI overrides (Tier 3 — highest priority)
     if args.server_ip:
-        utils.SERVER_IP = args.server_ip
+        utils.teacher_ip = args.server_ip
+        utils.student_ip = args.server_ip
+        utils.judge_ip   = args.server_ip
         port = args.port or 8000
-        base = f"http://{utils.SERVER_IP}:{port}/v1/chat/completions"
+        base = f"http://{args.server_ip}:{port}/v1/chat/completions"
         utils.TEACHER_API_URL = base
         utils.STUDENT_API_URL = base
+        utils.JUDGE_API_URL = base
         utils.META_PROMPT_API_URL = base
     elif args.port:
-        base = f"http://{utils.SERVER_IP}:{args.port}/v1/chat/completions"
-        utils.TEACHER_API_URL = base
-        utils.STUDENT_API_URL = base
-        utils.META_PROMPT_API_URL = base
+        base_teacher = f"http://{utils.teacher_ip}:{args.port}/v1/chat/completions"
+        base_student = f"http://{utils.student_ip}:{args.port}/v1/chat/completions"
+        base_judge   = f"http://{utils.judge_ip}:{args.port}/v1/chat/completions"
+        utils.TEACHER_API_URL = base_teacher
+        utils.STUDENT_API_URL = base_student
+        utils.JUDGE_API_URL = base_judge
+        utils.META_PROMPT_API_URL = base_teacher
     if args.teacher_model:
         utils.TEACHER_MODEL_NAME = args.teacher_model
         utils.META_PROMPT_MODEL  = args.teacher_model
