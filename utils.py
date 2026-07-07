@@ -33,6 +33,9 @@ TEACHER_MODEL_NAME = "default"
 STUDENT_API_URL = f"http://{SERVER_IP}:8000/v1/chat/completions"
 STUDENT_MODEL_NAME = "default"
 
+JUDGE_API_URL = f"http://{SERVER_IP}:8000/v1/chat/completions"
+JUDGE_MODEL_NAME = "default"
+
 # Pipeline config (loaded from pipeline_config.json); used by evaluation steps
 CONFIG = {}
 
@@ -53,6 +56,7 @@ def load_config(path: str = "pipeline_config.json") -> dict:
     global CONFIG, SERVER_IP, \
         TEACHER_API_URL, TEACHER_MODEL_NAME, \
         STUDENT_API_URL, STUDENT_MODEL_NAME, \
+        JUDGE_API_URL, JUDGE_MODEL_NAME, \
         META_PROMPT_API_URL, META_PROMPT_MODEL
 
     # ── Tier 1: JSON config ──────────────────────────────────────────────────
@@ -66,29 +70,38 @@ def load_config(path: str = "pipeline_config.json") -> dict:
     m = CONFIG.get("models", {})
 
     json_ip          = s.get("ip", "localhost")
-    json_port        = s.get("student_port", s.get("teacher_port", 8000))
+    json_teacher_port = s.get("teacher_port", 8000)
+    json_student_port = s.get("student_port", json_teacher_port)
+    json_judge_port   = s.get("judge_port", json_teacher_port)
+    
     json_teacher_mdl = m.get("teacher", m.get("meta_prompt", "default"))
     json_student_mdl = m.get("student", "default")
+    json_judge_mdl   = m.get("judge", json_teacher_mdl)
 
     # ── Tier 2: Environment variable overrides ───────────────────────────────
     env_ip             = os.environ.get("EVAL_SERVER_IP")
     env_port           = os.environ.get("EVAL_SERVER_PORT")
     env_teacher_model  = os.environ.get("EVAL_TEACHER_MODEL")
     env_student_model  = os.environ.get("EVAL_STUDENT_MODEL")
+    env_judge_model    = os.environ.get("EVAL_JUDGE_MODEL")
     env_teacher_port   = os.environ.get("EVAL_TEACHER_PORT")
     env_student_port   = os.environ.get("EVAL_STUDENT_PORT")
+    env_judge_port     = os.environ.get("EVAL_JUDGE_PORT")
 
     SERVER_IP = env_ip or json_ip
 
-    teacher_port = int(env_teacher_port or env_port or json_port)
-    student_port = int(env_student_port or env_port or json_port)
+    teacher_port = int(env_teacher_port or env_port or json_teacher_port)
+    student_port = int(env_student_port or env_port or json_student_port)
+    judge_port   = int(env_judge_port or env_port or json_judge_port)
 
     TEACHER_MODEL_NAME = env_teacher_model or json_teacher_mdl
     STUDENT_MODEL_NAME = env_student_model or json_student_mdl
+    JUDGE_MODEL_NAME   = env_judge_model or json_judge_mdl
     META_PROMPT_MODEL  = TEACHER_MODEL_NAME  # meta-prompt uses the teacher model
 
     TEACHER_API_URL   = f"http://{SERVER_IP}:{teacher_port}/v1/chat/completions"
     STUDENT_API_URL   = f"http://{SERVER_IP}:{student_port}/v1/chat/completions"
+    JUDGE_API_URL     = f"http://{SERVER_IP}:{judge_port}/v1/chat/completions"
     META_PROMPT_API_URL = TEACHER_API_URL
 
     return CONFIG

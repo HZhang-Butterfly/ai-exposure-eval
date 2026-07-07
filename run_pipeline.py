@@ -251,7 +251,7 @@ def step_3_grading(results: List[Dict], job_config: Dict = None) -> Tuple[List[D
     total_score = 0.0
     valid_grades = 0
 
-    print(f"\n--- STEP 3: Judge [{utils.TEACHER_MODEL_NAME}] grades {len(results)} tasks ---")
+    print(f"\n--- STEP 3: Judge [{utils.JUDGE_MODEL_NAME}] grades {len(results)} tasks ---")
 
     for i, item in enumerate(results):
         task_text    = item.get("user_prompt") or ""
@@ -286,7 +286,7 @@ def step_3_grading(results: List[Dict], job_config: Dict = None) -> Tuple[List[D
             num_dimensions=num_dimensions,
         )
         response = call_llm(
-            utils.TEACHER_API_URL, utils.TEACHER_MODEL_NAME,
+            utils.JUDGE_API_URL, utils.JUDGE_MODEL_NAME,
             [
                 {"role": "system", "content": "Output a valid JSON object with dimension scores. No markdown, no code fences."},
                 {"role": "user", "content": grading_prompt},
@@ -784,6 +784,7 @@ def run_job(
             "onet_code":          onet_code,
             "teacher_model":      utils.TEACHER_MODEL_NAME,
             "student_model":      utils.STUDENT_MODEL_NAME,
+            "judge_model":        utils.JUDGE_MODEL_NAME,
             "total_onet_tasks":   len(all_tasks),
             "evaluated_tasks":    len(graded),
             "batches":            num_batches,
