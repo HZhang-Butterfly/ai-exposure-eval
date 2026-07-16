@@ -54,8 +54,9 @@ FIXED_RUBRIC = [
     "3. Best Practices: Does the solution follow professional and industry standards?",
     "4. Domain Accuracy: Are domain-specific concepts, facts, calculations, and terminology used correctly?",
     "5. Clarity: Is the output well-structured, clear, and easy to understand?",
+    "6. Autonomy: Could this output be used as-is without human review (5), or does it require significant rework (1)?",
 ]
-FIXED_DIMENSION_LABELS = ["Correctness", "Completeness", "Best Practices", "Domain Accuracy", "Clarity"]
+FIXED_DIMENSION_LABELS = ["Correctness", "Completeness", "Best Practices", "Domain Accuracy", "Clarity", "Autonomy"]
 
 CONFIGS_DIR = "configs"
 
@@ -251,7 +252,7 @@ def step_3_grading(results: List[Dict], job_config: Dict = None) -> Tuple[List[D
     total_score = 0.0
     valid_grades = 0
 
-    print(f"\n--- STEP 3: Judge [{utils.JUDGE_MODEL_NAME}] grades {len(results)} tasks ---")
+    print(f"\n--- STEP 3: Judge [{utils.TEACHER_MODEL_NAME}] grades {len(results)} tasks ---")
 
     for i, item in enumerate(results):
         task_text    = item.get("user_prompt") or ""
@@ -286,7 +287,7 @@ def step_3_grading(results: List[Dict], job_config: Dict = None) -> Tuple[List[D
             num_dimensions=num_dimensions,
         )
         response = call_llm(
-            utils.JUDGE_API_URL, utils.JUDGE_MODEL_NAME,
+            utils.TEACHER_API_URL, utils.TEACHER_MODEL_NAME,
             [
                 {"role": "system", "content": "Output a valid JSON object with dimension scores. No markdown, no code fences."},
                 {"role": "user", "content": grading_prompt},
@@ -784,7 +785,6 @@ def run_job(
             "onet_code":          onet_code,
             "teacher_model":      utils.TEACHER_MODEL_NAME,
             "student_model":      utils.STUDENT_MODEL_NAME,
-            "judge_model":        utils.JUDGE_MODEL_NAME,
             "total_onet_tasks":   len(all_tasks),
             "evaluated_tasks":    len(graded),
             "batches":            num_batches,
@@ -818,15 +818,9 @@ def validate_config():
     Check that the loaded config doesn't contain placeholder values.
     Prints a helpful error and exits if the server is not configured.
     """
-    placeholders = {"YOUR_SERVER_IP", "YOUR_MODEL_NAME", "default", "localhost"}
+    placeholders = {"YOUR_SERVER_IP", "YOUR_MODEL_NAME", "default"}
     errors = []
 
-    if any(ip in placeholders for ip in [utils.teacher_ip, utils.student_ip, utils.judge_ip]):
-        errors.append(
-            "  Server IP is not set for one or more models.\n"
-            "  Fix: copy pipeline_config.example.json → pipeline_config.json and set 'server.ip',\n"
-            "       or set the EVAL_SERVER_IP environment variable."
-        )
     if utils.TEACHER_MODEL_NAME in placeholders:
         errors.append(
             "  Teacher model is not set.\n"
@@ -840,12 +834,6 @@ def validate_config():
             "  Fix: set 'models.student' in pipeline_config.json,\n"
             "       or set the EVAL_STUDENT_MODEL environment variable,\n"
             "       or pass --student-model on the command line."
-        )
-    if utils.JUDGE_MODEL_NAME in placeholders:
-        errors.append(
-            "  Judge model is not set.\n"
-            "  Fix: set 'models.judge' in pipeline_config.json,\n"
-            "       or set the EVAL_JUDGE_MODEL environment variable."
         )
     if errors:
         print("\nConfiguration error — cannot start pipeline:\n")
@@ -895,6 +883,8 @@ Override server/model without editing config files:
                         help="Generate config only, skip evaluation steps")
     parser.add_argument("--output",         default="job_config_interactive.json",
                         help="Path to write the last job config JSON")
+    parser.add_argument("--results-dir",    default=None,
+                        help="Override the directory where results are saved")
     parser.add_argument("--config",         default=None,
                         help="Use an existing job config JSON (skips config LLM call)")
     # ── Model / server overrides (CLI tier — highest priority) ───────────────
@@ -918,23 +908,17 @@ Override server/model without editing config files:
 
     # Apply CLI overrides (Tier 3 — highest priority)
     if args.server_ip:
-        utils.teacher_ip = args.server_ip
-        utils.student_ip = args.server_ip
-        utils.judge_ip   = args.server_ip
+        utils.SERVER_IP = args.server_ip
         port = args.port or 8000
-        base = f"http://{args.server_ip}:{port}/v1/chat/completions"
+        base = f"http://{utils.SERVER_IP}:{port}/v1/chat/completions"
         utils.TEACHER_API_URL = base
         utils.STUDENT_API_URL = base
-        utils.JUDGE_API_URL = base
         utils.META_PROMPT_API_URL = base
     elif args.port:
-        base_teacher = f"http://{utils.teacher_ip}:{args.port}/v1/chat/completions"
-        base_student = f"http://{utils.student_ip}:{args.port}/v1/chat/completions"
-        base_judge   = f"http://{utils.judge_ip}:{args.port}/v1/chat/completions"
-        utils.TEACHER_API_URL = base_teacher
-        utils.STUDENT_API_URL = base_student
-        utils.JUDGE_API_URL = base_judge
-        utils.META_PROMPT_API_URL = base_teacher
+        base = f"http://{utils.SERVER_IP}:{args.port}/v1/chat/completions"
+        utils.TEACHER_API_URL = base
+        utils.STUDENT_API_URL = base
+        utils.META_PROMPT_API_URL = base
     if args.teacher_model:
         utils.TEACHER_MODEL_NAME = args.teacher_model
         utils.META_PROMPT_MODEL  = args.teacher_model
@@ -945,7 +929,7 @@ Override server/model without editing config files:
     validate_config()
 
     batch_size  = args.batch_size or utils.CONFIG.get("task", {}).get("batch_size", 5)
-    results_dir = utils.CONFIG.get("output", {}).get("results_dir", "results")
+    results_dir = args.results_dir or utils.CONFIG.get("output", {}).get("results_dir", "results")
     suffix      = utils.CONFIG.get("output", {}).get("file_suffix_auto", "_results_auto.json")
 
     print("\nJob Evaluation Pipeline\n")
